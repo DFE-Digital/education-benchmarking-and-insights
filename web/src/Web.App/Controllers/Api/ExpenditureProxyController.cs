@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -22,7 +23,7 @@ public class ExpenditureProxyController(
     /// <param name="category" example="TotalExpenditure"></param>
     /// <param name="dimension" example="PerUnit"></param>
     /// <param name="phase"></param>
-    /// <param name="includeBreakdown"></param>
+    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<SchoolExpenditure[]>(StatusCodes.Status200OK)]
@@ -34,7 +35,7 @@ public class ExpenditureProxyController(
         [FromQuery] string category,
         [FromQuery] string dimension,
         [FromQuery] string? phase,
-        [FromQuery] bool? includeBreakdown)
+        [FromQuery] bool? excludeCentralServices)
     {
         using (logger.BeginScope(new
         {
@@ -47,11 +48,11 @@ public class ExpenditureProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        return await SchoolExpenditure(id, category, dimension, includeBreakdown);
+                        return await SchoolExpenditure(id, category, dimension, excludeCentralServices);
                     case OrganisationTypes.Trust:
-                        return await TrustExpenditure(id, phase, category, dimension, includeBreakdown);
+                        return await TrustExpenditure(id, phase, category, dimension, excludeCentralServices);
                     case OrganisationTypes.LocalAuthority:
-                        return await LocalAuthorityExpenditure(id, phase, category, dimension, includeBreakdown);
+                        return await LocalAuthorityExpenditure(id, phase, category, dimension, excludeCentralServices);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -67,7 +68,7 @@ public class ExpenditureProxyController(
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="includeBreakdown"></param>
+    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<ExpenditureHistory[]>(StatusCodes.Status200OK)]
@@ -77,7 +78,7 @@ public class ExpenditureProxyController(
         [FromQuery] string type,
         [FromQuery] string id,
         [FromQuery] string dimension,
-        [FromQuery] bool? includeBreakdown)
+        [FromQuery] bool? excludeCentralServices)
     {
         using (logger.BeginScope(new
         {
@@ -89,7 +90,7 @@ public class ExpenditureProxyController(
             {
                 var query = new ApiQuery()
                     .AddIfNotNull("dimension", dimension)
-                    .AddIfNotNull("includeBreakdown", includeBreakdown);
+                    .AddIfNotNull("excludeCentralServices", excludeCentralServices);
 
                 var result = type.ToLower() switch
                 {
@@ -112,19 +113,20 @@ public class ExpenditureProxyController(
     /// <param name="id" example="07465701"></param>
     /// <param name="category" example="TotalExpenditure"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="includeBreakdown"></param>
+    /// <param name="excludeCentralServices"></param>
     [Route("user-defined")]
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<TrustExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
     public async Task<IActionResult> UserDefined(
         [FromQuery] string type,
         [FromQuery] string id,
         [FromQuery] string category,
         [FromQuery] string dimension,
-        [FromQuery] bool? includeBreakdown)
+        [FromQuery] bool? excludeCentralServices)
     {
         using (logger.BeginScope(new
         {
@@ -135,7 +137,7 @@ public class ExpenditureProxyController(
             {
                 return type.ToLower() switch
                 {
-                    OrganisationTypes.Trust => await TrustExpenditureUserDefined(id, null, category, dimension, includeBreakdown),
+                    OrganisationTypes.Trust => await TrustExpenditureUserDefined(id, null, category, dimension, excludeCentralServices),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
             }
@@ -147,7 +149,7 @@ public class ExpenditureProxyController(
         }
     }
 
-    private async Task<IActionResult> LocalAuthorityExpenditure(string id, string? phase, string? category, string? dimension, bool? includeBreakdown)
+    private async Task<IActionResult> LocalAuthorityExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
         var query = new ApiQuery()
             .AddIfNotNull("laCode", id)
@@ -155,25 +157,25 @@ public class ExpenditureProxyController(
 
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         var result = await expenditureApi
-            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, includeBreakdown))
-            .GetResultOrThrow<SchoolExpenditure>();
+            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
+            .GetResultOrThrow<SchoolExpenditure[]>();
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditure(string id, string? phase, string? category, string? dimension, bool? includeBreakdown)
+    private async Task<IActionResult> TrustExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
         var query = new ApiQuery()
             .AddIfNotNull("companyNumber", id)
             .AddIfNotNull("phase", phase);
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         var result = await expenditureApi
-            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, includeBreakdown))
+            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
             .GetResultOrThrow<SchoolExpenditure[]>();
 
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditureUserDefined(string id, string? phase, string? category, string? dimension, bool? includeBreakdown)
+    private async Task<IActionResult> TrustExpenditureUserDefined(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
         var userData = await userDataService.GetTrustDataAsync(User.UserId(), id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -183,13 +185,13 @@ public class ExpenditureProxyController(
 
         var userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         var userDefinedResult = await expenditureApi
-            .QueryTrusts(BuildQuery(userDefinedSet.Set, "companyNumbers", category, dimension, includeBreakdown, phase))
+            .QueryTrusts(BuildQuery(userDefinedSet.Set, "companyNumbers", category, dimension, excludeCentralServices, phase))
             .GetResultOrThrow<TrustExpenditure[]>();
 
         return new JsonResult(userDefinedResult);
     }
 
-    private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? includeBreakdown)
+    private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
     {
         var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -200,7 +202,7 @@ public class ExpenditureProxyController(
                 : defaultSet.Pupil;
 
             var defaultResult = await expenditureApi
-                .QuerySchools(BuildQuery(set, "urns", category, dimension, includeBreakdown))
+                .QuerySchools(BuildQuery(set, "urns", category, dimension, excludeCentralServices))
                 .GetResultOrThrow<SchoolExpenditure[]>();
 
             return new JsonResult(defaultResult);
@@ -208,18 +210,18 @@ public class ExpenditureProxyController(
 
         var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         var userDefinedResult = await expenditureApi
-            .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension, includeBreakdown))
+            .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension, excludeCentralServices))
             .GetResultOrThrow<SchoolExpenditure[]>();
 
         return new JsonResult(userDefinedResult);
     }
 
-    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? includeBreakdown, string? phase = null)
+    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices, string? phase = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("category", category)
             .AddIfNotNull("dimension", dimension)
-            .AddIfNotNull("includeBreakdown", includeBreakdown)
+            .AddIfNotNull("excludeCentralServices", excludeCentralServices)
             .AddIfNotNull("phase", phase);
         foreach (var id in ids)
         {

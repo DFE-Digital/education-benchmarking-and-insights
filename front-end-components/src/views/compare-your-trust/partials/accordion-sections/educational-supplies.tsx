@@ -5,29 +5,42 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  EducationalSuppliesTrustExpenditure,
+} from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const EducationalSupplies: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<
+    EducationalSuppliesTrustExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<EducationalSuppliesTrustExpenditure>(
       id,
       dimension.value,
       "EducationalSupplies",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -35,15 +48,16 @@ export const EducationalSupplies: React.FC<{
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -58,14 +72,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalEducationalSuppliesCosts ?? 0,
-              schoolValue: trust.schoolTotalEducationalSuppliesCosts ?? 0,
-              centralValue: trust.centralTotalEducationalSuppliesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalEducationalSuppliesCosts ?? 0,
+                  schoolValue: trust.schoolTotalEducationalSuppliesCosts ?? 0,
+                  centralValue: trust.centralTotalEducationalSuppliesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -74,14 +90,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.examinationFeesCosts ?? 0,
-              schoolValue: trust.schoolExaminationFeesCosts ?? 0,
-              centralValue: trust.centralExaminationFeesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.examinationFeesCosts ?? 0,
+                  schoolValue: trust.schoolExaminationFeesCosts ?? 0,
+                  centralValue: trust.centralExaminationFeesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -90,14 +108,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.learningResourcesNonIctCosts ?? 0,
-              schoolValue: trust.schoolLearningResourcesNonIctCosts ?? 0,
-              centralValue: trust.centralLearningResourcesNonIctCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.learningResourcesNonIctCosts ?? 0,
+                  schoolValue: trust.schoolLearningResourcesNonIctCosts ?? 0,
+                  centralValue: trust.centralLearningResourcesNonIctCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -132,6 +152,7 @@ export const EducationalSupplies: React.FC<{
           <HorizontalBarChartWrapper
             data={totalEducationalSuppliesBarData}
             chartName="total educational supplies costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Total educational supplies costs
@@ -140,18 +161,20 @@ export const EducationalSupplies: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-educational-supplies-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={examinationFeesBarData}
             chartName="examination fees costs"
+            trust
           >
             <h3 className="govuk-heading-s">Examination fees costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="learning resource (not ICT equipment) costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Learning resources (not ICT equipment) costs

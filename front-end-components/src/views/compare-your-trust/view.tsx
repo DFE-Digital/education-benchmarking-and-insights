@@ -2,6 +2,14 @@ import React from "react";
 import { CompareYourTrustViewProps } from "src/views/compare-your-trust";
 import { useGovUk } from "src/hooks/useGovUk";
 import { SpendingSection } from "./partials/spending-section";
+import { BalanceSection } from "./partials";
+import { ChartModeChart } from "src/components";
+import { BreakdownInclude } from "src/components/central-services-breakdown";
+import {
+  ChartModeProvider,
+  BreakdownProvider,
+  SelectedEstablishmentContext,
+} from "src/contexts";
 
 export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,
@@ -16,10 +24,26 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
             Spending
           </a>
         </li>
+        <li className="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a className="govuk-tabs__tab" href="#balance">
+            Balance
+          </a>
+        </li>
       </ul>
-      <div className="govuk-tabs__panel" id="spending">
-        <SpendingSection id={id} />
-      </div>
+      <SelectedEstablishmentContext.Provider value={id}>
+        <ChartModeProvider initialValue={ChartModeChart}>
+          <BreakdownProvider initialValue={BreakdownInclude}>
+            <div className="govuk-tabs__panel" id="spending">
+              <SpendingSection id={id} />
+            </div>
+          </BreakdownProvider>
+          <BreakdownProvider initialValue={BreakdownInclude}>
+            <div className="govuk-tabs__panel" id="balance">
+              <BalanceSection id={id} />
+            </div>
+          </BreakdownProvider>
+        </ChartModeProvider>
+      </SelectedEstablishmentContext.Provider>
     </div>
   );
 };

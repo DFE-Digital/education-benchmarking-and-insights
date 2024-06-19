@@ -1,8 +1,6 @@
-import React from "react";
-
-export type IncludeBreakdownProps = {
+export type CentralServicesBreakdownProps = {
   breakdown: string | undefined;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleChange: (value: string) => void;
   prefix?: string;
 };
 

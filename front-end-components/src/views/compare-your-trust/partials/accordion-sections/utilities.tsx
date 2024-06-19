@@ -5,24 +5,37 @@ import {
   PremisesCategories,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, UtilitiesTrustExpenditure } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const Utilities: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<UtilitiesTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(id, dimension.value, "Utilities", true);
-  }, [id, dimension]);
+    return await ExpenditureApi.trust<UtilitiesTrustExpenditure>(
+      id,
+      dimension.value,
+      "Utilities",
+      breakdown === BreakdownExclude
+    );
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -30,15 +43,16 @@ export const Utilities: React.FC<{
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -53,14 +67,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalUtilitiesCosts ?? 0,
-              schoolValue: trust.schoolTotalUtilitiesCosts ?? 0,
-              centralValue: trust.centralTotalUtilitiesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalUtilitiesCosts ?? 0,
+                  schoolValue: trust.schoolTotalUtilitiesCosts ?? 0,
+                  centralValue: trust.centralTotalUtilitiesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -69,14 +85,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.energyCosts ?? 0,
-              schoolValue: trust.schoolEnergyCosts ?? 0,
-              centralValue: trust.centralEnergyCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.energyCosts ?? 0,
+                  schoolValue: trust.schoolEnergyCosts ?? 0,
+                  centralValue: trust.centralEnergyCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -85,14 +103,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.waterSewerageCosts ?? 0,
-              schoolValue: trust.schoolWaterSewerageCosts ?? 0,
-              centralValue: trust.centralWaterSewerageCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.waterSewerageCosts ?? 0,
+                  schoolValue: trust.schoolWaterSewerageCosts ?? 0,
+                  centralValue: trust.centralWaterSewerageCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -127,24 +147,27 @@ export const Utilities: React.FC<{
           <HorizontalBarChartWrapper
             data={totalUtilitiesCostsBarData}
             chartName="total utilities costs"
+            trust
           >
             <h3 className="govuk-heading-s">Total utilities costs</h3>
             <ChartDimensions
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-utilities-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={energyBarData}
             chartName="energy costs"
+            trust
           >
             <h3 className="govuk-heading-s">Energy costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={waterSewerageBarData}
             chartName="water and sewerage costs"
+            trust
           >
             <h3 className="govuk-heading-s">Water and sewerage costs</h3>
           </HorizontalBarChartWrapper>

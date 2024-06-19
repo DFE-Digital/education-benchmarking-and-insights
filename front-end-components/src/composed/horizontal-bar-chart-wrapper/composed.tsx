@@ -7,10 +7,9 @@ import {
 } from "src/components/charts/table-chart";
 import {
   ChartDimensionContext,
-  ChartModeContext,
   SelectedEstablishmentContext,
   HasIncompleteDataContext,
-  IncludeBreakdownContext,
+  useChartModeContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
@@ -25,29 +24,21 @@ import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
-import {
-  BreakdownExclude,
-  BreakdownInclude,
-} from "src/components/include-breakdown";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartName, children, data, sort, valueUnit } = props;
-  const mode = useContext(ChartModeContext);
+  const { chartName, children, data, sort, trust, valueUnit } = props;
+  const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
-  const breakdown = useContext(IncludeBreakdownContext);
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
-  const isTrust = breakdown !== undefined;
-  const keyField = (isTrust ? "companyNumber" : "urn") as keyof TData;
-  const seriesLabelField = (
-    isTrust ? "trustName" : "schoolName"
-  ) as keyof TData;
+  const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
+  const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
-    [isTrust ? "schoolValue" : "value"]: {
+    [trust ? "totalValue" : "value"]: {
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
@@ -56,23 +47,11 @@ export function HorizontalBarChartWrapper<
     },
   };
 
-  // stack additional series if they are available in the input data set
-  let labelListSeriesName: keyof TData | undefined;
-  if (isTrust) {
-    if (breakdown === BreakdownInclude) {
-      seriesConfig.schoolValue.stackId = 1;
-      seriesConfig.centralValue = Object.assign({}, seriesConfig.schoolValue);
-      labelListSeriesName = "totalValue" as keyof TData;
-    }
-  }
-
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
     let dataPoint = "value";
-    if (breakdown === BreakdownInclude) {
+    if (trust) {
       dataPoint = "totalValue";
-    } else if (breakdown === BreakdownExclude) {
-      dataPoint = "schoolValue";
     }
 
     return data.dataPoints
@@ -92,13 +71,13 @@ export function HorizontalBarChartWrapper<
           }
         )
       ) as TData[];
-  }, [data.dataPoints, sort, breakdown]);
+  }, [data.dataPoints, sort, trust]);
 
   return (
     <>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">{children}</div>
-        {mode == ChartModeChart && (
+        {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-third">
             <button
               className="govuk-button govuk-button--secondary"
@@ -125,7 +104,7 @@ export function HorizontalBarChartWrapper<
         <div className="govuk-grid-column-full">
           {sortedDataPoints.length > 0 ? (
             <>
-              {mode == ChartModeChart && (
+              {chartMode == ChartModeChart && (
                 <div style={{ height: 22 * data.dataPoints.length + 75 }}>
                   <HorizontalBarChart
                     barCategoryGap={2}
@@ -138,7 +117,6 @@ export function HorizontalBarChartWrapper<
                     keyField={keyField}
                     onImageLoading={setImageLoading}
                     labels
-                    labelListSeriesName={labelListSeriesName}
                     margin={20}
                     ref={ref}
                     seriesConfig={seriesConfig as object}
@@ -149,9 +127,9 @@ export function HorizontalBarChartWrapper<
                         {...t}
                         highlightedItemKey={selectedEstabishment}
                         linkToEstablishment
-                        href={(id) => `/${isTrust ? "trust" : "school"}/${id}`}
+                        href={(id) => `/${trust ? "trust" : "school"}/${id}`}
                         establishmentKeyResolver={(name) => {
-                          if (isTrust) {
+                          if (trust) {
                             return (data.dataPoints as TrustChartData[]).find(
                               (d) => d.trustName === name
                             )?.companyNumber;
@@ -164,7 +142,7 @@ export function HorizontalBarChartWrapper<
                       />
                     )}
                     tooltip={(t) =>
-                      isTrust ? (
+                      trust ? (
                         <TrustDataTooltip
                           {...t}
                           valueUnit={valueUnit ?? dimension.unit}
@@ -181,14 +159,15 @@ export function HorizontalBarChartWrapper<
               )}
               <div
                 className={
-                  mode == ChartModeTable ? "" : "govuk-visually-hidden"
+                  chartMode == ChartModeTable ? "" : "govuk-visually-hidden"
                 }
               >
                 <TableChart
                   tableHeadings={data.tableHeadings}
                   data={sortedDataPoints}
-                  preventFocus={mode !== ChartModeTable}
+                  preventFocus={chartMode !== ChartModeTable}
                   valueUnit={valueUnit ?? dimension.unit}
+                  trust={trust}
                 />
               </div>
             </>

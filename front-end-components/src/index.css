@@ -47,7 +47,8 @@
   stroke: var(--grid-colour);
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text,
+.recharts-wrapper .recharts-reference-line .recharts-text {
   fill: var(--label-colour);
   stroke: none;
 }
@@ -139,7 +140,9 @@
 
 .chart-stat-summary {
   display: grid;
-  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3);
+  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(
+      calc(100% - 30px) / 3
+    );
   padding: 0;
   gap: 15px;
   width: 100%;
@@ -356,6 +359,8 @@
 
 .trust-options {
   grid-template-columns: 50% 50%;
+  padding-bottom: 0;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 640px) {

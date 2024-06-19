@@ -1,32 +1,182 @@
-export type ExpenditureBase = {
-  schoolTotalExpenditure: number;
-  schoolTotalTeachingSupportStaffCosts: number;
-  schoolTeachingStaffCosts: number;
-  schoolSupplyTeachingStaffCosts: number;
-  schoolEducationalConsultancyCosts: number;
-  schoolEducationSupportStaffCosts: number;
-  schoolAgencySupplyTeachingStaffCosts: number;
-  schoolTotalNonEducationalSupportStaffCosts: number;
-  schoolAdministrativeClericalStaffCosts: number;
-  schoolAuditorsCosts: number;
-  schoolOtherStaffCosts: number;
-  schoolProfessionalServicesNonCurriculumCosts: number;
-  schoolTotalEducationalSuppliesCosts: number;
-  schoolExaminationFeesCosts: number;
-  schoolLearningResourcesNonIctCosts: number;
+export type SchoolExpenditure = {
+  urn: string;
+  schoolName: string;
+  schoolType: string;
+  laName: string;
+  totalPupils: bigint;
+  totalInternalFloorArea: number;
+};
+
+type AdministrativeSuppliesExpenditureBase = {
+  administrativeSuppliesCosts: number;
+};
+
+export type AdministrativeSuppliesExpenditure = SchoolExpenditure &
+  AdministrativeSuppliesExpenditureBase;
+
+type CateringStaffServicesExpenditureBase = {
+  totalGrossCateringCosts: number;
+  cateringStaffCosts: number;
+  cateringSuppliesCosts: number;
+};
+
+export type CateringStaffServicesExpenditure = SchoolExpenditure &
+  CateringStaffServicesExpenditureBase;
+
+type EducationalIctExpenditureBase = {
+  learningResourcesIctCosts: number;
+};
+
+export type EducationalIctExpenditure = SchoolExpenditure &
+  EducationalIctExpenditureBase;
+
+type EducationalSuppliesExpenditureBase = {
+  totalEducationalSuppliesCosts: number;
+  examinationFeesCosts: number;
+  learningResourcesNonIctCosts: number;
+};
+
+export type EducationalSuppliesExpenditure = SchoolExpenditure &
+  EducationalSuppliesExpenditureBase;
+
+type NonEducationalSupportStaffExpenditureBase = {
+  totalNonEducationalSupportStaffCosts: number;
+  administrativeClericalStaffCosts: number;
+  auditorsCosts: number;
+  otherStaffCosts: number;
+  professionalServicesNonCurriculumCosts: number;
+};
+
+export type NonEducationalSupportStaffExpenditure = SchoolExpenditure &
+  NonEducationalSupportStaffExpenditureBase;
+
+type OtherCostsDataExpenditureBase = {
+  totalOtherCosts: number;
+  otherInsurancePremiumsCosts: number;
+  directRevenueFinancingCosts: number;
+  groundsMaintenanceCosts: number;
+  indirectEmployeeExpenses: number;
+  interestChargesLoanBank: number;
+  privateFinanceInitiativeCharges: number;
+  rentRatesCosts: number;
+  specialFacilitiesCosts: number;
+  staffDevelopmentTrainingCosts: number;
+  staffRelatedInsuranceCosts: number;
+  supplyTeacherInsurableCosts: number;
+  communityFocusedSchoolStaff: number;
+  communityFocusedSchoolCosts: number;
+};
+
+export type OtherCostsDataExpenditure = SchoolExpenditure &
+  OtherCostsDataExpenditureBase;
+
+type PremisesStaffServicesExpenditureBase = {
+  totalPremisesStaffServiceCosts: number;
+  cleaningCaretakingCosts: number;
+  maintenancePremisesCosts: number;
+  otherOccupationCosts: number;
+  premisesStaffCosts: number;
+};
+
+export type PremisesStaffServicesExpenditure = SchoolExpenditure &
+  PremisesStaffServicesExpenditureBase;
+
+type TeachingSupportStaffExpenditureBase = {
+  totalTeachingSupportStaffCosts: number;
+  teachingStaffCosts: number;
+  supplyTeachingStaffCosts: number;
+  educationalConsultancyCosts: number;
+  educationSupportStaffCosts: number;
+  agencySupplyTeachingStaffCosts: number;
+};
+
+export type TeachingSupportStaffExpenditure = SchoolExpenditure &
+  TeachingSupportStaffExpenditureBase;
+
+type TotalExpenditureExpenditureBase = {
+  totalExpenditure: number;
+};
+
+export type TotalExpenditureExpenditure = SchoolExpenditure &
+  TotalExpenditureExpenditureBase;
+
+type UtilitiesExpenditureBase = {
+  totalUtilitiesCosts: number;
+  energyCosts: number;
+  waterSewerageCosts: number;
+};
+
+export type UtilitiesExpenditure = SchoolExpenditure & UtilitiesExpenditureBase;
+
+export type TrustExpenditure = {
+  companyNumber: string;
+  trustName: string;
+};
+
+type AdministrativeSuppliesTrustExpenditureBase =
+  AdministrativeSuppliesExpenditureBase & {
+    schoolAdministrativeSuppliesCosts: number;
+    centralAdministrativeSuppliesCosts: number;
+  };
+
+export type AdministrativeSuppliesTrustExpenditure = TrustExpenditure &
+  AdministrativeSuppliesTrustExpenditureBase;
+
+type CateringStaffServicesTrustExpenditureBase =
+  CateringStaffServicesExpenditureBase & {
+    schoolTotalGrossCateringCosts: number;
+    schoolCateringStaffCosts: number;
+    schoolCateringSuppliesCosts: number;
+
+    centralTotalGrossCateringCosts: number;
+    centralCateringStaffCosts: number;
+    centralCateringSuppliesCosts: number;
+  };
+
+export type CateringStaffServicesTrustExpenditure = TrustExpenditure &
+  CateringStaffServicesTrustExpenditureBase;
+
+type EducationalIctTrustExpenditureBase = EducationalIctExpenditureBase & {
   schoolLearningResourcesIctCosts: number;
-  schoolTotalPremisesStaffServiceCosts: number;
-  schoolCleaningCaretakingCosts: number;
-  schoolMaintenancePremisesCosts: number;
-  schoolOtherOccupationCosts: number;
-  schoolPremisesStaffCosts: number;
-  schoolTotalUtilitiesCosts: number;
-  schoolEnergyCosts: number;
-  schoolWaterSewerageCosts: number;
-  schoolAdministrativeSuppliesCosts: number;
-  schoolTotalGrossCateringCosts: number;
-  schoolCateringStaffCosts: number;
-  schoolCateringSuppliesCosts: number;
+  centralLearningResourcesIctCosts: number;
+};
+
+export type EducationalIctTrustExpenditure = TrustExpenditure &
+  EducationalIctTrustExpenditureBase;
+
+type EducationalSuppliesTrustExpenditureBase =
+  EducationalSuppliesExpenditureBase & {
+    schoolTotalEducationalSuppliesCosts: number;
+    schoolExaminationFeesCosts: number;
+    schoolLearningResourcesNonIctCosts: number;
+
+    centralTotalEducationalSuppliesCosts: number;
+    centralExaminationFeesCosts: number;
+    centralLearningResourcesNonIctCosts: number;
+  };
+
+export type EducationalSuppliesTrustExpenditure = TrustExpenditure &
+  EducationalSuppliesTrustExpenditureBase;
+
+type NonEducationalSupportStaffTrustExpenditureBase =
+  NonEducationalSupportStaffExpenditureBase & {
+    schoolTotalNonEducationalSupportStaffCosts: number;
+    schoolAdministrativeClericalStaffCosts: number;
+    schoolAuditorsCosts: number;
+    schoolOtherStaffCosts: number;
+    schoolProfessionalServicesNonCurriculumCosts: number;
+
+    centralTotalNonEducationalSupportStaffCosts: number;
+    centralAdministrativeClericalStaffCosts: number;
+    centralAuditorsCosts: number;
+    centralOtherStaffCosts: number;
+    centralProfessionalServicesNonCurriculumCosts: number;
+  };
+
+export type NonEducationalSupportStaffTrustExpenditure = TrustExpenditure &
+  NonEducationalSupportStaffTrustExpenditureBase;
+
+type OtherCostsDataTrustExpenditureBase = OtherCostsDataExpenditureBase & {
   schoolTotalOtherCosts: number;
   schoolDirectRevenueFinancingCosts: number;
   schoolGroundsMaintenanceCosts: number;
@@ -42,34 +192,6 @@ export type ExpenditureBase = {
   schoolCommunityFocusedSchoolStaff: number;
   schoolCommunityFocusedSchoolCosts: number;
 
-  centralTotalExpenditure: number;
-  centralTotalTeachingSupportStaffCosts: number;
-  centralTeachingStaffCosts: number;
-  centralSupplyTeachingStaffCosts: number;
-  centralEducationalConsultancyCosts: number;
-  centralEducationSupportStaffCosts: number;
-  centralAgencySupplyTeachingStaffCosts: number;
-  centralTotalNonEducationalSupportStaffCosts: number;
-  centralAdministrativeClericalStaffCosts: number;
-  centralAuditorsCosts: number;
-  centralOtherStaffCosts: number;
-  centralProfessionalServicesNonCurriculumCosts: number;
-  centralTotalEducationalSuppliesCosts: number;
-  centralExaminationFeesCosts: number;
-  centralLearningResourcesNonIctCosts: number;
-  centralLearningResourcesIctCosts: number;
-  centralTotalPremisesStaffServiceCosts: number;
-  centralCleaningCaretakingCosts: number;
-  centralMaintenancePremisesCosts: number;
-  centralOtherOccupationCosts: number;
-  centralPremisesStaffCosts: number;
-  centralTotalUtilitiesCosts: number;
-  centralEnergyCosts: number;
-  centralWaterSewerageCosts: number;
-  centralAdministrativeSuppliesCosts: number;
-  centralTotalGrossCateringCosts: number;
-  centralCateringStaffCosts: number;
-  centralCateringSuppliesCosts: number;
   centralTotalOtherCosts: number;
   centralDirectRevenueFinancingCosts: number;
   centralGroundsMaintenanceCosts: number;
@@ -84,79 +206,116 @@ export type ExpenditureBase = {
   centralSupplyTeacherInsurableCosts: number;
   centralCommunityFocusedSchoolStaff: number;
   centralCommunityFocusedSchoolCosts: number;
-
-  totalExpenditure: number;
-  totalTeachingSupportStaffCosts: number;
-  teachingStaffCosts: number;
-  supplyTeachingStaffCosts: number;
-  educationalConsultancyCosts: number;
-  educationSupportStaffCosts: number;
-  agencySupplyTeachingStaffCosts: number;
-  totalNonEducationalSupportStaffCosts: number;
-  administrativeClericalStaffCosts: number;
-  auditorsCosts: number;
-  otherStaffCosts: number;
-  professionalServicesNonCurriculumCosts: number;
-  totalEducationalSuppliesCosts: number;
-  examinationFeesCosts: number;
-  learningResourcesNonIctCosts: number;
-  learningResourcesIctCosts: number;
-  totalPremisesStaffServiceCosts: number;
-  cleaningCaretakingCosts: number;
-  maintenancePremisesCosts: number;
-  otherOccupationCosts: number;
-  premisesStaffCosts: number;
-  totalUtilitiesCosts: number;
-  energyCosts: number;
-  waterSewerageCosts: number;
-  administrativeSuppliesCosts: number;
-  totalGrossCateringCosts: number;
-  cateringStaffCosts: number;
-  cateringSuppliesCosts: number;
-  totalOtherCosts: number;
-  directRevenueFinancingCosts: number;
-  groundsMaintenanceCosts: number;
-  indirectEmployeeExpenses: number;
-  interestChargesLoanBank: number;
-  otherInsurancePremiumsCosts: number;
-  privateFinanceInitiativeCharges: number;
-  rentRatesCosts: number;
-  specialFacilitiesCosts: number;
-  staffDevelopmentTrainingCosts: number;
-  staffRelatedInsuranceCosts: number;
-  supplyTeacherInsurableCosts: number;
-  communityFocusedSchoolStaff: number;
-  communityFocusedSchoolCosts: number;
 };
 
-export type SchoolExpenditure = ExpenditureBase & {
-  urn: string;
-  schoolName: string;
-  schoolType: string;
-  laName: string;
-  totalPupils: bigint;
-  totalInternalFloorArea: number;
+export type OtherCostsDataTrustExpenditure = TrustExpenditure &
+  OtherCostsDataTrustExpenditureBase;
+
+type PremisesStaffServicesTrustExpenditureBase =
+  PremisesStaffServicesExpenditureBase & {
+    schoolTotalPremisesStaffServiceCosts: number;
+    schoolCleaningCaretakingCosts: number;
+    schoolMaintenancePremisesCosts: number;
+    schoolOtherOccupationCosts: number;
+    schoolPremisesStaffCosts: number;
+
+    centralTotalPremisesStaffServiceCosts: number;
+    centralCleaningCaretakingCosts: number;
+    centralMaintenancePremisesCosts: number;
+    centralOtherOccupationCosts: number;
+    centralPremisesStaffCosts: number;
+  };
+
+export type PremisesStaffServicesTrustExpenditure = TrustExpenditure &
+  PremisesStaffServicesTrustExpenditureBase;
+
+type TeachingSupportStaffTrustExpenditureBase =
+  TeachingSupportStaffExpenditureBase & {
+    schoolTotalTeachingSupportStaffCosts: number;
+    schoolTeachingStaffCosts: number;
+    schoolSupplyTeachingStaffCosts: number;
+    schoolEducationalConsultancyCosts: number;
+    schoolEducationSupportStaffCosts: number;
+    schoolAgencySupplyTeachingStaffCosts: number;
+
+    centralTotalTeachingSupportStaffCosts: number;
+    centralTeachingStaffCosts: number;
+    centralSupplyTeachingStaffCosts: number;
+    centralEducationalConsultancyCosts: number;
+    centralEducationSupportStaffCosts: number;
+    centralAgencySupplyTeachingStaffCosts: number;
+  };
+
+export type TeachingSupportStaffTrustExpenditure = TrustExpenditure &
+  TeachingSupportStaffTrustExpenditureBase;
+
+type TotalExpenditureTrustExpenditureBase = TotalExpenditureExpenditureBase & {
+  schoolTotalExpenditure: number;
+  centralTotalExpenditure: number;
 };
 
-export type SchoolExpenditureHistory = ExpenditureBase & {
-  urn: string;
-  year: number;
-  term: string;
+export type TotalExpenditureTrustExpenditure = TrustExpenditure &
+  TotalExpenditureTrustExpenditureBase;
+
+type UtilitiesTrustExpenditureBase = UtilitiesExpenditureBase & {
+  schoolTotalUtilitiesCosts: number;
+  schoolEnergyCosts: number;
+  schoolWaterSewerageCosts: number;
+
+  centralTotalUtilitiesCosts: number;
+  centralEnergyCosts: number;
+  centralWaterSewerageCosts: number;
 };
 
-export type TrustExpenditure = ExpenditureBase & {
-  companyNumber: string;
-  trustName: string;
-};
+export type UtilitiesTrustExpenditure = TrustExpenditure &
+  UtilitiesTrustExpenditureBase;
 
-export type BalanceHistory = {
-  yearEnd: string;
-  term: string;
+export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
+  CateringStaffServicesExpenditureBase &
+  EducationalIctExpenditureBase &
+  EducationalSuppliesExpenditureBase &
+  NonEducationalSupportStaffExpenditureBase &
+  OtherCostsDataExpenditureBase &
+  PremisesStaffServicesExpenditureBase &
+  TeachingSupportStaffExpenditureBase &
+  TotalExpenditureExpenditureBase &
+  UtilitiesExpenditureBase & {
+    year: number;
+    term: string;
+  };
+
+type BalanceBase = {
   inYearBalance: number;
   revenueReserve: number;
 };
 
-export type Census = {
+type TrustBalanceBase = BalanceBase & {
+  schoolInYearBalance: number;
+  schoolRevenueReserve: number;
+
+  centralInYearBalance: number;
+  centralRevenueReserve: number;
+};
+
+export type SchoolBalance = BalanceBase & {
+  urn: string;
+  schoolName: string;
+  schoolType: string;
+  laName: string;
+  totalPupils: number;
+};
+
+export type TrustBalance = TrustBalanceBase & {
+  companyNumber: string;
+  trustName: string;
+};
+
+export type SchoolBalanceHistory = BalanceBase & {
+  year: number;
+  term: string;
+};
+
+type CensusBase = {
   urn: string;
   totalPupils: bigint;
   workforceFTE: number;
@@ -167,24 +326,17 @@ export type Census = {
   nonClassroomSupportStaffFTE: number;
   auxiliaryStaffFTE: number;
   percentTeacherWithQualifiedStatus: number;
+};
+
+export type Census = CensusBase & {
   schoolName: string;
   schoolType: string;
   laName: string;
 };
 
-export type CensusHistory = {
+export type CensusHistory = CensusBase & {
   year: string;
   term: string;
-  urn: string;
-  totalPupils: bigint;
-  workforceFTE: number;
-  workforceHeadcount: number;
-  teachersFTE: number;
-  seniorLeadershipFTE: number;
-  teachingAssistantFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  auxiliaryStaffFTE: number;
-  percentTeacherWithQualifiedStatus: number;
 };
 
 export type Income = {

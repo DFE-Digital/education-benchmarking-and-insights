@@ -5,29 +5,42 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  CateringStaffServicesTrustExpenditure,
+} from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const CateringStaffServices: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<
+    CateringStaffServicesTrustExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<CateringStaffServicesTrustExpenditure>(
       id,
       dimension.value,
       "CateringStaffServices",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -35,15 +48,16 @@ export const CateringStaffServices: React.FC<{
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -58,14 +72,16 @@ export const CateringStaffServices: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalGrossCateringCosts ?? 0,
-              schoolValue: trust.schoolTotalGrossCateringCosts ?? 0,
-              centralValue: trust.centralTotalGrossCateringCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalGrossCateringCosts ?? 0,
+                  schoolValue: trust.schoolTotalGrossCateringCosts ?? 0,
+                  centralValue: trust.centralTotalGrossCateringCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -74,14 +90,16 @@ export const CateringStaffServices: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.cateringStaffCosts ?? 0,
-              schoolValue: trust.schoolCateringStaffCosts ?? 0,
-              centralValue: trust.centralCateringStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.cateringStaffCosts ?? 0,
+                  schoolValue: trust.schoolCateringStaffCosts ?? 0,
+                  centralValue: trust.centralCateringStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -90,14 +108,16 @@ export const CateringStaffServices: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.cateringSuppliesCosts ?? 0,
-              schoolValue: trust.schoolCateringSuppliesCosts ?? 0,
-              centralValue: trust.centralCateringSuppliesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.cateringSuppliesCosts ?? 0,
+                  schoolValue: trust.schoolCateringSuppliesCosts ?? 0,
+                  centralValue: trust.centralCateringSuppliesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -132,24 +152,27 @@ export const CateringStaffServices: React.FC<{
           <HorizontalBarChartWrapper
             data={totalCateringBarData}
             chartName="total catering costs"
+            trust
           >
             <h3 className="govuk-heading-s">Total catering costs</h3>
             <ChartDimensions
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-catering-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringStaffBarData}
             chartName="catering staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">Catering staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringSuppliesBarData}
             chartName="catering supplies costs"
+            trust
           >
             <h3 className="govuk-heading-s">Catering supplies costs</h3>
           </HorizontalBarChartWrapper>

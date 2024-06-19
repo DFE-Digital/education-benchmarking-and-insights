@@ -48,16 +48,11 @@ public static class IncomeResponseFactory
     private static T CreateResponse<T>(IncomeBaseModel model, IncomeParameters parameters)
         where T : IncomeBaseResponse, new()
     {
-
-        var schoolTotalIncome = CalcSchool(model.TotalIncome, model, parameters.Dimension);
-        var centralTotalIncome = CalcCentral(model.TotalIncomeCS, model, parameters.Dimension);
-        var totalIncome = model.TotalIncome + model.TotalIncomeCS.GetValueOrDefault();
-
         var response = new T
         {
-            SchoolTotalIncome = parameters.IncludeBreakdown ? schoolTotalIncome : null,
-            CentralTotalIncome = parameters.IncludeBreakdown ? centralTotalIncome : null,
-            TotalIncome = CalcTotal(totalIncome, model, parameters.Dimension)
+            SchoolTotalIncome = CalcAmount(model.TotalIncome - model.TotalIncomeCS.GetValueOrDefault(), model, parameters),
+            CentralTotalIncome = CalcAmount(model.TotalIncomeCS, model, parameters),
+            TotalIncome = CalcTotal(model.TotalIncome, model.TotalIncomeCS.GetValueOrDefault(), model, parameters)
         };
 
         if (parameters.Category is null or IncomeCategories.GrantFunding)
@@ -78,144 +73,89 @@ public static class IncomeResponseFactory
         return response;
     }
 
-    private static void SetDirectRevenueFinancing<T>(IncomeBaseModel model, IncomeParameters parameters, T response)
-        where T : IncomeBaseResponse, new()
+    private static void SetDirectRevenueFinancing<T>(IncomeBaseModel model, IncomeParameters parameters, T response) where T : IncomeBaseResponse, new()
     {
-        var schoolDirectRevenueFinancing = CalcSchool(model.DirectRevenueFinancing, model, parameters.Dimension);
-        var centralDirectRevenueFinancing = CalcCentral(model.DirectRevenueFinancingCS, model, parameters.Dimension);
-        var directRevenueFinancing = model.DirectRevenueFinancing + model.DirectRevenueFinancingCS.GetValueOrDefault();
-
-        response.SchoolDirectRevenueFinancing = parameters.IncludeBreakdown ? schoolDirectRevenueFinancing : null;
-        response.CentralDirectRevenueFinancing = parameters.IncludeBreakdown ? centralDirectRevenueFinancing : null;
-        response.DirectRevenueFinancing = CalcTotal(directRevenueFinancing, model, parameters.Dimension);
+        response.SchoolDirectRevenueFinancing = CalcAmount(model.DirectRevenueFinancing - model.DirectRevenueFinancingCS.GetValueOrDefault(), model, parameters);
+        response.CentralDirectRevenueFinancing = CalcAmount(model.DirectRevenueFinancingCS, model, parameters);
+        response.DirectRevenueFinancing = CalcTotal(model.DirectRevenueFinancing, model.DirectRevenueFinancingCS.GetValueOrDefault(), model, parameters);
     }
 
-    private static void SetSelfGenerated<T>(IncomeBaseModel model, IncomeParameters parameters, T response)
-        where T : IncomeBaseResponse, new()
+    private static void SetSelfGenerated<T>(IncomeBaseModel model, IncomeParameters parameters, T response) where T : IncomeBaseResponse, new()
     {
-        var schoolTotalSelfGeneratedFunding = CalcSchool(model.TotalSelfGeneratedFunding, model, parameters.Dimension);
-        var schoolIncomeFacilitiesServices = CalcSchool(model.IncomeFacilitiesServices, model, parameters.Dimension);
-        var schoolIncomeCatering = CalcSchool(model.IncomeCateringServices, model, parameters.Dimension);
-        var schoolDonationsVoluntaryFunds = CalcSchool(model.DonationsVoluntaryFunds, model, parameters.Dimension);
-        var schoolReceiptsSupplyTeacherInsuranceClaims = CalcSchool(model.ReceiptsSupplyTeacherInsuranceClaims, model, parameters.Dimension);
-        var schoolInvestmentIncome = CalcSchool(model.InvestmentIncome, model, parameters.Dimension);
-        var schoolOtherSelfGeneratedIncome = CalcSchool(model.OtherSelfGeneratedIncome, model, parameters.Dimension);
+        response.SchoolTotalSelfGeneratedFunding = CalcAmount(model.TotalSelfGeneratedFunding - model.TotalSelfGeneratedFundingCS.GetValueOrDefault(), model, parameters);
+        response.SchoolIncomeFacilitiesServices = CalcAmount(model.IncomeFacilitiesServices - model.IncomeFacilitiesServicesCS.GetValueOrDefault(), model, parameters);
+        response.SchoolIncomeCatering = CalcAmount(model.IncomeCateringServices - model.IncomeCateringServicesCS.GetValueOrDefault(), model, parameters);
+        response.SchoolDonationsVoluntaryFunds = CalcAmount(model.DonationsVoluntaryFunds - model.DonationsVoluntaryFundsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolReceiptsSupplyTeacherInsuranceClaims = CalcAmount(model.ReceiptsSupplyTeacherInsuranceClaimsCS - model.TotalSelfGeneratedFundingCS.GetValueOrDefault(), model, parameters);
+        response.SchoolInvestmentIncome = CalcAmount(model.InvestmentIncome - model.InvestmentIncomeCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherSelfGeneratedIncome = CalcAmount(model.OtherSelfGeneratedIncome - model.OtherSelfGeneratedIncomeCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalSelfGeneratedFunding = CalcCentral(model.TotalSelfGeneratedFundingCS, model, parameters.Dimension);
-        var centralIncomeFacilitiesServices = CalcCentral(model.IncomeFacilitiesServicesCS, model, parameters.Dimension);
-        var centralIncomeCatering = CalcCentral(model.IncomeCateringServicesCS, model, parameters.Dimension);
-        var centralDonationsVoluntaryFunds = CalcCentral(model.DonationsVoluntaryFundsCS, model, parameters.Dimension);
-        var centralReceiptsSupplyTeacherInsuranceClaims = CalcCentral(model.ReceiptsSupplyTeacherInsuranceClaimsCS, model, parameters.Dimension);
-        var centralInvestmentIncome = CalcCentral(model.InvestmentIncomeCS, model, parameters.Dimension);
-        var centralOtherSelfGeneratedIncome = CalcCentral(model.OtherSelfGeneratedIncomeCS, model, parameters.Dimension);
+        response.CentralTotalSelfGeneratedFunding = CalcAmount(model.TotalSelfGeneratedFundingCS, model, parameters);
+        response.CentralIncomeFacilitiesServices = CalcAmount(model.IncomeFacilitiesServicesCS, model, parameters);
+        response.CentralIncomeCatering = CalcAmount(model.IncomeCateringServicesCS, model, parameters);
+        response.CentralDonationsVoluntaryFunds = CalcAmount(model.DonationsVoluntaryFundsCS, model, parameters);
+        response.CentralReceiptsSupplyTeacherInsuranceClaims = CalcAmount(model.ReceiptsSupplyTeacherInsuranceClaimsCS, model, parameters);
+        response.CentralInvestmentIncome = CalcAmount(model.InvestmentIncomeCS, model, parameters);
+        response.CentralOtherSelfGeneratedIncome = CalcAmount(model.OtherSelfGeneratedIncomeCS, model, parameters);
 
-        var totalSelfGeneratedFunding = model.TotalSelfGeneratedFunding + model.TotalSelfGeneratedFundingCS.GetValueOrDefault();
-        var incomeFacilitiesServices = model.IncomeFacilitiesServices + model.IncomeFacilitiesServicesCS.GetValueOrDefault();
-        var incomeCatering = model.IncomeCateringServices + model.IncomeCateringServicesCS.GetValueOrDefault();
-        var donationsVoluntaryFunds = model.DonationsVoluntaryFunds + model.DonationsVoluntaryFundsCS.GetValueOrDefault();
-        var receiptsSupplyTeacherInsuranceClaims = model.ReceiptsSupplyTeacherInsuranceClaims + model.ReceiptsSupplyTeacherInsuranceClaimsCS.GetValueOrDefault();
-        var investmentIncome = model.InvestmentIncome + model.InvestmentIncomeCS.GetValueOrDefault();
-        var otherSelfGeneratedIncome = model.OtherSelfGeneratedIncome + model.OtherSelfGeneratedIncomeCS.GetValueOrDefault();
-
-        response.SchoolTotalSelfGeneratedFunding = parameters.IncludeBreakdown ? schoolTotalSelfGeneratedFunding : null;
-        response.SchoolIncomeFacilitiesServices = parameters.IncludeBreakdown ? schoolIncomeFacilitiesServices : null;
-        response.SchoolIncomeCatering = parameters.IncludeBreakdown ? schoolIncomeCatering : null;
-        response.SchoolDonationsVoluntaryFunds = parameters.IncludeBreakdown ? schoolDonationsVoluntaryFunds : null;
-        response.SchoolReceiptsSupplyTeacherInsuranceClaims = parameters.IncludeBreakdown ? schoolReceiptsSupplyTeacherInsuranceClaims : null;
-        response.SchoolInvestmentIncome = parameters.IncludeBreakdown ? schoolInvestmentIncome : null;
-        response.SchoolOtherSelfGeneratedIncome = parameters.IncludeBreakdown ? schoolOtherSelfGeneratedIncome : null;
-
-        response.CentralTotalSelfGeneratedFunding = parameters.IncludeBreakdown ? centralTotalSelfGeneratedFunding : null;
-        response.CentralIncomeFacilitiesServices = parameters.IncludeBreakdown ? centralIncomeFacilitiesServices : null;
-        response.CentralIncomeCatering = parameters.IncludeBreakdown ? centralIncomeCatering : null;
-        response.CentralDonationsVoluntaryFunds = parameters.IncludeBreakdown ? centralDonationsVoluntaryFunds : null;
-        response.CentralReceiptsSupplyTeacherInsuranceClaims = parameters.IncludeBreakdown ? centralReceiptsSupplyTeacherInsuranceClaims : null;
-        response.CentralInvestmentIncome = parameters.IncludeBreakdown ? centralInvestmentIncome : null;
-        response.CentralOtherSelfGeneratedIncome = parameters.IncludeBreakdown ? centralOtherSelfGeneratedIncome : null;
-
-        response.TotalSelfGeneratedFunding = CalcTotal(totalSelfGeneratedFunding, model, parameters.Dimension);
-        response.IncomeFacilitiesServices = CalcTotal(incomeFacilitiesServices, model, parameters.Dimension);
-        response.IncomeCatering = CalcTotal(incomeCatering, model, parameters.Dimension);
-        response.DonationsVoluntaryFunds = CalcTotal(donationsVoluntaryFunds, model, parameters.Dimension);
-        response.ReceiptsSupplyTeacherInsuranceClaims = CalcTotal(receiptsSupplyTeacherInsuranceClaims, model, parameters.Dimension);
-        response.InvestmentIncome = CalcTotal(investmentIncome, model, parameters.Dimension);
-        response.OtherSelfGeneratedIncome = CalcTotal(otherSelfGeneratedIncome, model, parameters.Dimension);
+        response.TotalSelfGeneratedFunding = CalcTotal(model.TotalSelfGeneratedFunding, model.TotalSelfGeneratedFundingCS.GetValueOrDefault(), model, parameters);
+        response.IncomeFacilitiesServices = CalcTotal(model.IncomeFacilitiesServices, model.IncomeFacilitiesServicesCS.GetValueOrDefault(), model, parameters);
+        response.IncomeCatering = CalcTotal(model.IncomeCateringServices, model.IncomeCateringServicesCS.GetValueOrDefault(), model, parameters);
+        response.DonationsVoluntaryFunds = CalcTotal(model.DonationsVoluntaryFunds, model.DonationsVoluntaryFundsCS.GetValueOrDefault(), model, parameters);
+        response.ReceiptsSupplyTeacherInsuranceClaims = CalcTotal(model.ReceiptsSupplyTeacherInsuranceClaims, model.TotalSelfGeneratedFundingCS.GetValueOrDefault(), model, parameters);
+        response.InvestmentIncome = CalcTotal(model.InvestmentIncome, model.InvestmentIncomeCS.GetValueOrDefault(), model, parameters);
+        response.OtherSelfGeneratedIncome = CalcTotal(model.OtherSelfGeneratedIncome, model.OtherSelfGeneratedIncomeCS.GetValueOrDefault(), model, parameters);
     }
 
-    private static void SetGrantFunding<T>(IncomeBaseModel model, IncomeParameters parameters, T response)
-        where T : IncomeBaseResponse, new()
+    private static void SetGrantFunding<T>(IncomeBaseModel model, IncomeParameters parameters, T response) where T : IncomeBaseResponse, new()
     {
-        var schoolTotalGrantFunding = CalcSchool(model.TotalGrantFunding, model, parameters.Dimension);
-        var schoolDirectGrants = CalcSchool(model.DirectGrants, model, parameters.Dimension);
-        var schoolPrePost16Funding = CalcSchool(model.PrePost16Funding, model, parameters.Dimension);
-        var schoolOtherDfeGrants = CalcSchool(model.OtherDfeGrants, model, parameters.Dimension);
-        var schoolOtherIncomeGrants = CalcSchool(model.OtherIncomeGrants, model, parameters.Dimension);
-        var schoolGovernmentSource = CalcSchool(model.GovernmentSource, model, parameters.Dimension);
-        var schoolCommunityGrants = CalcSchool(model.CommunityGrants, model, parameters.Dimension);
-        var schoolAcademies = CalcSchool(model.Academies, model, parameters.Dimension);
+        response.SchoolTotalGrantFunding = CalcAmount(model.TotalGrantFunding - model.TotalGrantFundingCS.GetValueOrDefault(), model, parameters);
+        response.SchoolDirectGrants = CalcAmount(model.DirectGrants - model.DirectGrantsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolPrePost16Funding = CalcAmount(model.PrePost16Funding - model.PrePost16FundingCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherDfeGrants = CalcAmount(model.OtherDfeGrants - model.OtherDfeGrantsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherIncomeGrants = CalcAmount(model.OtherIncomeGrants - model.OtherIncomeGrantsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolGovernmentSource = CalcAmount(model.GovernmentSource - model.GovernmentSourceCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCommunityGrants = CalcAmount(model.CommunityGrants - model.CommunityGrantsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolAcademies = CalcAmount(model.Academies - model.AcademiesCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalGrantFunding = CalcCentral(model.TotalGrantFundingCS, model, parameters.Dimension);
-        var centralDirectGrants = CalcCentral(model.DirectGrantsCS, model, parameters.Dimension);
-        var centralPrePost16Funding = CalcCentral(model.PrePost16FundingCS, model, parameters.Dimension);
-        var centralOtherDfeGrants = CalcCentral(model.OtherDfeGrantsCS, model, parameters.Dimension);
-        var centralOtherIncomeGrants = CalcCentral(model.OtherIncomeGrantsCS, model, parameters.Dimension);
-        var centralGovernmentSource = CalcCentral(model.GovernmentSourceCS, model, parameters.Dimension);
-        var centralCommunityGrants = CalcCentral(model.CommunityGrantsCS, model, parameters.Dimension);
-        var centralAcademies = CalcCentral(model.AcademiesCS, model, parameters.Dimension);
+        response.CentralTotalGrantFunding = CalcAmount(model.TotalGrantFundingCS, model, parameters);
+        response.CentralDirectGrants = CalcAmount(model.DirectGrantsCS, model, parameters);
+        response.CentralPrePost16Funding = CalcAmount(model.PrePost16FundingCS, model, parameters);
+        response.CentralOtherDfeGrants = CalcAmount(model.OtherDfeGrantsCS, model, parameters);
+        response.CentralOtherIncomeGrants = CalcAmount(model.OtherIncomeGrantsCS, model, parameters);
+        response.CentralGovernmentSource = CalcAmount(model.GovernmentSourceCS, model, parameters);
+        response.CentralCommunityGrants = CalcAmount(model.CommunityGrantsCS, model, parameters);
+        response.CentralAcademies = CalcAmount(model.AcademiesCS, model, parameters);
 
-        var totalGrantFunding = model.TotalGrantFunding + model.TotalGrantFundingCS.GetValueOrDefault();
-        var directGrants = model.DirectGrants + model.DirectGrantsCS.GetValueOrDefault();
-        var prePost16Funding = model.PrePost16Funding + model.PrePost16FundingCS.GetValueOrDefault();
-        var otherDfeGrants = model.OtherDfeGrants + model.OtherDfeGrantsCS.GetValueOrDefault();
-        var otherIncomeGrants = model.OtherIncomeGrants + model.OtherIncomeGrantsCS.GetValueOrDefault();
-        var governmentSource = model.GovernmentSource + model.GovernmentSourceCS.GetValueOrDefault();
-        var communityGrants = model.CommunityGrants + model.CommunityGrantsCS.GetValueOrDefault();
-        var academies = model.Academies + model.AcademiesCS.GetValueOrDefault();
-
-        response.SchoolTotalGrantFunding = parameters.IncludeBreakdown ? schoolTotalGrantFunding : null;
-        response.SchoolDirectGrants = parameters.IncludeBreakdown ? schoolDirectGrants : null;
-        response.SchoolPrePost16Funding = parameters.IncludeBreakdown ? schoolPrePost16Funding : null;
-        response.SchoolOtherDfeGrants = parameters.IncludeBreakdown ? schoolOtherDfeGrants : null;
-        response.SchoolOtherIncomeGrants = parameters.IncludeBreakdown ? schoolOtherIncomeGrants : null;
-        response.SchoolGovernmentSource = parameters.IncludeBreakdown ? schoolGovernmentSource : null;
-        response.SchoolCommunityGrants = parameters.IncludeBreakdown ? schoolCommunityGrants : null;
-        response.SchoolAcademies = parameters.IncludeBreakdown ? schoolAcademies : null;
-
-        response.CentralTotalGrantFunding = parameters.IncludeBreakdown ? centralTotalGrantFunding : null;
-        response.CentralDirectGrants = parameters.IncludeBreakdown ? centralDirectGrants : null;
-        response.CentralPrePost16Funding = parameters.IncludeBreakdown ? centralPrePost16Funding : null;
-        response.CentralOtherDfeGrants = parameters.IncludeBreakdown ? centralOtherDfeGrants : null;
-        response.CentralOtherIncomeGrants = parameters.IncludeBreakdown ? centralOtherIncomeGrants : null;
-        response.CentralGovernmentSource = parameters.IncludeBreakdown ? centralGovernmentSource : null;
-        response.CentralCommunityGrants = parameters.IncludeBreakdown ? centralCommunityGrants : null;
-        response.CentralAcademies = parameters.IncludeBreakdown ? centralAcademies : null;
-
-        response.TotalGrantFunding = CalcTotal(totalGrantFunding, model, parameters.Dimension);
-        response.DirectGrants = CalcTotal(directGrants, model, parameters.Dimension);
-        response.PrePost16Funding = CalcTotal(prePost16Funding, model, parameters.Dimension);
-        response.OtherDfeGrants = CalcTotal(otherDfeGrants, model, parameters.Dimension);
-        response.OtherIncomeGrants = CalcTotal(otherIncomeGrants, model, parameters.Dimension);
-        response.GovernmentSource = CalcTotal(governmentSource, model, parameters.Dimension);
-        response.CommunityGrants = CalcTotal(communityGrants, model, parameters.Dimension);
-        response.Academies = CalcTotal(academies, model, parameters.Dimension);
+        response.TotalGrantFunding = CalcTotal(model.TotalGrantFunding, model.TotalGrantFundingCS.GetValueOrDefault(), model, parameters);
+        response.DirectGrants = CalcTotal(model.DirectGrants, model.DirectGrantsCS.GetValueOrDefault(), model, parameters);
+        response.PrePost16Funding = CalcTotal(model.PrePost16Funding, model.PrePost16FundingCS.GetValueOrDefault(), model, parameters);
+        response.OtherDfeGrants = CalcTotal(model.OtherDfeGrants, model.OtherDfeGrantsCS.GetValueOrDefault(), model, parameters);
+        response.OtherIncomeGrants = CalcTotal(model.OtherIncomeGrants, model.OtherIncomeGrantsCS.GetValueOrDefault(), model, parameters);
+        response.GovernmentSource = CalcTotal(model.GovernmentSource, model.GovernmentSourceCS.GetValueOrDefault(), model, parameters);
+        response.CommunityGrants = CalcTotal(model.CommunityGrants, model.CommunityGrantsCS.GetValueOrDefault(), model, parameters);
+        response.Academies = CalcTotal(model.Academies, model.AcademiesCS.GetValueOrDefault(), model, parameters);
     }
 
-    private static decimal? CalcTotal(decimal? value, IncomeBaseModel model, string dimension)
+    private static decimal? CalcTotal(decimal? value, decimal valueCentral, IncomeBaseModel model, IncomeParameters parameters)
     {
-        var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
-        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() + model.TotalExpenditureCS.GetValueOrDefault();
+        var totalIncome = model.TotalIncome;
+        var totalExpenditure = model.TotalExpenditure;
+        if (parameters.ExcludeCentralServices)
+        {
+            value -= valueCentral;
+            totalIncome = model.TotalIncome.GetValueOrDefault() - model.TotalIncomeCS.GetValueOrDefault();
+            totalExpenditure = model.TotalExpenditure.GetValueOrDefault() - model.TotalExpenditureCS.GetValueOrDefault();
+        }
 
-        return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, dimension);
+        return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcSchool(decimal? value, IncomeBaseModel model, string dimension)
+    private static decimal? CalcAmount(decimal? value, IncomeBaseModel model, IncomeParameters parameters)
     {
-        return CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, dimension);
-    }
-
-    private static decimal? CalcCentral(decimal? value, IncomeBaseModel model, string dimension)
-    {
-        return CalculateValue(value, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension);
+        return parameters.ExcludeCentralServices
+            ? null
+            : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,

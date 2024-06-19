@@ -5,27 +5,40 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  TeachingSupportStaffTrustExpenditure,
+} from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<
+    TeachingSupportStaffTrustExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<TeachingSupportStaffTrustExpenditure>(
       id,
       dimension.value,
       "TeachingTeachingSupportStaff",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -33,15 +46,16 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -56,14 +70,17 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalTeachingSupportStaffCosts ?? 0,
-              schoolValue: trust.schoolTotalTeachingSupportStaffCosts ?? 0,
-              centralValue: trust.centralTotalTeachingSupportStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalTeachingSupportStaffCosts ?? 0,
+                  schoolValue: trust.schoolTotalTeachingSupportStaffCosts ?? 0,
+                  centralValue:
+                    trust.centralTotalTeachingSupportStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -72,14 +89,16 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.teachingStaffCosts ?? 0,
-              schoolValue: trust.schoolTeachingStaffCosts ?? 0,
-              centralValue: trust.centralTeachingStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.teachingStaffCosts ?? 0,
+                  schoolValue: trust.schoolTeachingStaffCosts ?? 0,
+                  centralValue: trust.centralTeachingStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -88,14 +107,16 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.supplyTeachingStaffCosts ?? 0,
-              schoolValue: trust.schoolSupplyTeachingStaffCosts ?? 0,
-              centralValue: trust.centralSupplyTeachingStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.supplyTeachingStaffCosts ?? 0,
+                  schoolValue: trust.schoolSupplyTeachingStaffCosts ?? 0,
+                  centralValue: trust.centralSupplyTeachingStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -104,14 +125,16 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.educationalConsultancyCosts ?? 0,
-              schoolValue: trust.schoolEducationalConsultancyCosts ?? 0,
-              centralValue: trust.centralEducationalConsultancyCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.educationalConsultancyCosts ?? 0,
+                  schoolValue: trust.schoolEducationalConsultancyCosts ?? 0,
+                  centralValue: trust.centralEducationalConsultancyCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -120,14 +143,16 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.educationSupportStaffCosts ?? 0,
-              schoolValue: trust.schoolEducationSupportStaffCosts ?? 0,
-              centralValue: trust.centralEducationSupportStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.educationSupportStaffCosts ?? 0,
+                  schoolValue: trust.schoolEducationSupportStaffCosts ?? 0,
+                  centralValue: trust.centralEducationSupportStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -136,14 +161,17 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.agencySupplyTeachingStaffCosts ?? 0,
-              schoolValue: trust.schoolAgencySupplyTeachingStaffCosts ?? 0,
-              centralValue: trust.centralAgencySupplyTeachingStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.agencySupplyTeachingStaffCosts ?? 0,
+                  schoolValue: trust.schoolAgencySupplyTeachingStaffCosts ?? 0,
+                  centralValue:
+                    trust.centralAgencySupplyTeachingStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -178,6 +206,7 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
           <HorizontalBarChartWrapper
             data={totalTeachingBarData}
             chartName="total teaching and support staff cost"
+            trust
           >
             <h3 className="govuk-heading-s">
               Total teaching and teaching support staff costs
@@ -186,36 +215,41 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-teaching-support-staff-cost"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={teachingStaffBarData}
             chartName="teaching staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">Teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeachingBarData}
             chartName="supply teaching staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationalConsultancyBarData}
             chartName="educational consultancy costs"
+            trust
           >
             <h3 className="govuk-heading-s">Educational consultancy costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationSupportStaffBarData}
             chartName="educational support staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">Educational support staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={agencySupplyBarData}
             chartName="agency supply teaching staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Agency supply teaching staff costs

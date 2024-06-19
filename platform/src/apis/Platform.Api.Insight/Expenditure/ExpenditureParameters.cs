@@ -7,7 +7,7 @@ namespace Platform.Api.Insight.Expenditure;
 
 public record ExpenditureParameters : QueryParameters
 {
-    public bool IncludeBreakdown { get; private set; }
+    public bool ExcludeCentralServices { get; private set; }
     public string? Category { get; private set; }
     public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
     public string[] Schools { get; private set; } = Array.Empty<string>();
@@ -27,7 +27,7 @@ public record ExpenditureParameters : QueryParameters
             category = null;
         }
 
-        IncludeBreakdown = query.ToBool("includeBreakdown");
+        ExcludeCentralServices = query.ToBool("excludeCentralServices");
         Category = category;
         Dimension = dimension;
         Schools = query.ToStringArray("urns");

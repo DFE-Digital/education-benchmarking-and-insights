@@ -20,6 +20,7 @@ public class WhenViewingComparators(ITestOutputHelper testOutputHelper, WebDrive
         await Page.Locator("#create-set").WaitForAsync();
         await Page.Locator("#create-set").ClickAsync();
         await Page.WaitForURLAsync("**/comparators?comparator-generated=true");
+        await Page.Locator("#tab_balance").WaitForAsync();
         await EvaluatePage();
     }
 }

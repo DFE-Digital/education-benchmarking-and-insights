@@ -5,29 +5,42 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import classNames from "classnames";
 import { useHash } from "src/hooks/useHash";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  NonEducationalSupportStaffTrustExpenditure,
+} from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const NonEducationalSupportStaff: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<
+    NonEducationalSupportStaffTrustExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<NonEducationalSupportStaffTrustExpenditure>(
       id,
       dimension.value,
       "NonEducationalSupportStaff",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -35,15 +48,16 @@ export const NonEducationalSupportStaff: React.FC<{
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -58,14 +72,18 @@ export const NonEducationalSupportStaff: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.administrativeClericalStaffCosts ?? 0,
-              schoolValue: trust.schoolAdministrativeClericalStaffCosts ?? 0,
-              centralValue: trust.centralAdministrativeClericalStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.administrativeClericalStaffCosts ?? 0,
+                  schoolValue:
+                    trust.schoolAdministrativeClericalStaffCosts ?? 0,
+                  centralValue:
+                    trust.centralAdministrativeClericalStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -74,16 +92,18 @@ export const NonEducationalSupportStaff: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalNonEducationalSupportStaffCosts ?? 0,
-              schoolValue:
-                trust.schoolTotalNonEducationalSupportStaffCosts ?? 0,
-              centralValue:
-                trust.centralTotalNonEducationalSupportStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalNonEducationalSupportStaffCosts ?? 0,
+                  schoolValue:
+                    trust.schoolTotalNonEducationalSupportStaffCosts ?? 0,
+                  centralValue:
+                    trust.centralTotalNonEducationalSupportStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -92,14 +112,16 @@ export const NonEducationalSupportStaff: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.auditorsCosts ?? 0,
-              schoolValue: trust.schoolAuditorsCosts ?? 0,
-              centralValue: trust.centralAuditorsCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.auditorsCosts ?? 0,
+                  schoolValue: trust.schoolAuditorsCosts ?? 0,
+                  centralValue: trust.centralAuditorsCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -108,14 +130,16 @@ export const NonEducationalSupportStaff: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.otherStaffCosts ?? 0,
-              schoolValue: trust.schoolOtherStaffCosts ?? 0,
-              centralValue: trust.centralOtherStaffCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.otherStaffCosts ?? 0,
+                  schoolValue: trust.schoolOtherStaffCosts ?? 0,
+                  centralValue: trust.centralOtherStaffCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -124,16 +148,18 @@ export const NonEducationalSupportStaff: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.professionalServicesNonCurriculumCosts ?? 0,
-              schoolValue:
-                trust.schoolProfessionalServicesNonCurriculumCosts ?? 0,
-              centralValue:
-                trust.centralProfessionalServicesNonCurriculumCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.professionalServicesNonCurriculumCosts ?? 0,
+                  schoolValue:
+                    trust.schoolProfessionalServicesNonCurriculumCosts ?? 0,
+                  centralValue:
+                    trust.centralProfessionalServicesNonCurriculumCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -168,6 +194,7 @@ export const NonEducationalSupportStaff: React.FC<{
           <HorizontalBarChartWrapper
             data={totalNonEducationalBarData}
             chartName="total non-educational support staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Total non-educational support staff costs
@@ -176,12 +203,13 @@ export const NonEducationalSupportStaff: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-non-educational-support-staff-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={administrativeClericalBarData}
             chartName="administrative and clerical staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Administrative and clerical staff costs
@@ -190,18 +218,21 @@ export const NonEducationalSupportStaff: React.FC<{
           <HorizontalBarChartWrapper
             data={auditorsCostsBarData}
             chartName="auditors costs"
+            trust
           >
             <h3 className="govuk-heading-s">Auditors costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherStaffCostsBarData}
             chartName="other staff costs"
+            trust
           >
             <h3 className="govuk-heading-s">Other staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={professionalServicesBarData}
             chartName="profession services (non-curriculum) costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Professional services (non-curriculum) costs

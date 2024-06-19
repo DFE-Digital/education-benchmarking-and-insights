@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TotalExpenditureData } from "src/views/compare-your-trust/partials";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -11,22 +14,27 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, TotalExpenditureTrustExpenditure } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const TotalExpenditure: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<TotalExpenditureTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<TotalExpenditureTrustExpenditure>(
       id,
       dimension.value,
       "TotalExpenditure",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -36,26 +44,29 @@ export const TotalExpenditure: React.FC<{
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {
-      const tableHeadings = [
-        "Trust name",
-        `Total ${dimension.heading}`,
-        `School ${dimension.heading}`,
-        `Central ${dimension.heading}`,
-      ];
+      const tableHeadings = ["Trust name", `Total ${dimension.heading}`];
+      if (breakdown === BreakdownInclude) {
+        tableHeadings.push(
+          `School ${dimension.heading}`,
+          `Central ${dimension.heading}`
+        );
+      }
 
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalExpenditure ?? 0,
-              schoolValue: trust.schoolTotalExpenditure ?? 0,
-              centralValue: trust.centralTotalExpenditure ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalExpenditure ?? 0,
+                  schoolValue: trust.schoolTotalExpenditure ?? 0,
+                  centralValue: trust.centralTotalExpenditure ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
-    }, [dimension, data]);
+    }, [dimension, data, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -68,7 +79,11 @@ export const TotalExpenditure: React.FC<{
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="total expenditure"
+        trust
+      >
         <h2 className="govuk-heading-m">Total Expenditure</h2>
         <ChartDimensions
           dimensions={CostCategories.filter(function (category) {
@@ -76,7 +91,7 @@ export const TotalExpenditure: React.FC<{
           })}
           handleChange={handleSelectChange}
           elementId="total-expenditure"
-          defaultValue={dimension.value}
+          value={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

@@ -5,24 +5,37 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, OtherCostsDataTrustExpenditure } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const OtherCosts: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<OtherCostsDataTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(id, dimension.value, "Other", true);
-  }, [id, dimension]);
+    return await ExpenditureApi.trust<OtherCostsDataTrustExpenditure>(
+      id,
+      dimension.value,
+      "Other",
+      breakdown === BreakdownExclude
+    );
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -30,15 +43,16 @@ export const OtherCosts: React.FC<{
     });
   }, [getData]);
 
-  const tableHeadings = useMemo(
-    () => [
-      "Trust name",
-      `Total ${dimension.heading}`,
-      `School ${dimension.heading}`,
-      `Central ${dimension.heading}`,
-    ],
-    [dimension]
-  );
+  const tableHeadings = useMemo(() => {
+    const headings = ["Trust name", `Total ${dimension.heading}`];
+    if (breakdown === BreakdownInclude) {
+      headings.push(
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`
+      );
+    }
+    return headings;
+  }, [dimension, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -53,14 +67,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalOtherCosts ?? 0,
-              schoolValue: trust.schoolTotalOtherCosts ?? 0,
-              centralValue: trust.centralTotalOtherCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalOtherCosts ?? 0,
+                  schoolValue: trust.schoolTotalOtherCosts ?? 0,
+                  centralValue: trust.centralTotalOtherCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -69,14 +85,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.otherInsurancePremiumsCosts ?? 0,
-              schoolValue: trust.schoolOtherInsurancePremiumsCosts ?? 0,
-              centralValue: trust.centralOtherInsurancePremiumsCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.otherInsurancePremiumsCosts ?? 0,
+                  schoolValue: trust.schoolOtherInsurancePremiumsCosts ?? 0,
+                  centralValue: trust.centralOtherInsurancePremiumsCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -85,14 +103,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.directRevenueFinancingCosts ?? 0,
-              schoolValue: trust.schoolDirectRevenueFinancingCosts ?? 0,
-              centralValue: trust.centralDirectRevenueFinancingCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.directRevenueFinancingCosts ?? 0,
+                  schoolValue: trust.schoolDirectRevenueFinancingCosts ?? 0,
+                  centralValue: trust.centralDirectRevenueFinancingCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -101,14 +121,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.groundsMaintenanceCosts ?? 0,
-              schoolValue: trust.schoolGroundsMaintenanceCosts ?? 0,
-              centralValue: trust.centralGroundsMaintenanceCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.groundsMaintenanceCosts ?? 0,
+                  schoolValue: trust.schoolGroundsMaintenanceCosts ?? 0,
+                  centralValue: trust.centralGroundsMaintenanceCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -117,14 +139,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.indirectEmployeeExpenses ?? 0,
-              schoolValue: trust.schoolIndirectEmployeeExpenses ?? 0,
-              centralValue: trust.centralIndirectEmployeeExpenses ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.indirectEmployeeExpenses ?? 0,
+                  schoolValue: trust.schoolIndirectEmployeeExpenses ?? 0,
+                  centralValue: trust.centralIndirectEmployeeExpenses ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -133,14 +157,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.interestChargesLoanBank ?? 0,
-              schoolValue: trust.schoolInterestChargesLoanBank ?? 0,
-              centralValue: trust.centralInterestChargesLoanBank ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.interestChargesLoanBank ?? 0,
+                  schoolValue: trust.schoolInterestChargesLoanBank ?? 0,
+                  centralValue: trust.centralInterestChargesLoanBank ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -149,14 +175,17 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.privateFinanceInitiativeCharges ?? 0,
-              schoolValue: trust.schoolPrivateFinanceInitiativeCharges ?? 0,
-              centralValue: trust.centralPrivateFinanceInitiativeCharges ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.privateFinanceInitiativeCharges ?? 0,
+                  schoolValue: trust.schoolPrivateFinanceInitiativeCharges ?? 0,
+                  centralValue:
+                    trust.centralPrivateFinanceInitiativeCharges ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -165,14 +194,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.rentRatesCosts ?? 0,
-              schoolValue: trust.schoolRentRatesCosts ?? 0,
-              centralValue: trust.centralRentRatesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.rentRatesCosts ?? 0,
+                  schoolValue: trust.schoolRentRatesCosts ?? 0,
+                  centralValue: trust.centralRentRatesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -181,14 +212,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.specialFacilitiesCosts ?? 0,
-              schoolValue: trust.schoolSpecialFacilitiesCosts ?? 0,
-              centralValue: trust.centralSpecialFacilitiesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.specialFacilitiesCosts ?? 0,
+                  schoolValue: trust.schoolSpecialFacilitiesCosts ?? 0,
+                  centralValue: trust.centralSpecialFacilitiesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -197,14 +230,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.staffDevelopmentTrainingCosts ?? 0,
-              schoolValue: trust.schoolStaffDevelopmentTrainingCosts ?? 0,
-              centralValue: trust.centralStaffDevelopmentTrainingCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.staffDevelopmentTrainingCosts ?? 0,
+                  schoolValue: trust.schoolStaffDevelopmentTrainingCosts ?? 0,
+                  centralValue: trust.centralStaffDevelopmentTrainingCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -213,14 +248,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.staffRelatedInsuranceCosts ?? 0,
-              schoolValue: trust.schoolStaffRelatedInsuranceCosts ?? 0,
-              centralValue: trust.centralStaffRelatedInsuranceCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.staffRelatedInsuranceCosts ?? 0,
+                  schoolValue: trust.schoolStaffRelatedInsuranceCosts ?? 0,
+                  centralValue: trust.centralStaffRelatedInsuranceCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -229,14 +266,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.supplyTeacherInsurableCosts ?? 0,
-              schoolValue: trust.schoolSupplyTeacherInsurableCosts ?? 0,
-              centralValue: trust.centralSupplyTeacherInsurableCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.supplyTeacherInsurableCosts ?? 0,
+                  schoolValue: trust.schoolSupplyTeacherInsurableCosts ?? 0,
+                  centralValue: trust.centralSupplyTeacherInsurableCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -245,14 +284,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.communityFocusedSchoolStaff ?? 0,
-              schoolValue: trust.schoolCommunityFocusedSchoolStaff ?? 0,
-              centralValue: trust.centralCommunityFocusedSchoolStaff ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.communityFocusedSchoolStaff ?? 0,
+                  schoolValue: trust.schoolCommunityFocusedSchoolStaff ?? 0,
+                  centralValue: trust.centralCommunityFocusedSchoolStaff ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -261,14 +302,16 @@ export const OtherCosts: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.communityFocusedSchoolCosts ?? 0,
-              schoolValue: trust.schoolCommunityFocusedSchoolCosts ?? 0,
-              centralValue: trust.centralCommunityFocusedSchoolCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.communityFocusedSchoolCosts ?? 0,
+                  schoolValue: trust.schoolCommunityFocusedSchoolCosts ?? 0,
+                  centralValue: trust.centralCommunityFocusedSchoolCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -303,42 +346,48 @@ export const OtherCosts: React.FC<{
           <HorizontalBarChartWrapper
             data={totalOtherCostsBarData}
             chartName="total other costs"
+            trust
           >
             <h3 className="govuk-heading-s">Total other costs</h3>
             <ChartDimensions
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-otehr-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherInsurancePremiumsCostsBarData}
             chartName="other insurance premiums costs"
+            trust
           >
             <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={directRevenueFinancingCostsBarData}
             chartName="direct revenue financing costs"
+            trust
           >
             <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={groundsMaintenanceCostsBarData}
             chartName="ground maintenance costs"
+            trust
           >
             <h3 className="govuk-heading-s">Ground maintenance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={indirectEmployeeExpensesBarData}
             chartName="indirect employee expenses"
+            trust
           >
             <h3 className="govuk-heading-s">Indirect employee expenses</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={interestChargesLoanBankBarData}
             chartName="interest charges for loan and bank"
+            trust
           >
             <h3 className="govuk-heading-s">
               Interest charges for loan and bank
@@ -347,24 +396,28 @@ export const OtherCosts: React.FC<{
           <HorizontalBarChartWrapper
             data={privateFinanceInitiativeChargesBarData}
             chartName="PFI charges"
+            trust
           >
             <h3 className="govuk-heading-s">PFI charges</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={rentRatesCostsBarData}
             chartName="rent and rates costs"
+            trust
           >
             <h3 className="govuk-heading-s">Rent and rates costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={specialFacilitiesCostsBarData}
             chartName="special facilities costs"
+            trust
           >
             <h3 className="govuk-heading-s">Special facilities costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={staffDevelopmentTrainingCostsBarData}
             chartName="staff development and training costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Staff development and training costs
@@ -373,18 +426,21 @@ export const OtherCosts: React.FC<{
           <HorizontalBarChartWrapper
             data={staffRelatedInsuranceCostsBarData}
             chartName="staff-related insurance costs"
+            trust
           >
             <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeacherInsurableCostsBarData}
             chartName="supply teacher insurance costs"
+            trust
           >
             <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolStaffBarData}
             chartName="community focused school staff (maintained schools only)"
+            trust
           >
             <h3 className="govuk-heading-s">
               Community focused school staff (maintained schools only)
@@ -393,6 +449,7 @@ export const OtherCosts: React.FC<{
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolCostsBarData}
             chartName="community focused school costs (maintained schools only)"
+            trust
           >
             <h3 className="govuk-heading-s">
               Community focused school costs (maintained schools only)

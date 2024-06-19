@@ -5,29 +5,37 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, EducationalIctTrustExpenditure } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const EducationalIct: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const { breakdown } = useCentralServicesBreakdownContext(true);
+  const [data, setData] = useState<EducationalIctTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<EducationalIctTrustExpenditure>(
       id,
       dimension.value,
       "EducationalIct",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -46,26 +54,29 @@ export const EducationalIct: React.FC<{
 
   const learningResourcesBarData: HorizontalBarChartWrapperData<EducationalIctData> =
     useMemo(() => {
-      const tableHeadings = [
-        "Trust name",
-        `Total ${dimension.heading}`,
-        `School ${dimension.heading}`,
-        `Central ${dimension.heading}`,
-      ];
+      const tableHeadings = ["Trust name", `Total ${dimension.heading}`];
+      if (breakdown === BreakdownInclude) {
+        tableHeadings.push(
+          `School ${dimension.heading}`,
+          `Central ${dimension.heading}`
+        );
+      }
 
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.learningResourcesIctCosts ?? 0,
-              schoolValue: trust.schoolLearningResourcesIctCosts ?? 0,
-              centralValue: trust.centralLearningResourcesIctCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.learningResourcesIctCosts ?? 0,
+                  schoolValue: trust.schoolLearningResourcesIctCosts ?? 0,
+                  centralValue: trust.centralLearningResourcesIctCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
-    }, [dimension, data]);
+    }, [dimension, data, breakdown]);
 
   const elementId = "educational-ict";
   const [hash] = useHash();
@@ -97,6 +108,7 @@ export const EducationalIct: React.FC<{
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="eductional learning resources costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Educational learning resources costs
@@ -105,7 +117,7 @@ export const EducationalIct: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="eductional-learning-resources-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

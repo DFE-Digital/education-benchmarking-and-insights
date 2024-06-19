@@ -6,7 +6,7 @@ import {
 } from "src/components/chart-mode";
 
 export const ChartMode: React.FC<ChartModeProps> = (props) => {
-  const { displayMode, handleChange, prefix } = props;
+  const { chartMode, handleChange, prefix } = props;
 
   return (
     <div className="govuk-form-group">
@@ -25,8 +25,8 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
               name={prefix ? `${prefix}ChangedChartMode` : "changedChartMode"}
               type="radio"
               value={ChartModeChart}
-              onChange={handleChange}
-              checked={displayMode == ChartModeChart}
+              onChange={(e) => handleChange(e.target.value)}
+              checked={chartMode == ChartModeChart}
             />
             <label
               className="govuk-label govuk-radios__label"
@@ -42,8 +42,8 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
               name={prefix ? `${prefix}ChangedChartMode` : "changedChartMode"}
               type="radio"
               value={ChartModeTable}
-              onChange={handleChange}
-              checked={displayMode == ChartModeTable}
+              onChange={(e) => handleChange(e.target.value)}
+              checked={chartMode == ChartModeTable}
             />
             <label
               className="govuk-label govuk-radios__label"

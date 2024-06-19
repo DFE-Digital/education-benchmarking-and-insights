@@ -5,6 +5,7 @@ export type TableChartProps<TData extends SchoolChartData | TrustChartData> = {
   data?: TData[];
   preventFocus?: boolean;
   valueUnit?: ChartSeriesValueUnit | undefined;
+  trust?: boolean;
 };
 
 export type SchoolChartData = {
@@ -22,4 +23,5 @@ export type TrustChartData = {
   schoolValue?: number;
   centralValue?: number;
   totalValue?: number;
+  type?: "expenditure" | "balance";
 };

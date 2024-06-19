@@ -17,7 +17,7 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { SchoolExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, TotalExpenditureExpenditure } from "src/services";
 
 export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
   type,
@@ -25,10 +25,10 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
-  const [data, setData] = useState<SchoolExpenditure[] | null>();
+  const [data, setData] = useState<TotalExpenditureExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.query(
+    return await ExpenditureApi.query<TotalExpenditureExpenditure>(
       type,
       id,
       dimension.value,
@@ -84,7 +84,7 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
           })}
           handleChange={handleSelectChange}
           elementId="total-expenditure"
-          defaultValue={dimension.value}
+          value={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

@@ -204,8 +204,20 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             width={tickWidth}
             axisLine={hasNegativeValues ? false : undefined}
             tickLine={hasNegativeValues ? false : undefined}
+            tickMargin={hasNegativeValues ? 50 : undefined}
           ></YAxis>
-          {hasNegativeValues && <ReferenceLine x={0} />}
+          {hasNegativeValues && (
+            <ReferenceLine
+              x={0}
+              label={{
+                position: "bottom",
+                offset: 8,
+                value: valueFormatter
+                  ? valueFormatter(0, { valueUnit })
+                  : String(0),
+              }}
+            />
+          )}
           {legend && (
             <Legend
               align="right"
@@ -224,15 +236,19 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 
 function LabelListContent(props: LabelListContentProps) {
   const { valueFormatter, height, value, width, x, y } = props;
+  let dx =
+    (x as number) +
+    ((width as number) > 0 ? (width as number) : 0) +
+    (height as number) / 2;
+  const parsedValue = parseInt(value?.toString() || "");
+  if (!isNaN(parsedValue) && parsedValue < 0) {
+    dx += (width as number) - (height as number) * 3;
+  }
 
   return (
     <g>
       <Text
-        x={
-          (x as number) +
-          ((width as number) > 0 ? (width as number) : 0) +
-          (height as number) / 2
-        }
+        x={dx}
         y={(y as number) + (height as number) / 2}
         textAnchor="start"
         dominantBaseline="middle"

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { ChartModeChart } from "src/components";
 import { HistoricChartProps } from "src/composed/historic-chart-composed";
-import { ChartModeContext } from "src/contexts";
 import { LineChart } from "src/components/charts/line-chart";
 import {
   shortValueFormatter,
@@ -11,9 +10,9 @@ import {
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 
-export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
+export function HistoricChart<TData extends ChartDataSeries>({
   chartName,
   data,
   seriesConfig,
@@ -22,14 +21,14 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
   valueUnit,
   axisLabel,
   columnHeading,
-}) => {
-  const mode = useContext(ChartModeContext);
+}: HistoricChartProps<TData>) {
+  const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
 
   return (
     <>
       {children}
-      {mode == ChartModeChart ? (
+      {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
@@ -104,4 +103,4 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
       )}
     </>
   );
-};
+}

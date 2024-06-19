@@ -97,7 +97,7 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
             )}
             handleChange={handleSelectChange}
             elementId="school-workforce"
-            defaultValue={dimension.value}
+            value={dimension.value}
           />
         </HorizontalBarChartWrapper>
       </ChartDimensionContext.Provider>

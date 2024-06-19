@@ -1,53 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
   SpendingSectionProps,
 } from "src/views/compare-your-trust/partials";
-import { ChartMode, ChartModeChart } from "src/components";
+import { ChartMode } from "src/components";
+import { CentralServicesBreakdown } from "src/components/central-services-breakdown";
 import {
-  SelectedEstablishmentContext,
-  ChartModeContext,
-  IncludeBreakdownContext,
+  useChartModeContext,
+  useCentralServicesBreakdownContext,
 } from "src/contexts";
-import {
-  BreakdownInclude,
-  IncludeBreakdown,
-} from "src/components/include-breakdown";
 
 export const SpendingSection: React.FC<SpendingSectionProps> = ({ id }) => {
-  const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
-  const [breakdown, setBreakdown] = useState<string | undefined>(
-    BreakdownInclude
-  );
-
-  const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDisplayMode(e.target.value);
-  };
-
-  const toggleBreakdown = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBreakdown(e.target.value);
-  };
+  const { chartMode, setChartMode } = useChartModeContext();
+  const { breakdown, setBreakdown } = useCentralServicesBreakdownContext(true);
 
   return (
-    <SelectedEstablishmentContext.Provider value={id}>
+    <>
       <div className="chart-options trust-options">
         <div>
-          <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
+          <ChartMode
+            chartMode={chartMode}
+            handleChange={setChartMode}
+            prefix="spending"
+          />
         </div>
         <div>
-          <IncludeBreakdown
+          <CentralServicesBreakdown
             breakdown={breakdown}
-            handleChange={toggleBreakdown}
+            handleChange={setBreakdown}
+            prefix="spending"
           />
         </div>
       </div>
-      <ChartModeContext.Provider value={displayMode}>
-        <IncludeBreakdownContext.Provider value={breakdown}>
-          <TotalExpenditure id={id} />
-          <ExpenditureAccordion id={id} />
-        </IncludeBreakdownContext.Provider>
-      </ChartModeContext.Provider>
-    </SelectedEstablishmentContext.Provider>
+      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+      <div>
+        <TotalExpenditure id={id} />
+        <ExpenditureAccordion id={id} />
+      </div>
+    </>
   );
 };

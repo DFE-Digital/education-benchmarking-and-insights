@@ -98,7 +98,7 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
             )}
             handleChange={handleSelectChange}
             elementId="headcount"
-            defaultValue={dimension.value}
+            value={dimension.value}
           />
         </HorizontalBarChartWrapper>
       </ChartDimensionContext.Provider>

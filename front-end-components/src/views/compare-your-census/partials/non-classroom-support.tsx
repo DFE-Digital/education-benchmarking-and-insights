@@ -95,7 +95,7 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
             dimensions={CensusCategories}
             handleChange={handleSelectChange}
             elementId="nonclassroom-support"
-            defaultValue={dimension.value}
+            value={dimension.value}
           />
         </HorizontalBarChartWrapper>
       </ChartDimensionContext.Provider>
