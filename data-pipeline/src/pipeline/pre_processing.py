@@ -836,7 +836,7 @@ def build_maintained_school_data(
         | config.income_category_map["maintained_schools"],
         inplace=True,
     )
-    print(maintained_schools.columns)
+    
     for category in config.rag_category_settings.keys():
         basis_data = maintained_schools[
             (
