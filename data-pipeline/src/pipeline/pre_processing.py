@@ -647,17 +647,23 @@ def build_academy_data(
         ) / apportionment_divisor.astype(float)
 
         for sub_category in sub_categories:
-            academies[sub_category + "_CS"] = (
-                academies[sub_category + "_CS"].astype(float) * apportionment.astype(float)
-            )
+            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
+                float
+            ) * apportionment.astype(float)
             academies[sub_category] = (
-                (academies[sub_category] + academies[sub_category + "_CS"])
+                academies[sub_category] + academies[sub_category + "_CS"]
             )
-            academies[sub_category + "_Per Unit"] = (academies[sub_category].fillna(0.0) / basis_data).astype(float)
+            academies[sub_category + "_Per Unit"] = (
+                academies[sub_category].fillna(0.0) / basis_data
+            ).astype(float)
 
             # Here be dragons, well angry pandas: this looks like it can be replaced with `np.isclose` it can, but it doesn't seem to work in all cases, you will end up with
             # the odd -0.01 value or an untouched {rand-floating-point}e-16 which will cause an arithmetic overflow when writing to the DB.
-            academies.loc[(academies[sub_category + "_Per Unit"] >= 0) & (academies[sub_category + "_Per Unit"] <= 0.00001), sub_category + "_Per Unit"] = 0.0
+            academies.loc[
+                (academies[sub_category + "_Per Unit"] >= 0)
+                & (academies[sub_category + "_Per Unit"] <= 0.00001),
+                sub_category + "_Per Unit",
+            ] = 0.0
 
             academies[sub_category + "_Per Unit"].replace(
                 [np.inf, -np.inf, np.nan], 0.0, inplace=True
@@ -675,8 +681,11 @@ def build_academy_data(
             .sum(axis=1)
         )
 
-        academies.loc[(academies[category + "_Total_Per Unit"] >= 0) & (
-                    academies[category + "_Total_Per Unit"] <= 0.00001), category + "_Total_Per Unit"] = 0.0
+        academies.loc[
+            (academies[category + "_Total_Per Unit"] >= 0)
+            & (academies[category + "_Total_Per Unit"] <= 0.00001),
+            category + "_Total_Per Unit",
+        ] = 0.0
 
         academies[category + "_Total"] = (
             academies[
@@ -731,6 +740,8 @@ def build_academy_data(
         academies["Income_Catering services_CS"]
         + academies["Catering staff and supplies_Total_CS"]
     )
+
+    academies["Company Registration Number"] = academies["Company Registration Number"].map(mappings.map_company_number)
 
     return academies.set_index("URN")
 
@@ -853,7 +864,7 @@ def build_maintained_school_data(
         | config.income_category_map["maintained_schools"],
         inplace=True,
     )
-    
+
     for category in config.rag_category_settings.keys():
         basis_data = maintained_schools[
             (

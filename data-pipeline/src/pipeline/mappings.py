@@ -263,3 +263,12 @@ def map_cost_series(category_name, df, basis):
         )
 
     return df
+
+
+def map_company_number(company_number: str):
+    if pd.isnull(company_number):
+        return None
+    if len(company_number) < 8:
+        return company_number.zfill(8)
+
+    return company_number
