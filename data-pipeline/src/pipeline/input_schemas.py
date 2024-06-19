@@ -264,6 +264,8 @@ ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "stri
 
 aar_academies_index_col = "ACADEMYUPIN"
 aar_academies = {
+    "LA": "Int64",
+    "Estab": "Int64",
     "URN": "Int64",
     "ACADEMYUPIN": "Int64",
     "Company_Number": "string",

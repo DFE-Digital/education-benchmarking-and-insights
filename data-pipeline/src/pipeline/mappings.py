@@ -272,3 +272,49 @@ def map_company_number(company_number: str):
         return company_number.zfill(8)
 
     return company_number
+
+
+_inner_las = [201, 202, 204, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 309, 316]
+_outer_las = [
+    203,
+    301,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    308,
+    310,
+    311,
+    312,
+    313,
+    314,
+    315,
+    317,
+    318,
+    319,
+    320,
+]
+
+
+def map_london_weighting(la: int, estab: int):
+    if pd.isnull(la):
+        return "Neither"
+    else:
+        match f"{la}{estab}":
+            case "3066900":
+                return "Outer"
+            case "9332064":
+                return "Neither"
+            case "8946900":
+                return "Neither"
+            case "3906900":
+                return "Neither"
+            case _:
+                if la in _inner_las:
+                    return "Inner"
+                elif la in _outer_las:
+                    return "Outer"
+                else:
+                    return "Neither"
