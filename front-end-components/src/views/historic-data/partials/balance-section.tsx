@@ -6,7 +6,11 @@ import {
   ChartModeChart,
   CostCategories,
 } from "src/components";
-import { ChartModeContext, ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  ChartModeProvider,
+  useChartModeContext,
+} from "src/contexts";
 import { SchoolBalanceHistory, BalanceApi } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
@@ -16,7 +20,7 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
   id,
 }) => {
   const defaultDimension = Actual;
-  const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
+  const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<SchoolBalanceHistory>());
   const getData = useCallback(async () => {
@@ -30,12 +34,6 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
     });
   }, [getData]);
 
-  const handleModeChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setDisplayMode(event.target.value);
-  };
-
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
@@ -46,7 +44,7 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
   };
 
   return (
-    <ChartModeContext.Provider value={displayMode}>
+    <ChartModeProvider initialValue={ChartModeChart}>
       <ChartDimensionContext.Provider value={dimension}>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-two-thirds">
@@ -59,8 +57,8 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
           </div>
           <div className="govuk-grid-column-one-third">
             <ChartMode
-              displayMode={displayMode}
-              handleChange={handleModeChange}
+              chartMode={chartMode}
+              handleChange={setChartMode}
               prefix="balance"
             />
           </div>
@@ -155,6 +153,6 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
           <Loading />
         )}
       </ChartDimensionContext.Provider>
-    </ChartModeContext.Provider>
+    </ChartModeProvider>
   );
 };

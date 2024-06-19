@@ -1,8 +1,6 @@
-import React from "react";
-
 export type ChartModeProps = {
-  displayMode: string;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  chartMode: string | undefined;
+  handleChange: (value: string) => void;
   prefix?: string;
 };
 
