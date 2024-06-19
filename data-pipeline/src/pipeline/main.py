@@ -316,13 +316,13 @@ def pre_process_bfr(run_type, year):
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/bfr_metrics.parquet",
-        bfr_sofa.to_parquet(),
+        bfr_metrics.to_parquet(),
     )
 
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/bfr.parquet",
-        bfr_3y.to_parquet(),
+        bfr.to_parquet(),
     )
 
     return bfr_metrics, bfr
@@ -363,7 +363,9 @@ def pre_process_data(worker_client, run_type, year):
 
     pre_process_all_schools(run_type, year, (academies, maintained_schools))
 
-    # pre_process_bfr(run_type, year)
+    bfr_metrics, bfr = worker_client.gather(
+        worker_client.submit(pre_process_bfr, run_type, year)
+    )
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
