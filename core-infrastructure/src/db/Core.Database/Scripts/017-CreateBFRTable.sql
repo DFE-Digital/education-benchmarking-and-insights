@@ -28,7 +28,7 @@ CREATE TABLE dbo.BudgetForecastReturns
 
 IF EXISTS (SELECT *
            FROM INFORMATION_SCHEMA.TABLES
-           WHERE table_name = 'BudgetForecastReturnsMetrics' AND table_schema = 'dbo')
+           WHERE table_name = 'BudgetForecastReturnsMetrics')
 BEGIN
     DROP TABLE dbo.BudgetForecastReturnsMetrics;
 END;
