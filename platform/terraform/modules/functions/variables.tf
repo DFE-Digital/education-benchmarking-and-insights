@@ -39,6 +39,10 @@ variable "subnet_id" {
   type = string
 }
 
+variable "application-insights-instrumentation-key" {
+  type = string
+}
+
 variable "application-insights-connection-string" {
   type = string
 }

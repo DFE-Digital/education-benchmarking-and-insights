@@ -65,6 +65,51 @@ public static class BreadcrumbNodes
         Parent = SchoolHome(urn)
     };
 
+    public static MvcBreadcrumbNode SchoolCustomisedData(string urn) => new("CustomData", "School", "Customised data")
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolHome(urn)
+    };
+
+    public static MvcBreadcrumbNode SchoolCustomisedDataCensus(string urn) => new("CustomData", "SchoolCensus", PageTitles.Census)
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolCustomisedData(urn)
+    };
+
+    public static MvcBreadcrumbNode SchoolCustomisedDataComparison(string urn) => new("CustomData", "SchoolComparison", PageTitles.Comparison)
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolCustomisedData(urn)
+    };
+
+    public static MvcBreadcrumbNode SchoolSpendingComparison(string urn) => new("Index", "SchoolSpendingComparison", PageTitles.SchoolSpendingComparison)
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolCustomisedData(urn)
+    };
+
+    public static MvcBreadcrumbNode SchoolCustomisedDataSpending(string urn) => new("CustomData", "SchoolSpending", PageTitles.Spending)
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolCustomisedData(urn)
+    };
+
     public static MvcBreadcrumbNode TrustHome(string companyNumber) => new("Index", "Trust", PageTitles.TrustHome)
     {
         RouteValues = new

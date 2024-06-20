@@ -122,6 +122,38 @@ public class SchoolController(
         }
     }
 
+    [HttpGet]
+    [Route("customised-data")]
+    //[SchoolAuthorization]
+
+    public async Task<IActionResult> CustomData(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                //if (string.IsNullOrEmpty(userData.CustomData))
+                //{
+                //    return RedirectToAction("Index", "School", new { urn });
+                //}
+
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolViewModel(school);
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school data: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
     private async Task<SchoolBalance?> SchoolBalance(string urn) => await balanceApi
         .School(urn)
         .GetResultOrDefault<SchoolBalance>();

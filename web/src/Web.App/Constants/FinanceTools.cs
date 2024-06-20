@@ -6,5 +6,7 @@ public enum FinanceTools
     FinancialPlanning,
     BenchmarkCensus,
     CentralServices,
-    ForecastRisk
+    ForecastRisk,
+    SpendingComparison,
+    Spending
 }

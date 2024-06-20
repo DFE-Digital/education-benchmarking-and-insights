@@ -1,0 +1,64 @@
+﻿@model Web.App.ViewModels.Components.FinanceToolsViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Custom data benchmarking tools</h2>
+        <ul class="app-links">
+            @foreach (var tool in Model.Tools)
+            {
+                switch (tool)
+                {
+                    case FinanceTools.SpendingComparison:
+                        <li>
+                            <img src="/assets/images/side-by-side.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "SchoolSpendingComparison", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Side-by-side comparison</a>
+                            </h3>
+                            <p class="govuk-body">
+                                See how your custom data results in benchmarking changes compared to your original data.
+                            </p>
+                        </li>
+                        break;
+
+                    case FinanceTools.CompareYourCosts:
+                        <li>
+                            <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("CustomData", "SchoolComparison", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Compare your custom data against similar schools.
+                            </p>
+                        </li>
+                        break;
+
+                    case FinanceTools.Spending:
+                        <li>
+                            <img src="/assets/images/areas-for-investigation.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("CustomData", "SchoolSpending", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Spending priorities for this school</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Compare your custom data against similar schools.
+                            </p>
+                        </li>
+                        break;
+
+                    case FinanceTools.BenchmarkCensus:
+                        <li>
+                            <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("CustomData", "SchoolCensus", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Compare your workforce data with other schools.
+                            </p>
+                        </li>
+                        break;
+                }
+            }
+
+        </ul>
+    </div>
+</div>
+

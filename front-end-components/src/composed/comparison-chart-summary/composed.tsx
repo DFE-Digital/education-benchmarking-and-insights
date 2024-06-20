@@ -93,7 +93,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
             valueFormatter={statValueFormatter}
             valueUnit="currency"
           />
-          {!isNaN(chartStats.percentDifference) && (
+          {!isNaN(chartStats.difference) && (
             <Stat
               chartName="This school spends"
               label="This school spends"
@@ -103,7 +103,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
                   {suffix}
                 </span>
               }
-              value={Math.abs(chartStats.percentDifference)}
+              value={Math.abs(chartStats.difference)}
               valueFormatter={statValueFormatter}
               valueSuffix={
                 isNaN(chartStats.percentDifference) ||

@@ -26,6 +26,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
+  seriesFormatter?: (value: unknown) => string;
   suffix?: string;
   tooltip?: ContentType<ValueType, NameType>;
   valueLabel?: string;
@@ -37,6 +38,7 @@ export interface ChartSeriesConfigItem extends ValueFormatterProps {
   label?: string;
   visible: boolean;
   stackId?: number;
+  style?: "dashed";
 }
 
 type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<

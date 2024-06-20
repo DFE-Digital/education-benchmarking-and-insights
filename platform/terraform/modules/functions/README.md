@@ -31,6 +31,7 @@ No modules.
 | <a name="input_always-on"></a> [always-on](#input\_always-on) | n/a | `bool` | `false` | no |
 | <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)` | n/a | yes |
 | <a name="input_application-insights-connection-string"></a> [application-insights-connection-string](#input\_application-insights-connection-string) | n/a | `string` | n/a | yes |
+| <a name="input_application-insights-instrumentation-key"></a> [application-insights-instrumentation-key](#input\_application-insights-instrumentation-key) | n/a | `string` | n/a | yes |
 | <a name="input_common-tags"></a> [common-tags](#input\_common-tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_enable-restrictions"></a> [enable-restrictions](#input\_enable-restrictions) | n/a | `bool` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `string` | n/a | yes |
