@@ -20,6 +20,8 @@ from src.pipeline.database import (
     insert_metric_rag,
     insert_non_financial_data,
     insert_schools_and_trusts_and_local_authorities,
+    insert_bfr_metrics_data,
+    insert_bfr_data,
 )
 from src.pipeline.log import setup_logger
 from src.pipeline.pre_processing import (
@@ -279,7 +281,7 @@ def pre_process_all_schools(run_type, year, data_ref):
     insert_schools_and_trusts_and_local_authorities(run_type, year, all_schools)
     insert_non_financial_data(run_type, year, all_schools)
     insert_financial_data(run_type, year, all_schools)
-
+    
 
 def pre_process_bfr(run_type, year):
     logger.info("Processing BFR Data")
@@ -324,6 +326,9 @@ def pre_process_bfr(run_type, year):
         f"{run_type}/{year}/bfr.parquet",
         bfr.to_parquet(),
     )
+
+    insert_bfr_metrics_data(run_type, year, bfr_metrics)
+    insert_bfr_data(run_type, year, bfr)
 
     return bfr_metrics, bfr
 
