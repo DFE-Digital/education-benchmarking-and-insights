@@ -33,7 +33,8 @@ export class CensusApi {
     id: string,
     dimension: string,
     category: string,
-    phase?: string
+    phase?: string,
+    customDataId?: string
   ): Promise<Census[]> {
     const params = new URLSearchParams({
       type: type,
@@ -44,6 +45,10 @@ export class CensusApi {
 
     if (phase) {
       params.append("phase", phase);
+    }
+
+    if (customDataId) {
+      params.append("customDataId", customDataId);
     }
 
     return fetch("/api/census?" + params, {
