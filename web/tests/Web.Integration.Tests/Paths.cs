@@ -21,6 +21,7 @@ public static class Paths
     public static string TrustComparison(string? companyNumber) => $"/trust/{companyNumber}/comparison";
     public static string TrustCensus(string? companyNumber) => $"/trust/{companyNumber}/census";
     public static string TrustFinancialPlanning(string? companyNumber) => $"/trust/{companyNumber}/financial-planning";
+    public static string TrustForecast(string? companyNumber) => $"/trust/{companyNumber}/forecast-risks";
     public static string SchoolComparatorSet(string? urn, string referrer) =>
         $"/school/{urn}/comparator-set?referrer={referrer}";
     public static string SchoolComparison(string? urn) => $"/school/{urn}/comparison";

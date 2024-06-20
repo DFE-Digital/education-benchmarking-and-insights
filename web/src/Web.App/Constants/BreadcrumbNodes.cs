@@ -163,6 +163,15 @@ public static class BreadcrumbNodes
         Parent = TrustHome(companyNumber)
     };
 
+    public static MvcBreadcrumbNode TrustForecast(string companyNumber) => new("Index", "TrustForecast", "Forecast and risks")
+    {
+        RouteValues = new
+        {
+            companyNumber
+        },
+        Parent = TrustHome(companyNumber)
+    };
+
     public static MvcBreadcrumbNode LocalAuthorityHome(string code) => new("Index", "LocalAuthority", PageTitles.LocalAuthorityHome)
     {
         RouteValues = new
