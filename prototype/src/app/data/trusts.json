@@ -1,6 +1,5 @@
 {
     "trusts":[
-        { "trustName": "The Hermitage School", "trustNumber": "8811135" },
         { "trustName": "Abbey Academies Trust", "trustNumber": "7318714" },
         { "trustName": "Abbey College, Ramsey", "trustNumber": "7740516" },
         { "trustName": "Abbey Multi Academy Trust", "trustNumber": "7705552" },
@@ -196,6 +195,7 @@
         { "trustName": "Birmingham City University Academies Trust", "trustNumber": "8497028" },
         { "trustName": "Biscovey Academy", "trustNumber": "7849630" },
         { "trustName": "Diocese Of Hereford Multi Academy Trust", "trustNumber": "8762217" },
-        { "trustName": "St Francis And St Clare Catholic Multi Academy Company", "trustNumber": "8578428" }
+        { "trustName": "St Francis And St Clare Catholic Multi Academy Company", "trustNumber": "8578428" },
+        { "trustName": "The Hermitage School", "trustNumber": "8811135" }
     ]
   }
