@@ -1,16 +1,17 @@
 module "benchmark-fa" {
-  source                                 = "./modules/functions"
-  function-name                          = "benchmark"
-  common-tags                            = local.common-tags
-  environment-prefix                     = var.environment-prefix
-  resource-group-name                    = azurerm_resource_group.resource-group.name
-  storage-account-name                   = azurerm_storage_account.platform-storage.name
-  storage-account-id                     = azurerm_storage_account.platform-storage.id
-  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                           = data.azurerm_key_vault.key-vault.id
-  location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) != "dev"
-  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  source                                   = "./modules/functions"
+  function-name                            = "benchmark"
+  common-tags                              = local.common-tags
+  environment-prefix                       = var.environment-prefix
+  resource-group-name                      = azurerm_resource_group.resource-group.name
+  storage-account-name                     = azurerm_storage_account.platform-storage.name
+  storage-account-id                       = azurerm_storage_account.platform-storage.id
+  storage-account-key                      = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                             = data.azurerm_key_vault.key-vault.id
+  location                                 = var.location
+  enable-restrictions                      = lower(var.cip-environment) != "dev"
+  application-insights-instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string   = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                         = azurerm_search_service.search.name
     "Search__Key"                          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
@@ -22,18 +23,19 @@ module "benchmark-fa" {
 }
 
 module "insight-fa" {
-  source                                 = "./modules/functions"
-  function-name                          = "insight"
-  common-tags                            = local.common-tags
-  environment-prefix                     = var.environment-prefix
-  resource-group-name                    = azurerm_resource_group.resource-group.name
-  storage-account-name                   = azurerm_storage_account.platform-storage.name
-  storage-account-id                     = azurerm_storage_account.platform-storage.id
-  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                           = data.azurerm_key_vault.key-vault.id
-  location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) != "dev"
-  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  source                                   = "./modules/functions"
+  function-name                            = "insight"
+  common-tags                              = local.common-tags
+  environment-prefix                       = var.environment-prefix
+  resource-group-name                      = azurerm_resource_group.resource-group.name
+  storage-account-name                     = azurerm_storage_account.platform-storage.name
+  storage-account-id                       = azurerm_storage_account.platform-storage.id
+  storage-account-key                      = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                             = data.azurerm_key_vault.key-vault.id
+  location                                 = var.location
+  enable-restrictions                      = lower(var.cip-environment) != "dev"
+  application-insights-instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string   = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
@@ -41,18 +43,19 @@ module "insight-fa" {
 }
 
 module "establishment-fa" {
-  source                                 = "./modules/functions"
-  function-name                          = "establishment"
-  common-tags                            = local.common-tags
-  environment-prefix                     = var.environment-prefix
-  resource-group-name                    = azurerm_resource_group.resource-group.name
-  storage-account-name                   = azurerm_storage_account.platform-storage.name
-  storage-account-id                     = azurerm_storage_account.platform-storage.id
-  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                           = data.azurerm_key_vault.key-vault.id
-  location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) != "dev"
-  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  source                                   = "./modules/functions"
+  function-name                            = "establishment"
+  common-tags                              = local.common-tags
+  environment-prefix                       = var.environment-prefix
+  resource-group-name                      = azurerm_resource_group.resource-group.name
+  storage-account-name                     = azurerm_storage_account.platform-storage.name
+  storage-account-id                       = azurerm_storage_account.platform-storage.id
+  storage-account-key                      = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                             = data.azurerm_key_vault.key-vault.id
+  location                                 = var.location
+  enable-restrictions                      = lower(var.cip-environment) != "dev"
+  application-insights-instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string   = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Search__Name"          = azurerm_search_service.search.name
     "Search__Key"           = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
@@ -62,18 +65,19 @@ module "establishment-fa" {
 }
 
 module "data-clean-up-fa" {
-  source                                 = "./modules/functions"
-  function-name                          = "clean-up"
-  common-tags                            = local.common-tags
-  environment-prefix                     = var.environment-prefix
-  resource-group-name                    = azurerm_resource_group.resource-group.name
-  storage-account-name                   = azurerm_storage_account.platform-storage.name
-  storage-account-id                     = azurerm_storage_account.platform-storage.id
-  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                           = data.azurerm_key_vault.key-vault.id
-  location                               = var.location
-  enable-restrictions                    = false
-  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  source                                   = "./modules/functions"
+  function-name                            = "clean-up"
+  common-tags                              = local.common-tags
+  environment-prefix                       = var.environment-prefix
+  resource-group-name                      = azurerm_resource_group.resource-group.name
+  storage-account-name                     = azurerm_storage_account.platform-storage.name
+  storage-account-id                       = azurerm_storage_account.platform-storage.id
+  storage-account-key                      = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                             = data.azurerm_key_vault.key-vault.id
+  location                                 = var.location
+  enable-restrictions                      = false
+  application-insights-instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string   = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
@@ -98,7 +102,8 @@ module "orchestrator-fa" {
     tier = "Standard"
     size = "S1"
   }
-  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  application-insights-instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string   = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue" = "data-pipeline-job-finished"
