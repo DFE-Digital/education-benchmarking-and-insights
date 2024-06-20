@@ -62,7 +62,7 @@ public class SchoolComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var viewModel = new SchoolComparisonViewModel(school, customDataId : userData.CustomData);
+                var viewModel = new SchoolComparisonViewModel(school, customDataId: userData.CustomData);
 
                 return View(viewModel);
             }
