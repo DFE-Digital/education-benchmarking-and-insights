@@ -33,3 +33,5 @@ export interface CentralServicesBreakdownContextValue {
 export const CentralServicesBreakdownContext = createContext<
   CentralServicesBreakdownContextValue | undefined
 >(undefined);
+
+export const CustomDataContext = createContext<string | undefined>(undefined);

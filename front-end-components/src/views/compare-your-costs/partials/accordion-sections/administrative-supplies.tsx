@@ -11,7 +11,11 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext, PhaseContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  PhaseContext,
+  CustomDataContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
@@ -29,6 +33,7 @@ export const AdministrativeSupplies: React.FC<{
 }> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<
     AdministrativeSuppliesExpenditure[] | null
   >();
@@ -39,9 +44,10 @@ export const AdministrativeSupplies: React.FC<{
       id,
       dimension.value,
       "AdministrationSupplies",
-      phase
+      phase,
+      customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {

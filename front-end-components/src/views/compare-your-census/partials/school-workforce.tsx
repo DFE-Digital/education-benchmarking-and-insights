@@ -15,6 +15,7 @@ import {
   ChartDimensionContext,
   HasIncompleteDataContext,
   PhaseContext,
+  CustomDataContext,
 } from "src/contexts";
 import { SchoolCensusData } from "src/views/compare-your-census/partials";
 import {
@@ -28,6 +29,7 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
   id,
 }) => {
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const [data, setData] = useState<Census[] | null>();
   const getData = useCallback(async () => {
@@ -37,9 +39,10 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
       id,
       dimension.value,
       "WorkforceFte",
-      phase
+      phase,
+      customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {
