@@ -11,7 +11,13 @@
         kind = OrganisationTypes.School
     })
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+@await Component.InvokeAsync("CustomDataBanner", new
+    {
+        name = Model.Name,
+        id = Model.Urn,
+    })
+
+<div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-custom-data-id="@Model.CustomDataId"/>
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new
     {

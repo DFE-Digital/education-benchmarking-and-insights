@@ -1,8 +1,7 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"       = "dotnet"
-    "AzureWebJobsDisableHomepage"    = true
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.application-insights-instrumentation_key
+    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
+    "AzureWebJobsDisableHomepage" = true
   })
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
@@ -54,10 +53,9 @@ resource "azurerm_windows_function_app" "func-app" {
   }
 
   site_config {
-    always_on     = var.always-on
-    http2_enabled = true
-
-    application_insights_connection_string = var.application-insights-connection-string
+    always_on                = var.always-on
+    http2_enabled            = true
+    application_insights_key = var.instrumentation-key
     application_stack {
       dotnet_version              = "v6.0"
       use_dotnet_isolated_runtime = false
