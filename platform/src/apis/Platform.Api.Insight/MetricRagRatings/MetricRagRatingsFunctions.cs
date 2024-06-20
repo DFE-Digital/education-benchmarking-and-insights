@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -29,11 +28,14 @@ public class MetricRagRatingsFunctions
     [FunctionName(nameof(UserDefinedAsync))]
     [ProducesResponseType(typeof(MetricRagRating[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("useCustomData", "Sets whether or not to use custom data context", DataType = typeof(bool), Required = false)]
+
     public async Task<IActionResult> UserDefinedAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/{identifier}")] HttpRequest req,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<MetricRagRatingParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -44,7 +46,7 @@ public class MetricRagRatingsFunctions
         {
             try
             {
-                var result = await _service.UserDefinedAsync(identifier);
+                var result = await _service.UserDefinedAsync(identifier, queryParams.DataContext);
 
                 return new JsonContentResult(result);
             }
