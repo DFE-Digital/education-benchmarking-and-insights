@@ -1203,7 +1203,7 @@ def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies_y2, academies_
     bfr_metrics = pd.merge(bfr_metrics, bfr_revenue_reserves_per_pupil, how='left', left_index=True, right_index=True)
 
     bfr.drop_duplicates(inplace=True)
-    bfr_revenue_reserves_per_pupil.rename(columns={
+    bfr.rename(columns={
         "Y1P2":"Forecast reserves",
         "volatility":"varience"}, inplace=True)
     return bfr_metrics, bfr
