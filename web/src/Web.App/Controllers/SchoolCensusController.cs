@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -44,23 +45,24 @@ public class SchoolCensusController(
     [HttpGet]
     [Route("custom-data")]
     //[SchoolAuthorization]
+    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
             try
             {
-                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                //if (string.IsNullOrEmpty(userData.CustomData))
-                //{
-                //    return RedirectToAction("Index", "School", new { urn });
-                //}
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataCensus(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var viewModel = new SchoolCensusViewModel(school);
+                var viewModel = new SchoolCensusViewModel(school, customDataId: userData.CustomData);
 
                 return View(viewModel);
             }
