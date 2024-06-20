@@ -127,3 +127,34 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'
+
+  - deployment: ReleaseAnnotation
+    displayName: 'Platform : Release Annotation'
+    dependsOn: [ PlatformDeployment ]
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+
+            - task: AzureCLI@2
+              displayName: 'Add release annotation to Application Insights'
+              continueOnError: true
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: pscore
+                scriptLocation: scriptPath
+                scriptPath: "$(Agent.BuildDirectory)/s/pipelines/common/scripts/CreateReleaseAnnotation.ps1"
+                arguments: '
+                  -appInsightsResourceName ${{ parameters.environmentPrefix }}-ebis-ai `
+                  -releaseName "$(Build.Repository.Name) - $(Build.BuildNumber)" `
+                  -releaseProperties @{
+                  "BuildNumber"="$(Build.BuildNumber)";
+                  "BuildRepositoryName"="$(Build.Repository.Name)";
+                  "BuildRepositoryProvider"="$(Build.Repository.Provider)";
+                  "ReleaseDefinitionName"="$(Build.DefinitionName)";
+                  "ReleaseDescription"="Triggered by $(Build.DefinitionName) $(Build.BuildNumber)";
+                  "SourceBranch"="$(Build.SourceBranch)" }'
