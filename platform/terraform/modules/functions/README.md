@@ -30,12 +30,11 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_always-on"></a> [always-on](#input\_always-on) | n/a | `bool` | `false` | no |
 | <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)` | n/a | yes |
-| <a name="input_application-insights-connection-string"></a> [application-insights-connection-string](#input\_application-insights-connection-string) | n/a | `string` | n/a | yes |
-| <a name="input_application-insights-instrumentation-key"></a> [application-insights-instrumentation-key](#input\_application-insights-instrumentation-key) | n/a | `string` | n/a | yes |
 | <a name="input_common-tags"></a> [common-tags](#input\_common-tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_enable-restrictions"></a> [enable-restrictions](#input\_enable-restrictions) | n/a | `bool` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `string` | n/a | yes |
 | <a name="input_function-name"></a> [function-name](#input\_function-name) | n/a | `string` | n/a | yes |
+| <a name="input_instrumentation-key"></a> [instrumentation-key](#input\_instrumentation-key) | n/a | `string` | n/a | yes |
 | <a name="input_key-vault-id"></a> [key-vault-id](#input\_key-vault-id) | n/a | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | n/a | yes |
 | <a name="input_requires-keys"></a> [requires-keys](#input\_requires-keys) | n/a | `bool` | `true` | no |

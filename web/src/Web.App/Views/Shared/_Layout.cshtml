@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Web.App.TagHelpers
 @{
-    var connString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+    var instrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
 }
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
     <link rel="manifest" href="/assets/manifest.json">
     <link rel="stylesheet" href="/css/front-end.css"/>
     <link rel="stylesheet" href="/css/main.css" asp-append-version="true"/>
-    @if (!string.IsNullOrEmpty(connString))
+    @if (!string.IsNullOrEmpty(instrumentationKey))
     {
         <script type="text/javascript" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js"></script>
         <script type="text/javascript" add-nonce="true">
@@ -40,7 +40,7 @@
                     }
             }
             var configObj = {
-                    connectionString: "@connString",
+                    instrumentationKey: "@instrumentationKey",
                     extensions: [
                             clickPluginInstance
                     ],
