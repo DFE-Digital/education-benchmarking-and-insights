@@ -5,12 +5,12 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Web.App.Identity;
 using Web.App.Identity.Models;
-
 namespace Web.Integration.Tests;
 
 public class TestAuthOptions : AuthenticationSchemeOptions
 {
     public int URN { get; set; }
+    public int CompanyNumber { get; set; }
     public bool AllowAuth { get; set; } = true;
 }
 
@@ -24,12 +24,12 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
     public Auth(IOptionsMonitor<TestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
     {
     }
-    public static ClaimsPrincipal GetUser(int urn, string authType = "Test")
+    public static ClaimsPrincipal GetUser(int urn, int companyNumber, string authType = "Test")
     {
         var claims = new List<Claim>
         {
             new("email", Email),
-            new (ClaimNames.Schools, urn.ToString()),
+            new(ClaimNames.Schools, urn.ToString()),
             new(ClaimNames.GivenName, GivenName),
             new(ClaimNames.FamilyName, FamilyName),
             new(ClaimNames.Organisation, JsonConvert.SerializeObject(new Organisation
@@ -38,6 +38,7 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
                 Name = OrganisationName,
                 URN = urn
             })),
+            new(ClaimNames.Trusts, companyNumber.ToString())
         };
 
         var identity = new ClaimsIdentity(claims, authType);
@@ -46,15 +47,13 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var principal = GetUser(Options.URN);
+        var principal = GetUser(Options.URN, Options.CompanyNumber);
         var ticket = new AuthenticationTicket(principal, "Test");
 
         var result = Options.AllowAuth
             ? AuthenticateResult.Success(ticket)
-                : AuthenticateResult.Fail("Auth rejected");
+            : AuthenticateResult.Fail("Auth rejected");
 
         return Task.FromResult(result);
     }
-
-
 }

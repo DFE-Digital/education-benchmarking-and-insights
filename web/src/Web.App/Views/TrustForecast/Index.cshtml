@@ -1,0 +1,12 @@
+﻿@model Web.App.ViewModels.TrustForecastViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.ForecastAndRisks;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
