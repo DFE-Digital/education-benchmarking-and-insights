@@ -14,6 +14,7 @@ namespace Web.App.Controllers;
 [Route("trust/{companyNumber}/forecast-risks")]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,
+    IBalanceApi balanceApi,
     ILogger<TrustForecastController> logger)
     : Controller
 {
@@ -29,7 +30,8 @@ public class TrustForecastController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustForecast(companyNumber);
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var viewModel = new TrustForecastViewModel(trust);
+                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<TrustBalance>();
+                var viewModel = new TrustForecastViewModel(trust, balance);
                 return View(viewModel);
             }
             catch (Exception e)
