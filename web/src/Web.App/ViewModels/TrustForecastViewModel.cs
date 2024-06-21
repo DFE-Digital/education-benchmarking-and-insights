@@ -34,6 +34,12 @@ public class TrustForecastViewModel(Trust trust, TrustBalance balance, BudgetFor
 
     public bool HasGuidance => IsRed || IsAmber || IsGreen;
 
-    // todo: return latest year only
-    public BudgetForecastReturnMetric[] Metrics => metrics;
+    public int? MetricsYear => metrics
+        .Select(x => x.Year)
+        .OrderDescending()
+        .FirstOrDefault();
+
+    public BudgetForecastReturnMetric[] Metrics => metrics
+        .Where(m => m.Year == MetricsYear)
+        .ToArray();
 }

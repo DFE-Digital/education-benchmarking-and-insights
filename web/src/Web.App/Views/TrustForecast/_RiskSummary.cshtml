@@ -1,0 +1,85 @@
+@using Web.App.Domain
+@using Web.App.ViewModels
+@model Web.App.ViewModels.TrustForecastViewModel
+
+@if (Model.HasGuidance)
+{
+    <div class="priority-guidance">
+        <div>
+            @{ var rating = Lookups.StatusPriorityMap[Model.IsGreen
+                   ? "green"
+                   : Model.IsAmber
+                       ? "amber"
+                       : "red"]; }
+            <p class="priority @rating.Class govuk-body">
+                @await Component.InvokeAsync("Tag", new
+                {
+                    rating = new RatingViewModel(rating.Colour, rating.DisplayText)
+                })
+
+                <span>
+                    @if (Model.BalancesInDeficit || Model.BalancesInDeficitOrForecastingDeficit)
+                    {
+                        @:Your trust balances indicate that you are in deficit
+                        if (Model.BalancesInDeficitOrForecastingDeficit)
+                        {
+                            @:or forecasting a deficit within the next year
+                        }
+                    }
+
+                    @if (Model.SteepDeclineInBalances || Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
+                    {
+                        @:Using your latest AR and BFR submissions, your trust is forecasting a steep decline in balances
+                        if (Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
+                        {
+                            @:and has a high proportion of staff costs
+                        }
+                    }
+
+                    @if (Model.DeclineInBalancesButAboveForecastHistory)
+                    {
+                        @:Using your latest AR and BFR submissions, your trust is forecasting a decline in balances but has a history of your AR balances being above forecast
+                    }
+
+                    @if (Model.DeclineInBalancesButNoForecastDecline)
+                    {
+                        @:Using your latest AR and BFR submissions, your trust is not forecasting a deficit but your balances are in decline
+                    }
+
+                    @if (Model.SteepInclineInBalancesForecastButBelowForecastHistory)
+                    {
+                        @:Your trust is forecasting a steep incline in balances but has a history of AR balances being significantly below forecast
+                    }
+
+                    @if (Model.BalancesStableAndPositive)
+                    {
+                        @:Your trust balances are stable and positive
+                    }
+
+                    @if (Model.BalancesIncreasingSteadily)
+                    {
+                        @:Your trust balances are increasing steadily
+                    }
+
+                    @if (Model.BalancesIncreasingSteeply)
+                    {
+                        @:Your trust balances are increasing sharply and there is no history of AR balances being significantly below forecast
+                    }
+                </span>
+            </p>
+
+            @if (Model.IsRed || Model.IsAmber)
+            {
+                <p class="govuk-body">
+                    If you are not already engaging with ESFA on your finances, you may wish to consider reviewing
+                    @if (Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
+                    {
+                        <a href="https://www.gov.uk/guidance/integrated-curriculum-and-financial-planning-icfp" class="govuk-link">ICFP guidance</a>
+                        @:and the
+                    }
+                    <a href="https://www.gov.uk/government/collections/schools-financial-health-and-efficiency" class="govuk-link">school resources management guidance</a>
+                </p>
+            }
+        </div>
+    </div>
+}
