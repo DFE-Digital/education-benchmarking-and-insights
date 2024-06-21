@@ -8,8 +8,8 @@ public interface IBalanceApi
     Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null);
     Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null);
     Task<ApiResult> QueryTrusts(ApiQuery? query = null);
-    Task<ApiResult> BudgetForecastReturns(string? companyNo);
-    Task<ApiResult> BudgetForecastReturnsMetrics(string? companyNo);
+    Task<ApiResult> BudgetForecastReturns(string? companyNo, ApiQuery? query = null);
+    Task<ApiResult> BudgetForecastReturnsMetrics(string? companyNo, ApiQuery? query = null);
 }
 
 public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBalanceApi
@@ -25,11 +25,11 @@ public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(
     public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"api/balance/trusts{query?.ToQueryString()}");
 
     // todo: replace stub with actual API call
-    public Task<ApiResult> BudgetForecastReturns(string? companyNo) => Task.FromResult(ApiResult.Ok(new[]
+    public Task<ApiResult> BudgetForecastReturns(string? companyNo, ApiQuery? query = null) => Task.FromResult(ApiResult.Ok(new[]
     {
         new BudgetForecastReturn
         {
-            Year = 2023,
+            Year = 2020,
             Forecast = 211_000_000,
             Actual = 219_000_000
         },
@@ -63,7 +63,7 @@ public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(
     }));
 
     // todo: replace stub with actual API call
-    public Task<ApiResult> BudgetForecastReturnsMetrics(string? companyNo) => Task.FromResult(ApiResult.Ok(new[]
+    public Task<ApiResult> BudgetForecastReturnsMetrics(string? companyNo, ApiQuery? query = null) => Task.FromResult(ApiResult.Ok(new[]
     {
         new BudgetForecastReturnMetric
         {

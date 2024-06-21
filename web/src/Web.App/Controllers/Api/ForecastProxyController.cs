@@ -11,7 +11,6 @@ namespace Web.App.Controllers.Api;
 [Route("api/forecast")]
 public class ForecastProxyController(ILogger<ForecastProxyController> logger, IBalanceApi balanceApi) : Controller
 {
-    // todo: deprecate if not required to be called from client
     /// <param name="companyNumber" example="07465701"></param>
     [HttpGet]
     [Produces("application/json")]
@@ -29,35 +28,6 @@ public class ForecastProxyController(ILogger<ForecastProxyController> logger, IB
                 var result = await balanceApi
                     .BudgetForecastReturns(companyNumber)
                     .GetResultOrDefault<BudgetForecastReturn[]>();
-
-                return new JsonResult(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error getting forecast data: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
-
-    /// <param name="companyNumber" example="07465701"></param>
-    [HttpGet]
-    [Produces("application/json")]
-    [ProducesResponseType<BudgetForecastReturnMetric[]>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Route("metrics")]
-    public async Task<IActionResult> Metrics([FromQuery] string companyNumber)
-    {
-        using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
-        {
-            try
-            {
-                var result = await balanceApi
-                    .BudgetForecastReturnsMetrics(companyNumber)
-                    .GetResultOrDefault<BudgetForecastReturnMetric[]>();
 
                 return new JsonResult(result);
             }

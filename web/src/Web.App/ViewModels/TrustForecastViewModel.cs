@@ -1,7 +1,7 @@
 ﻿using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class TrustForecastViewModel(Trust trust, TrustBalance balance)
+public class TrustForecastViewModel(Trust trust, TrustBalance balance, BudgetForecastReturnMetric[] metrics)
 {
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
@@ -33,4 +33,7 @@ public class TrustForecastViewModel(Trust trust, TrustBalance balance)
                            || BalancesIncreasingSteeply;
 
     public bool HasGuidance => IsRed || IsAmber || IsGreen;
+
+    // todo: return latest year only
+    public BudgetForecastReturnMetric[] Metrics => metrics;
 }
