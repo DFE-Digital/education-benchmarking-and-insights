@@ -17,3 +17,4 @@ export const TrustEstablishment = "trust";
 export const SchoolSuggesterId = "school-suggester";
 export const LaSuggesterId = "la-suggester";
 export const TrustSuggesterId = "trust-suggester";
+export const BudgetForecastReturnsElementId = "budget-forecast-returns";

@@ -364,3 +364,17 @@ export type Income = {
   schoolName: string;
   laName: string;
 };
+
+export type BudgetForecastReturn = {
+  runType: string;
+  runId: string;
+  year: number;
+  companyNumber: string;
+  category: string;
+  forecast: number;
+  actual: number;
+  totalPupils: number;
+  slope: number;
+  variance: number;
+  percentVariance: number;
+};

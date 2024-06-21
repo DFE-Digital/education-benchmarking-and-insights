@@ -14,3 +14,5 @@
 
 @await Html.PartialAsync("_RiskSummary", Model)
 @await Html.PartialAsync("_Metrics", new TrustForecastMetricsViewModel(Model.MetricsYear, Model.Metrics))
+
+<div id="budget-forecast-returns" data-id="@Model.CompanyNumber"></div>
