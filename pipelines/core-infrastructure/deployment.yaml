@@ -8,8 +8,8 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
 
 jobs:
-  - deployment: CoreProvision
-    displayName: 'Core : Provision'
+  - deployment: CoreDeployment
+    displayName: 'Core deployment to ${{ parameters.environment }}'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
@@ -31,25 +31,12 @@ jobs:
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
                 module: 'core'
 
-  - deployment: CoreDeployment
-    displayName: 'Core : Deployment'
-    dependsOn: [CoreProvision]
-    pool:
-      vmImage: ubuntu-latest
-    environment: ${{ parameters.environment }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - checkout: none
-            - download: current
-
             - task: AzureKeyVault@1
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
                 SecretsFilter: '*'
-                RunAsPreJob: true
+                RunAsPreJob: false
 
             - task: ExtractFiles@1
               displayName: 'Extract core database'
