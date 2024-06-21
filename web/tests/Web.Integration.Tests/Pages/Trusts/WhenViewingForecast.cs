@@ -61,7 +61,8 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             .ToArray();
 
         var page = await Client.SetupEstablishment(trust)
-            .SetupBalance(trust, trustBalance, metrics)
+            .SetupBalance(trust, trustBalance)
+            .SetupBudgetForecast(trust, metrics)
             .Navigate(Paths.TrustForecast(trust.CompanyNumber));
 
         return (page, trust, metrics);
