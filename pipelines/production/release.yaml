@@ -84,7 +84,7 @@ stages:
           - bash: echo "##vso[build.addbuildtag]Data pipeline build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
-          - bash: echo "##vso[build.addbuildtag]Data pipeline image - $(DownloadArtifact.BuildNumber)"
+          - bash: echo "##vso[build.addbuildtag]Data pipeline image - ${{ parameters.pipelineVersion }}"
             displayName: 'Set image tag'
 
           - publish: $(workspaceDir)/data-pipeline-terraform
@@ -166,7 +166,7 @@ stages:
           environmentPrefix: ${{ parameters.preProdEnv }}
           environment: 'pre-production'
           cipEnvironment: 'Prod'
-          pipelineBuildNumber:  ${{ parameters.pipelineVersion }}
+          pipelineBuildNumber: ${{ parameters.pipelineVersion }}
 
 #  - stage: DeployProd
 #    dependsOn: [ DeployPreProd ]
