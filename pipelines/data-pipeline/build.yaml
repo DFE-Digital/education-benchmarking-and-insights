@@ -63,7 +63,7 @@ stages:
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
@@ -78,7 +78,7 @@ stages:
       - job: BuildAndPush
         dependsOn: [ RunTests ]
         displayName: 'Build and push image'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps: 
           - template: steps/build-push-image.yaml
             parameters:
