@@ -1254,3 +1254,70 @@ def build_bfr_data(
         right_index=True,
     )
     return bfr_metrics, bfr
+
+
+def update_custom_data(
+    existing_data: pd.DataFrame,
+    custom_data: dict,
+    target_urn: int,
+) -> pd.DataFrame:
+    """
+    Update existing financial data with custom data.
+
+    :param existing_data: existing, pre-processed data
+    :param custom_data: custom financial information
+    :param target_urn: specific row to update
+    :return: updated data
+    """
+    custom_to_columns = {
+        "administrativeSuppliesNonEducationalCosts": "Administrative supplies_Administrative supplies (non educational)",
+        "cateringStaffCosts": "Catering staff and supplies_Catering staff",
+        "cateringSuppliesCosts": "Catering staff and supplies_Net Costs",
+        "incomeCateringServices": "Income_Catering services",
+        "examinationFeesCosts": "Educational supplies_Examination fees",
+        "learningResourcesNonIctCosts": "Educational supplies_Learning resources (not ICT equipment)",
+        "learningResourcesIctCosts": "Educational ICT_ICT learning resources",
+        "administrativeClericalStaffCosts": "Non-educational support staff and services_Administrative and clerical staff",
+        "auditorsCosts": "Non-educational support staff and services_Audit cost",
+        "otherStaffCosts": "Non-educational support staff and services_Other staff",
+        "professionalServicesNonCurriculumCosts": "Non-educational support staff and services_Professional services (non-curriculum)",
+        "cleaningCaretakingCosts": "Premises staff and services_Cleaning and caretaking",
+        "maintenancePremisesCosts": "Premises staff and services_Maintenance of premises",
+        "otherOccupationCosts": "Premises staff and services_Other occupation costs",
+        "premisesStaffCosts": "Premises staff and services_Premises staff",
+        "agencySupplyTeachingStaffCosts": "Teaching and Teaching support staff_Agency supply teaching staff",
+        "educationSupportStaffCosts": "Teaching and Teaching support staff_Education support staff",
+        "educationalConsultancyCosts": "Teaching and Teaching support staff_Educational consultancy",
+        "supplyTeachingStaffCosts": "Teaching and Teaching support staff_Supply teaching staff",
+        "teachingStaffCosts": "Teaching and Teaching support staff_Teaching staff",
+        "energyCosts": "Utilities_Energy",
+        "waterSewerageCosts": "Utilities_Water and sewerage",
+        "directRevenueFinancingCosts": "Income_Direct revenue finance",
+        "groundsMaintenanceCosts": "Other costs_Grounds maintenance",
+        "indirectEmployeeExpenses": "Other costs_Indirect employee expenses",
+        "interestChargesLoanBank": "Other costs_Interest charges for loan and bank",
+        "otherInsurancePremiumsCosts": "Other costs_Other insurance premiums",
+        "privateFinanceInitiativeCharges": "Other costs_PFI charges",
+        "rentRatesCosts": "Other costs_Rent and rates",
+        "specialFacilitiesCosts": "Other costs_Special facilities",
+        "staffDevelopmentTrainingCosts": "Other costs_Staff development and training",
+        "staffRelatedInsuranceCosts": "Other costs_Staff-related insurance",
+        "supplyTeacherInsurableCosts": "Other costs_Supply teacher insurance",
+        "totalIncome": "Income_Total",
+        "totalExpenditure": "Total Expenditure",
+        "revenueReserve": "Revenue reserve",
+        "totalPupils": "Total pupils in trust",
+        "percentFreeSchoolMeals": "Percentage Free school meals",
+        "percentSpecialEducationNeeds": "Percentage SEN",
+        "totalInternalFloorArea": "Total Internal Floor Area",
+        "workforceFTE": "Total School Workforce (Full-Time Equivalent)",
+        "teachersFTE": "Total Number of Teachers (Full-Time Equivalent)",
+        "seniorLeadershipFTE": "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
+    }
+
+    existing_data.loc[
+        target_urn,
+        custom_to_columns.values(),
+    ] = [custom_data[custom] for custom in custom_to_columns.keys()]
+
+    return existing_data
