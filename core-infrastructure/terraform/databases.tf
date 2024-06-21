@@ -94,8 +94,8 @@ resource "azurerm_mssql_database" "sql-db" {
   name        = "data"
   server_id   = azurerm_mssql_server.sql-server.id
   tags        = local.common-tags
-  sku_name    = var.configuration[var.environment].sql-db.sku_name
-  max_size_gb = var.configuration[var.environment].sql-db.max_size_gb
+  sku_name    = var.configuration[var.environment].sql_db_sku_name
+  max_size_gb = var.configuration[var.environment].sql_db_max_size_gb
 
   identity {
     type         = "UserAssigned"

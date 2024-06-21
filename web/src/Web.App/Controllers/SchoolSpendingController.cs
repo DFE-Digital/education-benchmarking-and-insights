@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -70,7 +71,8 @@ public class SchoolSpendingController(
 
     [HttpGet]
     [Route("custom-data")]
-    //[SchoolAuthorization]
+    [SchoolAuthorization]
+    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new { urn }))

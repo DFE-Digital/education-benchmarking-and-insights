@@ -11,7 +11,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-//[SchoolAuthorization]
+[SchoolAuthorization]
 [FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/spending-comparison")]
 public class SchoolSpendingComparisonController(

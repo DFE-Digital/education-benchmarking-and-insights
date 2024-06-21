@@ -10,7 +10,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [TrustAuthorization]
-[FeatureGate(FeatureFlags.Trusts)]
+[FeatureGate(FeatureFlags.Trusts, FeatureFlags.ForecastRisk)]
 [Route("trust/{companyNumber}/forecast")]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,

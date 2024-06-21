@@ -16,6 +16,7 @@ variable "configuration" {
       LocalAuthorities              = bool
       UserDefinedComparators        = bool
       DisableOrganisationClaimCheck = bool
+      ForecastRisk                  = bool
     })
   }))
   default = {
@@ -31,6 +32,7 @@ variable "configuration" {
         LocalAuthorities              = true
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
+        ForecastRisk                  = true
       }
     }
     automated-test = {
@@ -45,6 +47,7 @@ variable "configuration" {
         LocalAuthorities              = true
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
+        ForecastRisk                  = true
       }
     }
     test = {
@@ -59,6 +62,7 @@ variable "configuration" {
         LocalAuthorities              = true
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
+        ForecastRisk                  = true
       }
     }
     feature = {
@@ -73,6 +77,7 @@ variable "configuration" {
         LocalAuthorities              = true
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
+        ForecastRisk                  = true
       }
     }
     pre-production = {
@@ -81,12 +86,13 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       features = {
-        Trusts                        = false
-        CurriculumFinancialPlanning   = false
+        Trusts                        = true
+        CurriculumFinancialPlanning   = true
         CustomData                    = false
-        LocalAuthorities              = false
-        UserDefinedComparators        = false
+        LocalAuthorities              = true
+        UserDefinedComparators        = true
         DisableOrganisationClaimCheck = false
+        ForecastRisk                  = false
       }
     }
     production = {
@@ -101,6 +107,7 @@ variable "configuration" {
         LocalAuthorities              = false
         UserDefinedComparators        = false
         DisableOrganisationClaimCheck = false
+        ForecastRisk                  = false
       }
     }
   }

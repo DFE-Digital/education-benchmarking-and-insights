@@ -12,7 +12,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [TrustAuthorization]
-[FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
+[FeatureGate(FeatureFlags.Trusts,FeatureFlags.CurriculumFinancialPlanning)]
 [Route("trust/{companyNumber}/financial-planning")]
 public class TrustPlanningController(
     IEstablishmentApi establishmentApi,
