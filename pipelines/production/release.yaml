@@ -77,7 +77,7 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
-              ${{ if ne(${{ parameters.pipelineVersion }}, 'latest') }}:
+              ${{ if ne('${{ parameters.pipelineVersion }}', 'latest') }}:
                 tags: ${{ parameters.pipelineVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Data pipeline build id - $(DownloadArtifact.BuildNumber)"
