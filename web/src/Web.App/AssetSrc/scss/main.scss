@@ -77,10 +77,21 @@ p.priority .govuk-tag {
   border-left: none !important;
 }
 
-.top-categories div {
+.top-categories div,
+.priority-guidance div {
   background-color: #EEEFEF;
   padding: 20px;
   margin-bottom: 20px;
+}
+
+.priority-guidance .priority {
+  display: flex;
+  align-items: center;
+
+  > .govuk-tag {
+    flex-basis: 200px;
+    align-self: stretch;
+  }
 }
 
 .govuk-caption-l a {

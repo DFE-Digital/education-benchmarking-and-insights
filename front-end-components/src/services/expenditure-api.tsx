@@ -47,7 +47,8 @@ export class ExpenditureApi {
     id: string,
     dimension: string,
     category: string,
-    phase?: string
+    phase?: string,
+    customDataId?: string
   ): Promise<T[]> {
     const params = new URLSearchParams({
       type: type,
@@ -58,6 +59,10 @@ export class ExpenditureApi {
 
     if (phase) {
       params.append("phase", phase);
+    }
+
+    if (customDataId) {
+      params.append("customDataId", customDataId);
     }
 
     return fetch("/api/expenditure?" + params, {

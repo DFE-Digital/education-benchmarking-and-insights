@@ -11,7 +11,11 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext, PhaseContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  PhaseContext,
+  CustomDataContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
@@ -26,6 +30,7 @@ export const TeachingSupportStaff: React.FC<{ type: string; id: string }> = ({
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<TeachingSupportStaffExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
@@ -34,9 +39,10 @@ export const TeachingSupportStaff: React.FC<{ type: string; id: string }> = ({
       id,
       dimension.value,
       "TeachingTeachingSupportStaff",
-      phase
+      phase,
+      customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {

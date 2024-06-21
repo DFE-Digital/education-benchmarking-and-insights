@@ -53,7 +53,10 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             .With(t => t.CompanyNumber, "54321")
             .Create();
 
+        var trustBalance = Fixture.Build<TrustBalance>().Create();
+
         var page = await Client.SetupEstablishment(trust)
+            .SetupBalance(trust, trustBalance)
             .Navigate(Paths.TrustForecast(trust.CompanyNumber));
 
         return (page, trust);

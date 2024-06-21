@@ -13,6 +13,7 @@ import {
   ChartDimensionContext,
   HasIncompleteDataContext,
   PhaseContext,
+  CustomDataContext,
 } from "src/contexts";
 import { TotalTeachersQualifiedData } from "src/views/compare-your-census/partials";
 import { Percent } from "src/components";
@@ -23,11 +24,19 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
   id,
 }) => {
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<Census[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await CensusApi.query(type, id, "Total", "TeachersQualified", phase);
-  }, [id, type, phase]);
+    return await CensusApi.query(
+      type,
+      id,
+      "Total",
+      "TeachersQualified",
+      phase,
+      customDataId
+    );
+  }, [id, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {

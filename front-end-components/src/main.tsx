@@ -95,14 +95,19 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id, phases } = compareCostsElement.dataset;
+  const { type, id, phases, customDataId } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
 
     root.render(
       <React.StrictMode>
-        <CompareYourCosts type={type} id={id} phases={phasesParsed} />
+        <CompareYourCosts
+          type={type}
+          id={id}
+          phases={phasesParsed}
+          customDataId={customDataId}
+        />
       </React.StrictMode>
     );
   }
@@ -126,13 +131,18 @@ if (compareCostsTrustElement) {
 const compareCensusElement = document.getElementById(CompareCensusElementId);
 
 if (compareCensusElement) {
-  const { type, id, phases } = compareCensusElement.dataset;
+  const { type, id, phases, customDataId } = compareCensusElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCensusElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     root.render(
       <React.StrictMode>
-        <CompareYourCensus type={type} id={id} phases={phasesParsed} />
+        <CompareYourCensus
+          type={type}
+          id={id}
+          phases={phasesParsed}
+          customDataId={customDataId}
+        />
       </React.StrictMode>
     );
   }

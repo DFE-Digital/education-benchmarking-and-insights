@@ -11,7 +11,11 @@ import {
   PremisesCategories,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext, PhaseContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  PhaseContext,
+  CustomDataContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
@@ -26,6 +30,7 @@ export const PremisesStaffServices: React.FC<{
 }> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<PremisesStaffServicesExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
@@ -34,9 +39,10 @@ export const PremisesStaffServices: React.FC<{
       id,
       dimension.value,
       "PremisesStaffServices",
-      phase
+      phase,
+      customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {
