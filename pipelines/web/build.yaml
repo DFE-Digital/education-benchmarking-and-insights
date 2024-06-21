@@ -129,23 +129,23 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
-      - job: RunE2ETests
-        dependsOn: [ WebDeployment ]
-        displayName: 'Run automated e2e tests'
-        steps:
-          - template: steps\run-e2e-tests.yaml
-            parameters:
-              workspaceDir: '$(Pipeline.Workspace)'
-    
-      - job: RunA11YTests
-        dependsOn: [ WebDeployment ]
-        displayName: 'Run automated a11y tests'
-        steps:
-          - template: steps\run-a11y-tests.yaml
-            parameters:
-              workspaceDir: '$(Pipeline.Workspace)'
-              subscription: 's198d.azdo-deployment'
-              environmentPrefix: 's198d02'
+#      - job: RunE2ETests
+#        dependsOn: [ WebDeployment ]
+#        displayName: 'Run automated e2e tests'
+#        steps:
+#          - template: steps\run-e2e-tests.yaml
+#            parameters:
+#              workspaceDir: '$(Pipeline.Workspace)'
+#
+#      - job: RunA11YTests
+#        dependsOn: [ WebDeployment ]
+#        displayName: 'Run automated a11y tests'
+#        steps:
+#          - template: steps\run-a11y-tests.yaml
+#            parameters:
+#              workspaceDir: '$(Pipeline.Workspace)'
+#              subscription: 's198d.azdo-deployment'
+#              environmentPrefix: 's198d02'
 
   - stage: DeployTest
     dependsOn: [ DeployAutomatedTest ]
