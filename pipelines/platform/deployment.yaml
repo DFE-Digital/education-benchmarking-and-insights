@@ -28,27 +28,14 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'platform'
-
-  - deployment: PlatformDeployment
-    displayName: 'Platform : Deployment'
-    dependsOn: [ PlatformProvision ]
-    pool:
-      vmImage: ubuntu-latest
-    environment: ${{ parameters.environment }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - checkout: none
-            - download: current      
+                module: 'platform'    
 
             - task: AzureKeyVault@1
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
                 SecretsFilter: '*'
-                RunAsPreJob: true
+                RunAsPreJob: false
 
             - task: ExtractFiles@1
               condition: and(succeeded(), ${{ parameters.runSearchApp }})
