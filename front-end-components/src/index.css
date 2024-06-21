@@ -126,11 +126,6 @@
   color: var(--label-colour) !important;
 }
 
-.recharts-wrapper .recharts-default-legend .legend-item-0 line,
-.recharts-wrapper .recharts-default-legend .legend-item-1 line {
-  stroke-width: 10;
-}
-
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0,
 .recharts-wrapper .recharts-label-list .chart-label-series-0 {
   fill: var(--series-highlight-colour);

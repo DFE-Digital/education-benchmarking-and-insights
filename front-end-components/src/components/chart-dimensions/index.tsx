@@ -81,3 +81,4 @@ export const CensusCategories = [
   PercentageOfWorkforce,
   PupilsPerStaffRole,
 ];
+export const ForecastCategories = [Actual, PoundsPerPupil];
