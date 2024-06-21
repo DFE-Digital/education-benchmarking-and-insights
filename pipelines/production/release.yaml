@@ -31,6 +31,7 @@ parameters:
 
 variables:
   ShouldDeployProd: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
+  IsPipelineVersionSet: $[ne('${{ parameters.pipelineVersion }}', 'latest')]
 
 stages:
   - stage: Artifacts
@@ -77,10 +78,8 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
-              ${{ if $[ne('${{ parameters.pipelineVersion }}', 'latest')] }}:
+              ${{ if eq(variables['IsPipelineVersionSet'], 'true') }}:
                 tags: ${{ parameters.pipelineVersion }}
-              ${{ else }}:
-                tags: ' '
 
           - bash: echo "##vso[build.addbuildtag]Data pipeline build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
