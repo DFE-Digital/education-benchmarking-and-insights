@@ -10,8 +10,8 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, trust) = await SetupNavigateInitPage();
-        AssertPageLayout(page, trust);
+        var (page, trust, metrics) = await SetupNavigateInitPage();
+        AssertPageLayout(page, trust, metrics);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(companyNumber).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust, BudgetForecastReturnMetric[] metrics)> SetupNavigateInitPage()
     {
         var trust = Fixture.Build<Trust>()
             .With(t => t.CompanyNumber, "54321")
@@ -55,14 +55,19 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
 
         var trustBalance = Fixture.Build<TrustBalance>().Create();
 
+        var metrics = Fixture.Build<BudgetForecastReturnMetric>()
+            .With(m => m.Year, 2022)
+            .CreateMany(5)
+            .ToArray();
+
         var page = await Client.SetupEstablishment(trust)
-            .SetupBalance(trust, trustBalance)
+            .SetupBalance(trust, trustBalance, metrics)
             .Navigate(Paths.TrustForecast(trust.CompanyNumber));
 
-        return (page, trust);
+        return (page, trust, metrics);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, BudgetForecastReturnMetric[] metrics)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -74,5 +79,10 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Forecast and risks - Financial Benchmarking and Insights Tool - GOV.UK", "Forecast and risks");
+
+        var metricsTable = page.QuerySelector("#bfr-metrics tbody");
+        Assert.NotNull(metricsTable);
+        var metricsRows = metricsTable.GetElementsByTagName("tr");
+        Assert.Equal(metrics.Length, metricsRows.Length);
     }
 }
