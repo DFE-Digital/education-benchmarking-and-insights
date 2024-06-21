@@ -7,21 +7,17 @@ pr: none
 
 parameters:
   - name: coreVersion
-    displayName: 'Input core infrastructure version (leave empty to use latest)'
+    displayName: 'Input core infrastructure version'
     type: string
-    default: ' '
   - name: platformVersion
-    displayName: 'Input platform version (leave empty to use latest)'
+    displayName: 'Input platform version'
     type: string
-    default: ' '
   - name: webVersion
-    displayName: 'Input web version (leave empty to use latest)'
+    displayName: 'Input web version'
     type: string
-    default: ' '
   - name: pipelineVersion
     displayName: 'Input data pipeline version'
     type: string
-    default: 'latest'
   - name: preProdEnv
     displayName: 'Select pre-production environment'
     type: string
@@ -54,8 +50,8 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Core build id - $(DownloadArtifact.BuildNumber)"
-            displayName: 'Set build tag'
+          - bash: echo "##vso[build.addbuildtag]Core - ${{ parameters.coreVersion }}"
+            displayName: 'Set tag'
 
           - publish: $(workspaceDir)/core-terraform
             artifact: core-terraform
@@ -78,14 +74,10 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
-              ${{ if eq(variables['IsPipelineVersionSet'], 'true') }}:
-                tags: ${{ parameters.pipelineVersion }}
+              tags: ${{ parameters.pipelineVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Data pipeline build id - $(DownloadArtifact.BuildNumber)"
-            displayName: 'Set build tag'
-
-          - bash: echo "##vso[build.addbuildtag]Data pipeline image - ${{ parameters.pipelineVersion }}"
-            displayName: 'Set image tag'
+          - bash: echo "##vso[build.addbuildtag]Data pipeline - ${{ parameters.pipelineVersion }}"
+            displayName: 'Set tag'
 
           - publish: $(workspaceDir)/data-pipeline-terraform
             artifact: data-pipeline-terraform
