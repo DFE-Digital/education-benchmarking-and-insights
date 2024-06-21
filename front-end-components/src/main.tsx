@@ -27,6 +27,7 @@ import {
   HorizontalChartTrustFinancialElementId,
   CompareTrustElementId,
   LineChart2SeriesElementId,
+  BudgetForecastReturnsElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -53,6 +54,7 @@ import LaInput from "./views/find-organisation/partials/la-input";
 import TrustInput from "./views/find-organisation/partials/trust-input";
 import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
+import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -816,4 +818,21 @@ if (trustSuggesterElement) {
       />
     </React.StrictMode>
   );
+}
+
+const budgetForecastReturnsElement = document.getElementById(
+  BudgetForecastReturnsElementId
+);
+
+if (budgetForecastReturnsElement) {
+  const { id } = budgetForecastReturnsElement.dataset;
+  if (id) {
+    const root = ReactDOM.createRoot(budgetForecastReturnsElement);
+
+    root.render(
+      <React.StrictMode>
+        <BudgetForecastReturns id={id} />
+      </React.StrictMode>
+    );
+  }
 }

@@ -87,7 +87,8 @@ export function HorizontalBarChartWrapper<
               disabled={imageLoading}
               aria-disabled={imageLoading}
             >
-              Save as image
+              Save <span className="govuk-visually-hidden">{chartName}</span> as
+              image
             </button>
           </div>
         )}
