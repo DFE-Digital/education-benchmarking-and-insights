@@ -62,6 +62,32 @@ stages:
           - publish: $(workspaceDir)/core-db
             artifact: core-db
 
+      - job: PipelineDownloadPublish
+        displayName: 'Data pipeline : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
+            inputs:
+              buildType: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              definition: 2879
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              targetPath: $(workspaceDir)
+              tags:
+
+          - bash: echo "##vso[build.addbuildtag]Data pipeline build id - $(DownloadArtifact.BuildNumber)"
+            displayName: 'Set build tag'
+
+          - bash: echo "##vso[build.addbuildtag]Data pipeline image - ${{ parameters.pipelineVersion }}"
+            displayName: 'Set image tag'
+
+          - publish: $(workspaceDir)/data-pipeline-terraform
+            artifact: data-pipeline-terraform
+
 #      - job: PlatformDownloadPublish
 #        displayName: 'Platform : Download artifacts and republish'
 #        steps:

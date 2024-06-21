@@ -19,18 +19,18 @@ jobs:
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
 
-#  - template: ../data-pipeline/deployment.yaml
-#    parameters:
-#      dependsOn: 'CoreProvision'
-#      subscription: ${{ parameters.subscription }}
-#      sourceServicePrincipal: 's198t.azdo-deployment'
-#      sourceSubscription: 's198-dfebenchmarkingservice-test'
-#      environmentPrefix: ${{ parameters.environmentPrefix }}
-#      environment: ${{ parameters.environment }}
-#      cipEnvironment: ${{ parameters.cipEnvironment }}
-#      importImage: true
-#      sourceEnvironmentPrefix: 's198t01'
-#      buildNumber: ${{ parameters.pipelineBuildNumber }}
+  - template: ../data-pipeline/deployment.yaml
+    parameters:
+      dependsOn: 'CoreProvision'
+      subscription: ${{ parameters.subscription }}
+      sourceServicePrincipal: 's198t.azdo-deployment'
+      sourceSubscription: 's198-dfebenchmarkingservice-test'
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      importImage: true
+      sourceEnvironmentPrefix: 's198t01'
+      buildNumber: ${{ parameters.pipelineBuildNumber }}
 #
 #  - template: ../platform/deployment.yaml
 #    parameters:
