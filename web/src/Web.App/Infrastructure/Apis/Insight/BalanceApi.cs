@@ -31,34 +31,40 @@ public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(
         {
             Year = 2020,
             Forecast = 211_000_000,
-            Actual = 219_000_000
+            Actual = 219_000_000,
+            TotalPupils = 11_000
         },
         new BudgetForecastReturn
         {
             Year = 2021,
             Forecast = 277_000_000,
-            Actual = 412_000_000
+            Actual = 412_000_000,
+            TotalPupils = 12_200
         },
         new BudgetForecastReturn
         {
             Year = 2022,
             Forecast = 487_000_000,
-            Actual = 609_000_000
+            Actual = 609_000_000,
+            TotalPupils = 13_300
         },
         new BudgetForecastReturn
         {
             Year = 2023,
-            Forecast = 265_000_000
+            Forecast = 265_000_000,
+            TotalPupils = 14_400
         },
         new BudgetForecastReturn
         {
             Year = 2024,
-            Forecast = 264_000_000
+            Forecast = 264_000_000,
+            TotalPupils = 15_500
         },
         new BudgetForecastReturn
         {
             Year = 2025,
-            Forecast = 286_000_000
+            Forecast = 286_000_000,
+            TotalPupils = 16_600
         }
     }));
 

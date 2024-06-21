@@ -122,7 +122,6 @@ function LineChartInner<TData extends ChartDataSeries>(
               }
             : false
         }
-        legendType="plainline"
         strokeDasharray={config?.style === "dashed" ? "20 7" : undefined}
         label={(props) =>
           renderLabel({
@@ -201,8 +200,8 @@ function LineChartInner<TData extends ChartDataSeries>(
               formatter={(value) =>
                 (seriesConfig && seriesConfig[value]?.label) || value
               }
-              height={30}
-              color="inherit"
+              iconSize={30}
+              iconType="plainline"
             />
           )}
         </RechartsLineChart>
