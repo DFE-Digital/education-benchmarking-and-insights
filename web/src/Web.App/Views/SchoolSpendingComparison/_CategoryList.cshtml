@@ -1,0 +1,55 @@
+﻿@using Web.App.Extensions
+@using Web.App.ViewModels
+@model Web.App.ViewModels.CategoryListSectionViewModel
+
+<h2 class="govuk-heading-m">@Model.Heading</h2>
+<div class="top-categories">
+    @if (Model.CategoryList.Any())
+    {
+        @foreach (var category in Model.CategoryList)
+        {
+            <div>
+                <table class="govuk-table govuk govuk-!-margin-bottom-0">
+                    <caption class="govuk-table__caption govuk-table__caption--m">@category.Category</caption>
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header"></th>
+                            <th scope="col" class="govuk-table__header">Priority</th>
+                            <th scope="col" class="govuk-table__header">Spend (per pupil)</th>
+                            <th scope="col" class="govuk-table__header">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Original Value</th>
+                            <td class="govuk-table__cell">
+                                @await Component.InvokeAsync("Tag", new
+                                    {
+                                        rating = new RatingViewModel(category.OriginalPriorityTag?.Colour, category.OriginalPriorityTag?.DisplayText)
+                                    })
+                            </td>
+                            <td class="govuk-table__cell">@category.OriginalValue.ToCurrency(0)</td>
+                            <td class="govuk-table__cell">@($"{category.OriginalPercentile.ToPercent()} of all benchmarked schools")</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Custom Value</th>
+                            <td class="govuk-table__cell">
+                                @await Component.InvokeAsync("Tag", new
+                                    {
+                                        rating = new RatingViewModel(category.CustomPriorityTag?.Colour, category.CustomPriorityTag?.DisplayText)
+                                    })
+                            </td>
+                            <td class="govuk-table__cell">@category.CustomValue.ToCurrency(0)</td>
+                            <td class="govuk-table__cell">@($"{category.CustomPercentile.ToPercent()} of all benchmarked schools")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="govuk-body">There are no categories to display of this type for this comparison</p>
+    }
+</div>
+

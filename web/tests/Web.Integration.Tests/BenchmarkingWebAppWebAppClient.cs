@@ -253,6 +253,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupMetricRagRatingIncCustom(string customData, IEnumerable<RagRating> customRatings, IEnumerable<RagRating>? originalRatings = null)
+    {
+        MetricRagRatingApi.Reset();
+
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(originalRatings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.CustomAsync(customData)).ReturnsAsync(ApiResult.Ok(customRatings));
+
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupExpenditure(School school, SchoolExpenditure? expenditure = null)
     {
         ExpenditureApi.Reset();

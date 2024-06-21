@@ -134,11 +134,11 @@ public class SchoolController(
         {
             try
             {
-                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                //if (string.IsNullOrEmpty(userData.CustomData))
-                //{
-                //    return RedirectToAction("Index", "School", new { urn });
-                //}
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
 
