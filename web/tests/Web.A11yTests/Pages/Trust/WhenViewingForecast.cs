@@ -8,7 +8,7 @@ public class WhenViewingForecast(
     WebDriver webDriver)
     : AuthPageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/trust/{TestConfiguration.Trust}/forecast-risks";
+    protected override string PageUrl => $"/trust/{TestConfiguration.Trust}/forecast";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

@@ -11,7 +11,7 @@ namespace Web.App.Controllers;
 [Controller]
 [TrustAuthorization]
 [FeatureGate(FeatureFlags.Trusts)]
-[Route("trust/{companyNumber}/forecast-risks")]
+[Route("trust/{companyNumber}/forecast")]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
@@ -31,7 +31,8 @@ public class TrustForecastController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustForecast(companyNumber);
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<TrustBalance>();
-                var viewModel = new TrustForecastViewModel(trust, balance);
+                var metrics = await GetBudgetForecastReturnMetrics(companyNumber);
+                var viewModel = new TrustForecastViewModel(trust, balance, metrics);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -42,4 +43,8 @@ public class TrustForecastController(
             }
         }
     }
+
+    private async Task<BudgetForecastReturnMetric[]> GetBudgetForecastReturnMetrics(string companyNumber) => await balanceApi
+        .BudgetForecastReturnsMetrics(companyNumber)
+        .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
 }
