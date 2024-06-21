@@ -15,6 +15,7 @@ namespace Web.App.Controllers;
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
+    IBudgetForecastApi budgetForecastApi,
     ILogger<TrustForecastController> logger)
     : Controller
 {
@@ -44,7 +45,7 @@ public class TrustForecastController(
         }
     }
 
-    private async Task<BudgetForecastReturnMetric[]> GetBudgetForecastReturnMetrics(string companyNumber) => await balanceApi
+    private async Task<BudgetForecastReturnMetric[]> GetBudgetForecastReturnMetrics(string companyNumber) => await budgetForecastApi
         .BudgetForecastReturnsMetrics(companyNumber)
         .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
 }

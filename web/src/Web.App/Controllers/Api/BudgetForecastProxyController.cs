@@ -8,8 +8,8 @@ namespace Web.App.Controllers.Api;
 
 [ApiController]
 [Authorize]
-[Route("api/forecast")]
-public class ForecastProxyController(ILogger<ForecastProxyController> logger, IBalanceApi balanceApi) : Controller
+[Route("api/budget-forecast")]
+public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController> logger, IBudgetForecastApi budgetForecastApi) : Controller
 {
     /// <param name="companyNumber" example="07465701"></param>
     [HttpGet]
@@ -25,7 +25,7 @@ public class ForecastProxyController(ILogger<ForecastProxyController> logger, IB
         {
             try
             {
-                var result = await balanceApi
+                var result = await budgetForecastApi
                     .BudgetForecastReturns(companyNumber)
                     .GetResultOrDefault<BudgetForecastReturn[]>();
 

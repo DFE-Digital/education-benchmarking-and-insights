@@ -11,7 +11,6 @@ using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
-
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -76,6 +75,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>().Configure(Constants.InsightApi);
         services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure(Constants.InsightApi);
         services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure(Constants.InsightApi);
 
         return services;
     }

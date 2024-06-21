@@ -34,6 +34,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<ICustomDataApi> CustomDataApi { get; } = new();
     public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
+    public Mock<IBudgetForecastApi> BudgetForecastApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
     public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
 
@@ -54,6 +55,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(CustomDataApi.Object);
         services.AddSingleton(ExpenditureApi.Object);
+        services.AddSingleton(BudgetForecastApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
         services.AddSingleton(DataSourceStorage.Object);
     }
@@ -206,11 +208,17 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null, BudgetForecastReturnMetric[]? metrics = null)
+    public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null)
     {
         BalanceApi.Reset();
         BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new TrustBalance()));
-        BalanceApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupBudgetForecast(Trust trust, BudgetForecastReturnMetric[]? metrics = null)
+    {
+        BudgetForecastApi.Reset();
+        BudgetForecastApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
         return this;
     }
 
