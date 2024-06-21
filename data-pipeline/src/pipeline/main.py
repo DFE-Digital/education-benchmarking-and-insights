@@ -462,9 +462,8 @@ def compute_comparator_set_for(
     data_type: str,
     set_type: str,
     run_type: str,
-    year: int,
     data: pd.DataFrame,
-    run_id: str | None = None,
+    run_id: str,
     target_urn: str | None = None,
 ):
     """
@@ -475,9 +474,8 @@ def compute_comparator_set_for(
     :param data_type: type (e.g. academy) of the data
     :param set_type: "mixed" or "unmixed"
     :param run_type: "default" or "custom"
-    :param year: financial year in question
     :param data: used to determine comparator set
-    :param run_id: optional job identifier for custom data
+    :param run_id: job identifier for custom data
     :param target_urn: optional data identifier for custom data
     """
     st = time.time()
@@ -488,29 +486,27 @@ def compute_comparator_set_for(
     st = time.time()
     write_blob(
         "comparator-sets",
-        f"{run_type}/{run_id or year}/{data_type}.parquet",
+        f"{run_type}/{run_id}/{data_type}.parquet",
         result.to_parquet(),
     )
 
     insert_comparator_set(
         run_type=run_type,
         set_type=set_type,
-        run_id=run_id or year,
+        run_id=run_id,
         df=result,
     )
 
 
 def compute_comparator_sets(
     run_type: str,
-    year: int,
-    run_id: str | None = None,
+    run_id: str,
     target_urn: str | None = None,
 ) -> float:
     """
     Determine Comparator Sets.
 
     :param run_type: "default" or "custom" data type
-    :param year: financial year in question
     :param run_id: optional job identifier for custom data
     :param target_urn: optional data identifier for custom data
     :return: duration of calculation
@@ -520,22 +516,20 @@ def compute_comparator_sets(
 
     academies = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{run_id or year}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{run_id}/academies.parquet")
         )
     )
     maintained = prepare_data(
         pd.read_parquet(
             get_blob(
                 "pre-processed",
-                f"{run_type}/{run_id or year}/maintained_schools.parquet",
+                f"{run_type}/{run_id}/maintained_schools.parquet",
             )
         )
     )
     all_schools = prepare_data(
         pd.read_parquet(
-            get_blob(
-                "pre-processed", f"{run_type}/{run_id or year}/all_schools.parquet"
-            )
+            get_blob("pre-processed", f"{run_type}/{run_id}/all_schools.parquet")
         )
     )
 
@@ -543,7 +537,6 @@ def compute_comparator_sets(
         data_type="academy_comparators",
         set_type="unmixed",
         run_type=run_type,
-        year=year,
         data=academies,
         run_id=run_id,
         target_urn=target_urn,
@@ -552,7 +545,6 @@ def compute_comparator_sets(
         data_type="maintained_schools_comparators",
         set_type="unmixed",
         run_type=run_type,
-        year=year,
         data=maintained,
         run_id=run_id,
         target_urn=target_urn,
@@ -561,7 +553,6 @@ def compute_comparator_sets(
         data_type="mixed_comparators",
         set_type="mixed",
         run_type=run_type,
-        year=year,
         data=all_schools,
         run_id=run_id,
         target_urn=target_urn,
@@ -569,17 +560,17 @@ def compute_comparator_sets(
 
     write_blob(
         "comparator-sets",
-        f"{run_type}/{run_id or year}/academies.parquet",
+        f"{run_type}/{run_id}/academies.parquet",
         academies.to_parquet(),
     )
     write_blob(
         "comparator-sets",
-        f"{run_type}/{run_id or year}/maintained_schools.parquet",
+        f"{run_type}/{run_id}/maintained_schools.parquet",
         maintained.to_parquet(),
     )
     write_blob(
         "comparator-sets",
-        f"{run_type}/{run_id or year}/all_schools.parquet",
+        f"{run_type}/{run_id}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
@@ -775,7 +766,6 @@ def handle_msg(
                 )
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
                     run_type=run_type,
-                    year=msg_payload["year"],
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                 )
