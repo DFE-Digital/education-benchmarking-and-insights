@@ -50,7 +50,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Core - ${{ parameters.coreVersion }}"
+          - bash: echo "##vso[build.addbuildtag]Core|${{ parameters.coreVersion }}"
             displayName: 'Set tag'
 
           - publish: $(workspaceDir)/core-terraform
@@ -76,7 +76,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.pipelineVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Data pipeline - ${{ parameters.pipelineVersion }}"
+          - bash: echo "##vso[build.addbuildtag]Data|${{ parameters.pipelineVersion }}"
             displayName: 'Set tag'
 
           - publish: $(workspaceDir)/data-pipeline-terraform
@@ -99,7 +99,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.platformVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Platform - ${{ parameters.platformVersion }}"
+          - bash: echo "##vso[build.addbuildtag]Platform|${{ parameters.platformVersion }}"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/platform-terraform
@@ -131,7 +131,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.webVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Web - ${{ parameters.webVersion }}"
+          - bash: echo "##vso[build.addbuildtag]Web|${{ parameters.webVersion }}"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/web-terraform

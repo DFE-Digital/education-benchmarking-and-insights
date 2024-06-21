@@ -46,7 +46,7 @@ jobs:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
-                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd) --force 
 
             - template: ..\common\run-terraform.yaml
               parameters:

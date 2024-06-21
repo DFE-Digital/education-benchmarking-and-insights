@@ -31,20 +31,19 @@ jobs:
       importImage: true
       sourceEnvironmentPrefix: 's198t01'
       buildNumber: ${{ parameters.pipelineBuildNumber }}
-#
-#  - template: ../platform/deployment.yaml
-#    parameters:
-#      dependsOn: ['CoreProvision', 'DataPipelineProvision']
-#      subscription: ${{ parameters.subscription }}
-#      environmentPrefix: ${{ parameters.environmentPrefix }}
-#      environment: ${{ parameters.environment }}
-#      cipEnvironment: ${{ parameters.cipEnvironment }}
-#      runSearchApp: false
-#
-#  - template: ../web/deployment.yaml
-#    parameters:
-#      dependsOn: 'PlatformDeployment'
-#      subscription: ${{ parameters.subscription }}
-#      environmentPrefix: ${{ parameters.environmentPrefix }}
-#      environment: ${{ parameters.environment }}
-#      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/deployment.yaml
+    parameters:
+      dependsOn: ['CoreProvision', 'DataPipelineProvision']
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../web/deployment.yaml
+    parameters:
+      dependsOn: 'PlatformDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
