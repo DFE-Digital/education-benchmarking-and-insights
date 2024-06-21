@@ -8,8 +8,8 @@ parameters:
   dependsOn: []
 
 jobs:
-  - deployment: PlatformProvision
-    displayName: 'Platform : Provision'
+  - deployment: PlatformDeployment
+    displayName: 'Platform deployment'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
