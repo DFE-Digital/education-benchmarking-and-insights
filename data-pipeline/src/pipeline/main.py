@@ -449,8 +449,16 @@ def pre_process_custom_data(
         all_schools.to_parquet(),
     )
 
-    insert_non_financial_data(run_type, run_id, all_schools)
-    insert_financial_data(run_type, run_id, all_schools)
+    insert_non_financial_data(
+        run_type,
+        run_id,
+        df=all_schools.loc[[target_urn]],
+    )
+    insert_financial_data(
+        run_type,
+        run_id,
+        df=all_schools.loc[[target_urn]],
+    )
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
