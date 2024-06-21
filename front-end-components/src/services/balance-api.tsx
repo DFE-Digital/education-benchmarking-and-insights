@@ -78,7 +78,7 @@ export class BalanceApi {
       companyNumber: id,
     });
 
-    return fetch("/api/forecast?" + params, {
+    return fetch("/api/budget-forecast?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {

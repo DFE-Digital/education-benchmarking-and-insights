@@ -19,7 +19,7 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
             Forecast = 211_000_000,
             Actual = 219_000_000,
             TotalPupils = 11_000,
-            PercentVariance = 15
+            PercentVariance = -6
         },
         new BudgetForecastReturn
         {
@@ -27,7 +27,7 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
             Forecast = 277_000_000,
             Actual = 412_000_000,
             TotalPupils = 12_200,
-            PercentVariance = 14
+            PercentVariance = 5
         },
         new BudgetForecastReturn
         {
@@ -35,7 +35,7 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
             Forecast = 487_000_000,
             Actual = 609_000_000,
             TotalPupils = 13_300,
-            PercentVariance = 13
+            PercentVariance = 10
         },
         new BudgetForecastReturn
         {
