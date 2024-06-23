@@ -307,8 +307,7 @@ def prepare_aar_data(aar_path):
 
     aar.rename(
         columns={
-            "PFI": "PFI School",
-            "Lead UPIN": "Trust UPIN",
+            "PFI": "PFI School"
         }
         | config.cost_category_map["academies"]
         | config.income_category_map["academies"],
@@ -316,13 +315,13 @@ def prepare_aar_data(aar_path):
     )
 
     trust_balance = (
-        aar[["Trust UPIN", "In year balance"]]
-        .groupby("Trust UPIN")
+        aar[["Lead UPIN", "In year balance"]]
+        .groupby("Lead UPIN")
         .sum()
         .rename(columns={"In year balance": "Trust Balance"})
     )
 
-    aar = aar.merge(trust_balance, on="Trust UPIN", how="left")
+    aar = aar.merge(trust_balance, on="Lead UPIN", how="left")
 
     aar["Financial Position"] = aar["In year balance"].map(
         mappings.map_is_surplus_deficit
@@ -515,16 +514,19 @@ def build_academy_data(
         academies_base.merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
-        .merge(aar, on="URN", how="left")
+        .merge(aar, on="URN", how="left", suffixes=("", "_aar"))
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
         .merge(group_links, on="URN", how="inner")
         .merge(cfo, on="URN", how="left")
     )
 
+    academies.drop(academies.filter(regex='_aar$').columns, axis=1, inplace=True)
+
     academies["Total Internal Floor Area"] = academies[
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
+
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
@@ -573,7 +575,7 @@ def build_academy_data(
             "LA (name)": "LA Name",
             "Academy Trust Name": "Trust Name",
             "Academy UKPRN": "Trust UKPRN",
-            "Lead UPIN": "Trust UPIN",
+            "Academy Trust UPIN": "Trust UPIN",
         }
         | config.income_category_map["academies"]
         | config.cost_category_map["academies"],
@@ -597,6 +599,7 @@ def build_academy_data(
             columns={
                 "Number of pupils": "Total pupils in trust",
                 "Total Internal Floor Area": "Total Internal Floor Area in trust",
+                "In year balance": "Trust Balance"
             }
         )
     )
@@ -739,6 +742,25 @@ def build_academy_data(
     academies["Catering staff and supplies_Net Costs_CS"] = (
         academies["Income_Catering services_CS"]
         + academies["Catering staff and supplies_Total_CS"]
+    )
+
+    trust_revenue_reserve = (
+        academies[
+            ["Trust UPIN", "Revenue reserve"]
+        ]
+        .groupby(["Trust UPIN"])
+        .sum().rename(
+            columns={
+                "Revenue reserve": "Trust Revenue reserve",
+            }
+        )
+    )
+
+    academies = academies.merge(trust_revenue_reserve, on="Trust UPIN", how="left")
+
+    academies["Trust Revenue reserve"] = (
+            academies["Revenue reserve_CS"]
+            + academies["Trust Revenue reserve"]
     )
 
     academies["Company Registration Number"] = academies["Company Registration Number"].map(mappings.map_company_number)
@@ -1087,7 +1109,7 @@ def _slope_analysis(bfr_dataframe, academies_y2, academies_y1):
     bfr_revenue_reserves["slope"] = _calculate_slopes(matrix_revenue_reserves)
 
     bfr_revenue_reserves_per_pupil = bfr_revenue_reserves[
-        ["TrustUPIN", "CreatedBy", "Category", "Title", "EFALineNo"]
+        ["TrustUPIN", "Category", "Title", "EFALineNo"]
     ].copy()
     bfr_revenue_reserves_per_pupil["slope"] = _calculate_slopes(
         matrix_revenue_reserves_per_pupil

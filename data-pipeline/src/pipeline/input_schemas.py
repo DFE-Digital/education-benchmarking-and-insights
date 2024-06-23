@@ -408,7 +408,6 @@ bfr_cell_mapping_cols = {"EFALineNo": "Int64", "balance_flag": "Int64"}
 
 bfr_sofa_cols = {
     "TrustUPIN": "Int64",
-    "CreatedBy": "string",
     "Category": "string",
     "Title": "string",
     "EFALineNo": "Int64",
