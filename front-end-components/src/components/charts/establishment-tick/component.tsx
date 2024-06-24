@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Text } from "recharts";
 import { EstablishmentTickProps } from "src/components/charts/establishment-tick";
+import { ChartLink } from "../chart-link";
 
 export function EstablishmentTick(props: EstablishmentTickProps) {
   const {
@@ -44,7 +45,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
         className="recharts-text establishment-tick"
         {...rest}
       >
-        <a
+        <ChartLink
           href={href(urn)}
           className="govuk-link govuk-link--no-visited-state"
           aria-label={name}
@@ -56,7 +57,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
               <tspan key={i}>{(i > 0 ? " " : "") + s}</tspan>
             ))}
           {name.length > truncateAt && "…"}
-        </a>
+        </ChartLink>
       </text>
     </>
   );

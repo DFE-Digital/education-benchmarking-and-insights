@@ -9,7 +9,7 @@ public class WhenViewingComparators(ITestOutputHelper testOutputHelper, WebDrive
     protected override string PageUrl => $"/trust/{TestConfiguration.Trust}/comparators/create/by/name";
 
     [Fact]
-    public async Task ThenThereAreNoAccessibilityIssues()
+    public async Task ShowAllSectionsThenThereAreNoAccessibilityIssues()
     {
         await GoToPage();
         await Page.Locator("#trust-input").FillAsync("trust");
@@ -20,7 +20,8 @@ public class WhenViewingComparators(ITestOutputHelper testOutputHelper, WebDrive
         await Page.Locator("#create-set").WaitForAsync();
         await Page.Locator("#create-set").ClickAsync();
         await Page.WaitForURLAsync("**/comparators?comparator-generated=true");
-        await Page.Locator("#tab_balance").WaitForAsync();
+        await Page.Locator("#spending-mode-chart").ClickAsync();
+        await Page.Locator(".govuk-accordion__show-all").ClickAsync();
         await EvaluatePage();
     }
 }
