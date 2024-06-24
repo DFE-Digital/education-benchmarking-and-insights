@@ -1,0 +1,28 @@
+{
+	"name": "s198d02_LocalAuthority",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d02_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198d02"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "LocalAuthority"
+		}
+	}
+}
