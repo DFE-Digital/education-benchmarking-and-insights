@@ -741,7 +741,9 @@ def build_academy_data(
         + academies["Catering staff and supplies_Total_CS"]
     )
 
-    academies["Company Registration Number"] = academies["Company Registration Number"].map(mappings.map_company_number)
+    academies["Company Registration Number"] = academies[
+        "Company Registration Number"
+    ].map(mappings.map_company_number)
 
     return academies.set_index("URN")
 
@@ -1264,6 +1266,10 @@ def update_custom_data(
     """
     Update existing financial data with custom data.
 
+    This will overwrite financial information for a specific row with
+    data provided; additionally, all "central services" information
+    will be set to zero, again for that row only.
+
     :param existing_data: existing, pre-processed data
     :param custom_data: custom financial information
     :param target_urn: specific row to update
@@ -1272,7 +1278,7 @@ def update_custom_data(
     custom_to_columns = {
         "administrativeSuppliesNonEducationalCosts": "Administrative supplies_Administrative supplies (non educational)",
         "cateringStaffCosts": "Catering staff and supplies_Catering staff",
-        "cateringSuppliesCosts": "Catering staff and supplies_Net Costs",
+        "cateringSuppliesCosts": "Catering staff and supplies_Catering supplies",
         "incomeCateringServices": "Income_Catering services",
         "examinationFeesCosts": "Educational supplies_Examination fees",
         "learningResourcesNonIctCosts": "Educational supplies_Learning resources (not ICT equipment)",
@@ -1292,7 +1298,7 @@ def update_custom_data(
         "teachingStaffCosts": "Teaching and Teaching support staff_Teaching staff",
         "energyCosts": "Utilities_Energy",
         "waterSewerageCosts": "Utilities_Water and sewerage",
-        "directRevenueFinancingCosts": "Income_Direct revenue finance",
+        "directRevenueFinancingCosts": "Other costs_Direct revenue financing",
         "groundsMaintenanceCosts": "Other costs_Grounds maintenance",
         "indirectEmployeeExpenses": "Other costs_Indirect employee expenses",
         "interestChargesLoanBank": "Other costs_Interest charges for loan and bank",
@@ -1312,12 +1318,23 @@ def update_custom_data(
         "totalInternalFloorArea": "Total Internal Floor Area",
         "workforceFTE": "Total School Workforce (Full-Time Equivalent)",
         "teachersFTE": "Total Number of Teachers (Full-Time Equivalent)",
-        "seniorLeadershipFTE": "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
+        "seniorLeadershipFTE": "Total Number of Teachers in the Leadership Group (Full-time Equivalent)",
     }
 
     existing_data.loc[
         target_urn,
         custom_to_columns.values(),
     ] = [custom_data[custom] for custom in custom_to_columns.keys()]
+
+    central_services_columns = [
+        f"{column}_CS"
+        for column in custom_to_columns.values()
+        if f"{column}_CS" in existing_data.columns
+    ]
+    central_services_values = [0.0] * len(central_services_columns)
+    existing_data.loc[
+        target_urn,
+        central_services_columns,
+    ] = central_services_values
 
     return existing_data
