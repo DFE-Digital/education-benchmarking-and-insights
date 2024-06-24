@@ -64,7 +64,7 @@ force_grid_wrap = 0
 [tool.coverage.run]
 source = ["src"]
 branch = true
-omit = ['main.py', 'storage.py', 'database.py']
+omit = ['main.py', 'storage.py', 'database.py', 'log.py']
 
 [tool.coverage.report]
 exclude_lines = [

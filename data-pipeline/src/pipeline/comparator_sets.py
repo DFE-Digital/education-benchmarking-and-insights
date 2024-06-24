@@ -178,7 +178,7 @@ def compute_buildings_comparator(arg) -> np.ndarray:
     :param arg: phase/data
     :return: phase, URNs and calculations
     """
-    phase, row = arg
+    _, row = arg
     gifa = np.array(row["Total Internal Floor Area"])
     age = np.array(row["Age Average Score"])
 
@@ -353,12 +353,16 @@ def select_top_set_urns(
 def compute_distances(
     orig_data: pd.DataFrame,
     grouped_data: pd.DataFrame,
+    target_urn: int | None = None,
 ):
     # TODO: docstring needed to explain this.
     pupils = pd.Series(index=orig_data.index, dtype=object)
     buildings = pd.Series(index=orig_data.index, dtype=object)
 
     for phase, row in grouped_data.iterrows():
+        if target_urn and target_urn not in row["URN"]:
+            continue
+
         # compute distances for all orgs. in this phase.
         pupil_distances = compute_pupils_comparator((phase, row))
         building_distances = compute_buildings_comparator((phase, row))
@@ -369,8 +373,10 @@ def compute_distances(
 
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
-        for idx in range(len(phase_urns)):
-            urn = phase_urns[idx]
+        for idx, urn in enumerate(phase_urns):
+            if target_urn and urn != target_urn:
+                continue
+
             try:
                 top_pupil_set_urns = select_top_set_urns(
                     idx,
@@ -391,6 +397,8 @@ def compute_distances(
 
                 pupils.loc[urn] = top_pupil_set_urns
                 buildings.loc[urn] = top_building_set_urns
+
+                break
             except Exception as error:
                 logger.exception(
                     f"An exception occurred {type(error).__name__} processing {urn}:",
@@ -401,10 +409,30 @@ def compute_distances(
     orig_data["Pupil"] = pupils
     orig_data["Building"] = buildings
 
+    if target_urn:
+        return orig_data.loc[[target_urn]]
+
     return orig_data
 
 
-def compute_comparator_set(data: pd.DataFrame):
+def compute_comparator_set(
+    data: pd.DataFrame,
+    target_urn: int | None = None,
+) -> pd.DataFrame:
+    """
+    Determine the comparator-sets for the input data.
+
+    TODO: explain the below columns.
+
+    Perform comparator-set derivation, restricted by "phase".
+
+    If `data` is "custom" data, the resulting output will be restricted
+    to just the `target_urn`.
+
+    :param data: data for which to determine the comparator-sets
+    :param target_urn: optional identifier for custom data
+    :return: data, updated with comparator-sets
+    """
     copy = data[~data.index.isna()][
         [
             "OfstedRating (name)",
@@ -429,5 +457,7 @@ def compute_comparator_set(data: pd.DataFrame):
             "Percentage Primary Need OTH",
         ]
     ].copy()
+
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
-    return compute_distances(copy, classes)
+
+    return compute_distances(copy, classes, target_urn=target_urn)

@@ -22,6 +22,7 @@ from src.pipeline.database import (
     insert_schools_and_trusts_and_local_authorities,
 )
 from src.pipeline.log import setup_logger
+from src.pipeline.message import MessageType, get_message_type
 from src.pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
@@ -36,6 +37,7 @@ from src.pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
+    update_custom_data,
 )
 from src.pipeline.rag import compute_rag, compute_user_defined_rag
 from src.pipeline.storage import (
@@ -373,27 +375,148 @@ def pre_process_data(worker_client, run_type, year):
     return time_taken
 
 
-def compute_comparator_set_for(data_type, set_type, run_type, year, data):
-    st = time.time()
-    logger.info(f"Computing {data_type} set")
-    result = compute_comparator_set(data)
-    logger.info(f"Computing {data_type} set. Done in {time.time() - st:.2f} seconds")
+def pre_process_custom_data(
+    run_id: str,
+    year: int,
+    target_urn: int,
+    custom_data: dict,
+) -> float:
+    """
+    Perform pre-processing for custom financial data.
+
+    Note: `custom_data` **must** contain only financial data and no
+    extraneous keys.
+
+    This leverages the existing pre-processed data:
+
+    - reads existing pre-processed data for `year`;
+    - updates as per `custom_data` for `target_urn`;
+    - persists the updated, pre-processed data in blob storage;
+    - persists the updated financial information in the database.
+
+    Note: `run_type` is _always_ `custom`.
+
+    :param run_id: unique run identifier
+    :param year: financial year in question
+    :param target_urn: identifier of the org. in question
+    :param custom_data: custom financial data
+    :return: processing duration
+    """
+    run_type = "custom"
+
+    start_time = time.time()
+    logger.info(f"Pre-processing data {run_type} - {run_id}")
+
+    academies = pd.read_parquet(
+        get_blob("pre-processed", f"default/{year}/academies.parquet")
+    )
+    maintained = pd.read_parquet(
+        get_blob("pre-processed", f"default/{year}/maintained_schools.parquet")
+    )
+    all_schools = pd.read_parquet(
+        get_blob("pre-processed", f"default/{year}/all_schools.parquet")
+    )
+
+    academies = update_custom_data(
+        existing_data=academies,
+        custom_data=custom_data,
+        target_urn=target_urn,
+    )
+    maintained = update_custom_data(
+        existing_data=maintained,
+        custom_data=custom_data,
+        target_urn=target_urn,
+    )
+    all_schools = update_custom_data(
+        existing_data=all_schools,
+        custom_data=custom_data,
+        target_urn=target_urn,
+    )
 
     write_blob(
+        "pre-processed",
+        f"{run_type}/{run_id}/academies.parquet",
+        academies.to_parquet(),
+    )
+    write_blob(
+        "pre-processed",
+        f"{run_type}/{run_id}/maintained_schools.parquet",
+        maintained.to_parquet(),
+    )
+    write_blob(
+        "pre-processed",
+        f"{run_type}/{run_id}/all_schools.parquet",
+        all_schools.to_parquet(),
+    )
+
+    insert_non_financial_data(
+        run_type,
+        run_id,
+        df=all_schools.loc[[target_urn]],
+    )
+    insert_financial_data(
+        run_type,
+        run_id,
+        df=all_schools.loc[[target_urn]],
+    )
+
+    time_taken = time.time() - start_time
+    logger.info(f"Pre-processing data done in {time_taken} seconds")
+
+    return time_taken
+
+
+def compute_comparator_set_for(
+    data_type: str,
+    set_type: str,
+    run_type: str,
+    data: pd.DataFrame,
+    run_id: str,
+    target_urn: str | None = None,
+):
+    """
+    Perform comparator-set calculation and persist the result.
+
+    Results are persisted in both blob-storage and the database.
+
+    :param data_type: type (e.g. academy) of the data
+    :param set_type: "mixed" or "unmixed"
+    :param run_type: "default" or "custom"
+    :param data: used to determine comparator set
+    :param run_id: job identifier for custom data
+    :param target_urn: optional data identifier for custom data
+    """
+    st = time.time()
+    logger.info(f"Computing {data_type} set")
+    result = compute_comparator_set(data, target_urn=target_urn)
+    logger.info(f"Computing {data_type} set. Done in {time.time() - st:.2f} seconds")
+
+    st = time.time()
+    write_blob(
         "comparator-sets",
-        f"{run_type}/{year}/{data_type}.parquet",
+        f"{run_type}/{run_id}/{data_type}.parquet",
         result.to_parquet(),
     )
 
-    insert_comparator_set(run_type, set_type, year, result)
+    insert_comparator_set(
+        run_type=run_type,
+        set_type=set_type,
+        run_id=run_id,
+        df=result,
+    )
 
 
-def compute_comparator_sets(run_type: str, year: int) -> float:
+def compute_comparator_sets(
+    run_type: str,
+    run_id: str,
+    target_urn: str | None = None,
+) -> float:
     """
     Determine Comparator Sets.
 
     :param run_type: "default" or "custom" data type
-    :param year: financial year in question
+    :param run_id: optional job identifier for custom data
+    :param target_urn: optional data identifier for custom data
     :return: duration of calculation
     """
     start_time = time.time()
@@ -401,47 +524,61 @@ def compute_comparator_sets(run_type: str, year: int) -> float:
 
     academies = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{run_id}/academies.parquet")
         )
     )
-
     maintained = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year}/maintained_schools.parquet")
+            get_blob(
+                "pre-processed",
+                f"{run_type}/{run_id}/maintained_schools.parquet",
+            )
         )
     )
-
     all_schools = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
+            get_blob("pre-processed", f"{run_type}/{run_id}/all_schools.parquet")
         )
     )
 
     compute_comparator_set_for(
-        "academy_comparators", "unmixed", run_type, year, academies
+        data_type="academy_comparators",
+        set_type="unmixed",
+        run_type=run_type,
+        data=academies,
+        run_id=run_id,
+        target_urn=target_urn,
     )
     compute_comparator_set_for(
-        "maintained_schools_comparators", "unmixed", run_type, year, maintained
+        data_type="maintained_schools_comparators",
+        set_type="unmixed",
+        run_type=run_type,
+        data=maintained,
+        run_id=run_id,
+        target_urn=target_urn,
     )
     compute_comparator_set_for(
-        "mixed_comparators", "mixed", run_type, year, all_schools
+        data_type="mixed_comparators",
+        set_type="mixed",
+        run_type=run_type,
+        data=all_schools,
+        run_id=run_id,
+        target_urn=target_urn,
     )
 
     write_blob(
         "comparator-sets",
-        f"{run_type}/{year}/academies.parquet",
+        f"{run_type}/{run_id}/academies.parquet",
         academies.to_parquet(),
     )
-
     write_blob(
         "comparator-sets",
-        f"{run_type}/{year}/maintained_schools.parquet",
+        f"{run_type}/{run_id}/maintained_schools.parquet",
         maintained.to_parquet(),
     )
-
     write_blob(
         "comparator-sets",
-        f"{run_type}/{year}/all_schools.parquet",
+        f"{run_type}/{run_id}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
@@ -455,7 +592,7 @@ def compute_rag_for(
     data_type: str,
     set_type: str,
     run_type: str,
-    year: int,
+    run_id: str,
     data: pd.DataFrame,
     comparators: pd.DataFrame,
 ):
@@ -468,53 +605,53 @@ def compute_rag_for(
 
     write_blob(
         "metric-rag",
-        f"{run_type}/{year}/{data_type}.parquet",
+        f"{run_type}/{run_id}/{data_type}.parquet",
         df.to_parquet(),
     )
 
-    insert_metric_rag(run_type, set_type, year, df)
+    insert_metric_rag(run_type, set_type, run_id, df)
 
 
-def run_compute_rag(run_type: str, year: int):
+def run_compute_rag(run_type: str, run_id: str):
     """
     Perform RAG calculations.
 
     :param run_type: "default" or "custom" data type
-    :param year: financial year in question
+    :param run_id: optional job identifier for custom data
     :return: duration of RAG calculations
     """
     start_time = time.time()
 
     ms_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{year}/maintained_schools.parquet")
+        get_blob("comparator-sets", f"{run_type}/{run_id}/maintained_schools.parquet")
     )
     ms_comparators = pd.read_parquet(
         get_blob(
             "comparator-sets",
-            f"{run_type}/{year}/maintained_schools_comparators.parquet",
+            f"{run_type}/{run_id}/maintained_schools_comparators.parquet",
         )
     )
     compute_rag_for(
-        "maintained_schools", "unmixed", run_type, year, ms_data, ms_comparators
+        "maintained_schools", "unmixed", run_type, run_id, ms_data, ms_comparators
     )
 
     academy_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{year}/academies.parquet")
+        get_blob("comparator-sets", f"{run_type}/{run_id}/academies.parquet")
     )
     academy_comparators = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{year}/academy_comparators.parquet")
+        get_blob("comparator-sets", f"{run_type}/{run_id}/academy_comparators.parquet")
     )
     compute_rag_for(
-        "academies", "unmixed", run_type, year, academy_data, academy_comparators
+        "academies", "unmixed", run_type, run_id, academy_data, academy_comparators
     )
 
     mixed_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{year}/all_schools.parquet")
+        get_blob("comparator-sets", f"{run_type}/{run_id}/all_schools.parquet")
     )
     mixed_comparators = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{year}/mixed_comparators.parquet")
+        get_blob("comparator-sets", f"{run_type}/{run_id}/mixed_comparators.parquet")
     )
-    compute_rag_for("mixed", "mixed", run_type, year, mixed_data, mixed_comparators)
+    compute_rag_for("mixed", "mixed", run_type, run_id, mixed_data, mixed_comparators)
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
@@ -589,27 +726,6 @@ def handle_msg(
     """
     Process an incoming message.
 
-    TODO: standard message format?
-
-    User-defined comparator set message _content_ will be of the form:
-
-    ```json
-    {
-        "jobId": "24463424-9642-4314-bb55-45424af6e812",
-        "type": "comparator-set",
-        "runId": "c321ef6a-3b1c-4ce2-8e32-0d0167bf2fa7",
-        "year": 2022,
-        "urn": "106057",
-        "payload": {
-            "kind": "ComparatorSetPayload",
-            "set": [
-                "145799",
-                "142875"
-            ]
-        }
-    }
-    ```
-
     Note: user-defined comparator sets will assume pre-processing has
     taken place for the year in question, failing if that does not hold
     true.
@@ -624,25 +740,47 @@ def handle_msg(
     run_type = msg_payload.get("runType", "default")
 
     try:
-        payload = msg_payload.get("payload", {})
-        if payload.get("kind") == "ComparatorSetPayload":
-            msg_payload["rag_duration"] = run_user_defined_rag(
-                year=msg_payload["year"],
-                run_id=msg_payload["runId"],
-                target_urn=int(msg_payload["urn"]),
-                comparator_set=list(map(int, payload["set"])),
-            )
-        else:
-            msg_payload["pre_process_duration"] = pre_process_data(
-                worker_client, run_type, msg_payload["year"]
-            )
+        match get_message_type(message=msg_payload):
 
-            msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                run_type,
-                msg_payload["year"],
-            )
+            case MessageType.Default:
+                msg_payload["pre_process_duration"] = pre_process_data(
+                    worker_client, run_type, msg_payload["year"]
+                )
+                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                    run_type,
+                    msg_payload["year"],
+                )
+                msg_payload["rag_duration"] = run_compute_rag(
+                    run_type=run_type,
+                    run_id=str(msg_payload["year"]),
+                )
 
-            msg_payload["rag_duration"] = run_compute_rag(run_type, msg_payload["year"])
+            case MessageType.DefaultUserDefined:
+                msg_payload["rag_duration"] = run_user_defined_rag(
+                    year=msg_payload["year"],
+                    run_id=msg_payload["runId"],
+                    target_urn=int(msg_payload["urn"]),
+                    comparator_set=list(map(int, msg_payload["payload"]["set"])),
+                )
+
+            case MessageType.Custom:
+                msg_payload["pre_process_duration"] = pre_process_custom_data(
+                    run_id=msg_payload["runId"],
+                    year=msg_payload["year"],
+                    target_urn=int(msg_payload["urn"]),
+                    custom_data={
+                        k: v for k, v in msg_payload["payload"] if k != "kind"
+                    },
+                )
+                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                    run_type=run_type,
+                    run_id=msg_payload["runId"],
+                    target_urn=int(msg_payload["urn"]),
+                )
+                msg_payload["rag_duration"] = run_compute_rag(
+                    run_type=run_type,
+                    run_id=msg_payload["runId"],
+                )
 
         msg_payload["success"] = True
     except Exception as error:
