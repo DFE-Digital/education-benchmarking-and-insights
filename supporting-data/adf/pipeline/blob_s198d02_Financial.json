@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Financial Plan",
+				"name": "Financial",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
