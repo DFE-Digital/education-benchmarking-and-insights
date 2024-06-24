@@ -46,5 +46,6 @@ public record PutCustomDataRequest
     public decimal? TotalInternalFloorArea { get; set; }
     public decimal? WorkforceFTE { get; set; }
     public decimal? TeachersFTE { get; set; }
+    public decimal? PercentTeacherWithQualifiedStatus { get; set; }
     public decimal? SeniorLeadershipFTE { get; set; }
 };

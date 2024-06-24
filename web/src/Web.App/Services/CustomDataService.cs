@@ -129,6 +129,7 @@ public class CustomDataService(
             TotalInternalFloorArea = data.FloorArea,
             WorkforceFTE = data.WorkforceFte,
             TeachersFTE = data.TeachersFte,
+            PercentTeacherWithQualifiedStatus = data.QualifiedTeacherPercent,
             SeniorLeadershipFTE = data.SeniorLeadershipFte
         };
     }

@@ -70,6 +70,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     // Workforce data
     public decimal? WorkforceFte { get; init; }
     public decimal? TeachersFte { get; init; }
+    public decimal? QualifiedTeacherPercent { get; init; }
     public decimal? SeniorLeadershipFte { get; init; }
 
     public static SchoolCustomDataViewModel FromCustomData(CustomData customData)
@@ -141,6 +142,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
             // Workforce data
             WorkforceFte = customData.WorkforceFte,
             TeachersFte = customData.TeachersFte,
+            QualifiedTeacherPercent = customData.QualifiedTeacherPercent,
             SeniorLeadershipFte = customData.SeniorLeadershipFte
         };
     }
@@ -190,5 +192,6 @@ public static class SchoolCustomDataViewModelTitles
     public const string FloorArea = "Gross internal floor area";
     public const string WorkforceFte = "School workforce (full time equivalent)";
     public const string TeachersFte = "Number of teachers (full time equivalent)";
+    public const string QualifiedTeacherPercent = "Teachers with qualified teacher status";
     public const string SeniorLeadershipFte = "Senior leadership (full time equivalent)";
 }

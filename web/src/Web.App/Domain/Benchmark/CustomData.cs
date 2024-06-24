@@ -71,6 +71,7 @@ public record CustomData
     // Workforce data
     public decimal? WorkforceFte { get; set; }
     public decimal? TeachersFte { get; set; }
+    public decimal? QualifiedTeacherPercent { get; set; }
     public decimal? SeniorLeadershipFte { get; set; }
 
     public void Merge(ICustomDataViewModel viewModel)
@@ -160,6 +161,7 @@ public record CustomData
     {
         WorkforceFte = viewModel.WorkforceFte;
         TeachersFte = viewModel.TeachersFte;
+        QualifiedTeacherPercent = viewModel.QualifiedTeacherPercent;
         SeniorLeadershipFte = viewModel.SeniorLeadershipFte;
     }
 }
