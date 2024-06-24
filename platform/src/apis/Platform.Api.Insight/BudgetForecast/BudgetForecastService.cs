@@ -11,7 +11,9 @@ public interface IBudgetForecastService
         string runType,
         string category,
         string? runId = null);
-    Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(string companyNumber);
+    Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
+        string companyNumber,
+        string runType);
 }
 
 public class BudgetForecastService : IBudgetForecastService
@@ -23,7 +25,11 @@ public class BudgetForecastService : IBudgetForecastService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(string companyNumber, string runType, string category, string? runId = null)
+    public async Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(
+        string companyNumber,
+        string runType,
+        string category,
+        string? runId = null)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from BudgetForecastReturn /**where**/");
@@ -47,10 +53,16 @@ public class BudgetForecastService : IBudgetForecastService
         return await conn.QueryAsync<BudgetForecastReturnModel>(template.RawSql, template.Parameters);
     }
 
-    public async Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(string companyNumber)
+    public async Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
+        string companyNumber,
+        string runType)
     {
-        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber";
-        var parameters = new { CompanyNumber = companyNumber };
+        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType";
+        var parameters = new
+        {
+            CompanyNumber = companyNumber,
+            RunType = runType
+        };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters);

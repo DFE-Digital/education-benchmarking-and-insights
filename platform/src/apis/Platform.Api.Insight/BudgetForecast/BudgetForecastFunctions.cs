@@ -48,12 +48,12 @@ public class BudgetForecastFunctions
         {
             try
             {
-                var result = await _service.GetBudgetForecastReturnsAsync(
+                var results = await _service.GetBudgetForecastReturnsAsync(
                     companyNumber,
                     queryParams.RunType,
                     queryParams.Category,
                     queryParams.RunId);
-                return new JsonContentResult(result.Select(BudgetForecastReturnsResponseFactory.Create));
+                return new JsonContentResult(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(results));
             }
             catch (Exception e)
             {
@@ -81,7 +81,7 @@ public class BudgetForecastFunctions
         {
             try
             {
-                var result = await _service.GetBudgetForecastReturnMetricsAsync(companyNumber);
+                var result = await _service.GetBudgetForecastReturnMetricsAsync(companyNumber, "default");
                 return new JsonContentResult(result.Select(BudgetForecastReturnsResponseFactory.Create));
             }
             catch (Exception e)
