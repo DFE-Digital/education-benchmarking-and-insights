@@ -21,7 +21,7 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<Census[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase)
+    public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase, [FromQuery] string? customDataId)
     {
         using (logger.BeginScope(new
         {
@@ -31,16 +31,9 @@ public class CensusProxyController(
         {
             try
             {
-                var set = type.ToLower() switch
-                {
-                    OrganisationTypes.School => await GetSchoolSet(id),
-                    OrganisationTypes.Trust => await GetTrustSet(id, phase),
-                    OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id, phase),
-                    _ => throw new ArgumentOutOfRangeException(nameof(type))
-                };
-
-                var query = BuildApiQuery(set, category, dimension);
-                var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
+                var result = customDataId is not null
+                    ? await GetCustomAsync(id, category, dimension, customDataId)
+                    : await GetDefaultAsync(type, id, category, dimension, phase);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -76,6 +69,32 @@ public class CensusProxyController(
             }
         }
     }
+
+    private async Task<Census[]?> GetCustomAsync(string id, string category, string dimension, string customDataId)
+    {
+        throw new NotImplementedException();
+        //Get custom comparator set
+        //Remove target school from comparator set
+        //Get custom expenditure for target school
+        //Get expenditure for rest of comparator set
+        //Add custom to comparator set list
+    }
+
+    private async Task<Census[]?> GetDefaultAsync(string type, string id, string category, string dimension, string? phase)
+    {
+        var set = type.ToLower() switch
+        {
+            OrganisationTypes.School => await GetSchoolSet(id),
+            OrganisationTypes.Trust => await GetTrustSet(id, phase),
+            OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id, phase),
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
+
+        var query = BuildApiQuery(set, category, dimension);
+        var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
+        return result;
+    }
+
 
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {

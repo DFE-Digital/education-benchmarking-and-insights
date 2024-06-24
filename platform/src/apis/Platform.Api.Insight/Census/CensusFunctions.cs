@@ -100,6 +100,42 @@ public class CensusFunctions
         }
     }
 
+    [FunctionName(nameof(CustomCensusAsync))]
+    [ProducesResponseType(typeof(CensusResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("category", "Census category", DataType = typeof(string))]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    public async Task<IActionResult> CustomCensusAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/custom/{identifier}")]
+        HttpRequest req,
+        string urn,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusParameters>();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var result = await _service.GetCustomAsync(urn, identifier);
+                return result == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get custom census");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
     [FunctionName(nameof(CensusHistoryAsync))]
     [ProducesResponseType(typeof(CensusHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
