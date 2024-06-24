@@ -246,7 +246,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Financial Plan",
+						"name": "Financial",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -2153,6 +2153,651 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_NonFinancial')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "NonFinancial",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"RunType",
+										"RunId",
+										"URN"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RunType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RunType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RunId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RunId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EstablishmentType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EstablishmentType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TotalInternalFloorArea",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalInternalFloorArea",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "BuildingAverageAge",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BuildingAverageAge",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPupils",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPupils",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPupilsSixthForm",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPupilsSixthForm",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPupilsNursery",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPupilsNursery",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "WorkforceHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WorkforceHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "WorkforceFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WorkforceFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachersHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachersHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachersFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachersFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SeniorLeadershipHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SeniorLeadershipHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SeniorLeadershipFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SeniorLeadershipFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachingAssistantHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachingAssistantHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachingAssistantFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachingAssistantFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "NonClassroomSupportStaffHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NonClassroomSupportStaffHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "NonClassroomSupportStaffFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NonClassroomSupportStaffFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AuxiliaryStaffHeadcount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AuxiliaryStaffHeadcount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AuxiliaryStaffFTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AuxiliaryStaffFTE",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentTeacherWithQualifiedStatus",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentTeacherWithQualifiedStatus",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentFreeSchoolMeals",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentFreeSchoolMeals",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentSpecialEducationNeeds",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentSpecialEducationNeeds",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithEducationalHealthCarePlan",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithEducationalHealthCarePlan",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithoutEducationalHealthCarePlan",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithoutEducationalHealthCarePlan",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "KS2Progress",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "KS2Progress",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "KS4Progress",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "KS4Progress",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PredictedPercentChangePupils3To5Years",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PredictedPercentChangePupils3To5Years",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithVI",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithVI",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithSPLD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithSPLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithSLD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithSLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithSLCN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithSLCN",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithSEMH",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithSEMH",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithPMLD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithPMLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithPD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithPD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithOTH",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithOTH",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithMSI",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithMSI",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithMLD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithMLD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithHI",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithHI",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PercentWithASD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PercentWithASD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "blob_NonFinancial",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d02_NonFinancial",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_NonFinancial')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_NonFinancial')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2842,6 +3487,200 @@
 					},
 					{
 						"name": "AverageClassSizeRating",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_NonFinancial')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "NonFinancial",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "String"
+					},
+					{
+						"name": "RunId",
+						"type": "String"
+					},
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "EstablishmentType",
+						"type": "String"
+					},
+					{
+						"name": "TotalInternalFloorArea",
+						"type": "String"
+					},
+					{
+						"name": "BuildingAverageAge",
+						"type": "String"
+					},
+					{
+						"name": "TotalPupils",
+						"type": "String"
+					},
+					{
+						"name": "TotalPupilsSixthForm",
+						"type": "String"
+					},
+					{
+						"name": "TotalPupilsNursery",
+						"type": "String"
+					},
+					{
+						"name": "WorkforceHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "WorkforceFTE",
+						"type": "String"
+					},
+					{
+						"name": "TeachersHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "TeachersFTE",
+						"type": "String"
+					},
+					{
+						"name": "SeniorLeadershipHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "SeniorLeadershipFTE",
+						"type": "String"
+					},
+					{
+						"name": "TeachingAssistantHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "TeachingAssistantFTE",
+						"type": "String"
+					},
+					{
+						"name": "NonClassroomSupportStaffHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "NonClassroomSupportStaffFTE",
+						"type": "String"
+					},
+					{
+						"name": "AuxiliaryStaffHeadcount",
+						"type": "String"
+					},
+					{
+						"name": "AuxiliaryStaffFTE",
+						"type": "String"
+					},
+					{
+						"name": "PercentTeacherWithQualifiedStatus",
+						"type": "String"
+					},
+					{
+						"name": "PercentFreeSchoolMeals",
+						"type": "String"
+					},
+					{
+						"name": "PercentSpecialEducationNeeds",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithEducationalHealthCarePlan",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithoutEducationalHealthCarePlan",
+						"type": "String"
+					},
+					{
+						"name": "KS2Progress",
+						"type": "String"
+					},
+					{
+						"name": "KS4Progress",
+						"type": "String"
+					},
+					{
+						"name": "PredictedPercentChangePupils3To5Years",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithVI",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithSPLD",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithSLD",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithSLCN",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithSEMH",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithPMLD",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithPD",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithOTH",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithMSI",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithMLD",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithHI",
+						"type": "String"
+					},
+					{
+						"name": "PercentWithASD",
 						"type": "String"
 					}
 				]
@@ -3939,6 +4778,269 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "Financial"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_NonFinancial')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RunId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EstablishmentType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TotalInternalFloorArea",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "BuildingAverageAge",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalPupils",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalPupilsSixthForm",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalPupilsNursery",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "WorkforceHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "WorkforceFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachersHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachersFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SeniorLeadershipHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SeniorLeadershipFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachingAssistantHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachingAssistantFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "NonClassroomSupportStaffHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "NonClassroomSupportStaffFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AuxiliaryStaffHeadcount",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AuxiliaryStaffFTE",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentTeacherWithQualifiedStatus",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentFreeSchoolMeals",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentSpecialEducationNeeds",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithEducationalHealthCarePlan",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithoutEducationalHealthCarePlan",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "KS2Progress",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "KS4Progress",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PredictedPercentChangePupils3To5Years",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithVI",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithSPLD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithSLD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithSLCN",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithSEMH",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithPMLD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithPD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithOTH",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithMSI",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithMLD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithHI",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PercentWithASD",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "NonFinancial"
 				}
 			},
 			"dependsOn": [
