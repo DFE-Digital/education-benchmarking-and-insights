@@ -21,399 +21,531 @@
 		},
 		"schema": [
 			{
+				"name": "RunType",
 				"type": "String"
 			},
 			{
+				"name": "RunId",
 				"type": "String"
 			},
 			{
+				"name": "URN",
 				"type": "String"
 			},
 			{
+				"name": "PeriodCoveredByReturn",
 				"type": "String"
 			},
 			{
+				"name": "FinancialPosition",
 				"type": "String"
 			},
 			{
+				"name": "TrustPosition",
 				"type": "String"
 			},
 			{
+				"name": "EstablishmentType",
 				"type": "String"
 			},
 			{
+				"name": "TotalPupils",
 				"type": "String"
 			},
 			{
+				"name": "TotalInternalFloorArea",
 				"type": "String"
 			},
 			{
+				"name": "TotalIncome",
 				"type": "String"
 			},
 			{
+				"name": "TotalExpenditure",
 				"type": "String"
 			},
 			{
+				"name": "InYearBalance",
 				"type": "String"
 			},
 			{
+				"name": "RevenueReserve",
 				"type": "String"
 			},
 			{
+				"name": "TotalGrantFunding",
 				"type": "String"
 			},
 			{
+				"name": "TotalSelfGeneratedFunding",
 				"type": "String"
 			},
 			{
+				"name": "DirectRevenueFinancing",
 				"type": "String"
 			},
 			{
+				"name": "DirectGrants",
 				"type": "String"
 			},
 			{
+				"name": "PrePost16Funding",
 				"type": "String"
 			},
 			{
+				"name": "OtherDfeGrants",
 				"type": "String"
 			},
 			{
+				"name": "OtherIncomeGrants",
 				"type": "String"
 			},
 			{
+				"name": "GovernmentSource",
 				"type": "String"
 			},
 			{
+				"name": "CommunityGrants",
 				"type": "String"
 			},
 			{
+				"name": "Academies",
 				"type": "String"
 			},
 			{
+				"name": "IncomeFacilitiesServices",
 				"type": "String"
 			},
 			{
+				"name": "IncomeCateringServices",
 				"type": "String"
 			},
 			{
+				"name": "DonationsVoluntaryFunds",
 				"type": "String"
 			},
 			{
+				"name": "ReceiptsSupplyTeacherInsuranceClaims",
 				"type": "String"
 			},
 			{
+				"name": "InvestmentIncome",
 				"type": "String"
 			},
 			{
+				"name": "OtherSelfGeneratedIncome",
 				"type": "String"
 			},
 			{
+				"name": "TotalTeachingSupportStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "TeachingStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "SupplyTeachingStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "EducationalConsultancyCosts",
 				"type": "String"
 			},
 			{
+				"name": "EducationSupportStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "AgencySupplyTeachingStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalNonEducationalSupportStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "AdministrativeClericalStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "AuditorsCosts",
 				"type": "String"
 			},
 			{
+				"name": "OtherStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "ProfessionalServicesNonCurriculumCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalEducationalSuppliesCosts",
 				"type": "String"
 			},
 			{
+				"name": "ExaminationFeesCosts",
 				"type": "String"
 			},
 			{
+				"name": "LearningResourcesNonIctCosts",
 				"type": "String"
 			},
 			{
+				"name": "LearningResourcesIctCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalPremisesStaffServiceCosts",
 				"type": "String"
 			},
 			{
+				"name": "CleaningCaretakingCosts",
 				"type": "String"
 			},
 			{
+				"name": "MaintenancePremisesCosts",
 				"type": "String"
 			},
 			{
+				"name": "OtherOccupationCosts",
 				"type": "String"
 			},
 			{
+				"name": "PremisesStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalUtilitiesCosts",
 				"type": "String"
 			},
 			{
+				"name": "EnergyCosts",
 				"type": "String"
 			},
 			{
+				"name": "WaterSewerageCosts",
 				"type": "String"
 			},
 			{
+				"name": "AdministrativeSuppliesNonEducationalCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalGrossCateringCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalNetCateringCostsCosts",
 				"type": "String"
 			},
 			{
+				"name": "CateringStaffCosts",
 				"type": "String"
 			},
 			{
+				"name": "CateringSuppliesCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalOtherCosts",
 				"type": "String"
 			},
 			{
+				"name": "DirectRevenueFinancingCosts",
 				"type": "String"
 			},
 			{
+				"name": "GroundsMaintenanceCosts",
 				"type": "String"
 			},
 			{
+				"name": "IndirectEmployeeExpenses",
 				"type": "String"
 			},
 			{
+				"name": "InterestChargesLoanBank",
 				"type": "String"
 			},
 			{
+				"name": "OtherInsurancePremiumsCosts",
 				"type": "String"
 			},
 			{
+				"name": "PrivateFinanceInitiativeCharges",
 				"type": "String"
 			},
 			{
+				"name": "RentRatesCosts",
 				"type": "String"
 			},
 			{
+				"name": "SpecialFacilitiesCosts",
 				"type": "String"
 			},
 			{
+				"name": "StaffDevelopmentTrainingCosts",
 				"type": "String"
 			},
 			{
+				"name": "StaffRelatedInsuranceCosts",
 				"type": "String"
 			},
 			{
+				"name": "SupplyTeacherInsurableCosts",
 				"type": "String"
 			},
 			{
+				"name": "CommunityFocusedSchoolStaff",
 				"type": "String"
 			},
 			{
+				"name": "CommunityFocusedSchoolCosts",
 				"type": "String"
 			},
 			{
+				"name": "TotalIncomeCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalExpenditureCS",
 				"type": "String"
 			},
 			{
+				"name": "InYearBalanceCS",
 				"type": "String"
 			},
 			{
+				"name": "RevenueReserveCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalGrantFundingCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalSelfGeneratedFundingCS",
 				"type": "String"
 			},
 			{
+				"name": "DirectRevenueFinancingCS",
 				"type": "String"
 			},
 			{
+				"name": "DirectGrantsCS",
 				"type": "String"
 			},
 			{
+				"name": "PrePost16FundingCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherDfeGrantsCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherIncomeGrantsCS",
 				"type": "String"
 			},
 			{
+				"name": "GovernmentSourceCS",
 				"type": "String"
 			},
 			{
+				"name": "CommunityGrantsCS",
 				"type": "String"
 			},
 			{
+				"name": "AcademiesCS",
 				"type": "String"
 			},
 			{
+				"name": "IncomeFacilitiesServicesCS",
 				"type": "String"
 			},
 			{
+				"name": "IncomeCateringServicesCS",
 				"type": "String"
 			},
 			{
+				"name": "DonationsVoluntaryFundsCS",
 				"type": "String"
 			},
 			{
+				"name": "ReceiptsSupplyTeacherInsuranceClaimsCS",
 				"type": "String"
 			},
 			{
+				"name": "InvestmentIncomeCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherSelfGeneratedIncomeCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalTeachingSupportStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TeachingStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "SupplyTeachingStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "EducationalConsultancyCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "EducationSupportStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "AgencySupplyTeachingStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalNonEducationalSupportStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "AdministrativeClericalStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "AuditorsCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "ProfessionalServicesNonCurriculumCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalEducationalSuppliesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "ExaminationFeesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "LearningResourcesNonIctCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "LearningResourcesIctCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalPremisesStaffServiceCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "CleaningCaretakingCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "MaintenancePremisesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherOccupationCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "PremisesStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalUtilitiesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "EnergyCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "WaterSewerageCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "AdministrativeSuppliesNonEducationalCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalGrossCateringCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalNetCateringCostsCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "CateringStaffCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "CateringSuppliesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TotalOtherCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "DirectRevenueFinancingCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "GroundsMaintenanceCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "IndirectEmployeeExpensesCS",
 				"type": "String"
 			},
 			{
+				"name": "InterestChargesLoanBankCS",
 				"type": "String"
 			},
 			{
+				"name": "OtherInsurancePremiumsCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "PrivateFinanceInitiativeChargesCS",
 				"type": "String"
 			},
 			{
+				"name": "RentRatesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "SpecialFacilitiesCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "StaffDevelopmentTrainingCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "StaffRelatedInsuranceCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "SupplyTeacherInsurableCostsCS",
 				"type": "String"
 			},
 			{
+				"name": "TargetedGrants",
 				"type": "String"
 			}
 		]
