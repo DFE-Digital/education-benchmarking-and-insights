@@ -17,10 +17,6 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "s198d02_FinancialPlan",
-						"type": "DatasetReference"
-					},
 					"name": "sink1"
 				}
 			],
@@ -64,33 +60,9 @@
 				"          AverageClassSize = toDecimal(AverageClassSize)) ~> derivedColumn1",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          URN as string,",
-				"          Year as integer,",
-				"          Input as string,",
-				"          DeploymentPlan as string,",
-				"          Created as string,",
-				"          CreatedBy as string,",
-				"          UpdatedAt as string,",
-				"          UpdatedBy as string,",
-				"          IsComplete as boolean,",
-				"          Version as integer,",
-				"          TeacherContactRatio as decimal(16,2),",
-				"          ContactRatioRating as string,",
-				"          InYearBalance as decimal(16,2),",
-				"          InYearBalancePercentIncomeRating as string,",
-				"          AverageClassSize as decimal(16,2),",
-				"          AverageClassSizeRating as string",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:false,",
-				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['URN'],",
-				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     format: 'table') ~> sink1"
 			]
 		}
 	}
