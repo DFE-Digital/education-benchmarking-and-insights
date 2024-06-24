@@ -1,0 +1,53 @@
+{
+	"name": "blob_trust",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d98_storage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "blob"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Trust",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "schooldb.xls",
+				"container": "raw"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "CompanyNumber",
+				"type": "String"
+			},
+			{
+				"name": "TrustName",
+				"type": "String"
+			},
+			{
+				"name": "CFOName",
+				"type": "String"
+			},
+			{
+				"name": "CFOEmail",
+				"type": "String"
+			},
+			{
+				"name": "OpenDate",
+				"type": "String"
+			},
+			{
+				"name": "UID",
+				"type": "String"
+			},
+			{
+				"name": "TrustUPIN",
+				"type": "String"
+			}
+		]
+	}
+}
