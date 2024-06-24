@@ -16,46 +16,60 @@
 				"type": "AzureBlobStorageLocation",
 				"fileName": "schooldb.xls",
 				"container": "raw"
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": [
 			{
+				"name": "RunType",
 				"type": "String"
 			},
 			{
+				"name": "RunId",
 				"type": "String"
 			},
 			{
+				"name": "URN",
 				"type": "String"
 			},
 			{
+				"name": "Category",
 				"type": "String"
 			},
 			{
+				"name": "SubCategory",
 				"type": "String"
 			},
 			{
+				"name": "SetType",
 				"type": "String"
 			},
 			{
+				"name": "Value",
 				"type": "String"
 			},
 			{
+				"name": "Mean",
 				"type": "String"
 			},
 			{
+				"name": "DiffMean",
 				"type": "String"
 			},
 			{
+				"name": "PercentDiff",
 				"type": "String"
 			},
 			{
+				"name": "Percentile",
 				"type": "String"
 			},
 			{
+				"name": "Decile",
 				"type": "String"
 			},
 			{
+				"name": "RAG",
 				"type": "String"
 			}
 		]

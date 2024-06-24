@@ -46,8 +46,9 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "RunType",
 									"type": "String",
-									"ordinal": 1
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "RunType",
@@ -57,8 +58,9 @@
 							},
 							{
 								"source": {
+									"name": "RunId",
 									"type": "String",
-									"ordinal": 2
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "RunId",
@@ -68,8 +70,9 @@
 							},
 							{
 								"source": {
+									"name": "URN",
 									"type": "String",
-									"ordinal": 3
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "URN",
@@ -79,8 +82,9 @@
 							},
 							{
 								"source": {
+									"name": "Category",
 									"type": "String",
-									"ordinal": 4
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Category",
@@ -90,8 +94,9 @@
 							},
 							{
 								"source": {
+									"name": "SubCategory",
 									"type": "String",
-									"ordinal": 5
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "SubCategory",
@@ -101,8 +106,9 @@
 							},
 							{
 								"source": {
+									"name": "SetType",
 									"type": "String",
-									"ordinal": 6
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "SetType",
@@ -112,8 +118,9 @@
 							},
 							{
 								"source": {
+									"name": "Value",
 									"type": "String",
-									"ordinal": 7
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Value",
@@ -125,8 +132,9 @@
 							},
 							{
 								"source": {
+									"name": "Mean",
 									"type": "String",
-									"ordinal": 8
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Mean",
@@ -138,8 +146,9 @@
 							},
 							{
 								"source": {
+									"name": "DiffMean",
 									"type": "String",
-									"ordinal": 9
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "DiffMean",
@@ -151,8 +160,9 @@
 							},
 							{
 								"source": {
+									"name": "PercentDiff",
 									"type": "String",
-									"ordinal": 10
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PercentDiff",
@@ -164,8 +174,9 @@
 							},
 							{
 								"source": {
+									"name": "Percentile",
 									"type": "String",
-									"ordinal": 11
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Percentile",
@@ -177,8 +188,9 @@
 							},
 							{
 								"source": {
+									"name": "Decile",
 									"type": "String",
-									"ordinal": 12
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Decile",
@@ -190,8 +202,9 @@
 							},
 							{
 								"source": {
+									"name": "RAG",
 									"type": "String",
-									"ordinal": 13
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "RAG",
