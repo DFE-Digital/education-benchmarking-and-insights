@@ -13,6 +13,180 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_Trust')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CFOName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CFOEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OpenDate",
+						"type": "date"
+					},
+					{
+						"name": "UID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustUPIN",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Trust"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_school')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustCompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FederationLeadURN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FederationLeadName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LACode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LondonWeighting",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FinanceType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OverallPhase",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HasSixthForm",
+						"type": "bit"
+					},
+					{
+						"name": "HasNursery",
+						"type": "bit"
+					},
+					{
+						"name": "IsPFISchool",
+						"type": "bit"
+					},
+					{
+						"name": "OfstedDate",
+						"type": "date"
+					},
+					{
+						"name": "OfstedDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Telephone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Website",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressStreet",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLocality",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressTown",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressCounty",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressPostcode",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "School"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_Financial')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1923,6 +2097,83 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_MetricRAG')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MetricRAG",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"RunType",
+										"RunId",
+										"URN",
+										"Category",
+										"SubCategory",
+										"SetType"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "blob_MetricRAG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d02_MetricRAG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_NonFinancial')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2680,7 +2931,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/s198d02_school')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
@@ -2758,7 +3011,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/s198d02_Trust')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02')]",
