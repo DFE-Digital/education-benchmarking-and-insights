@@ -13,6 +13,7 @@ public interface IExpenditureService
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
+    Task<SchoolExpenditureModel?> GetCustomSchoolAsync(string urn, string identifier);
 }
 
 public class ExpenditureService : IExpenditureService
@@ -28,6 +29,15 @@ public class ExpenditureService : IExpenditureService
     {
         const string sql = "SELECT * FROM SchoolExpenditure WHERE URN = @URN";
         var parameters = new { URN = urn };
+
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(sql, parameters);
+    }
+
+    public async Task<SchoolExpenditureModel?> GetCustomSchoolAsync(string urn, string identifier)
+    {
+        const string sql = "SELECT * FROM SchoolExpenditureCustom WHERE URN = @URN AND RunId = @RunId";
+        var parameters = new { URN = urn, RunId = identifier };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(sql, parameters);

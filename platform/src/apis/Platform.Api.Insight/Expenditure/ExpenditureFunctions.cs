@@ -102,6 +102,43 @@ public class ExpenditureFunctions
         }
     }
 
+    [FunctionName(nameof(CustomSchoolExpenditureAsync))]
+    [ProducesResponseType(typeof(SchoolExpenditureResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
+    public async Task<IActionResult> CustomSchoolExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/custom/{identifier}")]
+        HttpRequest req,
+        string urn,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<ExpenditureParameters>();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var result = await _service.GetCustomSchoolAsync(urn, identifier);
+                return result == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get custom school expenditure");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
 
     [FunctionName(nameof(TrustExpenditureAsync))]
     [ProducesResponseType(typeof(TrustExpenditureResponse), (int)HttpStatusCode.OK)]

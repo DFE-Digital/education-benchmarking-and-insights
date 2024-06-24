@@ -9,7 +9,8 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 public interface IComparatorSetsService
 {
     Task<string> CurrentYearAsync();
-    Task<ComparatorSetDefaultSchool> DefaultSchoolAsync(string urn, string setType = "unmixed");
+    Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn, string setType = "unmixed");
+    Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn, string setType = "unmixed");
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = "default");
     Task UpsertUserDataAsync(ComparatorSetUserData userData);
@@ -37,7 +38,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstAsync<string>(sql);
     }
 
-    public async Task<ComparatorSetDefaultSchool> DefaultSchoolAsync(string urn, string setType)
+    public async Task<ComparatorSetSchool> DefaultSchoolAsync(string urn, string setType)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         const string setSql = "SELECT * from ComparatorSet where RunType = 'default' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
@@ -45,7 +46,16 @@ public class ComparatorSetsService : IComparatorSetsService
         using var conn = await _dbFactory.GetConnection();
         var year = await conn.QueryFirstAsync<string>(paramSql);
         var parameters = new { URN = urn, RunId = year, SetType = setType };
-        return await conn.QueryFirstOrDefaultAsync<ComparatorSetDefaultSchool>(setSql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters);
+    }
+
+    public async Task<ComparatorSetSchool> CustomSchoolAsync(string runId, string urn, string setType)
+    {
+        const string setSql = "SELECT * from ComparatorSet where RunType = 'custom' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
+
+        using var conn = await _dbFactory.GetConnection();
+        var parameters = new { URN = urn, RunId = runId, SetType = setType };
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters);
     }
 
     public async Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet)

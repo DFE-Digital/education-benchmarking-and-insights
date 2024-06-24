@@ -33,7 +33,8 @@ public class ComparatorSetsFunctions
     }
 
     [FunctionName(nameof(DefaultSchoolComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSetDefaultSchool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetSchool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> DefaultSchoolComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/school/{urn}/default")]
@@ -51,13 +52,50 @@ public class ComparatorSetsFunctions
         {
             try
             {
-                var set = await _service.DefaultSchoolAsync(urn);
-
-                return new JsonContentResult(set);
+                var comparatorSet = await _service.DefaultSchoolAsync(urn);
+                return comparatorSet == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(comparatorSet);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to get default school comparator set");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+
+    [FunctionName(nameof(CustomSchoolComparatorSetAsync))]
+    [ProducesResponseType(typeof(ComparatorSetSchool), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> CustomSchoolComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/school/{urn}/custom/{identifier}")]
+        HttpRequest req,
+        string urn,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
+               }))
+        {
+            try
+            {
+                var comparatorSet = await _service.CustomSchoolAsync(identifier, urn);
+                return comparatorSet == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(comparatorSet);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get custom school comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

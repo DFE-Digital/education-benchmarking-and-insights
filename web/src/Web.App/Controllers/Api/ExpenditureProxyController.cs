@@ -24,6 +24,7 @@ public class ExpenditureProxyController(
     /// <param name="dimension" example="PerUnit"></param>
     /// <param name="phase"></param>
     /// <param name="excludeCentralServices"></param>
+    /// <param name="customDataId"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<SchoolExpenditure[]>(StatusCodes.Status200OK)]
@@ -35,7 +36,8 @@ public class ExpenditureProxyController(
         [FromQuery] string category,
         [FromQuery] string dimension,
         [FromQuery] string? phase,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] bool? excludeCentralServices,
+        [FromQuery] string? customDataId)
     {
         using (logger.BeginScope(new
         {
@@ -47,6 +49,8 @@ public class ExpenditureProxyController(
             {
                 switch (type.ToLower())
                 {
+                    case OrganisationTypes.School when customDataId is not null:
+                        return await CustomSchoolExpenditure(id, category, dimension, customDataId);
                     case OrganisationTypes.School:
                         return await SchoolExpenditure(id, category, dimension, excludeCentralServices);
                     case OrganisationTypes.Trust:
@@ -189,6 +193,16 @@ public class ExpenditureProxyController(
             .GetResultOrThrow<TrustExpenditure[]>();
 
         return new JsonResult(userDefinedResult);
+    }
+
+    private async Task<IActionResult> CustomSchoolExpenditure(string id, string category, string dimension, string customDataId)
+    {
+        throw new NotImplementedException();
+        //Get custom comparator set
+        //Remove target school from comparator set
+        //Get custom expenditure for target school
+        //Get expenditure for rest of comparator set
+        //Add custom to comparator set list
     }
 
     private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
