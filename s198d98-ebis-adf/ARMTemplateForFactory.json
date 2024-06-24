@@ -240,13 +240,1924 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_Financial')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
 						"name": "Financial Plan",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"URN"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RunType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RunType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RunId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RunId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PeriodCoveredByReturn",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PeriodCoveredByReturn",
+											"type": "Int16",
+											"physicalType": "smallint"
+										}
+									},
+									{
+										"source": {
+											"name": "FinancialPosition",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FinancialPosition",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TrustPosition",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TrustPosition",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EstablishmentType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EstablishmentType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPupils",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPupils",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalInternalFloorArea",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalInternalFloorArea",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalIncome",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalIncome",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalExpenditure",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalExpenditure",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InYearBalance",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InYearBalance",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "RevenueReserve",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RevenueReserve",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalGrantFunding",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalGrantFunding",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalSelfGeneratedFunding",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalSelfGeneratedFunding",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectRevenueFinancing",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectRevenueFinancing",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectGrants",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectGrants",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PrePost16Funding",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PrePost16Funding",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherDfeGrants",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherDfeGrants",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherIncomeGrants",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherIncomeGrants",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "GovernmentSource",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GovernmentSource",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CommunityGrants",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CommunityGrants",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "Academies",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Academies",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IncomeFacilitiesServices",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IncomeFacilitiesServices",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IncomeCateringServices",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IncomeCateringServices",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DonationsVoluntaryFunds",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DonationsVoluntaryFunds",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ReceiptsSupplyTeacherInsuranceClaims",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ReceiptsSupplyTeacherInsuranceClaims",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InvestmentIncome",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InvestmentIncome",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherSelfGeneratedIncome",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherSelfGeneratedIncome",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalTeachingSupportStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalTeachingSupportStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachingStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachingStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SupplyTeachingStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupplyTeachingStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EducationalConsultancyCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EducationalConsultancyCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EducationSupportStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EducationSupportStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AgencySupplyTeachingStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AgencySupplyTeachingStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalNonEducationalSupportStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalNonEducationalSupportStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AdministrativeClericalStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AdministrativeClericalStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AuditorsCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AuditorsCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ProfessionalServicesNonCurriculumCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ProfessionalServicesNonCurriculumCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalEducationalSuppliesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalEducationalSuppliesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ExaminationFeesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ExaminationFeesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "LearningResourcesNonIctCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LearningResourcesNonIctCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "LearningResourcesIctCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LearningResourcesIctCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPremisesStaffServiceCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPremisesStaffServiceCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CleaningCaretakingCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CleaningCaretakingCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "MaintenancePremisesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MaintenancePremisesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherOccupationCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherOccupationCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PremisesStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PremisesStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalUtilitiesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalUtilitiesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EnergyCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EnergyCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "WaterSewerageCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WaterSewerageCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AdministrativeSuppliesNonEducationalCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AdministrativeSuppliesNonEducationalCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalGrossCateringCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalGrossCateringCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalNetCateringCostsCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalNetCateringCostsCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CateringStaffCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CateringStaffCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CateringSuppliesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CateringSuppliesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalOtherCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalOtherCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectRevenueFinancingCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectRevenueFinancingCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "GroundsMaintenanceCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GroundsMaintenanceCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IndirectEmployeeExpenses",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IndirectEmployeeExpenses",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InterestChargesLoanBank",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InterestChargesLoanBank",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherInsurancePremiumsCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherInsurancePremiumsCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PrivateFinanceInitiativeCharges",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PrivateFinanceInitiativeCharges",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "RentRatesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RentRatesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SpecialFacilitiesCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SpecialFacilitiesCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "StaffDevelopmentTrainingCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StaffDevelopmentTrainingCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "StaffRelatedInsuranceCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StaffRelatedInsuranceCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SupplyTeacherInsurableCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupplyTeacherInsurableCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CommunityFocusedSchoolStaff",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CommunityFocusedSchoolStaff",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CommunityFocusedSchoolCosts",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CommunityFocusedSchoolCosts",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalIncomeCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalIncomeCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalExpenditureCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalExpenditureCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InYearBalanceCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InYearBalanceCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "RevenueReserveCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RevenueReserveCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalGrantFundingCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalGrantFundingCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalSelfGeneratedFundingCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalSelfGeneratedFundingCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectRevenueFinancingCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectRevenueFinancingCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectGrantsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectGrantsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PrePost16FundingCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PrePost16FundingCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherDfeGrantsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherDfeGrantsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherIncomeGrantsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherIncomeGrantsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "GovernmentSourceCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GovernmentSourceCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CommunityGrantsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CommunityGrantsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AcademiesCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AcademiesCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IncomeFacilitiesServicesCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IncomeFacilitiesServicesCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IncomeCateringServicesCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IncomeCateringServicesCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DonationsVoluntaryFundsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DonationsVoluntaryFundsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ReceiptsSupplyTeacherInsuranceClaimsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ReceiptsSupplyTeacherInsuranceClaimsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InvestmentIncomeCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InvestmentIncomeCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherSelfGeneratedIncomeCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherSelfGeneratedIncomeCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalTeachingSupportStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalTeachingSupportStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TeachingStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TeachingStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SupplyTeachingStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupplyTeachingStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EducationalConsultancyCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EducationalConsultancyCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EducationSupportStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EducationSupportStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AgencySupplyTeachingStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AgencySupplyTeachingStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalNonEducationalSupportStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalNonEducationalSupportStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AdministrativeClericalStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AdministrativeClericalStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AuditorsCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AuditorsCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ProfessionalServicesNonCurriculumCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ProfessionalServicesNonCurriculumCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalEducationalSuppliesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalEducationalSuppliesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "ExaminationFeesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ExaminationFeesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "LearningResourcesNonIctCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LearningResourcesNonIctCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "LearningResourcesIctCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LearningResourcesIctCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalPremisesStaffServiceCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalPremisesStaffServiceCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CleaningCaretakingCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CleaningCaretakingCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "MaintenancePremisesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MaintenancePremisesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherOccupationCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherOccupationCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PremisesStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PremisesStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalUtilitiesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalUtilitiesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "EnergyCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EnergyCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "WaterSewerageCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WaterSewerageCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "AdministrativeSuppliesNonEducationalCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AdministrativeSuppliesNonEducationalCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalGrossCateringCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalGrossCateringCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalNetCateringCostsCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalNetCateringCostsCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CateringStaffCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CateringStaffCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "CateringSuppliesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CateringSuppliesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TotalOtherCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TotalOtherCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "DirectRevenueFinancingCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DirectRevenueFinancingCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "GroundsMaintenanceCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GroundsMaintenanceCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "IndirectEmployeeExpensesCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IndirectEmployeeExpensesCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "InterestChargesLoanBankCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "InterestChargesLoanBankCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "OtherInsurancePremiumsCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OtherInsurancePremiumsCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "PrivateFinanceInitiativeChargesCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PrivateFinanceInitiativeChargesCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "RentRatesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RentRatesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SpecialFacilitiesCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SpecialFacilitiesCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "StaffDevelopmentTrainingCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StaffDevelopmentTrainingCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "StaffRelatedInsuranceCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StaffRelatedInsuranceCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "SupplyTeacherInsurableCostsCS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupplyTeacherInsurableCostsCS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									},
+									{
+										"source": {
+											"name": "TargetedGrants",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TargetedGrants",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 16
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "blob_Financial",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d02_Financial",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_Financial')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_Financial')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "trust",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -259,7 +2170,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "blob_s198d02_FinancialPlan",
+								"referenceName": "blob_s198d02_trust",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -282,7 +2193,565 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_FinancialPlan')]"
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_trust')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_Financial')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Financial",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "String"
+					},
+					{
+						"name": "RunId",
+						"type": "String"
+					},
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "PeriodCoveredByReturn",
+						"type": "String"
+					},
+					{
+						"name": "FinancialPosition",
+						"type": "String"
+					},
+					{
+						"name": "TrustPosition",
+						"type": "String"
+					},
+					{
+						"name": "EstablishmentType",
+						"type": "String"
+					},
+					{
+						"name": "TotalPupils",
+						"type": "String"
+					},
+					{
+						"name": "TotalInternalFloorArea",
+						"type": "String"
+					},
+					{
+						"name": "TotalIncome",
+						"type": "String"
+					},
+					{
+						"name": "TotalExpenditure",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalance",
+						"type": "String"
+					},
+					{
+						"name": "RevenueReserve",
+						"type": "String"
+					},
+					{
+						"name": "TotalGrantFunding",
+						"type": "String"
+					},
+					{
+						"name": "TotalSelfGeneratedFunding",
+						"type": "String"
+					},
+					{
+						"name": "DirectRevenueFinancing",
+						"type": "String"
+					},
+					{
+						"name": "DirectGrants",
+						"type": "String"
+					},
+					{
+						"name": "PrePost16Funding",
+						"type": "String"
+					},
+					{
+						"name": "OtherDfeGrants",
+						"type": "String"
+					},
+					{
+						"name": "OtherIncomeGrants",
+						"type": "String"
+					},
+					{
+						"name": "GovernmentSource",
+						"type": "String"
+					},
+					{
+						"name": "CommunityGrants",
+						"type": "String"
+					},
+					{
+						"name": "Academies",
+						"type": "String"
+					},
+					{
+						"name": "IncomeFacilitiesServices",
+						"type": "String"
+					},
+					{
+						"name": "IncomeCateringServices",
+						"type": "String"
+					},
+					{
+						"name": "DonationsVoluntaryFunds",
+						"type": "String"
+					},
+					{
+						"name": "ReceiptsSupplyTeacherInsuranceClaims",
+						"type": "String"
+					},
+					{
+						"name": "InvestmentIncome",
+						"type": "String"
+					},
+					{
+						"name": "OtherSelfGeneratedIncome",
+						"type": "String"
+					},
+					{
+						"name": "TotalTeachingSupportStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "TeachingStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "SupplyTeachingStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "EducationalConsultancyCosts",
+						"type": "String"
+					},
+					{
+						"name": "EducationSupportStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "AgencySupplyTeachingStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalNonEducationalSupportStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "AdministrativeClericalStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "AuditorsCosts",
+						"type": "String"
+					},
+					{
+						"name": "OtherStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "ProfessionalServicesNonCurriculumCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalEducationalSuppliesCosts",
+						"type": "String"
+					},
+					{
+						"name": "ExaminationFeesCosts",
+						"type": "String"
+					},
+					{
+						"name": "LearningResourcesNonIctCosts",
+						"type": "String"
+					},
+					{
+						"name": "LearningResourcesIctCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalPremisesStaffServiceCosts",
+						"type": "String"
+					},
+					{
+						"name": "CleaningCaretakingCosts",
+						"type": "String"
+					},
+					{
+						"name": "MaintenancePremisesCosts",
+						"type": "String"
+					},
+					{
+						"name": "OtherOccupationCosts",
+						"type": "String"
+					},
+					{
+						"name": "PremisesStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalUtilitiesCosts",
+						"type": "String"
+					},
+					{
+						"name": "EnergyCosts",
+						"type": "String"
+					},
+					{
+						"name": "WaterSewerageCosts",
+						"type": "String"
+					},
+					{
+						"name": "AdministrativeSuppliesNonEducationalCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalGrossCateringCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalNetCateringCostsCosts",
+						"type": "String"
+					},
+					{
+						"name": "CateringStaffCosts",
+						"type": "String"
+					},
+					{
+						"name": "CateringSuppliesCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalOtherCosts",
+						"type": "String"
+					},
+					{
+						"name": "DirectRevenueFinancingCosts",
+						"type": "String"
+					},
+					{
+						"name": "GroundsMaintenanceCosts",
+						"type": "String"
+					},
+					{
+						"name": "IndirectEmployeeExpenses",
+						"type": "String"
+					},
+					{
+						"name": "InterestChargesLoanBank",
+						"type": "String"
+					},
+					{
+						"name": "OtherInsurancePremiumsCosts",
+						"type": "String"
+					},
+					{
+						"name": "PrivateFinanceInitiativeCharges",
+						"type": "String"
+					},
+					{
+						"name": "RentRatesCosts",
+						"type": "String"
+					},
+					{
+						"name": "SpecialFacilitiesCosts",
+						"type": "String"
+					},
+					{
+						"name": "StaffDevelopmentTrainingCosts",
+						"type": "String"
+					},
+					{
+						"name": "StaffRelatedInsuranceCosts",
+						"type": "String"
+					},
+					{
+						"name": "SupplyTeacherInsurableCosts",
+						"type": "String"
+					},
+					{
+						"name": "CommunityFocusedSchoolStaff",
+						"type": "String"
+					},
+					{
+						"name": "CommunityFocusedSchoolCosts",
+						"type": "String"
+					},
+					{
+						"name": "TotalIncomeCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalExpenditureCS",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalanceCS",
+						"type": "String"
+					},
+					{
+						"name": "RevenueReserveCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalGrantFundingCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalSelfGeneratedFundingCS",
+						"type": "String"
+					},
+					{
+						"name": "DirectRevenueFinancingCS",
+						"type": "String"
+					},
+					{
+						"name": "DirectGrantsCS",
+						"type": "String"
+					},
+					{
+						"name": "PrePost16FundingCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherDfeGrantsCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherIncomeGrantsCS",
+						"type": "String"
+					},
+					{
+						"name": "GovernmentSourceCS",
+						"type": "String"
+					},
+					{
+						"name": "CommunityGrantsCS",
+						"type": "String"
+					},
+					{
+						"name": "AcademiesCS",
+						"type": "String"
+					},
+					{
+						"name": "IncomeFacilitiesServicesCS",
+						"type": "String"
+					},
+					{
+						"name": "IncomeCateringServicesCS",
+						"type": "String"
+					},
+					{
+						"name": "DonationsVoluntaryFundsCS",
+						"type": "String"
+					},
+					{
+						"name": "ReceiptsSupplyTeacherInsuranceClaimsCS",
+						"type": "String"
+					},
+					{
+						"name": "InvestmentIncomeCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherSelfGeneratedIncomeCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalTeachingSupportStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TeachingStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "SupplyTeachingStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "EducationalConsultancyCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "EducationSupportStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "AgencySupplyTeachingStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalNonEducationalSupportStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "AdministrativeClericalStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "AuditorsCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "ProfessionalServicesNonCurriculumCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalEducationalSuppliesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "ExaminationFeesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "LearningResourcesNonIctCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "LearningResourcesIctCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalPremisesStaffServiceCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "CleaningCaretakingCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "MaintenancePremisesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherOccupationCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "PremisesStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalUtilitiesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "EnergyCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "WaterSewerageCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "AdministrativeSuppliesNonEducationalCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalGrossCateringCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalNetCateringCostsCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "CateringStaffCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "CateringSuppliesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TotalOtherCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "DirectRevenueFinancingCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "GroundsMaintenanceCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "IndirectEmployeeExpensesCS",
+						"type": "String"
+					},
+					{
+						"name": "InterestChargesLoanBankCS",
+						"type": "String"
+					},
+					{
+						"name": "OtherInsurancePremiumsCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "PrivateFinanceInitiativeChargesCS",
+						"type": "String"
+					},
+					{
+						"name": "RentRatesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "SpecialFacilitiesCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "StaffDevelopmentTrainingCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "StaffRelatedInsuranceCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "SupplyTeacherInsurableCostsCS",
+						"type": "String"
+					},
+					{
+						"name": "TargetedGrants",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
 			]
 		},
 		{
@@ -564,6 +3033,64 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_trust')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Trust",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "CompanyNumber",
+						"type": "String"
+					},
+					{
+						"name": "TrustName",
+						"type": "String"
+					},
+					{
+						"name": "CFOName",
+						"type": "String"
+					},
+					{
+						"name": "CFOEmail",
+						"type": "String"
+					},
+					{
+						"name": "OpenDate",
+						"type": "String"
+					},
+					{
+						"name": "UID",
+						"type": "String"
+					},
+					{
+						"name": "TrustUPIN",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -626,7 +3153,787 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RunId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PeriodCoveredByReturn",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "FinancialPosition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustPosition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EstablishmentType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TotalPupils",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalInternalFloorArea",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalIncome",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalExpenditure",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InYearBalance",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "RevenueReserve",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalGrantFunding",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalSelfGeneratedFunding",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectRevenueFinancing",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectGrants",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PrePost16Funding",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherDfeGrants",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherIncomeGrants",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "GovernmentSource",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CommunityGrants",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "Academies",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IncomeFacilitiesServices",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IncomeCateringServices",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DonationsVoluntaryFunds",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ReceiptsSupplyTeacherInsuranceClaims",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InvestmentIncome",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherSelfGeneratedIncome",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalTeachingSupportStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachingStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SupplyTeachingStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EducationalConsultancyCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EducationSupportStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AgencySupplyTeachingStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalNonEducationalSupportStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AdministrativeClericalStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AuditorsCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ProfessionalServicesNonCurriculumCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalEducationalSuppliesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ExaminationFeesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "LearningResourcesNonIctCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "LearningResourcesIctCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalPremisesStaffServiceCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CleaningCaretakingCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "MaintenancePremisesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherOccupationCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PremisesStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalUtilitiesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EnergyCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "WaterSewerageCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AdministrativeSuppliesNonEducationalCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalGrossCateringCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalNetCateringCostsCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CateringStaffCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CateringSuppliesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalOtherCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectRevenueFinancingCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "GroundsMaintenanceCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IndirectEmployeeExpenses",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InterestChargesLoanBank",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherInsurancePremiumsCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PrivateFinanceInitiativeCharges",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "RentRatesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SpecialFacilitiesCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "StaffDevelopmentTrainingCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "StaffRelatedInsuranceCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SupplyTeacherInsurableCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CommunityFocusedSchoolStaff",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CommunityFocusedSchoolCosts",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalIncomeCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalExpenditureCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InYearBalanceCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "RevenueReserveCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalGrantFundingCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalSelfGeneratedFundingCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectRevenueFinancingCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectGrantsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PrePost16FundingCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherDfeGrantsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherIncomeGrantsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "GovernmentSourceCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CommunityGrantsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AcademiesCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IncomeFacilitiesServicesCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IncomeCateringServicesCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DonationsVoluntaryFundsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ReceiptsSupplyTeacherInsuranceClaimsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InvestmentIncomeCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherSelfGeneratedIncomeCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalTeachingSupportStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TeachingStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SupplyTeachingStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EducationalConsultancyCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EducationSupportStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AgencySupplyTeachingStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalNonEducationalSupportStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AdministrativeClericalStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AuditorsCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ProfessionalServicesNonCurriculumCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalEducationalSuppliesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ExaminationFeesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "LearningResourcesNonIctCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "LearningResourcesIctCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalPremisesStaffServiceCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CleaningCaretakingCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "MaintenancePremisesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherOccupationCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PremisesStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalUtilitiesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "EnergyCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "WaterSewerageCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AdministrativeSuppliesNonEducationalCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalGrossCateringCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalNetCateringCostsCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CateringStaffCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "CateringSuppliesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TotalOtherCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "DirectRevenueFinancingCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "GroundsMaintenanceCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "IndirectEmployeeExpensesCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InterestChargesLoanBankCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "OtherInsurancePremiumsCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "PrivateFinanceInitiativeChargesCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "RentRatesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SpecialFacilitiesCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "StaffDevelopmentTrainingCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "StaffRelatedInsuranceCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "SupplyTeacherInsurableCostsCS",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "TargetedGrants",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					}
+				],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "Financial"
@@ -637,7 +3944,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d02_FinancialPlan')]",
+			"name": "[concat(parameters('factoryName'), '/s198d02_Trust')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -652,83 +3959,37 @@
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "URN",
+						"name": "CompanyNumber",
 						"type": "nvarchar"
 					},
 					{
-						"name": "Year",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "Input",
+						"name": "TrustName",
 						"type": "nvarchar"
 					},
 					{
-						"name": "DeploymentPlan",
+						"name": "CFOName",
 						"type": "nvarchar"
 					},
 					{
-						"name": "Created",
-						"type": "datetimeoffset",
-						"scale": 7
-					},
-					{
-						"name": "CreatedBy",
+						"name": "CFOEmail",
 						"type": "nvarchar"
 					},
 					{
-						"name": "UpdatedAt",
-						"type": "datetimeoffset",
-						"scale": 7
+						"name": "OpenDate",
+						"type": "date"
 					},
 					{
-						"name": "UpdatedBy",
+						"name": "UID",
 						"type": "nvarchar"
 					},
 					{
-						"name": "IsComplete",
-						"type": "bit"
-					},
-					{
-						"name": "Version",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "TeacherContactRatio",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "ContactRatioRating",
-						"type": "nvarchar"
-					},
-					{
-						"name": "InYearBalance",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "InYearBalancePercentIncomeRating",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AverageClassSize",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "AverageClassSizeRating",
+						"name": "TrustUPIN",
 						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "FinancialPlan"
+					"table": "Trust"
 				}
 			},
 			"dependsOn": [
@@ -1024,109 +4285,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "blob_s198d02"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "blob_FinancialPlan",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "s198d02_FinancialPlan",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "AlterRow1"
-						},
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          URN as string,",
-						"          Year as string,",
-						"          Input as string,",
-						"          DeploymentPlan as string,",
-						"          Created as string,",
-						"          CreatedBy as string,",
-						"          UpdatedAt as string,",
-						"          UpdatedBy as string,",
-						"          IsComplete as string,",
-						"          Version as string,",
-						"          TeacherContactRatio as string,",
-						"          ContactRatioRating as string,",
-						"          InYearBalance as string,",
-						"          InYearBalancePercentIncomeRating as string,",
-						"          AverageClassSize as string,",
-						"          AverageClassSizeRating as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
-						"source1 derive(Created = toDate(Created),",
-						"          UpdatedAt = toDate(UpdatedAt),",
-						"          IsComplete = toBoolean(IsComplete),",
-						"          Version = toInteger(Version),",
-						"          TeacherContactRatio = toDecimal(TeacherContactRatio),",
-						"          InYearBalance = toDecimal(InYearBalance),",
-						"          AverageClassSize = toDecimal(AverageClassSize)) ~> derivedColumn1",
-						"AlterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          URN as string,",
-						"          Year as integer,",
-						"          Input as string,",
-						"          DeploymentPlan as string,",
-						"          Created as string,",
-						"          CreatedBy as string,",
-						"          UpdatedAt as string,",
-						"          UpdatedBy as string,",
-						"          IsComplete as boolean,",
-						"          Version as integer,",
-						"          TeacherContactRatio as decimal(16,2),",
-						"          ContactRatioRating as string,",
-						"          InYearBalance as decimal(16,2),",
-						"          InYearBalancePercentIncomeRating as string,",
-						"          AverageClassSize as decimal(16,2),",
-						"          AverageClassSizeRating as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['URN'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/blob_FinancialPlan')]",
-				"[concat(variables('factoryId'), '/datasets/s198d02_FinancialPlan')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1245,163 +4403,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/blob_school')]",
 				"[concat(variables('factoryId'), '/datasets/s198d02_school')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_trust')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "s198d98_storage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "blob"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "Trust",
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "schooldb.xls",
-						"container": "raw"
-					},
-					"firstRowAsHeader": true
-				},
-				"schema": [
-					{
-						"name": "CompanyNumber",
-						"type": "String"
-					},
-					{
-						"name": "TrustName",
-						"type": "String"
-					},
-					{
-						"name": "CFOName",
-						"type": "String"
-					},
-					{
-						"name": "CFOEmail",
-						"type": "String"
-					},
-					{
-						"name": "OpenDate",
-						"type": "String"
-					},
-					{
-						"name": "UID",
-						"type": "String"
-					},
-					{
-						"name": "TrustUPIN",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/s198d02_Trust')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "s198d02_sql",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "s198d02"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CompanyNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TrustName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CFOName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CFOEmail",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OpenDate",
-						"type": "date"
-					},
-					{
-						"name": "UID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TrustUPIN",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Trust"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "trust",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "blob_s198d02_trust",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_trust')]"
 			]
 		},
 		{
