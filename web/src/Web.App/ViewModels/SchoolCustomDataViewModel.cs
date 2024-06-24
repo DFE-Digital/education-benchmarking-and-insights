@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INonFinancialDataCustomDataViewModel,
@@ -72,80 +71,85 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public decimal? TeachersFte { get; init; }
     public decimal? QualifiedTeacherPercent { get; init; }
     public decimal? SeniorLeadershipFte { get; init; }
+    public decimal? TeachingAssistantsFte { get; init; }
+    public decimal? NonClassroomSupportStaffFte { get; init; }
+    public decimal? AuxiliaryStaffFte { get; init; }
+    public decimal? WorkforceHeadcount { get; init; }
 
-    public static SchoolCustomDataViewModel FromCustomData(CustomData customData)
+    public static SchoolCustomDataViewModel FromCustomData(CustomData customData) => new()
     {
-        return new SchoolCustomDataViewModel
-        {
-            // Administrative supplies
-            AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
+        // Administrative supplies
+        AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
 
-            // Catering
-            CateringStaffCosts = customData.CateringStaffCosts,
-            CateringSuppliesCosts = customData.CateringSuppliesCosts,
-            CateringIncome = customData.CateringIncome,
+        // Catering
+        CateringStaffCosts = customData.CateringStaffCosts,
+        CateringSuppliesCosts = customData.CateringSuppliesCosts,
+        CateringIncome = customData.CateringIncome,
 
-            // Educational supplies
-            ExaminationFeesCosts = customData.ExaminationFeesCosts,
-            LearningResourcesNonIctCosts = customData.LearningResourcesNonIctCosts,
+        // Educational supplies
+        ExaminationFeesCosts = customData.ExaminationFeesCosts,
+        LearningResourcesNonIctCosts = customData.LearningResourcesNonIctCosts,
 
-            // IT
-            LearningResourcesIctCosts = customData.LearningResourcesIctCosts,
+        // IT
+        LearningResourcesIctCosts = customData.LearningResourcesIctCosts,
 
-            // Non-educational support staff
-            AdministrativeClericalStaffCosts = customData.AdministrativeClericalStaffCosts,
-            AuditorsCosts = customData.AuditorsCosts,
-            OtherStaffCosts = customData.OtherStaffCosts,
-            ProfessionalServicesNonCurriculumCosts = customData.ProfessionalServicesNonCurriculumCosts,
+        // Non-educational support staff
+        AdministrativeClericalStaffCosts = customData.AdministrativeClericalStaffCosts,
+        AuditorsCosts = customData.AuditorsCosts,
+        OtherStaffCosts = customData.OtherStaffCosts,
+        ProfessionalServicesNonCurriculumCosts = customData.ProfessionalServicesNonCurriculumCosts,
 
-            // Premises and services
-            CleaningCaretakingCosts = customData.CleaningCaretakingCosts,
-            MaintenancePremisesCosts = customData.MaintenancePremisesCosts,
-            OtherOccupationCosts = customData.OtherOccupationCosts,
-            PremisesStaffCosts = customData.PremisesStaffCosts,
+        // Premises and services
+        CleaningCaretakingCosts = customData.CleaningCaretakingCosts,
+        MaintenancePremisesCosts = customData.MaintenancePremisesCosts,
+        OtherOccupationCosts = customData.OtherOccupationCosts,
+        PremisesStaffCosts = customData.PremisesStaffCosts,
 
-            // Teaching and teaching support
-            AgencySupplyTeachingStaffCosts = customData.AgencySupplyTeachingStaffCosts,
-            EducationSupportStaffCosts = customData.EducationSupportStaffCosts,
-            EducationalConsultancyCosts = customData.EducationalConsultancyCosts,
-            SupplyTeachingStaffCosts = customData.SupplyTeachingStaffCosts,
-            TeachingStaffCosts = customData.TeachingStaffCosts,
+        // Teaching and teaching support
+        AgencySupplyTeachingStaffCosts = customData.AgencySupplyTeachingStaffCosts,
+        EducationSupportStaffCosts = customData.EducationSupportStaffCosts,
+        EducationalConsultancyCosts = customData.EducationalConsultancyCosts,
+        SupplyTeachingStaffCosts = customData.SupplyTeachingStaffCosts,
+        TeachingStaffCosts = customData.TeachingStaffCosts,
 
-            // Utilities
-            EnergyCosts = customData.EnergyCosts,
-            WaterSewerageCosts = customData.WaterSewerageCosts,
+        // Utilities
+        EnergyCosts = customData.EnergyCosts,
+        WaterSewerageCosts = customData.WaterSewerageCosts,
 
-            // Other costs
-            DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
-            GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
-            IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
-            InterestChargesLoanBank = customData.InterestChargesLoanBank,
-            OtherInsurancePremiumsCosts = customData.OtherInsurancePremiumsCosts,
-            PrivateFinanceInitiativeCharges = customData.PrivateFinanceInitiativeCharges,
-            RentRatesCosts = customData.RentRatesCosts,
-            SpecialFacilitiesCosts = customData.SpecialFacilitiesCosts,
-            StaffDevelopmentTrainingCosts = customData.StaffDevelopmentTrainingCosts,
-            StaffRelatedInsuranceCosts = customData.StaffRelatedInsuranceCosts,
-            SupplyTeacherInsurableCosts = customData.SupplyTeacherInsurableCosts,
+        // Other costs
+        DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
+        GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
+        IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
+        InterestChargesLoanBank = customData.InterestChargesLoanBank,
+        OtherInsurancePremiumsCosts = customData.OtherInsurancePremiumsCosts,
+        PrivateFinanceInitiativeCharges = customData.PrivateFinanceInitiativeCharges,
+        RentRatesCosts = customData.RentRatesCosts,
+        SpecialFacilitiesCosts = customData.SpecialFacilitiesCosts,
+        StaffDevelopmentTrainingCosts = customData.StaffDevelopmentTrainingCosts,
+        StaffRelatedInsuranceCosts = customData.StaffRelatedInsuranceCosts,
+        SupplyTeacherInsurableCosts = customData.SupplyTeacherInsurableCosts,
 
-            // Totals
-            TotalIncome = customData.TotalIncome,
-            TotalExpenditure = customData.TotalExpenditure,
-            RevenueReserve = customData.RevenueReserve,
+        // Totals
+        TotalIncome = customData.TotalIncome,
+        TotalExpenditure = customData.TotalExpenditure,
+        RevenueReserve = customData.RevenueReserve,
 
-            // Non-financial data
-            NumberOfPupilsFte = customData.NumberOfPupilsFte,
-            FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
-            SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
-            FloorArea = customData.FloorArea,
+        // Non-financial data
+        NumberOfPupilsFte = customData.NumberOfPupilsFte,
+        FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
+        SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
+        FloorArea = customData.FloorArea,
 
-            // Workforce data
-            WorkforceFte = customData.WorkforceFte,
-            TeachersFte = customData.TeachersFte,
-            QualifiedTeacherPercent = customData.QualifiedTeacherPercent,
-            SeniorLeadershipFte = customData.SeniorLeadershipFte
-        };
-    }
+        // Workforce data
+        WorkforceFte = customData.WorkforceFte,
+        TeachersFte = customData.TeachersFte,
+        QualifiedTeacherPercent = customData.QualifiedTeacherPercent,
+        SeniorLeadershipFte = customData.SeniorLeadershipFte,
+        TeachingAssistantsFte = customData.TeachingAssistantsFte,
+        NonClassroomSupportStaffFte = customData.NonClassroomSupportStaffFte,
+        AuxiliaryStaffFte = customData.AuxiliaryStaffFte,
+        WorkforceHeadcount = customData.WorkforceHeadcount
+    };
 }
 
 public static class SchoolCustomDataViewModelTitles
@@ -194,4 +198,8 @@ public static class SchoolCustomDataViewModelTitles
     public const string TeachersFte = "Number of teachers (full time equivalent)";
     public const string QualifiedTeacherPercent = "Teachers with qualified teacher status";
     public const string SeniorLeadershipFte = "Senior leadership (full time equivalent)";
+    public const string TeachingAssistantsFte = "Teaching Assistants (full time equivalent)";
+    public const string NonClassroomSupportStaffFte = "Non-classroom support staff - excluding auxiliary staff (full time equivalent)";
+    public const string AuxiliaryStaffFte = "Auxiliary staff (full time equivalent)";
+    public const string WorkforceHeadcount = "School workforce (headcount)";
 }

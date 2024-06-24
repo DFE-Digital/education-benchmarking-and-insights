@@ -7,10 +7,7 @@ public static class CustomDataFactory
         SchoolExpenditure expenditure,
         Census census,
         SchoolCharacteristic characteristic,
-        SchoolBalance balance)
-    {
-
-        return new CustomData
+        SchoolBalance balance) => new()
         {
             // Administrative supplies
             AdministrativeSuppliesCosts = expenditure.AdministrativeSuppliesCosts,
@@ -68,6 +65,9 @@ public static class CustomDataFactory
             TeachersFte = census.TeachersFTE,
             QualifiedTeacherPercent = census.PercentTeacherWithQualifiedStatus,
             SeniorLeadershipFte = census.SeniorLeadershipFTE,
+            TeachingAssistantsFte = census.TeachingAssistantFTE,
+            NonClassroomSupportStaffFte = census.NonClassroomSupportStaffFTE,
+            AuxiliaryStaffFte = census.AuxiliaryStaffFTE,
+            WorkforceHeadcount = census.WorkforceHeadcount
         };
-    }
 }

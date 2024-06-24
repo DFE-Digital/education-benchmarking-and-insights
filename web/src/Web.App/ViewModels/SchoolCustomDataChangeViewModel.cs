@@ -371,6 +371,38 @@ public class SchoolCustomDataChangeViewModel(
             Current = CurrentValues.SeniorLeadershipFte,
             Custom = CustomInput.SeniorLeadershipFte,
             Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TeachingAssistantsFte,
+            Name = nameof(SchoolCustomDataViewModel.TeachingAssistantsFte),
+            Current = CurrentValues.TeachingAssistantsFte,
+            Custom = CustomInput.TeachingAssistantsFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.NonClassroomSupportStaffFte,
+            Name = nameof(SchoolCustomDataViewModel.NonClassroomSupportStaffFte),
+            Current = CurrentValues.NonClassroomSupportStaffFte,
+            Custom = CustomInput.NonClassroomSupportStaffFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AuxiliaryStaffFte,
+            Name = nameof(SchoolCustomDataViewModel.AuxiliaryStaffFte),
+            Current = CurrentValues.AuxiliaryStaffFte,
+            Custom = CustomInput.AuxiliaryStaffFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.WorkforceHeadcount,
+            Name = nameof(SchoolCustomDataViewModel.WorkforceHeadcount),
+            Current = CurrentValues.WorkforceHeadcount,
+            Custom = CustomInput.WorkforceHeadcount,
+            Units = SchoolCustomDataValueUnits.Actual
         }
     );
 }

@@ -130,7 +130,11 @@ public class CustomDataService(
             WorkforceFTE = data.WorkforceFte,
             TeachersFTE = data.TeachersFte,
             PercentTeacherWithQualifiedStatus = data.QualifiedTeacherPercent,
-            SeniorLeadershipFTE = data.SeniorLeadershipFte
+            SeniorLeadershipFTE = data.SeniorLeadershipFte,
+            TeachingAssistantFTE = data.TeachingAssistantsFte,
+            NonClassroomSupportStaffFTE = data.NonClassroomSupportStaffFte,
+            AuxiliaryStaffFTE = data.AuxiliaryStaffFte,
+            WorkforceHeadcount = data.WorkforceHeadcount
         };
     }
 }
