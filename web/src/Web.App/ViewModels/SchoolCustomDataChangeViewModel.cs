@@ -356,6 +356,13 @@ public class SchoolCustomDataChangeViewModel(
             Current = CurrentValues.TeachersFte,
             Custom = CustomInput.TeachersFte,
             Units = SchoolCustomDataValueUnits.Actual
+        }, new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.QualifiedTeacherPercent,
+            Name = nameof(SchoolCustomDataViewModel.QualifiedTeacherPercent),
+            Current = CurrentValues.QualifiedTeacherPercent,
+            Custom = CustomInput.QualifiedTeacherPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
         },
         new SchoolCustomDataValueViewModel
         {

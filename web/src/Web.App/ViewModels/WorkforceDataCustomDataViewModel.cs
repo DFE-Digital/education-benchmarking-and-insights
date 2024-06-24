@@ -9,6 +9,7 @@ public interface IWorkforceDataCustomDataViewModel : ICustomDataViewModel
 {
     decimal? WorkforceFte { get; }
     decimal? TeachersFte { get; }
+    decimal? QualifiedTeacherPercent { get; }
     decimal? SeniorLeadershipFte { get; }
 }
 
@@ -22,6 +23,11 @@ public record WorkforceDataCustomDataViewModel : IWorkforceDataCustomDataViewMod
     [Display(Name = SchoolCustomDataViewModelTitles.TeachersFte)]
     [CompareDecimalValue(nameof(WorkforceFte), Operator.LessThan)]
     public decimal? TeachersFte { get; init; }
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.QualifiedTeacherPercent)]
+    [Range(1, 100)]
+    public decimal? QualifiedTeacherPercent { get; init; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.SeniorLeadershipFte)]

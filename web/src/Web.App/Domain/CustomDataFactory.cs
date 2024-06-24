@@ -66,6 +66,7 @@ public static class CustomDataFactory
             // Workforce data
             WorkforceFte = census.WorkforceFTE,
             TeachersFte = census.TeachersFTE,
+            QualifiedTeacherPercent = census.PercentTeacherWithQualifiedStatus,
             SeniorLeadershipFte = census.SeniorLeadershipFTE,
         };
     }

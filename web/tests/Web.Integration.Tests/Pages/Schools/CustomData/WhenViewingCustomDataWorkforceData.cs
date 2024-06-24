@@ -30,7 +30,8 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
 
         var customCensus = Fixture.Build<Census>()
             .With(c => c.WorkforceFTE, Fixture.CreateDecimal(101, 200))
-            .With(c => c.TeachersFTE, Fixture.CreateDecimal(51, 100))
+            .With(c => c.TeachersFTE, Fixture.CreateDecimal(51, 90))
+            .With(c => c.PercentTeacherWithQualifiedStatus, Fixture.CreateDecimal(91, 100))
             .With(c => c.SeniorLeadershipFTE, Fixture.CreateDecimal(0, 50))
             .Create();
 
@@ -41,6 +42,9 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             },
             {
                 nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.TeachersFTE
+            },
+            {
+                nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent), customCensus.PercentTeacherWithQualifiedStatus
             },
             {
                 nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadershipFTE
@@ -103,6 +107,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             page,
             (nameof(WorkforceDataCustomDataViewModel.WorkforceFte), "Enter school workforce (full time equivalent) in the correct format"),
             (nameof(WorkforceDataCustomDataViewModel.TeachersFte), "Enter number of teachers (full time equivalent) in the correct format"),
+            (nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent), "Enter teachers with qualified teacher status in the correct format"),
             (nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), "Enter senior leadership (full time equivalent) in the correct format")
         );
     }
@@ -165,7 +170,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.TitleAndH1(page, "Customise your data - Financial Benchmarking and Insights Tool - GOV.UK", "Change workforce data");
 
         var currentValues = page.QuerySelectorAll("span[id^='current-']");
-        Assert.Equal(3, currentValues.Length);
+        Assert.Equal(4, currentValues.Length);
 
         foreach (var currentValue in currentValues)
         {
@@ -173,12 +178,13 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.WorkforceFTE,
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.TeachersFTE,
-                _ => _census.SeniorLeadershipFTE
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.WorkforceFTE?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.TeachersFTE?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent) => _census.PercentTeacherWithQualifiedStatus?.ToString("#") + "%",
+                _ => _census.SeniorLeadershipFTE?.ToString("#.0")
             };
 
-            Assert.True(expected?.ToString("#.0").Equals(actual), $"{field} expected to be {expected} but found {actual}");
+            Assert.True(expected?.Equals(actual), $"{field} expected to be {expected} but found {actual}");
         }
     }
 }
