@@ -18,42 +18,48 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
             Year = 2020,
             Forecast = 211_000_000,
             Actual = 219_000_000,
-            TotalPupils = 11_000,
-            PercentVariance = -6
+            ForecastTotalPupils = 11_000,
+            ActualTotalPupils = 11_100,
+            Variance = 8_000_000,
+            PercentVariance = 3.65296804m
         },
         new BudgetForecastReturn
         {
             Year = 2021,
             Forecast = 277_000_000,
             Actual = 412_000_000,
-            TotalPupils = 12_200,
-            PercentVariance = 5
+            ForecastTotalPupils = 12_200,
+            ActualTotalPupils = 12_100,
+            Variance = 135_000_000,
+            PercentVariance = 32.76699029m
         },
         new BudgetForecastReturn
         {
             Year = 2022,
             Forecast = 487_000_000,
-            Actual = 609_000_000,
-            TotalPupils = 13_300,
-            PercentVariance = 10
+            Actual = 457_000_000,
+            ForecastTotalPupils = 13_300,
+            ActualTotalPupils = 14_000,
+            Variance = -30_000_000,
+            PercentVariance = -6.16014643m
         },
         new BudgetForecastReturn
         {
             Year = 2023,
             Forecast = -25_000_000,
-            TotalPupils = 14_400
+            ForecastTotalPupils = 14_400
         },
         new BudgetForecastReturn
         {
             Year = 2024,
             Forecast = 264_000_000,
-            TotalPupils = 15_500
+            ForecastTotalPupils = 15_500
         },
         new BudgetForecastReturn
         {
             Year = 2025,
             Forecast = 286_000_000,
-            TotalPupils = 16_600
+            ForecastTotalPupils = 16_600
         }
     }));
 
