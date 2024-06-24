@@ -197,12 +197,24 @@ public class ExpenditureProxyController(
 
     private async Task<IActionResult> CustomSchoolExpenditure(string id, string category, string dimension, string customDataId)
     {
-        throw new NotImplementedException();
-        //Get custom comparator set
-        //Remove target school from comparator set
-        //Get custom expenditure for target school
-        //Get expenditure for rest of comparator set
-        //Add custom to comparator set list
+        var customSet = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
+        var set = category is "PremisesStaffServices" or "Utilities"
+            ? customSet.Building
+            : customSet.Pupil;
+
+        var schools = set.Where(x => x != id);
+
+        var customResult = await expenditureApi
+            .SchoolCustom(id, customDataId, BuildQuery(category, dimension))
+            .GetResultOrDefault<SchoolExpenditure>();
+
+        var defaultResult = await expenditureApi
+            .QuerySchools(BuildQuery(schools, "urns", category, dimension))
+            .GetResultOrDefault<SchoolExpenditure[]>();
+
+        return customResult != null
+            ? new JsonResult(defaultResult?.Append(customResult).ToArray())
+            : new JsonResult(defaultResult);
     }
 
     private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
@@ -230,13 +242,21 @@ public class ExpenditureProxyController(
         return new JsonResult(userDefinedResult);
     }
 
-    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices, string? phase = null)
+    private static ApiQuery BuildQuery(string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("category", category)
             .AddIfNotNull("dimension", dimension)
             .AddIfNotNull("excludeCentralServices", excludeCentralServices)
             .AddIfNotNull("phase", phase);
+
+        return query;
+    }
+
+    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
+    {
+        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+
         foreach (var id in ids)
         {
             query.AddIfNotNull(idQueryName, id);

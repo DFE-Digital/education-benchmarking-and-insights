@@ -72,12 +72,19 @@ public class CensusProxyController(
 
     private async Task<Census[]?> GetCustomAsync(string id, string category, string dimension, string customDataId)
     {
-        throw new NotImplementedException();
-        //Get custom comparator set
-        //Remove target school from comparator set
-        //Get custom expenditure for target school
-        //Get expenditure for rest of comparator set
-        //Add custom to comparator set list
+
+        var set = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
+        var schools = set.Pupil.Where(x => x != id);
+
+        var setQuery = BuildApiQuery(category, dimension, schools);
+        var customQuery = BuildApiQuery(category, dimension);
+
+        var defaultResults = await censusApi.Query(setQuery).GetResultOrDefault<Census[]>();
+        var customResult = await censusApi.GetCustom(id, customDataId, customQuery).GetResultOrDefault<Census>();
+
+        return customResult != null
+            ? defaultResults?.Append(customResult).ToArray()
+            : defaultResults;
     }
 
     private async Task<Census[]?> GetDefaultAsync(string type, string id, string category, string dimension, string? phase)
@@ -90,7 +97,7 @@ public class CensusProxyController(
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
 
-        var query = BuildApiQuery(set, category, dimension);
+        var query = BuildApiQuery(category, dimension, set);
         var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
         return result;
     }
@@ -129,7 +136,7 @@ public class CensusProxyController(
         return result.Select(x => x.URN).OfType<string>();
     }
 
-    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? category = null, string? dimension = null)
+    private static ApiQuery BuildApiQuery(string? category = null, string? dimension = null, IEnumerable<string>? urns = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("dimension", dimension)
