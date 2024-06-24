@@ -22,7 +22,7 @@
             break;
         case SchoolCustomDataValueUnits.Currency:
             prefix = "£";
-            currentValueFormatted = currentValue.ToCurrency();
+            currentValueFormatted = currentValue.ToCurrency(currentValue > 1_000 ? 0 : 2);
             inputWidth = 10;
             break;
         case SchoolCustomDataValueUnits.Percentage:
@@ -48,7 +48,7 @@
             <span id="custom-@Model.Name" data-value="@Model.Custom">
                 @if (Model.Custom > 0)
                 {
-                    @Model.Custom.ToCurrency()
+                    @Model.Custom.ToCurrency(Model.Custom > 1_000 ? 0 : 2)
                 }
             </span>
             <input id="@Model.Name" name="@Model.Name" type="hidden" value="@Model.Custom"/>
