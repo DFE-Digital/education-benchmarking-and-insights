@@ -1,0 +1,189 @@
+{
+	"name": "blob_NonFinancial",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d98_storage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "blob"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "NonFinancial",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "schooldb.xls",
+				"container": "raw"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "RunType",
+				"type": "String"
+			},
+			{
+				"name": "RunId",
+				"type": "String"
+			},
+			{
+				"name": "URN",
+				"type": "String"
+			},
+			{
+				"name": "EstablishmentType",
+				"type": "String"
+			},
+			{
+				"name": "TotalInternalFloorArea",
+				"type": "String"
+			},
+			{
+				"name": "BuildingAverageAge",
+				"type": "String"
+			},
+			{
+				"name": "TotalPupils",
+				"type": "String"
+			},
+			{
+				"name": "TotalPupilsSixthForm",
+				"type": "String"
+			},
+			{
+				"name": "TotalPupilsNursery",
+				"type": "String"
+			},
+			{
+				"name": "WorkforceHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "WorkforceFTE",
+				"type": "String"
+			},
+			{
+				"name": "TeachersHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "TeachersFTE",
+				"type": "String"
+			},
+			{
+				"name": "SeniorLeadershipHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "SeniorLeadershipFTE",
+				"type": "String"
+			},
+			{
+				"name": "TeachingAssistantHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "TeachingAssistantFTE",
+				"type": "String"
+			},
+			{
+				"name": "NonClassroomSupportStaffHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "NonClassroomSupportStaffFTE",
+				"type": "String"
+			},
+			{
+				"name": "AuxiliaryStaffHeadcount",
+				"type": "String"
+			},
+			{
+				"name": "AuxiliaryStaffFTE",
+				"type": "String"
+			},
+			{
+				"name": "PercentTeacherWithQualifiedStatus",
+				"type": "String"
+			},
+			{
+				"name": "PercentFreeSchoolMeals",
+				"type": "String"
+			},
+			{
+				"name": "PercentSpecialEducationNeeds",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithEducationalHealthCarePlan",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithoutEducationalHealthCarePlan",
+				"type": "String"
+			},
+			{
+				"name": "KS2Progress",
+				"type": "String"
+			},
+			{
+				"name": "KS4Progress",
+				"type": "String"
+			},
+			{
+				"name": "PredictedPercentChangePupils3To5Years",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithVI",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithSPLD",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithSLD",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithSLCN",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithSEMH",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithPMLD",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithPD",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithOTH",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithMSI",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithMLD",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithHI",
+				"type": "String"
+			},
+			{
+				"name": "PercentWithASD",
+				"type": "String"
+			}
+		]
+	}
+}
