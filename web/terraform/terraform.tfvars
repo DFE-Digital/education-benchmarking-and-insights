@@ -15,4 +15,5 @@ dfe-signin = {
   metadata-address         = "__dfe-signin-metadata-address__"
   signed-out-callback-path = "__dfe-signin-signed-out-callback-path__"
   sign-out-uri             = "__dfe-signin-sign-out-uri__"
+  sign-in-uri              = "__dfe-signin-sign-in-uri__"
 }
