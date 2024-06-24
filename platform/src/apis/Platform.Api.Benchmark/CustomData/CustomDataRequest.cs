@@ -48,7 +48,12 @@ public record CustomDataRequest
     public int? TotalInternalFloorArea { get; set; }
     public decimal? WorkforceFTE { get; set; }
     public decimal? TeachersFTE { get; set; }
+    public decimal? PercentTeacherWithQualifiedStatus { get; set; }
     public decimal? SeniorLeadershipFTE { get; set; }
+    public decimal? TeachingAssistantFTE { get; set; }
+    public decimal? NonClassroomSupportStaffFTE { get; set; }
+    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? WorkforceHeadcount { get; set; }
 
     public CustomDataPayload CreatePayload()
     {
@@ -96,7 +101,12 @@ public record CustomDataRequest
             TotalInternalFloorArea = TotalInternalFloorArea,
             WorkforceFTE = WorkforceFTE,
             TeachersFTE = TeachersFTE,
-            SeniorLeadershipFTE = SeniorLeadershipFTE
+            PercentTeacherWithQualifiedStatus = PercentTeacherWithQualifiedStatus,
+            SeniorLeadershipFTE = SeniorLeadershipFTE,
+            TeachingAssistantFTE = TeachingAssistantFTE,
+            NonClassroomSupportStaffFTE = NonClassroomSupportStaffFTE,
+            AuxiliaryStaffFTE = AuxiliaryStaffFTE,
+            WorkforceHeadcount = WorkforceHeadcount
         };
     }
 
