@@ -87,6 +87,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     "DFESignInSettings__MetadataAddress"               = var.dfe-signin.metadata-address
     "DFESignInSettings__SignedOutCallbackPath"         = var.dfe-signin.signed-out-callback-path
     "DFESignInSettings__SignOutUri"                    = var.dfe-signin.sign-out-uri
+    "DFESignInSettings__SignInUri"                     = var.dfe-signin.sign-in-uri
     "SessionData__Using"                               = "Cosmos"
     "SessionData__Settings__ConnectionString"          = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
     "SessionData__Settings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name

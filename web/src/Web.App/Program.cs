@@ -40,6 +40,7 @@ builder.Services
 builder.Services.AddHealthChecks();
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
+
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 {
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";

@@ -78,7 +78,8 @@ Having initialised the secret storage, add the following section to `secrets.jso
     "Issuer": "[INSERT SECRET VALUE]",
     "MetadataAddress": "[INSERT URL VALUE]",
     "SignedOutCallbackPath": "[INSERT PATH VALUE]",
-    "SignOutUri": "[INSERT URL VALUE]"
+    "SignOutUri": "[INSERT URL VALUE]",
+    "SignInUri": "[INSERT URL VALUE]"
   }
 ```
 
