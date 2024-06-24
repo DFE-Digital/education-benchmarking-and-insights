@@ -117,8 +117,9 @@ public static class DocumentAssert
     {
         foreach (var (field, message) in errors)
         {
-            var element = doc.GetElementById($"{field}-error-summary");
-            Assert.NotNull(element);
+            var id = $"{field}-error-summary";
+            var element = doc.GetElementById(id);
+            Assert.True(element != null, $"Unable to find element {id} by Id");
             TextEqual(element, message);
         }
     }

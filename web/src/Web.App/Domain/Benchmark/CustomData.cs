@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Web.App.ViewModels;
-
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
@@ -73,6 +72,10 @@ public record CustomData
     public decimal? TeachersFte { get; set; }
     public decimal? QualifiedTeacherPercent { get; set; }
     public decimal? SeniorLeadershipFte { get; set; }
+    public decimal? TeachingAssistantsFte { get; set; }
+    public decimal? NonClassroomSupportStaffFte { get; set; }
+    public decimal? AuxiliaryStaffFte { get; set; }
+    public decimal? WorkforceHeadcount { get; set; }
 
     public void Merge(ICustomDataViewModel viewModel)
     {
@@ -163,5 +166,9 @@ public record CustomData
         TeachersFte = viewModel.TeachersFte;
         QualifiedTeacherPercent = viewModel.QualifiedTeacherPercent;
         SeniorLeadershipFte = viewModel.SeniorLeadershipFte;
+        TeachingAssistantsFte = viewModel.TeachingAssistantsFte;
+        NonClassroomSupportStaffFte = viewModel.NonClassroomSupportStaffFte;
+        AuxiliaryStaffFte = viewModel.AuxiliaryStaffFte;
+        WorkforceHeadcount = viewModel.WorkforceHeadcount;
     }
 }
