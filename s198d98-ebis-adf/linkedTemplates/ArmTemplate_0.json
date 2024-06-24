@@ -2173,7 +2173,9 @@
 								"upsertSettings": {
 									"useTempDB": true,
 									"keys": [
-										"URN"
+										"URN",
+										"RunType",
+										"RunId"
 									]
 								},
 								"sqlWriterUseTableLock": false,
