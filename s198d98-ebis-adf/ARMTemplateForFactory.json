@@ -240,6 +240,146 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Financial Plan",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "blob_s198d02_FinancialPlan",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_FinancialPlan')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "FinancialPlan",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Input",
+						"type": "String"
+					},
+					{
+						"name": "DeploymentPlan",
+						"type": "String"
+					},
+					{
+						"name": "Created",
+						"type": "String"
+					},
+					{
+						"name": "CreatedBy",
+						"type": "String"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "String"
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "String"
+					},
+					{
+						"name": "IsComplete",
+						"type": "String"
+					},
+					{
+						"name": "Version",
+						"type": "String"
+					},
+					{
+						"name": "TeacherContactRatio",
+						"type": "String"
+					},
+					{
+						"name": "ContactRatioRating",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalance",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalancePercentIncomeRating",
+						"type": "String"
+					},
+					{
+						"name": "AverageClassSize",
+						"type": "String"
+					},
+					{
+						"name": "AverageClassSizeRating",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -466,6 +606,129 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "ComparatorSet"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_Financial')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Financial"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Year",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Input",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeploymentPlan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsComplete",
+						"type": "bit"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TeacherContactRatio",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ContactRatioRating",
+						"type": "nvarchar"
+					},
+					{
+						"name": "InYearBalance",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InYearBalancePercentIncomeRating",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AverageClassSize",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AverageClassSizeRating",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FinancialPlan"
 				}
 			},
 			"dependsOn": [
@@ -761,6 +1024,109 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "blob_s198d02"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "blob_FinancialPlan",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "s198d02_FinancialPlan",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow1"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          URN as string,",
+						"          Year as string,",
+						"          Input as string,",
+						"          DeploymentPlan as string,",
+						"          Created as string,",
+						"          CreatedBy as string,",
+						"          UpdatedAt as string,",
+						"          UpdatedBy as string,",
+						"          IsComplete as string,",
+						"          Version as string,",
+						"          TeacherContactRatio as string,",
+						"          ContactRatioRating as string,",
+						"          InYearBalance as string,",
+						"          InYearBalancePercentIncomeRating as string,",
+						"          AverageClassSize as string,",
+						"          AverageClassSizeRating as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
+						"source1 derive(Created = toDate(Created),",
+						"          UpdatedAt = toDate(UpdatedAt),",
+						"          IsComplete = toBoolean(IsComplete),",
+						"          Version = toInteger(Version),",
+						"          TeacherContactRatio = toDecimal(TeacherContactRatio),",
+						"          InYearBalance = toDecimal(InYearBalance),",
+						"          AverageClassSize = toDecimal(AverageClassSize)) ~> derivedColumn1",
+						"AlterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          URN as string,",
+						"          Year as integer,",
+						"          Input as string,",
+						"          DeploymentPlan as string,",
+						"          Created as string,",
+						"          CreatedBy as string,",
+						"          UpdatedAt as string,",
+						"          UpdatedBy as string,",
+						"          IsComplete as boolean,",
+						"          Version as integer,",
+						"          TeacherContactRatio as decimal(16,2),",
+						"          ContactRatioRating as string,",
+						"          InYearBalance as decimal(16,2),",
+						"          InYearBalancePercentIncomeRating as string,",
+						"          AverageClassSize as decimal(16,2),",
+						"          AverageClassSizeRating as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['URN'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_FinancialPlan')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_FinancialPlan')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -882,7 +1248,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_FinancialPlan')]",
+			"name": "[concat(parameters('factoryName'), '/blob_trust')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -896,7 +1262,7 @@
 				"annotations": [],
 				"type": "Excel",
 				"typeProperties": {
-					"sheetName": "FinancialPlan",
+					"sheetName": "Trust",
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "schooldb.xls",
@@ -906,67 +1272,31 @@
 				},
 				"schema": [
 					{
-						"name": "URN",
+						"name": "CompanyNumber",
 						"type": "String"
 					},
 					{
-						"name": "Year",
+						"name": "TrustName",
 						"type": "String"
 					},
 					{
-						"name": "Input",
+						"name": "CFOName",
 						"type": "String"
 					},
 					{
-						"name": "DeploymentPlan",
+						"name": "CFOEmail",
 						"type": "String"
 					},
 					{
-						"name": "Created",
+						"name": "OpenDate",
 						"type": "String"
 					},
 					{
-						"name": "CreatedBy",
+						"name": "UID",
 						"type": "String"
 					},
 					{
-						"name": "UpdatedAt",
-						"type": "String"
-					},
-					{
-						"name": "UpdatedBy",
-						"type": "String"
-					},
-					{
-						"name": "IsComplete",
-						"type": "String"
-					},
-					{
-						"name": "Version",
-						"type": "String"
-					},
-					{
-						"name": "TeacherContactRatio",
-						"type": "String"
-					},
-					{
-						"name": "ContactRatioRating",
-						"type": "String"
-					},
-					{
-						"name": "InYearBalance",
-						"type": "String"
-					},
-					{
-						"name": "InYearBalancePercentIncomeRating",
-						"type": "String"
-					},
-					{
-						"name": "AverageClassSize",
-						"type": "String"
-					},
-					{
-						"name": "AverageClassSizeRating",
+						"name": "TrustUPIN",
 						"type": "String"
 					}
 				]
@@ -976,7 +1306,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d02_FinancialPlan')]",
+			"name": "[concat(parameters('factoryName'), '/s198d02_Trust')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -991,83 +1321,37 @@
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "URN",
+						"name": "CompanyNumber",
 						"type": "nvarchar"
 					},
 					{
-						"name": "Year",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "Input",
+						"name": "TrustName",
 						"type": "nvarchar"
 					},
 					{
-						"name": "DeploymentPlan",
+						"name": "CFOName",
 						"type": "nvarchar"
 					},
 					{
-						"name": "Created",
-						"type": "datetimeoffset",
-						"scale": 7
-					},
-					{
-						"name": "CreatedBy",
+						"name": "CFOEmail",
 						"type": "nvarchar"
 					},
 					{
-						"name": "UpdatedAt",
-						"type": "datetimeoffset",
-						"scale": 7
+						"name": "OpenDate",
+						"type": "date"
 					},
 					{
-						"name": "UpdatedBy",
+						"name": "UID",
 						"type": "nvarchar"
 					},
 					{
-						"name": "IsComplete",
-						"type": "bit"
-					},
-					{
-						"name": "Version",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "TeacherContactRatio",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "ContactRatioRating",
-						"type": "nvarchar"
-					},
-					{
-						"name": "InYearBalance",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "InYearBalancePercentIncomeRating",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AverageClassSize",
-						"type": "decimal",
-						"precision": 16,
-						"scale": 2
-					},
-					{
-						"name": "AverageClassSizeRating",
+						"name": "TrustUPIN",
 						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "FinancialPlan"
+					"table": "Trust"
 				}
 			},
 			"dependsOn": [
@@ -1075,116 +1359,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "blob_s198d02"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "blob_FinancialPlan",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "s198d02_FinancialPlan",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "AlterRow1"
-						},
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          URN as string,",
-						"          Year as string,",
-						"          Input as string,",
-						"          DeploymentPlan as string,",
-						"          Created as string,",
-						"          CreatedBy as string,",
-						"          UpdatedAt as string,",
-						"          UpdatedBy as string,",
-						"          IsComplete as string,",
-						"          Version as string,",
-						"          TeacherContactRatio as string,",
-						"          ContactRatioRating as string,",
-						"          InYearBalance as string,",
-						"          InYearBalancePercentIncomeRating as string,",
-						"          AverageClassSize as string,",
-						"          AverageClassSizeRating as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
-						"source1 derive(Created = toDate(Created),",
-						"          UpdatedAt = toDate(UpdatedAt),",
-						"          IsComplete = toBoolean(IsComplete),",
-						"          Version = toInteger(Version),",
-						"          TeacherContactRatio = toDecimal(TeacherContactRatio),",
-						"          InYearBalance = toDecimal(InYearBalance),",
-						"          AverageClassSize = toDecimal(AverageClassSize)) ~> derivedColumn1",
-						"AlterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          URN as string,",
-						"          Year as integer,",
-						"          Input as string,",
-						"          DeploymentPlan as string,",
-						"          Created as string,",
-						"          CreatedBy as string,",
-						"          UpdatedAt as string,",
-						"          UpdatedBy as string,",
-						"          IsComplete as boolean,",
-						"          Version as integer,",
-						"          TeacherContactRatio as decimal(16,2),",
-						"          ContactRatioRating as string,",
-						"          InYearBalance as decimal(16,2),",
-						"          InYearBalancePercentIncomeRating as string,",
-						"          AverageClassSize as decimal(16,2),",
-						"          AverageClassSizeRating as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['URN'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/blob_FinancialPlan')]",
-				"[concat(variables('factoryId'), '/datasets/s198d02_FinancialPlan')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Financial Plan",
+						"name": "trust",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -1197,7 +1378,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "blob_s198d02_FinancialPlan",
+								"referenceName": "blob_s198d02_trust",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -1220,7 +1401,88 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_FinancialPlan')]"
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_trust')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_trust')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "blob_s198d02"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "blob_trust",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "s198d02_Trust",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          CompanyNumber as string,",
+						"          TrustName as string,",
+						"          CFOName as string,",
+						"          CFOEmail as string,",
+						"          OpenDate as string,",
+						"          UID as string,",
+						"          TrustUPIN as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 derive(OpenDate = toDate(OpenDate)) ~> derivedColumn1",
+						"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
+						"AlterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          CompanyNumber as string,",
+						"          TrustName as string,",
+						"          CFOName as string,",
+						"          CFOEmail as string,",
+						"          OpenDate as date,",
+						"          UID as string,",
+						"          TrustUPIN as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['CompanyNumber'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'allErrors',",
+						"     transactionCommit: 'single',",
+						"     reportSuccessOnError: false) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_trust')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_Trust')]"
 			]
 		}
 	]
