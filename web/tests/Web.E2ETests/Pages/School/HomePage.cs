@@ -29,7 +29,7 @@ public class HomePage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
-        var expectedH2Texts = new[] { "Spending  priorities for this school", "Finance tools", "Resources" };
+        var expectedH2Texts = new[] { "Spending priorities for this school", "Finance tools", "Resources" };
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)
         {
             await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);

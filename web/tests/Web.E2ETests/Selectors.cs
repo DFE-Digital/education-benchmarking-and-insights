@@ -80,7 +80,7 @@ public static class Selectors
     public const string ReactChartContainer = ".recharts-responsive-container";
     public const string ReactChartStats = ".chart-stat-summary";
     public const string AdditionalDetailsPopUps = ".recharts-wrapper .recharts-tooltip-wrapper";
-    public const string SchoolNamesLinksInCharts = "text.recharts-text.govuk-link";
+    public const string SchoolNamesLinksInCharts = ".recharts-text .govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
 
     public const string SchoolSuggestDropdown = "#school-input__listbox";
