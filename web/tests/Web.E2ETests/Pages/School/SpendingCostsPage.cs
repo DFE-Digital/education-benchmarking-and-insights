@@ -20,9 +20,9 @@ public class SpendingCostsPage(IPage page)
 {
     private readonly string[] _h3Names =
     {
-        "Utilities and premises costs", "All other costs","Teaching and teaching support staff", "Administrative supplies", "Catering staff and services",
-        "Educational ICT", "Educational supplies", "Non-educational support staff", "Other",
-        "Premises and services", "Utilities",
+        "Teaching and Teaching support staff", "Administrative supplies", "Catering staff and supplies",
+        "Educational ICT", "Educational supplies", "Non-educational support staff and services", "Other costs",
+        "Premises staff and services", "Utilities"
     };
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
@@ -32,7 +32,6 @@ public class SpendingCostsPage(IPage page)
         page.Locator(Selectors.GovDetailsSummaryText,
             new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
 
-    private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator PageH3Headings => page.Locator(Selectors.H3);
     private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
     private ILocator AllChartsStats => page.Locator(Selectors.ReactChartStats);
@@ -41,33 +40,30 @@ public class SpendingCostsPage(IPage page)
         new PageLocatorOptions { HasText = "View all teaching and teaching support staff" });
 
     private ILocator AdministrativeSuppliesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all administrative supplies" });
+        new PageLocatorOptions { HasText = "View all administrative supplies costs" });
 
     private ILocator CateringStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all catering staff and services costs" });
+        new PageLocatorOptions { HasText = "View all catering staff and supplies costs" });
 
     private ILocator EducationalIctLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all educational ICT" });
+        new PageLocatorOptions { HasText = "View all educational ICT costs" });
 
     private ILocator EducationalSuppliesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all educational supplies" });
+        new PageLocatorOptions { HasText = "View all educational supplies costs" });
 
     private ILocator NonEducationalSupportStaffLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all non-educational support staff" });
+        new PageLocatorOptions { HasText = "View all non-educational support staff and services" });
 
     private ILocator OtherLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all other" });
+        new PageLocatorOptions { HasText = "View all other costs costs" });
 
     private ILocator PremisesStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all premises and services costs" });
+        new PageLocatorOptions { HasText = "View all premises staff and services costs" });
 
     private ILocator UtilitiesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all utilities" });
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
-    private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "30 similar schools" });
-
 
     public async Task IsDisplayed()
     {
@@ -80,21 +76,7 @@ public class SpendingCostsPage(IPage page)
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
     }
-
-    public async Task ClickComparatorSetDetails()
-    {
-        await ComparatorSetDetails.Click();
-    }
-
-    public async Task IsDetailsSectionVisible()
-    {
-        await ComparatorSetDetailsText.ShouldBeVisible();
-        Assert.Equal(2, await SimilarSchoolLink.CountAsync());
-        foreach (var similarSchoolLink in await SimilarSchoolLink.AllAsync())
-        {
-            await similarSchoolLink.ShouldBeVisible();
-        }
-    }
+    
 
     public async Task CheckOrderOfCharts(List<string[]> expectedOrder)
     {
@@ -143,7 +125,7 @@ public class SpendingCostsPage(IPage page)
         var h3Elements = await PageH3Headings.AllAsync();
         var categoryNames = new List<string>();
 
-        foreach (var h3 in h3Elements.Skip(2))
+        foreach (var h3 in h3Elements)
         {
             var chartName = await h3.TextContentAsync() ?? string.Empty;
             categoryNames.Add(chartName.Trim());
