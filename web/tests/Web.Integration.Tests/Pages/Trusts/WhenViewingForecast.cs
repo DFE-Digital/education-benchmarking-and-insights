@@ -53,7 +53,10 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             .With(t => t.CompanyNumber, "54321")
             .Create();
 
-        var trustBalance = Fixture.Build<TrustBalance>().Create();
+        var returns = Fixture.Build<BudgetForecastReturn>()
+            .With(m => m.Year, 2022)
+            .CreateMany(5)
+            .ToArray();
 
         var metrics = Fixture.Build<BudgetForecastReturnMetric>()
             .With(m => m.Year, 2022)
@@ -61,8 +64,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             .ToArray();
 
         var page = await Client.SetupEstablishment(trust)
-            .SetupBalance(trust, trustBalance)
-            .SetupBudgetForecast(trust, metrics)
+            .SetupBudgetForecast(trust, returns, metrics)
             .Navigate(Paths.TrustForecast(trust.CompanyNumber));
 
         return (page, trust, metrics);

@@ -6,7 +6,11 @@ namespace Platform.Api.Insight.BudgetForecast;
 
 public interface IBudgetForecastService
 {
-    Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(string companyNumber);
+    Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(
+        string companyNumber,
+        string runType,
+        string category,
+        string? runId = null);
     Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(string companyNumber);
 }
 
@@ -19,13 +23,28 @@ public class BudgetForecastService : IBudgetForecastService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(string companyNumber)
+    public async Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(string companyNumber, string runType, string category, string? runId = null)
     {
-        const string sql = "SELECT * from BudgetForecastReturn where CompanyNumber = @CompanyNumber";
-        var parameters = new { CompanyNumber = companyNumber };
+        var builder = new SqlBuilder();
+        var template = builder.AddTemplate("SELECT * from BudgetForecastReturn /**where**/");
+        var parameters = new
+        {
+            CompanyNumber = companyNumber,
+            RunType = runType,
+            Category = category
+        };
+
+        builder.Where("CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category", parameters);
+        if (!string.IsNullOrWhiteSpace(runId))
+        {
+            builder.Where("RunId = @RunId", new
+            {
+                RunId = runId
+            });
+        }
 
         using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryAsync<BudgetForecastReturnModel>(sql, parameters);
+        return await conn.QueryAsync<BudgetForecastReturnModel>(template.RawSql, template.Parameters);
     }
 
     public async Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(string companyNumber)

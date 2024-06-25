@@ -14,7 +14,6 @@ namespace Web.App.Controllers;
 [Route("trust/{companyNumber}/forecast")]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,
-    IBalanceApi balanceApi,
     IBudgetForecastApi budgetForecastApi,
     ILogger<TrustForecastController> logger)
     : Controller
@@ -31,9 +30,9 @@ public class TrustForecastController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustForecast(companyNumber);
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<TrustBalance>();
                 var metrics = await GetBudgetForecastReturnMetrics(companyNumber);
-                var viewModel = new TrustForecastViewModel(trust, balance, metrics);
+                var returns = await GetCurrentBudgetForecastReturn(companyNumber);
+                var viewModel = new TrustForecastViewModel(trust, metrics, returns);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -48,4 +47,14 @@ public class TrustForecastController(
     private async Task<BudgetForecastReturnMetric[]> GetBudgetForecastReturnMetrics(string companyNumber) => await budgetForecastApi
         .BudgetForecastReturnsMetrics(companyNumber)
         .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
+
+    private async Task<BudgetForecastReturn[]> GetCurrentBudgetForecastReturn(string companyNumber)
+    {
+        var query = new ApiQuery()
+            .AddIfNotNull("runId", (Constants.CurrentYear - 1).ToString());
+
+        return await budgetForecastApi
+            .BudgetForecastReturns(companyNumber, query)
+            .GetResultOrDefault<BudgetForecastReturn[]>() ?? [];
+    }
 }

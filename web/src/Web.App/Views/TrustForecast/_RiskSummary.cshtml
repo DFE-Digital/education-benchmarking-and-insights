@@ -18,10 +18,10 @@
                 })
 
                 <span>
-                    @if (Model.BalancesInDeficit || Model.BalancesInDeficitOrForecastingDeficit)
+                    @if (Model.BalancesInDeficit || Model.BalancesForecastingDeficit)
                     {
                         @:Your trust balances indicate that you are in deficit
-                        if (Model.BalancesInDeficitOrForecastingDeficit)
+                        if (Model.BalancesForecastingDeficit)
                         {
                             @:or forecasting a deficit within the next year
                         }
