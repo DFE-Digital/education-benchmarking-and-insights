@@ -189,7 +189,7 @@ public class CompareYourCostsPage(IPage page)
         await link.Locator(Selectors.ToggleSectionText).ShouldHaveText(text);
         await IsSectionContentVisible(chartName, visibility, chartMode);
     }
-    
+
     public async Task IsSchoolDetailsPopUpVisible()
     {
         await AdditionalDetailsPopUps.First.ShouldBeVisible();

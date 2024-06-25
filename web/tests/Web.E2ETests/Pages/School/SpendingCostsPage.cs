@@ -76,7 +76,7 @@ public class SpendingCostsPage(IPage page)
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
     }
-    
+
 
     public async Task CheckOrderOfCharts(List<string[]> expectedOrder)
     {
