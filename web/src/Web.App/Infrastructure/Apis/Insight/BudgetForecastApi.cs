@@ -40,7 +40,7 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
         new BudgetForecastReturn
         {
             Year = 2023,
-            Forecast = 265_000_000,
+            Forecast = -25_000_000,
             TotalPupils = 14_400
         },
         new BudgetForecastReturn

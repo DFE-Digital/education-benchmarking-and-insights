@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -28,12 +29,17 @@ public class BudgetForecastFunctions
     [ProducesResponseType(typeof(BudgetForecastReturnResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("runType", "Forecast run type", "default", DataType = typeof(string))]
+    [QueryStringParameter("category", "Forecast run category", "Revenue reserve", DataType = typeof(string))]
+    [QueryStringParameter("runId", "Forecast run identifier or year", "2022", DataType = typeof(string))]
     public async Task<IActionResult> BudgetForecastReturnAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}")]
         HttpRequest req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BudgetForecastReturnParameters>();
+
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
@@ -42,7 +48,11 @@ public class BudgetForecastFunctions
         {
             try
             {
-                var result = await _service.GetBudgetForecastReturnsAsync(companyNumber);
+                var result = await _service.GetBudgetForecastReturnsAsync(
+                    companyNumber,
+                    queryParams.RunType,
+                    queryParams.Category,
+                    queryParams.RunId);
                 return new JsonContentResult(result.Select(BudgetForecastReturnsResponseFactory.Create));
             }
             catch (Exception e)
