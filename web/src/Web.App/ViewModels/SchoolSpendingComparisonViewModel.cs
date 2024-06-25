@@ -63,8 +63,8 @@ public class SchoolSpendingComparisonViewModel
 
     private (int OriginalCount, int CustomCount, string Change) GetHeadlineResults(string rag)
     {
-        var originalCount = _originalRating.Where(c => c.RAG == rag).Count();
-        var customCount = _customRating.Where(c => c.RAG == rag).Count();
+        var originalCount = _originalRating.Count(c => c.RAG == rag);
+        var customCount = _customRating.Count(c => c.RAG == rag);
         var change = originalCount > customCount
             ? ChangeSymbols.Decrease : originalCount < customCount ? ChangeSymbols.Increase
             : ChangeSymbols.NoChange;
