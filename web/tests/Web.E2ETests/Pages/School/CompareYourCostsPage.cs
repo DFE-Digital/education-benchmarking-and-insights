@@ -42,11 +42,17 @@ public class CompareYourCostsPage(IPage page)
     private ILocator PremisesDimension => page.Locator(Selectors.PremisesDimension);
 
     private ILocator SaveAsImageButtons =>
-        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
+        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save" });
     private ILocator ComparatorSetDetails =>
-        page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
+        page.Locator(Selectors.GovLink,
+            new PageLocatorOptions { HasText = "We've chosen 2 sets of similar schools" });
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "Choose your own similar schools" });
+    private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
+
+    private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Change the data for this school" });
     private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "30 similar schools" });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
@@ -65,8 +71,8 @@ public class CompareYourCostsPage(IPage page)
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
         await ComparatorSetDetails.ShouldBeVisible();
-        await ComparatorSetLink.ShouldNotBeVisible();
-        await ComparatorSetDetailsText.ShouldNotBeVisible();
+        await CustomComparatorLink.ShouldBeVisible();
+        await CustomDataLink.ShouldBeVisible();
 
         await HasDimensionValuesForChart(ComparisonChartNames.Premises,
             ["£ per m²", "actuals", "percentage of expenditure", "percentage of income"]);
@@ -100,6 +106,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task IsTableDataForChartDisplayed(ComparisonChartNames chartName, List<List<string>> expectedData)
     {
+        await ChartTable(chartName).ShouldBeVisible();
         await ChartTable(chartName).ShouldHaveTableContent(expectedData, true);
     }
 
