@@ -1270,6 +1270,9 @@ def update_custom_data(
     data provided; additionally, all "central services" information
     will be set to zero, again for that row only.
 
+    Note: only a subset of the custom fields may be present in the
+    inbound message.
+
     :param existing_data: existing, pre-processed data
     :param custom_data: custom financial information
     :param target_urn: specific row to update
@@ -1309,26 +1312,31 @@ def update_custom_data(
         "staffDevelopmentTrainingCosts": "Other costs_Staff development and training",
         "staffRelatedInsuranceCosts": "Other costs_Staff-related insurance",
         "supplyTeacherInsurableCosts": "Other costs_Supply teacher insurance",
-        "totalIncome": "Income_Total",
-        "totalExpenditure": "Total Expenditure",
-        "revenueReserve": "Revenue reserve",
         "totalPupils": "Total pupils in trust",
         "percentFreeSchoolMeals": "Percentage Free school meals",
         "percentSpecialEducationNeeds": "Percentage SEN",
         "totalInternalFloorArea": "Total Internal Floor Area",
         "workforceFTE": "Total School Workforce (Full-Time Equivalent)",
         "teachersFTE": "Total Number of Teachers (Full-Time Equivalent)",
+        "percentTeacherWithQualifiedStatus": "Teachers with Qualified Teacher Status (%) (Headcount)",
         "seniorLeadershipFTE": "Total Number of Teachers in the Leadership Group (Full-time Equivalent)",
+        "teachingAssistantFTE": "Total Number of Teaching Assistants (Full-Time Equivalent)",
+        "nonClassroomSupportStaffFTE": "NonClassroomSupportStaffFTE",
+        "auxiliaryStaffFTE": "Total Number of Auxiliary Staff (Full-Time Equivalent)",
+        "workforceHeadcount": "Total School Workforce (Headcount)",
     }
 
-    existing_data.loc[
-        target_urn,
-        custom_to_columns.values(),
-    ] = [custom_data[custom] for custom in custom_to_columns.keys()]
+    custom_present = [
+        custom for custom in custom_to_columns.keys() if custom in custom_data
+    ]
+
+    existing_columns = [custom_to_columns[custom] for custom in custom_present]
+    custom_values = [custom_data[custom] for custom in custom_present]
+    existing_data.loc[target_urn, existing_columns] = custom_values
 
     central_services_columns = [
         f"{column}_CS"
-        for column in custom_to_columns.values()
+        for column in existing_columns
         if f"{column}_CS" in existing_data.columns
     ]
     central_services_values = [0.0] * len(central_services_columns)

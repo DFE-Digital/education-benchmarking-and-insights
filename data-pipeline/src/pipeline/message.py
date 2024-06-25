@@ -85,16 +85,18 @@ def get_message_type(message: dict) -> MessageType:
             "staffDevelopmentTrainingCosts": 0.0,
             "staffRelatedInsuranceCosts": 0.0,
             "supplyTeacherInsurableCosts": 0.0,
-            "totalIncome": 0.0,
-            "totalExpenditure": 0.0,
-            "revenueReserve": 0.0,
             "totalPupils": 0.0,
             "percentFreeSchoolMeals": 0.0,
             "percentSpecialEducationNeeds": 0.0,
             "totalInternalFloorArea": 0.0,
             "workforceFTE": 0.0,
             "teachersFTE": 0.0,
-            "seniorLeadershipFTE": 0.0
+            "percentTeacherWithQualifiedStatus": 0.0,
+            "seniorLeadershipFTE": 0.0,
+            "teachingAssistantFTE": 0.0,
+            "nonClassroomSupportStaffFTE": 0.0,
+            "auxiliaryStaffFTE": 0.0,
+            "workforceHeadcount": 0.0,
         }
     }
     ```
