@@ -769,7 +769,7 @@ def handle_msg(
                     year=msg_payload["year"],
                     target_urn=int(msg_payload["urn"]),
                     custom_data={
-                        k: v for k, v in msg_payload["payload"] if k != "kind"
+                        k: v for k, v in msg_payload["payload"].items() if k != "kind"
                     },
                 )
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
