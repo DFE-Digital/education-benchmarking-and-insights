@@ -34,9 +34,9 @@
         <script type="text/javascript" add-nonce="true">
             var clickPluginInstance = new Microsoft.ApplicationInsights.ClickAnalyticsPlugin();
             var clickPluginConfig = {
-                    autoCapture : true,
+                    autoCapture: true,
                     dataTags: {
-                            useDefaultContentNameOrId: true
+                        customDataPrefix: "data-custom-event-"
                     }
             }
             var configObj = {
@@ -90,11 +90,20 @@
 
             @if (User.Identity is { IsAuthenticated: true })
             {
-                @Html.ActionLink("Sign out", "Signout", "Home", null, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
+                @Html.ActionLink("Sign out", "Signout", "Home", null, new
+                {
+                    @class = "govuk-header__link govuk-header__service-name app-signin"
+                })
             }
             else
             {
-                @Html.ActionLink("Sign in", "Signin", "Home", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
+                @Html.ActionLink("Sign in", "Signin", "Home", new
+                {
+                    redirectUri = ViewContext.HttpContext.Request.Path
+                }, new
+                {
+                    @class = "govuk-header__link govuk-header__service-name app-signin"
+                })
             }
         </div>
     </div>
@@ -161,7 +170,8 @@
                         class="govuk-footer__link"
                         href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                         rel="license">
-                        Open Government Licence v3.0</a>, except where otherwise stated
+                        Open Government Licence v3.0
+                    </a>, except where otherwise stated
                 </span>
             </div>
             <div class="govuk-footer__meta-item">
@@ -183,7 +193,7 @@
         history.back();
     });
 </script>
-@await RenderSectionAsync("scripts", required: false)
+@await RenderSectionAsync("scripts", false)
 
 </body>
 </html>
