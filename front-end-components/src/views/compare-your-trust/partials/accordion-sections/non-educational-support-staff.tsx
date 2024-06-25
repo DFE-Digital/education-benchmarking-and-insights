@@ -164,7 +164,7 @@ export const NonEducationalSupportStaff: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "non-educational-support-staff";
+  const elementId = "non-educational-support-staff-and-services";
   const [hash] = useHash();
 
   return (
