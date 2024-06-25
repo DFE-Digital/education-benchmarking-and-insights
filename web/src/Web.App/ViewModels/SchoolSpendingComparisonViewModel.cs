@@ -22,9 +22,9 @@ public class SchoolSpendingComparisonViewModel
     }
     public string? Name { get; }
     public string? Urn { get; }
-    public (int OriginalCount, int CustomCount, string Change) HighHeadline { get; }
-    public (int OriginalCount, int CustomCount, string Change) MediumHeadline { get; }
-    public (int OriginalCount, int CustomCount, string Change) LowHeadline { get; }
+    public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) HighHeadline { get; }
+    public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) MediumHeadline { get; }
+    public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) LowHeadline { get; }
     public List<ComparisonResult> GroupedComparisonResultsNoChange { get; }
     public List<ComparisonResult> GroupedComparisonResultsChange { get; }
 
@@ -61,15 +61,18 @@ public class SchoolSpendingComparisonViewModel
             .ToList();
     }
 
-    private (int OriginalCount, int CustomCount, string Change) GetHeadlineResults(string rag)
+    private (int OriginalCount, int CustomCount, string Change, string changeDescription) GetHeadlineResults(string rag)
     {
         var originalCount = _originalRating.Count(c => c.RAG == rag);
         var customCount = _customRating.Count(c => c.RAG == rag);
         var change = originalCount > customCount
             ? ChangeSymbols.Decrease : originalCount < customCount ? ChangeSymbols.Increase
             : ChangeSymbols.NoChange;
+        var changeDescription = originalCount > customCount
+        ? ChangeSymbols.DecreaseText : originalCount < customCount ? ChangeSymbols.IncreaseText
+        : ChangeSymbols.NoChangeText;
 
-        return (originalCount, customCount, change);
+        return (originalCount, customCount, change, changeDescription);
     }
 }
 public class ComparisonResult
@@ -89,6 +92,9 @@ public static class ChangeSymbols
     public const string Decrease = "▼";
     public const string Increase = "▲";
     public const string NoChange = "";
+    public const string DecreaseText = "decreased";
+    public const string IncreaseText = "increased";
+    public const string NoChangeText = "no change";
 }
 
 public class CategoryListSectionViewModel
