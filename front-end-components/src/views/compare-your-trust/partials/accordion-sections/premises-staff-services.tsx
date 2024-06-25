@@ -159,7 +159,7 @@ export const PremisesStaffServices: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "premises-and-services";
+  const elementId = "premises-staff-and-services";
   const [hash] = useHash();
 
   return (
