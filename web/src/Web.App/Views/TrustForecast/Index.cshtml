@@ -12,7 +12,19 @@
     kind = OrganisationTypes.Trust
 })
 
-@await Html.PartialAsync("_RiskSummary", Model)
-@await Html.PartialAsync("_Metrics", new TrustForecastMetricsViewModel(Model.MetricsYear, Model.Metrics))
-
-<div id="budget-forecast-returns" data-id="@Model.CompanyNumber"></div>
+@if (Model.HasMetrics)
+{
+    @await Html.PartialAsync("_RiskSummary", Model)
+    @await Html.PartialAsync("_Metrics", new TrustForecastMetricsViewModel(Model.MetricsYear, Model.Metrics))
+    <div id="budget-forecast-returns" data-id="@Model.CompanyNumber"></div>
+}
+else
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Forecast and risks could not be found for this trust.
+        </strong>
+    </div>
+}
