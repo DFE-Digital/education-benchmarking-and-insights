@@ -309,26 +309,26 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         var expectedCustomCount = customRatings.Count(x => x.RAG == rag);
         var expectedOriginalCount = originalRatings.Count(x => x.RAG == rag);
 
-        var customCountText = elements[0].TextContent;
+        var customCountSection = elements[0].QuerySelectorAll("span").ToList();
 
-        var customCountTextAsList = customCountText.Split(" ");
+        var numericPart = customCountSection[0].TextContent.Trim();
 
-        var numericPart = customCountTextAsList[0];
-
-        var changeSymbol = customCountTextAsList[1];
+        var changeSymbol = customCountSection[1].TextContent.Trim();
 
         Assert.Equal(expectedCustomCount.ToString(), numericPart);
 
         switch (expectedCustomCount)
         {
             case var _ when expectedCustomCount > expectedOriginalCount:
-                Assert.Equal(ChangeSymbols.Increase, changeSymbol);
+                Assert.Contains(ChangeSymbols.Increase, changeSymbol);
+                Assert.Contains(ChangeSymbols.IncreaseText, changeSymbol);
                 break;
             case var _ when expectedCustomCount < expectedOriginalCount:
-                Assert.Equal(ChangeSymbols.Decrease, changeSymbol);
+                Assert.Contains(ChangeSymbols.Decrease, changeSymbol);
+                Assert.Contains(ChangeSymbols.DecreaseText, changeSymbol);
                 break;
             case var _ when expectedCustomCount == expectedOriginalCount:
-                Assert.Equal(ChangeSymbols.NoChange, changeSymbol);
+                Assert.Contains(ChangeSymbols.NoChangeText, changeSymbol);
                 break;
             default:
                 Assert.Fail("Error with comparison for changeSymbol assertion");
@@ -417,6 +417,9 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         public const string Decrease = "▼";
         public const string Increase = "▲";
         public const string NoChange = "";
+        public const string DecreaseText = "decreased";
+        public const string IncreaseText = "increased";
+        public const string NoChangeText = "no change";
     }
 }
 
