@@ -6,7 +6,7 @@ using Xunit;
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
-[Scope(Feature = "School benchmark census data")]
+[Scope(Feature = "School benchmark pupil and workforce data")]
 public class BenchmarkCensusSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _censusPage;
@@ -156,19 +156,6 @@ public class BenchmarkCensusSteps(PageDriver driver)
         };
     }
 
-    [When("I click on how we choose similar schools")]
-    public async Task WhenIClickOnHowWeChooseSimilarSchools()
-    {
-        Assert.NotNull(_censusPage);
-        await _censusPage.ClickComparatorSetDetails();
-    }
-
-    [Then("the details section is expanded")]
-    public async Task ThenTheDetailsSectionIsExpanded()
-    {
-        Assert.NotNull(_censusPage);
-        await _censusPage.IsDetailsSectionVisible();
-    }
 
     [Then(@"additional information is displayed")]
     public async Task ThenAdditionalInformationIsDisplayed()

@@ -33,19 +33,18 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
 
     private ILocator SaveAsImageButtons =>
-        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
+        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save" });
 
     private ILocator ComparatorSetDetails =>
-        page.Locator(Selectors.GovDetailsSummaryText,
-            new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
+        page.Locator(Selectors.GovLink,
+            new PageLocatorOptions { HasText = "We've chosen 2 sets of similar schools" });
 
-    private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose your own similar schools" });
+    private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
 
-    private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "30 similar schools" });
+    private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Change the data for this school" });
 
-    private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
@@ -57,8 +56,8 @@ public class BenchmarkCensusPage(IPage page)
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
         await ComparatorSetDetails.ShouldBeVisible();
-        await ComparatorSetLink.ShouldNotBeVisible();
-        await ComparatorSetDetailsText.ShouldNotBeVisible();
+        await CustomComparatorLink.ShouldBeVisible();
+        await CustomDataLink.ShouldBeVisible();
 
         await AreSaveAsImageButtonsDisplayed();
         await AreChartsDisplayed();
@@ -158,13 +157,6 @@ public class BenchmarkCensusPage(IPage page)
     public async Task ClickComparatorSetDetails()
     {
         await ComparatorSetDetails.Click();
-    }
-
-    public async Task IsDetailsSectionVisible()
-    {
-        await ComparatorSetDetailsText.ShouldBeVisible();
-        await SimilarSchoolLink.ShouldBeVisible();
-        await ComparatorSetLink.ShouldBeVisible();
     }
 
     public async Task IsSchoolDetailsPopUpVisible()
