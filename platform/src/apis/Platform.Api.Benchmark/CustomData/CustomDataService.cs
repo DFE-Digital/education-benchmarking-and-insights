@@ -40,7 +40,7 @@ public class CustomDataService : ICustomDataService
         using var transaction = conn.BeginTransaction();
         if (existing != null)
         {
-            existing.Data = data.Data.ToJson();
+            existing.Data = data.Data;
             await conn.UpdateAsync(existing, transaction);
         }
         else
