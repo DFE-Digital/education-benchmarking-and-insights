@@ -42,4 +42,6 @@ public class TrustForecastViewModel(Trust trust, TrustBalance balance, BudgetFor
     public BudgetForecastReturnMetric[] Metrics => metrics
         .Where(m => m.Year == MetricsYear)
         .ToArray();
+
+    public bool HasMetrics => MetricsYear != null;
 }
