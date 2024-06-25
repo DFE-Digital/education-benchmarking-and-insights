@@ -189,23 +189,7 @@ public class CompareYourCostsPage(IPage page)
         await link.Locator(Selectors.ToggleSectionText).ShouldHaveText(text);
         await IsSectionContentVisible(chartName, visibility, chartMode);
     }
-
-    public async Task ClickComparatorSetDetails()
-    {
-        await ComparatorSetDetails.Click();
-    }
-
-    public async Task IsDetailsSectionVisible()
-    {
-        await ComparatorSetDetailsText.ShouldBeVisible();
-        Assert.Equal(2, await SimilarSchoolLink.CountAsync());
-        foreach (var similarSchoolLink in await SimilarSchoolLink.AllAsync())
-        {
-            await similarSchoolLink.ShouldBeVisible();
-        }
-        await ComparatorSetLink.ShouldBeVisible();
-    }
-
+    
     public async Task IsSchoolDetailsPopUpVisible()
     {
         await AdditionalDetailsPopUps.First.ShouldBeVisible();
