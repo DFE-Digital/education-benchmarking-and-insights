@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Web.App.Extensions;
 
 public static class HtmlHelperExtensions
@@ -15,7 +14,7 @@ public static class HtmlHelperExtensions
         anchorTag.AddCssClass(string.Join(" ", classes));
         anchorTag.InnerHtml.Append(content);
         anchorTag.MergeAttribute("href", href);
-        anchorTag.MergeAttribute("data-id", link.GetStringValue());
+        anchorTag.MergeAttribute("data-custom-event-id", link.GetStringValue());
 
         if (rel is not null && rel.Length > 0)
         {
