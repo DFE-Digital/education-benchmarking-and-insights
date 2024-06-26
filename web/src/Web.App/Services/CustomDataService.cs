@@ -9,6 +9,7 @@ public interface ICustomDataService
 {
     Task<CustomData> GetCurrentData(string urn);
     CustomData? GetCustomDataFromSession(string urn);
+    void SetCustomDataInSession(string urn, CustomData data);
     void MergeCustomDataIntoSession(string urn, ICustomDataViewModel data);
     void ClearCustomDataFromSession(string urn);
     Task CreateCustomData(string urn, string userId);
@@ -47,6 +48,15 @@ public class CustomDataService(
         return data;
     }
 
+    public void SetCustomDataInSession(string urn, CustomData data)
+    {
+        var key = SessionKeys.CustomData(urn);
+        var context = httpContextAccessor.HttpContext;
+        context?.Session.Set(key, data);
+
+        logger.LogDebug("Set {CustomData} for {Key} in session", data.ToJson(), urn);
+    }
+
     public async Task CreateCustomData(string urn, string userId)
     {
         var key = SessionKeys.CustomData(urn);
@@ -76,7 +86,7 @@ public class CustomDataService(
         logger.LogDebug("Got {CustomData} for {Key} from session", data.ToJson(), urn);
 
         data.Merge(viewModel);
-        context?.Session.Set(key, data);
+        SetCustomDataInSession(urn, data);
         logger.LogDebug("Merged {ViewModel} and set {CustomData} for {Key} in session", viewModel.ToJson(),
             data.ToJson(), urn);
     }

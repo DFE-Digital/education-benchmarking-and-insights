@@ -4,17 +4,18 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.Extensions;
+using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWebAppClient>
 {
+    private readonly SchoolBalance _balance;
     private readonly Census _census;
     private readonly SchoolExpenditure _customExpenditure;
     private readonly SchoolIncome _customIncome;
     private readonly SchoolExpenditure _expenditure;
-    private readonly SchoolBalance _balance;
     private readonly Dictionary<string, decimal?> _formValues;
     private readonly SchoolIncome _income;
 
@@ -225,7 +226,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 
             if (expected != null && decimal.TryParse(expected.ToString(), out var parsed))
             {
-                expected = parsed.ToString("#.0");
+                expected = parsed.ToSimpleDisplay();
             }
 
             Assert.True(expected?.Equals(actual), $"{field} expected to be {expected} but found {actual}");
@@ -317,22 +318,111 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomData(school.URN).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanPrePopulatePreviouslySubmittedValues()
+    {
+        var (page, school, customData) = await SetupNavigateInitPageWithUserData();
+        AssertPageLayout(page, school);
+
+        DocumentAssert.Input(page, "AdministrativeSuppliesCosts", customData.AdministrativeSuppliesNonEducationalCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "CateringStaffCosts", customData.CateringStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "CateringSuppliesCosts", customData.CateringSuppliesCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "CateringIncome", customData.IncomeCateringServices.ToSimpleDisplay());
+        DocumentAssert.Input(page, "ExaminationFeesCosts", customData.ExaminationFeesCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "LearningResourcesNonIctCosts", customData.LearningResourcesNonIctCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "LearningResourcesIctCosts", customData.LearningResourcesIctCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "AdministrativeClericalStaffCosts", customData.AdministrativeClericalStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "AuditorsCosts", customData.AuditorsCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "OtherStaffCosts", customData.OtherStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "ProfessionalServicesNonCurriculumCosts", customData.ProfessionalServicesNonCurriculumCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "CleaningCaretakingCosts", customData.CleaningCaretakingCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "MaintenancePremisesCosts", customData.MaintenancePremisesCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "OtherOccupationCosts", customData.OtherOccupationCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "PremisesStaffCosts", customData.PremisesStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "AgencySupplyTeachingStaffCosts", customData.AgencySupplyTeachingStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "EducationSupportStaffCosts", customData.EducationSupportStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "EducationalConsultancyCosts", customData.EducationalConsultancyCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "SupplyTeachingStaffCosts", customData.SupplyTeachingStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "TeachingStaffCosts", customData.TeachingStaffCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "EnergyCosts", customData.EnergyCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "WaterSewerageCosts", customData.WaterSewerageCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "DirectRevenueFinancingCosts", customData.DirectRevenueFinancingCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "GroundsMaintenanceCosts", customData.GroundsMaintenanceCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "IndirectEmployeeExpenses", customData.IndirectEmployeeExpenses.ToSimpleDisplay());
+        DocumentAssert.Input(page, "InterestChargesLoanBank", customData.InterestChargesLoanBank.ToSimpleDisplay());
+        DocumentAssert.Input(page, "OtherInsurancePremiumsCosts", customData.OtherInsurancePremiumsCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "PrivateFinanceInitiativeCharges", customData.PrivateFinanceInitiativeCharges.ToSimpleDisplay());
+        DocumentAssert.Input(page, "RentRatesCosts", customData.RentRatesCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "SpecialFacilitiesCosts", customData.SpecialFacilitiesCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "StaffDevelopmentTrainingCosts", customData.StaffDevelopmentTrainingCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "StaffRelatedInsuranceCosts", customData.StaffRelatedInsuranceCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "SupplyTeacherInsurableCosts", customData.SupplyTeacherInsurableCosts.ToSimpleDisplay());
+
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        DocumentAssert.Input(page, "NumberOfPupilsFte", customData.TotalPupils.ToSimpleDisplay());
+        DocumentAssert.Input(page, "FreeSchoolMealPercent", customData.PercentFreeSchoolMeals.ToSimpleDisplay());
+        DocumentAssert.Input(page, "SpecialEducationalNeedsPercent", customData.PercentSpecialEducationNeeds.ToSimpleDisplay());
+        DocumentAssert.Input(page, "FloorArea", customData.TotalInternalFloorArea.ToSimpleDisplay());
+
+        action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        DocumentAssert.Input(page, "WorkforceFte", customData.WorkforceFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "TeachersFte", customData.TeachersFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "QualifiedTeacherPercent", customData.PercentTeacherWithQualifiedStatus.ToSimpleDisplay());
+        DocumentAssert.Input(page, "SeniorLeadershipFte", customData.SeniorLeadershipFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "TeachingAssistantsFte", customData.TeachingAssistantFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "NonClassroomSupportStaffFte", customData.NonClassroomSupportStaffFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "AuxiliaryStaffFte", customData.AuxiliaryStaffFTE.ToSimpleDisplay());
+        DocumentAssert.Input(page, "WorkforceHeadcount", customData.WorkforceHeadcount.ToSimpleDisplay());
+    }
+
+    private (BenchmarkingWebAppClient client, School school) SetupClient()
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        var client = Client.SetupEstablishment(school)
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupBalance(school, _balance)
             .SetupExpenditure(school, _expenditure)
             .SetupSchoolInsight(school)
-            .SetupHttpContextAccessor()
-            .Navigate(Paths.SchoolCustomDataFinancialData(school.URN));
+            .SetupHttpContextAccessor();
 
-        return (page, school);
+        return (client, school);
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
+    {
+        var (client, school) = SetupClient();
+        var doc = await client.Navigate(Paths.SchoolCustomDataFinancialData(school.URN));
+        return (doc, school);
+    }
+
+    private async Task<(IHtmlDocument page, School school, PutCustomDataRequest customData)> SetupNavigateInitPageWithUserData()
+    {
+        var (client, school) = SetupClient();
+
+        var userData = Fixture.Build<UserData>()
+            .With(x => x.Type, "custom-data")
+            .Create();
+        client.SetupUserData([userData]);
+
+        var customData = Fixture.Build<PutCustomDataRequest>().Create();
+        var customDataSchool = new CustomDataSchool
+        {
+            Data = customData.ToJson()
+        };
+        client.SetUpCustomData(customDataSchool);
+
+        var doc = await client.Navigate(Paths.SchoolCustomDataFinancialData(school.URN));
+        return (doc, school, customData);
     }
 
     private void AssertPageLayout(IHtmlDocument page, School school)

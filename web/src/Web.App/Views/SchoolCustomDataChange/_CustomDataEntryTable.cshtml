@@ -5,11 +5,11 @@
 }
 
 <table class="govuk-table table-custom-data" id="govuk-table-custom-data-@id">
-    <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.Title costs</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.Title @(Model.MetricHeading)s</caption>
     <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Cost</th>
-        <th scope="col" class="govuk-table__header">Current data</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">@Model.MetricHeading</th>
+        <th scope="col" class="govuk-table__header">Original data</th>
         <th scope="col" class="govuk-table__header">Custom data</th>
     </tr>
     </thead>

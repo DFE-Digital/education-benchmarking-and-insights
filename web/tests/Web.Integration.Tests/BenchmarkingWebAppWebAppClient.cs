@@ -282,10 +282,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetUpCustomData()
+    public BenchmarkingWebAppClient SetUpCustomData(CustomDataSchool? customData = null)
     {
         CustomDataApi.Reset();
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
+        CustomDataApi.Setup(api => api.GetSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(customData));
         return this;
     }
 
