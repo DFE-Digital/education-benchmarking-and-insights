@@ -1,4 +1,5 @@
-﻿using Web.E2ETests.Drivers;
+﻿using Microsoft.Playwright;
+using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School.CurriculumFinancialPlanningSteps;
 using Xunit;
 
@@ -116,6 +117,33 @@ public class FinancialPlanningSteps(PageDriver driver)
         Assert.NotNull(_selectYearPage);
         _startPage = await _selectYearPage.ClickBack();
     }
+    
+    [Given("I have selected organisation '(.*)' after logging in for school with URN '(.*)'")]
+    public async Task GivenIAmLoggedInForSchoolWithUrn(string organisation, string urn)
+    {
+        var url = CfpLandingUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+    
+        if (await page.Locator("h1:text-is('Curriculum and financial planning (CFP)')").CheckVisible())
+        {
+            // already logged in
+        }
+        else if (await page.Locator("h1:text-is('Department for Education Sign-in')").CheckVisible())
+        {
+            // Login required
+            await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
+            await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
+            await page.Locator("button[type='submit']").Click();
+            await page.Locator("label", new PageLocatorOptions {HasTextString = organisation}).Check();
+            await page.Locator("input[type='submit']").Click();
+        }
+        else
+        {
+            throw new Exception("Unexpected page state: Unable to determine login requirement.");
+        }
+    }
+    
 
     private static FinancialPlanYear PlanYearFromFriendlyName(string year)
     {
@@ -132,4 +160,7 @@ public class FinancialPlanningSteps(PageDriver driver)
     private static string StartUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create/start";
     private static string HelpUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create/help";
     private static string SelectYearUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create/select-year";
+    private static string CfpLandingUrl(string urn) =>  $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning";
+
+    
 }
