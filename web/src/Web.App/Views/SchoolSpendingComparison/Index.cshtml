@@ -1,4 +1,5 @@
-﻿@model Web.App.ViewModels.SchoolSpendingComparisonViewModel
+﻿@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolSpendingComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolSpendingComparison;
 }
@@ -10,6 +11,65 @@
         id = Model.Urn,
         kind = OrganisationTypes.School
     })
+
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+            <li class="app-headline-high">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                    <span aria-label="high priority customised category count">
+                        @Model.HighHeadline.CustomCount
+                    </span> 
+                    <span aria-label="high priority change icon">
+                        @Model.HighHeadline.Change
+                        <span class="govuk-visually-hidden">
+                            @Model.HighHeadline.ChangeDescription
+                        </span>
+                    </span>
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.HighHeadline.OriginalCount})")</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
+            </li>
+            <li class="app-headline-medium">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                    <span aria-label="medium priority customised category count">
+                        @Model.MediumHeadline.CustomCount
+                    </span>
+                    <span aria-label="medium priority change icon">
+                        @Model.MediumHeadline.Change
+                        <span class="govuk-visually-hidden">
+                            @Model.MediumHeadline.ChangeDescription
+                        </span>
+                    </span>
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.MediumHeadline.OriginalCount})")</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Medium priority costs</p>
+            </li>
+            <li class="app-headline-low">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                    <span aria-label="low priority customised category count">
+                        @Model.LowHeadline.CustomCount
+                    </span>
+                    <span aria-label="low priority change icon">
+                        @Model.LowHeadline.Change
+                        <span class="govuk-visually-hidden">
+                            @Model.LowHeadline.ChangeDescription
+                        </span>
+                    </span>
+                </p>
+                <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.LowHeadline.OriginalCount})")</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Low priority costs</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Categories with changes to priority", CategoryList = Model.GroupedComparisonResultsChange })
+        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Other categories", CategoryList = Model.GroupedComparisonResultsNoChange })
+    </div>
+</div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

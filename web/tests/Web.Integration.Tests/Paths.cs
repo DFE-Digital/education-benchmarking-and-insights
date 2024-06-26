@@ -16,6 +16,7 @@ public static class Paths
 
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
     public static string SchoolHome(string? urn) => $"/school/{urn}";
+    public static string SchoolSpendingComparison(string? urn) => $"/school/{urn}/spending-comparison";
     public static string TrustHome(string? companyNumber) => $"/trust/{companyNumber}";
     public static string TrustDetails(string? companyNumber) => $"/trust/{companyNumber}/details";
     public static string TrustComparison(string? companyNumber) => $"/trust/{companyNumber}/comparison";
@@ -25,12 +26,16 @@ public static class Paths
     public static string SchoolComparatorSet(string? urn, string referrer) =>
         $"/school/{urn}/comparator-set?referrer={referrer}";
     public static string SchoolComparison(string? urn) => $"/school/{urn}/comparison";
+    public static string SchoolComparisonCustomData(string? urn) => $"/school/{urn}/comparison/custom-data";
     public static string SchoolCensus(string? urn) => $"/school/{urn}/census";
+    public static string SchoolCensusCustomData(string? urn) => $"/school/{urn}/census/custom-data";
+    public static string SchoolSpendingCustomData(string? urn) => $"/school/{urn}/spending-and-costs/custom-data";
     public static string SchoolInvestigation(string? urn) => $"/school/{urn}/investigation";
     public static string SchoolFinancialPlanning(string? urn) => $"/school/{urn}/financial-planning";
     public static string SchoolHistory(string? urn) => $"/school/{urn}/history";
     public static string SchoolDetails(string? urn) => $"/school/{urn}/details";
     public static string SchoolCustomData(string? urn) => $"/school/{urn}/custom-data";
+    public static string SchoolCustomisedData(string? urn) => $"/school/{urn}/customised-data";
 
     public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/create/start";
     public static string SchoolFinancialPlanningSelectYear(string? urn) =>
