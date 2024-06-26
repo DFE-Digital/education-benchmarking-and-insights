@@ -571,30 +571,6 @@ def bfr_sofa_data():
                 140992,
                 140992,
             ],
-            "CreatedBy": [
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-                "Ian James Nurser",
-            ],
-            "Category": [
-                "Revenue Income",
-                "Revenue Income",
-                "Revenue Totals",
-                "Other Items",
-                "Revenue Expenditure",
-                "Revenue Income",
-                "Revenue Income",
-                "Revenue Income",
-                "Revenue Expenditure",
-                "Revenue Income",
-            ],
             "Title": [
                 "Income from trading activities",
                 "Local authority revenue income",
@@ -633,20 +609,21 @@ def bfr_3y_data():
 def academies():
     return pd.DataFrame(
         {
-            "Trust UPIN": [140992, 140992],
-            "Number of pupils": [100, 200],
-            "Trust Balance": [10000, 10000],
+            "Trust UPIN": [140992, 140993],
+            "Company Registration Number": ['06666666', '01111111'],
+            "Total pupils in trust": [100, 200],
+            "Trust Revenue reserve": [10000, 10000],
         }
     )
-
 
 @pytest.fixture
 def academies_y1():
     return pd.DataFrame(
         {
-            "Trust UPIN": [140992, 140992],
-            "Number of pupils": [90, 190],
-            "Trust Balance": [9800, 98000],
+            "Trust UPIN": [140992, 140993],
+            "Company Registration Number": ['06666666', '01111111'],
+            "Total pupils in trust": [90, 190],
+            "Trust Revenue reserve": [9800, 98000],
         }
     )
 
@@ -655,9 +632,10 @@ def academies_y1():
 def academies_y2():
     return pd.DataFrame(
         {
-            "Trust UPIN": [140992, 140992],
-            "Number of pupils": [80, 180],
-            "Trust Balance": [9400, 9400],
+            "Trust UPIN": [140992, 140993],
+            "Company Registration Number": ['06666666', '01111111'],
+            "Total pupils in trust": [80, 180],
+            "Trust Revenue reserve": [9400, 9400],
         }
     )
 
@@ -671,6 +649,7 @@ def prepared_bfr_data(
     academies: pd.DataFrame,
 ) -> list:
     return build_bfr_data(
+        2023,
         StringIO(bfr_sofa_data.to_csv()),
         StringIO(bfr_3y_data.to_csv()),
         academies_y2,

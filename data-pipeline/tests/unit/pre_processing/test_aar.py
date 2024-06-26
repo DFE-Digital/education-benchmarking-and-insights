@@ -9,7 +9,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Academy UPIN",
         "In year balance",
         "PFI School",
-        "Trust UPIN",
+        "Lead UPIN",
         "Income_Other DFE grants",
         "Income_SEN funding",
         "Income_Pre Post 16",
@@ -86,7 +86,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
     assert (
         prepared_aar_data["Trust Balance"][
-            prepared_aar_data["Trust UPIN"] == 137157
+            prepared_aar_data["Lead UPIN"] == 137157
         ].iloc[0]
         == 2001
     )
@@ -95,7 +95,7 @@ def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
     assert (
         prepared_aar_data["Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 137157
+            prepared_aar_data["Lead UPIN"] == 137157
         ].iloc[0]
         == "Surplus"
     )
@@ -104,7 +104,7 @@ def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
 def test_aar_trust_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert (
         prepared_aar_data["Trust Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 135112
+            prepared_aar_data["Lead UPIN"] == 135112
         ].iloc[0]
         == "Deficit"
     )
@@ -113,7 +113,7 @@ def test_aar_trust_financial_position_deficit(prepared_aar_data: pd.DataFrame):
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert (
         prepared_aar_data["Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 135112
+            prepared_aar_data["Lead UPIN"] == 135112
         ].iloc[0]
         == "Deficit"
     )
