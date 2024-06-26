@@ -27,7 +27,6 @@ public class BudgetForecastFunctions
 
     [FunctionName(nameof(BudgetForecastReturnAsync))]
     [ProducesResponseType(typeof(BudgetForecastReturnResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("runType", "Forecast run type", "default", DataType = typeof(string))]
     [QueryStringParameter("category", "Forecast run category", "Revenue reserve", DataType = typeof(string))]
@@ -65,7 +64,6 @@ public class BudgetForecastFunctions
 
     [FunctionName(nameof(BudgetForecastReturnMetricsAsync))]
     [ProducesResponseType(typeof(BudgetForecastReturnMetricResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> BudgetForecastReturnMetricsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/metrics")]
@@ -87,6 +85,47 @@ public class BudgetForecastFunctions
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to get budget forecast return metrics");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(BudgetForecastCurrentYearAsync))]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("runType", "Forecast run type", "default", DataType = typeof(string))]
+    [QueryStringParameter("category", "Forecast run category", "Revenue reserve", DataType = typeof(string))]
+    public async Task<IActionResult> BudgetForecastCurrentYearAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/current-year")]
+        HttpRequest req,
+        string companyNumber)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BudgetForecastReturnParameters>();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var year = await _service.GetBudgetForecastCurrentYearAsync(
+                    companyNumber,
+                    queryParams.RunType,
+                    queryParams.Category);
+                if (year == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return new JsonContentResult(year);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get budget forecast current year");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

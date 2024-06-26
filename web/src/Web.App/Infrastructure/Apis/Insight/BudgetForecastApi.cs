@@ -5,6 +5,7 @@ public interface IBudgetForecastApi
 {
     Task<ApiResult> BudgetForecastReturns(string? companyNo, ApiQuery? query = null);
     Task<ApiResult> BudgetForecastReturnsMetrics(string? companyNo, ApiQuery? query = null);
+    Task<ApiResult> GetCurrentBudgetForecastYear(string? companyNo, ApiQuery? query = null);
 }
 
 public class BudgetForecastApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBudgetForecastApi
@@ -98,4 +99,8 @@ public class BudgetForecastApi(HttpClient httpClient, string? key = default) : A
             Value = 5.6m
         }
     }));
+
+    // todo: replace stub with actual API call
+    // e.g. await GetAsync($"api/budget-forecast/{companyNo}/current-year{query?.ToQueryString()}");
+    public Task<ApiResult> GetCurrentBudgetForecastYear(string? companyNo, ApiQuery? query = null) => Task.FromResult(ApiResult.Ok(2022));
 }

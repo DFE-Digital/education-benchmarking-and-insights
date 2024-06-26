@@ -88,8 +88,7 @@ export const BfrTable = ({ data }: BfrTableProps) => {
                       })}
                   </td>
                   <td className="govuk-table__cell">
-                    {item.forecast &&
-                      item.actual &&
+                    {item.variance &&
                       fullValueFormatter(item.variance, {
                         valueUnit: "currency",
                       })}

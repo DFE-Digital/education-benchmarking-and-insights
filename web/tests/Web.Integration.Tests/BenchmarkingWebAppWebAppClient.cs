@@ -215,11 +215,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBudgetForecast(Trust trust, BudgetForecastReturn[]? returns = null, BudgetForecastReturnMetric[]? metrics = null)
+    public BenchmarkingWebAppClient SetupBudgetForecast(
+        Trust trust,
+        BudgetForecastReturn[]? returns = null,
+        BudgetForecastReturnMetric[]? metrics = null,
+        int? currentYear = null)
     {
         BudgetForecastApi.Reset();
         BudgetForecastApi.Setup(api => api.BudgetForecastReturns(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(returns ?? []));
         BudgetForecastApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
+        BudgetForecastApi.Setup(api => api.GetCurrentBudgetForecastYear(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(currentYear ?? 2022));
         return this;
     }
 
