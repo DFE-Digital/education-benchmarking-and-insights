@@ -2,10 +2,9 @@
 
 public static class PageViewTelemetries
 {
-    public static PageViewTelemetry SchoolHome(string urn, bool? isLoggedIn) => new()
+    public static PageViewTelemetry SchoolHome(string urn) => new()
     {
-        Name = "Your school",
-        IsLoggedIn = isLoggedIn,
+        Name = "School homepage",
         Properties = new Dictionary<string, object>
         {
             {

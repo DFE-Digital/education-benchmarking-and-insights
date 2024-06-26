@@ -150,14 +150,4 @@ public static class ClaimsPrincipalExtensions
 
         return principal;
     }
-
-    public static bool IsAuthenticated(this ClaimsPrincipal principal)
-    {
-        if (principal.Identity is ClaimsIdentity identity)
-        {
-            return identity.IsAuthenticated;
-        }
-
-        return false;
-    }
 }

@@ -39,7 +39,7 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "",
             Array.Empty<string>(),
             Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
         ],
         [
             TrackedLinks.SchoolDetails,
@@ -49,7 +49,7 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "",
             Array.Empty<string>(),
             Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-id=\"gias-school-details\" href=\"http://www.example.com\">content<span class=\"govuk-visually-hidden\"> hidden</span></a>"
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content<span class=\"govuk-visually-hidden\"> hidden</span></a>"
         ],
         [
             TrackedLinks.SchoolDetails,
@@ -59,7 +59,7 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "_blank",
             Array.Empty<string>(),
             Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-id=\"gias-school-details\" href=\"http://www.example.com\" target=\"_blank\">content</a>"
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" target=\"_blank\">content</a>"
         ],
         [
             TrackedLinks.SchoolDetails,
@@ -69,7 +69,7 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "",
             new[] { "noopener", "noreferrer", "external" },
             Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-id=\"gias-school-details\" href=\"http://www.example.com\" rel=\"noopener noreferrer external\">content</a>"
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" rel=\"noopener noreferrer external\">content</a>"
         ],
         [
             TrackedLinks.SchoolDetails,
@@ -79,7 +79,7 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "",
             Array.Empty<string>(),
             new[] { "govuk-button" },
-            "<a class=\"govuk-button\" data-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
+            "<a class=\"govuk-button\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
         ]
     ];
 

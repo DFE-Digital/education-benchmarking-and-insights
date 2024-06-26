@@ -25,14 +25,14 @@ public class SchoolController(
     public async Task<IActionResult> Index(string urn, [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
-                ViewData[ViewDataKeys.TrackPageView] = PageViewTelemetries.SchoolHome(urn, User.IsAuthenticated());
+                ViewData[ViewDataKeys.TrackPageView] = PageViewTelemetries.SchoolHome(urn);
 
                 var school = School(urn);
                 var balance = SchoolBalance(urn);
@@ -60,9 +60,9 @@ public class SchoolController(
     public async Task<IActionResult> History(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -86,9 +86,9 @@ public class SchoolController(
     public async Task<IActionResult> Details(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -113,9 +113,9 @@ public class SchoolController(
     {
 
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -142,9 +142,9 @@ public class SchoolController(
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
