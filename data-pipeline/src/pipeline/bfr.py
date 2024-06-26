@@ -3,8 +3,8 @@ import numpy as np
 
 
 def calculate_metrics(bfr: pd.DataFrame) -> pd.DataFrame:
-    df = bfr[["Company Registration Number", "Title", "Y1P2"]].pivot_table(index="Company Registration Number",
-                                                                           columns='Title', values='Y1P2')
+    df = bfr[["Company Registration Number", "Category", "Y1P2"]].pivot_table(index=["Company Registration Number"],
+                                                          columns='Category', values='Y1P2')
 
     df['Revenue reserve as percentage of income'] = (df['Revenue reserve'] / df['Total income']) * 100
     df['Staff costs as percentage of income'] = (df['Staff costs'] / df['Total income']) * 100
@@ -12,13 +12,17 @@ def calculate_metrics(bfr: pd.DataFrame) -> pd.DataFrame:
     df['Self generated income as percentage of income'] = (df['Self-generated income'] / df['Total income']) * 100
     df['Grant funding as percentage of income'] = 100 - df['Self generated income as percentage of income']
 
-    return df.reset_index().melt(id_vars=["Company Registration Number"],
-                                 value_vars=[
+    return (df.reset_index().melt(id_vars=["Company Registration Number"],
+                                  value_vars=[
                                      "Revenue reserve as percentage of income",
                                      "Staff costs as percentage of income",
                                      'Expenditure as percentage of income',
                                      'Self generated income as percentage of income',
-                                     'Grant funding as percentage of income']).set_index("Company Registration Number")
+                                     'Grant funding as percentage of income'],
+                                  value_name="Value")
+            .set_index("Company Registration Number")
+            .replace([np.inf, -np.inf, np.nan], 0.0)
+    )
 
 
 def calculate_slopes(matrix):
@@ -48,18 +52,14 @@ def slope_analysis(bfr):
     matrix_revenue_reserves = df[year_columns].fillna(0.0).values.astype(float)
 
     # determine associated slopes
-    df['Slope'] = _calculate_slopes(matrix_revenue_reserves)
+    df['Slope'] = calculate_slopes(matrix_revenue_reserves)
 
     # flag top 10% and bottom 90% percent of slopes with -1 and 1 respectively
-    df = _assign_slope_flag(df)
+    df = assign_slope_flag(df)
     return (df[["Company Registration Number", "Trust UPIN", "Slope", "Slope flag"]]
             .melt(id_vars=["Company Registration Number", 'Trust UPIN'], value_vars=['Slope', 'Slope flag'])
-            .rename(columns={"variable": "Title"})
+            .rename(columns={"variable": "Category"})
             .set_index("Company Registration Number")
             )
 
 
-def _variance_analysis(bfr):
-    df = bfr.copy()
-    df['Variance'] = (df['Trust Revenue reserve'] - df['Y1P2']) / abs(df['Trust Revenue reserve'])
-    return df[["Variance"]]

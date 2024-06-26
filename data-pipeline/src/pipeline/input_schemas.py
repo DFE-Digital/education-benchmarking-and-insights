@@ -406,7 +406,6 @@ aar_central_services = {
 
 bfr_sofa_cols = {
     "TrustUPIN": "Int64",
-    "Category": "string",
     "Title": "string",
     "EFALineNo": "Int64",
     "Y1P1": "float",
