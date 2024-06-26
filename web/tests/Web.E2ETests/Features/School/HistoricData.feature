@@ -1,7 +1,7 @@
 ﻿Feature: School historic data
 
     Scenario Outline: Change dimension of history data
-        Given I am on '<tab>' history page for school with URN '101241'
+        Given I am on '<tab>' history page for school with URN '777042'
         When I change '<tab>' dimension to '<dimension>'
         Then the '<tab>' dimension is '<dimension>'
         
@@ -13,7 +13,7 @@
       | census   | headcount per FTE |
 
     Scenario Outline: Show all should expand all sections
-        Given I am on '<tab>' history page for school with URN '101241'
+        Given I am on '<tab>' history page for school with URN '777042'
         When I click on show all sections on '<tab>'
         Then all sections on '<tab>' tab are expanded
         And the show all text changes to hide all sections on '<tab>'
@@ -25,7 +25,7 @@
       | income   |
 
     Scenario Outline: Change all charts to table view
-        Given I am on '<tab>' history page for school with URN '101241'
+        Given I am on '<tab>' history page for school with URN '777042'
         And all sections are shown on '<tab>'
         When I click on view as table on '<tab>' tab
         Then are showing table view on '<tab>' tab
@@ -39,7 +39,7 @@
        
 
     Scenario: Hide single section
-        Given I am on 'spending' history page for school with URN '101241'
+        Given I am on 'spending' history page for school with URN '777042'
         And all sections are shown on 'spending'
         When I click section link for 'non educational support staff'
         Then the section 'non educational support staff' is hidden

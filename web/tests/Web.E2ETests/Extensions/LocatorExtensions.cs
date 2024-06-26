@@ -174,4 +174,15 @@ public static class LocatorExtensions
     {
         return await locator.CountAsync();
     }
+
+    public static async Task<ILocator> Fill(this ILocator locator, string inputValue)
+    {
+        await locator.FillAsync(inputValue);
+        return locator;
+    }
+
+    public static async Task<bool> CheckVisible(this ILocator locator)
+    {
+        return await locator.IsVisibleAsync();
+    }
 }
