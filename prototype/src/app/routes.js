@@ -429,7 +429,7 @@ router.get( '/compare-trusts/preview', (req, res) => {
     for ( i=0; i<trusts.length; i++) {
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + trusts[i].trustName +"</span><br><span class=\"govuk-hint\">" + trusts[i].trustNumber + "</span>";
         var charsHtml = "<p class=\"govuk-body\">Number of pupils:</p><p class=\"govuk-body\">Number of schools:</p><p class=\"govuk-body\">Trust income:</p><p class=\"govuk-body\">Trust formation year:</p>";
-        var valuesHtml = "<p class=\"govuk-body\">" + trusts[i].trustPupils.toLocaleString() + "</p><p class=\"govuk-body\">" + ( Math.floor(Math.random() * (43 - 3 + 1) ) + 3) + "</p><p class=\"govuk-body\">£" + trusts[i].trustIncome.toLocaleString() + "</p><p class=\"govuk-body\">" + ( Math.floor(Math.random() * (2009 - 1974 + 1) ) + 1964) + "</p>";
+        var valuesHtml = "<p class=\"govuk-body\">" + trusts[i].trustPupils.toLocaleString() + "</p><p class=\"govuk-body\">" + ( Math.floor(Math.random() * (43 - 3 + 1) ) + 3) + "</p><p class=\"govuk-body\">£" + trusts[i].trustIncome.toLocaleString() + "</p><p class=\"govuk-body\">" + ( Math.floor(Math.random() * (2024 - 2011 + 1) ) + 2011) + "</p>";
         rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
     }
 
