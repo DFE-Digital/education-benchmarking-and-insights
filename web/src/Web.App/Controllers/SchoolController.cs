@@ -22,6 +22,7 @@ public class SchoolController(
     : Controller
 {
     [HttpGet]
+    [TrackPageView("School homepage", "urn")]
     public async Task<IActionResult> Index(string urn, [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
         using (logger.BeginScope(new
@@ -32,7 +33,6 @@ public class SchoolController(
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
-                ViewData[ViewDataKeys.TrackPageView] = PageViewTelemetries.SchoolHome(urn);
 
                 var school = School(urn);
                 var balance = SchoolBalance(urn);
