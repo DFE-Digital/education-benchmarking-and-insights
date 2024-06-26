@@ -7,4 +7,5 @@ public static class ViewDataKeys
     public const string BreadcrumbNode = nameof(BreadcrumbNode);
     public const string UseJsBackLink = nameof(UseJsBackLink);
     public const string HiddenNavigation = nameof(HiddenNavigation);
+    public const string TrackPageView = nameof(TrackPageView);
 }

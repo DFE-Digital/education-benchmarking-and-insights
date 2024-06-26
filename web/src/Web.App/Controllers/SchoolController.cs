@@ -9,9 +9,7 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
-
 
 [Controller]
 [Route("school/{urn}")]
@@ -26,11 +24,15 @@ public class SchoolController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn, [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
+                ViewData[ViewDataKeys.TrackPageView] = PageViewTelemetries.SchoolHome(urn, User.IsAuthenticated());
 
                 var school = School(urn);
                 var balance = SchoolBalance(urn);
@@ -57,7 +59,10 @@ public class SchoolController(
     [Route("history")]
     public async Task<IActionResult> History(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
         {
             try
             {
@@ -80,7 +85,10 @@ public class SchoolController(
     [Route("details")]
     public async Task<IActionResult> Details(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
         {
             try
             {
@@ -104,7 +112,10 @@ public class SchoolController(
     public async Task<IActionResult> Resources(string urn)
     {
 
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
         {
             try
             {
@@ -130,7 +141,10 @@ public class SchoolController(
     [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> CustomData(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
         {
             try
             {
@@ -172,5 +186,8 @@ public class SchoolController(
         .UserDefinedAsync(comparatorSetId)
         .GetResultOrThrow<RagRating[]>();
 
-    private BacklinkInfo HomeLink(string urn) => new(Url.Action("Index", new { urn }));
+    private BacklinkInfo HomeLink(string urn) => new(Url.Action("Index", new
+    {
+        urn
+    }));
 }
