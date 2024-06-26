@@ -36,19 +36,18 @@ All Downtime calculations are based on a 8-hour working day (Mon - Fri)
 | FBIT APIs                | Azure Functions     | 99.95%  | 95%     |
 | FBIT Database            | Azure SQL Database  | 99.99%  | 95%     |
 | FBIT Orchestrator        | Azure Functions     | 99.95%  | 95%     |
-| FBIT Data Api            | Azure Container App | 99.95%  | 95%     |
 | Data Storage             | Azure Storage       | 99.99%  | 99%     |
-| **Total**                |                     | **99.76%**  | **75.76%**  |
-| *Downtime mins per year* |                     | *299*     | *30248*   |
+| **Total**                |                     | **99.81%**  | **79.75%**  |
 
-### FBIT Data Api
+This translates in to an uptime equivalent of 
 
-| **Component**            | **Azure Service**   | **Max SLA** | **Min SLA** |
-|--------------------------|---------------------|---------|---------|
-| FBIT Data Api            | Azure Container App | 99.95%  | 95%     |
-| Data Storage             | Azure Storage       | 99.99%  | 99%     |
-| **Total**                |                     | **99.94%**  | **94.05%**  |
-| *Downtime mins per year* |                     | *75*     | *7426*   |
+* Weekly: 4m 34s
+* Monthly: 19m 40s
+* Quarterly: 58m 60s
+* Yearly: 3h 55m 59s
+
+at the [99.81% SLA](https://uptime.is/complex?sla=99.81&wk=iiiiiaa). The pipeline is excluded from this SLA as it is not explicitly required for the service to be running and schools to view the default data sets.
+
 
 ### FBIT Data Pipeline
 
@@ -57,5 +56,4 @@ All Downtime calculations are based on a 8-hour working day (Mon - Fri)
 | FBIT Data Pipeline       | Azure Container App | 99.95%  | 95%     |
 | Data Storage             | Azure Storage       | 99.99%  | 99%     |
 | **Total**                |                     | **99.94%**  | **94.05%**  |
-| *Downtime mins per year* |                     | *75*     | *7426*   |
 

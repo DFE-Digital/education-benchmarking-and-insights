@@ -45,6 +45,7 @@ from src.pipeline.storage import (
     complete_queue_name,
     connect_to_queue,
     get_blob,
+    try_get_blob,
     queue_service_client,
     raw_container,
     worker_queue_name,
@@ -294,25 +295,24 @@ def pre_process_bfr(run_type, year):
         raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
-    academies_y2 = prepare_data(
-        pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year-2}/academies.parquet")
-        )
-    )
+    academies_y2_file = try_get_blob("pre-processed", f"{run_type}/{year-2}/academies.parquet")
+    academies_y2 = None
+    if academies_y2_file is not None:
+        academies_y2 = prepare_data(pd.read_parquet(academies_y2_file))
 
-    academies_y1 = prepare_data(
-        pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year-1}/academies.parquet")
-        )
-    )
+    academies_y1_file = try_get_blob("pre-processed", f"{run_type}/{year-1}/academies.parquet")
+    academies_y1 = None
+
+    if academies_y1_file is not None:
+        academies_y1 = prepare_data(pd.read_parquet(academies_y1_file))
 
     academies = prepare_data(
         pd.read_parquet(
             get_blob("pre-processed", f"{run_type}/{year}/academies.parquet")
         )
     )
-    bfr_metrics, bfr = build_bfr_data(
-        bfr_sofa, bfr_3y, academies_y2, academies_y1, academies
+    bfr, bfr_metrics = build_bfr_data(
+        year, bfr_sofa, bfr_3y, academies, academies_y1, academies_y2
     )
 
     write_blob(
@@ -327,7 +327,8 @@ def pre_process_bfr(run_type, year):
         bfr.to_parquet(),
     )
 
-    return bfr_metrics, bfr
+    insert_bfr(run_type, year, bfr)
+    insert_bfr_metrics(run_type, year, bfr_metrics)
 
 
 def pre_process_data(worker_client, run_type, year):
