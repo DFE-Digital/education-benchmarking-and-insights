@@ -51,6 +51,7 @@ public static class PageTitles
     public const string SchoolChangeDataFinancialData = "Change financial data";
     public const string SchoolChangeDataNonFinancialData = "Change non-financial data";
     public const string SchoolChangeDataWorkforceData = "Change workforce data";
+    public const string SchoolChangeDataSubmit = "Generating custom data";
     public const string SchoolCustomisedData = "Use your customised data";
     public const string SchoolSpendingComparison = "Side-by-side comparison";
     public const string LocalAuthorityHome = "Your local authority";
