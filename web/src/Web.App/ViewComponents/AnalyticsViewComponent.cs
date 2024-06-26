@@ -15,17 +15,6 @@ public class AnalyticsViewComponent : ViewComponent
         }
 
         var vm = new AnalyticsViewModel(instrumentationKey);
-
-        if (ViewContext.ViewData[ViewDataKeys.TrackPageView] is PageViewTelemetry pageView)
-        {
-            if (User.Identity is { IsAuthenticated: true })
-            {
-                pageView.IsLoggedIn = true;
-            }
-
-            vm.Telemetry = pageView;
-        }
-
         return View(vm);
     }
 }

@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Html
-@using Web.App.Extensions
-@using Web.App.TagHelpers
+﻿@using Web.App.TagHelpers
 @model Web.App.ViewModels.Components.AnalyticsViewModel
 
 <script type="text/javascript" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js"></script>
@@ -25,13 +23,6 @@
         src: "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js",
         crossOrigin: "anonymous",
         cfg: configObj,
-        onInit: function (sdk) {
-            @if (Model.Telemetry != null)
-            {
-                @:sdk.trackPageView(
-                @(new HtmlString(Model.Telemetry.ToJson()))
-                @:)
-            }
-        },
+        onInit: function(sdk) { },
     });
 </script>
