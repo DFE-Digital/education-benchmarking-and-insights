@@ -397,8 +397,6 @@ def compute_distances(
 
                 pupils.loc[urn] = top_pupil_set_urns
                 buildings.loc[urn] = top_building_set_urns
-
-                break
             except Exception as error:
                 logger.exception(
                     f"An exception occurred {type(error).__name__} processing {urn}:",
