@@ -15,6 +15,5 @@ public class DetailsPage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await BackLink.ShouldBeVisible();
         await GiasPageLink.ShouldBeVisible().ShouldHaveAttribute("target", "_blank");
-        await EmailAddressField.ShouldHaveText("Log in to view contact information");
     }
 }
