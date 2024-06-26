@@ -229,6 +229,12 @@ public class SchoolCustomDataChangeController(
             {
                 customInput = await customDataService.GetCustomDataById(urn, customData);
             }
+
+            // set session to match view model to sync continue/back CTAs in UI
+            if (customInput != null)
+            {
+                customDataService.SetCustomDataInSession(urn, customInput);
+            }
         }
 
         return new SchoolCustomDataChangeViewModel(school, currentValues, customInput ?? new CustomData());
