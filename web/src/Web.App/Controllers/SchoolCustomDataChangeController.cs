@@ -9,7 +9,6 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -19,6 +18,7 @@ namespace Web.App.Controllers;
 public class SchoolCustomDataChangeController(
     IEstablishmentApi establishmentApi,
     ICustomDataService customDataService,
+    IUserDataService userDataService,
     ILogger<SchoolCustomDataChangeController> logger)
     : Controller
 {
@@ -27,12 +27,18 @@ public class SchoolCustomDataChangeController(
     [ImportModelState]
     public async Task<IActionResult> FinancialData(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
                 ViewData[ViewDataKeys.Backlink] =
-                    new BacklinkInfo(Url.Action("Index", "SchoolCustomData", new { urn }));
+                    new BacklinkInfo(Url.Action("Index", "SchoolCustomData", new
+                    {
+                        urn
+                    }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -50,7 +56,11 @@ public class SchoolCustomDataChangeController(
     [ExportModelState]
     public IActionResult FinancialData(string urn, [FromForm] FinancialDataCustomDataViewModel viewModel)
     {
-        using (logger.BeginScope(new { urn, viewModel }))
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -62,7 +72,10 @@ public class SchoolCustomDataChangeController(
                 }
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
-                return RedirectToAction(nameof(NonFinancialData), new { urn });
+                return RedirectToAction(nameof(NonFinancialData), new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
@@ -77,11 +90,17 @@ public class SchoolCustomDataChangeController(
     [ImportModelState]
     public async Task<IActionResult> NonFinancialData(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(FinancialData), new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(FinancialData), new
+                {
+                    urn
+                }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -99,7 +118,11 @@ public class SchoolCustomDataChangeController(
     [ExportModelState]
     public IActionResult NonFinancialData(string urn, [FromForm] NonFinancialDataCustomDataViewModel viewModel)
     {
-        using (logger.BeginScope(new { urn, viewModel }))
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -111,7 +134,10 @@ public class SchoolCustomDataChangeController(
                 }
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
-                return RedirectToAction(nameof(WorkforceData), new { urn });
+                return RedirectToAction(nameof(WorkforceData), new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
@@ -126,11 +152,17 @@ public class SchoolCustomDataChangeController(
     [ImportModelState]
     public async Task<IActionResult> WorkforceData(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(NonFinancialData), new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(NonFinancialData), new
+                {
+                    urn
+                }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -148,7 +180,11 @@ public class SchoolCustomDataChangeController(
     [ExportModelState]
     public async Task<IActionResult> WorkforceData(string urn, [FromForm] WorkforceDataCustomDataViewModel viewModel)
     {
-        using (logger.BeginScope(new { urn, viewModel }))
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -166,7 +202,10 @@ public class SchoolCustomDataChangeController(
                 customDataService.ClearCustomDataFromSession(urn);
                 // todo: persist orchestrator job ID to auth user data
 
-                return RedirectToAction("Index", "SchoolCustomData", new { urn });
+                return RedirectToAction("Index", "SchoolCustomData", new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
@@ -181,6 +220,17 @@ public class SchoolCustomDataChangeController(
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
         var currentValues = await customDataService.GetCurrentData(urn);
         var customInput = customDataService.GetCustomDataFromSession(urn);
-        return new SchoolCustomDataChangeViewModel(school, currentValues, customInput);
+
+        // attempt to load in custom data from previous submission if not already in the middle of a new submission
+        if (customInput == null)
+        {
+            var (customData, _) = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+            if (!string.IsNullOrWhiteSpace(customData))
+            {
+                customInput = await customDataService.GetCustomDataById(urn, customData);
+            }
+        }
+
+        return new SchoolCustomDataChangeViewModel(school, currentValues, customInput ?? new CustomData());
     }
 }
