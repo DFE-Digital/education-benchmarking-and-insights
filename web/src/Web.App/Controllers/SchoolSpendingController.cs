@@ -89,9 +89,18 @@ public class SchoolSpendingController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var rating = Enumerable.Empty<RagRating>();
-                var pupilExpenditure = Enumerable.Empty<SchoolExpenditure>();
-                var areaExpenditure = Enumerable.Empty<SchoolExpenditure>();
+                var rating = await metricRagRatingApi.CustomAsync(userData.CustomData).GetResultOrThrow<RagRating[]>();
+
+                var set = await schoolComparatorSetService.ReadComparatorSet(urn, userData.CustomData);
+
+                var defaultPupilResult = await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
+                var defaultAreaResult = await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
+
+                var customPupilResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
+                var customAreaResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
+
+                var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
+                var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
                 var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure);
 
