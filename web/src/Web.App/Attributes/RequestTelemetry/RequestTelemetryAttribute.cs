@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Web.App.Extensions;
 namespace Web.App.Attributes.RequestTelemetry;
 
-[AttributeUsage(AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public abstract class RequestTelemetryAttribute : TypeFilterAttribute
 {
     protected RequestTelemetryAttribute(

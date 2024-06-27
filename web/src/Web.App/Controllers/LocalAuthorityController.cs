@@ -46,6 +46,7 @@ public class LocalAuthorityController(
 
     [HttpGet]
     [Route("find-ways-to-spend-less")]
+    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string code)
     {
         using (logger.BeginScope(new

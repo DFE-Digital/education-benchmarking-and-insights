@@ -2,18 +2,19 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning")]
+[SchoolRequestTelemetry(TrackedRequestFeature.Planning)]
 public class SchoolPlanningController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
@@ -23,7 +24,10 @@ public class SchoolPlanningController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -48,7 +52,12 @@ public class SchoolPlanningController(
     [Route("{year:int}")]
     public async Task<IActionResult> View(string urn, int year, string? referrer)
     {
-        using (logger.BeginScope(new { urn, year, referrer }))
+        using (logger.BeginScope(new
+        {
+            urn,
+            year,
+            referrer
+        }))
         {
             try
             {

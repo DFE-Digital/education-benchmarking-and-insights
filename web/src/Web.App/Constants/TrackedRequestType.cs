@@ -11,26 +11,44 @@ public enum TrackedRequestType
 
 public enum TrackedRequestEstablishmentType
 {
+    [StringValue("local-authority")]
+    LocalAuthority,
     [StringValue("school")]
     School,
     [StringValue("trust")]
-    Trust,
-    [StringValue("local-authority")]
-    LocalAuthority
+    Trust
 }
 
 public enum TrackedRequestFeature
 {
+    [StringValue("census")]
+    Census,
+    [StringValue("comparators")]
+    Comparators,
+    [StringValue("customised-data")]
+    CustomisedData,
+    [StringValue("details")]
+    Details,
+    [StringValue("forecast")]
+    Forecast,
+    [StringValue("history")]
+    History,
     [StringValue("home")]
-    Home
+    Home,
+    [StringValue("planning")]
+    Planning,
+    [StringValue("resources")]
+    Resources,
+    [StringValue("spending")]
+    Spending
 }
 
 public enum TrackedRequestRouteParameters
 {
-    [StringValue("urn")]
-    Urn,
+    [StringValue("code")]
+    Code,
     [StringValue("companyNumber")]
     CompanyNumber,
-    [StringValue("code")]
-    Code
+    [StringValue("urn")]
+    Urn
 }

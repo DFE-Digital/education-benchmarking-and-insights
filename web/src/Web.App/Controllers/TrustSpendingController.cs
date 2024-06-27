@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -11,6 +12,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/spending-and-costs")]
+[TrustRequestTelemetry(TrackedRequestFeature.Spending)]
 public class TrustSpendingController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {

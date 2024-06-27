@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -12,6 +13,7 @@ namespace Web.App.Controllers;
 [TrustAuthorization]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.ForecastRisk)]
 [Route("trust/{companyNumber}/forecast")]
+[TrustRequestTelemetry(TrackedRequestFeature.Forecast)]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,
     IBudgetForecastApi budgetForecastApi,

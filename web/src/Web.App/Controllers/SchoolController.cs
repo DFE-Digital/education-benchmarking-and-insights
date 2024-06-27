@@ -58,6 +58,7 @@ public class SchoolController(
 
     [HttpGet]
     [Route("history")]
+    [SchoolRequestTelemetry(TrackedRequestFeature.History)]
     public async Task<IActionResult> History(string urn)
     {
         using (logger.BeginScope(new
@@ -84,6 +85,7 @@ public class SchoolController(
 
     [HttpGet]
     [Route("details")]
+    [SchoolRequestTelemetry(TrackedRequestFeature.Details)]
     public async Task<IActionResult> Details(string urn)
     {
         using (logger.BeginScope(new
@@ -110,6 +112,7 @@ public class SchoolController(
 
     [HttpGet]
     [Route("find-ways-to-spend-less")]
+    [SchoolRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string urn)
     {
 
@@ -140,6 +143,7 @@ public class SchoolController(
     [Route("customised-data")]
     [SchoolAuthorization]
     [FeatureGate(FeatureFlags.CustomData)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new

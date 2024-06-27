@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -12,6 +13,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
+[SchoolRequestTelemetry(TrackedRequestFeature.Comparators)]
 public class SchoolComparatorsController(
     ILogger<SchoolComparatorsController> logger,
     IEstablishmentApi establishmentApi,

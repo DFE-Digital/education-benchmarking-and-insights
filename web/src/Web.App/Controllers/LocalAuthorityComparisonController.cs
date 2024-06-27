@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities)]
 [Route("local-authority/{code}/comparison")]
+[LocalAuthorityRequestTelemetry(TrackedRequestFeature.Comparators)]
 public class LocalAuthorityComparisonController(
     IEstablishmentApi establishmentApi,
     ILogger<LocalAuthorityComparisonController> logger)
@@ -19,7 +20,10 @@ public class LocalAuthorityComparisonController(
     [HttpGet]
     public async Task<IActionResult> Index(string code)
     {
-        using (logger.BeginScope(new { code }))
+        using (logger.BeginScope(new
+        {
+            code
+        }))
         {
             try
             {
