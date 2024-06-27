@@ -2,18 +2,19 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [TrustAuthorization]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.CurriculumFinancialPlanning)]
 [Route("trust/{companyNumber}/financial-planning")]
+[TrustRequestTelemetry(TrackedRequestFeature.Planning)]
 public class TrustPlanningController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
@@ -23,7 +24,10 @@ public class TrustPlanningController(
     [HttpGet]
     public async Task<IActionResult> Index(string companyNumber)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {

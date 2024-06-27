@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -20,9 +20,13 @@ public class SchoolCensusController(
     : Controller
 {
     [HttpGet]
+    [SchoolRequestTelemetry(TrackedRequestFeature.Census)]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -46,16 +50,23 @@ public class SchoolCensusController(
     [Route("custom-data")]
     [SchoolAuthorization]
     [FeatureGate(FeatureFlags.CustomData)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
     public async Task<IActionResult> CustomData(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 if (string.IsNullOrEmpty(userData.CustomData))
                 {
-                    return RedirectToAction("Index", "School", new { urn });
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
                 }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataCensus(urn);

@@ -2,19 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-using Web.App.Extensions;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/spending-comparison")]
+[SchoolRequestTelemetry(TrackedRequestFeature.Spending)]
 public class SchoolSpendingComparisonController(
     IEstablishmentApi establishmentApi,
     IUserDataService userDataService,
@@ -25,14 +26,20 @@ public class SchoolSpendingComparisonController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 if (string.IsNullOrEmpty(userData.CustomData))
                 {
-                    return RedirectToAction("Index", "School", new { urn });
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
                 }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpendingComparison(urn);
@@ -54,4 +61,3 @@ public class SchoolSpendingComparisonController(
         }
     }
 }
-

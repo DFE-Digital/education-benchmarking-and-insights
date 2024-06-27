@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -11,13 +12,13 @@ using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.Validators;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning/create")]
+[SchoolRequestTelemetry(TrackedRequestFeature.Planning)]
 public class SchoolPlanningCreateController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
@@ -32,7 +33,10 @@ public class SchoolPlanningCreateController(
     [Route("start")]
     public async Task<IActionResult> Start(string urn)
     {
-        return await Executor(new { urn }, Action);
+        return await Executor(new
+        {
+            urn
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -49,7 +53,10 @@ public class SchoolPlanningCreateController(
     [Route("help")]
     public async Task<IActionResult> Help(string urn)
     {
-        return await Executor(new { urn }, Action);
+        return await Executor(new
+        {
+            urn
+        }, Action);
 
         Task<IActionResult> Action()
         {
@@ -63,7 +70,10 @@ public class SchoolPlanningCreateController(
     [Route("select-year")]
     public async Task<IActionResult> SelectYear(string urn)
     {
-        return await Executor(new { urn }, Action);
+        return await Executor(new
+        {
+            urn
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -80,7 +90,10 @@ public class SchoolPlanningCreateController(
     [Route("select-year")]
     public async Task<IActionResult> SelectYear(string urn, SelectYearStage stage)
     {
-        return await Executor(new { urn }, Action);
+        return await Executor(new
+        {
+            urn
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -88,7 +101,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.TryCreateEmpty(urn, stage.Year, User.UserId());
-                return RedirectToAction("PrePopulateData", new { urn, year = stage.Year });
+                return RedirectToAction("PrePopulateData", new
+                {
+                    urn,
+                    year = stage.Year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = StartBackLink(urn);
@@ -106,7 +123,11 @@ public class SchoolPlanningCreateController(
     [Route("pre-populate-data")]
     public async Task<IActionResult> PrePopulateData(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -127,7 +148,11 @@ public class SchoolPlanningCreateController(
     [Route("pre-populate-data")]
     public async Task<IActionResult> PrePopulateData(string urn, int year, PrePopulateDataStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -137,8 +162,16 @@ public class SchoolPlanningCreateController(
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
 
                 return stage.UseFigures is true
-                    ? RedirectToAction("TimetableCycle", new { urn, year })
-                    : RedirectToAction("TotalIncome", new { urn, year });
+                    ? RedirectToAction("TimetableCycle", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("TotalIncome", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = SelectYearBackLink(urn);
@@ -162,7 +195,11 @@ public class SchoolPlanningCreateController(
     [Route("timetable-cycle")]
     public async Task<IActionResult> TimetableCycle(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -186,7 +223,11 @@ public class SchoolPlanningCreateController(
     [Route("timetable-cycle")]
     public async Task<IActionResult> TimetableCycle(string urn, int year, TimetableCycleStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -196,10 +237,22 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
                     : school.IsPrimary
-                        ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
-                        : RedirectToAction("PupilFigures", new { urn, year });
+                        ? RedirectToAction("PrimaryHasMixedAgeClasses", new
+                        {
+                            urn,
+                            year
+                        })
+                        : RedirectToAction("PupilFigures", new
+                        {
+                            urn,
+                            year
+                        });
             }
 
             var plan = await financialPlanService.Get(urn, year);
@@ -225,7 +278,11 @@ public class SchoolPlanningCreateController(
     [Route("total-income")]
     public async Task<IActionResult> TotalIncome(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -245,7 +302,11 @@ public class SchoolPlanningCreateController(
     [Route("total-income")]
     public async Task<IActionResult> TotalIncome(string urn, int year, TotalIncomeStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -254,8 +315,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
-                    : RedirectToAction("TotalExpenditure", new { urn, year });
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("TotalExpenditure", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
@@ -278,7 +347,11 @@ public class SchoolPlanningCreateController(
     [Route("total-expenditure")]
     public async Task<IActionResult> TotalExpenditure(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -298,7 +371,11 @@ public class SchoolPlanningCreateController(
     [Route("total-expenditure")]
     public async Task<IActionResult> TotalExpenditure(string urn, int year, TotalExpenditureStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -307,8 +384,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
-                    : RedirectToAction("TotalTeacherCosts", new { urn, year });
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("TotalTeacherCosts", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
@@ -331,7 +416,11 @@ public class SchoolPlanningCreateController(
     [Route("total-teacher-costs")]
     public async Task<IActionResult> TotalTeacherCosts(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -351,7 +440,11 @@ public class SchoolPlanningCreateController(
     [Route("total-teacher-costs")]
     public async Task<IActionResult> TotalTeacherCosts(string urn, int year, TotalTeacherCostsStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -361,10 +454,22 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
                     : school.IsPrimary
-                        ? RedirectToAction("TotalEducationSupport", new { urn, year })
-                        : RedirectToAction("TotalNumberTeachers", new { urn, year });
+                        ? RedirectToAction("TotalEducationSupport", new
+                        {
+                            urn,
+                            year
+                        })
+                        : RedirectToAction("TotalNumberTeachers", new
+                        {
+                            urn,
+                            year
+                        });
             }
 
             ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
@@ -386,7 +491,11 @@ public class SchoolPlanningCreateController(
     [Route("total-education-support")]
     public async Task<IActionResult> TotalEducationSupport(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -406,7 +515,11 @@ public class SchoolPlanningCreateController(
     [Route("total-education-support")]
     public async Task<IActionResult> TotalEducationSupport(string urn, int year, TotalEducationSupportStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -415,8 +528,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
-                    : RedirectToAction("TotalNumberTeachers", new { urn, year });
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("TotalNumberTeachers", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
@@ -439,7 +560,11 @@ public class SchoolPlanningCreateController(
     [Route("total-number-teachers")]
     public async Task<IActionResult> TotalNumberTeachers(string urn, int year, string? referrer = null)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -463,7 +588,11 @@ public class SchoolPlanningCreateController(
     [Route("total-number-teachers")]
     public async Task<IActionResult> TotalNumberTeachers(string urn, int year, TotalNumberTeachersStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -472,8 +601,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.Referrer == Referrers.DeploymentPlan
-                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
-                    : RedirectToAction("TimetableCycle", new { urn, year });
+                    ? RedirectToAction("View", "SchoolPlanning", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("TimetableCycle", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -500,7 +637,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -518,7 +659,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year, PrimaryHasMixedAgeClassesStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -527,8 +672,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.HasMixedAgeClasses is true
-                    ? RedirectToAction("PrimaryMixedAgeClasses", new { urn, year })
-                    : RedirectToAction("PrimaryPupilFigures", new { urn, year });
+                    ? RedirectToAction("PrimaryMixedAgeClasses", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("PrimaryPupilFigures", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = TimetableCycleBackLink(urn, year);
@@ -549,7 +702,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-mixed-age-classes")]
     public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -567,7 +724,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-mixed-age-classes")]
     public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year, PrimaryMixedAgeClassesStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -575,7 +736,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("PrimaryPupilFigures", new { urn, year });
+                return RedirectToAction("PrimaryPupilFigures", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = PrimaryHasMixedAgeClassesBackLink(urn, year);
@@ -596,7 +761,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-pupil-figures")]
     public async Task<IActionResult> PrimaryPupilFigures(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -618,7 +787,11 @@ public class SchoolPlanningCreateController(
     [Route("primary-pupil-figures")]
     public async Task<IActionResult> PrimaryPupilFigures(string urn, int year, PrimaryPupilFiguresStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -626,7 +799,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TeacherPeriodAllocation", new { urn, year });
+                return RedirectToAction("TeacherPeriodAllocation", new
+                {
+                    urn,
+                    year
+                });
             }
 
             var plan = await financialPlanService.Get(urn, year);
@@ -651,7 +828,11 @@ public class SchoolPlanningCreateController(
     [Route("pupil-figures")]
     public async Task<IActionResult> PupilFigures(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -669,7 +850,11 @@ public class SchoolPlanningCreateController(
     [Route("pupil-figures")]
     public async Task<IActionResult> PupilFigures(string urn, int year, PupilFiguresStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -677,7 +862,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TeacherPeriodAllocation", new { urn, year });
+                return RedirectToAction("TeacherPeriodAllocation", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = TimetableCycleBackLink(urn, year);
@@ -698,7 +887,11 @@ public class SchoolPlanningCreateController(
     [Route("teacher-period-allocation")]
     public async Task<IActionResult> TeacherPeriodAllocation(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -720,7 +913,11 @@ public class SchoolPlanningCreateController(
     [Route("teacher-period-allocation")]
     public async Task<IActionResult> TeacherPeriodAllocation(string urn, int year, TeacherPeriodAllocationStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -730,8 +927,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return school.IsPrimary
-                    ? RedirectToAction("TeachingAssistantFigures", new { urn, year })
-                    : RedirectToAction("OtherTeachingPeriods", new { urn, year });
+                    ? RedirectToAction("TeachingAssistantFigures", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("OtherTeachingPeriods", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             var backAction = school.IsPrimary
@@ -755,7 +960,11 @@ public class SchoolPlanningCreateController(
     [Route("teaching-assistant-figures")]
     public async Task<IActionResult> TeachingAssistantFigures(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -773,7 +982,11 @@ public class SchoolPlanningCreateController(
     [Route("teaching-assistant-figures")]
     public async Task<IActionResult> TeachingAssistantFigures(string urn, int year, TeachingAssistantFiguresStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -781,7 +994,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("OtherTeachingPeriods", new { urn, year });
+                return RedirectToAction("OtherTeachingPeriods", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(urn, year);
@@ -802,7 +1019,11 @@ public class SchoolPlanningCreateController(
     [Route("other-teaching-periods")]
     public async Task<IActionResult> OtherTeachingPeriods(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -829,7 +1050,11 @@ public class SchoolPlanningCreateController(
     [Route("other-teaching-periods")]
     public async Task<IActionResult> OtherTeachingPeriods(string urn, int year, OtherTeachingPeriodsStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -849,8 +1074,16 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
-                    ? RedirectToAction("OtherTeachingPeriodsConfirm", new { urn, year })
-                    : RedirectToAction("OtherTeachingPeriodsReview", new { urn, year });
+                    ? RedirectToAction("OtherTeachingPeriodsConfirm", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("OtherTeachingPeriodsReview", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -875,7 +1108,11 @@ public class SchoolPlanningCreateController(
     [Route("other-teaching-periods-confirmation")]
     public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -894,7 +1131,11 @@ public class SchoolPlanningCreateController(
     [Route("other-teaching-periods-confirmation")]
     public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year, OtherTeachingPeriodsConfirmStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -903,8 +1144,16 @@ public class SchoolPlanningCreateController(
             {
 
                 return stage.Proceed is true
-                    ? RedirectToAction("ManagementRoles", new { urn, year })
-                    : RedirectToAction("OtherTeachingPeriods", new { urn, year });
+                    ? RedirectToAction("ManagementRoles", new
+                    {
+                        urn,
+                        year
+                    })
+                    : RedirectToAction("OtherTeachingPeriods", new
+                    {
+                        urn,
+                        year
+                    });
             }
 
             ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
@@ -924,7 +1173,11 @@ public class SchoolPlanningCreateController(
     [Route("other-teaching-periods-review")]
     public async Task<IActionResult> OtherTeachingPeriodsReview(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -943,7 +1196,11 @@ public class SchoolPlanningCreateController(
     [Route("management-roles")]
     public async Task<IActionResult> ManagementRoles(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -962,7 +1219,11 @@ public class SchoolPlanningCreateController(
     [Route("management-roles")]
     public async Task<IActionResult> ManagementRoles(string urn, int year, ManagementRolesStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -970,7 +1231,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("ManagersPerRole", new { urn, year });
+                return RedirectToAction("ManagersPerRole", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
@@ -991,7 +1256,11 @@ public class SchoolPlanningCreateController(
     [Route("managers-per-role")]
     public async Task<IActionResult> ManagersPerRole(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -1009,7 +1278,11 @@ public class SchoolPlanningCreateController(
     [Route("managers-per-role")]
     public async Task<IActionResult> ManagersPerRole(string urn, int year, ManagersPerRoleStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -1017,7 +1290,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TeachingPeriodsManager", new { urn, year });
+                return RedirectToAction("TeachingPeriodsManager", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagementRolesBackLink(urn, year);
@@ -1038,7 +1315,11 @@ public class SchoolPlanningCreateController(
     [Route("teaching-periods-manager")]
     public async Task<IActionResult> TeachingPeriodsManager(string urn, int year)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -1056,7 +1337,11 @@ public class SchoolPlanningCreateController(
     [Route("teaching-periods-manager")]
     public async Task<IActionResult> TeachingPeriodsManager(string urn, int year, TeachingPeriodsManagerStage stage)
     {
-        return await Executor(new { urn, year }, Action);
+        return await Executor(new
+        {
+            urn,
+            year
+        }, Action);
 
         async Task<IActionResult> Action()
         {
@@ -1064,7 +1349,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("View", "SchoolPlanning", new { urn, year });
+                return RedirectToAction("View", "SchoolPlanning", new
+                {
+                    urn,
+                    year
+                });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);
@@ -1097,25 +1386,102 @@ public class SchoolPlanningCreateController(
         }
     }
 
-    private BacklinkInfo DeploymentPlanLink(string urn, int year) => new(Url.Action("View", "SchoolPlanning", new { urn, year }));
+    private BacklinkInfo DeploymentPlanLink(string urn, int year) => new(Url.Action("View", "SchoolPlanning", new
+    {
+        urn,
+        year
+    }));
 
-    private BacklinkInfo IndexBackLink(string urn) => new(Url.Action("Index", "SchoolPlanning", new { urn }));
-    private BacklinkInfo StartBackLink(string urn) => new(Url.Action("Start", new { urn }));
-    private BacklinkInfo SelectYearBackLink(string urn) => new(Url.Action("SelectYear", new { urn }));
-    private BacklinkInfo PrePopulateDataBackLink(string urn, int year) => new(Url.Action("PrePopulateData", new { urn, year }));
-    private BacklinkInfo TotalIncomeBackLink(string urn, int year) => new(Url.Action("TotalIncome", new { urn, year }));
-    private BacklinkInfo TotalExpenditureBackLink(string urn, int year) => new(Url.Action("TotalExpenditure", new { urn, year }));
-    private BacklinkInfo TotalNumberTeachersBackLink(string urn, int year) => new(Url.Action("TotalNumberTeachers", new { urn, year }));
-    private BacklinkInfo TotalEducationSupportBackLink(string urn, int year) => new(Url.Action("TotalEducationSupport", new { urn, year }));
-    private BacklinkInfo TotalTeacherCostsBackLink(string urn, int year) => new(Url.Action("TotalTeacherCosts", new { urn, year }));
-    private BacklinkInfo TimetableCycleBackLink(string urn, int year) => new(Url.Action("TimetableCycle", new { urn, year }));
-    private BacklinkInfo PrimaryHasMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
-    private BacklinkInfo PrimaryMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryMixedAgeClasses", new { urn, year }));
-    private BacklinkInfo PupilFiguresBackLink(string urn, int year) => new(Url.Action("PupilFigures", new { urn, year }));
-    private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year) => new(Url.Action("PrimaryPupilFigures", new { urn, year }));
-    private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new { urn, year }));
-    private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new { urn, year }));
-    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year) => new(Url.Action("OtherTeachingPeriods", new { urn, year }));
-    private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new { urn, year }));
-    private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new { urn, year }));
+    private BacklinkInfo IndexBackLink(string urn) => new(Url.Action("Index", "SchoolPlanning", new
+    {
+        urn
+    }));
+    private BacklinkInfo StartBackLink(string urn) => new(Url.Action("Start", new
+    {
+        urn
+    }));
+    private BacklinkInfo SelectYearBackLink(string urn) => new(Url.Action("SelectYear", new
+    {
+        urn
+    }));
+    private BacklinkInfo PrePopulateDataBackLink(string urn, int year) => new(Url.Action("PrePopulateData", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TotalIncomeBackLink(string urn, int year) => new(Url.Action("TotalIncome", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TotalExpenditureBackLink(string urn, int year) => new(Url.Action("TotalExpenditure", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TotalNumberTeachersBackLink(string urn, int year) => new(Url.Action("TotalNumberTeachers", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TotalEducationSupportBackLink(string urn, int year) => new(Url.Action("TotalEducationSupport", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TotalTeacherCostsBackLink(string urn, int year) => new(Url.Action("TotalTeacherCosts", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TimetableCycleBackLink(string urn, int year) => new(Url.Action("TimetableCycle", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo PrimaryHasMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryHasMixedAgeClasses", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo PrimaryMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryMixedAgeClasses", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo PupilFiguresBackLink(string urn, int year) => new(Url.Action("PupilFigures", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year) => new(Url.Action("PrimaryPupilFigures", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year) => new(Url.Action("OtherTeachingPeriods", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new
+    {
+        urn,
+        year
+    }));
+    private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new
+    {
+        urn,
+        year
+    }));
 }

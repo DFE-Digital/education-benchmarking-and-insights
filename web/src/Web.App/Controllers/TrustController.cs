@@ -53,6 +53,7 @@ public class TrustController(
 
     [HttpGet]
     [Route("details")]
+    [TrustRequestTelemetry(TrackedRequestFeature.Details)]
     public async Task<IActionResult> Details(string companyNumber)
     {
         using (logger.BeginScope(new
@@ -80,6 +81,7 @@ public class TrustController(
 
     [HttpGet]
     [Route("history")]
+    [TrustRequestTelemetry(TrackedRequestFeature.History)]
     public async Task<IActionResult> History(string companyNumber)
     {
         using (logger.BeginScope(new
@@ -106,6 +108,7 @@ public class TrustController(
 
     [HttpGet]
     [Route("find-ways-to-spend-less")]
+    [TrustRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string companyNumber)
     {
         using (logger.BeginScope(new

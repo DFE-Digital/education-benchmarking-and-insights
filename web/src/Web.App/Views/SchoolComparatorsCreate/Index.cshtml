@@ -1,6 +1,5 @@
-﻿@using Microsoft.Extensions.Configuration
+﻿@inject IConfiguration Configuration
 @using Web.App.Identity.Models
-@inject IConfiguration Configuration
 @model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreate;
@@ -55,4 +54,4 @@
       import { initAll } from '/js/govuk-frontend.min.js'
       initAll()
     </script>
-};
+}
