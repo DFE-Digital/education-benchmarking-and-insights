@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -20,9 +20,13 @@ public class TrustController(
     : Controller
 {
     [HttpGet]
+    [RequestTelemetry(TrackedRequests.TrustHome, "companyNumber")]
     public async Task<IActionResult> Index(string companyNumber)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -51,7 +55,10 @@ public class TrustController(
     [Route("details")]
     public async Task<IActionResult> Details(string companyNumber)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -75,7 +82,10 @@ public class TrustController(
     [Route("history")]
     public async Task<IActionResult> History(string companyNumber)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -98,7 +108,10 @@ public class TrustController(
     [Route("find-ways-to-spend-less")]
     public async Task<IActionResult> Resources(string companyNumber)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -144,5 +157,8 @@ public class TrustController(
         .GetTrust(companyNumber)
         .GetResultOrThrow<Trust>();
 
-    private BacklinkInfo HomeLink(string companyNumber) => new(Url.Action("Index", new { companyNumber }));
+    private BacklinkInfo HomeLink(string companyNumber) => new(Url.Action("Index", new
+    {
+        companyNumber
+    }));
 }

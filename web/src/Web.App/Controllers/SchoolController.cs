@@ -22,7 +22,7 @@ public class SchoolController(
     : Controller
 {
     [HttpGet]
-    [TrackPageView("School homepage", "urn")]
+    [RequestTelemetry(TrackedRequests.SchoolHome, "urn")]
     public async Task<IActionResult> Index(string urn, [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
         using (logger.BeginScope(new
@@ -151,7 +151,10 @@ public class SchoolController(
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 if (string.IsNullOrEmpty(userData.CustomData))
                 {
-                    return RedirectToAction("Index", "School", new { urn });
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
                 }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
