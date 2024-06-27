@@ -1,4 +1,5 @@
 @using Web.App.Domain
+@using Web.App.Extensions
 @using Web.App.ViewModels
 @model Web.App.ViewModels.TrustForecastViewModel
 
@@ -74,10 +75,23 @@
                     If you are not already engaging with ESFA on your finances, you may wish to consider reviewing
                     @if (Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
                     {
-                        <a href="https://www.gov.uk/guidance/integrated-curriculum-and-financial-planning-icfp" class="govuk-link">ICFP guidance</a>
+                        @Html.TrackedAnchor(
+                            TrackedLinks.GuidanceResource,
+                            "https://www.gov.uk/guidance/integrated-curriculum-and-financial-planning-icfp",
+                            "ICFP guidance",
+                            "Opens in a new window",
+                            "_blank",
+                            ["noopener", "noreferrer", "external"])
                         @:and the
                     }
-                    <a href="https://www.gov.uk/government/collections/schools-financial-health-and-efficiency" class="govuk-link">school resources management guidance</a>
+
+                    @Html.TrackedAnchor(
+                        TrackedLinks.GuidanceResource,
+                        "https://www.gov.uk/government/collections/schools-financial-health-and-efficiency",
+                        "school resources management guidance",
+                        "Opens in a new window",
+                        "_blank",
+                        ["noopener", "noreferrer", "external"])
                 </p>
             }
         </div>

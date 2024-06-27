@@ -31,8 +31,9 @@ public class TrustForecastController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustForecast(companyNumber);
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var metrics = await GetBudgetForecastReturnMetrics(companyNumber);
-                var returns = await GetCurrentBudgetForecastReturn(companyNumber);
-                var viewModel = new TrustForecastViewModel(trust, metrics, returns);
+                var bfrYear = await budgetForecastApi.GetCurrentBudgetForecastYear(companyNumber).GetResultOrDefault(Constants.CurrentYear - 1);
+                var returns = await GetCurrentBudgetForecastReturn(companyNumber, bfrYear);
+                var viewModel = new TrustForecastViewModel(trust, metrics, returns, bfrYear);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -48,10 +49,10 @@ public class TrustForecastController(
         .BudgetForecastReturnsMetrics(companyNumber)
         .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
 
-    private async Task<BudgetForecastReturn[]> GetCurrentBudgetForecastReturn(string companyNumber)
+    private async Task<BudgetForecastReturn[]> GetCurrentBudgetForecastReturn(string companyNumber, int? bfrYear)
     {
         var query = new ApiQuery()
-            .AddIfNotNull("runId", (Constants.CurrentYear - 1).ToString());
+            .AddIfNotNull("runId", bfrYear?.ToString());
 
         return await budgetForecastApi
             .BudgetForecastReturns(companyNumber, query)

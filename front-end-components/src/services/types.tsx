@@ -370,11 +370,10 @@ export type BudgetForecastReturn = {
   runId: string;
   year: number;
   companyNumber: string;
-  category: string;
   forecast?: number;
   actual?: number;
-  totalPupils?: number;
-  slope?: number;
+  forecastTotalPupils?: number;
+  actualTotalPupils?: number;
   variance?: number;
   percentVariance?: number;
 };

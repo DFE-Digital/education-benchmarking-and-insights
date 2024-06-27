@@ -38,11 +38,12 @@ public record BudgetForecastReturn
     public string? RunId { get; set; }
     public int? Year { get; set; }
     public string? CompanyNumber { get; set; }
-    public string? Category { get; set; }
+
     public decimal? Forecast { get; set; }
     public decimal? Actual { get; set; }
-    public decimal? TotalPupils { get; set; }
-    public decimal? Slope { get; set; }
+    public decimal? ForecastTotalPupils { get; set; }
+    public decimal? ActualTotalPupils { get; set; }
+
     public decimal? Variance { get; set; }
     public decimal? PercentVariance { get; set; }
 }
