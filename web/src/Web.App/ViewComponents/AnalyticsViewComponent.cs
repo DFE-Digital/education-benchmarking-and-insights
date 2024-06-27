@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Web.App.ViewModels.Components;
@@ -15,6 +16,13 @@ public class AnalyticsViewComponent : ViewComponent
         }
 
         var vm = new AnalyticsViewModel(instrumentationKey);
+
+        var telemetry = HttpContext.Features.Get<RequestTelemetry>();
+        if (telemetry != null)
+        {
+            vm.OperationId = telemetry.Context.Operation.Id;
+        }
+
         return View(vm);
     }
 }
