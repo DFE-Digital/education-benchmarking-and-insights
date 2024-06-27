@@ -6,7 +6,7 @@ public class DetailsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator BackLink => page.Locator(Selectors.GovBackLink);
-    private ILocator GiasPageLink => page.Locator(Selectors.SchoolGiasPageLink);
+    private ILocator GiasPageLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Get more information about this school" });
     private ILocator EmailAddressField => page.Locator(Selectors.SchoolDetailsEmailAddress);
 
 
