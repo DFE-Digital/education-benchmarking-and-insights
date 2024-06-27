@@ -87,7 +87,7 @@ public class HomeSteps(PageDriver driver)
         }
         Assert.NotNull(_curriculumAndFinancialPlanningPage);
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
-       
+
     }
 
     [When("I click on benchmark census data")]
