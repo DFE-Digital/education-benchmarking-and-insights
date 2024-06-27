@@ -23,6 +23,11 @@
         src: "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js",
         crossOrigin: "anonymous",
         cfg: configObj,
-        onInit: function(sdk) { },
+        onInit: function(sdk) {
+            var serverId = "@Model.OperationId";
+            if (serverId && !sdk.context.telemetryTrace.parentID) {
+                sdk.context.telemetryTrace.parentID = serverId;
+            }
+        },
     });
 </script>
