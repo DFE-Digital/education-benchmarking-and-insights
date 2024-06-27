@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -11,7 +12,6 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
 {
     private readonly Census _census;
     private readonly Census _customCensus;
-    private readonly SchoolExpenditure _customExpenditure;
     private readonly SchoolCharacteristic _customFloorAreaMetric;
     private readonly SchoolExpenditure _expenditure;
     private readonly SchoolCharacteristic _floorAreaMetric;
@@ -21,9 +21,6 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     public WhenViewingCustomDataNonFinancialData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _expenditure = Fixture.Build<SchoolExpenditure>()
-            .Create();
-
-        _customExpenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
         _income = Fixture.Build<SchoolIncome>()
@@ -127,10 +124,11 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             var field = customValue.Id ?? string.Empty;
             var expected = field switch
             {
-                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => $"{_customCensus.TotalPupils:#.0}",
-                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => $"{_customFloorAreaMetric.PercentFreeSchoolMeals:#.0}",
-                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => $"{_customFloorAreaMetric.PercentSpecialEducationNeeds:#.0}",
-                _ => $"{_customFloorAreaMetric.TotalInternalFloorArea:#.0}"
+                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => _customCensus.TotalPupils.ToSimpleDisplay(),
+                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => _customFloorAreaMetric.PercentFreeSchoolMeals.ToPercent().TrimEnd('%'),
+                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => _customFloorAreaMetric.PercentSpecialEducationNeeds.ToPercent().TrimEnd('%'),
+                nameof(NonFinancialDataCustomDataViewModel.FloorArea) => _customFloorAreaMetric.TotalInternalFloorArea.ToSimpleDisplay(),
+                _ => throw new ArgumentOutOfRangeException()
             };
 
             Assert.True(expected.Equals(actual), $"{field} expected to be {expected} but found {actual}");

@@ -1,4 +1,5 @@
-﻿<h2 class="govuk-heading-m">Data Sources</h2>
+﻿@using Web.App.Extensions
+<h2 class="govuk-heading-m">Data Sources</h2>
 
 <h3 class="govuk-heading-s">Which types of schools can I get data for?</h3>
 
@@ -45,7 +46,13 @@
 
 <p class="govuk-body">
     This comes from
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.find-school-performance-data.service.gov.uk/">Find school and college performance data in England</a>.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.find-school-performance-data.service.gov.uk/",
+        "Find school and college performance data in England",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]).
     The period covered matches the submissions for financial returns.
 </p>
 
@@ -53,7 +60,13 @@
 
 <p class="govuk-body">
     This comes from the
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/collections/statistics-school-workforce">school workforce census</a>.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.gov.uk/government/collections/statistics-school-workforce",
+        "school workforce census",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]).
     The period covered matches the submissions for financial returns.
 </p>
 
@@ -61,19 +74,37 @@
 
 <p class="govuk-body">
     This comes from
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/statistical-data-sets/monthly-management-information-ofsteds-school-inspections-outcomes">Ofsted school inspections</a>. Ratings reflect those received when financial data was uploaded.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.gov.uk/government/statistical-data-sets/monthly-management-information-ofsteds-school-inspections-outcomes",
+        "Ofsted school inspections",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]). Ratings reflect those received when financial data was uploaded.
 </p>
 
 <h3 class="govuk-heading-s">Special educational needs data</h3>
 
 <p class="govuk-body">
     This comes from
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/collections/statistics-special-educational-needs-sen">special educational needs statistics</a>.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.gov.uk/government/collections/statistics-special-educational-needs-sen",
+        "special educational needs statistics",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]).
 </p>
 
 <h3 class="govuk-heading-s">School contextual information</h3>
 
 <p class="govuk-body">
     This comes from the
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.get-information-schools.service.gov.uk/">Get Information About Schools</a> site.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.get-information-schools.service.gov.uk/",
+        "Get Information About Schools",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]) site.
 </p>

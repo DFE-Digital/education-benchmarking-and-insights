@@ -1,4 +1,5 @@
-﻿<h4 class="govuk-heading-s">Teaching and teaching support staff costs</h4>
+﻿@using Web.App.Extensions
+<h4 class="govuk-heading-s">Teaching and teaching support staff costs</h4>
 
 <p class="govuk-body">
     As staffing typically represents between 75% and 80% of mainstream schools' expenditure, and more for special schools and pupil referral units (PRUs),
@@ -17,5 +18,11 @@
 
 <p class="govuk-body">
     Further
-    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/publications/school-workforce-planning">guidance on school workforce and curriculum planning</a> can be found on gov.uk.
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.gov.uk/government/publications/school-workforce-planning",
+        "guidance on school workforce and curriculum planning",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]) can be found on gov.uk.
 </p>

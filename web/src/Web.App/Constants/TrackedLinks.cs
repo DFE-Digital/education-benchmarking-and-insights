@@ -8,5 +8,7 @@ public enum TrackedLinks
     [StringValue("commercial-resource")]
     CommercialResource,
     [StringValue("guidance-resource")]
-    GuidanceResource
+    GuidanceResource,
+    [StringValue("data-source")]
+    DataSource
 }

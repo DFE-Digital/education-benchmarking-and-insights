@@ -1,4 +1,7 @@
-﻿@model Web.App.ViewModels.SchoolSpendingViewModel
+﻿@using Web.App.Extensions
+@using Newtonsoft.Json
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
@@ -11,7 +14,81 @@
         kind = OrganisationTypes.School
     })
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+@await Component.InvokeAsync("CustomDataBanner", new
+    {
+        name = Model.Name,
+        id = Model.Urn,
+    })
+
+@if (Model.PriorityCosts.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-m govuk-!-font-size-36">Priority cost categories</h2>
+            <p class="govuk-body">This shows where spending is different to similar schools.</p>
+        </div>
+    </div>
+
+    @foreach (var category in Model.PriorityCosts)
+    {
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-two-thirds">
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
+                <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
+                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
+                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
+                </p>
+                <div class="govuk-!-margin-bottom-2"
+                     data-spending-and-costs-composed
+                     data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
+                     data-highlight="@Model.Urn"
+                     data-suffix="@category.Rating.Unit"
+                     data-sort-direction="asc"
+                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
+                     data-has-incomplete-data="@Model.HasIncompleteData">
+                </div>
+                <p class="govuk-body">
+                    <a href="@Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
+                </p>
+            </div>
+        </div>
+    }
+}
+
+@if (Model.LowPriorityCosts.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-m govuk-!-font-size-36">Low priority cost categories</h2>
+            <p class="govuk-body">This shows where spending is close to similar schools.</p>
+        </div>
+    </div>
+
+    @foreach (var category in Model.LowPriorityCosts)
+    {
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-two-thirds">
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
+                <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
+                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
+                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
+                </p>
+                <div class="govuk-!-margin-bottom-2"
+                     data-spending-and-costs-composed
+                     data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
+                     data-highlight="@Model.Urn"
+                     data-suffix="@category.Rating.Unit"
+                     data-sort-direction="asc"
+                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
+                     data-has-incomplete-data="@Model.HasIncompleteData">
+                </div>
+                <p class="govuk-body">
+                    <a href="@Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
+                </p>
+            </div>
+        </div>
+    }
+}
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new
     {
