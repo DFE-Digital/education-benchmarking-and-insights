@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -18,7 +18,7 @@ public class LocalAuthorityController(
     : Controller
 {
     [HttpGet]
-    [RequestTelemetry(TrackedRequests.LocalAuthorityHome, "code")]
+    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new

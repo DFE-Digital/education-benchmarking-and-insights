@@ -1,35 +1,40 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Web.App.Extensions;
-namespace Web.App.Attributes;
+namespace Web.App.Attributes.RequestTelemetry;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class RequestTelemetryAttribute : TypeFilterAttribute
+public abstract class RequestTelemetryAttribute : TypeFilterAttribute
 {
-    public RequestTelemetryAttribute(TrackedRequests requestName, params string[] routePropertyNames) : base(typeof(RequestTelemetryFilter))
+    protected RequestTelemetryAttribute(
+        Dictionary<string, object?> properties,
+        params string[] routePropertyNames) : base(typeof(RequestTelemetryFilter))
     {
         // arguments list must match the `RequestTelemetryFilter` constructor arguments
         Arguments =
         [
-            requestName,
+            properties,
             routePropertyNames
         ];
     }
 }
 
-public class RequestTelemetryFilter(
+internal class RequestTelemetryFilter(
     ILogger<RequestTelemetryFilter> logger,
-    TrackedRequests requestName,
+    Dictionary<string, object?> properties,
     string[] routePropertyNames) : ActionFilterAttribute
 {
     public override void OnActionExecuted(ActionExecutedContext context)
     {
-        var telemetry = context.HttpContext.Features.Get<RequestTelemetry>();
-        if (telemetry != null && routePropertyNames.Length > 0)
+        var telemetry = context.HttpContext.Features.Get<Microsoft.ApplicationInsights.DataContracts.RequestTelemetry>();
+        if (telemetry != null)
         {
-            telemetry.Properties["Name"] = requestName.GetStringValue();
+            foreach (var property in properties.Keys)
+            {
+                var value = properties[property];
+                telemetry.Properties[property.Capitalise()] = value?.ToString();
+            }
 
             foreach (var property in routePropertyNames)
             {
