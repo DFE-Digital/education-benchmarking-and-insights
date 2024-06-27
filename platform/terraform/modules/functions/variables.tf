@@ -72,3 +72,7 @@ variable "common-tags" {
 variable "enable-restrictions" {
   type = bool
 }
+
+variable "sql-server-id" {
+  type = string
+}

@@ -154,3 +154,11 @@ resource "azurerm_key_vault_secret" "fa-host" {
   key_vault_id = var.key-vault-id
   content_type = "host"
 }
+
+resource "azurerm_mssql_firewall_rule" "sql-server-fw-fa" {
+  for_each         = toset(azurerm_windows_function_app.func-app.outbound_ip_address_list)
+  name             = "allow_azure_services_fa"
+  server_id        = var.sql-server-id
+  start_ip_address = each.value
+  end_ip_address   = each.value
+}
