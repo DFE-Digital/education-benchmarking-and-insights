@@ -136,7 +136,7 @@ stages:
           - template: steps\run-e2e-tests.yaml
             parameters:
               workspaceDir: '$(Pipeline.Workspace)'
-    
+
       - job: RunA11YTests
         dependsOn: [ WebDeployment ]
         displayName: 'Run automated a11y tests'

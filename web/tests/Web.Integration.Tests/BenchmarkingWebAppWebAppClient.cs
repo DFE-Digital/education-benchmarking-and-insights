@@ -34,6 +34,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<ICustomDataApi> CustomDataApi { get; } = new();
     public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
+    public Mock<IBudgetForecastApi> BudgetForecastApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
     public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
 
@@ -54,6 +55,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(CustomDataApi.Object);
         services.AddSingleton(ExpenditureApi.Object);
+        services.AddSingleton(BudgetForecastApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
         services.AddSingleton(DataSourceStorage.Object);
     }
@@ -213,6 +215,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupBudgetForecast(Trust trust, BudgetForecastReturn[]? returns = null, BudgetForecastReturnMetric[]? metrics = null)
+    {
+        BudgetForecastApi.Reset();
+        BudgetForecastApi.Setup(api => api.BudgetForecastReturns(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(returns ?? []));
+        BudgetForecastApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupInsights()
     {
         InsightApi.Reset();
@@ -244,6 +254,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupMetricRagRatingIncCustom(string customData, IEnumerable<RagRating> customRatings, IEnumerable<RagRating>? originalRatings = null)
+    {
+        MetricRagRatingApi.Reset();
+
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(originalRatings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.CustomAsync(customData)).ReturnsAsync(ApiResult.Ok(customRatings));
+
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupExpenditure(School school, SchoolExpenditure? expenditure = null)
     {
         ExpenditureApi.Reset();
@@ -262,10 +282,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetUpCustomData()
+    public BenchmarkingWebAppClient SetUpCustomData(CustomDataSchool? customData = null)
     {
         CustomDataApi.Reset();
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
+        CustomDataApi.Setup(api => api.GetSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(customData));
         return this;
     }
 

@@ -39,16 +39,18 @@ public record CustomDataRequest
     public decimal? StaffDevelopmentTrainingCosts { get; set; }
     public decimal? StaffRelatedInsuranceCosts { get; set; }
     public decimal? SupplyTeacherInsurableCosts { get; set; }
-    public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
-    public decimal? RevenueReserve { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }
     public decimal? PercentSpecialEducationNeeds { get; set; }
-    public int? TotalInternalFloorArea { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
     public decimal? WorkforceFTE { get; set; }
     public decimal? TeachersFTE { get; set; }
+    public decimal? PercentTeacherWithQualifiedStatus { get; set; }
     public decimal? SeniorLeadershipFTE { get; set; }
+    public decimal? TeachingAssistantFTE { get; set; }
+    public decimal? NonClassroomSupportStaffFTE { get; set; }
+    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? WorkforceHeadcount { get; set; }
 
     public CustomDataPayload CreatePayload()
     {
@@ -87,16 +89,18 @@ public record CustomDataRequest
             StaffDevelopmentTrainingCosts = StaffDevelopmentTrainingCosts,
             StaffRelatedInsuranceCosts = StaffRelatedInsuranceCosts,
             SupplyTeacherInsurableCosts = SupplyTeacherInsurableCosts,
-            TotalIncome = TotalIncome,
-            TotalExpenditure = TotalExpenditure,
-            RevenueReserve = RevenueReserve,
             TotalPupils = TotalPupils,
             PercentFreeSchoolMeals = PercentFreeSchoolMeals,
             PercentSpecialEducationNeeds = PercentSpecialEducationNeeds,
             TotalInternalFloorArea = TotalInternalFloorArea,
             WorkforceFTE = WorkforceFTE,
             TeachersFTE = TeachersFTE,
-            SeniorLeadershipFTE = SeniorLeadershipFTE
+            PercentTeacherWithQualifiedStatus = PercentTeacherWithQualifiedStatus,
+            SeniorLeadershipFTE = SeniorLeadershipFTE,
+            TeachingAssistantFTE = TeachingAssistantFTE,
+            NonClassroomSupportStaffFTE = NonClassroomSupportStaffFTE,
+            AuxiliaryStaffFTE = AuxiliaryStaffFTE,
+            WorkforceHeadcount = WorkforceHeadcount
         };
     }
 

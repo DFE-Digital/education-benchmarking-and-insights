@@ -79,8 +79,13 @@ public record CustomDataPayload : Payload
     public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }
     public decimal? PercentSpecialEducationNeeds { get; set; }
-    public int? TotalInternalFloorArea { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
     public decimal? WorkforceFTE { get; set; }
     public decimal? TeachersFTE { get; set; }
+    public decimal? PercentTeacherWithQualifiedStatus { get; set; }
     public decimal? SeniorLeadershipFTE { get; set; }
+    public decimal? TeachingAssistantFTE { get; set; }
+    public decimal? NonClassroomSupportStaffFTE { get; set; }
+    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? WorkforceHeadcount { get; set; }
 }

@@ -122,7 +122,7 @@ export const CateringStaffServices: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "catering-staff-and-services";
+  const elementId = "catering-staff-and-supplies";
   const [hash] = useHash();
 
   return (

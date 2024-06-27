@@ -22,20 +22,6 @@ public class SpendingCostsSteps(PageDriver driver)
         await _spendingCostsPage.IsDisplayed();
     }
 
-    [When("I click on how we choose similar schools")]
-    public async Task WhenIClickOnHowWeChooseSimilarSchools()
-    {
-        Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.ClickComparatorSetDetails();
-    }
-
-    [Then("the details section is expanded")]
-    public async Task ThenTheDetailsSectionIsExpanded()
-    {
-        Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsDetailsSectionVisible();
-    }
-
     [Given("the priority order of charts is")]
     public async Task GivenThePriorityOrderOfChartsIs(Table table)
     {
@@ -80,14 +66,14 @@ public class SpendingCostsSteps(PageDriver driver)
     {
         return linkName switch
         {
-            "Teaching and teaching support staff" => CostCategoryNames.TeachingAndTeachingSupplyStaff,
+            "Teaching and Teaching support staff" => CostCategoryNames.TeachingAndTeachingSupplyStaff,
             "Administrative supplies" => CostCategoryNames.AdministrativeSupplies,
-            "Catering staff and services" => CostCategoryNames.CateringStaffAndServices,
+            "Catering staff and supplies" => CostCategoryNames.CateringStaffAndServices,
             "Educational ICT" => CostCategoryNames.EducationalIct,
             "Educational supplies" => CostCategoryNames.EducationalSupplies,
-            "Non-educational support staff" => CostCategoryNames.NonEducationalSupportStaff,
-            "Other" => CostCategoryNames.Other,
-            "Premises and services" => CostCategoryNames.PremisesStaffAndServices,
+            "Non-educational support staff and services" => CostCategoryNames.NonEducationalSupportStaff,
+            "Other costs" => CostCategoryNames.Other,
+            "Premises staff and services" => CostCategoryNames.PremisesStaffAndServices,
             "Utilities" => CostCategoryNames.Utilities,
             _ => throw new ArgumentOutOfRangeException(nameof(linkName))
         };
@@ -96,14 +82,14 @@ public class SpendingCostsSteps(PageDriver driver)
     {
         return chartName switch
         {
-            "Teaching and teaching support staff" => ComparisonChartNames.TeachingAndTeachingSupplyStaff,
+            "Teaching and Teaching support staff" => ComparisonChartNames.TeachingAndTeachingSupplyStaff,
             "Administrative supplies" => ComparisonChartNames.AdministrativeSupplies,
-            "Catering staff and services" => ComparisonChartNames.CateringStaffAndServices,
+            "Catering staff and supplies" => ComparisonChartNames.CateringStaffAndServices,
             "Educational ICT" => ComparisonChartNames.EducationalIct,
             "Educational supplies" => ComparisonChartNames.EducationalSupplies,
-            "Non-educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
-            "Other" => ComparisonChartNames.Other,
-            "Premises and services" => ComparisonChartNames.Premises,
+            "Non-educational support staff and services" => ComparisonChartNames.NonEducationalSupportStaff,
+            "Other costs" => ComparisonChartNames.Other,
+            "Premises staff and services" => ComparisonChartNames.Premises,
             "Utilities" => ComparisonChartNames.Utilities,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };

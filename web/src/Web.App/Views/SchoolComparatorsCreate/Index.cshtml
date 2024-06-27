@@ -1,6 +1,10 @@
-﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+﻿@using Microsoft.Extensions.Configuration
+@using Web.App.Identity.Models
+@inject IConfiguration Configuration
+@model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreate;
+    var settings = Configuration.GetSection("DFESignInSettings").Get<DfeSignInSettings>();
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -28,7 +32,7 @@
         else
         {
             <p class="govuk-body">
-                You will need a <a href="https://services.signin.education.gov.uk/" class="govuk-link govuk-link--no-visited-state">DfE Sign-in account</a>.
+                You will need a <a href="@settings?.SignInUri" class="govuk-link govuk-link--no-visited-state">DfE Sign-in account</a>.
             </p>
 
             @Html.ActionLink("Sign in", "Signin", "Home", new
@@ -51,4 +55,4 @@
       import { initAll } from '/js/govuk-frontend.min.js'
       initAll()
     </script>
-}
+};

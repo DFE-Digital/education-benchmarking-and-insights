@@ -266,7 +266,7 @@ export const OtherCosts: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "other";
+  const elementId = "other-costs";
   const [hash] = useHash();
 
   return (

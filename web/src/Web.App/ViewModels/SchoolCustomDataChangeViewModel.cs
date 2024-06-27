@@ -1,5 +1,4 @@
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolCustomDataChangeViewModel(
@@ -14,6 +13,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel AdministrativeSuppliesSection => new(
         "Administrative supplies",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.AdministrativeSuppliesCosts,
@@ -25,6 +25,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel CateringSection => new(
         "Catering",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.CateringStaffCosts,
@@ -50,6 +51,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel EducationalSuppliesSection => new(
         "Educational supplies",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.ExaminationFeesCosts,
@@ -68,6 +70,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel ITSection => new(
         "IT",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts,
@@ -79,6 +82,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel NonEducationalSupportStaffSection => new(
         "Non-educational support staff",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.AdministrativeClericalStaffCosts,
@@ -111,6 +115,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel PremisesAndServicesSection => new(
         "Premises and services",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.CleaningCaretakingCosts,
@@ -143,6 +148,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel TeachingAndTeachingSupportSection => new(
         "Teaching and teaching support",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.AgencySupplyTeachingStaffCosts,
@@ -181,6 +187,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel UtilitiesSection => new(
         "Utilities",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.EnergyCosts,
@@ -198,6 +205,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel OtherCostsSection => new(
         "Other costs",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts,
@@ -278,6 +286,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel TotalsSection => new(
         "Totals",
+        "Cost",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.TotalIncome,
@@ -305,6 +314,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
         "Non-financial figures",
+        "Item",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.NumberOfPupilsFte,
@@ -341,6 +351,7 @@ public class SchoolCustomDataChangeViewModel(
 
     public SchoolCustomDataSectionViewModel WorkforceDataSection => new(
         "Workforce figures",
+        "Item",
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.WorkforceFte,
@@ -356,6 +367,13 @@ public class SchoolCustomDataChangeViewModel(
             Current = CurrentValues.TeachersFte,
             Custom = CustomInput.TeachersFte,
             Units = SchoolCustomDataValueUnits.Actual
+        }, new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.QualifiedTeacherPercent,
+            Name = nameof(SchoolCustomDataViewModel.QualifiedTeacherPercent),
+            Current = CurrentValues.QualifiedTeacherPercent,
+            Custom = CustomInput.QualifiedTeacherPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
         },
         new SchoolCustomDataValueViewModel
         {
@@ -364,19 +382,53 @@ public class SchoolCustomDataChangeViewModel(
             Current = CurrentValues.SeniorLeadershipFte,
             Custom = CustomInput.SeniorLeadershipFte,
             Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TeachingAssistantsFte,
+            Name = nameof(SchoolCustomDataViewModel.TeachingAssistantsFte),
+            Current = CurrentValues.TeachingAssistantsFte,
+            Custom = CustomInput.TeachingAssistantsFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.NonClassroomSupportStaffFte,
+            Name = nameof(SchoolCustomDataViewModel.NonClassroomSupportStaffFte),
+            Current = CurrentValues.NonClassroomSupportStaffFte,
+            Custom = CustomInput.NonClassroomSupportStaffFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AuxiliaryStaffFte,
+            Name = nameof(SchoolCustomDataViewModel.AuxiliaryStaffFte),
+            Current = CurrentValues.AuxiliaryStaffFte,
+            Custom = CustomInput.AuxiliaryStaffFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.WorkforceHeadcount,
+            Name = nameof(SchoolCustomDataViewModel.WorkforceHeadcount),
+            Current = CurrentValues.WorkforceHeadcount,
+            Custom = CustomInput.WorkforceHeadcount,
+            Units = SchoolCustomDataValueUnits.Actual
         }
     );
 }
 
 public record SchoolCustomDataSectionViewModel
 {
-    public SchoolCustomDataSectionViewModel(string title, params SchoolCustomDataValueViewModel[] values)
+    public SchoolCustomDataSectionViewModel(string title, string metricHeading, params SchoolCustomDataValueViewModel[] values)
     {
         Title = title;
+        MetricHeading = metricHeading;
         Values = values;
     }
 
     public string Title { get; init; }
+    public string MetricHeading { get; init; }
     public IEnumerable<SchoolCustomDataValueViewModel> Values { get; init; }
 }
 

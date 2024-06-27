@@ -32,13 +32,20 @@ stages:
         displayName: 'Set build number'
         steps:
           - checkout: none
+          - bash: |
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
+              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+            displayName: 'Set release build number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
 
           - bash: |
-              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
-              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
-              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)-prerelease"
-            condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
-            displayName: 'Set pre-release build number'
+              if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+                echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+              fi
+              echo "##vso[build.addbuildtag]Data pipeline"
+            displayName: 'Set build tags'
 
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
@@ -56,7 +63,7 @@ stages:
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
@@ -71,7 +78,7 @@ stages:
       - job: BuildAndPush
         dependsOn: [ RunTests ]
         displayName: 'Build and push image'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps: 
           - template: steps/build-push-image.yaml
             parameters:

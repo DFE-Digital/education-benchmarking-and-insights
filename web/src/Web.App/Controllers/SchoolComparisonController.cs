@@ -44,7 +44,7 @@ public class SchoolComparisonController(
 
     [HttpGet]
     [Route("custom-data")]
-    //[SchoolAuthorization]
+    [SchoolAuthorization]
     [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> CustomData(string urn)
     {

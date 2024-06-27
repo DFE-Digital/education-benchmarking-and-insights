@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -70,26 +71,36 @@ public class SchoolSpendingController(
 
     [HttpGet]
     [Route("custom-data")]
-    //[SchoolAuthorization]
+    [SchoolAuthorization]
+    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
             try
             {
-                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                //if (string.IsNullOrEmpty(userData.CustomData))
-                //{
-                //    return RedirectToAction("Index", "School", new { urn });
-                //}
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var rating = Enumerable.Empty<RagRating>();
-                var pupilExpenditure = Enumerable.Empty<SchoolExpenditure>();
-                var areaExpenditure = Enumerable.Empty<SchoolExpenditure>();
+                var rating = await metricRagRatingApi.CustomAsync(userData.CustomData).GetResultOrThrow<RagRating[]>();
+
+                var set = await schoolComparatorSetService.ReadComparatorSet(urn, userData.CustomData);
+
+                var defaultPupilResult = await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
+                var defaultAreaResult = await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
+
+                var customPupilResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
+                var customAreaResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
+
+                var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
+                var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
                 var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure);
 

@@ -15,7 +15,7 @@ else
         {
             if (!string.IsNullOrWhiteSpace(Model.RedHref))
             {
-                @:<a href="@Model.RedHref" aria-label="@Model.Red high priority">
+                @:<a xlink:href="@Model.RedHref" aria-label="@Model.Red high priority" role="link">
             }
             <rect
                 role="presentation"
@@ -34,7 +34,7 @@ else
         {
             if (!string.IsNullOrWhiteSpace(Model.AmberHref))
             {
-                @:<a href="@Model.AmberHref" aria-label="@Model.Amber medium priority">
+                @:<a xlink:href="@Model.AmberHref" aria-label="@Model.Amber medium priority" role="link">
             }
             <rect
                 role="presentation"
@@ -53,7 +53,7 @@ else
         {
             if (!string.IsNullOrWhiteSpace(Model.GreenHref))
             {
-                @:<a href="@Model.GreenHref" aria-label="@Model.Green low priority">
+                @:<a xlink:href="@Model.GreenHref" aria-label="@Model.Green low priority" role="link">
             }
             <rect
                 role="presentation"

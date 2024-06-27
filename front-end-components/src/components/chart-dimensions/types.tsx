@@ -13,4 +13,5 @@ export type ChartDimensionsProps = {
   handleChange: React.ChangeEventHandler<HTMLSelectElement>;
   elementId: string;
   value: string;
+  label?: string;
 };

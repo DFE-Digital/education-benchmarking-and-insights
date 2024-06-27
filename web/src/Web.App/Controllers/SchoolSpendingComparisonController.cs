@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
+using Web.App.Extensions;
 
 namespace Web.App.Controllers;
 
 [Controller]
-//[SchoolAuthorization]
+[SchoolAuthorization]
 [FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/spending-comparison")]
 public class SchoolSpendingComparisonController(
     IEstablishmentApi establishmentApi,
+    IUserDataService userDataService,
+    IMetricRagRatingApi metricRagRatingApi,
     ILogger<SchoolSpendingComparisonController> logger)
     : Controller
 {
@@ -26,11 +29,19 @@ public class SchoolSpendingComparisonController(
         {
             try
             {
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
+
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpendingComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var originalRating = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var customRating = await metricRagRatingApi.CustomAsync(userData.CustomData).GetResultOrThrow<RagRating[]>();
 
-                var viewModel = new SchoolSpendingComparisonViewModel(school);
+                var viewModel = new SchoolSpendingComparisonViewModel(school, originalRating, customRating);
 
                 return View(viewModel);
             }

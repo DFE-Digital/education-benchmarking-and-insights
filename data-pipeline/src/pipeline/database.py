@@ -61,11 +61,11 @@ def upsert(df, table_name, keys: list[str], dtype: dict[str, any] = None):
         cnx.execute(sqlalchemy.text(f"DROP TABLE IF EXISTS {temp_table}"))
 
 
-def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFrame):
+def insert_comparator_set(run_type: str, set_type: str, run_id: str, df: pd.DataFrame):
     write_frame = df[["Pupil", "Building"]].copy()
     write_frame["RunType"] = run_type
     write_frame["SetType"] = set_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunId"] = str(run_id)
     write_frame["Pupil"] = write_frame["Pupil"].map(lambda x: json.dumps(x.tolist()))
     write_frame["Building"] = write_frame["Building"].map(
         lambda x: json.dumps(x.tolist())
@@ -73,11 +73,11 @@ def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFr
 
     upsert(write_frame, "ComparatorSet", keys=["RunType", "RunId", "URN", "SetType"])
     logger.info(
-        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {year}"
+        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {run_id}"
     )
 
 
-def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame):
+def insert_metric_rag(run_type: str, set_type: str, run_id: str, df: pd.DataFrame):
     write_frame = df[
         [
             "Category",
@@ -92,7 +92,7 @@ def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame)
         ]
     ].copy()
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunId"] = str(run_id)
     write_frame["SetType"] = set_type
 
     upsert(
@@ -116,7 +116,7 @@ def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame)
         },
     )
     logger.info(
-        f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}"
+        f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {run_id}"
     )
 
 

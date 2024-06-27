@@ -69,12 +69,12 @@ public static class WebApplicationBuilderExtensions
                     // lazy hack to add sign in/out links to UI
                     Contact = new OpenApiContact
                     {
-                        Name = "Sign in",
+                        Name = "🔒 Sign in",
                         Url = new Uri("/sign-in", UriKind.Relative)
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Sign out",
+                        Name = "🔓 Sign out",
                         Url = new Uri("/sign-out", UriKind.Relative)
                     }
                 });

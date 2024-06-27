@@ -11,7 +11,7 @@ For the new financial benchmarking system, there are several different framework
 
 ### Evaluation
 
-| Criteria | Comment | .NET MVC | React + Node | MVC + Node |
+| Criteria | Comment | .NET MVC | React + Node | MVC + React |
 |:--------:|:----------------|:--:|:--:|:--:|
 | Team Knowledge | There are developers in the team that have knowledge of both technologies.  | 3 | 3 | 3|
 | Ease of Deployment | MVC offers easier deployment as .NET Core can be run natively on Windows & Linux, whereas pure ReactJS requires a container | 4 | 2 | 4 |

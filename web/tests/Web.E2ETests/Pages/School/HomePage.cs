@@ -5,16 +5,18 @@ namespace Web.E2ETests.Pages.School;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator PageH2Headings => page.Locator(Selectors.H2);
+    private ILocator PageH2Headings => page.Locator($"{Selectors.H2}{Selectors.GovHeadingM}");
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
     private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
-    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark census data" });
+    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark pupil and workforce data" });
     private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School contact details" });
 
+    private ILocator DataSourcesAndInterpretation => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Data sources and interpretation" });
     private ILocator SpendingAndCostsLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all spending and costs" });
+        new PageLocatorOptions { HasText = "View all spending priorities for this school" });
 
     private ILocator FindWaysToSpendLessLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "Find ways to spend less" });
@@ -27,7 +29,7 @@ public class HomePage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
-        var expectedH2Texts = new[] { "Spending and costs", "Finance tools", "Resources", "Get help", "Support links" };
+        var expectedH2Texts = new[] { "Spending priorities for this school", "Finance tools", "Resources" };
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)
         {
             await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);
@@ -36,7 +38,11 @@ public class HomePage(IPage page)
         await CompareYourCostsLink.ShouldBeVisible();
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
         await BenchmarkCensusDataLink.ShouldBeVisible();
+        await FindWaysToSpendLessLink.ShouldBeVisible();
+        await ViewHistoricDataLink.ShouldBeVisible();
         await SchoolDetailsLink.ShouldBeVisible();
+        await DataSourcesAndInterpretation.ShouldBeVisible();
+
     }
 
     public async Task<DetailsPage> ClickSchoolDetails()

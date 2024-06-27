@@ -24,6 +24,7 @@ public class ExpenditureProxyController(
     /// <param name="dimension" example="PerUnit"></param>
     /// <param name="phase"></param>
     /// <param name="excludeCentralServices"></param>
+    /// <param name="customDataId"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<SchoolExpenditure[]>(StatusCodes.Status200OK)]
@@ -35,7 +36,8 @@ public class ExpenditureProxyController(
         [FromQuery] string category,
         [FromQuery] string dimension,
         [FromQuery] string? phase,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] bool? excludeCentralServices,
+        [FromQuery] string? customDataId)
     {
         using (logger.BeginScope(new
         {
@@ -47,6 +49,8 @@ public class ExpenditureProxyController(
             {
                 switch (type.ToLower())
                 {
+                    case OrganisationTypes.School when customDataId is not null:
+                        return await CustomSchoolExpenditure(id, category, dimension, customDataId);
                     case OrganisationTypes.School:
                         return await SchoolExpenditure(id, category, dimension, excludeCentralServices);
                     case OrganisationTypes.Trust:
@@ -191,6 +195,28 @@ public class ExpenditureProxyController(
         return new JsonResult(userDefinedResult);
     }
 
+    private async Task<IActionResult> CustomSchoolExpenditure(string id, string category, string dimension, string customDataId)
+    {
+        var customSet = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
+        var set = category is "PremisesStaffServices" or "Utilities"
+            ? customSet.Building
+            : customSet.Pupil;
+
+        var schools = set.Where(x => x != id);
+
+        var customResult = await expenditureApi
+            .SchoolCustom(id, customDataId, BuildQuery(category, dimension))
+            .GetResultOrDefault<SchoolExpenditure>();
+
+        var defaultResult = await expenditureApi
+            .QuerySchools(BuildQuery(schools, "urns", category, dimension))
+            .GetResultOrDefault<SchoolExpenditure[]>();
+
+        return customResult != null
+            ? new JsonResult(defaultResult?.Append(customResult).ToArray())
+            : new JsonResult(defaultResult);
+    }
+
     private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
     {
         var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
@@ -216,13 +242,21 @@ public class ExpenditureProxyController(
         return new JsonResult(userDefinedResult);
     }
 
-    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices, string? phase = null)
+    private static ApiQuery BuildQuery(string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("category", category)
             .AddIfNotNull("dimension", dimension)
             .AddIfNotNull("excludeCentralServices", excludeCentralServices)
             .AddIfNotNull("phase", phase);
+
+        return query;
+    }
+
+    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
+    {
+        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+
         foreach (var id in ids)
         {
             query.AddIfNotNull(idQueryName, id);

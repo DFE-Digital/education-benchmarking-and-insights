@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight;
 using Platform.Api.Insight.Balance;
+using Platform.Api.Insight.BudgetForecast;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Income;
@@ -49,6 +50,7 @@ public class Startup : FunctionsStartup
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<IExpenditureService, ExpenditureService>()
-            .AddSingleton<IIncomeService, IncomeService>();
+            .AddSingleton<IIncomeService, IncomeService>()
+            .AddSingleton<IBudgetForecastService, BudgetForecastService>();
     }
 }

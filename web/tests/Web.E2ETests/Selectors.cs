@@ -16,6 +16,7 @@ public static class Selectors
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
     public const string GovTable = ".govuk-table";
+    public const string GovHeadingM = ".govuk-heading-m";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -79,7 +80,7 @@ public static class Selectors
     public const string ReactChartContainer = ".recharts-responsive-container";
     public const string ReactChartStats = ".chart-stat-summary";
     public const string AdditionalDetailsPopUps = ".recharts-wrapper .recharts-tooltip-wrapper";
-    public const string SchoolNamesLinksInCharts = "text.recharts-text.govuk-link";
+    public const string SchoolNamesLinksInCharts = ".recharts-text .govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
 
     public const string SchoolSuggestDropdown = "#school-input__listbox";

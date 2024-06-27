@@ -40,7 +40,7 @@ public class CustomDataService : ICustomDataService
         using var transaction = conn.BeginTransaction();
         if (existing != null)
         {
-            existing.Data = data.Data.ToJson();
+            existing.Data = data.Data;
             await conn.UpdateAsync(existing, transaction);
         }
         else
@@ -54,7 +54,7 @@ public class CustomDataService : ICustomDataService
     public async Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier)
     {
         const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id";
-        var parameters = new { URN = urn, RunId = identifier };
+        var parameters = new { URN = urn, Id = identifier };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);

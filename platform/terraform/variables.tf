@@ -5,40 +5,33 @@ variable "location" {}
 
 variable "configuration" {
   type = map(object({
-    search = object({
-      sku = string
-    })
+    search_sku           = string
+    search_replica_count = number
   }))
   default = {
     development = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "basic"
+      search_replica_count = 1
     }
     automated-test = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "basic"
+      search_replica_count = 1
     }
     test = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "basic"
+      search_replica_count = 1
     }
     feature = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "basic"
+      search_replica_count = 1
     }
     pre-production = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "basic"
+      search_replica_count = 1
     }
     production = {
-      search = {
-        sku = "basic"
-      }
+      search_sku           = "standard"
+      search_replica_count = 2
     }
   }
 }
