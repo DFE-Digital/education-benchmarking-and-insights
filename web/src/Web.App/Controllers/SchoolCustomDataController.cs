@@ -19,7 +19,6 @@ public class SchoolCustomDataController(
     IEstablishmentApi establishmentApi,
     IUserDataService userDataService,
     ICustomDataService customDataService,
-    ICustomDataApi customDataApi,
     ILogger<SchoolCustomDataController> logger)
     : Controller
 {
@@ -94,7 +93,7 @@ public class SchoolCustomDataController(
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 if (userData.CustomData != null)
                 {
-                    await customDataApi.RemoveSchoolAsync(urn, userData.CustomData).EnsureSuccess();
+                    await customDataService.RemoveCustomData(urn, userData.CustomData);
                     customDataService.ClearCustomDataFromSession(urn);
                 }
 

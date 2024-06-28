@@ -199,6 +199,13 @@ public class SchoolCustomDataChangeController(
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
 
+                // remove previous set of custom data before submitting new
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (userData.CustomData != null)
+                {
+                    await customDataService.RemoveCustomData(urn, userData.CustomData);
+                }
+
                 await customDataService.CreateCustomData(urn, User.UserId());
 
                 customDataService.ClearCustomDataFromSession(urn);
@@ -249,10 +256,10 @@ public class SchoolCustomDataChangeController(
         // attempt to load in custom data from previous submission if not already in the middle of a new submission
         if (customInput == null)
         {
-            var (customData, _) = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-            if (!string.IsNullOrWhiteSpace(customData))
+            var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+            if (userData.CustomData != null)
             {
-                customInput = await customDataService.GetCustomDataById(urn, customData);
+                customInput = await customDataService.GetCustomDataById(urn, userData.CustomData);
             }
 
             // set session to match view model to sync continue/back CTAs in UI
