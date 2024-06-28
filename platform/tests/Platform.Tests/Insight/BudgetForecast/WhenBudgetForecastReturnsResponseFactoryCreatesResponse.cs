@@ -9,7 +9,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
     /// 
     /// | RunId | Year | Value |
     /// | ----- | ---- | ----- |
-    /// | 2020  | 2018 | 1_001 |
+    /// | 2020  | 2018 | 0     |
     /// | 2020  | 2019 | 1_002 |
     /// | 2020  | 2020 | 1_003 |
     /// | 2020  | 2021 | 1_004 |
@@ -32,7 +32,6 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
     /// 
     /// | Year | Actual | Forecast |
     /// | ---- | ------ | -------- |
-    /// | 2018 | 1_001  |          |
     /// | 2019 | 1_002  |          |
     /// | 2020 | 1_003  |          |
     /// | 2021 | 1_007  | 1_004    |
@@ -52,8 +51,8 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
                 RunType = "default",
                 RunId = "2020",
                 Year = 2018,
-                Value = 1_001,
-                TotalPupils = 2_001
+                Value = 0,
+                TotalPupils = 0
             },
             new()
             {
@@ -197,56 +196,49 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         var actual = BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(models);
 
         // assert
-        var year2018 = actual.ElementAt(0);
-        Assert.Equal(2018, year2018.Year);
-        Assert.Equal(1_001, year2018.Actual);
-        Assert.Null(year2018.Forecast);
-        Assert.Null(year2018.Variance);
-        Assert.Null(year2018.PercentVariance);
-
-        var year2019 = actual.ElementAt(1);
+        var year2019 = actual.ElementAt(0);
         Assert.Equal(2019, year2019.Year);
         Assert.Equal(1_002, year2019.Actual);
         Assert.Null(year2019.Forecast);
         Assert.Null(year2019.Variance);
         Assert.Null(year2019.PercentVariance);
 
-        var year2020 = actual.ElementAt(2);
+        var year2020 = actual.ElementAt(1);
         Assert.Equal(2020, year2020.Year);
         Assert.Equal(1_003, year2020.Actual);
         Assert.Null(year2020.Forecast);
         Assert.Null(year2020.Variance);
         Assert.Null(year2020.PercentVariance);
 
-        var year2021 = actual.ElementAt(3);
+        var year2021 = actual.ElementAt(2);
         Assert.Equal(2021, year2021.Year);
         Assert.Equal(1_007, year2021.Actual);
         Assert.Equal(1_004, year2021.Forecast);
         Assert.Equal(3, year2021.Variance);
         Assert.Equal("0.298", year2021.PercentVariance.GetValueOrDefault().ToString("0.000"));
 
-        var year2022 = actual.ElementAt(4);
+        var year2022 = actual.ElementAt(3);
         Assert.Equal(2022, year2022.Year);
         Assert.Equal(1_011, year2022.Actual);
         Assert.Equal(1_008, year2022.Forecast);
         Assert.Equal(3, year2022.Variance);
         Assert.Equal("0.297", year2022.PercentVariance.GetValueOrDefault().ToString("0.000"));
 
-        var year2023 = actual.ElementAt(5);
+        var year2023 = actual.ElementAt(4);
         Assert.Equal(2023, year2023.Year);
         Assert.Null(year2023.Actual);
         Assert.Equal(1_012, year2023.Forecast);
         Assert.Null(year2023.Variance);
         Assert.Null(year2023.PercentVariance);
 
-        var year2024 = actual.ElementAt(6);
+        var year2024 = actual.ElementAt(5);
         Assert.Equal(2024, year2024.Year);
         Assert.Null(year2024.Actual);
         Assert.Equal(1_013, year2024.Forecast);
         Assert.Null(year2024.Variance);
         Assert.Null(year2024.PercentVariance);
 
-        var year2025 = actual.ElementAt(7);
+        var year2025 = actual.ElementAt(6);
         Assert.Equal(2025, year2025.Year);
         Assert.Null(year2025.Actual);
         Assert.Equal(1_014, year2025.Forecast);
