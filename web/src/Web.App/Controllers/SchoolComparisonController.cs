@@ -61,7 +61,17 @@ public class SchoolComparisonController(
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
+                var customDataId = userData.CustomData;
+                if (string.IsNullOrEmpty(customDataId))
+                {
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
+                }
+
+                var userCustomData = await userDataService.GetCustomDataAsync(User.UserId(), customDataId, urn);
+                if (userCustomData?.Status != "complete")
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -73,7 +83,7 @@ public class SchoolComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var viewModel = new SchoolComparisonViewModel(school, customDataId: userData.CustomData);
+                var viewModel = new SchoolComparisonViewModel(school, customDataId: customDataId);
 
                 return View(viewModel);
             }

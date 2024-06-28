@@ -154,7 +154,17 @@ public class SchoolController(
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
+                var customDataId = userData.CustomData;
+                if (string.IsNullOrEmpty(customDataId))
+                {
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
+                }
+
+                var userCustomData = await userDataService.GetCustomDataAsync(User.UserId(), customDataId, urn);
+                if (userCustomData?.Status != "complete")
                 {
                     return RedirectToAction("Index", "School", new
                     {
