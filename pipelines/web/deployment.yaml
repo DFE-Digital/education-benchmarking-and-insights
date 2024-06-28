@@ -20,6 +20,10 @@ jobs:
             - checkout: none
 
             - download: current
+              artifact: web
+
+            - download: current
+              artifact: web-terraform
 
             - template: ..\common\run-terraform.yaml
               parameters:
