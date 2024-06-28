@@ -82,7 +82,8 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
             new UserData
             {
                 Type = "custom-data",
-                Id = "123"
+                Id = "123",
+                Status = "complete"
             }
         };
 
@@ -98,8 +99,19 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
+        var userData = new[]
+        {
+            new UserData
+            {
+                Type = "custom-data",
+                Id = "123",
+                Status = "complete"
+            }
+        };
+
         const string urn = "12345";
         var page = await Client.SetupEstablishmentWithException()
+            .SetupUserData(userData)
             .Navigate(Paths.SchoolSpendingComparison(urn));
 
         PageAssert.IsProblemPage(page);
@@ -119,7 +131,8 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
             new UserData
             {
                 Type = "custom-data",
-                Id = customDataId
+                Id = customDataId,
+                Status = "complete"
             }
         };
 

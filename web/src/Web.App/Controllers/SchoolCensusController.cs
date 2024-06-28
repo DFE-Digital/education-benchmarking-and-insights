@@ -61,7 +61,17 @@ public class SchoolCensusController(
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
+                var customDataId = userData.CustomData;
+                if (string.IsNullOrEmpty(customDataId))
+                {
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
+                }
+
+                var userCustomData = await userDataService.GetCustomDataAsync(User.UserId(), customDataId, urn);
+                if (userCustomData?.Status != "complete")
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -73,7 +83,7 @@ public class SchoolCensusController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var viewModel = new SchoolCensusViewModel(school, customDataId: userData.CustomData);
+                var viewModel = new SchoolCensusViewModel(school, customDataId: customDataId);
 
                 return View(viewModel);
             }

@@ -88,7 +88,8 @@ public class SchoolSpendingController(
             try
             {
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
+                var customDataId = userData.CustomData;
+                if (string.IsNullOrEmpty(customDataId))
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -96,19 +97,29 @@ public class SchoolSpendingController(
                     });
                 }
 
+                var userCustomData = await userDataService.GetCustomDataAsync(User.UserId(), customDataId, urn);
+                if (userCustomData?.Status != "complete")
+                {
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
+                }
+
+
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var rating = await metricRagRatingApi.CustomAsync(userData.CustomData).GetResultOrThrow<RagRating[]>();
+                var rating = await metricRagRatingApi.CustomAsync(customDataId).GetResultOrThrow<RagRating[]>();
 
-                var set = await schoolComparatorSetService.ReadComparatorSet(urn, userData.CustomData);
+                var set = await schoolComparatorSetService.ReadComparatorSet(urn, customDataId);
 
                 var defaultPupilResult = await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
                 var defaultAreaResult = await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
 
-                var customPupilResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
-                var customAreaResult = await expenditureApi.SchoolCustom(urn, userData.CustomData).GetResultOrThrow<SchoolExpenditure>();
+                var customPupilResult = await expenditureApi.SchoolCustom(urn, customDataId).GetResultOrThrow<SchoolExpenditure>();
+                var customAreaResult = await expenditureApi.SchoolCustom(urn, customDataId).GetResultOrThrow<SchoolExpenditure>();
 
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
