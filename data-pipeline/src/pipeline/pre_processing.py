@@ -1175,7 +1175,8 @@ def update_custom_data(
     will be set to zero, again for that row only.
 
     Note: only a subset of the custom fields may be present in the
-    inbound message.
+    inbound message; only a subset of mapped columns may be present in
+    the existing data.
 
     :param existing_data: existing, pre-processed data
     :param custom_data: custom financial information
@@ -1216,6 +1217,8 @@ def update_custom_data(
         "staffDevelopmentTrainingCosts": "Other costs_Staff development and training",
         "staffRelatedInsuranceCosts": "Other costs_Staff-related insurance",
         "supplyTeacherInsurableCosts": "Other costs_Supply teacher insurance",
+        "totalIncome": "Income_Total",
+        "revenueReserve": "Revenue reserve",
         "totalPupils": "Total pupils in trust",
         "percentFreeSchoolMeals": "Percentage Free school meals",
         "percentSpecialEducationNeeds": "Percentage SEN",
@@ -1231,7 +1234,9 @@ def update_custom_data(
     }
 
     custom_present = [
-        custom for custom in custom_to_columns.keys() if custom in custom_data
+        custom
+        for custom in custom_to_columns.keys()
+        if custom in custom_data and custom_to_columns[custom] in existing_data.columns
     ]
 
     existing_columns = [custom_to_columns[custom] for custom in custom_present]

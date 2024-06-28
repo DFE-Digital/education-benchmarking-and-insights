@@ -36,6 +36,8 @@ _default_custom_data = {
     "staffDevelopmentTrainingCosts": 1.0,
     "staffRelatedInsuranceCosts": 1.0,
     "supplyTeacherInsurableCosts": 1.0,
+    "totalIncome": 1.0,
+    "revenueReserve": 1.0,
     "totalPupils": 1.0,
     "percentFreeSchoolMeals": 1.0,
     "percentSpecialEducationNeeds": 1.0,
@@ -104,6 +106,8 @@ _default_existing_data = {
     "Other costs_Staff development and training": [0.0, 0.0, 0.0, 0.0],
     "Other costs_Staff-related insurance": [0.0, 0.0, 0.0, 0.0],
     "Other costs_Supply teacher insurance": [0.0, 0.0, 0.0, 0.0],
+    "Income_Total": [0.0, 0.0, 0.0, 0.0],
+    "Revenue reserve": [0.0, 0.0, 0.0, 0.0],
     "Total pupils in trust": [0.0, 0.0, 0.0, 0.0],
     "Percentage Free school meals": [0.0, 0.0, 0.0, 0.0],
     "Percentage SEN": [0.0, 0.0, 0.0, 0.0],
@@ -197,3 +201,24 @@ def test_update_partial_custom_data():
             ),
         ].items()
     )
+
+def test_update_custom_data_missing_columns():
+    """
+    Existing data will always have a value of `0.0`.
+
+    Existing data will be missing some mapped columns.
+    """
+    df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
+    df.drop("Total Internal Floor Area", axis="columns", inplace=True)
+    custom_data = _default_custom_data | {
+        "totalInternalFloorArea": 2.0,
+        "workforceFTE": 3.0,
+    }
+
+    result = update_custom_data(
+        existing_data=df,
+        custom_data=custom_data,
+        target_urn=1,
+    )
+
+    assert "Total Internal Floor Area" not in result.columns
