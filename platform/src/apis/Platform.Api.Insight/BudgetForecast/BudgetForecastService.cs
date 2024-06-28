@@ -14,6 +14,10 @@ public interface IBudgetForecastService
     Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
         string companyNumber,
         string runType);
+    Task<int?> GetBudgetForecastCurrentYearAsync(
+        string companyNumber,
+        string runType,
+        string category);
 }
 
 public class BudgetForecastService : IBudgetForecastService
@@ -66,5 +70,25 @@ public class BudgetForecastService : IBudgetForecastService
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters);
+    }
+
+    public async Task<int?> GetBudgetForecastCurrentYearAsync(string companyNumber, string runType, string category)
+    {
+        // for 'default' rows the `RunId` will be numeric and the year, but this won't necessarily always be the case
+        if (runType != "default")
+        {
+            return null;
+        }
+
+        const string sql = "select convert(int, max(RunId)) from BudgetForecastReturn where CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category";
+        var parameters = new
+        {
+            CompanyNumber = companyNumber,
+            RunType = runType,
+            Category = category
+        };
+
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.ExecuteScalarAsync<int?>(sql, parameters);
     }
 }

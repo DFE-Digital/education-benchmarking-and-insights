@@ -90,7 +90,7 @@ public static class Selectors
     public const string RecommendedResources = "#recommended";
     public const string AllResources = "#all";
     public const string AllResourcesTab = "#tab_all";
-    public const string AllCommercialLinks = "#all a[data-id='commercial-resource']";
+    public const string AllCommercialLinks = "#all .govuk-link";
 
     public const string SpendingHistoryTab = "#tab_spending";
     public const string ExpenditureDimension = "#expenditure-dimension";

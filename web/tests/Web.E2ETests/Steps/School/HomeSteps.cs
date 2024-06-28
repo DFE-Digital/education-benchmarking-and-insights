@@ -1,4 +1,5 @@
-﻿using Web.E2ETests.Drivers;
+﻿using Microsoft.Playwright;
+using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 
@@ -66,8 +67,27 @@ public class HomeSteps(PageDriver driver)
     [Then("the curriculum and financial planning page is displayed")]
     public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayed()
     {
+        var page = await driver.Current;
+        if (await page.Locator("h1:text-is('Curriculum and financial planning (CFP)')").CheckVisible())
+        {
+            // already logged in
+        }
+        else if (await page.Locator("h1:text-is('Department for Education Sign-in')").CheckVisible())
+        {
+            // Login required
+            await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
+            await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
+            await page.Locator("button[type='submit']").Click();
+            await page.Locator("label", new PageLocatorOptions { HasTextString = "01: FBIT TEST - Community School (Open)" }).Check();
+            await page.Locator("input[type='submit']").Click();
+        }
+        else
+        {
+            throw new Exception("Unexpected page state: Unable to determine login requirement.");
+        }
         Assert.NotNull(_curriculumAndFinancialPlanningPage);
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
+
     }
 
     [When("I click on benchmark census data")]

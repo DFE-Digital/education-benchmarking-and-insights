@@ -1,14 +1,18 @@
 ﻿using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class TrustForecastViewModel(Trust trust, BudgetForecastReturnMetric[] metrics, BudgetForecastReturn[] currentReturns)
+public class TrustForecastViewModel(
+    Trust trust,
+    BudgetForecastReturnMetric[] metrics,
+    BudgetForecastReturn[] currentReturns,
+    int? bfrYear)
 {
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
 
     // red
-    public bool BalancesInDeficit => currentReturns.Any(r => r.Year == Constants.CurrentYear - 1 && r.Actual < 0);
-    public bool BalancesForecastingDeficit => currentReturns.Any(r => r.Year == Constants.CurrentYear && r.Forecast < 0);
+    public bool BalancesInDeficit => currentReturns.Any(r => r.Year == bfrYear && r.Actual < 0);
+    public bool BalancesForecastingDeficit => currentReturns.Any(r => r.Year == bfrYear + 1 && r.Forecast < 0);
     public bool SteepDeclineInBalances => false;
     public bool SteepDeclineInBalancesAndHighProportionStaffCosts => false;
     public bool IsRed => BalancesInDeficit

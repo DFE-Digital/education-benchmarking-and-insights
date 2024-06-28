@@ -1,8 +1,10 @@
 # Web
 
-This is the main front-end website project. This project will consume the output of the front-end components project via NPM.
+This is the main front-end website project. This project will consume the output of the front-end components project via
+NPM.
 
-This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorisation services, along with any static pages that need serving
+This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorisation services, along
+with any static pages that need serving
 
 ## Prerequisites
 
@@ -12,7 +14,8 @@ This is an MVC web app written in C#. It's main purpose is to provide proxy auth
 4. Install Node 20.11.1 (if necessary use nvm to switch to this version nvm use 20.11.1)
 5. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
-> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to prevent 'too long path name' errors at build time.
+> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to
+> prevent 'too long path name' errors at build time.
 
 ## Getting started
 
@@ -25,50 +28,67 @@ In a console window:
 1. Navigate to the `Web.App` project root
 2. Run `dotnet user-secrets init` to initialise secrets in the directory
 
-> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init` will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER".` This will create a `secrets.json` file in the folder location described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works). At this point `secrets.json` can be updated manually with the settings described below.
+> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init`
+> will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this
+> run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER".` This will create a `secrets.json` file in the folder
+> location
+>
+described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works).
+> At this point `secrets.json` can be updated manually with the settings described below.
 
 #### Platform APIs
 
-If you are running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json` in the root of `Web.App`.
+If you are running the Platform APIs locally then no further configuration required; ensure the API port configuration
+matches that in `appsettings.Development.json` in the root of `Web.App`.
 
-However, if you are using deployed instances of the Platform APIs then having initialised the secret storage add the following section to `secrets.json`
+However, if you are using deployed instances of the Platform APIs then having initialised the secret storage add the
+following section to `secrets.json`, with URLs and keys obtained from Key Vault.
 
 ```json
-  "Apis": {
-    "Insight": {
+{
+  "Apis": 
+  {
+    "Insight": 
+    {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
     },
-    "Benchmark": {
+    "Benchmark": 
+    {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
     },
-    "Establishment": {
+    "Establishment": 
+    {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
     }
   }
+}
 ```
 
 ##### Features
 
 Feature flags may also be defined in the `FeatureManagement` section:
 
-| Name                            | Purpose                                                              |
-|---------------------------------|----------------------------------------------------------------------|
-| `CurriculumFinancialPlanning`   | Toggles the Curriculum and Financial Planning feature                |
-| `CustomData`                    | Toggles the Custom Data feature                                      |
-| `DisableOrganisationClaimCheck` | Skips the Organisation Claim check in `SchoolAuthorizationAttribute` |
-| `LocalAuthorities`              | Toggles the Local Authorities feature                                |
-| `Trusts`                        | Toggles the Trust feature                                            |
-| `UserDefinedComparators`        | Toggles the User Defined comparators feature                         |
+| Name                            | Purpose                                                                             |
+|---------------------------------|-------------------------------------------------------------------------------------|
+| `CurriculumFinancialPlanning`   | Toggles the Curriculum and Financial Planning feature                               |
+| `CustomData`                    | Toggles the Custom Data feature                                                     |
+| `DisableOrganisationClaimCheck` | Skips the Organisation Claim check in `SchoolAuthorizationAttribute`                |
+| `LocalAuthorities`              | Toggles the Local Authorities feature                                               |
+| `Trusts`                        | Toggles the Trust feature                                                           |
+| `UserDefinedComparators`        | Toggles the User Defined comparators feature                                        |
+| `DisableOrganisationClaimCheck` | Disables organisation and school level claims checks against the authenticated user |
 
 #### DfE Sign-in (DSI) authentication
 
 Having initialised the secret storage, add the following section to `secrets.json`
 
 ```json
-  "DFESignInSettings": {
+{
+  "DFESignInSettings": 
+  {
     "APISecret": "[INSERT API SECRET VALUE]",
     "APIUri": "[INSERT URL VALUE]",
     "Audience": "[INSERT AUDIENCE VALUE]",
@@ -81,15 +101,36 @@ Having initialised the secret storage, add the following section to `secrets.jso
     "SignOutUri": "[INSERT URL VALUE]",
     "SignInUri": "[INSERT URL VALUE]"
   }
+}
 ```
 
-### Build the front-end library
+#### Build the front-end assets
 
 To use the GOV.UK Design System and front-end components locally:
 
+- Browse to
+  the [private package repository](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking) > '[Connect to Feed](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking/connect)' >
+  npm > and follow the _instructions for using a Personal Access Token to authenticate_
 - Navigate to the root of the Web APP `.\web\src\Web.App`
 - Install the required packages `npm i`
 - Run the gulp script to build ssas and copy assets `npm run-script build`
+
+> **NOTE**: When using a PAT to authenticate with npm, ensure the old domain `dfe-ssp.visualstudio.com` is used instead
+> of `dev.azure.com` so that it matches the paths present in package.lock.json. Otherwise, you may receive `401` errors
+> when attempting an `npm i`.
+
+> **💡 Tip**: To find the location of your user `.npmrc` file use the `npm config -ls l` command.
+
+#### Run the application
+
+- From `.\web\src\Web.App` execute:
+
+```bat
+dotnet run
+```
+
+- or debug using Visual Studio, VS Code, Rider or your preferred IDE
+- Then browse to `https://localhost:7095/`
 
 ### Running tests
 
@@ -159,9 +200,12 @@ dotnet test tests\Web.A11yTests
 
 _Playwright is used for end-to-end and accessibility testing which opens a browser and navigates like a user._
 
-> **NOTE:** Running _all_ accessibility tests locally using DSI credentials that are not configured to be able to access the
-> school defined in config will result in test failures for those in the `CustomData` and `FinancialPlanning` xUnit categories
-> unless the feature flag `DisableOrganisationClaimCheck` has been set to `true`. To skip these tests use the following filter:
+> **NOTE:** Running _all_ accessibility tests locally using DSI credentials that are not configured to be able to access
+> the
+> school defined in config will result in test failures for those in the `CustomData` and `FinancialPlanning` xUnit
+> categories
+> unless the feature flag `DisableOrganisationClaimCheck` has been set to `true`. To skip these tests use the following
+> filter:
 
 ```bat
 dotnet test tests\Web.A11yTests --filter "Category!=CustomData&Category!=FinancialPlanning"
