@@ -197,3 +197,24 @@ def test_update_partial_custom_data():
             ),
         ].items()
     )
+
+def test_update_custom_data_missing_columns():
+    """
+    Existing data will always have a value of `0.0`.
+
+    Existing data will be missing some mapped columns.
+    """
+    df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
+    df.drop("Total Internal Floor Area", axis="columns", inplace=True)
+    custom_data = _default_custom_data | {
+        "totalInternalFloorArea": 2.0,
+        "workforceFTE": 3.0,
+    }
+
+    result = update_custom_data(
+        existing_data=df,
+        custom_data=custom_data,
+        target_urn=1,
+    )
+
+    assert "Total Internal Floor Area" not in result.columns
