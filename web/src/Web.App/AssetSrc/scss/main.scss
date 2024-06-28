@@ -11,7 +11,8 @@
 }
 
 .app-view-component {
-  max-width: 100%
+  margin-bottom: 15px;
+  max-width: 100%;
 }
 
 .app-tag-login {
@@ -41,21 +42,28 @@
 .priority {
   margin-bottom: 14px;
   border-left: none;
-  padding-top: 1px;
-  padding-bottom: 2px;
 }
 
-.priority.high, .priority.high .app-tag--red {
-  border: 2px solid $rag-red-colour;
+.priority.high {
+  border: 1px solid $rag-red-colour;
 }
 
-.priority.medium, .priority.medium .app-tag--yellow {
-  border: 2px solid $rag-amber-colour;
+.priority.high .govuk-tag {
+  border-color: $rag-red-colour;
 }
 
-.priority.low, .priority.low .app-tag--green {
-  border: 2px solid $rag-green-colour;
+.priority.medium, .priority.low {
+  border: 1px solid $govuk-border-colour;
 }
+
+.priority.medium .govuk-tag {
+  border-color: $govuk-border-colour;
+}
+
+.priority.low .govuk-tag {
+  border-color: $govuk-border-colour;
+}
+
 
 .app-tag--red {
   background-color: $rag-red-colour;
@@ -69,12 +77,13 @@
 
 .app-tag--green {
   background-color: $rag-green-colour;
-  color: $govuk-text-colour;
+  color: $rag-green-text-colour;
 }
 
 p.priority .govuk-tag {
-  margin-right: 10px;
-  border-left: none !important;
+  border-right: 1px solid;
+  padding: 3px 8px 4px 8px;
+  margin: 0 10px 0 0;
 }
 
 .top-categories div {
