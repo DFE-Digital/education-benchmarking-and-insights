@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.87"
     }
+    azapi = {
+      source  = "azure/azapi"
+      version = "1.13.1"
+    }
   }
   backend "azurerm" {}
 }
@@ -17,4 +21,7 @@ provider "azurerm" {
       recover_soft_deleted_key_vaults = true
     }
   }
+}
+
+provider "azapi" {
 }
