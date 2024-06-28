@@ -1217,6 +1217,8 @@ def update_custom_data(
         "staffDevelopmentTrainingCosts": "Other costs_Staff development and training",
         "staffRelatedInsuranceCosts": "Other costs_Staff-related insurance",
         "supplyTeacherInsurableCosts": "Other costs_Supply teacher insurance",
+        "totalIncome": "Income_Total",
+        "revenueReserve": "Revenue reserve",
         "totalPupils": "Total pupils in trust",
         "percentFreeSchoolMeals": "Percentage Free school meals",
         "percentSpecialEducationNeeds": "Percentage SEN",

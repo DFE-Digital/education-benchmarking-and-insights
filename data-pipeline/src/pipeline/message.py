@@ -85,6 +85,8 @@ def get_message_type(message: dict) -> MessageType:
             "staffDevelopmentTrainingCosts": 0.0,
             "staffRelatedInsuranceCosts": 0.0,
             "supplyTeacherInsurableCosts": 0.0,
+            "totalIncome": 0.0,
+            "revenueReserve": 0.0,
             "totalPupils": 0.0,
             "percentFreeSchoolMeals": 0.0,
             "percentSpecialEducationNeeds": 0.0,
