@@ -1,0 +1,15 @@
+@using Web.App.ViewModels
+@model Web.App.ViewModels.TrustSpendingPriorityStatusViewModel
+
+<div class="top-categories">
+    <div>
+        <p class="priority @Model.PriorityTag?.Class govuk-body">
+            @await Component.InvokeAsync("Tag", new
+            {
+                rating = new RatingViewModel(Model.PriorityTag?.Colour, Model.PriorityTag?.DisplayText)
+            })
+            @Model.SchoolsInStatus out of @Model.TotalSchools school@(Model.TotalSchools == 1 ? string.Empty : "s")
+            in the @Model.PriorityTag?.DisplayText.ToLower() range
+        </p>
+    </div>
+</div>
