@@ -35,6 +35,11 @@ public static class BudgetForecastReturnsResponseFactory
                 response.Forecast = model.Value;
                 response.ForecastTotalPupils = model.TotalPupils;
             }
+            else if (model.Value == 0)
+            {
+                // historical zero values should be skipped
+                continue;
+            }
             else if (response.Actual == null)
             {
                 // sanity check that the first actual values are not overwritten by a subsequent RunId year's values
