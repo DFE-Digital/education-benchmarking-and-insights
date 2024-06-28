@@ -10,7 +10,9 @@
                 {
                     case FinanceTools.CompareYourCosts:
                         <li>
-                            <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
+                            <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })">
+                                <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
+                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
                             </h3>
@@ -21,7 +23,9 @@
                         break;
                     case FinanceTools.BenchmarkCensus:
                         <li>
-                            <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
+                            <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })">
+                                <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
+                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                             </h3>
@@ -33,7 +37,9 @@
                     case FinanceTools.CentralServices:
                         <feature name="@(string.Join(",", FeatureFlags.UserDefinedComparators, FeatureFlags.Trusts))">
                             <li>
-                                <img src="/assets/images/central-services.png" alt="" class="app-view-component">
+                                <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })">
+                                    <img src="/assets/images/central-services.png" alt="" class="app-view-component">
+                                </a>
                                 <h3 class="govuk-heading-s">
                                     <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Trust to trust comparison</a>
                                 </h3>
@@ -48,7 +54,9 @@
                         break;
                     case FinanceTools.ForecastRisk:
                         <li>
-                            <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
+                            <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })">
+                                <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
+                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
                             </h3>
@@ -62,7 +70,9 @@
                         break;
                     case FinanceTools.FinancialPlanning:
                         <li>
-                            <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
+                            <a href="@Url.Action("Index", "TrustPlanning", new { companyNumber = Model.Identifier })">
+                                <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
+                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustPlanning", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
                             </h3>

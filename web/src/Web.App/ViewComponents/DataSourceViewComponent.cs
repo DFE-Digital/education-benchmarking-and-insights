@@ -11,7 +11,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         bool isPartOfTrust,
         string[]? additionText,
         string wrapperClassName = "govuk-grid-row",
-        string className = "govuk-grid-column-two-thirds")
+        string className = "govuk-grid-column-full")
     {
         var years = await financeService.GetYears();
 

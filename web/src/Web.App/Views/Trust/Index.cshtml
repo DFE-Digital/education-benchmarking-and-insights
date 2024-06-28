@@ -18,24 +18,23 @@
 @await Component.InvokeAsync("DataSource", new
 {
     kind = OrganisationTypes.Trust,
-    isPartOfTrust = true,
-    className = "govuk-grid-column-full"
+    isPartOfTrust = true
 })
 
 <div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
-        <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
             <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
-                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
+                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">In year balance</p>
+                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency(0)</p>
             </li>
             <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
-                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
+                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Revenue reserve</p>
+                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency(0)</p>
             </li>
             <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">Number of academies</p>
-                <p class="govuk-body">@Model.NumberSchools</p>
+                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Number of academies</p>
+                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.NumberSchools</p>
             </li>
         </ul>
     </div>
@@ -44,7 +43,7 @@
 <h2 class="govuk-heading-m">Spending priorities for this trust</h2>
 <div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
-        <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
             <li class="app-headline-high">
                 <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.High</p>
                 <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
@@ -93,6 +92,7 @@
     }
     </tbody>
 </table>
+
 
 <h2 class="govuk-heading-m">Schools in this trust</h2>
 
