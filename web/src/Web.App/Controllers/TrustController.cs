@@ -32,15 +32,12 @@ public class TrustController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
-                var trust = Trust(companyNumber);
-                var balance = TrustBalance(companyNumber);
-                var schools = TrustSchools(companyNumber);
+                var trust = await Trust(companyNumber);
+                var balance = await TrustBalance(companyNumber);
+                var schools = await TrustSchools(companyNumber);
+                var ratings = await RagRatings(schools);
 
-                await Task.WhenAll(trust, balance, schools);
-
-                var ratings = await RagRatings(schools.Result);
-
-                var viewModel = new TrustViewModel(trust.Result, balance.Result, schools.Result, ratings);
+                var viewModel = new TrustViewModel(trust, balance, schools, ratings);
                 return View(viewModel);
             }
             catch (Exception e)

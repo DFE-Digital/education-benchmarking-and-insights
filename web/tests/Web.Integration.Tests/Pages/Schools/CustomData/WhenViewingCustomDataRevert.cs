@@ -6,9 +6,9 @@ using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
-namespace Web.Integration.Tests.Pages.Schools.Comparators;
+namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
-public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingCustomDataRevert(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplay()
@@ -34,26 +34,25 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
             .With(x => x.URN, "12345")
             .Create();
 
-        var key = SessionKeys.ComparatorSetUserDefined(school.URN!);
-        var set = new UserDefinedSchoolComparatorSet
+        var key = SessionKeys.CustomData(school.URN!);
+        var customData = new App.Domain.CustomData
         {
-            Set = ["1", "2", "3"],
-            TotalSchools = 123
+            AdministrativeClericalStaffCosts = 12345.67m
         };
         var sessionState = new ConcurrentDictionary<string, byte[]>
         {
-            [key] = Encoding.ASCII.GetBytes(set.ToJson())
+            [key] = Encoding.ASCII.GetBytes(customData.ToJson())
         };
 
         var client = Client.SetupEstablishment(school)
             .SetupInsights()
-            .SetupComparatorSetApi()
+            .SetUpCustomData()
             .SetupHttpContextAccessor(sessionState);
 
         if (setupUserData)
         {
             var userData = Fixture.Build<UserData>()
-                .With(x => x.Type, "comparator-set")
+                .With(x => x.Type, "custom-data")
                 .Create();
             var balance = Fixture.Build<SchoolBalance>()
                 .With(x => x.SchoolName, school.SchoolName)
@@ -62,11 +61,11 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
 
             client
                 .SetupUserData([userData])
-                .SetupMetricRagRatingUserDefined()
+                .SetupMetricRagRating()
                 .SetupBalance(balance);
         }
 
-        var page = await client.Navigate(Paths.SchoolComparatorsRevert(school.URN));
+        var page = await client.Navigate(Paths.SchoolCustomDataRevert(school.URN));
         return (page, school);
     }
 
@@ -76,14 +75,14 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Comparator sets", Paths.SchoolComparators(school.URN).ToAbsolute())
+            ("Customise your data", Paths.SchoolCustomData(school.URN).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page,
-            "Change back to the schools we chose? - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Change back to the schools we chose?");
+            "Change back to the original data? - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Change back to the original data?");
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Change back", Paths.SchoolComparatorsRevert(school.URN));
+        DocumentAssert.PrimaryCta(cta, "Remove custom data", Paths.SchoolCustomDataRevert(school.URN));
         var change = page.QuerySelector("#cancel-revert");
         DocumentAssert.Link(change, "Cancel", Paths.SchoolHome(school.URN).ToAbsolute());
     }

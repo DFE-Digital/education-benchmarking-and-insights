@@ -17,7 +17,18 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
         AssertPageLayout(page, trust);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanRevert()
+    {
+        var (page, trust) = await SetupNavigateInitPage(true);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
+    }
+
+    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool setupUserData = false)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345")
@@ -34,19 +45,24 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
             [key] = Encoding.ASCII.GetBytes(set.ToJson())
         };
 
-        var page = await Client.SetupEstablishment(trust)
-            .SetupTrustInsightApi(new[]
-            {
-                new TrustCharacteristic
-                {
-                    CompanyNumber = "114504",
-                    TrustName = "Abbey Academies Trust"
-                }
-            })
+        var client = Client.SetupEstablishment(trust)
+            .SetupBalance(trust)
+            .SetupTrustInsightApi()
             .SetupComparatorSetApi()
-            .SetupHttpContextAccessor(sessionState)
-            .Navigate(Paths.TrustComparatorsRevert(trust.CompanyNumber));
+            .SetupHttpContextAccessor(sessionState);
 
+        if (setupUserData)
+        {
+            var userData = Fixture.Build<UserData>()
+                .With(x => x.Type, "comparator-set")
+                .Create();
+            client
+                .SetupUserData([userData])
+                .SetupMetricRagRating()
+                .SetupInsights();
+        }
+
+        var page = await client.Navigate(Paths.TrustComparatorsRevert(trust.CompanyNumber));
         return (page, trust);
     }
 

@@ -35,17 +35,14 @@ public class SchoolController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
-                var school = School(urn);
-                var balance = SchoolBalance(urn);
-                var userData = userDataService.GetSchoolDataAsync(User.UserId(), urn);
-
-                await Task.WhenAll(school, balance, userData);
-
-                var ratings = string.IsNullOrEmpty(userData.Result.ComparatorSet)
+                var school = await School(urn);
+                var balance = await SchoolBalance(urn);
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var ratings = string.IsNullOrEmpty(userData.ComparatorSet)
                     ? await RagRatingsDefault(urn)
-                    : await RagRatingsUserDefined(userData.Result.ComparatorSet);
+                    : await RagRatingsUserDefined(userData.ComparatorSet);
 
-                var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, userData.Result.ComparatorSet, userData.Result.CustomData);
+                var viewModel = new SchoolViewModel(school, balance, ratings, comparatorGenerated, userData.ComparatorSet, userData.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)

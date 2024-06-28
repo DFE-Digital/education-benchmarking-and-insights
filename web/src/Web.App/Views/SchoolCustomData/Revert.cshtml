@@ -1,6 +1,6 @@
-﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+﻿@model Web.App.ViewModels.SchoolCustomDataLandingViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsRevert;
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeDataRevert;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -13,8 +13,8 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">This will remove all the schools you've chosen yourself and change back to the 2 sets of schools we chose.</p>
-        @using (Html.BeginForm("RevertSet", "SchoolComparators", new
+        <p class="govuk-body">This will remove all the data you've customised yourself.</p>
+        @using (Html.BeginForm("RevertCustomData", "SchoolCustomData", new
                 {
                     urn = Model.Urn
                 }, FormMethod.Post, true, new
@@ -24,7 +24,7 @@
         {
             <div class="govuk-button-group">
                 <button type="submit" class="govuk-button" data-module="govuk-button">
-                    Change back
+                    Remove custom data
                 </button>
                 <a class="govuk-link" href="@Url.Action("Index", "School", new { urn = Model.Urn })" id="cancel-revert">Cancel</a>
             </div>
