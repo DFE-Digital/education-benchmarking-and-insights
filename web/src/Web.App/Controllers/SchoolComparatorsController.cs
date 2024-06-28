@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -93,7 +94,7 @@ public class SchoolComparatorsController(
 
     [HttpGet]
     [Route("revert")]
-    [Authorize]
+    [SchoolAuthorization]
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> Revert(string urn)
     {
@@ -120,7 +121,7 @@ public class SchoolComparatorsController(
 
     [HttpPost]
     [Route("revert")]
-    [Authorize]
+    [SchoolAuthorization]
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> RevertSet(string urn)
     {

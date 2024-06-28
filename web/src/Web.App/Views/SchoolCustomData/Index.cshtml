@@ -1,9 +1,18 @@
-﻿@model Web.App.ViewModels.SchoolCustomDataLandingViewModel
+﻿@inject IConfiguration Configuration
+@using Web.App.Identity.Models
+@model Web.App.ViewModels.SchoolCustomDataLandingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
+    var settings = Configuration.GetSection("DFESignInSettings").Get<DfeSignInSettings>();
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataLanding, name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = PageTitles.SchoolChangeDataLanding,
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 
 <div>
     <p class="govuk-body">Use this to:</p>
@@ -14,8 +23,31 @@
     <div class="govuk-inset-text">
         We will delete your changes when you leave the service.
     </div>
-    <a href="@Url.Action("FinancialData", "SchoolCustomDataChange", new { urn = Model.Urn })" role="button" class="govuk-button">
-        Start now
-    </a>
-</div>
+    @if (User.Identity is { IsAuthenticated: true })
+    {
+        @Html.ActionLink("Start now", "FinancialData", "SchoolCustomDataChange", new
+        {
+            urn = Model.Urn
+        }, new
+        {
+            @class = "govuk-button"
+        })
+    }
+    else
+    {
+        <p class="govuk-body">
+            You will need a <a href="@settings?.SignInUri" class="govuk-link govuk-link--no-visited-state">DfE Sign-in account</a>.
+        </p>
 
+        @Html.ActionLink("Sign in", "Signin", "Home", new
+        {
+            redirectUri = Url.Action("FinancialData", "SchoolCustomDataChange", new
+            {
+                urn = Model.Urn
+            })
+        }, new
+        {
+            @class = "govuk-button"
+        })
+    }
+</div>
