@@ -22,7 +22,7 @@
             break;
         case SchoolCustomDataValueUnits.Currency:
             prefix = "£";
-            currentValueFormatted = currentValue.ToCurrency(currentValue > 1_000 ? 0 : 2);
+            currentValueFormatted = currentValue.ToCurrency(0);
             inputWidth = 10;
             break;
         case SchoolCustomDataValueUnits.Percentage:
