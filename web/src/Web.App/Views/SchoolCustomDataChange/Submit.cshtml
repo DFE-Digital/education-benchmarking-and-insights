@@ -1,0 +1,51 @@
+﻿@model Web.App.ViewModels.SchoolCustomDataSubmittedViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeDataSubmit;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full loading">
+        <h1 class="govuk-heading-l">
+            @ViewData[ViewDataKeys.Title]
+        </h1>
+        <div class="spinner"></div>
+        <p class="govuk-hint">This may take a minute or two.</p>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        // todo: refactor entire view its own partial/component for re-use by other async processes such as custom data submission
+        let done, failed = false;
+        const interval = setInterval(statusCheck, 5000);
+        function statusCheck() {
+            if (done || failed) {
+                clearInterval(interval);
+                window.location.href = `/school/@Model.Urn/customised-data`;
+                return;
+            }
+
+            fetch(
+                "/api/user-data/school/custom-data/@Model.Urn/@Model.Identifier",
+                {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(response => response.json())
+                .then(json => {
+                    if (json) {
+                        if (json.status === "complete") {
+                            done = true;
+                        } else if (json.status !== "pending") {
+                            throw new Error("Unexpected response returned from API call");
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    failed = true;
+                });
+        }
+    </script>
+}

@@ -89,7 +89,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             f.SetFormValues(_formValues.ToDictionary(k => k.Key, v => v.Value?.ToString() ?? string.Empty));
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomData(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmit(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomData(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmit(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -171,13 +171,31 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .With(x => x.URN, "12345")
             .Create();
 
+        var customDataId = "123";
+
+        var userData = new[]
+        {
+            new UserData
+            {
+                Type = "custom-data",
+                Id = customDataId
+            }
+        };
+
+        var customData = new CustomDataSchool
+        {
+            Id = customDataId,
+            URN = school.URN,
+        };
+
         var page = await Client.SetupEstablishment(school)
+            .SetupUserData(userData)
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupBalance(school)
             .SetupExpenditure(school, _expenditure)
             .SetupSchoolInsight(school, _floorAreaMetric)
-            .SetUpCustomData()
+            .SetUpCustomData(customData)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataWorkforceData(school.URN));
 
