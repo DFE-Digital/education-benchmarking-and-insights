@@ -101,7 +101,7 @@
                             <td class="govuk-table__cell">
                                 <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
                             </td>
-                            <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
+                            <td class="govuk-table__cell">@school.Value.ToCurrency(0) per pupil</td>
                         </tr>
                     }
                     </tbody>
