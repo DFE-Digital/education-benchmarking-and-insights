@@ -63,52 +63,44 @@
         </form>
     </aside>
     <div class="govuk-grid-column-three-quarters">
-        @foreach (var rating in Model.Ratings)
+        @if (Model.CostCategories.Length > 0)
         {
-            <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
-
-            @foreach (var status in rating.Statuses)
+            @foreach (var rating in Model.RatingsByCategory)
             {
-                <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+                <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
 
-                <div class="top-categories">
-                    <div>
-                        <p class="priority @status.PriorityTag?.Class govuk-body">
-                            @await Component.InvokeAsync("Tag", new
-                            {
-                                rating = new RatingViewModel(status.PriorityTag?.Colour, status.PriorityTag?.DisplayText)
-                            })
-                            @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
-                            in the @status.PriorityTag?.DisplayText.ToLower() range
-                        </p>
-                    </div>
-                </div>
-
-                <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
-                    <thead class="govuk-table__head">
-                    <tr class="govuk-table__row">
-                        <th scope="col" class="govuk-table__header">Rank</th>
-                        <th scope="col" class="govuk-table__header">School</th>
-                        <th scope="col" class="govuk-table__header">Expenditure</th>
-                    </tr>
-                    </thead>
-                    <tbody class="govuk-table__body">
-                    @for (var i = 0; i < status.Schools.Count(); i++)
+                @foreach (var status in rating.Statuses)
+                {
+                    <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+                    @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(status.PriorityTag, status.Schools.Count(), Model.NumberSchools))
+                    @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
                     {
-                        var school = status.Schools.ElementAt(i);
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">@(i + 1)</td>
-                            <td class="govuk-table__cell">
-                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
-                            </td>
-                            <td class="govuk-table__cell">@school.Value.ToCurrency(0) per pupil</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+                        {
+                            "Id", $"govuk-trust-spending-and-costs-{rating.CostCategory?.ToSlug()}-{status.Status?.ToSlug()}"
+                        }
+                    })
+                }
             }
         }
+        else
+        {
+            @foreach (var rating in Model.RatingsByPriority)
+            {
+                <h2 class="govuk-heading-m" id="@rating.PriorityTag?.DisplayText.ToSlug()">@rating.PriorityTag?.DisplayText</h2>
 
+                @foreach (var category in rating.Categories)
+                {
+                    <h3 class="govuk-heading-s">@category.Category</h3>
+                    @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
+                    @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
+                    {
+                        {
+                            "Id", $"govuk-trust-spending-and-costs-{category.Category?.ToSlug()}-{rating.Status?.ToSlug()}"
+                        }
+                    })
+                }
+            }
+        }
     </div>
 </div>
 
