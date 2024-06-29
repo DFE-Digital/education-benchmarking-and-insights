@@ -95,8 +95,7 @@ module "orchestrator-fa" {
   enable-restrictions  = lower(var.cip-environment) != "dev"
   always-on            = true
   sku = {
-    tier = "Standard"
-    size = "S1"
+    size = "P0v3"
   }
   instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
   app-settings = merge(local.default_app_settings, {

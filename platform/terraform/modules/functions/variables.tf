@@ -8,11 +8,9 @@ variable "app-settings" {
 
 variable "sku" {
   type = object({
-    tier = string
     size = string
   })
   default = {
-    tier = "Dynamic"
     size = "Y1"
   }
 }
