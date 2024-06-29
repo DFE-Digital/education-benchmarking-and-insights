@@ -37,14 +37,17 @@ public class SchoolController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
-                var school = await School(urn);
-                var balance = await SchoolBalance(urn);
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var ratings = string.IsNullOrEmpty(userData.ComparatorSet)
-                    ? await RagRatingsDefault(urn)
-                    : await RagRatingsUserDefined(userData.ComparatorSet);
+                var school = School(urn);
+                var balance = SchoolBalance(urn);
+                var userData = UserData(urn);
 
-                var viewModel = new SchoolViewModel(school, balance, ratings, comparatorGenerated, userData.ComparatorSet, userData.CustomData);
+                await Task.WhenAll(school, balance, userData);
+
+                var ratings = string.IsNullOrEmpty(userData.Result.ComparatorSet)
+                    ? await RagRatingsDefault(urn)
+                    : await RagRatingsUserDefined(userData.Result.ComparatorSet);
+
+                var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, userData.Result.ComparatorSet, userData.Result.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -70,7 +73,6 @@ public class SchoolController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(urn);
 
                 var school = await School(urn);
-
                 var viewModel = new SchoolViewModel(school);
                 return View(viewModel);
             }
@@ -97,7 +99,6 @@ public class SchoolController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(urn);
 
                 var school = await School(urn);
-
                 var viewModel = new SchoolViewModel(school);
                 return View(viewModel);
             }
@@ -124,10 +125,12 @@ public class SchoolController(
             {
                 ViewData[ViewDataKeys.Backlink] = HomeLink(urn);
 
-                var school = await School(urn);
-                var ratings = await RagRatingsDefault(urn);
+                var school = School(urn);
+                var ratings = RagRatingsDefault(urn);
 
-                var viewModel = new SchoolViewModel(school, ratings);
+                await Task.WhenAll(school, ratings);
+
+                var viewModel = new SchoolViewModel(school.Result, ratings.Result);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -162,6 +165,7 @@ public class SchoolController(
                     });
                 }
 
+                //TODO: Remove duplicate call for user data
                 var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
                 if (userCustomData?.Status != "complete")
                 {
@@ -173,7 +177,7 @@ public class SchoolController(
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var school = await School(urn);
                 var viewModel = new SchoolViewModel(school);
 
                 return View(viewModel);
@@ -186,6 +190,9 @@ public class SchoolController(
             }
         }
     }
+
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
+        .GetSchoolDataAsync(User, urn);
 
     private async Task<SchoolBalance?> SchoolBalance(string urn) => await balanceApi
         .School(urn)

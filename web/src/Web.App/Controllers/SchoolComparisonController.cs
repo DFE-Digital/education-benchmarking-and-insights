@@ -71,6 +71,7 @@ public class SchoolComparisonController(
                     });
                 }
 
+                //TODO: Remove duplicate call for user data
                 var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
                 if (userCustomData?.Status != "complete")
                 {

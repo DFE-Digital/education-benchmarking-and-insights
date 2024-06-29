@@ -14,7 +14,6 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
-using Api = Web.App.Infrastructure.Apis.Insight.Api;
 
 namespace Web.App.Extensions;
 
@@ -114,9 +113,10 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new CookieAuthenticationEvents
                 {
-                    OnRedirectToAccessDenied = async context =>
+                    OnRedirectToAccessDenied = context =>
                     {
                         context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
                     },
                     OnValidatePrincipal = async x =>
                     {
@@ -136,7 +136,7 @@ public static class ServiceCollectionExtensions
                             var response = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
                             {
                                 Address = tokenEndpoint,
-                                ClientId = clientId,
+                                ClientId = clientId ?? throw new ArgumentNullException(nameof(clientId)),
                                 ClientSecret = clientSecret,
                                 RefreshToken = refreshTokenClaim != null ? refreshTokenClaim.Value : ""
                             });
@@ -147,8 +147,8 @@ public static class ServiceCollectionExtensions
                                 identity.RemoveClaim(refreshTokenClaim);
                                 identity.AddClaims(new[]
                                 {
-                                    new Claim(ClaimNames.AccessToken, response.AccessToken),
-                                    new Claim(ClaimNames.RefreshToken, response.RefreshToken)
+                                    new Claim(ClaimNames.AccessToken, response.AccessToken ?? throw new ArgumentNullException(nameof(response.AccessToken))),
+                                    new Claim(ClaimNames.RefreshToken, response.RefreshToken ?? throw new ArgumentNullException(nameof(response.RefreshToken)))
                                 });
 
                                 x.ShouldRenew = true;
@@ -217,7 +217,7 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new OpenIdConnectEvents
                 {
-                    OnMessageReceived = async context =>
+                    OnMessageReceived = context =>
                     {
                         var isSpuriousAuthCbRequest =
                             context.Request.Path == options.CallbackPath &&
@@ -231,13 +231,16 @@ public static class ServiceCollectionExtensions
                             context.Response.Redirect("/");
                             context.HandleResponse();
                         }
+
+                        return Task.CompletedTask;
                     },
-                    OnRemoteFailure = async ctx =>
+                    OnRemoteFailure = ctx =>
                     {
                         opts.Events.OnRemoteFailure(ctx);
 
                         ctx.Response.Redirect("/");
                         ctx.HandleResponse();
+                        return Task.CompletedTask;
                     },
                     OnTokenValidated = async context =>
                     {

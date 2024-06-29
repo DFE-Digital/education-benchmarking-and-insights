@@ -1,6 +1,5 @@
 using Web.App.Domain;
 using Web.App.Extensions;
-using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
@@ -12,7 +11,7 @@ public interface ITrustComparatorSetService
     UserDefinedTrustComparatorSet ReadUserDefinedComparatorSet(string companyNumber);
     UserDefinedTrustComparatorSet SetUserDefinedComparatorSet(string companyNumber, UserDefinedTrustComparatorSet set);
     void ClearUserDefinedComparatorSet(string companyNumber, string? identifier = null);
-    UserDefinedTrustCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn);
+    UserDefinedTrustCharacteristicViewModel? ReadUserDefinedCharacteristic(string companyNumber);
     void SetUserDefinedCharacteristic(string companyNumber, UserDefinedTrustCharacteristicViewModel viewModel);
     void ClearUserDefinedCharacteristic(string companyNumber);
 }
@@ -21,22 +20,18 @@ public class TrustComparatorSetService(IHttpContextAccessor httpContextAccessor,
 {
     public async Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier)
     {
-        var key = SessionKeys.TrustComparatorSetUserDefined(companyNumber, identifier);
-        var context = httpContextAccessor.HttpContext;
-
-        var set = context?.Session.Get<UserDefinedTrustComparatorSet>(key);
-
-        return set ?? await SetUserDefinedComparatorSet(companyNumber, identifier);
+        //Do not add to session state. Locking on session state blocks requests
+        return await api.GetUserDefinedTrustAsync(companyNumber, identifier).GetResultOrThrow<UserDefinedTrustComparatorSet>();
     }
 
-    public UserDefinedTrustComparatorSet ReadUserDefinedComparatorSet(string urn)
+    public UserDefinedTrustComparatorSet ReadUserDefinedComparatorSet(string companyNumber)
     {
-        var key = SessionKeys.TrustComparatorSetUserDefined(urn);
+        var key = SessionKeys.TrustComparatorSetUserDefined(companyNumber);
         var context = httpContextAccessor.HttpContext;
 
         var set = context?.Session.Get<UserDefinedTrustComparatorSet>(key);
 
-        return set ?? SetUserDefinedComparatorSet(urn, new UserDefinedTrustComparatorSet());
+        return set ?? SetUserDefinedComparatorSet(companyNumber, new UserDefinedTrustComparatorSet());
     }
 
     public UserDefinedTrustComparatorSet SetUserDefinedComparatorSet(string companyNumber, UserDefinedTrustComparatorSet set)
@@ -78,16 +73,5 @@ public class TrustComparatorSetService(IHttpContextAccessor httpContextAccessor,
         var key = SessionKeys.TrustComparatorSetCharacteristic(urn);
         var context = httpContextAccessor.HttpContext;
         context?.Session.Remove(key);
-    }
-
-    private async Task<UserDefinedTrustComparatorSet> SetUserDefinedComparatorSet(string companyNumber, string identifier)
-    {
-        var key = SessionKeys.TrustComparatorSetUserDefined(companyNumber, identifier);
-        var context = httpContextAccessor.HttpContext;
-
-        var set = await api.GetUserDefinedTrustAsync(companyNumber, identifier).GetResultOrThrow<UserDefinedTrustComparatorSet>();
-        context?.Session.Set(key, set);
-
-        return set;
     }
 }

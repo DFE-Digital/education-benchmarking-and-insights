@@ -33,10 +33,12 @@ public class SchoolCensusController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCensus(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData);
+                var school = School(urn);
+                var userData = UserData(urn);
 
+                await Task.WhenAll(school, userData);
+
+                var viewModel = new SchoolCensusViewModel(school.Result, userData.Result.ComparatorSet, userData.Result.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -61,7 +63,7 @@ public class SchoolCensusController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
+                var userData = await UserData(urn);
                 var customDataId = userData.CustomData;
                 if (string.IsNullOrEmpty(customDataId))
                 {
@@ -71,6 +73,7 @@ public class SchoolCensusController(
                     });
                 }
 
+                //TODO: Remove duplicate call for user data
                 var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
                 if (userCustomData?.Status != "complete")
                 {
@@ -82,8 +85,7 @@ public class SchoolCensusController(
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataCensus(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-
+                var school = await School(urn);
                 var viewModel = new SchoolCensusViewModel(school, customDataId: customDataId);
 
                 return View(viewModel);
@@ -95,4 +97,12 @@ public class SchoolCensusController(
             }
         }
     }
+
+
+    private async Task<School> School(string urn) => await establishmentApi
+        .GetSchool(urn)
+        .GetResultOrThrow<School>();
+
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
+        .GetSchoolDataAsync(User, urn);
 }

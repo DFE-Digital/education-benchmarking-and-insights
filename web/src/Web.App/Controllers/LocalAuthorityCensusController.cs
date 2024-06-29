@@ -7,6 +7,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -30,15 +31,13 @@ public class LocalAuthorityCensusController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityCensus(code);
 
-                var localAuthority = await establishmentApi.GetLocalAuthority(code).GetResultOrThrow<LocalAuthority>();
+                var localAuthority = LocalAuthority(code);
+                var schools = Schools(code);
 
-                var query = new ApiQuery().AddIfNotNull("laCode", code);
-                var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<School[]>();
+                await Task.WhenAll(localAuthority, schools);
 
-                var phases = schools.GroupBy(x => x.OverallPhase).OrderByDescending(x => x.Count()).Select(x => x.Key).OfType<string>().ToArray();
-
-                var viewModel = new LocalAuthorityCensusViewModel(localAuthority, phases);
-
+                var phases = Phases(schools.Result);
+                var viewModel = new LocalAuthorityCensusViewModel(localAuthority.Result, phases);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -48,4 +47,19 @@ public class LocalAuthorityCensusController(
             }
         }
     }
+
+    private static string[] Phases(School[] schools) => schools
+        .GroupBy(x => x.OverallPhase)
+        .OrderByDescending(x => x.Count())
+        .Select(x => x.Key)
+        .OfType<string>()
+        .ToArray();
+
+    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
+        .GetLocalAuthority(code)
+        .GetResultOrThrow<LocalAuthority>();
+
+    private async Task<School[]> Schools(string code) => await establishmentApi
+        .QuerySchools(new ApiQuery().AddIfNotNull("laCode", code))
+        .GetResultOrThrow<School[]>();
 }

@@ -48,6 +48,8 @@ public static class WebApplicationBuilderExtensions
         {
             options.IdleTimeout = TimeSpan.FromSeconds(3600);
             options.Cookie.IsEssential = true;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
 
         return builder;
