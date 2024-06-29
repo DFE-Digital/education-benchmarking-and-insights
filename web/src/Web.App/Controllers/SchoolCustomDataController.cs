@@ -4,12 +4,12 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -91,7 +91,7 @@ public class SchoolCustomDataController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
 
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 if (userData.CustomData != null)
                 {
                     await customDataService.RemoveCustomData(urn, userData.CustomData);

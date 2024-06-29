@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -107,7 +107,7 @@ public class CensusProxyController(
 
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {
-        var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
+        var userData = await userDataService.GetSchoolDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);

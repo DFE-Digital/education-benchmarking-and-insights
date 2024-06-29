@@ -115,7 +115,7 @@ else
 app
     .UseStaticFiles(new StaticFileOptions
     {
-        OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600") 
+        OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600")
     })
     .UseForwardedHeaders()
     .UseMiddleware<CustomResponseHeadersMiddleware>()

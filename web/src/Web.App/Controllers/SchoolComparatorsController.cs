@@ -5,7 +5,6 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -13,6 +12,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -42,7 +42,7 @@ public class SchoolComparatorsController(
                 var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
                 var pupil = await GetSchoolCharacteristics<SchoolCharacteristicPupil>(set.Pupil);
                 var building = await GetSchoolCharacteristics<SchoolCharacteristicBuilding>(set.Building);
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
 
                 var viewModel = new SchoolComparatorsViewModel(school, pupil: pupil, building: building, hasCustomData: !string.IsNullOrEmpty(userData.CustomData));
                 return View(viewModel);
@@ -71,7 +71,7 @@ public class SchoolComparatorsController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 SchoolCharacteristicUserDefined[]? schools = null;
 
                 if (userData.ComparatorSet != null)
@@ -137,7 +137,7 @@ public class SchoolComparatorsController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 if (userData.ComparatorSet != null)
                 {
                     await comparatorSetApi.RemoveUserDefinedSchoolAsync(urn, userData.ComparatorSet).EnsureSuccess();

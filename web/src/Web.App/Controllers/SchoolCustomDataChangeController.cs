@@ -11,6 +11,7 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -201,7 +202,7 @@ public class SchoolCustomDataChangeController(
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
 
                 // remove previous set of custom data before submitting new
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 if (userData.CustomData != null)
                 {
                     await customDataService.RemoveCustomData(urn, userData.CustomData);
@@ -233,7 +234,7 @@ public class SchoolCustomDataChangeController(
                 ViewData[ViewDataKeys.HiddenNavigation] = true;
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var customData = userData.CustomData;
                 ArgumentNullException.ThrowIfNull(customData);
 
@@ -257,7 +258,7 @@ public class SchoolCustomDataChangeController(
         // attempt to load in custom data from previous submission if not already in the middle of a new submission
         if (customInput == null)
         {
-            var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+            var userData = await userDataService.GetSchoolDataAsync(User, urn);
             if (userData.CustomData != null)
             {
                 customInput = await customDataService.GetCustomDataById(urn, userData.CustomData);

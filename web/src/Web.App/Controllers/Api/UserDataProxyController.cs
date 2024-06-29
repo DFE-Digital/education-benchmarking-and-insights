@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -25,7 +26,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetSchoolComparatorSetAsync(User.UserId(), identifier, urn);
+                var userSet = await userDataService.GetSchoolComparatorSetAsync(User, identifier, urn);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -53,7 +54,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetTrustComparatorSetAsync(User.UserId(), identifier, companyNumber);
+                var userSet = await userDataService.GetTrustComparatorSetAsync(User, identifier, companyNumber);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -84,7 +85,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userData = await userDataService.GetCustomDataAsync(User.UserId(), identifier, urn);
+                var userData = await userDataService.GetCustomDataAsync(User, identifier, urn);
                 if (userData == null)
                 {
                     return new NotFoundResult();

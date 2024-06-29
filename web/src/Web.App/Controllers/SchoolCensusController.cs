@@ -4,12 +4,12 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -34,7 +34,7 @@ public class SchoolCensusController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCensus(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
@@ -61,7 +61,7 @@ public class SchoolCensusController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var customDataId = userData.CustomData;
                 if (string.IsNullOrEmpty(customDataId))
                 {
@@ -71,7 +71,7 @@ public class SchoolCensusController(
                     });
                 }
 
-                var userCustomData = await userDataService.GetCustomDataAsync(User.UserId(), customDataId, urn);
+                var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
                 if (userCustomData?.Status != "complete")
                 {
                     return RedirectToAction("Index", "School", new
