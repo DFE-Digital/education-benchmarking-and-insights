@@ -19,6 +19,11 @@ public static class HttpClientBuilderExtensions
                 var logger = serviceProvider.GetRequiredService<ILogger<T>>();
                 return GetRetryPolicy(logger);
             })
+            .AddPolicyHandler((serviceProvider, _) =>
+            {
+                var logger = serviceProvider.GetRequiredService<ILogger<T>>();
+                return GetCircuitBreakerPolicy(logger);
+            })
             .AddCorrelationIdForwarding()
             .ConfigureHttpClient((provider, client) =>
             {
@@ -42,11 +47,28 @@ public static class HttpClientBuilderExtensions
         return HttpPolicyExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(
-                6,
+                3,
                 retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                onRetry: (outcome, timespan, retryAttempt, context) =>
+                onRetry: (_, timespan, retryAttempt, _) =>
                 {
-                    logger.LogWarning("Retry attempt {RetryAttempt} for {PolicyKey}. Waiting {Timespan} before next retry. Outcome: {StatusCode}", retryAttempt, context.PolicyKey, timespan, outcome.Result?.StatusCode);
+                    logger.LogWarning("Retry attempt {RetryAttempt}. Waiting {Timespan} before next retry.", retryAttempt, timespan);
+                });
+    }
+
+    private static AsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy(ILogger logger)
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .CircuitBreakerAsync(
+                5,
+                TimeSpan.FromSeconds(30),
+                onBreak: (_, timespan) =>
+                {
+                    logger.LogWarning("Circuit broken. Reset in {Timespan}", timespan);
+                },
+                onReset: () =>
+                {
+                    logger.LogInformation("Circuit reset");
                 });
     }
 }

@@ -101,3 +101,32 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
     }
   }
 }
+
+
+resource "random_uuid" "idgen" {
+}
+
+resource "random_uuid" "guidgen" {
+}
+
+resource "azurerm_application_insights_web_test" "web_app_test" {
+  name                    = "${var.environment-prefix}-web-app-test"
+  resource_group_name     = data.azurerm_application_insights.application-insights.resource_group_name
+  location                = data.azurerm_application_insights.application-insights.location
+  application_insights_id = data.azurerm_application_insights.application-insights.id
+  kind                    = "ping"
+  frequency               = 300
+  timeout                 = 60
+  enabled                 = true
+  geo_locations           = ["westeurope"]
+  tags                    = local.common-tags
+
+  configuration = <<XML
+<WebTest Name=""${var.environment-prefix}-web-app-test" Id="${random_uuid.idgen.result}" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="">
+  <Items>
+    <Request Method="GET" Guid="${random_uuid.guidgen.result}" Version="1.1" Url="${azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name}" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" />
+  </Items>
+</WebTest>
+XML
+
+}

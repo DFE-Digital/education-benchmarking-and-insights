@@ -48,6 +48,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
         services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>().Configure<ComparatorSetApi>(section);
         services.AddHttpClient<IUserDataApi, UserDataApi>().Configure<UserDataApi>(section);
+        services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
 
         return services;
     }
@@ -57,6 +58,7 @@ public static class ServiceCollectionExtensions
         const string section = "Apis:Establishment";
 
         services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure<EstablishmentApi>(section);
+        services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
 
         return services;
     }
@@ -74,6 +76,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure<SchoolInsightApi>(section);
         services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
+        services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
 
         return services;
     }
