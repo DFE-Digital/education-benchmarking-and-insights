@@ -207,6 +207,7 @@ resource "azurerm_storage_container" "sql-vulnerability-container" {
 
 # https://learn.microsoft.com/en-us/rest/api/sql/server-automatic-tuning/update?view=rest-sql-2021-11-01
 resource "azapi_resource_action" "sql-server-auto-tuning" {
+  count       = lower(var.cip-environment) == "dev" ? 1 : 0
   resource_id = "${azurerm_mssql_server.sql-server.id}/automaticTuning/current"
   type        = "Microsoft.Sql/servers/automaticTuning@2021-11-01"
   method      = "PATCH"
