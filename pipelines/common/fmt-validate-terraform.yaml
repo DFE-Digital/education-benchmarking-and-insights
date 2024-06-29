@@ -5,7 +5,7 @@ steps:
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     displayName: 'Install terraform'
     inputs:
-      terraformVersion: 1.8.5
+      terraformVersion: 1.9.0
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Run terraform format'

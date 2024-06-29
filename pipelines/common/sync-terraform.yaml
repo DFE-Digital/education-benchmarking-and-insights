@@ -39,7 +39,7 @@ steps:
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
     displayName: 'Install terraform'
     inputs:
-      terraformVersion: 1.8.5
+      terraformVersion: 1.9.0
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))

@@ -1862,7 +1862,7 @@
         "type": "Project",
         "dependencies": {
           "AzureExtensions.Swashbuckle": "[3.3.2, )",
-          "FluentValidation": "[11.9.1, )",
+          "FluentValidation": "[11.9.2, )",
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",
@@ -1884,7 +1884,7 @@
           "Azure.Search.Documents": "[11.5.1, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
-          "FluentValidation": "[11.9.1, )",
+          "FluentValidation": "[11.9.2, )",
           "Microsoft.Data.SqlClient": "[5.2.1, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
@@ -1922,9 +1922,9 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[11.9.1, )",
-        "resolved": "11.9.1",
-        "contentHash": "C+PqISSMdlOZZJx0Hx25atW32tv4vbpsaiQB+PLjK+ZGLzOFuHl1fUJ3Lny77mIZ31ZtYtNG0JgUjxa3wwLsWg=="
+        "requested": "[11.9.2, )",
+        "resolved": "11.9.2",
+        "contentHash": "XeHp9LvFvu1fsQ/NvDCymV02GOCB1nz7ZUhfpI3uMhCcHTkV1K5bMkv+Nc/kuNYyAsX5+5bcmUanIEMd5QN+Eg=="
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",
