@@ -118,7 +118,7 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   frequency               = 300
   timeout                 = 60
   enabled                 = true
-  geo_locations           = ["westeurope"]
+  geo_locations           = ["emea-nl-ams-azr"]
   tags                    = local.common-tags
 
   configuration = <<XML
