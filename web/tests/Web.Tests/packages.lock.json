@@ -1999,7 +1999,7 @@
       },
       "Microsoft.FeatureManagement.AspNetCore": {
         "type": "CentralTransitive",
-        "requested": "[3.3.1, )",
+        "requested": "[3.4.0, )",
         "resolved": "3.4.0",
         "contentHash": "VtWNkYq2dxaMUu3wmPfLcbCkX+fVHEL9qSvgwXVAi6Kob8aUFskhurRSTo/h/0cNWmvW8sUOevOuNSt+8P1NfA==",
         "dependencies": {

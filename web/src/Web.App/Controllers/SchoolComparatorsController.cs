@@ -97,7 +97,7 @@ public class SchoolComparatorsController(
 
     [HttpGet]
     [Route("revert")]
-    [SchoolAuthorization]
+    [Authorize]
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> Revert(string urn)
     {
@@ -124,7 +124,7 @@ public class SchoolComparatorsController(
 
     [HttpPost]
     [Route("revert")]
-    [SchoolAuthorization]
+    [Authorize]
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> RevertSet(string urn)
     {

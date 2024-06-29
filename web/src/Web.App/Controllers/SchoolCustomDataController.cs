@@ -52,7 +52,7 @@ public class SchoolCustomDataController(
     [HttpGet]
     [Route("revert")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.UserDefinedComparators)]
+    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> Revert(string urn)
     {
         using (logger.BeginScope(new
@@ -79,7 +79,7 @@ public class SchoolCustomDataController(
     [HttpPost]
     [Route("revert")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.UserDefinedComparators)]
+    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> RevertCustomData(string urn)
     {
         using (logger.BeginScope(new
