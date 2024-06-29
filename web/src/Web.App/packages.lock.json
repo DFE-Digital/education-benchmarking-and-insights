@@ -1015,7 +1015,7 @@
         }
       }
     },
-    "net8.0/linux-x64": {
+    "net8.0/win-x64": {
       "Microsoft.Azure.Cosmos": {
         "type": "Transitive",
         "resolved": "3.35.4",
