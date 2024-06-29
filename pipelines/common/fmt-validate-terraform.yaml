@@ -3,26 +3,26 @@ parameters:
 
 steps:
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-    displayName: 'Terraform : install'
+    displayName: 'Install terraform'
     inputs:
       terraformVersion: 1.8.5
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : fmt'
+    displayName: 'Run terraform format'
     inputs:
       command: fmt
       commandOptions: '-recursive -check'
       workingDirectory: '${{ parameters.TerraformDirectory }}'
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : init'
+    displayName: 'Initialise terraform'
     inputs:
       command: init
       commandOptions: '-backend=false'
       workingDirectory: '${{ parameters.TerraformDirectory }}'
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : validate'
+    displayName: 'Run terraform validate'
     inputs:
       command: validate
       workingDirectory: '${{ parameters.TerraformDirectory }}'

@@ -9,7 +9,7 @@ parameters:
 
 jobs:
   - deployment: CoreSync
-    displayName: 'Core : Sync'
+    displayName: 'Sync core infrastructure'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest

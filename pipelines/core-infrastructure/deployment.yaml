@@ -21,6 +21,12 @@ jobs:
             - checkout: none
 
             - download: current
+              displayName: 'Download core db artifacts'
+              artifact: core-db
+
+            - download: current
+              displayName: 'Download core terraform artifacts'
+              artifact: core-terraform
 
             - template: ..\common\run-terraform.yaml
               parameters:
@@ -32,6 +38,7 @@ jobs:
                 module: 'core'
 
             - task: AzureKeyVault@1
+              displayName: 'Import key vault vars'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
@@ -47,4 +54,4 @@ jobs:
             - script: ./Core.Database -c '$(core-sql-connection-string)'
               workingDirectory: '${{ parameters.workspaceDir }}/db'
               failOnStderr: true
-              displayName: 'Deploy core database'
+              displayName: 'Run core database migrations'

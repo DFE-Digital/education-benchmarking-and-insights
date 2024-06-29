@@ -49,12 +49,12 @@ steps:
       tokenPattern: doubleunderscores
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-    displayName: 'Terraform : install'
+    displayName: 'Install terraform'
     inputs:
       terraformVersion: 1.8.5
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : init'
+    displayName: 'Initialise terraform'
     inputs:
       command: init
       backendType: 'azurerm'
@@ -68,7 +68,7 @@ steps:
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : plan'
+    displayName: 'Run terraform plan'
     inputs:
       command: plan
       backendType: 'azurerm'
@@ -84,7 +84,7 @@ steps:
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : apply'
+    displayName: 'Run terraform apply'
     condition: and(succeeded(), ne('${{ parameters.planOnly }}', 'true'))
     inputs:
       command: apply
