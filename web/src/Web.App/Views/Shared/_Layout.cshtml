@@ -22,7 +22,7 @@
     <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
     <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
     <link rel="manifest" href="/assets/manifest.json">
-    <link rel="stylesheet" href="/css/front-end.css"/>
+    <link rel="stylesheet" href="/css/front-end.css" asp-append-version="true"/>
     <link rel="stylesheet" href="/css/main.css" asp-append-version="true"/>
     @await Component.InvokeAsync("Analytics")
 </head>
@@ -153,7 +153,7 @@
 </footer>
 
 <script type="module" src="/js/front-end.js" asp-append-version="true"></script>
-<script type="module" src="/js/govuk-frontend.min.js"></script>
+<script type="module" src="/js/govuk-frontend.min.js" asp-append-version="true"></script>
 <script add-nonce="true">
     document.getElementById("js-back-link")?.addEventListener('click', function(ev) {
         ev.preventDefault();
