@@ -21,7 +21,7 @@ jobs:
 
   - template: ../data-pipeline/deployment.yaml
     parameters:
-      dependsOn: 'CoreProvision'
+      dependsOn: 'CoreDeployment'
       subscription: ${{ parameters.subscription }}
       sourceServicePrincipal: 's198t.azdo-deployment'
       sourceSubscription: 's198-dfebenchmarkingservice-test'
@@ -34,7 +34,7 @@ jobs:
 
   - template: ../platform/deployment.yaml
     parameters:
-      dependsOn: ['CoreProvision', 'DataPipelineProvision']
+      dependsOn: ['CoreDeployment', 'DataPipelineProvision']
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
