@@ -113,11 +113,14 @@ else
 }
 
 app
+    .UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600") 
+    })
     .UseForwardedHeaders()
     .UseMiddleware<CustomResponseHeadersMiddleware>()
     .UseStatusCodePagesWithReExecute("/error/{0}")
     .UseHttpsRedirection()
-    .UseStaticFiles()
     .UseRouting()
     .UseAuthorization()
     .UseSession();

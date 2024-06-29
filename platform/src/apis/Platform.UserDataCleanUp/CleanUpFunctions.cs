@@ -19,7 +19,7 @@ public class CleanUpFunctions
     }
 
     [FunctionName("CleanUpFunction")]
-    public async Task RunAsync([TimerTrigger("0 0 12 * * *")] TimerInfo timer)
+    public async Task RunAsync([TimerTrigger("0 0 0 * * *")] TimerInfo timer)
     {
         using (_logger.BeginScope(new Dictionary<string, object>
                {
