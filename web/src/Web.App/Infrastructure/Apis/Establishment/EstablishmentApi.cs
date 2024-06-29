@@ -1,26 +1,25 @@
-namespace Web.App.Infrastructure.Apis;
+namespace Web.App.Infrastructure.Apis.Establishment;
 
-public class EstablishmentApi(HttpClient httpClient, string? key = default)
-    : ApiBase(httpClient, key), IEstablishmentApi
+public class EstablishmentApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IEstablishmentApi
 {
     public Task<ApiResult> GetSchool(string? identifier)
     {
-        return GetAsync($"api/school/{identifier}");
+        return GetAsync(Api.Establishment.School(identifier));
     }
 
     public Task<ApiResult> QuerySchools(ApiQuery? query)
     {
-        return GetAsync($"api/schools{query?.ToQueryString()}");
+        return GetAsync($"{Api.Establishment.Schools}{query?.ToQueryString()}");
     }
 
     public Task<ApiResult> GetTrust(string? identifier)
     {
-        return GetAsync($"api/trust/{identifier}");
+        return GetAsync(Api.Establishment.Trust(identifier));
     }
 
     public Task<ApiResult> GetLocalAuthority(string? identifier)
     {
-        return GetAsync($"api/local-authority/{identifier}");
+        return GetAsync(Api.Establishment.LocalAuthority(identifier));
     }
 
     public Task<ApiResult> SuggestSchools(string search, ApiQuery? query = null)
@@ -28,7 +27,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"api/schools/suggest{query?.ToQueryString()}", UriKind.Relative),
+            RequestUri = new Uri($"{Api.Establishment.SchoolSuggest}{query?.ToQueryString()}", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "school-suggester" })
         });
     }
@@ -38,7 +37,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"api/trusts/suggest{query?.ToQueryString()}", UriKind.Relative),
+            RequestUri = new Uri($"{Api.Establishment.TrustSuggest}{query?.ToQueryString()}", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "trust-suggester" })
         });
     }
@@ -48,7 +47,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"api/local-authorities/suggest{query?.ToQueryString()}", UriKind.Relative),
+            RequestUri = new Uri($"{Api.Establishment.LocalAuthoritySuggest}{query?.ToQueryString()}", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "local-authority-suggester" })
         });
     }

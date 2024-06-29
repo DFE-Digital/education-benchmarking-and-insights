@@ -1,4 +1,4 @@
-﻿namespace Web.App.Infrastructure.Apis;
+﻿namespace Web.App.Infrastructure.Apis.Insight;
 
 public interface IIncomeApi
 {
@@ -11,16 +11,16 @@ public class IncomeApi(HttpClient httpClient, string? key = default) : ApiBase(h
 {
     public async Task<ApiResult> School(string? urn, ApiQuery? query = null)
     {
-        return await GetAsync($"api/income/school/{urn}{query?.ToQueryString()}");
+        return await GetAsync($"{Api.Income.School(urn)}{query?.ToQueryString()}");
     }
 
     public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null)
     {
-        return await GetAsync($"api/income/school/{urn}/history{query?.ToQueryString()}");
+        return await GetAsync($"{Api.Income.SchoolHistory(urn)}{query?.ToQueryString()}");
     }
 
     public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null)
     {
-        return await GetAsync($"api/income/trust/{companyNo}/history{query?.ToQueryString()}");
+        return await GetAsync($"{Api.Income.TrustHistory(companyNo)}{query?.ToQueryString()}");
     }
 }

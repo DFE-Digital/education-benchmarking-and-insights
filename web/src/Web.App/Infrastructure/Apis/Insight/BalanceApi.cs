@@ -1,4 +1,4 @@
-﻿namespace Web.App.Infrastructure.Apis;
+﻿namespace Web.App.Infrastructure.Apis.Insight;
 
 public interface IBalanceApi
 {
@@ -11,13 +11,13 @@ public interface IBalanceApi
 
 public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBalanceApi
 {
-    public async Task<ApiResult> School(string? urn, ApiQuery? query = null) => await GetAsync($"api/balance/school/{urn}{query?.ToQueryString()}");
+    public async Task<ApiResult> School(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Balance.School(urn)}{query?.ToQueryString()}");
 
-    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null) => await GetAsync($"api/balance/school/{urn}/history{query?.ToQueryString()}");
+    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Balance.SchoolHistory(urn)}{query?.ToQueryString()}");
 
-    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null) => await GetAsync($"api/balance/trust/{companyNo}{query?.ToQueryString()}");
+    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Balance.Trust(companyNo)}{query?.ToQueryString()}");
 
-    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null) => await GetAsync($"api/balance/trust/{companyNo}/history{query?.ToQueryString()}");
+    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Balance.TrustHistory(companyNo)}{query?.ToQueryString()}");
 
-    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"api/balance/trusts{query?.ToQueryString()}");
+    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"{Api.Balance.Trusts}{query?.ToQueryString()}");
 }

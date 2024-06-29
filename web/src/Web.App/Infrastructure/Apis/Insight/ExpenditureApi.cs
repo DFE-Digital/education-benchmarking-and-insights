@@ -1,4 +1,4 @@
-﻿namespace Web.App.Infrastructure.Apis;
+﻿namespace Web.App.Infrastructure.Apis.Insight;
 
 public interface IExpenditureApi
 {
@@ -13,11 +13,11 @@ public interface IExpenditureApi
 
 public class ExpenditureApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IExpenditureApi
 {
-    public async Task<ApiResult> QuerySchools(ApiQuery? query = null) => await GetAsync($"api/expenditure/schools{query?.ToQueryString()}");
-    public async Task<ApiResult> School(string? urn, ApiQuery? query = null) => await GetAsync($"api/expenditure/school/{urn}{query?.ToQueryString()}");
-    public async Task<ApiResult> SchoolCustom(string? urn, string? identifier, ApiQuery? query = null) => await GetAsync($"api/expenditure/school/{urn}custom/{identifier}{query?.ToQueryString()}");
-    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null) => await GetAsync($"api/expenditure/school/{urn}/history{query?.ToQueryString()}");
-    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null) => await GetAsync($"api/expenditure/trust/{companyNo}{query?.ToQueryString()}");
-    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null) => await GetAsync($"api/expenditure/trust/{companyNo}/history{query?.ToQueryString()}");
-    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"api/expenditure/trusts{query?.ToQueryString()}");
+    public async Task<ApiResult> QuerySchools(ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.Schools}{query?.ToQueryString()}");
+    public async Task<ApiResult> School(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.School(urn)}{query?.ToQueryString()}");
+    public async Task<ApiResult> SchoolCustom(string? urn, string? identifier, ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.SchoolCustom(urn, identifier)}{query?.ToQueryString()}");
+    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.SchoolHistory(urn)}{query?.ToQueryString()}");
+    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.Trust(companyNo)}{query?.ToQueryString()}");
+    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.TrustHistory(companyNo)}{query?.ToQueryString()}");
+    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"{Api.Expenditure.Trusts}{query?.ToQueryString()}");
 }

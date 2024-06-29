@@ -1,5 +1,6 @@
 ﻿using Web.App.Domain;
-namespace Web.App.Infrastructure.Apis;
+
+namespace Web.App.Infrastructure.Apis.Insight;
 
 public interface IBudgetForecastApi
 {

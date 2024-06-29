@@ -1,6 +1,7 @@
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 namespace Web.App.Services;

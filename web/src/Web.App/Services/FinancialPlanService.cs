@@ -2,6 +2,7 @@ using Microsoft.Azure.Cosmos;
 using Web.App.Domain;
 using Web.App.Factories;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Services;

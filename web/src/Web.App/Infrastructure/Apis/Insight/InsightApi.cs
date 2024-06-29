@@ -1,10 +1,10 @@
-﻿namespace Web.App.Infrastructure.Apis;
+﻿namespace Web.App.Infrastructure.Apis.Insight;
 
 public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IInsightApi
 {
     public async Task<ApiResult> GetCurrentReturnYears()
     {
-        return await GetAsync("api/current-return-years");
+        return await GetAsync(Api.Insight.CurrentReturnYears);
     }
 }
 

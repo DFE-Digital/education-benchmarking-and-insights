@@ -9,8 +9,13 @@ using Web.App.Domain;
 using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
+using Api = Web.App.Infrastructure.Apis.Insight.Api;
+
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -37,45 +42,39 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddBenchmarkApi(this IServiceCollection services)
     {
-        services.AddOptions<ApiSettings>(Constants.BenchmarkApi)
-            .BindConfiguration(Constants.SectionBenchmarkApi)
-            .ValidateDataAnnotations();
+        const string section = "Apis:Benchmark";
 
-        services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>().Configure(Constants.BenchmarkApi);
-        services.AddHttpClient<ICustomDataApi, CustomDataApi>().Configure(Constants.BenchmarkApi);
-        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure(Constants.BenchmarkApi);
-        services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>().Configure(Constants.BenchmarkApi);
-        services.AddHttpClient<IUserDataApi, UserDataApi>().Configure(Constants.BenchmarkApi);
+        services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>().Configure<FinancialPlanApi>(section);
+        services.AddHttpClient<ICustomDataApi, CustomDataApi>().Configure<CustomDataApi>(section);
+        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
+        services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>().Configure<ComparatorSetApi>(section);
+        services.AddHttpClient<IUserDataApi, UserDataApi>().Configure<UserDataApi>(section);
 
         return services;
     }
 
     public static IServiceCollection AddEstablishmentApi(this IServiceCollection services)
     {
-        services.AddOptions<ApiSettings>(Constants.EstablishmentApi)
-            .BindConfiguration(Constants.SectionEstablishmentApi)
-            .ValidateDataAnnotations();
+        const string section = "Apis:Establishment";
 
-        services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure(Constants.EstablishmentApi);
+        services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure<EstablishmentApi>(section);
 
         return services;
     }
 
     public static IServiceCollection AddInsightApi(this IServiceCollection services)
     {
-        services.AddOptions<ApiSettings>(Constants.InsightApi)
-            .BindConfiguration(Constants.SectionInsightApi)
-            .ValidateDataAnnotations();
+        const string section = "Apis:Insight";
 
-        services.AddHttpClient<IInsightApi, InsightApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<ICensusApi, CensusApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<IIncomeApi, IncomeApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<IBalanceApi, BalanceApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure(Constants.InsightApi);
-        services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IInsightApi, InsightApi>().Configure<InsightApi>(section);
+        services.AddHttpClient<ICensusApi, CensusApi>().Configure<CensusApi>(section);
+        services.AddHttpClient<IIncomeApi, IncomeApi>().Configure<IncomeApi>(section);
+        services.AddHttpClient<IBalanceApi, BalanceApi>().Configure<BalanceApi>(section);
+        services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure<ExpenditureApi>(section);
+        services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>().Configure<MetricRagRatingApi>(section);
+        services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure<SchoolInsightApi>(section);
+        services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
+        services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
 
         return services;
     }

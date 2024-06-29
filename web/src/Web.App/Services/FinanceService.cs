@@ -1,5 +1,6 @@
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 namespace Web.App.Services;
 

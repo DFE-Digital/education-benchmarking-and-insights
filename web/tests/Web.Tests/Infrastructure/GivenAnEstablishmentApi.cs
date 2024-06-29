@@ -1,4 +1,5 @@
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Xunit;
 using Xunit.Abstractions;
 namespace Web.Tests.Infrastructure;
