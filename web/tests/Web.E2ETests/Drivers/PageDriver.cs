@@ -32,10 +32,12 @@ public class PageDriver : IDisposable
 
     public async Task WaitForPendingRequests(int millisecondsDelay = 100)
     {
+        await Task.Delay(millisecondsDelay);
+
         while (!_pendingRequests.IsEmpty)
         {
             _output.WriteLine($"Awaiting for pending requests. Count : {_pendingRequests.Count}");
-            await Task.Delay(millisecondsDelay);
+            await Task.Delay(100);
         }
     }
 
