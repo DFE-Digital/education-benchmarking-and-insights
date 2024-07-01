@@ -32,12 +32,5 @@ steps:
       command: test
       projects: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/Web.E2ETests.dll'
 
-  - task: ArchiveFiles@2
-    displayName: 'Zip screenshots'
-    inputs:
-      rootFolderOrFile: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots'
-      includeRootFolder: false
-      archiveFile: '$(Build.ArtifactStagingDirectory)/e2e-screenshots.zip'
-
-  - publish: $(Build.ArtifactStagingDirectory)/e2e-screenshots.zip
+  - publish: ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots
     artifact: e2e-test-outputs
