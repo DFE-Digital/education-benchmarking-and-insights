@@ -56,4 +56,21 @@ public record BudgetForecastReturnMetric
     public string? CompanyNumber { get; set; }
     public string? Metric { get; set; }
     public decimal? Value { get; set; }
+
+    public BudgetForecastReturnMetricType MetricType => new(Metric);
+}
+
+public class BudgetForecastReturnMetricType(string? metric)
+{
+    public const string ExpenditureAsPercentageOfIncome = "Expenditure as percentage of income";
+    public const string GrantFundingAsPercentageOfIncome = "Grant funding as percentage of income";
+    public const string RevenueReserveAsPercentageOfIncome = "Revenue reserve as percentage of income";
+    public const string SelfGeneratedIncomeAsPercentageOfIncome = "Self generated income as percentage of income";
+    public const string Slope = "Slope";
+    public const string SlopeFlag = "Slope flag";
+    public const string StaffCostsAsPercentageOfIncome = "Staff costs as percentage of income";
+
+    public bool IsSlope() => string.Equals(metric, Slope);
+
+    public bool IsSlopeFlag() => string.Equals(metric, SlopeFlag);
 }
