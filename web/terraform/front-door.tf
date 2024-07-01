@@ -9,12 +9,19 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
   name                     = "${var.environment-prefix}-education-benchmarking-fd-origin-group"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-  session_affinity_enabled = true
+  session_affinity_enabled = false
+
+  health_probe {
+    interval_in_seconds = 120
+    path                = "/health"
+    protocol            = "Https"
+    request_type        = "GET"
+  }
 
   load_balancing {
     additional_latency_in_milliseconds = 0
     sample_size                        = 4
-    successful_samples_required        = 3
+    successful_samples_required        = 2
   }
 }
 
@@ -64,7 +71,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   mode     = "Detection"
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? [""] : []
+    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
     content {
       type    = "DefaultRuleSet"
       version = "1.0"
@@ -73,7 +80,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? [""] : []
+    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
     content {
       type    = "Microsoft_BotManagerRuleSet"
       version = "1.0"
