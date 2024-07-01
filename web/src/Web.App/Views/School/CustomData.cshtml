@@ -17,7 +17,7 @@
 
 @* TODO: update href once path is decided when journey is complete *@
 <p class="govuk-body">
-    <a href="" class="govuk-link govuk-link--no-visited-state">
+    <a href=@Url.Action("Index", "SchoolCustomData", new { urn = Model.Urn }) class="govuk-link govuk-link--no-visited-state">
         View or change your custom data
     </a>
 </p>
