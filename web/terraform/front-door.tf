@@ -119,7 +119,10 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   timeout                 = 60
   enabled                 = true
   geo_locations           = ["emea-nl-ams-azr"]
-  tags                    = local.common-tags
+  
+  lifecycle {
+    ignore_changes = [ tags ]
+  }
 
   configuration = <<XML
 <WebTest Name="${var.environment-prefix}-web-app-test" Id="${random_uuid.idgen.result}" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="">
