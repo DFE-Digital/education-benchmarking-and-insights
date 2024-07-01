@@ -18,12 +18,12 @@ public class StepFailureHook(ISpecFlowOutputHelper outputHelper, PageDriver driv
 
     private async Task ScreenShot(string title)
     {
-        var file = $"{Guid.NewGuid()}.png" ;
-        var path = Path.Combine("screenshots",file );
+        var file = $"{Guid.NewGuid()}.png";
+        var path = Path.Combine("screenshots", file);
         var page = await driver.Current;
-        
+
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = path });
-        
+
         outputHelper.WriteLine($"Scenario '{title}' failed. Page screenshot: {file}");
     }
 }

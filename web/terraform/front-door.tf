@@ -119,9 +119,9 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   timeout                 = 60
   enabled                 = true
   geo_locations           = ["emea-nl-ams-azr"]
-  
+
   lifecycle {
-    ignore_changes = [ tags ]
+    ignore_changes = [tags]
   }
 
   configuration = <<XML
