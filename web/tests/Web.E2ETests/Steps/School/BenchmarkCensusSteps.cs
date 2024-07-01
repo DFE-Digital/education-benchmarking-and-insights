@@ -1,4 +1,4 @@
-﻿using Microsoft.Playwright;
+using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
@@ -20,7 +20,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
-        await driver.WaitForPendingRequests();
+        await driver.WaitForPendingRequests(500);
 
         _censusPage = new BenchmarkCensusPage(page);
         await _censusPage.IsDisplayed();
