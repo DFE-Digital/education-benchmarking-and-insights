@@ -7,17 +7,17 @@ public class PageDriver : IDisposable
 {
     private readonly Lazy<Task<IPage>> _current;
     private readonly ISpecFlowOutputHelper _output;
-    private readonly HashSet<string> _pendingRequests; 
-    
+    private readonly HashSet<string> _pendingRequests;
+
     private bool _isDisposed;
     private IBrowser? _browser;
     private IPlaywright? _playwright;
-    
+
     public PageDriver(ISpecFlowOutputHelper output)
     {
         _current = new Lazy<Task<IPage>>(CreatePageDriver);
         _output = output;
-        
+
         _pendingRequests = new HashSet<string>();
     }
 
@@ -36,7 +36,7 @@ public class PageDriver : IDisposable
             await Task.Delay(millisecondsDelay);
         }
     }
-    
+
     protected virtual async Task Dispose(bool disposing)
     {
         if (disposing)
@@ -53,7 +53,7 @@ public class PageDriver : IDisposable
                     await _browser.CloseAsync();
                     await _browser.DisposeAsync();
                 }
-                
+
                 _playwright?.Dispose();
             }
 
@@ -78,10 +78,10 @@ public class PageDriver : IDisposable
         page.Request += (_, e) => _pendingRequests.Add(e.Url);
         page.RequestFinished += (_, e) => _pendingRequests.Remove(e.Url);
         page.RequestFailed += (_, e) => _pendingRequests.Remove(e.Url);
-        
+
         return page;
     }
-    
+
     private async Task<IBrowser> InitialiseBrowser()
     {
         _playwright ??= await InitialisePlaywright();
