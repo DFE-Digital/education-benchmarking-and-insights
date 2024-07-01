@@ -125,7 +125,7 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
     diff = value - mean
     diff_percent = (
         (diff / mean) * 100
-        if value != 0 and value != np.inf and value != np.nan and not pd.isna(value)
+        if mean != 0 and mean != np.inf and mean != np.nan and not pd.isna(mean)
         else 0
     )
     cats = category_name.split("_")
