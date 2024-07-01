@@ -51,6 +51,9 @@ public class BenchmarkCensusPage(IPage page)
 
     public async Task IsDisplayed()
     {
+        //Wait to ensure page is fully loaded, proxy API call may still be executing.
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
