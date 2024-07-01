@@ -10,7 +10,6 @@ public interface IFinancialDataCustomDataViewModel : ICustomDataViewModel
     decimal? AdministrativeSuppliesCosts { get; }
     decimal? CateringStaffCosts { get; }
     decimal? CateringSuppliesCosts { get; }
-    decimal? CateringIncome { get; }
     decimal? ExaminationFeesCosts { get; }
     decimal? LearningResourcesNonIctCosts { get; }
     decimal? LearningResourcesIctCosts { get; }
@@ -60,10 +59,6 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CateringSuppliesCosts)]
     public decimal? CateringSuppliesCosts { get; init; }
-
-    [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.CateringIncome)]
-    public decimal? CateringIncome { get; init; }
 
     // Educational supplies
     [PositiveNumericValue]
@@ -189,7 +184,13 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
     public decimal? SupplyTeacherInsurableCosts { get; init; }
 
     // Totals
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.TotalIncome)]
     public decimal? TotalIncome { get; init; }
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.TotalExpenditure)]
     public decimal? TotalExpenditure { get; init; }
+
     public decimal? RevenueReserve { get; init; }
 }
