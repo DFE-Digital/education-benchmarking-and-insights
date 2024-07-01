@@ -46,6 +46,7 @@ public record BudgetForecastReturn
 
     public decimal? Variance { get; set; }
     public decimal? PercentVariance { get; set; }
+    public string? VarianceStatus { get; set; }
 }
 
 public record BudgetForecastReturnMetric
@@ -71,6 +72,15 @@ public class BudgetForecastReturnMetricType(string? metric)
     public const string StaffCostsAsPercentageOfIncome = "Staff costs as percentage of income";
 
     public bool IsSlope() => string.Equals(metric, Slope);
-
     public bool IsSlopeFlag() => string.Equals(metric, SlopeFlag);
+    public bool IsStaffCosts() => string.Equals(metric, StaffCostsAsPercentageOfIncome);
+}
+
+public class BudgetForecastVarianceStatusType
+{
+    public const string ArSignificantlyBelowForecast = "AR significantly below forecast";
+    public const string ArBelowForecast = "AR below forecast";
+    public const string StableForecast = "Stable forecast";
+    public const string ArAboveForecast = "AR above forecast";
+    public const string ArSignificantlyAboveForecast = "AR significantly above forecast";
 }

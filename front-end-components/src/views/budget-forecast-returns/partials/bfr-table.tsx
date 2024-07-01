@@ -55,21 +55,6 @@ export const BfrTable = ({ data }: BfrTableProps) => {
           </thead>
           <tbody className="govuk-table__body">
             {data.map((item) => {
-              let status = "";
-              if (item.percentVariance !== undefined) {
-                if (item.percentVariance < -5) {
-                  status = "AR below forecast";
-                }
-                if (item.percentVariance >= -5 && item.percentVariance < 5) {
-                  status = "Stable forecast";
-                }
-                if (item.percentVariance >= 5 && item.percentVariance < 10) {
-                  status = "AR above forecast";
-                }
-                if (item.percentVariance >= 10) {
-                  status = "AR significantly above forecast";
-                }
-              }
               return (
                 <tr className="govuk-table__row">
                   <td className="govuk-table__cell">
@@ -99,7 +84,7 @@ export const BfrTable = ({ data }: BfrTableProps) => {
                         valueUnit: "%",
                       })}
                   </td>
-                  <td className="govuk-table__cell">{status}</td>
+                  <td className="govuk-table__cell">{item.varianceStatus}</td>
                 </tr>
               );
             })}
