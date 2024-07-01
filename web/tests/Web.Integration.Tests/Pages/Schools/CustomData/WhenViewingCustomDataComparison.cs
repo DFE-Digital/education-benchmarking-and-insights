@@ -118,8 +118,8 @@ public class WhenViewingCustomDataComparison(SchoolBenchmarkingWebAppClient clie
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonCustomData(school.URN).ToAbsolute());
 
-         var expectedBreadcrumbs = new[]
-        {
+        var expectedBreadcrumbs = new[]
+       {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
             ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute()),
