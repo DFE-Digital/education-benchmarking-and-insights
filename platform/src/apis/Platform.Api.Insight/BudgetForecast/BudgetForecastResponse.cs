@@ -86,7 +86,7 @@ public record BudgetForecastReturnResponse
     public string? VarianceStatus => PercentVariance switch
     {
         < -10 => "AR significantly below forecast",
-        < -5 and -10 => "AR below forecast",
+        >= -10 and < -5 => "AR below forecast",
         >= -5 and < 5 => "Stable forecast",
         >= 5 and < 10 => "AR above forecast",
         >= 10 => "AR significantly above forecast",

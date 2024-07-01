@@ -34,7 +34,8 @@ export const BfrTable = ({ data }: BfrTableProps) => {
             The thresholds for the variance between AR and BFR are:
           </p>
           <ul className="govuk-list">
-            <li>Below -5%: AR below forecast</li>
+            <li>Below -10%: AR significantly below forecast</li>
+            <li>Between -10% and -5%: AR below forecast</li>
             <li>Between -5% and 5%: stable forecast</li>
             <li>Between 5% and 10%: AR above forecast</li>
             <li>Above 10%: AR significantly above forecast</li>
