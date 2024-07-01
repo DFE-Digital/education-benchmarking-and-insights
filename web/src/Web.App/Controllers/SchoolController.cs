@@ -146,7 +146,7 @@ public class SchoolController(
     [SchoolAuthorization]
     [FeatureGate(FeatureFlags.CustomData)]
     [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
-    public async Task<IActionResult> CustomData(string urn)
+    public async Task<IActionResult> CustomData(string urn, [FromQuery(Name = "custom-data-generated")] bool? customDataGenerated)
     {
         using (logger.BeginScope(new
         {
@@ -175,10 +175,10 @@ public class SchoolController(
                     });
                 }
 
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedData(urn);
 
                 var school = await School(urn);
-                var viewModel = new SchoolViewModel(school);
+                var viewModel = new SchoolViewModel(school, customDataGenerated);
 
                 return View(viewModel);
             }
