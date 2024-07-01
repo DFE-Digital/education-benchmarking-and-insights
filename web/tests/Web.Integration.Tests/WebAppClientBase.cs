@@ -99,7 +99,7 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
 
         var submit = form.GetSubmission(submitButton);
         Assert.NotNull(submit);
-        var target = (Uri)submit.Target;
+        var target = new Uri(submit.Target.Href);
         if (!string.IsNullOrWhiteSpace(submitButton.Form?.Action))
         {
             var formAction = submitButton.Form.Action;
