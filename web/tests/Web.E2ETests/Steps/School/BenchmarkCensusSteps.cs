@@ -19,7 +19,9 @@ public class BenchmarkCensusSteps(PageDriver driver)
         var url = BenchmarkCensusUrl(urn);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
-
+        
+        await driver.WaitForPendingRequests();
+        
         _censusPage = new BenchmarkCensusPage(page);
         await _censusPage.IsDisplayed();
     }
