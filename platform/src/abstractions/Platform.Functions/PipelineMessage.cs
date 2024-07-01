@@ -43,7 +43,6 @@ public record CustomDataPayload : Payload
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
-    public decimal? IncomeCateringServices { get; set; }
     public decimal? ExaminationFeesCosts { get; set; }
     public decimal? LearningResourcesNonIctCosts { get; set; }
     public decimal? LearningResourcesIctCosts { get; set; }

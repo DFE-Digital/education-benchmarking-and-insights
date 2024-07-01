@@ -10,7 +10,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     // Catering
     public decimal? CateringStaffCosts { get; init; }
     public decimal? CateringSuppliesCosts { get; init; }
-    public decimal? CateringIncome { get; init; }
 
     // Educational supplies
     public decimal? ExaminationFeesCosts { get; init; }
@@ -84,7 +83,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
         // Catering
         CateringStaffCosts = customData.CateringStaffCosts,
         CateringSuppliesCosts = customData.CateringSuppliesCosts,
-        CateringIncome = customData.CateringIncome,
 
         // Educational supplies
         ExaminationFeesCosts = customData.ExaminationFeesCosts,
@@ -157,7 +155,6 @@ public static class SchoolCustomDataViewModelTitles
     public const string AdministrativeSuppliesCosts = "Administrative supplies (non-educational)";
     public const string CateringStaffCosts = "Catering staff";
     public const string CateringSuppliesCosts = "Catering supplies";
-    public const string CateringIncome = "Income from catering";
     public const string ExaminationFeesCosts = "Examination fees";
     public const string LearningResourcesNonIctCosts = "Learning resources (not ICT equipment)";
     public const string LearningResourcesIctCosts = "ICT learning resources";

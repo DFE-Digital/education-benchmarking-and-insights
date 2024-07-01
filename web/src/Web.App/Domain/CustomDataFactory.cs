@@ -14,7 +14,6 @@ public static class CustomDataFactory
             // Catering
             CateringStaffCosts = expenditure.CateringStaffCosts,
             CateringSuppliesCosts = expenditure.CateringSuppliesCosts,
-            CateringIncome = income.IncomeCatering,
             // Educational supplies
             ExaminationFeesCosts = expenditure.ExaminationFeesCosts,
             LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts,
