@@ -175,7 +175,7 @@ public class SchoolController(
                     });
                 }
 
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedData(urn);
 
                 var school = await School(urn);
                 var viewModel = new SchoolViewModel(school, customDataGenerated);
