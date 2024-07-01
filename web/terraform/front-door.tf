@@ -132,3 +132,25 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
 </WebTest>
 XML
 }
+
+resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
+  name                       = "${var.environment-prefix}-front-door-diagnostic-setting"
+  target_resource_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  enabled_log {
+    category = "FrontdoorAccessLog"
+  }
+
+  enabled_log {
+    category = "FrontdoorWebApplicationFirewallLog"
+  }
+
+  enabled_log {
+    category = "FrontdoorHealthProbeLog"
+  }
+
+  metric {
+    category = "AllMetrics"
+  }
+}
