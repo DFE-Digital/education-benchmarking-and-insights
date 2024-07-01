@@ -33,4 +33,4 @@ steps:
       projects: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/Web.E2ETests.dll'
 
   - publish: ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots
-    artifact: e2e-test-outputs
+    artifact: e2e-test-outputs-$(System.JobAttempt)
