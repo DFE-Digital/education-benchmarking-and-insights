@@ -72,15 +72,8 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
 
     private static void AssertPageLayout(IHtmlDocument page, Trust trust, BudgetForecastReturnMetric[] metrics)
     {
-        var expectedBreadcrumbs = new[]
-        {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Forecast and risks", Paths.TrustForecast(trust.CompanyNumber).ToAbsolute())
-        };
-
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(trust.CompanyNumber).ToAbsolute());
-        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
+        DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Forecast and risks - Financial Benchmarking and Insights Tool - GOV.UK", "Forecast and risks");
 
         var metricsTable = page.QuerySelector("#bfr-metrics tbody");

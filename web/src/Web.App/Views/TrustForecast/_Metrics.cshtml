@@ -1,10 +1,11 @@
-﻿@using Web.App.Extensions
+﻿@using Web.App.Domain
+@using Web.App.Extensions
 @model Web.App.ViewModels.TrustForecastMetricsViewModel
 
 @if (Model.Year != null && Model.Metrics.Any())
 {
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-half-from-desktop">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
             <table class="govuk-table" id="bfr-metrics">
                 <caption class="govuk-table__caption govuk-table__caption--m">Budget forecast return metrics</caption>
                 <thead class="govuk-table__head">
@@ -14,11 +15,27 @@
                 </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                @foreach (var metric in Model.Metrics)
+                @foreach (var metric in Model.Metrics.Where(m => m.Metric != BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome))
                 {
                     <tr class="govuk-table__row">
-                        <td class="govuk-table__cell">@metric.Metric</td>
-                        <td class="govuk-table__cell">@metric.Value.ToPercent()</td>
+                        <td class="govuk-table__cell">
+                            @if (metric.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
+                            {
+                                @:Self-generated income vs grant funding 
+                            }
+                            else
+                            {
+                                @metric.Metric
+                            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            @metric.Value.ToPercent()
+                            @if (metric.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
+                            {
+                                @:/
+                                @Model.Metrics.SingleOrDefault(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome)?.Value.ToPercent()
+                            }
+                        </td>
                     </tr>
                 }
                 </tbody>
