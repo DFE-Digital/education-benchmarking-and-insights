@@ -446,7 +446,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 
             if (expected != null && decimal.TryParse(expected, out var parsed))
             {
-                Assert.Equal(parsed.ToCurrency(), actual);
+                Assert.Equal(parsed.ToCurrency(0), actual);
             }
         }
     }

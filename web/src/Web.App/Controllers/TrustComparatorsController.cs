@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -38,7 +41,7 @@ public class TrustComparatorsController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
+                var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
                 if (userData.ComparatorSet == null)
                 {
                     return RedirectToAction("Index", "TrustComparatorsCreateBy", new
@@ -72,7 +75,7 @@ public class TrustComparatorsController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
+                var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
                 TrustCharacteristicUserDefined[]? trusts = null;
 
                 if (userData.ComparatorSet != null)
@@ -134,7 +137,7 @@ public class TrustComparatorsController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
 
-                var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
+                var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
                 if (userData.ComparatorSet != null)
                 {
                     await comparatorSetApi.RemoveUserDefinedTrustAsync(companyNumber, userData.ComparatorSet).EnsureSuccess();

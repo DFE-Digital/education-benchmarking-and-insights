@@ -30,36 +30,6 @@
         prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/Platform.Domain"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-
-    - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Functions"
       schedule:
         interval: "monthly"
@@ -118,6 +88,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
@@ -148,6 +120,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
@@ -178,6 +152,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
@@ -208,6 +184,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
@@ -238,6 +216,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
@@ -268,6 +248,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
@@ -298,6 +280,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
@@ -328,6 +312,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
@@ -358,6 +344,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "AzureExtensions.Swashbuckle"
           versions: [ "4.*" ]
+        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
+          versions: [ "7.*", "8.*" ]
           
     - package-ecosystem: "npm"
       directory: "/prototype/src"

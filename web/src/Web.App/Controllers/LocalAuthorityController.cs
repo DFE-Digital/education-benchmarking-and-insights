@@ -4,9 +4,11 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -17,6 +19,7 @@ public class LocalAuthorityController(
     IEstablishmentApi establishmentApi)
     : Controller
 {
+
     [HttpGet]
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
     public async Task<IActionResult> Index(string code)
@@ -30,10 +33,12 @@ public class LocalAuthorityController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
-                var authority = await LocalAuthority(code);
-                var schools = await LocalAuthoritySchools(code);
+                var authority = LocalAuthority(code);
+                var schools = LocalAuthoritySchools(code);
 
-                var viewModel = new LocalAuthorityViewModel(authority, schools);
+                await Task.WhenAll(authority, schools);
+
+                var viewModel = new LocalAuthorityViewModel(authority.Result, schools.Result);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -59,7 +64,6 @@ public class LocalAuthorityController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(code);
 
                 var authority = await LocalAuthority(code);
-
                 var viewModel = new LocalAuthorityViewModel(authority);
                 return View(viewModel);
             }

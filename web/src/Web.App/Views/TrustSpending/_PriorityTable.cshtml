@@ -1,0 +1,28 @@
+@using Web.App.Extensions
+@model IEnumerable<Web.App.ViewModels.RagSchoolSpendingSchoolViewModel>
+@{
+    var id = ViewData["Id"] as string;
+}
+
+<table class="govuk-table table-trust-spending-and-costs" id="@id">
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Rank</th>
+        <th scope="col" class="govuk-table__header">School</th>
+        <th scope="col" class="govuk-table__header">Expenditure</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        var school = Model.ElementAt(i);
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">@(i + 1)</td>
+            <td class="govuk-table__cell">
+                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+            </td>
+            <td class="govuk-table__cell">@school.Value.ToCurrency(0) per pupil</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -2,14 +2,14 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   name                   = "${var.environment-prefix}-education-benchmarking-asp"
   location               = azurerm_resource_group.resource-group.location
   resource_group_name    = azurerm_resource_group.resource-group.name
-  os_type                = "Linux"
+  os_type                = "Windows"
   sku_name               = var.configuration[var.environment].sku_name
   zone_balancing_enabled = var.configuration[var.environment].zone_balancing_enabled
   worker_count           = var.configuration[var.environment].worker_count
   tags                   = local.common-tags
 }
 
-resource "azurerm_linux_web_app" "education-benchmarking-as" {
+resource "azurerm_windows_web_app" "education-benchmarking-as" {
   #checkov:skip=CKV_AZURE_13:Authentication is handled via DSI
   #checkov:skip=CKV_AZURE_88:Persistent storage not required
   #checkov:skip=CKV_AZURE_17:Client cert no used
@@ -30,7 +30,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     http2_enabled                 = true
     vnet_route_all_enabled        = true
     application_stack {
-      dotnet_version = "8.0"
+      current_stack  = "dotnet"
+      dotnet_version = "v8.0"
     }
     use_32_bit_worker                 = false
     ftps_state                        = "Disabled"

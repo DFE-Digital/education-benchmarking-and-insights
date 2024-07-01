@@ -1,6 +1,8 @@
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 namespace Web.App.Services;
@@ -14,6 +16,7 @@ public interface ICustomDataService
     void ClearCustomDataFromSession(string urn);
     Task CreateCustomData(string urn, string userId);
     Task<CustomData?> GetCustomDataById(string urn, string identifier);
+    Task RemoveCustomData(string urn, string identifier);
 }
 
 public class CustomDataService(
@@ -102,6 +105,9 @@ public class CustomDataService(
         var parsed = customDataSchool.Data.FromJson<PutCustomDataRequest>();
         return parsed == null ? null : CreateCustomData(parsed);
     }
+
+    public async Task RemoveCustomData(string urn, string identifier) =>
+        await customDataApi.RemoveSchoolAsync(urn, identifier).EnsureSuccess();
 
     private static PutCustomDataRequest CreateRequest(CustomData data) => new()
     {

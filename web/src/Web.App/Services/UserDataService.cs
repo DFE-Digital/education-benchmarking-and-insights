@@ -1,15 +1,19 @@
-﻿using Web.App.Domain;
+﻿using System.Security.Claims;
+using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
+
 namespace Web.App.Services;
 
 public interface IUserDataService
 {
-    Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier, string urn);
-    Task<UserData?> GetCustomDataAsync(string userId, string identifier, string urn);
-    Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier, string companyNumber);
-    Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(string userId, string urn);
-    Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(string userId, string companyNumber);
+    Task<UserData?> GetSchoolComparatorSetAsync(ClaimsPrincipal user, string identifier, string urn);
+    Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn);
+    Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string identifier, string companyNumber);
+    Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn);
+    Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber);
 }
 
 public class UserDataService(IUserDataApi api) : IUserDataService
@@ -19,10 +23,15 @@ public class UserDataService(IUserDataApi api) : IUserDataService
     private const string ComparatorSet = "comparator-set";
     private const string CustomData = "custom-data";
 
-    public async Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier, string urn)
+    public async Task<UserData?> GetSchoolComparatorSetAsync(ClaimsPrincipal user, string identifier, string urn)
     {
+        if (user.Identity is not { IsAuthenticated: true })
+        {
+            return null;
+        }
+
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationSchool)
@@ -32,10 +41,16 @@ public class UserDataService(IUserDataApi api) : IUserDataService
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetCustomDataAsync(string userId, string identifier, string urn)
+    public async Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn)
     {
+        if (user.Identity is not { IsAuthenticated: true })
+        {
+            return null;
+        }
+
+
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", CustomData)
             .AddIfNotNull("organisationType", OrganisationSchool)
@@ -45,10 +60,17 @@ public class UserDataService(IUserDataApi api) : IUserDataService
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier, string companyNumber)
+    public async Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string identifier,
+        string companyNumber)
     {
+        if (user.Identity is not { IsAuthenticated: true })
+        {
+            return null;
+        }
+
+
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationTrust)
@@ -58,10 +80,16 @@ public class UserDataService(IUserDataApi api) : IUserDataService
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(string userId, string urn)
+    public async Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn)
     {
+        if (user.Identity is not { IsAuthenticated: true })
+        {
+            return (null, null);
+        }
+
+
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
@@ -70,10 +98,17 @@ public class UserDataService(IUserDataApi api) : IUserDataService
             userSets?.FirstOrDefault(x => x.Type == ComparatorSet)?.Id);
     }
 
-    public async Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(string userId, string companyNumber)
+    public async Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user,
+        string companyNumber)
     {
+        if (user.Identity is not { IsAuthenticated: true })
+        {
+            return (null, null);
+        }
+
+
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
 

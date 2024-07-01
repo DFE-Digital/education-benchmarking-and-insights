@@ -17,7 +17,18 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(page, school);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanRevert()
+    {
+        var (page, school) = await SetupNavigateInitPage(true);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool setupUserData = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -34,21 +45,28 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
             [key] = Encoding.ASCII.GetBytes(set.ToJson())
         };
 
-        var page = await Client.SetupEstablishment(school)
-            .SetupSchoolInsight(new[]
-            {
-                new SchoolCharacteristic
-                {
-                    URN = "114504",
-                    SchoolName = "Forest Row Church of England Primary School",
-                    OverallPhase = "Primary",
-                    Address = "Forest Row, RH18 5EB"
-                }
-            })
+        var client = Client.SetupEstablishment(school)
+            .SetupInsights()
             .SetupComparatorSetApi()
-            .SetupHttpContextAccessor(sessionState)
-            .Navigate($"{Paths.SchoolComparatorsRevert(school.URN)}?comparator-generated=true");
+            .SetupHttpContextAccessor(sessionState);
 
+        if (setupUserData)
+        {
+            var userData = Fixture.Build<UserData>()
+                .With(x => x.Type, "comparator-set")
+                .Create();
+            var balance = Fixture.Build<SchoolBalance>()
+                .With(x => x.SchoolName, school.SchoolName)
+                .With(x => x.URN, school.URN)
+                .Create();
+
+            client
+                .SetupUserData([userData])
+                .SetupMetricRagRatingUserDefined()
+                .SetupBalance(balance);
+        }
+
+        var page = await client.Navigate(Paths.SchoolComparatorsRevert(school.URN));
         return (page, school);
     }
 

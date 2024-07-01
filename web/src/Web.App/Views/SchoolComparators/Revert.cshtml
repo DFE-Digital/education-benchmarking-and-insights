@@ -14,7 +14,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">This will remove all the schools you've chosen yourself and change back to the 2 sets of schools we chose.</p>
-        @using (Html.BeginForm("Revert", "SchoolComparators", new
+        @using (Html.BeginForm("RevertSet", "SchoolComparators", new
                 {
                     urn = Model.Urn
                 }, FormMethod.Post, true, new
@@ -26,7 +26,7 @@
                 <button type="submit" class="govuk-button" data-module="govuk-button">
                     Change back
                 </button>
-                <a class="govuk-link" href="@Url.Action("Index", "School", new {urn = Model.Urn})" id="cancel-revert">Cancel</a>
+                <a class="govuk-link" href="@Url.Action("Index", "School", new { urn = Model.Urn })" id="cancel-revert">Cancel</a>
             </div>
         }
     </div>

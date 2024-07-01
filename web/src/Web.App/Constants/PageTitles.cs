@@ -50,7 +50,9 @@ public static class PageTitles
     public const string SchoolChangeDataLanding = "Change data used to compare this school";
     public const string SchoolChangeDataFinancialData = "Change financial data";
     public const string SchoolChangeDataNonFinancialData = "Change non-financial data";
+    public const string SchoolChangeDataRevert = "Change back to the original data?";
     public const string SchoolChangeDataWorkforceData = "Change workforce data";
+    public const string SchoolChangeDataSubmit = "Generating custom data";
     public const string SchoolCustomisedData = "Use your customised data";
     public const string SchoolSpendingComparison = "Side-by-side comparison";
     public const string LocalAuthorityHome = "Your local authority";

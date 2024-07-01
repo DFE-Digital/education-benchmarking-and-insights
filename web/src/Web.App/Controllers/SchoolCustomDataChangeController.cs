@@ -6,10 +6,12 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -199,20 +201,50 @@ public class SchoolCustomDataChangeController(
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
 
+                // remove previous set of custom data before submitting new
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
+                if (userData.CustomData != null)
+                {
+                    await customDataService.RemoveCustomData(urn, userData.CustomData);
+                }
+
                 await customDataService.CreateCustomData(urn, User.UserId());
 
                 customDataService.ClearCustomDataFromSession(urn);
                 // todo: persist orchestrator job ID to auth user data
 
-                return RedirectToAction("Index", "SchoolCustomData", new
-                {
-                    urn
-                });
+                return RedirectToAction("Submit", new { urn });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred saving custom data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("submit")]
+    public async Task<IActionResult> Submit(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.HiddenNavigation] = true;
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
+                var customData = userData.CustomData;
+                ArgumentNullException.ThrowIfNull(customData);
+
+                var viewModel = new SchoolCustomDataSubmittedViewModel(school, customData);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error submitting school custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
@@ -226,10 +258,10 @@ public class SchoolCustomDataChangeController(
         // attempt to load in custom data from previous submission if not already in the middle of a new submission
         if (customInput == null)
         {
-            var (customData, _) = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-            if (!string.IsNullOrWhiteSpace(customData))
+            var userData = await userDataService.GetSchoolDataAsync(User, urn);
+            if (userData.CustomData != null)
             {
-                customInput = await customDataService.GetCustomDataById(urn, customData);
+                customInput = await customDataService.GetCustomDataById(urn, userData.CustomData);
             }
 
             // set session to match view model to sync continue/back CTAs in UI

@@ -3,12 +3,14 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App.Extensions;
 using Web.App.Handlers;
+using Web.App.HealthChecks;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
@@ -37,7 +39,9 @@ builder.Services
     .AddScoped<ICustomDataService, CustomDataService>()
     .AddScoped<IUserDataService, UserDataService>();
 
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddCheck<ApiHealthCheck>("API Health Check");
+
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
@@ -113,16 +117,34 @@ else
 }
 
 app
+    .UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600")
+    })
     .UseForwardedHeaders()
     .UseMiddleware<CustomResponseHeadersMiddleware>()
     .UseStatusCodePagesWithReExecute("/error/{0}")
     .UseHttpsRedirection()
-    .UseStaticFiles()
     .UseRouting()
     .UseAuthorization()
     .UseSession();
 
-app.MapHealthChecks("/health");
+app.MapHealthChecks(
+    "/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "application/json";
+            var result = new
+            {
+                status = report.Status.ToString(),
+                details = report.Entries.Select(e => new { key = e.Key, value = e.Value.Status.ToString() })
+            }.ToJson();
+            await context.Response.WriteAsync(result);
+        }
+    });
+
 app.MapControllerRoute(
     "default",
     "{controller=Home}/{action=Index}/{id?}");

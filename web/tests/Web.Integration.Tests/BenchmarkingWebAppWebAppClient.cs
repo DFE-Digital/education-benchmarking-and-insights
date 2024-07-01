@@ -2,6 +2,9 @@ using System.Collections.Concurrent;
 using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
 namespace Web.Integration.Tests;
@@ -259,6 +262,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupMetricRagRatingUserDefined(IEnumerable<RagRating>? ratings = null)
+    {
+        MetricRagRatingApi.Reset();
+        MetricRagRatingApi.Setup(api => api.UserDefinedAsync(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(ratings ?? Array.Empty<RagRating>()));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupMetricRagRatingIncCustom(string customData, IEnumerable<RagRating> customRatings, IEnumerable<RagRating>? originalRatings = null)
     {
         MetricRagRatingApi.Reset();
@@ -292,6 +302,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         CustomDataApi.Reset();
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
         CustomDataApi.Setup(api => api.GetSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(customData));
+        CustomDataApi.Setup(api => api.RemoveSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         return this;
     }
 
@@ -322,6 +333,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ComparatorApi.Reset();
         ComparatorSetApi.Setup(api => api.UpsertUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
         ComparatorSetApi.Setup(api => api.UpsertUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
+        ComparatorSetApi.Setup(api => api.RemoveUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
+        ComparatorSetApi.Setup(api => api.RemoveUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         return this;
     }
 

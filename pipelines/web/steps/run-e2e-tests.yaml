@@ -2,12 +2,16 @@ parameters:
   workspaceDir: ''
 steps:
   - checkout: none
+
   - download: current
+    artifact: e2e-tests
+
   - task: ExtractFiles@1
     displayName: 'Extract e2e test files'
     inputs:
       archiveFilePatterns: '${{ parameters.workspaceDir }}/e2e-tests/e2e-tests.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'
+
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in appsettings.json'
     inputs:
@@ -15,9 +19,18 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        mkdir -p ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots
+
   - task: DotNetCoreCLI@2
     displayName: 'Run e2e tests'
-    continueOnError: true #temp allow pipeline to continue whilst func test env is seeded with data
+    retryCountOnTaskFailure: 3
     inputs:
       command: test
       projects: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/Web.E2ETests.dll'
+
+  - publish: ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots
+    artifact: e2e-test-outputs-$(System.JobAttempt)

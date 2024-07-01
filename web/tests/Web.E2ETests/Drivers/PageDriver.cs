@@ -56,6 +56,7 @@ public class PageDriver : IDisposable
         var page = await browserContext.NewPageAsync();
         if (TestConfiguration.OutputPageResponse)
         {
+            page.RequestFinished += (_, e) => _output.WriteLine($"{e.Method} {e.Url} [{e.Timing.ResponseEnd} ms]");
             page.Response += (_, r) => _output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
         }
 

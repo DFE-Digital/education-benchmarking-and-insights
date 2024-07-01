@@ -22,14 +22,14 @@ public class OperationClaim(string name, string context, string text)
         return op.Name;
     }
 
-    public bool Equals(OperationClaim other)
+    public bool Equals(OperationClaim? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return String.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
@@ -41,7 +41,7 @@ public class OperationClaim(string name, string context, string text)
     {
         unchecked
         {
-            return ((Name != null ? Name.GetHashCode() : 0) * 397);
+            return Name.GetHashCode() * 397;
         }
     }
 

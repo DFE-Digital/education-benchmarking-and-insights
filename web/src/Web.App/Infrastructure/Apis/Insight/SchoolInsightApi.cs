@@ -1,14 +1,14 @@
-﻿namespace Web.App.Infrastructure.Apis;
+﻿namespace Web.App.Infrastructure.Apis.Insight;
 
 public class SchoolInsightApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), ISchoolInsightApi
 {
     public async Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null)
     {
-        return await GetAsync($"api/schools/characteristics{query?.ToQueryString()}");
+        return await GetAsync($"{Api.SchoolInsight.SchoolsCharacteristics}{query?.ToQueryString()}");
     }
     public async Task<ApiResult> GetCharacteristicsAsync(string urn)
     {
-        return await GetAsync($"api/school/{urn}/characteristics");
+        return await GetAsync(Api.SchoolInsight.SchoolCharacteristics(urn));
     }
 }
 

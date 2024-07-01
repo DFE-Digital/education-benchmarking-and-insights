@@ -37,13 +37,13 @@ steps:
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
-    displayName: 'Terraform : install'
+    displayName: 'Install terraform'
     inputs:
-      terraformVersion: 1.8.5
+      terraformVersion: 1.9.0
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
-    displayName: 'Terraform : init'
+    displayName: 'Initialise terraform'
     inputs:
       command: init
       backendType: 'azurerm'
@@ -58,7 +58,7 @@ steps:
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
-    displayName: 'Terraform : plan'
+    displayName: 'Run terraform plan'
     inputs:
       command: plan
       backendType: 'azurerm'
@@ -75,7 +75,7 @@ steps:
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
-    displayName: 'Terraform : apply'
+    displayName: 'Run terraform apply'
     inputs:
       command: apply
       backendType: 'azurerm'

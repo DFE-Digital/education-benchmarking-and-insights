@@ -1,5 +1,9 @@
 ﻿@{
-    var errors = ViewData.ModelState.Where(x => x.Value.Errors.Any()).ToArray();
+    var errors = ViewData.ModelState.Where(x =>
+    {
+        var val = x.Value;
+        return val != null && val.Errors.Any();
+    }).ToArray();
 
     if (errors.Any())
     {

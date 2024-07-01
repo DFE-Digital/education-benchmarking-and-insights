@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -181,7 +183,7 @@ public class ExpenditureProxyController(
 
     private async Task<IActionResult> TrustExpenditureUserDefined(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var userData = await userDataService.GetTrustDataAsync(User.UserId(), id);
+        var userData = await userDataService.GetTrustDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             return new NotFoundResult();
@@ -219,7 +221,7 @@ public class ExpenditureProxyController(
 
     private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
+        var userData = await userDataService.GetSchoolDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);

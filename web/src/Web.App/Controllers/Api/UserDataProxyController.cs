@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -25,7 +26,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetSchoolComparatorSetAsync(User.UserId(), identifier, urn);
+                var userSet = await userDataService.GetSchoolComparatorSetAsync(User, identifier, urn);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -53,7 +54,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetTrustComparatorSetAsync(User.UserId(), identifier, companyNumber);
+                var userSet = await userDataService.GetTrustComparatorSetAsync(User, identifier, companyNumber);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -64,6 +65,37 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting trust user data {Id} for {User}", identifier, User.UserId());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("school/custom-data/{urn}/{identifier}")]
+    [Produces("application/json")]
+    [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> SchoolCustomDataUserData(string urn, string identifier)
+    {
+        using (logger.BeginScope(new
+        {
+            identifier
+        }))
+        {
+            try
+            {
+                var userData = await userDataService.GetCustomDataAsync(User, identifier, urn);
+                if (userData == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return new JsonResult(userData);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting school custom data user data {Id} for {User}", identifier, User.UserId());
                 return StatusCode(500);
             }
         }

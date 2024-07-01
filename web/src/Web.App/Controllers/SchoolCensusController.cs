@@ -4,11 +4,12 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -32,10 +33,12 @@ public class SchoolCensusController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCensus(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData);
+                var school = School(urn);
+                var userData = UserData(urn);
 
+                await Task.WhenAll(school, userData);
+
+                var viewModel = new SchoolCensusViewModel(school.Result, userData.Result.ComparatorSet, userData.Result.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -60,8 +63,19 @@ public class SchoolCensusController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
+                var userData = await UserData(urn);
+                var customDataId = userData.CustomData;
+                if (string.IsNullOrEmpty(customDataId))
+                {
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
+                }
+
+                //TODO: Remove duplicate call for user data
+                var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
+                if (userCustomData?.Status != "complete")
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -71,9 +85,8 @@ public class SchoolCensusController(
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataCensus(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-
-                var viewModel = new SchoolCensusViewModel(school, customDataId: userData.CustomData);
+                var school = await School(urn);
+                var viewModel = new SchoolCensusViewModel(school, customDataId: customDataId);
 
                 return View(viewModel);
             }
@@ -84,4 +97,12 @@ public class SchoolCensusController(
             }
         }
     }
+
+
+    private async Task<School> School(string urn) => await establishmentApi
+        .GetSchool(urn)
+        .GetResultOrThrow<School>();
+
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
+        .GetSchoolDataAsync(User, urn);
 }

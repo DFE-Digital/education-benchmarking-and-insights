@@ -49,7 +49,7 @@ public record PrimaryPupilGroup : PupilGroup
 
 public record PupilGroup
 {
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public decimal PupilsOnRoll { get; set; }
     public decimal PeriodAllocation { get; set; }
     public decimal FteTeachers { get; set; }

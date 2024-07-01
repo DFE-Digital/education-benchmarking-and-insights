@@ -85,13 +85,21 @@ stages:
               TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Core)/terraform'
               Module: 'core'
 
+      - job: BuildCore
+        displayName: 'Core : Build'
+        steps:
+          - template: ../core-infrastructure/steps/build.yaml
+            parameters:
+              BuildVersion: $(Version.BuildVersion)
+              BuildNumber: $(Version.BuildNumber)
+
       - template: ../core-infrastructure/deployment.yaml
         parameters:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticCoreArtifacts ]
+          dependsOn: [ ZipStaticCoreArtifacts, BuildCore ]
           disablePurgeProtection: 'true'
 
   - stage: BuildDataPipeline

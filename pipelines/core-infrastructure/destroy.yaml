@@ -19,7 +19,7 @@ jobs:
         instructions: 'Approve this step to destroy all Core resources in ${{ parameters.environmentPrefix }}'
 
   - deployment: CoreDestroy
-    displayName: 'Core : Destroy'
+    displayName: 'Destroy core infrastructure'
     dependsOn: [ CoreDestroyManualValidation ]
     pool:
       vmImage: ubuntu-latest

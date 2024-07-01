@@ -9,6 +9,8 @@ terraform {
   backend "azurerm" {}
 }
 
+provider "random" {}
+
 provider "azurerm" {
   features {}
 }
