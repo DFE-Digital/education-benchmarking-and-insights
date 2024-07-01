@@ -376,4 +376,5 @@ export type BudgetForecastReturn = {
   actualTotalPupils?: number;
   variance?: number;
   percentVariance?: number;
+  varianceStatus?: string;
 };
