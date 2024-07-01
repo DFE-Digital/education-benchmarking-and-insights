@@ -15,7 +15,6 @@
 
 <p class="govuk-body">Use your customised data with the benchmarking tools below.</p>
 
-@* TODO: update href once path is decided when journey is complete *@
 <p class="govuk-body">
     <a href=@Url.Action("Index", "SchoolCustomData", new { urn = Model.Urn }) class="govuk-link govuk-link--no-visited-state">
         View or change your custom data
@@ -24,7 +23,7 @@
 
 <p class="govuk-body">
     <a href="@Url.Action("Index", "School" , new { urn=Model.Urn})" class="govuk-link govuk-link--no-visited-state">
-        Return to the spending overview for @Model.Name
+        View the original data for @Model.Name
     </a>
 </p>
 
