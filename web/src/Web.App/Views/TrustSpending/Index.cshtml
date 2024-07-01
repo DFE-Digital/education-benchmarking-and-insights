@@ -26,7 +26,7 @@
     <aside class="govuk-grid-column-one-quarter">
         <h3 class="govuk-heading-s">Filter priority schools</h3>
 
-        <form method="get">
+        <form method="get" action="">
             <div class="govuk-form-group">
                 <label class="govuk-label" for="priority">
                     Priority
@@ -62,24 +62,26 @@
             </button>
         </form>
     </aside>
-    <div class="govuk-grid-column-three-quarters">
+    <div class="govuk-grid-column-three-quarters" id="spending-tables">
         @if (Model.CostCategories.Length > 0)
         {
             @foreach (var rating in Model.RatingsByCategory)
             {
-                <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+                <div>
+                    <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
 
-                @foreach (var status in rating.Statuses)
-                {
-                    <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
-                    @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(status.PriorityTag, status.Schools.Count(), Model.NumberSchools))
-                    @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
+                    @foreach (var status in rating.Statuses)
                     {
+                        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+                        @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(status.PriorityTag, status.Schools.Count(), Model.NumberSchools))
+                        @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
                         {
-                            "Id", $"govuk-trust-spending-and-costs-{rating.CostCategory?.ToSlug()}-{status.Status?.ToSlug()}"
-                        }
-                    })
-                }
+                            {
+                                "Id", $"govuk-trust-spending-and-costs-{rating.CostCategory?.ToSlug()}-{status.Status?.ToSlug()}"
+                            }
+                        })
+                    }
+                </div>
             }
         }
         else
@@ -90,14 +92,16 @@
 
                 @foreach (var category in rating.Categories)
                 {
-                    <h3 class="govuk-heading-s">@category.Category</h3>
-                    @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
-                    @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
-                    {
+                    <div>
+                        <h3 class="govuk-heading-s">@category.Category</h3>
+                        @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
+                        @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
                         {
-                            "Id", $"govuk-trust-spending-and-costs-{category.Category?.ToSlug()}-{rating.Status?.ToSlug()}"
-                        }
-                    })
+                            {
+                                "Id", $"govuk-trust-spending-and-costs-{category.Category?.ToSlug()}-{rating.Status?.ToSlug()}"
+                            }
+                        })
+                    </div>
                 }
             }
         }

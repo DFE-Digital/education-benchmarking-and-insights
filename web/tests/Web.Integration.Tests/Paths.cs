@@ -22,6 +22,10 @@ public static class Paths
     public static string TrustComparison(string? companyNumber) => $"/trust/{companyNumber}/comparison";
     public static string TrustCensus(string? companyNumber) => $"/trust/{companyNumber}/census";
     public static string TrustFinancialPlanning(string? companyNumber) => $"/trust/{companyNumber}/financial-planning";
+    public static string TrustSpending(string? companyNumber, string[] categories, string[] priorities)
+        => $"/trust/{companyNumber}/spending-and-costs" +
+           $"?{string.Join("&", priorities.Select(p => $"priority={p.ToLower().Replace(" ", "%20")}"))}" +
+           $"&{string.Join("&", categories.Select(c => $"category={c.ToLower().Replace(" ", "%20")}"))}";
     public static string TrustForecast(string? companyNumber) => $"/trust/{companyNumber}/forecast";
     public static string SchoolComparatorSet(string? urn, string referrer) =>
         $"/school/{urn}/comparator-set?referrer={referrer}";
