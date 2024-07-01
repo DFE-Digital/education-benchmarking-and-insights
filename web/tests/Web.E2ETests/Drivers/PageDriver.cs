@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Playwright;
 using TechTalk.SpecFlow.Infrastructure;
 
@@ -7,7 +8,7 @@ public class PageDriver : IDisposable
 {
     private readonly Lazy<Task<IPage>> _current;
     private readonly ISpecFlowOutputHelper _output;
-    private readonly HashSet<string> _pendingRequests;
+    private readonly ConcurrentDictionary<string, byte> _pendingRequests;
 
     private bool _isDisposed;
     private IBrowser? _browser;
@@ -18,7 +19,7 @@ public class PageDriver : IDisposable
         _current = new Lazy<Task<IPage>>(CreatePageDriver);
         _output = output;
 
-        _pendingRequests = new HashSet<string>();
+        _pendingRequests = new ConcurrentDictionary<string, byte>();
     }
 
     public Task<IPage> Current => _current.Value;
@@ -31,8 +32,9 @@ public class PageDriver : IDisposable
 
     public async Task WaitForPendingRequests(int millisecondsDelay = 100)
     {
-        while (_pendingRequests.Count > 0)
+        while (!_pendingRequests.IsEmpty)
         {
+            _output.WriteLine($"Awaiting for pending requests. Count : {_pendingRequests.Count}");
             await Task.Delay(millisecondsDelay);
         }
     }
@@ -75,9 +77,9 @@ public class PageDriver : IDisposable
             page.Response += (_, r) => _output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
         }
 
-        page.Request += (_, e) => _pendingRequests.Add(e.Url);
-        page.RequestFinished += (_, e) => _pendingRequests.Remove(e.Url);
-        page.RequestFailed += (_, e) => _pendingRequests.Remove(e.Url);
+        page.Request += (_, e) => _pendingRequests.TryAdd(e.Url, byte.MinValue);
+        page.RequestFinished += (_, e) => _pendingRequests.TryRemove(e.Url, out var _);
+        page.RequestFailed += (_, e) => _pendingRequests.TryRemove(e.Url, out var _);
 
         return page;
     }
