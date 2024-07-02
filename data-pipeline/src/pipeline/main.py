@@ -15,13 +15,13 @@ load_dotenv()
 
 from src.pipeline.comparator_sets import compute_comparator_set, prepare_data
 from src.pipeline.database import (
+    insert_bfr,
+    insert_bfr_metrics,
     insert_comparator_set,
     insert_financial_data,
     insert_metric_rag,
     insert_non_financial_data,
     insert_schools_and_trusts_and_local_authorities,
-    insert_bfr,
-    insert_bfr_metrics
 )
 from src.pipeline.log import setup_logger
 from src.pipeline.message import MessageType, get_message_type
@@ -47,9 +47,9 @@ from src.pipeline.storage import (
     complete_queue_name,
     connect_to_queue,
     get_blob,
-    try_get_blob,
     queue_service_client,
     raw_container,
+    try_get_blob,
     worker_queue_name,
     write_blob,
 )
@@ -297,29 +297,49 @@ def pre_process_bfr(run_type, year):
         raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
-    academies_y2_file = try_get_blob("pre-processed", f"{run_type}/{year - 2}/academies.parquet")
+    academies_y2_file = try_get_blob(
+        "pre-processed", f"{run_type}/{year - 2}/academies.parquet"
+    )
     academies_y2 = None
     if academies_y2_file is not None:
-        academies_y2 = pd.read_parquet(academies_y2_file,
-                                       columns=["Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"])
+        academies_y2 = pd.read_parquet(
+            academies_y2_file,
+            columns=[
+                "Trust UPIN",
+                "Company Registration Number",
+                "Trust Revenue reserve",
+                "Total pupils in trust",
+            ],
+        )
 
-    academies_y1_file = try_get_blob("pre-processed", f"{run_type}/{year - 1}/academies.parquet")
+    academies_y1_file = try_get_blob(
+        "pre-processed", f"{run_type}/{year - 1}/academies.parquet"
+    )
     academies_y1 = None
 
     if academies_y1_file is not None:
-        academies_y1 = pd.read_parquet(academies_y1_file,
-                                       columns=["Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"])
+        academies_y1 = pd.read_parquet(
+            academies_y1_file,
+            columns=[
+                "Trust UPIN",
+                "Company Registration Number",
+                "Trust Revenue reserve",
+                "Total pupils in trust",
+            ],
+        )
 
     academies = pd.read_parquet(
         get_blob("pre-processed", f"{run_type}/{year}/academies.parquet"),
-        columns=["Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"]
+        columns=[
+            "Trust UPIN",
+            "Company Registration Number",
+            "Trust Revenue reserve",
+            "Total pupils in trust",
+        ],
     )
 
     bfr, bfr_metrics = build_bfr_data(
-        year, bfr_sofa, bfr_3y,
-        academies,
-        academies_y1,
-        academies_y2
+        year, bfr_sofa, bfr_3y, academies, academies_y1, academies_y2
     )
 
     write_blob(
@@ -382,10 +402,10 @@ def pre_process_data(worker_client, run_type, year):
 
 
 def pre_process_custom_data(
-        run_id: str,
-        year: int,
-        target_urn: int,
-        custom_data: dict,
+    run_id: str,
+    year: int,
+    target_urn: int,
+    custom_data: dict,
 ) -> float:
     """
     Perform pre-processing for custom financial data.
@@ -473,12 +493,12 @@ def pre_process_custom_data(
 
 
 def compute_comparator_set_for(
-        data_type: str,
-        set_type: str,
-        run_type: str,
-        data: pd.DataFrame,
-        run_id: str,
-        target_urn: str | None = None,
+    data_type: str,
+    set_type: str,
+    run_type: str,
+    data: pd.DataFrame,
+    run_id: str,
+    target_urn: str | None = None,
 ):
     """
     Perform comparator-set calculation and persist the result.
@@ -513,9 +533,9 @@ def compute_comparator_set_for(
 
 
 def compute_comparator_sets(
-        run_type: str,
-        run_id: str,
-        target_urn: str | None = None,
+    run_type: str,
+    run_id: str,
+    target_urn: str | None = None,
 ) -> float:
     """
     Determine Comparator Sets.
@@ -595,12 +615,12 @@ def compute_comparator_sets(
 
 
 def compute_rag_for(
-        data_type: str,
-        set_type: str,
-        run_type: str,
-        run_id: str,
-        data: pd.DataFrame,
-        comparators: pd.DataFrame,
+    data_type: str,
+    set_type: str,
+    run_type: str,
+    run_id: str,
+    data: pd.DataFrame,
+    comparators: pd.DataFrame,
 ):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
@@ -666,10 +686,10 @@ def run_compute_rag(run_type: str, run_id: str):
 
 
 def run_user_defined_rag(
-        year: int,
-        run_id: str,
-        target_urn: int,
-        comparator_set: list[int],
+    year: int,
+    run_id: str,
+    target_urn: int,
+    comparator_set: list[int],
 ):
     """
     Perform user-defined RAG calculations.
@@ -724,10 +744,10 @@ def run_user_defined_rag(
 
 
 def handle_msg(
-        worker_client: Client,
-        msg: QueueMessage,
-        worker_queue: QueueClient,
-        complete_queue: QueueClient,
+    worker_client: Client,
+    msg: QueueMessage,
+    worker_queue: QueueClient,
+    complete_queue: QueueClient,
 ):
     """
     Process an incoming message.

@@ -52,9 +52,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
                 nameof(FinancialDataCustomDataViewModel.CateringSuppliesCosts), _customExpenditure.CateringSuppliesCosts
             },
             {
-                nameof(FinancialDataCustomDataViewModel.CateringIncome), _customIncome.IncomeCatering
-            },
-            {
                 nameof(FinancialDataCustomDataViewModel.ExaminationFeesCosts), _customExpenditure.ExaminationFeesCosts
             },
             {
@@ -142,10 +139,10 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
                 nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), _customExpenditure.SupplyTeacherInsurableCosts
             },
             {
-                nameof(FinancialDataCustomDataViewModel.TotalIncome), _income.TotalIncome
+                nameof(FinancialDataCustomDataViewModel.TotalIncome), _customIncome.TotalIncome
             },
             {
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _expenditure.TotalExpenditure
+                nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _customExpenditure.TotalExpenditure
             },
             {
                 nameof(FinancialDataCustomDataViewModel.RevenueReserve), _balance.RevenueReserve
@@ -211,7 +208,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         // ... and then back again
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
         var customValues = page.QuerySelectorAll("input").Not("[type='hidden']").ToList();
-        Assert.Equal(33, customValues.Count);
+        Assert.Equal(34, customValues.Count);
 
         foreach (var customValue in customValues)
         {
@@ -219,8 +216,8 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             var field = customValue.Id ?? string.Empty;
             var expected = field switch
             {
-                nameof(FinancialDataCustomDataViewModel.CateringIncome) => _customIncome.IncomeCatering,
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure) => _customExpenditure.TotalExpenditure,
+                nameof(FinancialDataCustomDataViewModel.TotalIncome) => _customIncome.TotalIncome,
+                nameof(FinancialDataCustomDataViewModel.RevenueReserve) => _balance.RevenueReserve,
                 _ => _customExpenditure.GetType().GetProperty(field)?.GetValue(_customExpenditure)
             };
 
@@ -252,7 +249,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             (nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesCosts), "Enter administrative supplies (non-educational) in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.CateringStaffCosts), "Enter catering staff in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.CateringSuppliesCosts), "Enter catering supplies in the correct format"),
-            (nameof(FinancialDataCustomDataViewModel.CateringIncome), "Enter income from catering in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.ExaminationFeesCosts), "Enter examination fees in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.LearningResourcesNonIctCosts), "Enter learning resources (not ICT equipment) in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.LearningResourcesIctCosts), "Enter ICT learning resources in the correct format"),
@@ -281,7 +277,9 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             (nameof(FinancialDataCustomDataViewModel.SpecialFacilitiesCosts), "Enter special facilities in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.StaffDevelopmentTrainingCosts), "Enter staff development and training in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.StaffRelatedInsuranceCosts), "Enter staff-related insurance in the correct format"),
-            (nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), "Enter supply teacher insurance in the correct format")
+            (nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), "Enter supply teacher insurance in the correct format"),
+            (nameof(FinancialDataCustomDataViewModel.TotalIncome), "Enter total income in the correct format"),
+            (nameof(FinancialDataCustomDataViewModel.RevenueReserve), "Enter revenue reserve in the correct format")
         );
     }
 
@@ -327,7 +325,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "AdministrativeSuppliesCosts", customData.AdministrativeSuppliesNonEducationalCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "CateringStaffCosts", customData.CateringStaffCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "CateringSuppliesCosts", customData.CateringSuppliesCosts.ToSimpleDisplay());
-        DocumentAssert.Input(page, "CateringIncome", customData.IncomeCateringServices.ToSimpleDisplay());
         DocumentAssert.Input(page, "ExaminationFeesCosts", customData.ExaminationFeesCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "LearningResourcesNonIctCosts", customData.LearningResourcesNonIctCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "LearningResourcesIctCosts", customData.LearningResourcesIctCosts.ToSimpleDisplay());
@@ -357,6 +354,8 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "StaffDevelopmentTrainingCosts", customData.StaffDevelopmentTrainingCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "StaffRelatedInsuranceCosts", customData.StaffRelatedInsuranceCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "SupplyTeacherInsurableCosts", customData.SupplyTeacherInsurableCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "TotalIncome", customData.TotalIncome.ToSimpleDisplay());
+        DocumentAssert.Input(page, "RevenueReserve", customData.RevenueReserve.ToSimpleDisplay());
 
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -431,7 +430,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.TitleAndH1(page, "Customise your data - Financial Benchmarking and Insights Tool - GOV.UK", "Change financial data");
 
         var currentValues = page.QuerySelectorAll("span[id^='current-']");
-        Assert.Equal(36, currentValues.Length);
+        Assert.Equal(35, currentValues.Length);
 
         foreach (var currentValue in currentValues)
         {
@@ -439,8 +438,8 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(FinancialDataCustomDataViewModel.CateringIncome) => _income.IncomeCatering.ToString(),
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure) => _expenditure.TotalExpenditure.ToString(),
+                nameof(FinancialDataCustomDataViewModel.TotalIncome) => _income.TotalIncome.ToString(),
+                nameof(FinancialDataCustomDataViewModel.RevenueReserve) => _balance.RevenueReserve.ToString(),
                 _ => null // TODO : Explicitly set fields
             };
 

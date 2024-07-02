@@ -39,13 +39,6 @@ public class SchoolCustomDataChangeViewModel(
             Name = nameof(SchoolCustomDataViewModel.CateringSuppliesCosts),
             Current = CurrentValues.CateringSuppliesCosts,
             Custom = CustomInput.CateringSuppliesCosts
-        },
-        new SchoolCustomDataValueViewModel
-        {
-            Title = SchoolCustomDataViewModelTitles.CateringIncome,
-            Name = nameof(SchoolCustomDataViewModel.CateringIncome),
-            Current = CurrentValues.CateringIncome,
-            Custom = CustomInput.CateringIncome
         }
     );
 
@@ -292,8 +285,7 @@ public class SchoolCustomDataChangeViewModel(
             Title = SchoolCustomDataViewModelTitles.TotalIncome,
             Name = nameof(SchoolCustomDataViewModel.TotalIncome),
             Current = CurrentValues.TotalIncome,
-            Custom = CustomInput.TotalIncome,
-            ReadOnly = true
+            Custom = CustomInput.TotalIncome
         },
         new SchoolCustomDataValueViewModel
         {
@@ -301,15 +293,14 @@ public class SchoolCustomDataChangeViewModel(
             Name = nameof(SchoolCustomDataViewModel.TotalExpenditure),
             Current = CurrentValues.TotalExpenditure,
             Custom = CustomInput.TotalExpenditure,
-            ReadOnly = true
+            Hidden = true
         },
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.RevenueReserve,
             Name = nameof(SchoolCustomDataViewModel.RevenueReserve),
             Current = CurrentValues.RevenueReserve,
-            Custom = CustomInput.RevenueReserve,
-            Hidden = true
+            Custom = CustomInput.RevenueReserve
         });
 
     public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(

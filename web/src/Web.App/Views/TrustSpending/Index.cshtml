@@ -77,7 +77,10 @@
                         @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
                         {
                             {
-                                "Id", $"govuk-trust-spending-and-costs-{rating.CostCategory?.ToSlug()}-{status.Status?.ToSlug()}"
+                                "Category", rating.CostCategory
+                            },
+                            {
+                                "Status", status.Status
                             }
                         })
                     }
@@ -98,7 +101,10 @@
                         @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
                         {
                             {
-                                "Id", $"govuk-trust-spending-and-costs-{category.Category?.ToSlug()}-{rating.Status?.ToSlug()}"
+                                "Category", category.Category
+                            },
+                            {
+                                "Status", rating.Status
                             }
                         })
                     </div>

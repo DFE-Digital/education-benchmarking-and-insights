@@ -29,38 +29,38 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var customCensus = Fixture.Build<Census>()
-            .With(c => c.WorkforceFTE, Fixture.CreateDecimal(101, 200))
-            .With(c => c.TeachersFTE, Fixture.CreateDecimal(51, 90))
+            .With(c => c.Workforce, Fixture.CreateDecimal(101, 200))
+            .With(c => c.Teachers, Fixture.CreateDecimal(51, 90))
             .With(c => c.PercentTeacherWithQualifiedStatus, Fixture.CreateDecimal(91, 100))
-            .With(c => c.SeniorLeadershipFTE, Fixture.CreateDecimal(0, 50))
-            .With(c => c.TeachingAssistantFTE, Fixture.CreateDecimal(0, 50))
-            .With(c => c.NonClassroomSupportStaffFTE, Fixture.CreateDecimal(0, 50))
-            .With(c => c.AuxiliaryStaffFTE, Fixture.CreateDecimal(0, 50))
+            .With(c => c.SeniorLeadership, Fixture.CreateDecimal(0, 50))
+            .With(c => c.TeachingAssistant, Fixture.CreateDecimal(0, 50))
+            .With(c => c.NonClassroomSupportStaff, Fixture.CreateDecimal(0, 50))
+            .With(c => c.AuxiliaryStaff, Fixture.CreateDecimal(0, 50))
             .With(c => c.WorkforceHeadcount, Fixture.CreateDecimal(101, 200))
             .Create();
 
         _formValues = new Dictionary<string, decimal?>
         {
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.WorkforceFTE
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.Workforce
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.TeachersFTE
+                nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.Teachers
             },
             {
                 nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent), customCensus.PercentTeacherWithQualifiedStatus
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadershipFTE
+                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadership
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte), customCensus.TeachingAssistantFTE
+                nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte), customCensus.TeachingAssistant
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte), customCensus.NonClassroomSupportStaffFTE
+                nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte), customCensus.NonClassroomSupportStaff
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte), customCensus.AuxiliaryStaffFTE
+                nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte), customCensus.AuxiliaryStaff
             },
             {
                 nameof(WorkforceDataCustomDataViewModel.WorkforceHeadcount), customCensus.WorkforceHeadcount
@@ -216,13 +216,13 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.WorkforceFTE?.ToString("#.0"),
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.TeachersFTE?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.Workforce?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.Teachers?.ToString("#.0"),
                 nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent) => _census.PercentTeacherWithQualifiedStatus?.ToString("#") + "%",
-                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte) => _census.SeniorLeadershipFTE?.ToString("#.0"),
-                nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte) => _census.TeachingAssistantFTE?.ToString("#.0"),
-                nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte) => _census.NonClassroomSupportStaffFTE?.ToString("#.0"),
-                nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte) => _census.AuxiliaryStaffFTE?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte) => _census.SeniorLeadership?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte) => _census.TeachingAssistant?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte) => _census.NonClassroomSupportStaff?.ToString("#.0"),
+                nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte) => _census.AuxiliaryStaff?.ToString("#.0"),
                 nameof(WorkforceDataCustomDataViewModel.WorkforceHeadcount) => _census.WorkforceHeadcount?.ToString("#.0"),
                 _ => throw new ArgumentOutOfRangeException()
             };

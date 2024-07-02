@@ -104,8 +104,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Financial Benchmarking and Insights Tool - GOV.UK", "Curriculum and financial planning (CFP)");

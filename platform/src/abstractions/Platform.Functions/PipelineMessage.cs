@@ -43,7 +43,6 @@ public record CustomDataPayload : Payload
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
-    public decimal? IncomeCateringServices { get; set; }
     public decimal? ExaminationFeesCosts { get; set; }
     public decimal? LearningResourcesNonIctCosts { get; set; }
     public decimal? LearningResourcesIctCosts { get; set; }
@@ -74,7 +73,6 @@ public record CustomDataPayload : Payload
     public decimal? StaffRelatedInsuranceCosts { get; set; }
     public decimal? SupplyTeacherInsurableCosts { get; set; }
     public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
     public decimal? RevenueReserve { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }

@@ -11,7 +11,6 @@ public record CustomData
     // Catering
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
-    public decimal? CateringIncome { get; set; }
 
     // Educational supplies
     public decimal? ExaminationFeesCosts { get; set; }
@@ -101,7 +100,6 @@ public record CustomData
         // Catering
         CateringStaffCosts = viewModel.CateringStaffCosts;
         CateringSuppliesCosts = viewModel.CateringSuppliesCosts;
-        CateringIncome = viewModel.CateringIncome;
 
         // Educational supplies
         ExaminationFeesCosts = viewModel.ExaminationFeesCosts;

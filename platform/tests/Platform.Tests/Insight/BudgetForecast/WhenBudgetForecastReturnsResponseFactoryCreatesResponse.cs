@@ -216,13 +216,14 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         Assert.Equal(1_004, year2021.Forecast);
         Assert.Equal(3, year2021.Variance);
         Assert.Equal("0.298", year2021.PercentVariance.GetValueOrDefault().ToString("0.000"));
+        Assert.Equal("Stable forecast", year2021.VarianceStatus);
 
         var year2022 = actual.ElementAt(3);
         Assert.Equal(2022, year2022.Year);
         Assert.Equal(1_011, year2022.Actual);
         Assert.Equal(1_008, year2022.Forecast);
         Assert.Equal(3, year2022.Variance);
-        Assert.Equal("0.297", year2022.PercentVariance.GetValueOrDefault().ToString("0.000"));
+        Assert.Equal("Stable forecast", year2022.VarianceStatus);
 
         var year2023 = actual.ElementAt(4);
         Assert.Equal(2023, year2023.Year);
@@ -245,6 +246,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         Assert.Null(year2025.Variance);
         Assert.Null(year2025.PercentVariance);
     }
+
     [Fact]
     public void ShouldThrowExceptionForMalformedDefaultRunType()
     {
@@ -265,5 +267,39 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
 
         // assert
         Assert.Equal("Expected RunId to be of type int for RunType default but found 'runId'", actual.Message);
+    }
+
+    [Theory]
+    [InlineData(1_000, 500, "AR significantly below forecast")]
+    [InlineData(1_000, 950, "AR below forecast")]
+    [InlineData(1_000, 1_010, "Stable forecast")]
+    [InlineData(1_000, 1_100, "AR above forecast")]
+    [InlineData(1_000, 1_500, "AR significantly above forecast")]
+    public void ShouldSetExpectedVarianceStatus(decimal previousValue, decimal thisValue, string status)
+    {
+        // arrange
+        var models = new BudgetForecastReturnModel[]
+        {
+            new()
+            {
+                RunType = "default",
+                RunId = "2020",
+                Year = 2021,
+                Value = previousValue
+            },
+            new()
+            {
+                RunType = "default",
+                RunId = "2021",
+                Year = 2021,
+                Value = thisValue
+            }
+        };
+
+        // act
+        var actual = BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(models).Single();
+
+        // assert
+        Assert.Equal(status, actual.VarianceStatus);
     }
 }

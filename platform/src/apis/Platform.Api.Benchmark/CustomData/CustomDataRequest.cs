@@ -9,7 +9,6 @@ public record CustomDataRequest
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
-    public decimal? IncomeCateringServices { get; set; }
     public decimal? ExaminationFeesCosts { get; set; }
     public decimal? LearningResourcesNonIctCosts { get; set; }
     public decimal? LearningResourcesIctCosts { get; set; }
@@ -39,6 +38,8 @@ public record CustomDataRequest
     public decimal? StaffDevelopmentTrainingCosts { get; set; }
     public decimal? StaffRelatedInsuranceCosts { get; set; }
     public decimal? SupplyTeacherInsurableCosts { get; set; }
+    public decimal? TotalIncome { get; set; }
+    public decimal? RevenueReserve { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }
     public decimal? PercentSpecialEducationNeeds { get; set; }
@@ -59,7 +60,6 @@ public record CustomDataRequest
             AdministrativeSuppliesNonEducationalCosts = AdministrativeSuppliesNonEducationalCosts,
             CateringStaffCosts = CateringStaffCosts,
             CateringSuppliesCosts = CateringSuppliesCosts,
-            IncomeCateringServices = IncomeCateringServices,
             ExaminationFeesCosts = ExaminationFeesCosts,
             LearningResourcesNonIctCosts = LearningResourcesNonIctCosts,
             LearningResourcesIctCosts = LearningResourcesIctCosts,
@@ -89,6 +89,8 @@ public record CustomDataRequest
             StaffDevelopmentTrainingCosts = StaffDevelopmentTrainingCosts,
             StaffRelatedInsuranceCosts = StaffRelatedInsuranceCosts,
             SupplyTeacherInsurableCosts = SupplyTeacherInsurableCosts,
+            TotalIncome = TotalIncome,
+            RevenueReserve = RevenueReserve,
             TotalPupils = TotalPupils,
             PercentFreeSchoolMeals = PercentFreeSchoolMeals,
             PercentSpecialEducationNeeds = PercentSpecialEducationNeeds,

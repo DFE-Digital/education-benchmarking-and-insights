@@ -9,10 +9,7 @@ public class WhenViewingLandingPage(SchoolBenchmarkingWebAppClient client) : Pag
     {
         var page = await Client.Navigate(Paths.ServiceHome);
 
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
-
         DocumentAssert.AssertPageUrl(page, Paths.ServiceHome.ToAbsolute());
-        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Home - Financial Benchmarking and Insights Tool - GOV.UK", "Financial Benchmarking and Insights Tool");
 
         var startButton = page.GetElementsByClassName("govuk-button--start").FirstOrDefault();

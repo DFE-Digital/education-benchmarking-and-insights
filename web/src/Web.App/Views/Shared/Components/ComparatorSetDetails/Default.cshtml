@@ -34,7 +34,7 @@
             <p class="govuk-body govuk-!-margin-bottom-0">
                 <a class="govuk-link govuk-link--no-visited-state"
                    id="custom-data-link"
-                   href="">
+                       href="@Url.Action("CustomData", "School", new { urn = Model.Identifier })">
                     View custom data set
                 </a>
             </p>
@@ -50,7 +50,7 @@
         </p>
 
         <feature name="@FeatureFlags.UserDefinedComparators">
-            <p class="govuk-body govuk-!-margin-bottom-0">
+            <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
                    href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Identifier })">
                     Choose a new or saved set of your own schools

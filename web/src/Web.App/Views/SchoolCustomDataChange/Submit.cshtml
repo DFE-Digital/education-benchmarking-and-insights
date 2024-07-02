@@ -23,7 +23,7 @@
         function statusCheck() {
             if (done || failed) {
                 clearInterval(interval);
-                window.location.href = `/school/@Model.Urn/customised-data`;
+                window.location.href = `/school/@Model.Urn/customised-data?custom-data-generated=${!failed}`;
                 return;
             }
 

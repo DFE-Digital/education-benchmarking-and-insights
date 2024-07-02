@@ -45,6 +45,14 @@ public class SchoolViewModel(School school)
             .ThenByDescending(x => x.Value);
     }
 
+    public SchoolViewModel(
+        School school,
+        bool? customDataGenerated = false)
+        : this(school)
+    {
+        CustomDataGenerated = customDataGenerated;
+    }
+
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public string? OverallPhase => school.OverallPhase;
@@ -78,4 +86,5 @@ public class SchoolViewModel(School school)
     public bool HasMetricRag { get; }
     public IEnumerable<RagRating> Ratings { get; } = [];
     public bool? ComparatorGenerated { get; }
+    public bool? CustomDataGenerated { get; }
 }

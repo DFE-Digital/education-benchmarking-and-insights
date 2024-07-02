@@ -201,8 +201,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute()),
-            ("Side-by-side comparison", Paths.SchoolSpendingComparison(school.URN).ToAbsolute()),
+            ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute())
         };
 
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);

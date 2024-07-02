@@ -56,8 +56,7 @@ public class WhenViewingComparators(SchoolBenchmarkingWebAppClient client)
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Compare", Paths.TrustComparators(trust.CompanyNumber).ToAbsolute())
+            ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page,

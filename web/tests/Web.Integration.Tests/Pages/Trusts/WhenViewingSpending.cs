@@ -187,15 +187,16 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
             foreach (var row in rows)
             {
                 var cols = row.QuerySelectorAll("td");
-                var rank = int.Parse(cols.ElementAt(0).GetInnerText().Trim());
                 var name = cols.ElementAt(1).GetInnerText().Trim();
                 var expenditure = cols.ElementAt(2).GetInnerText().Trim();
                 var value = decimal.Parse(DecimalRegex().Match(expenditure).Value);
+                var units = UnitsRegex().Matches(expenditure)[0].Groups[1].Value;
 
                 Assert.Contains(name, schools.Select(s => s.SchoolName));
                 var school = schools.Single(s => s.SchoolName == name);
                 var rating = ratings.Where(r => r.URN == school.URN);
                 Assert.Contains(value, rating.Select(r => r.Value));
+                Assert.Contains(units, new[] { "per pupil", "per square metre" });
 
                 rowCount++;
             }
@@ -206,4 +207,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
 
     [GeneratedRegex(@"[\d\.]+")]
     private static partial Regex DecimalRegex();
+
+    [GeneratedRegex(@"£[\d\.]+\s([\w\s]+)")]
+    private static partial Regex UnitsRegex();
 }
