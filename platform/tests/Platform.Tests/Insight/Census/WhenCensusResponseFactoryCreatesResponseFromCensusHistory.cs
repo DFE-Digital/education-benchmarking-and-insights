@@ -21,7 +21,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     private const decimal AuxiliaryStaffHeadcount = 30;
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.90")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.11")]
     [InlineData(CensusDimensions.PercentWorkforce, "100.00")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "11.11")]
     [InlineData(CensusDimensions.Total, "90.00")]
@@ -42,7 +42,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     }
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.94")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.06")]
     [InlineData(CensusDimensions.PercentWorkforce, "88.89")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "12.50")]
     [InlineData(CensusDimensions.Total, "80.00")]
@@ -65,7 +65,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     }
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.93")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.07")]
     [InlineData(CensusDimensions.PercentWorkforce, "77.78")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "14.29")]
     [InlineData(CensusDimensions.Total, "70.00")]
@@ -88,7 +88,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     }
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.92")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.08")]
     [InlineData(CensusDimensions.PercentWorkforce, "66.67")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "16.67")]
     [InlineData(CensusDimensions.Total, "60.00")]
@@ -111,7 +111,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     }
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.80")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.25")]
     [InlineData(CensusDimensions.PercentWorkforce, "44.44")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "25.00")]
     [InlineData(CensusDimensions.Total, "40.00")]
@@ -134,7 +134,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     }
 
     [Theory]
-    [InlineData(CensusDimensions.HeadcountPerFte, "0.67")]
+    [InlineData(CensusDimensions.HeadcountPerFte, "1.50")]
     [InlineData(CensusDimensions.PercentWorkforce, "22.22")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "50.00")]
     [InlineData(CensusDimensions.Total, "20.00")]

@@ -21,11 +21,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     private const decimal AuxiliaryStaffHeadcount = 30;
 
     [Theory]
-    [InlineData(CensusCategories.WorkforceFte, CensusDimensions.HeadcountPerFte, "0.90")]
+    [InlineData(CensusCategories.WorkforceFte, CensusDimensions.HeadcountPerFte, "1.11")]
     [InlineData(CensusCategories.WorkforceFte, CensusDimensions.PercentWorkforce, "100.00")]
     [InlineData(CensusCategories.WorkforceFte, CensusDimensions.PupilsPerStaffRole, "11.11")]
     [InlineData(CensusCategories.WorkforceFte, CensusDimensions.Total, "90.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.90")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.11")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "100.00")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "11.11")]
     [InlineData(null, CensusDimensions.Total, "90.00")]
@@ -47,11 +47,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     }
 
     [Theory]
-    [InlineData(CensusCategories.TeachersFte, CensusDimensions.HeadcountPerFte, "0.94")]
+    [InlineData(CensusCategories.TeachersFte, CensusDimensions.HeadcountPerFte, "1.06")]
     [InlineData(CensusCategories.TeachersFte, CensusDimensions.PercentWorkforce, "88.89")]
     [InlineData(CensusCategories.TeachersFte, CensusDimensions.PupilsPerStaffRole, "12.50")]
     [InlineData(CensusCategories.TeachersFte, CensusDimensions.Total, "80.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.94")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.06")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "88.89")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "12.50")]
     [InlineData(null, CensusDimensions.Total, "80.00")]
@@ -75,11 +75,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     }
 
     [Theory]
-    [InlineData(CensusCategories.SeniorLeadershipFte, CensusDimensions.HeadcountPerFte, "0.93")]
+    [InlineData(CensusCategories.SeniorLeadershipFte, CensusDimensions.HeadcountPerFte, "1.07")]
     [InlineData(CensusCategories.SeniorLeadershipFte, CensusDimensions.PercentWorkforce, "77.78")]
     [InlineData(CensusCategories.SeniorLeadershipFte, CensusDimensions.PupilsPerStaffRole, "14.29")]
     [InlineData(CensusCategories.SeniorLeadershipFte, CensusDimensions.Total, "70.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.93")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.07")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "77.78")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "14.29")]
     [InlineData(null, CensusDimensions.Total, "70.00")]
@@ -103,11 +103,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     }
 
     [Theory]
-    [InlineData(CensusCategories.TeachingAssistantsFte, CensusDimensions.HeadcountPerFte, "0.92")]
+    [InlineData(CensusCategories.TeachingAssistantsFte, CensusDimensions.HeadcountPerFte, "1.08")]
     [InlineData(CensusCategories.TeachingAssistantsFte, CensusDimensions.PercentWorkforce, "66.67")]
     [InlineData(CensusCategories.TeachingAssistantsFte, CensusDimensions.PupilsPerStaffRole, "16.67")]
     [InlineData(CensusCategories.TeachingAssistantsFte, CensusDimensions.Total, "60.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.92")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.08")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "66.67")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "16.67")]
     [InlineData(null, CensusDimensions.Total, "60.00")]
@@ -131,11 +131,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     }
 
     [Theory]
-    [InlineData(CensusCategories.NonClassroomSupportStaffFte, CensusDimensions.HeadcountPerFte, "0.80")]
+    [InlineData(CensusCategories.NonClassroomSupportStaffFte, CensusDimensions.HeadcountPerFte, "1.25")]
     [InlineData(CensusCategories.NonClassroomSupportStaffFte, CensusDimensions.PercentWorkforce, "44.44")]
     [InlineData(CensusCategories.NonClassroomSupportStaffFte, CensusDimensions.PupilsPerStaffRole, "25.00")]
     [InlineData(CensusCategories.NonClassroomSupportStaffFte, CensusDimensions.Total, "40.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.80")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.25")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "44.44")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "25.00")]
     [InlineData(null, CensusDimensions.Total, "40.00")]
@@ -159,11 +159,11 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensus
     }
 
     [Theory]
-    [InlineData(CensusCategories.AuxiliaryStaffFte, CensusDimensions.HeadcountPerFte, "0.67")]
+    [InlineData(CensusCategories.AuxiliaryStaffFte, CensusDimensions.HeadcountPerFte, "1.50")]
     [InlineData(CensusCategories.AuxiliaryStaffFte, CensusDimensions.PercentWorkforce, "22.22")]
     [InlineData(CensusCategories.AuxiliaryStaffFte, CensusDimensions.PupilsPerStaffRole, "50.00")]
     [InlineData(CensusCategories.AuxiliaryStaffFte, CensusDimensions.Total, "20.00")]
-    [InlineData(null, CensusDimensions.HeadcountPerFte, "0.67")]
+    [InlineData(null, CensusDimensions.HeadcountPerFte, "1.50")]
     [InlineData(null, CensusDimensions.PercentWorkforce, "22.22")]
     [InlineData(null, CensusDimensions.PupilsPerStaffRole, "50.00")]
     [InlineData(null, CensusDimensions.Total, "20.00")]
