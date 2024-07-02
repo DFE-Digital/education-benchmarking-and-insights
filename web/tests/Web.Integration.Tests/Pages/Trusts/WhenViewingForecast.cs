@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -7,6 +8,8 @@ namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private const int _year = 2022;
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -54,17 +57,58 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             .Create();
 
         var returns = Fixture.Build<BudgetForecastReturn>()
-            .With(m => m.Year, 2022)
+            .With(m => m.Year, _year)
             .CreateMany(5)
             .ToArray();
 
-        var metrics = Fixture.Build<BudgetForecastReturnMetric>()
-            .With(m => m.Year, 2022)
-            .CreateMany(5)
-            .ToArray();
+        var metrics = new[]
+        {
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.Slope,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.SlopeFlag,
+                Value = 0,
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            },
+            new BudgetForecastReturnMetric
+            {
+                Metric = BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome,
+                Value = Fixture.CreateDecimal(0, 100),
+                Year = _year
+            }
+        };
 
         var page = await Client.SetupEstablishment(trust)
-            .SetupBudgetForecast(trust, returns, metrics, 2022)
+            .SetupBudgetForecast(trust, returns, metrics, _year)
             .Navigate(Paths.TrustForecast(trust.CompanyNumber));
 
         return (page, trust, metrics);
@@ -79,6 +123,11 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         var metricsTable = page.QuerySelector("#bfr-metrics tbody");
         Assert.NotNull(metricsTable);
         var metricsRows = metricsTable.GetElementsByTagName("tr");
-        Assert.Equal(metrics.Length, metricsRows.Length);
+        Assert.Equal(4, metricsRows.Length);
+
+        Assert.Equal($"Revenue reserves as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome).Value}%", metricsRows.ElementAt(0).GetInnerText().Trim());
+        Assert.Equal($"Staff costs as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome).Value}%", metricsRows.ElementAt(1).GetInnerText().Trim());
+        Assert.Equal($"Expenditure as percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome).Value}%", metricsRows.ElementAt(2).GetInnerText().Trim());
+        Assert.Equal($"Self-generated income vs grant funding {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome).Value}% / {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome).Value}%", metricsRows.ElementAt(3).GetInnerText().Trim());
     }
 }

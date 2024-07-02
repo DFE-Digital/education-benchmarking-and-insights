@@ -85,7 +85,7 @@ export const YearEnd: React.FC<{
   return (
     <div className="govuk-grid-row govuk-!-margin-top-5">
       <div className="govuk-grid-column-one-half">
-        <h2 className="govuk-heading-m">Year-end usable reserves</h2>
+        <h2 className="govuk-heading-m">Year-end revenue reserves</h2>
       </div>
       <div className="govuk-grid-column-one-half">
         <div>
@@ -98,7 +98,7 @@ export const YearEnd: React.FC<{
           >
             Save{" "}
             <span className="govuk-visually-hidden">
-              year-end usable reserves
+              year-end revenue reserves
             </span>{" "}
             as image
           </button>

@@ -21,50 +21,44 @@
                 <span>
                     @if (Model.BalancesInDeficit || Model.BalancesForecastingDeficit)
                     {
-                        @:Your trust balances indicate that you are in deficit
-                        if (Model.BalancesForecastingDeficit)
-                        {
-                            @:or forecasting a deficit within the next year
-                        }
+                        @:Your trust balances indicate that you are in 
+                        @:deficit@(Model.BalancesForecastingDeficit ? " or forecasting a deficit within the next year" : string.Empty).
                     }
 
                     @if (Model.SteepDeclineInBalances || Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
                     {
-                        @:Using your latest AR and BFR submissions, your trust is forecasting a steep decline in balances
-                        if (Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
-                        {
-                            @:and has a high proportion of staff costs
-                        }
+                        @:Using your latest AR and BFR submissions, your trust is forecasting a steep decline in 
+                        @:balances@(Model.SteepDeclineInBalancesAndHighProportionStaffCosts ? " and has a high proportion of staff costs" : string.Empty).
                     }
 
                     @if (Model.DeclineInBalancesButAboveForecastHistory)
                     {
-                        @:Using your latest AR and BFR submissions, your trust is forecasting a decline in balances but has a history of your AR balances being above forecast
+                        @:Using your latest AR and BFR submissions, your trust is forecasting a decline in balances but has a history of AR balances being above forecast.
                     }
 
                     @if (Model.DeclineInBalancesButNoForecastDecline)
                     {
-                        @:Using your latest AR and BFR submissions, your trust is not forecasting a deficit but your balances are in decline
+                        @:Using your latest AR and BFR submissions, your trust is not forecasting a deficit but your balances are in decline.
                     }
 
                     @if (Model.SteepInclineInBalancesForecastButBelowForecastHistory)
                     {
-                        @:Your trust is forecasting a steep incline in balances but has a history of AR balances being significantly below forecast
+                        @:Your trust is forecasting a steep incline in balances but has a history of AR balances being significantly below forecast.
                     }
 
                     @if (Model.BalancesStableAndPositive)
                     {
-                        @:Your trust balances are stable and positive
+                        @:Your trust balances are stable and positive.
                     }
 
                     @if (Model.BalancesIncreasingSteadily)
                     {
-                        @:Your trust balances are increasing steadily
+                        @:Your trust balances are increasing steadily.
                     }
 
                     @if (Model.BalancesIncreasingSteeply)
                     {
-                        @:Your trust balances are increasing sharply and there is no history of AR balances being significantly below forecast
+                        @:Your trust balances are increasing sharply and there is no history of AR balances being significantly below forecast.
                     }
                 </span>
             </p>
@@ -72,13 +66,13 @@
             @if (Model.IsRed || Model.IsAmber)
             {
                 <p class="govuk-body">
-                    If you are not already engaging with ESFA on your finances, you may wish to consider reviewing
+                    Consider reviewing the
                     @if (Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
                     {
                         @Html.TrackedAnchor(
                             TrackedLinks.GuidanceResource,
                             "https://www.gov.uk/guidance/integrated-curriculum-and-financial-planning-icfp",
-                            "ICFP guidance",
+                            "Integrated curriculum and financial planning (ICFP)",
                             "Opens in a new window",
                             "_blank",
                             ["noopener", "noreferrer", "external"])
@@ -92,6 +86,8 @@
                         "Opens in a new window",
                         "_blank",
                         ["noopener", "noreferrer", "external"])
+
+                    if you haven't already spoken to the Education and Skills Funding Agency (ESFA) about your finances.
                 </p>
             }
         </div>
