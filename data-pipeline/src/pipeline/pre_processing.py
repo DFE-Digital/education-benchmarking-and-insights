@@ -260,7 +260,7 @@ def prepare_central_services_data(cs_path, current_year: int):
     central_services_financial = pd.read_csv(
         cs_path,
         usecols=lambda x: x in input_schemas.aar_central_services.keys(),
-        dtype=input_schemas.aar_central_services
+        dtype=input_schemas.aar_central_services,
     )
 
     if (current_year < 2023) or (
@@ -467,14 +467,13 @@ def prepare_aar_data(aar_path, current_year: int):
     )
 
     aar["Income_Other DFE grants"] = (
-       aar["BNCH11110T (EFA Revenue Grants)"]
-       + aar["BNCH11131 (DfE Family Revenue Grants)"]
-       + aar["BNCH11123-BAI011-A (Academies - Income)"]
+        aar["BNCH11110T (EFA Revenue Grants)"]
+        + aar["BNCH11131 (DfE Family Revenue Grants)"]
+        + aar["BNCH11123-BAI011-A (Academies - Income)"]
     )
 
     aar["Income_Other Revenue Income"] = (
-        aar["BNCH11162 (Academies)"]
-        + aar["BNCH11163 (Non- Government)"]
+        aar["BNCH11162 (Academies)"] + aar["BNCH11163 (Non- Government)"]
     )
 
     aar["Income_Facilities and services"] = (
