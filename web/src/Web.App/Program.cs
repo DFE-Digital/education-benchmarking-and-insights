@@ -14,6 +14,7 @@ using Web.App.HealthChecks;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
+
 [assembly: InternalsVisibleTo("Web.Tests")]
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
@@ -23,8 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllersWithViews()
-    .AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); })
-    .AddMvcOptions(options => { options.SetModelBindingOptions(); });
+    .AddNewtonsoftJson(options => options.SerializerSettings.SetJsonOptions())
+    .AddMvcOptions(options => options.SetModelBindingOptions());
 
 builder.Services
     .AddDefaultCorrelationId()
@@ -118,7 +119,11 @@ else
 app
     .UseStaticFiles(new StaticFileOptions
     {
-        OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600")
+        OnPrepareResponse = ctx =>
+        {
+            ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
+            ctx.Context.Response.Headers.Append("Expires", DateTime.UtcNow.AddMinutes(60).ToString("R"));
+        }
     })
     .UseForwardedHeaders()
     .UseMiddleware<CustomResponseHeadersMiddleware>()
@@ -149,7 +154,6 @@ app.MapControllerRoute(
     "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
 
 
 [ExcludeFromCodeCoverage]

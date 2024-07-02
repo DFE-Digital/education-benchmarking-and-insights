@@ -33,7 +33,14 @@ public static class CensusResponseFactory
 
         if (category is null or CensusCategories.WorkforceFte)
         {
-            response.WorkforceFTE = CalculateValue(model.WorkforceFTE, model, dimension);
+            response.Workforce = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.WorkforceFTE, model.WorkforceHeadcount)
+                : CalculateValue(model.WorkforceFTE, model, dimension);
+        }
+
+        if (category is null or CensusCategories.WorkforceHeadcount)
+        {
+            response.WorkforceHeadcount = CalculateValue(model.WorkforceHeadcount, model, dimension);
         }
 
         if (category is null or CensusCategories.TeachersQualified)
@@ -43,32 +50,37 @@ public static class CensusResponseFactory
 
         if (category is null or CensusCategories.TeachersFte)
         {
-            response.TeachersFTE = CalculateValue(model.TeachersFTE, model, dimension);
+            response.Teachers = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.TeachersFTE, model.TeachersHeadcount)
+                : CalculateValue(model.TeachersFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.SeniorLeadershipFte)
         {
-            response.SeniorLeadershipFTE = CalculateValue(model.SeniorLeadershipFTE, model, dimension);
+            response.SeniorLeadership = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.SeniorLeadershipFTE, model.SeniorLeadershipHeadcount)
+                : CalculateValue(model.SeniorLeadershipFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.TeachingAssistantsFte)
         {
-            response.TeachingAssistantFTE = CalculateValue(model.TeachingAssistantFTE, model, dimension);
+            response.TeachingAssistant = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.TeachingAssistantFTE, model.TeachingAssistantHeadcount)
+                : CalculateValue(model.TeachingAssistantFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.NonClassroomSupportStaffFte)
         {
-            response.NonClassroomSupportStaffFTE = CalculateValue(model.NonClassroomSupportStaffFTE, model, dimension);
+            response.NonClassroomSupportStaff = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.NonClassroomSupportStaffFTE, model.NonClassroomSupportStaffHeadcount)
+                : CalculateValue(model.NonClassroomSupportStaffFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.AuxiliaryStaffFte)
         {
-            response.AuxiliaryStaffFTE = CalculateValue(model.AuxiliaryStaffFTE, model, dimension);
-        }
-
-        if (category is null or CensusCategories.WorkforceHeadcount)
-        {
-            response.WorkforceHeadcount = CalculateValue(model.WorkforceHeadcount, model, dimension);
+            response.AuxiliaryStaff = dimension == CensusDimensions.HeadcountPerFte
+                ? CalculateValue(model.AuxiliaryStaffFTE, model.AuxiliaryStaffHeadcount)
+                : CalculateValue(model.AuxiliaryStaffFTE, model, dimension);
         }
 
         return response;
@@ -84,11 +96,21 @@ public static class CensusResponseFactory
         return dimension switch
         {
             CensusDimensions.Total => value,
-            CensusDimensions.HeadcountPerFte => value != 0 ? model.WorkforceHeadcount / value : 0,
-            CensusDimensions.PercentWorkforce => model.WorkforceFTE != 0 ? value / model.WorkforceFTE * 100 : 0,
-            CensusDimensions.PupilsPerStaffRole => value != 0 ? model.TotalPupils / value : 0,
+            CensusDimensions.HeadcountPerFte => CalculateValue(model.WorkforceHeadcount, value),
+            CensusDimensions.PercentWorkforce => CalculateValue(value, model.WorkforceFTE) * 100,
+            CensusDimensions.PupilsPerStaffRole => CalculateValue(model.TotalPupils, value),
             _ => null
         };
+    }
+
+    private static decimal? CalculateValue(decimal? numerator, decimal? denominator)
+    {
+        if (denominator == null)
+        {
+            return denominator;
+        }
+
+        return denominator != 0 ? numerator / denominator : 0;
     }
 }
 
@@ -97,13 +119,13 @@ public abstract record CensusBaseResponse
 {
     public string? URN { get; set; }
     public decimal? TotalPupils { get; set; }
-    public decimal? WorkforceFTE { get; set; }
+    public decimal? Workforce { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
-    public decimal? TeachersFTE { get; set; }
-    public decimal? SeniorLeadershipFTE { get; set; }
-    public decimal? TeachingAssistantFTE { get; set; }
-    public decimal? NonClassroomSupportStaffFTE { get; set; }
-    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? Teachers { get; set; }
+    public decimal? SeniorLeadership { get; set; }
+    public decimal? TeachingAssistant { get; set; }
+    public decimal? NonClassroomSupportStaff { get; set; }
+    public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 

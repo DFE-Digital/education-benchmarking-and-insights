@@ -14,7 +14,6 @@ public static class CustomDataFactory
             // Catering
             CateringStaffCosts = expenditure.CateringStaffCosts,
             CateringSuppliesCosts = expenditure.CateringSuppliesCosts,
-            CateringIncome = income.IncomeCatering,
             // Educational supplies
             ExaminationFeesCosts = expenditure.ExaminationFeesCosts,
             LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts,
@@ -61,13 +60,13 @@ public static class CustomDataFactory
             SpecialEducationalNeedsPercent = characteristic.PercentSpecialEducationNeeds,
             FloorArea = characteristic.TotalInternalFloorArea,
             // Workforce data
-            WorkforceFte = census.WorkforceFTE,
-            TeachersFte = census.TeachersFTE,
+            WorkforceFte = census.Workforce,
+            TeachersFte = census.Teachers,
             QualifiedTeacherPercent = census.PercentTeacherWithQualifiedStatus,
-            SeniorLeadershipFte = census.SeniorLeadershipFTE,
-            TeachingAssistantsFte = census.TeachingAssistantFTE,
-            NonClassroomSupportStaffFte = census.NonClassroomSupportStaffFTE,
-            AuxiliaryStaffFte = census.AuxiliaryStaffFTE,
+            SeniorLeadershipFte = census.SeniorLeadership,
+            TeachingAssistantsFte = census.TeachingAssistant,
+            NonClassroomSupportStaffFte = census.NonClassroomSupportStaff,
+            AuxiliaryStaffFte = census.AuxiliaryStaff,
             WorkforceHeadcount = census.WorkforceHeadcount
         };
 }

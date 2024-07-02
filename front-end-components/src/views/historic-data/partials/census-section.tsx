@@ -78,12 +78,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             chartName="School workforce (full time equivalent)"
             data={data}
             seriesConfig={{
-              workforceFTE: {
+              workforce: {
                 label: "School workforce",
                 visible: true,
               },
             }}
-            valueField="workforceFTE"
+            valueField="workforce"
           >
             <h2 className="govuk-heading-m">
               School workforce (full time equivalent)
@@ -112,12 +112,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             chartName="Total number of teachers (full time equivalent)"
             data={data}
             seriesConfig={{
-              teachersFTE: {
+              teachers: {
                 label: "Total number of teachers",
                 visible: true,
               },
             }}
-            valueField="teachersFTE"
+            valueField="teachers"
           >
             <h2 className="govuk-heading-m">
               Total number of teachers (full time equivalent)
@@ -173,12 +173,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             chartName="Senior leadership (full time equivalent)"
             data={data}
             seriesConfig={{
-              seniorLeadershipFTE: {
+              seniorLeadership: {
                 label: "Senior leadership",
                 visible: true,
               },
             }}
-            valueField="seniorLeadershipFTE"
+            valueField="seniorLeadership"
           >
             <h2 className="govuk-heading-m">
               Senior leadership (full time equivalent)
@@ -207,12 +207,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             chartName="Teaching assistants (full time equivalent)"
             data={data}
             seriesConfig={{
-              teachingAssistantFTE: {
+              teachingAssistant: {
                 label: "Teaching assistants",
                 visible: true,
               },
             }}
-            valueField="teachingAssistantFTE"
+            valueField="teachingAssistant"
           >
             <h2 className="govuk-heading-m">
               Teaching assistants (full time equivalent)
@@ -242,12 +242,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             equivalent)"
             data={data}
             seriesConfig={{
-              nonClassroomSupportStaffFTE: {
+              nonClassroomSupportStaff: {
                 label: "Non-classroom support staff",
                 visible: true,
               },
             }}
-            valueField="nonClassroomSupportStaffFTE"
+            valueField="nonClassroomSupportStaff"
           >
             <h2 className="govuk-heading-m">
               Non-classroom support staff - excluding auxiliary staff (full time
@@ -276,12 +276,12 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             chartName="Auxiliary staff (full time equivalent)"
             data={data}
             seriesConfig={{
-              auxiliaryStaffFTE: {
+              auxiliaryStaff: {
                 label: "Auxiliary staff (full time equivalent)",
                 visible: true,
               },
             }}
-            valueField="auxiliaryStaffFTE"
+            valueField="auxiliaryStaff"
           >
             <h2 className="govuk-heading-m">
               Auxiliary staff (full time equivalent)

@@ -39,13 +39,6 @@ public class SchoolCustomDataChangeViewModel(
             Name = nameof(SchoolCustomDataViewModel.CateringSuppliesCosts),
             Current = CurrentValues.CateringSuppliesCosts,
             Custom = CustomInput.CateringSuppliesCosts
-        },
-        new SchoolCustomDataValueViewModel
-        {
-            Title = SchoolCustomDataViewModelTitles.CateringIncome,
-            Name = nameof(SchoolCustomDataViewModel.CateringIncome),
-            Current = CurrentValues.CateringIncome,
-            Custom = CustomInput.CateringIncome
         }
     );
 
@@ -292,16 +285,14 @@ public class SchoolCustomDataChangeViewModel(
             Title = SchoolCustomDataViewModelTitles.TotalIncome,
             Name = nameof(SchoolCustomDataViewModel.TotalIncome),
             Current = CurrentValues.TotalIncome,
-            Custom = CustomInput.TotalIncome,
-            ReadOnly = true
+            Custom = CustomInput.TotalIncome
         },
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.TotalExpenditure,
             Name = nameof(SchoolCustomDataViewModel.TotalExpenditure),
             Current = CurrentValues.TotalExpenditure,
-            Custom = CustomInput.TotalExpenditure,
-            ReadOnly = true
+            Custom = CustomInput.TotalExpenditure
         },
         new SchoolCustomDataValueViewModel
         {

@@ -399,7 +399,7 @@ def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "Company Registration Number": "CompanyNumber",
         "Category": "Metric",
-        "Value": "Value"
+        "Value": "Value",
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
@@ -414,13 +414,14 @@ def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
         "BudgetForecastReturnMetric",
         keys=["RunType", "RunId", "Year", "CompanyNumber", "Metric"],
         dtype={
-                "RunType": sqlalchemy.types.VARCHAR(length=50),
-                "RunId": sqlalchemy.types.VARCHAR(length=50),
-                "Year": sqlalchemy.types.Integer(),
-                "Metric": sqlalchemy.types.VARCHAR(length=50),
-                "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
-                "Value": sqlalchemy.types.Numeric(16, 2)
-        })
+            "RunType": sqlalchemy.types.VARCHAR(length=50),
+            "RunId": sqlalchemy.types.VARCHAR(length=50),
+            "Year": sqlalchemy.types.Integer(),
+            "Metric": sqlalchemy.types.VARCHAR(length=50),
+            "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
+            "Value": sqlalchemy.types.Numeric(16, 2),
+        },
+    )
     logger.info(
         f"Wrote {len(write_frame)} rows to BFR metrics data {run_type} - {year}"
     )
@@ -432,7 +433,7 @@ def insert_bfr(run_type: str, year: str, df: pd.DataFrame):
         "Year": "Year",
         "Category": "Category",
         "Value": "Value",
-        "Pupils": "TotalPupils"
+        "Pupils": "TotalPupils",
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
@@ -440,14 +441,18 @@ def insert_bfr(run_type: str, year: str, df: pd.DataFrame):
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(year)
 
-    upsert(write_frame, "BudgetForecastReturn", keys=["RunType", "RunId", "Year", "CompanyNumber", "Category"],
-           dtype={
-                "RunType": sqlalchemy.types.VARCHAR(length=50),
-                "RunId": sqlalchemy.types.VARCHAR(length=50),
-                "Year": sqlalchemy.types.Integer(),
-                "Category": sqlalchemy.types.VARCHAR(length=50),
-                "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
-                "Value": sqlalchemy.types.Numeric(16, 2),
-                "TotalPupils": sqlalchemy.types.Numeric(16, 2)
-            })
+    upsert(
+        write_frame,
+        "BudgetForecastReturn",
+        keys=["RunType", "RunId", "Year", "CompanyNumber", "Category"],
+        dtype={
+            "RunType": sqlalchemy.types.VARCHAR(length=50),
+            "RunId": sqlalchemy.types.VARCHAR(length=50),
+            "Year": sqlalchemy.types.Integer(),
+            "Category": sqlalchemy.types.VARCHAR(length=50),
+            "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
+            "Value": sqlalchemy.types.Numeric(16, 2),
+            "TotalPupils": sqlalchemy.types.Numeric(16, 2),
+        },
+    )
     logger.info(f"Wrote {len(write_frame)} rows to BFR data {run_type} - {year}")

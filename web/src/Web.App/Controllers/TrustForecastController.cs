@@ -6,8 +6,8 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
-using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
@@ -32,7 +32,11 @@ public class TrustForecastController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustForecast(companyNumber);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "Trust", new
+                {
+                    companyNumber
+                }));
+
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var metrics = await GetBudgetForecastReturnMetrics(companyNumber);
                 var bfrYear = await budgetForecastApi.GetCurrentBudgetForecastYear(companyNumber).GetResultOrDefault(Constants.CurrentYear - 1);

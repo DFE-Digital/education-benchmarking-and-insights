@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Playwright;
 using TechTalk.SpecFlow.Infrastructure;
 
@@ -7,14 +8,18 @@ public class PageDriver : IDisposable
 {
     private readonly Lazy<Task<IPage>> _current;
     private readonly ISpecFlowOutputHelper _output;
+    private readonly ConcurrentDictionary<string, byte> _pendingRequests;
 
     private bool _isDisposed;
     private IBrowser? _browser;
+    private IPlaywright? _playwright;
 
     public PageDriver(ISpecFlowOutputHelper output)
     {
         _current = new Lazy<Task<IPage>>(CreatePageDriver);
         _output = output;
+
+        _pendingRequests = new ConcurrentDictionary<string, byte>();
     }
 
     public Task<IPage> Current => _current.Value;
@@ -23,6 +28,17 @@ public class PageDriver : IDisposable
     {
         await Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    public async Task WaitForPendingRequests(int millisecondsDelay = 100)
+    {
+        await Task.Delay(millisecondsDelay);
+
+        while (!_pendingRequests.IsEmpty)
+        {
+            _output.WriteLine($"Awaiting for pending requests. Count : {_pendingRequests.Count}");
+            await Task.Delay(100);
+        }
     }
 
     protected virtual async Task Dispose(bool disposing)
@@ -39,7 +55,10 @@ public class PageDriver : IDisposable
                 if (_browser != null)
                 {
                     await _browser.CloseAsync();
+                    await _browser.DisposeAsync();
                 }
+
+                _playwright?.Dispose();
             }
 
             _isDisposed = true;
@@ -60,13 +79,22 @@ public class PageDriver : IDisposable
             page.Response += (_, r) => _output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
         }
 
+        page.Request += (_, e) => _pendingRequests.TryAdd(e.Url, byte.MinValue);
+        page.RequestFinished += (_, e) => _pendingRequests.TryRemove(e.Url, out var _);
+        page.RequestFailed += (_, e) => _pendingRequests.TryRemove(e.Url, out var _);
+
         return page;
     }
 
-    private static async Task<IBrowser> InitialiseBrowser()
+    private async Task<IBrowser> InitialiseBrowser()
     {
-        var playwrightInstance = await Playwright.CreateAsync();
+        _playwright ??= await InitialisePlaywright();
         var launchOptions = new BrowserTypeLaunchOptions { Headless = TestConfiguration.Headless };
-        return await playwrightInstance.Chromium.LaunchAsync(launchOptions);
+        return await _playwright.Chromium.LaunchAsync(launchOptions);
+    }
+
+    private async Task<IPlaywright> InitialisePlaywright()
+    {
+        return await Playwright.CreateAsync();
     }
 }

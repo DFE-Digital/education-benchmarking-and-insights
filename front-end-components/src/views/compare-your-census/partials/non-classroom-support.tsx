@@ -37,7 +37,7 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "NonClassroomSupportStaffFte",
+      "NonClassroomSupportStaff",
       phase,
       customDataId
     );
@@ -64,7 +64,7 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.nonClassroomSupportStaffFTE,
+              value: school.nonClassroomSupportStaff,
             };
           }) ?? [],
         tableHeadings,
