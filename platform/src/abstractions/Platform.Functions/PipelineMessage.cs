@@ -9,6 +9,7 @@ public record PipelineFinishMessage
 {
     public string? JobId { get; set; }
     public string? RunId { get; set; }
+    public bool Success { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
