@@ -202,6 +202,7 @@ def test_update_partial_custom_data():
         ].items()
     )
 
+
 def test_update_custom_data_missing_columns():
     """
     Existing data will always have a value of `0.0`.

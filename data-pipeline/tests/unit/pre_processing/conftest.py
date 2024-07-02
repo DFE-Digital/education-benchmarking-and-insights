@@ -610,18 +610,19 @@ def academies():
     return pd.DataFrame(
         {
             "Trust UPIN": [140992, 140993],
-            "Company Registration Number": ['06666666', '01111111'],
+            "Company Registration Number": ["06666666", "01111111"],
             "Total pupils in trust": [100, 200],
             "Trust Revenue reserve": [10000, 10000],
         }
     )
+
 
 @pytest.fixture
 def academies_y1():
     return pd.DataFrame(
         {
             "Trust UPIN": [140992, 140993],
-            "Company Registration Number": ['06666666', '01111111'],
+            "Company Registration Number": ["06666666", "01111111"],
             "Total pupils in trust": [90, 190],
             "Trust Revenue reserve": [9800, 98000],
         }
@@ -633,7 +634,7 @@ def academies_y2():
     return pd.DataFrame(
         {
             "Trust UPIN": [140992, 140993],
-            "Company Registration Number": ['06666666', '01111111'],
+            "Company Registration Number": ["06666666", "01111111"],
             "Total pupils in trust": [80, 180],
             "Trust Revenue reserve": [9400, 9400],
         }
