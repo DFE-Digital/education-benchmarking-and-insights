@@ -90,8 +90,7 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
             "fte pupils": "Number of Pupils (FTE)",
             "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "NonClassroomSupportStaffFTE",
             "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "NonClassroomSupportStaffHeadcount",
-            "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
-            "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals",
+            "% of pupils known to be eligible for and claiming free school me": "Percentage Free school meals",
         }
     )
 
