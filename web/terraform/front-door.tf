@@ -121,7 +121,7 @@ resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
   count                    = lower(var.environment) == "production" ? 1 : 0
   name                     = "${var.environment-prefix}-custom-domain"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-  host_name                = "financial-benchmarking-and-insights-tool.eduction.go.uk"
+  host_name                = "financial-benchmarking-and-insights-tool.education.gov.uk"
 
   tls {
     certificate_type    = "ManagedCertificate"
