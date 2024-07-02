@@ -209,7 +209,6 @@ pupil_census_index_col = "URN"
 pupil_census = {
     "URN": "Int64",
     "% of pupils known to be eligible for and claiming free school me": "float",
-    "% of pupils known to be eligible for free school meals (Performa": "float",
     "headcount of pupils": "float",
     "fte pupils": "float",
     "ward_name": "string",
