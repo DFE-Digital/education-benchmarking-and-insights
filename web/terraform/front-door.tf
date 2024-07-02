@@ -109,6 +109,24 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
   }
 }
 
+resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
+  count                    = lower(var.environment) == "production" ? 1 : 0
+  name                     = "${var.environment-prefix}-custom-domain"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+  host_name                = "financial-benchmarking-and-insights-tool.eduction.go.uk"
+
+  tls {
+    certificate_type    = "ManagedCertificate"
+    minimum_tls_version = "TLS12"
+  }
+}
+
+resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domain" {
+  count                          = lower(var.environment) == "production" ? 1 : 0
+  cdn_frontdoor_custom_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id
+  cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
+}
+
 
 resource "random_uuid" "idgen" {
 }
