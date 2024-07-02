@@ -52,8 +52,7 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
     options.OlClasses = "govuk-breadcrumbs__list";
     options.LiTemplate =
         "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
-    options.ActiveLiTemplate =
-        "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.ActiveLiTemplate = " ";
 });
 
 builder.AddSessionService();

@@ -165,6 +165,7 @@
   grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(
       calc(100% - 30px) / 3
     );
+  margin-top: 14px;
   padding: 0;
   gap: 15px;
   width: 100%;

@@ -82,14 +82,14 @@
                                 {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
-                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
                         </div>
                     }
                 </div>
             }
 
-            <h3 class="govuk-heading-s">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
                 <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
                     View all spending priorities for this school
                 </a>
