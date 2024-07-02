@@ -1,13 +1,21 @@
 ﻿@using Web.App.Domain
-@using Web.App.Extensions
 @model Web.App.ViewModels.TrustForecastMetricsViewModel
 
 @if (Model.Year != null && Model.Metrics.Any())
 {
+    // re-order metrics as per designs
+    var metrics = new[]
+    {
+        Model.Metrics.FirstOrDefault(m => m.Metric == BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome),
+        Model.Metrics.FirstOrDefault(m => m.Metric == BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome),
+        Model.Metrics.FirstOrDefault(m => m.Metric == BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome),
+        Model.Metrics.FirstOrDefault(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
+    };
+
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <table class="govuk-table" id="bfr-metrics">
-                <caption class="govuk-table__caption govuk-table__caption--m">Budget forecast return metrics</caption>
+                <caption class="govuk-table__caption govuk-table__caption--m">Budget forecast return (BFR) metrics</caption>
                 <thead class="govuk-table__head">
                 <tr class="govuk-table__row govuk-visually-hidden">
                     <th scope="col" class="govuk-table__header">Metric</th>
@@ -15,25 +23,35 @@
                 </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                @foreach (var metric in Model.Metrics.Where(m => m.Metric != BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome))
+                @foreach (var metric in metrics
+                              .Where(m => m != null)
+                              .Cast<BudgetForecastReturnMetric>())
                 {
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell">
-                            @if (metric.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
+                            @switch (metric.Metric)
                             {
-                                @:Self-generated income vs grant funding 
-                            }
-                            else
-                            {
-                                @metric.Metric
+                                case BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome:
+                                    @:Revenue reserves as a percentage of income
+                                    break;
+                                case BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome:
+                                    @:Staff costs as a percentage of income
+                                    break;
+                                case BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome:
+                                    @:Self-generated income vs grant funding
+                                    break;
+                                default:
+                                    @metric.Metric
+                                    break;
                             }
                         </td>
                         <td class="govuk-table__cell">
-                            @metric.Value.ToPercent()
+                            @($"{metric.Value:0}%")
                             @if (metric.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
                             {
+                                var grantFunding = Model.Metrics.SingleOrDefault(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome)?.Value;
                                 @:/
-                                @Model.Metrics.SingleOrDefault(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome)?.Value.ToPercent()
+                                @($"{grantFunding:0}%")
                             }
                         </td>
                     </tr>
