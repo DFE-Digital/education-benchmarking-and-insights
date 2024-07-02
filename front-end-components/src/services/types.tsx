@@ -318,13 +318,13 @@ export type SchoolBalanceHistory = BalanceBase & {
 type CensusBase = {
   urn: string;
   totalPupils: bigint;
-  workforceFTE: number;
+  workforce: number;
   workforceHeadcount: number;
-  teachersFTE: number;
-  seniorLeadershipFTE: number;
-  teachingAssistantFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  auxiliaryStaffFTE: number;
+  teachers: number;
+  seniorLeadership: number;
+  teachingAssistant: number;
+  nonClassroomSupportStaff: number;
+  auxiliaryStaff: number;
   percentTeacherWithQualifiedStatus: number;
 };
 

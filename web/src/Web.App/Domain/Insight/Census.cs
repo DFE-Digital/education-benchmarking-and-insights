@@ -4,13 +4,13 @@ public abstract record CensusBase
 {
     public string? URN { get; set; }
     public decimal? TotalPupils { get; set; }
-    public decimal? WorkforceFTE { get; set; }
+    public decimal? Workforce { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
-    public decimal? TeachersFTE { get; set; }
-    public decimal? SeniorLeadershipFTE { get; set; }
-    public decimal? TeachingAssistantFTE { get; set; }
-    public decimal? NonClassroomSupportStaffFTE { get; set; }
-    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? Teachers { get; set; }
+    public decimal? SeniorLeadership { get; set; }
+    public decimal? TeachingAssistant { get; set; }
+    public decimal? NonClassroomSupportStaff { get; set; }
+    public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 

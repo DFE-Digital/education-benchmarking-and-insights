@@ -33,7 +33,7 @@ public static class CensusResponseFactory
 
         if (category is null or CensusCategories.WorkforceFte)
         {
-            response.WorkforceFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.Workforce = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.WorkforceFTE, model.WorkforceHeadcount)
                 : CalculateValue(model.WorkforceFTE, model, dimension);
         }
@@ -50,35 +50,35 @@ public static class CensusResponseFactory
 
         if (category is null or CensusCategories.TeachersFte)
         {
-            response.TeachersFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.Teachers = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.TeachersFTE, model.TeachersHeadcount)
                 : CalculateValue(model.TeachersFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.SeniorLeadershipFte)
         {
-            response.SeniorLeadershipFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.SeniorLeadership = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.SeniorLeadershipFTE, model.SeniorLeadershipHeadcount)
                 : CalculateValue(model.SeniorLeadershipFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.TeachingAssistantsFte)
         {
-            response.TeachingAssistantFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.TeachingAssistant = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.TeachingAssistantFTE, model.TeachingAssistantHeadcount)
                 : CalculateValue(model.TeachingAssistantFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.NonClassroomSupportStaffFte)
         {
-            response.NonClassroomSupportStaffFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.NonClassroomSupportStaff = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.NonClassroomSupportStaffFTE, model.NonClassroomSupportStaffHeadcount)
                 : CalculateValue(model.NonClassroomSupportStaffFTE, model, dimension);
         }
 
         if (category is null or CensusCategories.AuxiliaryStaffFte)
         {
-            response.AuxiliaryStaffFTE = dimension == CensusDimensions.HeadcountPerFte
+            response.AuxiliaryStaff = dimension == CensusDimensions.HeadcountPerFte
                 ? CalculateValue(model.AuxiliaryStaffFTE, model.AuxiliaryStaffHeadcount)
                 : CalculateValue(model.AuxiliaryStaffFTE, model, dimension);
         }
@@ -119,13 +119,13 @@ public abstract record CensusBaseResponse
 {
     public string? URN { get; set; }
     public decimal? TotalPupils { get; set; }
-    public decimal? WorkforceFTE { get; set; }
+    public decimal? Workforce { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
-    public decimal? TeachersFTE { get; set; }
-    public decimal? SeniorLeadershipFTE { get; set; }
-    public decimal? TeachingAssistantFTE { get; set; }
-    public decimal? NonClassroomSupportStaffFTE { get; set; }
-    public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? Teachers { get; set; }
+    public decimal? SeniorLeadership { get; set; }
+    public decimal? TeachingAssistant { get; set; }
+    public decimal? NonClassroomSupportStaff { get; set; }
+    public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
