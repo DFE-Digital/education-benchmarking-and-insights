@@ -100,10 +100,16 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
 
       association {
         domain {
-          # Custom domain will need to be used for production.
-          # In the meantime, the non-prod format will be `[prefix]-education-benchmarking-[random].[instance].azurefd.net`
-          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id
         }
+
+        dynamic "domain" {
+          for_each = lower(var.environment) == "production" ? ["apply"] : []
+          content {
+            cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
+          }
+        }
+
         patterns_to_match = ["/*"]
       }
     }
