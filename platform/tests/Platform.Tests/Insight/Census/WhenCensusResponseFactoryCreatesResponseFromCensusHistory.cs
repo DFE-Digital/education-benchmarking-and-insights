@@ -25,7 +25,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "100.00")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "11.11")]
     [InlineData(CensusDimensions.Total, "90.00")]
-    public void ShouldBuildResponseModelWithWorkforceFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithWorkforce(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -38,7 +38,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.WorkforceFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.Workforce:N2}");
     }
 
     [Theory]
@@ -46,7 +46,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "88.89")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "12.50")]
     [InlineData(CensusDimensions.Total, "80.00")]
-    public void ShouldBuildResponseModelWithTeachersFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithTeachers(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -61,7 +61,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.TeachersFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.Teachers:N2}");
     }
 
     [Theory]
@@ -69,7 +69,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "77.78")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "14.29")]
     [InlineData(CensusDimensions.Total, "70.00")]
-    public void ShouldBuildResponseModelWithSeniorLeadershipFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithSeniorLeadership(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -84,7 +84,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.SeniorLeadershipFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.SeniorLeadership:N2}");
     }
 
     [Theory]
@@ -92,7 +92,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "66.67")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "16.67")]
     [InlineData(CensusDimensions.Total, "60.00")]
-    public void ShouldBuildResponseModelWithTeachingAssistantFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithTeachingAssistant(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -107,7 +107,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.TeachingAssistantFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.TeachingAssistant:N2}");
     }
 
     [Theory]
@@ -115,7 +115,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "44.44")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "25.00")]
     [InlineData(CensusDimensions.Total, "40.00")]
-    public void ShouldBuildResponseModelWithNonClassroomSupportStaffFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithNonClassroomSupportStaff(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -130,7 +130,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.NonClassroomSupportStaffFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.NonClassroomSupportStaff:N2}");
     }
 
     [Theory]
@@ -138,7 +138,7 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
     [InlineData(CensusDimensions.PercentWorkforce, "22.22")]
     [InlineData(CensusDimensions.PupilsPerStaffRole, "50.00")]
     [InlineData(CensusDimensions.Total, "20.00")]
-    public void ShouldBuildResponseModelWithAuxiliaryStaffFte(string dimension, string? expected)
+    public void ShouldBuildResponseModelWithAuxiliaryStaff(string dimension, string? expected)
     {
         // arrange
         var model = _fixture.Build<CensusHistoryModel>()
@@ -153,6 +153,6 @@ public class WhenCensusResponseFactoryCreatesResponseFromCensusHistory
         var response = CensusResponseFactory.Create(model, dimension);
 
         // assert
-        Assert.Equal(expected ?? string.Empty, $"{response.AuxiliaryStaffFTE:N2}");
+        Assert.Equal(expected ?? string.Empty, $"{response.AuxiliaryStaff:N2}");
     }
 }

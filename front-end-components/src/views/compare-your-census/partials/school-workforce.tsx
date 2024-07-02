@@ -65,7 +65,7 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.workforceFTE,
+              value: school.workforce,
             };
           }) ?? [],
         tableHeadings,

@@ -4,7 +4,7 @@ export type SchoolCensusData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  workforceFTE: number;
+  workforce: number;
 };
 
 export type AuxiliaryStaffData = {
@@ -13,7 +13,7 @@ export type AuxiliaryStaffData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  auxiliaryStaffFTE: number;
+  auxiliaryStaff: number;
 };
 
 export type HeadcountData = {
@@ -31,7 +31,7 @@ export type NonClassroomSupportData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  nonClassroomSupportStaffFTE: number;
+  nonClassroomSupportStaff: number;
 };
 
 export type SeniorLeadershipData = {
@@ -40,7 +40,7 @@ export type SeniorLeadershipData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  seniorLeadershipFTE: number;
+  seniorLeadership: number;
 };
 
 export type TeachingAssistantsData = {
@@ -49,7 +49,7 @@ export type TeachingAssistantsData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  teachingAssistantFTE: number;
+  teachingAssistant: number;
 };
 
 export type TotalTeachersData = {
@@ -58,7 +58,7 @@ export type TotalTeachersData = {
   schoolName: string;
   schoolType: string;
   laName: string;
-  teachersFTE: number;
+  teachers: number;
 };
 
 export type TotalTeachersQualifiedData = {

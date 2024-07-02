@@ -64,7 +64,7 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.teachersFTE,
+              value: school.teachers,
             };
           }) ?? [],
         tableHeadings,

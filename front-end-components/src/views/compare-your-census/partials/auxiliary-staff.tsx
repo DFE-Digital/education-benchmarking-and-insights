@@ -64,7 +64,7 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.auxiliaryStaffFTE,
+              value: school.auxiliaryStaff,
             };
           }) ?? [],
         tableHeadings,

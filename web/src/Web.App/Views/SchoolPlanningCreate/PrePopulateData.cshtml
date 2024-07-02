@@ -57,7 +57,7 @@
                     Full time equivalent teachers
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Workforce?.TeachersFTE
+                    @Model.Workforce?.Teachers
                 </dd>
             </div>
         </dl>
@@ -75,7 +75,7 @@
                     <input type="hidden" name="@nameof(Model.PlanInput.TotalExpenditure)" value="@($"{Model.Expenditure?.TotalExpenditure:0}")"/>
                     <input type="hidden" name="@nameof(Model.PlanInput.TotalTeacherCosts)" value="@($"{Model.Expenditure?.TeachingStaffCosts:0}")"/>
                     <input type="hidden" name="@nameof(Model.PlanInput.EducationSupportStaffCosts)" value="@($"{Model.Expenditure?.EducationSupportStaffCosts:0}")"/>
-                    <input type="hidden" name="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)" value="@Model.Workforce?.TeachersFTE"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)" value="@Model.Workforce?.Teachers"/>
 
                     @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.UseFigures)))
                     {
