@@ -122,7 +122,6 @@ public class WhenViewingCustomisedData(SchoolBenchmarkingWebAppClient client)
        {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute()),
         };
 
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
