@@ -292,15 +292,15 @@ public class SchoolCustomDataChangeViewModel(
             Title = SchoolCustomDataViewModelTitles.TotalExpenditure,
             Name = nameof(SchoolCustomDataViewModel.TotalExpenditure),
             Current = CurrentValues.TotalExpenditure,
-            Custom = CustomInput.TotalExpenditure
+            Custom = CustomInput.TotalExpenditure,
+            Hidden = true
         },
         new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.RevenueReserve,
             Name = nameof(SchoolCustomDataViewModel.RevenueReserve),
             Current = CurrentValues.RevenueReserve,
-            Custom = CustomInput.RevenueReserve,
-            Hidden = true
+            Custom = CustomInput.RevenueReserve
         });
 
     public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
