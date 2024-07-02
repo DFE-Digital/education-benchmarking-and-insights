@@ -75,8 +75,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Forecast and risks", Paths.TrustForecast(trust.CompanyNumber).ToAbsolute())
+            ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(trust.CompanyNumber).ToAbsolute());

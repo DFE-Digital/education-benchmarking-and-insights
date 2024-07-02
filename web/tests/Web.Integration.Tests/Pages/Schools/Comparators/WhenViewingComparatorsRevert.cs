@@ -75,8 +75,7 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Comparator sets", Paths.SchoolComparators(school.URN).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page,

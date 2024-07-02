@@ -111,8 +111,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Compare your costs", Paths.SchoolComparison(school.URN).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.URN).ToAbsolute());

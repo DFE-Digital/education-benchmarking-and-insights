@@ -116,8 +116,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.URN).ToAbsolute());

@@ -140,8 +140,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var expectedBreadcrumbs = new[]
         {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your local authority", Paths.LocalAuthorityHome(authority.Code).ToAbsolute())
+            ("Home", Paths.ServiceHome.ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 

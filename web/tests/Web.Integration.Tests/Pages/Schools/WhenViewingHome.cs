@@ -131,8 +131,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         var expectedBreadcrumbs = new[]
         {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
+            ("Home", Paths.ServiceHome.ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
