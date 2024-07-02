@@ -123,7 +123,6 @@ public class WhenViewingCustomDataComparison(SchoolBenchmarkingWebAppClient clie
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
             ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute()),
-            ("Compare your costs", Paths.SchoolComparisonCustomData(school.URN).ToAbsolute()),
         };
 
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
