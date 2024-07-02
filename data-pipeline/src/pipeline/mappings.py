@@ -164,7 +164,7 @@ def map_maintained_school_status(
 
 
 def map_school_website(url: str):
-    if url is None:
+    if url is None or url == "":
         return None
     if url.startswith("https://") or url.startswith("http://"):
         return url
@@ -174,7 +174,7 @@ def map_school_website(url: str):
 def map_is_pfi_school(pfi: float):
     return (
         "PFI School"
-        if pfi > 0
+        if pfi is not None and pfi != 0
         else "Non-PFI school"
     )
 
