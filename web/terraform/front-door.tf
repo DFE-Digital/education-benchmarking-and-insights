@@ -58,7 +58,8 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   patterns_to_match      = ["/*"]
   supported_protocols    = ["Http", "Https"]
 
-  link_to_default_domain = true
+  cdn_frontdoor_custom_domain_ids = lower(var.environment) == "production" ? [azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain.id] : null
+  link_to_default_domain          = true
 }
 
 resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy" {
