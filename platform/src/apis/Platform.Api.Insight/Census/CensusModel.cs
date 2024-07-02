@@ -7,10 +7,15 @@ public abstract record CensusBaseModel
     public decimal? WorkforceFTE { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
     public decimal? TeachersFTE { get; set; }
+    public decimal? TeachersHeadcount { get; set; }
     public decimal? SeniorLeadershipFTE { get; set; }
+    public decimal? SeniorLeadershipHeadcount { get; set; }
     public decimal? TeachingAssistantFTE { get; set; }
+    public decimal? TeachingAssistantHeadcount { get; set; }
     public decimal? NonClassroomSupportStaffFTE { get; set; }
+    public decimal? NonClassroomSupportStaffHeadcount { get; set; }
     public decimal? AuxiliaryStaffFTE { get; set; }
+    public decimal? AuxiliaryStaffHeadcount { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
