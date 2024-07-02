@@ -188,9 +188,9 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
     [Display(Name = SchoolCustomDataViewModelTitles.TotalIncome)]
     public decimal? TotalIncome { get; init; }
 
-    [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.TotalExpenditure)]
     public decimal? TotalExpenditure { get; init; }
 
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.RevenueReserve)]
     public decimal? RevenueReserve { get; init; }
 }

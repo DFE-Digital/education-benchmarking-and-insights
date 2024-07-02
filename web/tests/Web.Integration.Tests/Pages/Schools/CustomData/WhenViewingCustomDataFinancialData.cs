@@ -217,6 +217,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             var expected = field switch
             {
                 nameof(FinancialDataCustomDataViewModel.TotalIncome) => _customIncome.TotalIncome,
+                nameof(FinancialDataCustomDataViewModel.RevenueReserve) => _balance.RevenueReserve,
                 _ => _customExpenditure.GetType().GetProperty(field)?.GetValue(_customExpenditure)
             };
 
@@ -278,7 +279,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             (nameof(FinancialDataCustomDataViewModel.StaffRelatedInsuranceCosts), "Enter staff-related insurance in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), "Enter supply teacher insurance in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.TotalIncome), "Enter total income in the correct format"),
-            (nameof(FinancialDataCustomDataViewModel.TotalExpenditure), "Enter total spending in the correct format")
+            (nameof(FinancialDataCustomDataViewModel.RevenueReserve), "Enter revenue reserve in the correct format")
         );
     }
 
@@ -354,7 +355,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "StaffRelatedInsuranceCosts", customData.StaffRelatedInsuranceCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "SupplyTeacherInsurableCosts", customData.SupplyTeacherInsurableCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "TotalIncome", customData.TotalIncome.ToSimpleDisplay());
-        DocumentAssert.Input(page, "TotalExpenditure", customData.TotalExpenditure.ToSimpleDisplay());
+        DocumentAssert.Input(page, "RevenueReserve", customData.RevenueReserve.ToSimpleDisplay());
 
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -438,7 +439,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             var expected = field switch
             {
                 nameof(FinancialDataCustomDataViewModel.TotalIncome) => _income.TotalIncome.ToString(),
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure) => _expenditure.TotalExpenditure.ToString(),
+                nameof(FinancialDataCustomDataViewModel.RevenueReserve) => _balance.RevenueReserve.ToString(),
                 _ => null // TODO : Explicitly set fields
             };
 
