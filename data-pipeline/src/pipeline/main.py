@@ -75,7 +75,7 @@ def pre_process_census(run_type, year) -> pd.DataFrame:
         raw_container, f"{run_type}/{year}/census_workforce.xlsx"
     )
     pupil_census_data = get_blob(
-        raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="utf-8"
+        raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="cp1252"
     )
     census = prepare_census_data(workforce_census_data, pupil_census_data)
     write_blob(
@@ -98,7 +98,7 @@ def pre_process_sen(run_type, year) -> pd.DataFrame:
 
 def pre_process_ks2(run_type, year) -> pd.DataFrame:
     logger.info("Processing KS2 Data")
-    ks2_data = get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
+    ks2_data = try_get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
     ks2 = prepare_ks2_data(ks2_data)
     write_blob("pre-processed", f"{run_type}/{year}/ks2.parquet", ks2.to_parquet())
 
@@ -107,7 +107,7 @@ def pre_process_ks2(run_type, year) -> pd.DataFrame:
 
 def pre_process_ks4(run_type, year) -> pd.DataFrame:
     logger.info("Processing KS4 Data")
-    ks4_data = get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
+    ks4_data = try_get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
     ks4 = prepare_ks4_data(ks4_data)
     write_blob("pre-processed", f"{run_type}/{year}/ks4.parquet", ks4.to_parquet())
 
