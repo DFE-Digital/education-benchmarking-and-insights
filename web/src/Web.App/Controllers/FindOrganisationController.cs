@@ -30,8 +30,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                             if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                    ? "Enter a school name, address or URN"
-                                    : "Please select a school from the suggester";
+                                    ? "Enter a school or academy name, postcode or URN"
+                                    : "Select a school or academy from the suggested list";
                                 ModelState.AddModelError("school-input", message);
                                 return View(viewModel);
                             }
@@ -45,7 +45,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                             {
                                 var message = string.IsNullOrEmpty(viewModel.TrustInput)
                                     ? "Enter a trust name or company number"
-                                    : "Please select a trust from the suggester";
+                                    : "Select a trust from the suggested list";
                                 ModelState.AddModelError("trust-input", message);
                                 return View(viewModel);
                             }
@@ -57,8 +57,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                             if (string.IsNullOrWhiteSpace(viewModel.Code) || string.IsNullOrEmpty(viewModel.LaInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.LaInput)
-                                    ? "Enter a name or 3 digit code"
-                                    : "Please select a local authority from the suggester";
+                                    ? "Enter a valid local authority name"
+                                    : "Select a local authority from the suggested list";
                                 ModelState.AddModelError("la-input", message);
                                 return View(viewModel);
                             }
