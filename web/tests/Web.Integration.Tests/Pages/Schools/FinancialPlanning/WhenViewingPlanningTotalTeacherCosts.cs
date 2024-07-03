@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -121,7 +120,9 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalTeacherCosts",  value?.ToString() ?? "" }
+                {
+                    "TotalTeacherCosts", value?.ToString() ?? ""
+                }
             });
         });
 
@@ -129,7 +130,7 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute());
 
-        var expectedMsg = value is null ? "Enter your total teacher costs" : "Total teacher costs must be 0 or more";
+        var expectedMsg = value is null ? "Enter your total spend on teaching staff" : "Total teacher costs must be 0 or more";
         DocumentAssert.FormErrors(page, ("TotalTeacherCosts", expectedMsg));
     }
 
@@ -149,7 +150,9 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalTeacherCosts",  168794.ToString()}
+                {
+                    "TotalTeacherCosts", 168794.ToString()
+                }
             });
         });
 

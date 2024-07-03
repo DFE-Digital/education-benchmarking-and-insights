@@ -1,7 +1,6 @@
 using FluentValidation;
 using Web.App.Domain;
 using Web.App.Extensions;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class PrimaryPupilFiguresStageValidator : AbstractValidator<PrimaryPupilFiguresStage>
@@ -10,7 +9,7 @@ public class PrimaryPupilFiguresStageValidator : AbstractValidator<PrimaryPupilF
     {
         RuleFor(p => p)
             .Must(HasPrimaryPupilFigures)
-            .WithMessage("Enter pupil figures for at least one year")
+            .WithMessage("Enter your pupil figures")
             .WithName("PupilFigures");
 
         When(p => p.PupilsNursery is not null, () =>
@@ -138,21 +137,18 @@ public class PrimaryPupilFiguresStageValidator : AbstractValidator<PrimaryPupilF
         });
     }
 
-    private static bool HasPrimaryPupilFigures(PrimaryPupilFiguresStage model)
-    {
-        return model.PupilsNursery is > 0 ||
-               model.PupilsMixedReceptionYear1.ToInt() is > 0 ||
-               model.PupilsMixedYear1Year2.ToInt() is > 0 ||
-               model.PupilsMixedYear2Year3.ToInt() is > 0 ||
-               model.PupilsMixedYear3Year4.ToInt() is > 0 ||
-               model.PupilsMixedYear4Year5.ToInt() is > 0 ||
-               model.PupilsMixedYear5Year6.ToInt() is > 0 ||
-               model.PupilsReception.ToInt() is > 0 ||
-               model.PupilsYear1.ToInt() is > 0 ||
-               model.PupilsYear2.ToInt() is > 0 ||
-               model.PupilsYear3.ToInt() is > 0 ||
-               model.PupilsYear4.ToInt() is > 0 ||
-               model.PupilsYear5.ToInt() is > 0 ||
-               model.PupilsYear6.ToInt() is > 0;
-    }
+    private static bool HasPrimaryPupilFigures(PrimaryPupilFiguresStage model) => model.PupilsNursery is > 0 ||
+                                                                                  model.PupilsMixedReceptionYear1.ToInt() is > 0 ||
+                                                                                  model.PupilsMixedYear1Year2.ToInt() is > 0 ||
+                                                                                  model.PupilsMixedYear2Year3.ToInt() is > 0 ||
+                                                                                  model.PupilsMixedYear3Year4.ToInt() is > 0 ||
+                                                                                  model.PupilsMixedYear4Year5.ToInt() is > 0 ||
+                                                                                  model.PupilsMixedYear5Year6.ToInt() is > 0 ||
+                                                                                  model.PupilsReception.ToInt() is > 0 ||
+                                                                                  model.PupilsYear1.ToInt() is > 0 ||
+                                                                                  model.PupilsYear2.ToInt() is > 0 ||
+                                                                                  model.PupilsYear3.ToInt() is > 0 ||
+                                                                                  model.PupilsYear4.ToInt() is > 0 ||
+                                                                                  model.PupilsYear5.ToInt() is > 0 ||
+                                                                                  model.PupilsYear6.ToInt() is > 0;
 }

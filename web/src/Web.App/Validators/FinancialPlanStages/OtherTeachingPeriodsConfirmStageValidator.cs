@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Web.App.Domain;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class OtherTeachingPeriodsConfirmStageValidator : AbstractValidator<OtherTeachingPeriodsConfirmStage>
@@ -9,6 +8,6 @@ public class OtherTeachingPeriodsConfirmStageValidator : AbstractValidator<Other
     {
         RuleFor(p => p.Proceed)
             .Must(x => x.HasValue)
-            .WithMessage("Select yes if you want to continue without adding other teaching periods");
+            .WithMessage("Confirm if you want to proceed without adding other teaching periods");
     }
 }

@@ -6,7 +6,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -18,8 +17,12 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
     public static TheoryData<bool, int?, int?, int?, int?, int?, decimal?, decimal?> PlanInput =>
         new()
         {
-            { true, 123, 123, 123, 123, 123, 12.6M, 12.59M },
-            { false, 123, 123, 123, 123, 123, null, null }
+            {
+                true, 123, 123, 123, 123, 123, 12.6M, 12.59M
+            },
+            {
+                false, 123, 123, 123, 123, 123, null, null
+            }
         };
 
     [Theory]
@@ -123,7 +126,9 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { prop, value }
+                {
+                    prop, value
+                }
             });
         });
 
@@ -176,20 +181,34 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "PupilsYear7", "" },
-                { "PupilsYear8", "" },
-                { "PupilsYear9", "" },
-                { "PupilsYear10", "" },
-                { "PupilsYear11", "" },
-                { "PupilsYear12", "" },
-                { "PupilsYear13", "" }
+                {
+                    "PupilsYear7", ""
+                },
+                {
+                    "PupilsYear8", ""
+                },
+                {
+                    "PupilsYear9", ""
+                },
+                {
+                    "PupilsYear10", ""
+                },
+                {
+                    "PupilsYear11", ""
+                },
+                {
+                    "PupilsYear12", ""
+                },
+                {
+                    "PupilsYear13", ""
+                }
             });
         });
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("pupil-figures", "Enter pupil figures for at least one year"));
+        DocumentAssert.FormErrors(page, ("pupil-figures", "Enter your pupil figures"));
     }
 
     [Theory]
@@ -217,7 +236,9 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {prop, value }
+                {
+                    prop, value
+                }
             });
         });
 
