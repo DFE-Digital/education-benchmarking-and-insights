@@ -116,7 +116,7 @@ def pre_process_ks4(run_type, year) -> pd.DataFrame:
 
 def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
     logger.info("Processing Academy AR Data")
-    academy_ar_data = get_blob(raw_container, f"{run_type}/{year}/aar.csv")
+    academy_ar_data = get_blob(raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8")
     aar = prepare_aar_data(academy_ar_data, year)
 
     write_blob(
@@ -163,7 +163,7 @@ def pre_process_cfo(run_type, year) -> pd.DataFrame:
 def pre_process_central_services(run_type, year) -> pd.DataFrame:
     logger.info("Building Central Services Data")
 
-    academies_data = get_blob(raw_container, f"{run_type}/{year}/aar_cs.csv")
+    academies_data = get_blob(raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8")
 
     central_services = prepare_central_services_data(academies_data, year)
 

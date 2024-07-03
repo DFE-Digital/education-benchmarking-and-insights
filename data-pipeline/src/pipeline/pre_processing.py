@@ -259,6 +259,7 @@ def prepare_ks4_data(ks4_path):
 def prepare_central_services_data(cs_path, current_year: int):
     central_services_financial = pd.read_csv(
         cs_path,
+        encoding="utf-8",
         usecols=lambda x: x in input_schemas.aar_central_services.keys(),
         dtype=input_schemas.aar_central_services,
     )
@@ -415,6 +416,7 @@ def prepare_central_services_data(cs_path, current_year: int):
 def prepare_aar_data(aar_path, current_year: int):
     aar = pd.read_csv(
         aar_path,
+        encoding="utf-8",
         usecols=lambda x: x in input_schemas.aar_academies.keys(),
         dtype=input_schemas.aar_academies,
     )
