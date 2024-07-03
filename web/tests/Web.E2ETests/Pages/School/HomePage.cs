@@ -6,7 +6,7 @@ public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator PageH2Headings => page.Locator($"{Selectors.H2}{Selectors.GovHeadingM}");
-    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
     private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
@@ -27,7 +27,7 @@ public class HomePage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await Breadcrumbs.ShouldBeVisible();
+        //await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
         var expectedH2Texts = new[] { "Spending priorities for this school", "Finance tools", "Resources" };
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)

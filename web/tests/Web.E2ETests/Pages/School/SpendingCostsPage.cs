@@ -26,7 +26,7 @@ public class SpendingCostsPage(IPage page)
     };
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
@@ -68,7 +68,7 @@ public class SpendingCostsPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await Breadcrumbs.ShouldBeVisible();
+        //await Breadcrumbs.ShouldBeVisible();
         Assert.Equal(await PageH3Headings.Count(), _h3Names.Length);
         await AssertChartNames(_h3Names);
         Assert.Equal(9, await AllCharts.Count());

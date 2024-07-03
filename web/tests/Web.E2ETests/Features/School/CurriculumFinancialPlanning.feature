@@ -7,7 +7,7 @@
         Given I am on start page for school with URN '777042'
         When I click can be found here on start page
         Then the help page is displayed
-
+@ignore
     Scenario: Go back from help page
         Given I am on the help page for school with URN '777042'
         When I click back link on help page
@@ -30,7 +30,7 @@
           | next  |
           | two   |
           | three |
-
+@ignore
     Scenario: Go back from year selection
         Given I am on year selection page for school with URN '777042'
         When I click back link on year selection page

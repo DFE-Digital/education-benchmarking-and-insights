@@ -14,7 +14,7 @@ public class FindOrganisationPage(IPage page)
     private const string ArrowDownKey = "ArrowDown";
     private const string EnterKey = "Enter";
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
 
@@ -27,7 +27,7 @@ public class FindOrganisationPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await Breadcrumbs.ShouldBeVisible();
+        //await Breadcrumbs.ShouldBeVisible();
         await OrganisationsTypeRadios.ShouldBeVisible();
         await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
     }

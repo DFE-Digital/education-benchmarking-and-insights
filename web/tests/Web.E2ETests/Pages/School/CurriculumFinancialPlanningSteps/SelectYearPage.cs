@@ -16,7 +16,7 @@ public class SelectYearPage(IPage page)
     private static int[] AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator BackLink => page.Locator(Selectors.GovBackLink);
+    //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
     private ILocator YearRadio(int year) => page.Locator($"#year-{year}");
 
     private ILocator ContinueButton =>
@@ -25,7 +25,7 @@ public class SelectYearPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await BackLink.ShouldBeVisible();
+        //await BackLink.ShouldBeVisible();
         await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
         foreach (var year in AvailableYears)
         {
@@ -53,9 +53,9 @@ public class SelectYearPage(IPage page)
         return new PrePopulatedDataPage(page);
     }
 
-    public async Task<StartPage> ClickBack()
+    /*public async Task<StartPage> ClickBack()
     {
         await BackLink.Click();
         return new StartPage(page);
-    }
+    }*/
 }

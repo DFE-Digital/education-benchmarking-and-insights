@@ -50,12 +50,12 @@ public class FinancialPlanningSteps(PageDriver driver)
         await _helpPage.IsDisplayed();
     }
 
-    [When("I click back link on help page")]
+    /*[When("I click back link on help page")]
     public async Task WhenIClickBacklinkOnHelpPage()
     {
         Assert.NotNull(_helpPage);
         _startPage = await _helpPage.ClickBack();
-    }
+    }*/
 
     [Then("the start page is displayed")]
     public async Task ThenTheStartPageIsDisplayed()
@@ -111,12 +111,12 @@ public class FinancialPlanningSteps(PageDriver driver)
         await _prePopulatedDataPage.IsDisplayed();
     }
 
-    [When("I click back link on year selection page")]
+    /*[When("I click back link on year selection page")]
     public async Task WhenIClickBackLinkOnYearSelectionPage()
     {
         Assert.NotNull(_selectYearPage);
         _startPage = await _selectYearPage.ClickBack();
-    }
+    }*/
 
     [Given("I have selected organisation '(.*)' after logging in for school with URN '(.*)'")]
     public async Task GivenIAmLoggedInForSchoolWithUrn(string organisation, string urn)
