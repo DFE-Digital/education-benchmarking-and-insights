@@ -3,7 +3,8 @@ using System.Reflection;
 using Web.App.Extensions;
 namespace Web.App.Attributes;
 
-public abstract class CompareValueAttribute<T>(string otherProperty, Operator operatorType) : CompareAttribute(otherProperty)
+public abstract class CompareValueAttribute<T>(string otherProperty, Operator operatorType, string errorFormatString)
+    : CompareAttribute(otherProperty)
 {
     private new string? OtherPropertyDisplayName { get; set; }
 
@@ -21,7 +22,7 @@ public abstract class CompareValueAttribute<T>(string otherProperty, Operator op
             _ => throw new ArgumentOutOfRangeException(nameof(OperatorType))
         };
 
-        return $"{name} {error} {(OtherPropertyDisplayName ?? OtherProperty).ToLower()}";
+        return string.Format(errorFormatString, name, error, (OtherPropertyDisplayName ?? OtherProperty).ToLower());
     }
 
     protected abstract bool GreaterThan(T? propertyValue, T? otherPropertyValue);
