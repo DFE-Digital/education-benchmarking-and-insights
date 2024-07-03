@@ -32,5 +32,7 @@ export function ResolvedStat<TData extends ChartDataSeries>(
     return null;
   }
 
-  return <Stat label={entry.label as string} value={entry.value} {...rest} />;
+  return (
+    <Stat label={entry.label as string} value={entry.value ?? ""} {...rest} />
+  );
 }
