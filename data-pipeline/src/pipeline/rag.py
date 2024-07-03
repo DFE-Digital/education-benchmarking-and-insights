@@ -177,7 +177,11 @@ def get_category_cols_predicates(category_name, data):
     return category_cols, sub_categories
 
 
-def compute_rag(data, comparators):
+def compute_rag(
+    data,
+    comparators,
+    target_urn: str | None = None,
+):
     keys = rag_category_settings.keys()
 
     # reduce to only used columns so that extraction routines are more efficient
@@ -197,6 +201,9 @@ def compute_rag(data, comparators):
             for indx in indices:
                 target = df.iloc[indx]
                 urn = target.name
+                if target_urn and urn != target_urn:
+                    continue
+
                 try:
                     pupil_urns = comparators["Pupil"][urn]
                     building_urns = comparators["Building"][urn]

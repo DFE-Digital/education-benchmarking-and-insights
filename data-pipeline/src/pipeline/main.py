@@ -621,11 +621,32 @@ def compute_rag_for(
     run_id: str,
     data: pd.DataFrame,
     comparators: pd.DataFrame,
+    target_urn: str | None = None,
 ):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
 
-    df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
+    # TODO: move logic to `rag` rather than hard-coding columns.
+    if target_urn and target_urn not in data.index:
+        df = pd.DataFrame(
+            columns=[
+                "URN",
+                "Category",
+                "SubCategory",
+                "Value",
+                "Mean",
+                "DiffMean",
+                "Key",
+                "PercentDiff",
+                "Percentile",
+                "Decile",
+                "RAG",
+            ]
+        ).set_index("URN")
+    else:
+        df = pd.DataFrame(
+            compute_rag(data, comparators, target_urn=target_urn)
+        ).set_index("URN")
 
     logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")
 
@@ -638,12 +659,17 @@ def compute_rag_for(
     insert_metric_rag(run_type, set_type, run_id, df)
 
 
-def run_compute_rag(run_type: str, run_id: str):
+def run_compute_rag(
+    run_type: str,
+    run_id: str,
+    target_urn: str | None = None,
+):
     """
     Perform RAG calculations.
 
     :param run_type: "default" or "custom" data type
     :param run_id: optional job identifier for custom data
+    :param target_urn: optional data identifier for custom data
     :return: duration of RAG calculations
     """
     start_time = time.time()
@@ -658,7 +684,13 @@ def run_compute_rag(run_type: str, run_id: str):
         )
     )
     compute_rag_for(
-        "maintained_schools", "unmixed", run_type, run_id, ms_data, ms_comparators
+        "maintained_schools",
+        "unmixed",
+        run_type,
+        run_id,
+        ms_data,
+        ms_comparators,
+        target_urn=target_urn,
     )
 
     academy_data = pd.read_parquet(
@@ -668,7 +700,13 @@ def run_compute_rag(run_type: str, run_id: str):
         get_blob("comparator-sets", f"{run_type}/{run_id}/academy_comparators.parquet")
     )
     compute_rag_for(
-        "academies", "unmixed", run_type, run_id, academy_data, academy_comparators
+        "academies",
+        "unmixed",
+        run_type,
+        run_id,
+        academy_data,
+        academy_comparators,
+        target_urn=target_urn,
     )
 
     mixed_data = pd.read_parquet(
@@ -677,7 +715,15 @@ def run_compute_rag(run_type: str, run_id: str):
     mixed_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{run_type}/{run_id}/mixed_comparators.parquet")
     )
-    compute_rag_for("mixed", "mixed", run_type, run_id, mixed_data, mixed_comparators)
+    compute_rag_for(
+        "mixed",
+        "mixed",
+        run_type,
+        run_id,
+        mixed_data,
+        mixed_comparators,
+        target_urn=target_urn,
+    )
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
@@ -806,6 +852,7 @@ def handle_msg(
                 msg_payload["rag_duration"] = run_compute_rag(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
+                    target_urn=int(msg_payload["urn"]),
                 )
 
         msg_payload["success"] = True
