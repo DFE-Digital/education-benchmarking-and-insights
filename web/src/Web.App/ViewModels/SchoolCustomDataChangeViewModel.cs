@@ -292,8 +292,8 @@ public class SchoolCustomDataChangeViewModel(
             Title = SchoolCustomDataViewModelTitles.TotalExpenditure,
             Name = nameof(SchoolCustomDataViewModel.TotalExpenditure),
             Current = CurrentValues.TotalExpenditure,
-            Custom = CustomInput.TotalExpenditure,
-            Hidden = true
+            Custom = CustomInput.TotalExpenditure ?? CurrentValues.TotalExpenditure,
+            ReadOnly = true
         },
         new SchoolCustomDataValueViewModel
         {
@@ -358,7 +358,8 @@ public class SchoolCustomDataChangeViewModel(
             Current = CurrentValues.TeachersFte,
             Custom = CustomInput.TeachersFte,
             Units = SchoolCustomDataValueUnits.Actual
-        }, new SchoolCustomDataValueViewModel
+        },
+        new SchoolCustomDataValueViewModel
         {
             Title = SchoolCustomDataViewModelTitles.QualifiedTeacherPercent,
             Name = nameof(SchoolCustomDataViewModel.QualifiedTeacherPercent),

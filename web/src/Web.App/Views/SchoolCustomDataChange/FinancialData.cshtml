@@ -96,5 +96,78 @@
     <script type="module" add-nonce="true">
         import { initAll } from '/js/govuk-frontend.min.js';
         initAll();
+
+        const currentTotalExpenditureElement = document.getElementById("current-TotalExpenditure");
+        const customTotalExpenditureElement = document.getElementById("custom-TotalExpenditure");
+        const customTotalExpenditureInputElement = document.getElementById("TotalExpenditure");
+        const form = document.getElementById("form-custom-data-financial");
+        const inputs = form.getElementsByTagName("input");
+        const currencyFormatter = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 });
+
+        // get the current totals to help obtain the base figures to use with custom values
+        const currentTotalExpenditure = parseFloat(currentTotalExpenditureElement.dataset.value);
+        console.debug("Current total expenditure", currentTotalExpenditure);
+        let baseExpenditure = 0;
+
+        const recalculateAndSetTotals = function() {
+            console.debug("--- Recalculate ---");
+            let customExpenditure = 0;
+
+            // for every <form>'s <input> that is not `type=hidden`:
+            //   1. parse the corresponding 'current' value
+            //   2. attempt to parse the 'custom' value in the <input>
+            //   3. add 'custom' value, if valid, otherwise 'current' value to 'custom' expenditure totals
+            for (let input of inputs) {
+                const currentValueElement = document.getElementById(`current-${input.id}`);
+                if (!currentValueElement 
+                    || input.type === "hidden" 
+                    || input.id === "TotalIncome" 
+                    || input.id === "RevenueReserve") {
+                    continue;
+                }
+
+                const currentValue = parseFloat(currentValueElement.dataset.value);
+                const value = input.value === "" ? currentValue : parseFloat(input.value);
+                if (isNaN(value)) {
+                    continue;
+                }
+
+                customExpenditure += value;
+                console.debug("Adding", value, "for", input.id, "totalling", customExpenditure);
+            }
+
+            // then calculate the new totals based on the base values calculated earlier
+            const customTotalExpenditure = customExpenditure + baseExpenditure;
+            console.debug("New custom total expenditure", customTotalExpenditure, "=", customExpenditure, "+", baseExpenditure);
+
+            // and set appropriately in the DOM
+            customTotalExpenditureElement.setAttribute("data-value", customTotalExpenditure.toString());
+            customTotalExpenditureElement.innerText = currencyFormatter.format(customTotalExpenditure);
+            customTotalExpenditureInputElement.value = customTotalExpenditure.toString();
+        }
+
+        // for every <form>'s <input> that is not `type=hidden`:
+        //   1. attach an event listener when the field is blurred
+        //   2. add corresponding 'current' value to 'current' expenditure totals
+        let currentExpenditure = 0;
+        for (let input of inputs) {
+            const currentValueElement = document.getElementById(`current-${input.id}`);
+            if (!currentValueElement 
+                || input.type === "hidden" 
+                || input.id === "TotalIncome" 
+                || input.id === "RevenueReserve") {
+                continue;
+            }
+
+            input.addEventListener("blur", recalculateAndSetTotals);
+            
+            const value = parseFloat(currentValueElement.dataset.value);
+            currentExpenditure += value;
+            console.debug("Adding", value, "for", input.id, "totalling", currentExpenditure);
+        }
+
+        // then calculate the base income/expenditure values to use when calculating the 'custom' values 
+        baseExpenditure = currentTotalExpenditure - currentExpenditure;
+        console.debug("New base expenditure", baseExpenditure, "=", currentTotalExpenditure, "-", currentExpenditure);
     </script>
 }
