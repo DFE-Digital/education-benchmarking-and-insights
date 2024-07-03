@@ -26,10 +26,10 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         AssertPageLayout(page, school);
     }
 
-    [Theory]
-    [InlineData(OverallPhaseTypes.Secondary)]
-    [InlineData(OverallPhaseTypes.Primary)]
-    public async Task CanNavigateBack(string phase)
+    [Fact]
+    // [InlineData(OverallPhaseTypes.Secondary)]
+    // [InlineData(OverallPhaseTypes.Primary)]
+    public async Task CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta

@@ -26,10 +26,10 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         AssertPageLayout(page, school);
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateBack(string financeType)
+    [Fact]
+    // [InlineData(EstablishmentTypes.Academies)]
+    // [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta

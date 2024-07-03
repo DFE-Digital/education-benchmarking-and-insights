@@ -70,10 +70,10 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         DocumentAssert.FormErrors(page, ("Proceed", "Select yes if you want to continue without adding other teaching periods"));
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateBack(string financeType)
+    [Fact]
+    // [InlineData(EstablishmentTypes.Academies)]
+    // [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta

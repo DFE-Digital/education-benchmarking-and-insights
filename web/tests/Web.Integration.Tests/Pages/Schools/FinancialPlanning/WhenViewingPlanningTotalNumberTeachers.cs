@@ -24,10 +24,10 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         AssertPageLayout(page, school);
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateBack(bool isPrimary)
+    [Fact]
+    // [InlineData(true)]
+    // [InlineData(false)]
+    public async Task CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta

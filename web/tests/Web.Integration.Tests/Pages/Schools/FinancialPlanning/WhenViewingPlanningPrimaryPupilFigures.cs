@@ -26,10 +26,10 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         AssertPageLayout(page, school, plan);
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateBack(bool hasMixedClasses)
+    [Fact]
+    // [InlineData(true)]
+    // [InlineData(false)]
+    public async Task CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta
