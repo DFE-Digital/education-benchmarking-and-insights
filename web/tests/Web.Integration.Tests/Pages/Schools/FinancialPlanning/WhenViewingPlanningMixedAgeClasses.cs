@@ -27,13 +27,15 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     [Fact]
     public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());*/
     }
 
     [Fact]

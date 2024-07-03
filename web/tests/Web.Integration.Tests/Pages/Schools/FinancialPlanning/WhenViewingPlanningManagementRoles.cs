@@ -27,19 +27,19 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
-    public async Task CanNavigateBack(string financeType, string overallPhase)
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack(string financeType)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, overallPhase);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(financeType, overallPhase);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());*/
     }
 
     [Fact]

@@ -157,12 +157,14 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
     [Fact]
     public async Task CanNavigateBack()
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         var (page, school) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());*/
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()

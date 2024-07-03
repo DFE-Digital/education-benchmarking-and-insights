@@ -29,7 +29,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     [InlineData(false)]
     public async Task CanNavigateBack(bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, isPrimary);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, isPrimary);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
@@ -38,7 +40,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
             ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage);
+        DocumentAssert.AssertPageUrl(page, expectedPage);*/
     }
 
     [Theory]

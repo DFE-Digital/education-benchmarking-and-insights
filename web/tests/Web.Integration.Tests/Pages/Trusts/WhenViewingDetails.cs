@@ -20,12 +20,14 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     [Fact]
     public async Task CanNavigateBack()
     {
-        var (page, trust, _) = await SetupNavigateInitPage();
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, trust, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());*/
     }
 
     [Fact]

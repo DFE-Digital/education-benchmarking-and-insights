@@ -31,7 +31,9 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     [InlineData(false)]
     public async Task CanNavigateBack(bool hasMixedClasses)
     {
-        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, hasMixedClasses);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, hasMixedClasses);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
@@ -40,7 +42,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage);
+        DocumentAssert.AssertPageUrl(page, expectedPage);*/
     }
 
     [Fact]
