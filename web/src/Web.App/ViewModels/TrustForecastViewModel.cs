@@ -71,7 +71,7 @@ public class TrustForecastViewModel(
                            || BalancesIncreasingSteadily
                            || BalancesIncreasingSteeply;
 
-    public bool HasGuidance => IsRed || IsAmber || IsGreen;
+    public bool HasGuidance => IsRed || IsAmber;
 
     public int? MetricsYear => metrics
         .Select(x => x.Year)
@@ -100,7 +100,7 @@ public class TrustForecastViewModel(
                                                                  && metrics.Any(m => m.MetricType.IsSlopeFlag() && m.Value == -1);
 
     private bool SlopeAnalysisNegativeAndNotAmongTheMostNegative => metrics.Any(m => m.MetricType.IsSlope() && m.Value < 0)
-                                                                 && metrics.Any(m => m.MetricType.IsSlopeFlag() && m.Value != -1);
+                                                                    && metrics.Any(m => m.MetricType.IsSlopeFlag() && m.Value != -1);
 
     private bool SlopeAnalysisPositiveAndAmongTheMostPositive => metrics.Any(m => m.MetricType.IsSlope() && m.Value > 0)
                                                                  && metrics.Any(m => m.MetricType.IsSlopeFlag() && m.Value == 1);
