@@ -15,8 +15,22 @@ public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUse
         .ToArray();
 }
 
-public record TrustComparatorsCompanyNumberViewModel
+public record TrustComparatorsCompanyNumberViewModel : IValidatableObject
 {
-    [Required(ErrorMessage = "Select a trust from the suggester")]
+    public string? TrustInput { get; init; }
     public string? CompanyNumber { get; init; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (string.IsNullOrWhiteSpace(CompanyNumber) || string.IsNullOrEmpty(TrustInput))
+        {
+            var message = string.IsNullOrEmpty(TrustInput)
+                ? "Enter a trust name or company number"
+                : "Select a trust name or company number from the suggested list";
+            yield return new ValidationResult(message, new[]
+            {
+                nameof(TrustInput)
+            });
+        }
+    }
 }

@@ -72,7 +72,7 @@ public class TrustComparatorsCreateByController(
                 });
         }
 
-        ModelState.AddModelError(nameof(by), "Select whether to choose trusts by name or characteristic");
+        ModelState.AddModelError(nameof(by), "Select how you want to choose similar trusts");
         ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
 
         var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
