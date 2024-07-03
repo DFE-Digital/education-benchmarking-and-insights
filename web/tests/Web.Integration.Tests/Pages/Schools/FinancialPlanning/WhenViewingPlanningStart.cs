@@ -101,6 +101,6 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
-        DocumentAssert.Link(helpLink, "can be found here.", Paths.SchoolFinancialPlanningHelp(school.URN).ToAbsolute());
+        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolFinancialPlanningHelp(school.URN).ToAbsolute());
     }
 }
