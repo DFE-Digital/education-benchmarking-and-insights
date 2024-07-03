@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -37,7 +36,9 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "EducationSupportStaffCosts", 168794.ToString() }
+                {
+                    "EducationSupportStaffCosts", 168794.ToString()
+                }
             });
         });
 
@@ -158,7 +159,7 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page,
-            ("EducationSupportStaffCosts", "Enter your total education support staff costs"));
+            ("EducationSupportStaffCosts", "Enter the number of full-time equivalent teachers you have"));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string? educationSupportStaffCosts = null)

@@ -1,7 +1,6 @@
 using FluentValidation;
 using Web.App.Domain;
 using Web.App.Extensions;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class PupilFiguresStageValidator : AbstractValidator<PupilFiguresStage>
@@ -10,7 +9,7 @@ public class PupilFiguresStageValidator : AbstractValidator<PupilFiguresStage>
     {
         RuleFor(p => p)
             .Must(HasPupilFigures)
-            .WithMessage("Enter pupil figures for at least one year")
+            .WithMessage("Enter your pupil figures")
             .WithName("PupilFigures");
 
         When(p => !string.IsNullOrEmpty(p.PupilsYear7), () =>
@@ -73,14 +72,11 @@ public class PupilFiguresStageValidator : AbstractValidator<PupilFiguresStage>
         });
     }
 
-    private static bool HasPupilFigures(PupilFiguresStage model)
-    {
-        return model.PupilsYear7.ToInt() is > 0 ||
-               model.PupilsYear8.ToInt() is > 0 ||
-               model.PupilsYear9.ToInt() is > 0 ||
-               model.PupilsYear10.ToInt() is > 0 ||
-               model.PupilsYear11.ToInt() is > 0 ||
-               model.PupilsYear12 is > 0 ||
-               model.PupilsYear13 is > 0;
-    }
+    private static bool HasPupilFigures(PupilFiguresStage model) => model.PupilsYear7.ToInt() is > 0 ||
+                                                                    model.PupilsYear8.ToInt() is > 0 ||
+                                                                    model.PupilsYear9.ToInt() is > 0 ||
+                                                                    model.PupilsYear10.ToInt() is > 0 ||
+                                                                    model.PupilsYear11.ToInt() is > 0 ||
+                                                                    model.PupilsYear12 is > 0 ||
+                                                                    model.PupilsYear13 is > 0;
 }

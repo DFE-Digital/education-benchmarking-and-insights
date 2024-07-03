@@ -1,11 +1,8 @@
 ﻿using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
-using Moq;
 using Web.App.Domain;
-using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -35,7 +32,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         page = await Client.SubmitForm(page.Forms[0], action);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("Year", "Select the academic year you want to plan"));
+        DocumentAssert.FormErrors(page, ("Year", "Select an academic year to plan"));
     }
 
     [Fact]
@@ -115,9 +112,9 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var plan = !seedPlan
             ? null
             : Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.URN)
-            .With(x => x.Year, CurrentYear)
-            .Create();
+                .With(x => x.Urn, school.URN)
+                .With(x => x.Year, CurrentYear)
+                .Create();
 
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)

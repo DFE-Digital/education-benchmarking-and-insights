@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient client)
@@ -60,7 +59,9 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TimetablePeriods", "25" }
+                {
+                    "TimetablePeriods", "25"
+                }
             });
         });
 
@@ -74,7 +75,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     }
 
     [Theory]
-    [InlineData("", "Enter the number of periods in one timetable cycle")]
+    [InlineData("", "Enter how many periods are in one timetable cycle")]
     [InlineData("-1", "Number of periods in one timetable cycle must be 1 or more")]
     [InlineData("0", "Number of periods in one timetable cycle must be 1 or more")]
     [InlineData("1.1", "Number of periods in one timetable cycle must be a whole number")]
@@ -89,7 +90,9 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TimetablePeriods", timetablePeriods }
+                {
+                    "TimetablePeriods", timetablePeriods
+                }
             });
         });
 

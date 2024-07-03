@@ -1,6 +1,5 @@
 using FluentValidation;
 using Web.App.Domain;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class PrimaryHasMixedAgeClassesStageValidator : AbstractValidator<PrimaryHasMixedAgeClassesStage>
@@ -9,6 +8,6 @@ public class PrimaryHasMixedAgeClassesStageValidator : AbstractValidator<Primary
     {
         RuleFor(p => p.HasMixedAgeClasses)
             .NotNull()
-            .WithMessage("Select yes if you have mixed age classes");
+            .WithMessage("Select if you have any mixed age classes");
     }
 }

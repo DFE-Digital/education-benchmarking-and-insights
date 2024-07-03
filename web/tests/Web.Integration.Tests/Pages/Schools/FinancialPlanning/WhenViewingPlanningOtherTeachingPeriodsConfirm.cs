@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -37,7 +36,9 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "Proceed",  value.ToString()}
+                {
+                    "Proceed", value.ToString()
+                }
             });
         });
 
@@ -62,12 +63,14 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "Proceed",  "" }
+                {
+                    "Proceed", ""
+                }
             });
         });
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("Proceed", "Select yes if you want to continue without adding other teaching periods"));
+        DocumentAssert.FormErrors(page, ("Proceed", "Confirm if you want to proceed without adding other teaching periods"));
     }
 
     [Fact]

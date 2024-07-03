@@ -1,6 +1,5 @@
 using FluentValidation;
 using Web.App.Domain;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class ManagementRolesStageValidator : AbstractValidator<ManagementRolesStage>
@@ -14,7 +13,7 @@ public class ManagementRolesStageValidator : AbstractValidator<ManagementRolesSt
                        x.ManagementRoleHeadKs2 || x.ManagementRoleSenco ||
                        x.ManagementRoleAssistantHeadteacher || x.ManagementRoleHeadLargeCurriculum ||
                        x.ManagementRolePastoralLeader || x.ManagementRoleOtherMembers)
-            .WithMessage("Select at least one management role")
+            .WithMessage("Select which management roles have teaching responsibilities")
             .WithName("ManagementRoles");
     }
 }

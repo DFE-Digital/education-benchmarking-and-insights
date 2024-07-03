@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -57,7 +56,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  "19.5"}
+                {
+                    "TotalNumberOfTeachersFte", "19.5"
+                }
             });
         });
 
@@ -151,7 +152,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  value?.ToString() ?? "" }
+                {
+                    "TotalNumberOfTeachersFte", value?.ToString() ?? ""
+                }
             });
         });
 
@@ -160,7 +163,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null
-            ? "Enter your number of full-time equivalent teachers"
+            ? "Enter the number of full-time equivalent teachers you have"
             : "Number of full-time equivalent teachers must be 1 or more";
         DocumentAssert.FormErrors(page, ("TotalNumberOfTeachersFte", expectedMsg));
     }
