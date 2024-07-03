@@ -38,12 +38,18 @@
 
     @foreach (var category in Model.PriorityCosts)
     {
+        var categoryToLower = @category.Rating.Category == "Other costs"
+            ? "other"
+            : @category.Rating.Category == "Educational ICT"
+            ? "Educational ICT"
+            : @category.Rating.Category?.ToLower();
+
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
                     @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
-                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
+                    Spending is higher than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2"
                      data-spending-and-costs-composed
@@ -55,7 +61,7 @@
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
+                        <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
                 </p>
             </div>
         </div>
@@ -73,6 +79,11 @@
 
     @foreach (var category in Model.LowPriorityCosts)
     {
+        var categoryToLower = @category.Rating.Category == "Other costs"
+            ? "other"
+            : @category.Rating.Category == "Educational ICT"
+            ? "Educational ICT"
+            : @category.Rating.Category?.ToLower();
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
@@ -90,7 +101,7 @@
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
+                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
                 </p>
             </div>
         </div>
