@@ -123,7 +123,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         Assert.NotNull(comparisonComponent);
 
         var toolsListSection = page.Body.SelectSingleNode("//main/div/div[5]");
-        DocumentAssert.Heading2(toolsListSection, "Finance tools");
+        DocumentAssert.Heading2(toolsListSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);

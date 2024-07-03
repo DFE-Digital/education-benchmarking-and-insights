@@ -128,13 +128,13 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         Assert.NotNull(component);
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]");
-        DocumentAssert.Heading2(toolsSection, "Finance tools");
+        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);
 
         DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 }
