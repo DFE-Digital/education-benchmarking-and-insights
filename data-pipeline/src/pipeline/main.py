@@ -738,7 +738,7 @@ def run_user_defined_rag(
     insert_metric_rag(
         run_type=run_type,
         set_type=set_type,
-        year=run_id,
+        run_id=run_id,
         df=df,
     )
 
