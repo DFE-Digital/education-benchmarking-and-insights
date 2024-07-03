@@ -44,9 +44,13 @@
             ? "Educational ICT"
             : @category.Rating.Category?.ToLower();
 
+        var categoryHeading = @category.Rating.Category == "Non-educational support staff and services"
+            ? "Non-educational support staff"
+            : @category.Rating.Category;
+
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
                     @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
                     Spending is higher than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
@@ -84,9 +88,14 @@
             : @category.Rating.Category == "Educational ICT"
             ? "Educational ICT"
             : @category.Rating.Category?.ToLower();
+
+        var categoryHeading = @category.Rating.Category == "Non-educational support staff and services"
+            ? "Non-educational support staff"
+            : @category.Rating.Category;
+
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
                     @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
                     Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
