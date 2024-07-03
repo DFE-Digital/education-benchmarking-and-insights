@@ -76,6 +76,8 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Financial Position",
         "Trust Financial Position",
         "London Weighting",
+        "PFI School",
+        "Is PFI"
     ]
 
 

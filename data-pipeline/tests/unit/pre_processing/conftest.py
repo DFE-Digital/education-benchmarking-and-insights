@@ -360,15 +360,10 @@ def pupil_census_data() -> pd.DataFrame:
     return pd.DataFrame(
         {
             "URN": [100150, 100152, 100153],
-            "% of pupils known to be eligible for and claiming free school me": [
+            "% of pupils known to be eligible for free school meals": [
                 33.8,
                 23.4,
                 33.2,
-            ],
-            "% of pupils known to be eligible for free school meals (Performa": [
-                52.3,
-                60.3,
-                47.7,
             ],
             "number of pupils whose first language is known or believed to be other than English": [
                 93,
