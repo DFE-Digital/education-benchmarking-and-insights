@@ -176,7 +176,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
                 className="govuk-accordion__section-button"
                 id="accordion-expenditure-heading-5"
               >
-                Premises and services
+                Premises staff and services
               </span>
             </h2>
           </div>
@@ -256,7 +256,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
                 className="govuk-accordion__section-button"
                 id="accordion-expenditure-heading-9"
               >
-                Other
+                Other costs
               </span>
             </h2>
           </div>

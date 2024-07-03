@@ -91,7 +91,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark pupil and workforce data");
+        DocumentAssert.TitleAndH1(page, "View pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "View pupil and workforce data");
 
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);
@@ -111,7 +111,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsSection, "Finance tools");
+        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(4, toolsLinks.Count);

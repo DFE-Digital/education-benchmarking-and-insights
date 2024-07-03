@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Finance tools</h2>
+        <h2 class="govuk-heading-m">Benchmarking and planning tools</h2>
         <ul class="app-links">
             @foreach (var tool in Model.Tools)
             {
@@ -15,10 +15,10 @@
                                 <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">View school spending</a>
                             </h3>
                             <p class="govuk-body">
-                                Compare your trust schools costs.
+                                View the spending for schools in this trust.
                             </p>
                         </li>
                         break;
@@ -28,10 +28,10 @@
                                 <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
+                                <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">View pupil and workforce data</a>
                             </h3>
                             <p class="govuk-body">
-                                Compare your trust schools pupil and workforce data.
+                                View the pupil and workforce data for schools in this trust.
                             </p>
                         </li>
                         break;
@@ -42,10 +42,10 @@
                                     <img src="/assets/images/central-services.png" alt="" class="app-view-component">
                                 </a>
                                 <h3 class="govuk-heading-s">
-                                    <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Trust to trust comparison</a>
+                                    <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Trust to trust benchmarking</a>
                                 </h3>
                                 <p class="govuk-body">
-                                    Compare to other trusts to understand more about your priority costs.
+                                    Benchmark against other trusts to understand more about priority costs.
                                 </p>
                                 <strong class="govuk-tag govuk-tag--grey">
                                     Requires login
@@ -63,7 +63,7 @@
                                     <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
                                 </h3>
                                 <p class="govuk-body">
-                                    Lorem ipsum.
+                                    View metrics and recommendations for the future financial position of this trust.
                                 </p>
                                 <strong class="govuk-tag govuk-tag--grey">
                                     Requires login

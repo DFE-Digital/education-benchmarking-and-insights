@@ -2,7 +2,7 @@
 @using Web.App.TagHelpers
 @model Web.App.ViewModels.TrustViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.ContactDetails;
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustContactDetails;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
@@ -21,15 +21,15 @@
         </p>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Companies House Number
+                <dt class="govuk-summary-list__key govuk-!-width-one-half">
+                    Companies House number
                 </dt>
                 <dd class="govuk-summary-list__value">
                     @Model.CompanyNumber
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
+                <dt class="govuk-summary-list__key govuk-!-width-one-half">
                     Contact
                 </dt>
                 <dd class="govuk-summary-list__value">
@@ -51,7 +51,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">Schools in this trust</h2>
+<h2 class="govuk-heading-m">Schools currently in this trust</h2>
 
 <div class="govuk-tabs" data-module="govuk-tabs">
     <h2 class="govuk-tabs__title">

@@ -2,12 +2,12 @@
 @using Web.App.Extensions
 @model Web.App.ViewModels.LocalAuthorityComparisonViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityComparison;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new [] {"Compare your schools spending costs."}})
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new[] { "View the spending between schools in this local authority." } })
 
 <div id="compare-your-costs"
      data-type="@OrganisationTypes.LocalAuthority"
