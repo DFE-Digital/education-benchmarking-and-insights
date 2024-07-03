@@ -10,7 +10,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.Trusts)]
+[FeatureGate(FeatureFlags.TrustComparison, FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/comparison")]
 [TrustRequestTelemetry(TrackedRequestFeature.Comparators)]
 public class TrustComparisonController(

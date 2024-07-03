@@ -16,7 +16,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Authorize]
-[FeatureGate(FeatureFlags.Trusts, FeatureFlags.UserDefinedComparators)]
+[FeatureGate(FeatureFlags.Trusts, FeatureFlags.TrustComparison)]
 [Route("trust/{companyNumber}/comparators")]
 [TrustRequestTelemetry(TrackedRequestFeature.Comparators)]
 public class TrustComparatorsController(

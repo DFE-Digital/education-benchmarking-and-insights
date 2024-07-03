@@ -37,8 +37,12 @@
         <ul class="govuk-list govuk-list--bullet">
             <li>get an overview of all your schools and see how spending compares with similar schools</li>
             <li>identify where schools need more support with their spending</li>
-            <li>see how your spending compares with similar trusts</li>
+            <feature name="@FeatureFlags.TrustComparison">
+                <li>see how your spending compares with similar trusts</li>
+            </feature>
+            <feature name="@FeatureFlags.ForecastRisk">
             <li>view risks based on the budget forecast return (trusts only)</li>
+            </feature>
         </ul>
         <p class="govuk-body">You can also download data and findings to use in reports.</p>
         

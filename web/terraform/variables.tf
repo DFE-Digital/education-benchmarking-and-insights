@@ -17,6 +17,7 @@ variable "configuration" {
       UserDefinedComparators        = bool
       DisableOrganisationClaimCheck = bool
       ForecastRisk                  = bool
+      TrustComparison               = bool
     })
   }))
   default = {
@@ -33,6 +34,7 @@ variable "configuration" {
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
     automated-test = {
@@ -48,6 +50,7 @@ variable "configuration" {
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
     test = {
@@ -63,6 +66,7 @@ variable "configuration" {
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
     feature = {
@@ -78,6 +82,7 @@ variable "configuration" {
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
     pre-production = {
@@ -86,13 +91,14 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       features = {
-        Trusts                        = true
-        CurriculumFinancialPlanning   = true
+        Trusts                        = false
+        CurriculumFinancialPlanning   = false
         CustomData                    = false
-        LocalAuthorities              = true
-        UserDefinedComparators        = true
+        LocalAuthorities              = false
+        UserDefinedComparators        = false
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = false
+        TrustComparison               = false
       }
     }
     production = {
@@ -108,6 +114,7 @@ variable "configuration" {
         UserDefinedComparators        = false
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = false
+        TrustComparison               = false
       }
     }
   }

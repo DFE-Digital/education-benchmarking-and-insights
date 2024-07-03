@@ -36,7 +36,7 @@
                         </li>
                         break;
                     case FinanceTools.CentralServices:
-                        <feature name="@(string.Join(",", FeatureFlags.UserDefinedComparators, FeatureFlags.Trusts))">
+                        <feature name=@FeatureFlags.TrustComparison>
                             <li>
                                 <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })">
                                     <img src="/assets/images/central-services.png" alt="" class="app-view-component">
@@ -54,20 +54,22 @@
                         </feature>
                         break;
                     case FinanceTools.ForecastRisk:
-                        <li>
-                            <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })">
-                                <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
-                            </a>
-                            <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
-                            </h3>
-                            <p class="govuk-body">
-                                Lorem ipsum.
-                            </p>
-                            <strong class="govuk-tag govuk-tag--grey">
-                                Requires login
-                            </strong>
-                        </li>
+                        <feature name="@FeatureFlags.ForecastRisk">
+                            <li>
+                                <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })">
+                                    <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
+                                </a>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
+                                </h3>
+                                <p class="govuk-body">
+                                    Lorem ipsum.
+                                </p>
+                                <strong class="govuk-tag govuk-tag--grey">
+                                    Requires login
+                                </strong>
+                            </li>
+                        </feature>
                         break;
                     case FinanceTools.FinancialPlanning:
                         <li>
