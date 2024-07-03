@@ -10,5 +10,11 @@ public enum TrackedLinks
     [StringValue("guidance-resource")]
     GuidanceResource,
     [StringValue("data-source")]
-    DataSource
+    DataSource,
+    [StringValue("organisation")]
+    Organisation,
+    [StringValue("service-banner")]
+    ServiceBanner,
+    [StringValue("change-organisation")]
+    ChangeOrganisation
 }

@@ -1,4 +1,5 @@
-﻿@using Web.App.TagHelpers
+﻿@using Web.App.Extensions
+@using Web.App.TagHelpers
 @using Web.App.ViewModels.Components
 @using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityViewModel
@@ -10,7 +11,10 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.LocalAuthority})" class="govuk-link govuk-link--no-visited-state">Change local authority</a>
+            @Html.TrackedAnchor(
+            TrackedLinks.ChangeOrganisation,
+            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.LocalAuthority }) ?? "",
+            "Change local authority")
         </p>
     </div>
 </div>
