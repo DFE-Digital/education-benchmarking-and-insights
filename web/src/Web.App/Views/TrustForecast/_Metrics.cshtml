@@ -12,10 +12,11 @@
         Model.Metrics.FirstOrDefault(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome)
     };
 
+    <h2 class="govuk-heading-m">Budget forecast return (BFR) metrics</h2>
+    <p class="govuk-body" id="bfr-metrics-year">This data covers the BFR for financial year @(Model.Year - 1) to @Model.Year.</p>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <table class="govuk-table" id="bfr-metrics">
-                <caption class="govuk-table__caption govuk-table__caption--m">Budget forecast return (BFR) metrics</caption>
                 <thead class="govuk-table__head">
                 <tr class="govuk-table__row govuk-visually-hidden">
                     <th scope="col" class="govuk-table__header">Metric</th>
