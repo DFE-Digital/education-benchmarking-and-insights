@@ -11,7 +11,6 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -26,7 +25,10 @@ public class SchoolController(
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.Home)]
-    public async Task<IActionResult> Index(string urn, [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
+    public async Task<IActionResult> Index(
+        string urn,
+        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated,
+        [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
         using (logger.BeginScope(new
         {
@@ -47,7 +49,7 @@ public class SchoolController(
                     ? await RagRatingsDefault(urn)
                     : await RagRatingsUserDefined(userData.Result.ComparatorSet);
 
-                var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, userData.Result.ComparatorSet, userData.Result.CustomData);
+                var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, comparatorReverted, userData.Result.ComparatorSet, userData.Result.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)

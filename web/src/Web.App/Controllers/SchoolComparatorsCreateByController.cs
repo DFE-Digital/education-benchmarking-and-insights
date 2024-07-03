@@ -72,7 +72,7 @@ public class SchoolComparatorsCreateByController(
                 });
         }
 
-        ModelState.AddModelError(nameof(by), "Select whether to choose schools by name or characteristic");
+        ModelState.AddModelError(nameof(by), "Select how you want to choose similar schools");
         ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
