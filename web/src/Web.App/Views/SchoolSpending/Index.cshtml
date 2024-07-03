@@ -1,6 +1,8 @@
 ﻿@using Web.App.Extensions
 @using Newtonsoft.Json
 @using Web.App.ViewModels
+@using Web.App.Domain
+
 @model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
@@ -38,13 +40,13 @@
 
     @foreach (var category in Model.PriorityCosts)
     {
-        var categoryToLower = @category.Rating.Category == "Other costs"
+        var categoryToLower = @category.Rating.Category == Category.Other
             ? "other"
-            : @category.Rating.Category == "Educational ICT"
+            : @category.Rating.Category == Category.EducationalIct
             ? "Educational ICT"
             : @category.Rating.Category?.ToLower();
 
-        var categoryHeading = @category.Rating.Category == "Non-educational support staff and services"
+        var categoryHeading = @category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
             : @category.Rating.Category;
 
@@ -83,13 +85,13 @@
 
     @foreach (var category in Model.LowPriorityCosts)
     {
-        var categoryToLower = @category.Rating.Category == "Other costs"
+        var categoryToLower = @category.Rating.Category == Category.Other
             ? "other"
-            : @category.Rating.Category == "Educational ICT"
+            : @category.Rating.Category == Category.EducationalIct
             ? "Educational ICT"
             : @category.Rating.Category?.ToLower();
 
-        var categoryHeading = @category.Rating.Category == "Non-educational support staff and services"
+        var categoryHeading = @category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
             : @category.Rating.Category;
 
