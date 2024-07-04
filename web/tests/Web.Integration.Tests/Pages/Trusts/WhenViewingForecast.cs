@@ -121,7 +121,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         DocumentAssert.TitleAndH1(page, "Forecast and risks - Financial Benchmarking and Insights Tool - GOV.UK", "Forecast and risks");
 
         var yearCommentary = page.QuerySelector("#bfr-metrics-year").GetInnerText();
-        Assert.Equal("This data covers the BFR for financial year 2021 to 2022.", yearCommentary);
+        Assert.Equal("This data comes from the 2022 BFR.", yearCommentary);
 
         var metricsTable = page.QuerySelector("#bfr-metrics tbody");
         Assert.NotNull(metricsTable);
