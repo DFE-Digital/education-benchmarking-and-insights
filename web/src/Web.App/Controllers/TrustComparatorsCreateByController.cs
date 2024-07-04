@@ -132,7 +132,7 @@ public class TrustComparatorsCreateByController(
     [HttpPost]
     [Route("by/name")]
     [ExportModelState]
-    public IActionResult Name([FromRoute] string companyNumber, [FromForm] TrustComparatorsCompanyNumberViewModel viewModel)
+    public IActionResult Name([FromRoute] string companyNumber, [FromForm] TrustComparatorAddViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -145,7 +145,7 @@ public class TrustComparatorsCreateByController(
             var countOthers = userDefinedSet.Set.Count(s => s != companyNumber);
             if (countOthers >= 9)
             {
-                ModelState.AddModelError(nameof(TrustComparatorsCompanyNumberViewModel.CompanyNumber), "Maximum number of comparison trusts reached");
+                ModelState.AddModelError(nameof(TrustComparatorAddViewModel.CompanyNumber), "Maximum number of comparison trusts reached");
                 return RedirectToAction("Name");
             }
 
@@ -161,7 +161,7 @@ public class TrustComparatorsCreateByController(
 
     [HttpPost]
     [Route("remove")]
-    public IActionResult Remove([FromRoute] string companyNumber, [FromForm] TrustComparatorsCompanyNumberViewModel viewModel)
+    public IActionResult Remove([FromRoute] string companyNumber, [FromForm] TrustComparatorRemoveViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {

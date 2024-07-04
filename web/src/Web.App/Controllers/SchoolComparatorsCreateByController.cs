@@ -132,7 +132,7 @@ public class SchoolComparatorsCreateByController(
     [HttpPost]
     [Route("by/name")]
     [ExportModelState]
-    public IActionResult Name([FromRoute] string urn, [FromForm] SchoolComparatorsUrnViewModel viewModel)
+    public IActionResult Name([FromRoute] string urn, [FromForm] SchoolComparatorAddViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -145,7 +145,7 @@ public class SchoolComparatorsCreateByController(
             var countOthers = userDefinedSet.Set.Count(s => s != urn);
             if (countOthers >= 29)
             {
-                ModelState.AddModelError(nameof(SchoolComparatorsUrnViewModel.Urn), "Maximum number of comparison schools reached");
+                ModelState.AddModelError(nameof(SchoolComparatorAddViewModel.Urn), "Maximum number of comparison schools reached");
                 return RedirectToAction("Name");
             }
 
@@ -161,7 +161,7 @@ public class SchoolComparatorsCreateByController(
 
     [HttpPost]
     [Route("remove")]
-    public IActionResult Remove([FromRoute] string urn, [FromForm] SchoolComparatorsUrnViewModel viewModel)
+    public IActionResult Remove([FromRoute] string urn, [FromForm] SchoolComparatorRemoveViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {

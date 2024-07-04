@@ -14,7 +14,13 @@ public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristi
         .ToArray();
 }
 
-public record SchoolComparatorsUrnViewModel : IValidatableObject
+public record SchoolComparatorRemoveViewModel
+{
+    [Required(ErrorMessage = "Select a school to remove")]
+    public string? Urn { get; init; }
+}
+
+public record SchoolComparatorAddViewModel : IValidatableObject
 {
     public string? SchoolInput { get; init; }
     public string? Urn { get; init; }
