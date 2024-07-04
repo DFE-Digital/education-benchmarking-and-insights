@@ -23,6 +23,8 @@ resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
         Establishment,
         Feature,
         Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
+    | order by
+        TimeGenerated desc
   EOT
   tags           = local.common-tags
 }
@@ -156,7 +158,7 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
 }
 
 resource "random_uuid" "tracked-links-id" {
-  for_each = var.trackedEvents
+  for_each = toset(var.trackedEvents)
 }
 
 locals {
@@ -205,6 +207,59 @@ resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
   EOT
   display_name  = "Recent pipeline runs"
   description   = "Logs from the most recent data pipeline runs"
+  categories    = ["applications"]
+  tags          = local.common-tags
+}
+
+resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
+  name                       = "GetFeatureRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  category       = "Function"
+  display_name   = "GetFeatureRequests"
+  function_alias = "GetFeatureRequests"
+  query          = <<-EOT
+    AppRequests
+    | extend
+        Establishment = tostring(Properties["Establishment"]),
+        Feature = tostring(Properties["Feature"])
+    | where isnotempty(Feature)
+    | project
+        TimeGenerated,
+        Name,
+        ResultCode,
+        OperationId,
+        UserId,
+        UserAuthenticatedId,
+        Establishment,
+        Feature
+    | order by
+        TimeGenerated desc
+  EOT
+  tags           = local.common-tags
+}
+
+resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca5"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  body          = <<-EOT
+    GetFeatureRequests
+    | where 
+        ResultCode == 200
+    | project 
+        TimeGenerated, 
+        Establishment,
+        Feature, 
+        IsAuthenticated = isnotempty(UserAuthenticatedId)
+    | summarize 
+        Count=count() by Establishment, 
+        Feature,
+        IsAuthenticated
+    | sort by 
+        Count desc
+  EOT
+  display_name  = "Feature Requests"
+  description   = "Table of the most popular Feature requests, split by authenticated state"
   categories    = ["applications"]
   tags          = local.common-tags
 }

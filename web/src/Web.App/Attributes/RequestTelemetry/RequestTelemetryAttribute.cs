@@ -27,6 +27,8 @@ internal class RequestTelemetryFilter(
 {
     public override void OnActionExecuted(ActionExecutedContext context)
     {
+        base.OnActionExecuted(context);
+
         var telemetry = context.HttpContext.Features.Get<Microsoft.ApplicationInsights.DataContracts.RequestTelemetry>();
         if (telemetry != null)
         {
@@ -47,7 +49,5 @@ internal class RequestTelemetryFilter(
                 context.HttpContext.Request.Method,
                 context.HttpContext.Request.GetDisplayUrl());
         }
-
-        base.OnActionExecuted(context);
     }
 }
