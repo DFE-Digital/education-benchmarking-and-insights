@@ -3,7 +3,6 @@ import pandas as pd
 
 def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFrame):
     assert list(prepared_census_data.columns) == [
-        "Percentage claiming Free school meals",
         "Percentage Free school meals",
         "Number of pupils (headcount)",
         "Number of pupils",
