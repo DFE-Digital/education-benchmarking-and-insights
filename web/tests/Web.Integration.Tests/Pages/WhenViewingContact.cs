@@ -11,6 +11,6 @@ public class WhenViewingContact(SchoolBenchmarkingWebAppClient client) : PageBas
 
         DocumentAssert.AssertPageUrl(page, Paths.Contact.ToAbsolute());
         DocumentAssert.BackLink(page, "Back", $"{Paths.Contact.ToAbsolute()}#");
-        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Tool - GOV.UK", "Contact");
+        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Tool - GOV.UK", "Contact us");
     }
 }

@@ -84,7 +84,7 @@
                                 @school.OverallPhase
                             </td>
                             <td class="govuk-table__cell">
-                                @school.TotalPupils
+                                    @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
                             </td>
                             <td class="govuk-table__cell">
                                 @school.PercentSpecialEducationNeeds.ToPercent()
@@ -134,7 +134,7 @@
                                 @school.OverallPhase
                             </td>
                             <td class="govuk-table__cell">
-                                @school.TotalPupils
+                                    @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
                             </td>
                             @if (User.Identity is { IsAuthenticated: true })
                             {

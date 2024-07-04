@@ -1,11 +1,17 @@
-﻿<h2 class="govuk-heading-m">Interpreting the data</h2>
+﻿<h2 class="govuk-heading-l">Interpreting our data</h2>
 
-<h3 class="govuk-heading-s">Interpreting expenditure charts</h3>
+<h3 class="govuk-heading-m">Interpreting expenditure charts</h3>
 
 <p class="govuk-body">
-    You should take care when interpreting the data. It shows the position of a school relative to others; it doesn't explain why this is. 
-    There may be good reasons for a school to have high or low figures.
-    What's important is that those involved in budget setting review the differences, and consider the reasons for them.
+    You should take care when interpreting the data.
+</p>
+
+<p class="govuk-body">
+    It shows the position of a school relative to others but it doesn't explain why.
+</p>
+
+<p class="govuk-body">
+    There may be good reasons for a school to have high or low figures. People involved in budget setting should review them and consider the differences.
 </p>
 
 @await Html.PartialAsync("_TeachingCosts")
@@ -20,8 +26,4 @@
 
 @await Html.PartialAsync("_Catering")
 
-<h2 class="govuk-heading-m">Other costs</h2>
-
-@await Html.PartialAsync("_FinanceCosts")
-
-@await Html.PartialAsync("_SpecialFacilities")
+@await Html.PartialAsync("_Other")
