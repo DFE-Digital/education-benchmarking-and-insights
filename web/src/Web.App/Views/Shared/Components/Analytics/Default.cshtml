@@ -1,4 +1,5 @@
-﻿@using Web.App.TagHelpers
+﻿@using Web.App.Extensions
+@using Web.App.TagHelpers
 @model Web.App.ViewModels.Components.AnalyticsViewModel
 
 <script type="text/javascript" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js"></script>
@@ -27,6 +28,10 @@
             var serverId = "@Model.OperationId";
             if (serverId && !sdk.context.telemetryTrace.parentID) {
                 sdk.context.telemetryTrace.parentID = serverId;
+            }
+            @if (User is { Identity.IsAuthenticated: true })
+            {
+                @:sdk.setAuthenticatedUserContext("@User.UserGuid()");
             }
         },
     });
