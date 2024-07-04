@@ -38,13 +38,14 @@ public class StaticContentController : Controller
         return View();
     }
 
-    [HttpGet]
-    [Route("privacy")]
-    public IActionResult Privacy()
-    {
-        ViewData[ViewDataKeys.UseJsBackLink] = true;
-        return View();
-    }
+    // TODO: review for public beta
+    //[HttpGet]
+    //[Route("privacy")]
+    //public IActionResult Privacy()
+    //{
+    //    ViewData[ViewDataKeys.UseJsBackLink] = true;
+    //    return View();
+    //}
 
     [HttpGet]
     [Route("contact")]
