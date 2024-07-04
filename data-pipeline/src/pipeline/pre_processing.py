@@ -86,8 +86,8 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         lsuffix="_workforce",
     ).rename(
         columns={
-            "headcount of pupils": "Number of pupils",
-            "fte pupils": "Number of Pupils (FTE)",
+            "headcount of pupils": "Number of pupils (headcount)",
+            "fte pupils": "Number of pupils",
             "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "NonClassroomSupportStaffFTE",
             "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "NonClassroomSupportStaffHeadcount",
             "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
