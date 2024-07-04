@@ -120,9 +120,12 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
     | where 
         Properties["baseTypeSource"] == "ClickEvent" and 
         Name in (
-            %{for s in var.trackedEvents~}
-            "${s}",
-            %{endfor~}
+            %{ for trackedEvent in var.trackedEvents ~}
+            "${trackedEvent}"
+            %{ if index(var.trackedEvents, trackedEvent) < length(var.trackedEvents) - 1 }
+            ,
+            %{ endif }
+            %{ endfor ~}
         )
     | extend
         Source = tostring(Properties["uri"]),
