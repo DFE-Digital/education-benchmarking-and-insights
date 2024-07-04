@@ -19,12 +19,14 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
     [Fact]
     public async Task CanNavigateBack()
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         var (page, authority) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());*/
     }
 
     [Fact]

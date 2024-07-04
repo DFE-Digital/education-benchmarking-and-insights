@@ -60,7 +60,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="school-hint" className="govuk-hint">
-                  Name, address or unique reference number (URN)
+                  Name, address, postcode or unique reference number (URN)
                 </div>
                 <p id="school-error" className="govuk-error-message">
                   {schoolError}

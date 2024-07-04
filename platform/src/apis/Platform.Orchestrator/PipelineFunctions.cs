@@ -70,7 +70,7 @@ public class PipelineFunctions
 
                 if (!string.IsNullOrEmpty(job.JobId))
                 {
-                    await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished));
+                    await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished), job.Success);
                 }
             }
         }
@@ -88,14 +88,14 @@ public class PipelineFunctions
         await context.CallActivityAsync(nameof(OnStartJobTrigger), input);
 
         _logger.LogInformation("{JobId} waiting for finished event", input.JobId);
-        await context.WaitForExternalEvent(nameof(PipelineJobFinished));
+        var success = await context.WaitForExternalEvent<bool>(nameof(PipelineJobFinished));
         _logger.LogInformation("{JobId} received finished event", input.JobId);
 
         switch (input.Type)
         {
             case "comparator-set":
             case "custom-data":
-                await context.CallActivityAsync(nameof(UpdateStatusTrigger), input);
+                await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus { Id = input.RunId, Success = success });
                 break;
         }
     }
@@ -110,10 +110,10 @@ public class PipelineFunctions
     [FunctionName(nameof(UpdateStatusTrigger))]
     public async Task UpdateStatusTrigger([ActivityTrigger] IDurableActivityContext context)
     {
-        var message = context.GetInput<PipelineStartMessage>();
+        var status = context.GetInput<PipelineStatus>();
 
-        _logger.LogInformation("Updating status for {RunId}", message.RunId);
-        await _db.UpdateStatus(message.RunId);
+        _logger.LogInformation("Updating status for {RunId}", status.Id);
+        await _db.UpdateStatus(status);
     }
 
     [FunctionName(nameof(PipelineJobPurgeHistory))]

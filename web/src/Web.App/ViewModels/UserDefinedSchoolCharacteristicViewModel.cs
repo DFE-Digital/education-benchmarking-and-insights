@@ -50,7 +50,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Number of pupils to")]
     [RequiredDepends(nameof(TotalPupils), "true", ErrorMessage = "Enter the number of pupils to")]
     [Range(0, 10_000, ErrorMessage = "Enter number of pupils to between 0 and 10,000")]
-    [CompareIntValue(nameof(TotalPupilsFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareIntValue(nameof(TotalPupilsFrom), Operator.GreaterThanOrEqualTo, "The From value for number of pupils must be less than the To value")]
     public int? TotalPupilsTo { get; init; }
 
     // fsm
@@ -64,7 +64,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Free school meals eligibility to")]
     [RequiredDepends(nameof(FreeSchoolMeals), "true", ErrorMessage = "Enter the free school meals eligibility to")]
     [Range(0, 100, ErrorMessage = "Enter free school meals eligibility to between 0 and 100")]
-    [CompareDecimalValue(nameof(FreeSchoolMealsFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(FreeSchoolMealsFrom), Operator.GreaterThanOrEqualTo, "The From value for free school meals eligibility must be less than the To value")]
     public decimal? FreeSchoolMealsTo { get; init; }
 
     // sen
@@ -78,13 +78,13 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Special educational needs to")]
     [RequiredDepends(nameof(SpecialEducationalNeeds), "true", ErrorMessage = "Enter the special educational needs eligibility to")]
     [Range(0, 100, ErrorMessage = "Enter special educational needs to between 0 and 100")]
-    [CompareDecimalValue(nameof(SpecialEducationalNeedsFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(SpecialEducationalNeedsFrom), Operator.GreaterThanOrEqualTo, "The From value for special educational needs must be less than the To value")]
     public decimal? SpecialEducationalNeedsTo { get; init; }
 
     // london weighting
     public string? LondonWeighting { get; init; }
 
-    [RequiredDepends(nameof(LondonWeighting), "true", ErrorMessage = "Select one or more London weightings")]
+    [RequiredDepends(nameof(LondonWeighting), "true", ErrorMessage = "Select a London weighting value")]
     public string[] LondonWeightings { get; init; } = [];
 
     // building age
@@ -98,7 +98,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Average building age to")]
     [RequiredDepends(nameof(AverageBuildingAge), "true", ErrorMessage = "Enter the average building age to")]
     [Range(0, 100, ErrorMessage = "Enter average building age to between 0 and 100")]
-    [CompareIntValue(nameof(AverageBuildingAgeFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareIntValue(nameof(AverageBuildingAgeFrom), Operator.GreaterThanOrEqualTo, "The From value for average building age must be less than the To value")]
     public int? AverageBuildingAgeTo { get; init; }
 
     // floor area
@@ -112,13 +112,13 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Gross internal floor area to")]
     [RequiredDepends(nameof(InternalFloorArea), "true", ErrorMessage = "Enter the gross internal floor area to")]
     [Range(0, 100_000, ErrorMessage = "Enter gross internal floor area to between 0 and 100,000")]
-    [CompareIntValue(nameof(InternalFloorAreaFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareIntValue(nameof(InternalFloorAreaFrom), Operator.GreaterThanOrEqualTo, "The From value for gross internal floor area must be less than the To value")]
     public int? InternalFloorAreaTo { get; init; }
 
     // ofsted
     public string? OfstedRating { get; init; }
 
-    [RequiredDepends(nameof(OfstedRating), "true", ErrorMessage = "Select one or more Ofsted ratings")]
+    [RequiredDepends(nameof(OfstedRating), "true", ErrorMessage = "Select at least one Oftsed rating")]
     public string[] OfstedRatings { get; init; } = [];
 
     // number of schools
@@ -132,19 +132,19 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Number of schools within trust to")]
     [RequiredDepends(nameof(SchoolsInTrust), "true", ErrorMessage = "Enter the number of schools within trust to")]
     [Range(0, 1_000, ErrorMessage = "Enter number of schools within trust to between 0 and 1,000")]
-    [CompareIntValue(nameof(SchoolsInTrustFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareIntValue(nameof(SchoolsInTrustFrom), Operator.GreaterThanOrEqualTo, "The From value for number of schools within trust must be less than the To value")]
     public int? SchoolsInTrustTo { get; init; }
 
     // deficit
     public string? Deficit { get; init; }
 
-    [RequiredDepends(nameof(Deficit), "true", ErrorMessage = "Select whether in deficit")]
+    [RequiredDepends(nameof(Deficit), "true", ErrorMessage = "Select if matched schools should be in deficit")]
     public string[] Deficits { get; init; } = [];
 
     // pfi
     public string? PrivateFinanceInitiative { get; init; }
 
-    [RequiredDepends(nameof(PrivateFinanceInitiative), "true", ErrorMessage = "Select whether part of PFI")]
+    [RequiredDepends(nameof(PrivateFinanceInitiative), "true", ErrorMessage = "Select if matched schools should be part of a PFI")]
     public string[] PrivateFinanceInitiatives { get; init; } = [];
 
     // number of sixth form pupils
@@ -158,7 +158,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Number of sixth form pupils to")]
     [RequiredDepends(nameof(TotalPupilsSixthForm), "true", ErrorMessage = "Enter the number of sixth form pupils to")]
     [Range(0, 10_000, ErrorMessage = "Enter number of sixth form pupils to between 0 and 10,000")]
-    [CompareIntValue(nameof(TotalPupilsSixthFormFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareIntValue(nameof(TotalPupilsSixthFormFrom), Operator.GreaterThanOrEqualTo, "The From value for number of sixth form pupils must be less than the To value")]
     public int? TotalPupilsSixthFormTo { get; init; }
 
     // ks2
@@ -172,7 +172,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Key stage 2 progress to")]
     [RequiredDepends(nameof(KeyStage2Progress), "true", ErrorMessage = "Enter the key stage 2 progress to")]
     [Range(-20, 20, ErrorMessage = "Enter key stage 2 progress to between -20 and 20")]
-    [CompareDecimalValue(nameof(KeyStage2ProgressFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(KeyStage2ProgressFrom), Operator.GreaterThanOrEqualTo, "The From value for key stage 2 progress must be less than the To value")]
     public decimal? KeyStage2ProgressTo { get; init; }
 
     // ks4
@@ -186,7 +186,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Key stage 4 progress to")]
     [RequiredDepends(nameof(KeyStage4Progress), "true", ErrorMessage = "Enter the key stage 4 progress to")]
     [Range(-20, 20, ErrorMessage = "Enter key stage 4 progress to between -20 and 20")]
-    [CompareDecimalValue(nameof(KeyStage4ProgressFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(KeyStage4ProgressFrom), Operator.GreaterThanOrEqualTo, "The From value for key stage 4 progress must be less than the To value")]
     public decimal? KeyStage4ProgressTo { get; init; }
 
     // spld
@@ -200,7 +200,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Specific learning difficulty to")]
     [RequiredDepends(nameof(SpecificLearningDifficulty), "true", ErrorMessage = "Enter the specific learning difficulty to")]
     [Range(0, 100, ErrorMessage = "Enter specific learning difficulty to between 0 and 100")]
-    [CompareDecimalValue(nameof(SpecificLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(SpecificLearningDifficultyFrom), Operator.GreaterThanOrEqualTo, "The From value for specific learning difficulties must be less than the To value")]
     public decimal? SpecificLearningDifficultyTo { get; init; }
 
     // mld
@@ -214,7 +214,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Moderate learning difficulty to")]
     [RequiredDepends(nameof(ModerateLearningDifficulty), "true", ErrorMessage = "Enter the moderate learning difficulty to")]
     [Range(0, 100, ErrorMessage = "Enter moderate learning difficulty to between 0 and 100")]
-    [CompareDecimalValue(nameof(ModerateLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(ModerateLearningDifficultyFrom), Operator.GreaterThanOrEqualTo, "The From value for moderate learning difficulties must be less than the To value")]
     public decimal? ModerateLearningDifficultyTo { get; init; }
 
     // sld
@@ -228,7 +228,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Severe learning difficulty to")]
     [RequiredDepends(nameof(SevereLearningDifficulty), "true", ErrorMessage = "Enter the severe learning difficulty to")]
     [Range(0, 100, ErrorMessage = "Enter severe learning difficulty to between 0 and 100")]
-    [CompareDecimalValue(nameof(SevereLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(SevereLearningDifficultyFrom), Operator.GreaterThanOrEqualTo, "The From value for severe learning difficulties must be less than the To value")]
     public decimal? SevereLearningDifficultyTo { get; init; }
 
     // pmld
@@ -242,7 +242,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Profound and multiple learning difficulty to")]
     [RequiredDepends(nameof(ProfoundMultipleLearningDifficulty), "true", ErrorMessage = "Enter the profound and multiple learning difficulty to")]
     [Range(0, 100, ErrorMessage = "Enter profound and multiple learning difficulty to between 0 and 100")]
-    [CompareDecimalValue(nameof(ProfoundMultipleLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(ProfoundMultipleLearningDifficultyFrom), Operator.GreaterThanOrEqualTo, "The From value for profound and multiple learning difficulties must be less than the To value")]
     public decimal? ProfoundMultipleLearningDifficultyTo { get; init; }
 
     // semh
@@ -256,7 +256,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Social, emotional and mental health to")]
     [RequiredDepends(nameof(SocialEmotionalMentalHealth), "true", ErrorMessage = "Enter the social, emotional and mental health to")]
     [Range(0, 100, ErrorMessage = "Enter social, emotional and mental health to between 0 and 100")]
-    [CompareDecimalValue(nameof(SocialEmotionalMentalHealthFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(SocialEmotionalMentalHealthFrom), Operator.GreaterThanOrEqualTo, "The From value for social, emotional and mental health must be less than the To value")]
     public decimal? SocialEmotionalMentalHealthTo { get; init; }
 
     // slcn
@@ -270,7 +270,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Speech, language and communications needs to")]
     [RequiredDepends(nameof(SpeechLanguageCommunication), "true", ErrorMessage = "Enter the speech, language and communications needs to")]
     [Range(0, 100, ErrorMessage = "Enter speech, language and communications needs to between 0 and 100")]
-    [CompareDecimalValue(nameof(SpeechLanguageCommunicationFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(SpeechLanguageCommunicationFrom), Operator.GreaterThanOrEqualTo, "The From value for speech, language and communication needs must be less than the To value")]
     public decimal? SpeechLanguageCommunicationTo { get; init; }
 
     // hi
@@ -284,7 +284,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Hearing impairment to")]
     [RequiredDepends(nameof(HearingImpairment), "true", ErrorMessage = "Enter the hearing impairment to")]
     [Range(0, 100, ErrorMessage = "Enter hearing impairment to between 0 and 100")]
-    [CompareDecimalValue(nameof(HearingImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(HearingImpairmentFrom), Operator.GreaterThanOrEqualTo, "The From value for hearing impairment must be less than the To value")]
     public decimal? HearingImpairmentTo { get; init; }
 
     // vi
@@ -298,7 +298,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Visual impairment to")]
     [RequiredDepends(nameof(VisualImpairment), "true", ErrorMessage = "Enter the visual impairment to")]
     [Range(0, 100, ErrorMessage = "Enter visual impairment to between 0 and 100")]
-    [CompareDecimalValue(nameof(VisualImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(VisualImpairmentFrom), Operator.GreaterThanOrEqualTo, "The From value for visual impairment must be less than the To value")]
     public decimal? VisualImpairmentTo { get; init; }
 
     // msi
@@ -312,7 +312,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Multi-sensory impairment to")]
     [RequiredDepends(nameof(MultiSensoryImpairment), "true", ErrorMessage = "Enter the multi-sensory impairment to")]
     [Range(0, 100, ErrorMessage = "Enter multi-sensory impairment to between 0 and 100")]
-    [CompareDecimalValue(nameof(MultiSensoryImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(MultiSensoryImpairmentFrom), Operator.GreaterThanOrEqualTo, "The From value for multi-sensory impairment must be less than the To value")]
     public decimal? MultiSensoryImpairmentTo { get; init; }
 
     // pd
@@ -326,7 +326,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Physical disability to")]
     [RequiredDepends(nameof(PhysicalDisability), "true", ErrorMessage = "Enter the physical disability to")]
     [Range(0, 100, ErrorMessage = "Enter physical disability to between 0 and 100")]
-    [CompareDecimalValue(nameof(PhysicalDisabilityFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(PhysicalDisabilityFrom), Operator.GreaterThanOrEqualTo, "The From value for physical disability must be less than the To value")]
     public decimal? PhysicalDisabilityTo { get; init; }
 
     // asd
@@ -340,7 +340,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Autistic spectrum disorder to")]
     [RequiredDepends(nameof(AutisticSpectrumDisorder), "true", ErrorMessage = "Enter the autistic spectrum disorder to")]
     [Range(0, 100, ErrorMessage = "Enter autistic spectrum disorder to between 0 and 100")]
-    [CompareDecimalValue(nameof(AutisticSpectrumDisorderFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(AutisticSpectrumDisorderFrom), Operator.GreaterThanOrEqualTo, "The From value for autistic spectrum disorder must be less than the To value")]
     public decimal? AutisticSpectrumDisorderTo { get; init; }
 
     // other
@@ -354,7 +354,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [Display(Name = "Other learning difficulty to")]
     [RequiredDepends(nameof(OtherLearningDifficulty), "true", ErrorMessage = "Enter the other learning difficulty to")]
     [Range(0, 100, ErrorMessage = "Enter other learning difficulty to between 0 and 100")]
-    [CompareDecimalValue(nameof(OtherLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    [CompareDecimalValue(nameof(OtherLearningDifficultyFrom), Operator.GreaterThanOrEqualTo, "The From value for other learning difficulty must be less than the To value")]
     public decimal? OtherLearningDifficultyTo { get; init; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -362,7 +362,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
         if (LaSelection == "Choose" &&
             !(!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code) || LaNames.Length > 0))
         {
-            yield return new ValidationResult("Select a local authority from the suggester", [nameof(Code)]);
+            yield return new ValidationResult("Select a local authority from the suggested list", [nameof(Code)]);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Finance tools</h2>
+        <h2 class="govuk-heading-m">Benchmarking and planning tools</h2>
         <ul class="app-links">
             @foreach (var tool in Model.Tools)
             {
@@ -14,10 +14,10 @@
                                 <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolComparison", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                                <a href="@Url.Action("Index", "SchoolComparison", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark your costs</a>
                             </h3>
                             <p class="govuk-body">
-                                Compare against similar schools to yours or schools of your choice.
+                                Benchmark costs against similar schools or other schools of your choice.
                             </p>
                         </li>
                         break;
@@ -46,7 +46,7 @@
                                 <a href="@Url.Action("Index", "SchoolCensus", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                             </h3>
                             <p class="govuk-body">
-                                Compare your pupil and workforce data with other schools.
+                                Benchmark pupil and workforce data against other schools.
                             </p>
                         </li>
                         break;

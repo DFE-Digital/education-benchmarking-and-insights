@@ -1,7 +1,6 @@
 using FluentValidation;
 using Web.App.Domain;
 using Web.App.Extensions;
-
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class TotalEducationSupportStageValidator : AbstractValidator<TotalEducationSupportStage>
@@ -10,7 +9,7 @@ public class TotalEducationSupportStageValidator : AbstractValidator<TotalEducat
     {
         RuleFor(p => p.EducationSupportStaffCosts)
             .NotEmpty()
-            .WithMessage("Enter your total education support staff costs")
+            .WithMessage("Enter the number of full-time equivalent teachers you have")
             .Must(x => x.ToInt() is not null)
             .WithMessage("Total education support staff costs must be a whole number")
             .Must(x => x.ToInt() is >= 0)

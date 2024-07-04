@@ -9,6 +9,8 @@ public static class DocumentAssert
 {
     public static void Breadcrumbs(IHtmlDocument? doc, params (string, string)[] breadcrumbs)
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         Assert.NotNull(doc);
         var bcs = doc.GetBreadcrumbs();
         Assert.Collection(bcs,
@@ -16,7 +18,7 @@ public static class DocumentAssert
             {
                 return actual => Assert.Equal(expected, actual);
             }).ToArray()
-        );
+        );*/
     }
 
     public static void TitleAndH1(IHtmlDocument? doc, string pageTitle, string header1)
@@ -85,6 +87,8 @@ public static class DocumentAssert
 
     public static void BackLink(IHtmlDocument? doc, string contents, string url)
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         Assert.NotNull(doc);
 
         var backLink = doc.QuerySelector(".govuk-back-link");
@@ -100,7 +104,7 @@ public static class DocumentAssert
         else
         {
             Assert.Fail("A back link should be an anchor element");
-        }
+        }*/
     }
 
     public static void FormErrors(IHtmlDocument doc, params (string field, string message)[] errors)

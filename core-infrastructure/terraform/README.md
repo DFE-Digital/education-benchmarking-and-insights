@@ -34,6 +34,14 @@ No modules.
 | [azurerm_key_vault_secret.sql-domain-name](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.sql-password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.sql-user-name](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_log_analytics_query_pack.query-pack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack) | resource |
+| [azurerm_log_analytics_query_pack_query.pipeline-runs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.popular-local-authority-requests-chart](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.popular-school-requests-chart](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.popular-trust-requests-chart](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.tracked-links](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_saved_search.get-establishment-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
+| [azurerm_log_analytics_saved_search.get-tracked-links](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_workspace.application-insights-workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.action-group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_smart_detector_alert_rule.failure-anomalies-detector](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule) | resource |
@@ -63,6 +71,7 @@ No modules.
 | [azurerm_user_assigned_identity.sql-db-admin](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_virtual_network.app-service-network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [random_password.sql-admin-password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
+| [random_uuid.tracked-links-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [azurerm_client_config.client](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
@@ -75,6 +84,7 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
+| <a name="input_trackedEvents"></a> [trackedEvents](#input\_trackedEvents) | n/a | `set(string)` | <pre>[<br>  "gias-school-details",<br>  "commercial-resource",<br>  "guidance-resource",<br>  "data-source",<br>  "organisation",<br>  "service-banner",<br>  "change-organisation"<br>]</pre> | no |
 
 ## Outputs
 

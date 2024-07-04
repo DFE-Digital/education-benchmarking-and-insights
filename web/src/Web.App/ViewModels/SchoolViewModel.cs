@@ -1,5 +1,4 @@
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolViewModel(School school)
@@ -9,6 +8,7 @@ public class SchoolViewModel(School school)
         SchoolBalance? balance,
         IEnumerable<RagRating> ratings,
         bool? comparatorGenerated = false,
+        bool? comparatorReverted = false,
         string? userDefinedSetId = null,
         string? customDataId = null)
         : this(school)
@@ -18,6 +18,7 @@ public class SchoolViewModel(School school)
         InYearBalance = balance?.InYearBalance;
         RevenueReserve = balance?.RevenueReserve;
         ComparatorGenerated = comparatorGenerated;
+        ComparatorReverted = comparatorReverted;
 
         var ratingsArray = ratings.ToArray();
 
@@ -86,5 +87,6 @@ public class SchoolViewModel(School school)
     public bool HasMetricRag { get; }
     public IEnumerable<RagRating> Ratings { get; } = [];
     public bool? ComparatorGenerated { get; }
+    public bool? ComparatorReverted { get; }
     public bool? CustomDataGenerated { get; }
 }

@@ -160,12 +160,12 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]"); //NB: No RAG therefore section not shown
-        DocumentAssert.Heading2(toolsSection, "Finance tools");
+        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[0], "Benchmark your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[2], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }

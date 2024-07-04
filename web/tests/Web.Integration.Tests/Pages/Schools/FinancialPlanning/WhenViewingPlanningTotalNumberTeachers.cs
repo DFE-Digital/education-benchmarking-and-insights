@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -24,12 +23,14 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         AssertPageLayout(page, school);
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateBack(bool isPrimary)
+    [Fact]
+    // [InlineData(true)]
+    // [InlineData(false)]
+    public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, isPrimary);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, isPrimary);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
@@ -38,7 +39,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
             ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage);
+        DocumentAssert.AssertPageUrl(page, expectedPage);*/
     }
 
     [Theory]
@@ -55,7 +56,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  "19.5"}
+                {
+                    "TotalNumberOfTeachersFte", "19.5"
+                }
             });
         });
 
@@ -149,7 +152,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  value?.ToString() ?? "" }
+                {
+                    "TotalNumberOfTeachersFte", value?.ToString() ?? ""
+                }
             });
         });
 
@@ -158,7 +163,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null
-            ? "Enter your number of full-time equivalent teachers"
+            ? "Enter the number of full-time equivalent teachers you have"
             : "Number of full-time equivalent teachers must be 1 or more";
         DocumentAssert.FormErrors(page, ("TotalNumberOfTeachersFte", expectedMsg));
     }

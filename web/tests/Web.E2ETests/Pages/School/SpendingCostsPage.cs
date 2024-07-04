@@ -21,12 +21,12 @@ public class SpendingCostsPage(IPage page)
     private readonly string[] _h3Names =
     {
         "Teaching and Teaching support staff", "Administrative supplies", "Catering staff and supplies",
-        "Educational ICT", "Educational supplies", "Non-educational support staff and services", "Other costs",
+        "Educational ICT", "Educational supplies", "Non-educational support staff", "Other costs",
         "Premises staff and services", "Utilities"
     };
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
@@ -46,16 +46,16 @@ public class SpendingCostsPage(IPage page)
         new PageLocatorOptions { HasText = "View all catering staff and supplies costs" });
 
     private ILocator EducationalIctLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all educational ICT costs" });
+        new PageLocatorOptions { HasText = "View all Educational ICT costs" });
 
     private ILocator EducationalSuppliesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all educational supplies costs" });
 
     private ILocator NonEducationalSupportStaffLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all non-educational support staff and services" });
+        new PageLocatorOptions { HasText = "View all non-educational support staff" });
 
     private ILocator OtherLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all other costs costs" });
+        new PageLocatorOptions { HasText = "View all other costs" });
 
     private ILocator PremisesStaffAndServicesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all premises staff and services costs" });
@@ -68,7 +68,7 @@ public class SpendingCostsPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await Breadcrumbs.ShouldBeVisible();
+        //await Breadcrumbs.ShouldBeVisible();
         Assert.Equal(await PageH3Headings.Count(), _h3Names.Length);
         await AssertChartNames(_h3Names);
         Assert.Equal(9, await AllCharts.Count());

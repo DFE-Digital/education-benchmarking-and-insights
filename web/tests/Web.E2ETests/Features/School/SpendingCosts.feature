@@ -6,7 +6,7 @@
         And the priority order of charts is
           | Name                                       | Priority        |
           | Teaching and Teaching support staff        | High priority   |
-          | Non-educational support staff and services | High priority   |
+          | Non-educational support staff | High priority   |
           | Administrative supplies                    | High priority   |
           | Educational supplies                       | High priority   |
           | Catering staff and supplies                | High priority   |
@@ -21,7 +21,7 @@
         Examples:
           | CostCategory                               |
           |Teaching and Teaching support staff         |
-          | Non-educational support staff and services |
+          | Non-educational support staff |
           | Administrative supplies                    |
           | Educational supplies                       |
           | Catering staff and supplies                |

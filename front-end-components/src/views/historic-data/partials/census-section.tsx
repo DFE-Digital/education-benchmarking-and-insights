@@ -152,7 +152,7 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
             columnHeading="Percent"
           >
             <h2 className="govuk-heading-m">
-              Teachers with qualified teacher status (%)
+              Teachers with qualified teacher status (percentage)
             </h2>
           </HistoricChart>
 

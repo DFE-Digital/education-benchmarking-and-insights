@@ -5,7 +5,7 @@ namespace Web.E2ETests.Pages.School.CurriculumFinancialPlanningSteps;
 public class StartPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator BackLink => page.Locator(Selectors.GovBackLink);
+    //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
 
     private ILocator ContinueButton =>
         page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
@@ -16,7 +16,7 @@ public class StartPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await BackLink.ShouldBeVisible();
+        //await BackLink.ShouldBeVisible();
         await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
         await HelpLink.ShouldBeVisible();
     }

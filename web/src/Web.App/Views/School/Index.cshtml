@@ -11,7 +11,10 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School })" class="govuk-link govuk-link--no-visited-state">Change school</a>
+            @Html.TrackedAnchor(
+            TrackedLinks.ChangeOrganisation,
+            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School }) ?? "",
+            "Change school")
         </p>
     </div>
 </div>
@@ -82,7 +85,7 @@
                                 {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
-                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — Spending is higher than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
                         </div>
                     }

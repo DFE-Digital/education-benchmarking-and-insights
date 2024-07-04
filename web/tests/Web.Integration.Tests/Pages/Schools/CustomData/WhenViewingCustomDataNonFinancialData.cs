@@ -98,7 +98,9 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     [Fact]
     public async Task SetsAndGetsValidCustomValuesToSession()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -132,7 +134,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             };
 
             Assert.True(expected.Equals(actual), $"{field} expected to be {expected} but found {actual}");
-        }
+        }*/
     }
 
     [Fact]
@@ -183,12 +185,14 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     [Fact]
     public async Task CanNavigateBack()
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         var (page, school) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());*/
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()

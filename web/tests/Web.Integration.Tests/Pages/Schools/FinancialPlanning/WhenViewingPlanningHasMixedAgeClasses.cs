@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -25,12 +24,14 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanNavigateBack()
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());*/
     }
 
     [Fact]
@@ -113,14 +114,16 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "HasMixedAgeClasses",  "" }
+                {
+                    "HasMixedAgeClasses", ""
+                }
             });
         });
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("HasMixedAgeClasses", "Select yes if you have mixed age classes"));
+        DocumentAssert.FormErrors(page, ("HasMixedAgeClasses", "Select if you have any mixed age classes"));
     }
 
     [Theory]
@@ -137,7 +140,9 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "HasMixedAgeClasses",  value.ToString()}
+                {
+                    "HasMixedAgeClasses", value.ToString()
+                }
             });
         });
 
@@ -160,7 +165,11 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         var radios = page.QuerySelector(".govuk-radios--inline");
         Assert.NotNull(radios);
-        var options = new[] { ("HasMixedAgeClasses", "true", "Yes", value), ("HasMixedAgeClasses", "false", "No", !value) };
+        var options = new[]
+        {
+            ("HasMixedAgeClasses", "true", "Yes", value),
+            ("HasMixedAgeClasses", "false", "No", !value)
+        };
 
         DocumentAssert.Radios(radios, options);
     }

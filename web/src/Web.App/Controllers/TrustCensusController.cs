@@ -12,7 +12,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/census")]
-[TrustRequestTelemetry(TrackedRequestFeature.Census)]
+[TrustRequestTelemetry(TrackedRequestFeature.BenchmarkWorkforce)]
 public class TrustCensusController(
     IEstablishmentApi establishmentApi,
     ILogger<TrustCensusController> logger)

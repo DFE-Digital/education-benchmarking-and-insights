@@ -26,12 +26,14 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         AssertPageLayout(page, school);
     }
 
-    [Theory]
-    [InlineData(OverallPhaseTypes.Secondary)]
-    [InlineData(OverallPhaseTypes.Primary)]
-    public async Task CanNavigateBack(string phase)
+    [Fact]
+    // [InlineData(OverallPhaseTypes.Secondary)]
+    // [InlineData(OverallPhaseTypes.Primary)]
+    public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, phase);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, phase);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
@@ -40,7 +42,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectPage);
+        DocumentAssert.AssertPageUrl(page, expectPage);*/
     }
 
 

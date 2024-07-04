@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -12,12 +11,11 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
-[SchoolRequestTelemetry(TrackedRequestFeature.Comparators)]
+[SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class SchoolComparatorsController(
     ILogger<SchoolComparatorsController> logger,
     IEstablishmentApi establishmentApi,
@@ -146,9 +144,14 @@ public class SchoolComparatorsController(
 
                 schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
                 schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
-                return RedirectToAction("Index", "School", new
+                return RedirectToAction("Index", "School", new Dictionary<string, string>
                 {
-                    urn
+                    {
+                        "urn", urn
+                    },
+                    {
+                        "comparator-reverted", "true"
+                    }
                 });
             }
             catch (Exception e)

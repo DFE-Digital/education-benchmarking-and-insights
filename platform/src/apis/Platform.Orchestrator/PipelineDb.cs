@@ -9,10 +9,9 @@ namespace Platform.Orchestrator;
 
 public interface IPipelineDb
 {
-    Task UpdateStatus(string? id);
+    Task UpdateStatus(PipelineStatus status);
     void WriteToLog(string? orchestrationId, string? message);
 }
-
 
 [ExcludeFromCodeCoverage]
 public class PipelineDb : IPipelineDb
@@ -24,10 +23,13 @@ public class PipelineDb : IPipelineDb
         _dbFactory = dbFactory;
     }
 
-    public async Task UpdateStatus(string? id)
+    public async Task UpdateStatus(PipelineStatus status)
     {
-        const string sql = "UPDATE UserData SET Status = 'complete' where Id = @Id";
-        var parameters = new { Id = id };
+        var sql = status.Success
+            ? "UPDATE UserData SET Status = 'complete' where Id = @Id"
+            : "UPDATE UserData SET Status = 'failed' where Id = @Id";
+
+        var parameters = new { status.Id };
 
         using var conn = await _dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
@@ -62,4 +64,10 @@ public record CompletedPipelineRun
     public DateTimeOffset CompletedAt { get; set; }
     public string? OrchestrationId { get; set; }
     public string? Message { get; set; }
+}
+
+public record PipelineStatus
+{
+    public string? Id { get; set; }
+    public bool Success { get; set; }
 }

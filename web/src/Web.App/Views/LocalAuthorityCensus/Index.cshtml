@@ -2,12 +2,16 @@
 @using Web.App.Extensions
 @model Web.App.ViewModels.LocalAuthorityCensusViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.Census;
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityCensus;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new [] {"Compare your schools pupil and workforce data."}})
+@await Component.InvokeAsync("DataSource", new
+    {
+        kind = OrganisationTypes.LocalAuthority,
+        additionText = new[] { "View pupil and workforce data for schools in this local authority." }
+    })
 
 <div id="compare-your-census"
      data-type="@OrganisationTypes.LocalAuthority"

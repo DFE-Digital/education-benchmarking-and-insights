@@ -425,7 +425,8 @@ def compute_comparator_set(
     Perform comparator-set derivation, restricted by "phase".
 
     If `data` is "custom" data, the resulting output will be restricted
-    to just the `target_urn`.
+    to just the `target_urn`. Equally, if the target is not present, an
+    empty DataFrame will be returned.
 
     :param data: data for which to determine the comparator-sets
     :param target_urn: optional identifier for custom data
@@ -455,6 +456,9 @@ def compute_comparator_set(
             "Percentage Primary Need OTH",
         ]
     ].copy()
+
+    if target_urn and target_urn not in copy.index:
+        return pd.DataFrame(columns=copy.columns)
 
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
 

@@ -116,14 +116,14 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Compare your costs");
+        DocumentAssert.TitleAndH1(page, "Benchmark your costs - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Benchmark your costs");
 
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
         var toolsListSection = page.Body.SelectSingleNode("//main/div/div[5]");
-        DocumentAssert.Heading2(toolsListSection, "Finance tools");
+        DocumentAssert.Heading2(toolsListSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);

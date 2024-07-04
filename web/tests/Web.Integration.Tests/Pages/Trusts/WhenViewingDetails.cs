@@ -20,12 +20,14 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     [Fact]
     public async Task CanNavigateBack()
     {
-        var (page, trust, _) = await SetupNavigateInitPage();
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, trust, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());*/
     }
 
     [Fact]
@@ -76,7 +78,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
 
         Assert.NotNull(trust.TrustName);
-        DocumentAssert.TitleAndH1(page, "Contact details - Financial Benchmarking and Insights Tool - GOV.UK", "Contact details");
+        DocumentAssert.TitleAndH1(page, "Trust contact details - Financial Benchmarking and Insights Tool - GOV.UK", "Trust contact details");
 
         var details = page.QuerySelector("dl.govuk-summary-list");
         Assert.NotNull(details);

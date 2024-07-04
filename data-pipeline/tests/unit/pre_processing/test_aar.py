@@ -6,114 +6,92 @@ from src.pipeline.config import income_category_map
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
     assert list(prepared_aar_data.columns) == [
+        "LA",
+        "Estab",
         "Academy UPIN",
-        "In year balance",
-        "PFI School",
-        "Lead UPIN",
-        "Income_Other DFE grants",
-        "Income_SEN funding",
+        "Date joined or opened if in period",
+        "Date left or closed if in period",
+        "BNCH11110T (EFA Revenue Grants)",
+        "BNCH11131 (DfE Family Revenue Grants)",
+        "Income_Targeted grants",
         "Income_Pre Post 16",
         "Income_Other grants",
         "Income_Government source",
         "Income_Academies",
         "Income_Non government",
-        "Income_Facilities and services",
+        "BNCH11123-BAI011-A (Academies - Income)",
+        "BNCH11201 (Income from facilities and services)",
         "Income_Catering services",
         "Income_Receipts supply teacher insurance",
         "Income_Donations and voluntary funds",
         "Income_Other self-generated income",
+        "BNCH11205 (Other Income from facilities and services)",
         "Income_Investment income",
-        "Teaching and Teaching support staff_Teaching staff",
-        "Teaching and Teaching support staff_Supply teaching staff",
-        "Teaching and Teaching support staff_Education support staff",
-        "Non-educational support staff and services_Administrative and clerical staff",
-        "Premises staff and services_Premises staff",
+        "Administrative supplies_Administrative supplies (non educational)",
         "Catering staff and supplies_Catering staff",
-        "Non-educational support staff and services_Other staff",
-        "Other costs_Indirect employee expenses",
-        "Other costs_Staff development and training",
-        "Other costs_Staff-related insurance",
-        "Other costs_Supply teacher insurance",
-        "Premises staff and services_Maintenance of premises",
-        "Premises staff and services_Cleaning and caretaking",
-        "Utilities_Water and sewerage",
-        "Utilities_Energy",
-        "Other costs_Rent and rates",
-        "Premises staff and services_Other occupation costs",
-        "Other costs_Special facilities",
-        "Educational supplies_Learning resources (not ICT equipment)",
+        "Catering staff and supplies_Catering supplies",
+        "Other costs_Direct revenue financing",
         "Educational ICT_ICT learning resources",
         "Educational supplies_Examination fees",
-        "Teaching and Teaching support staff_Educational consultancy",
-        "Administrative supplies_Administrative supplies (non educational)",
-        "Teaching and Teaching support staff_Agency supply teaching staff",
-        "Catering staff and supplies_Catering supplies",
-        "Other costs_Other insurance premiums",
+        "Educational supplies_Learning resources (not ICT equipment)",
+        "BNCH11000T (Revenue Income)",
+        "BNCH20000T (Total Costs)",
+        "Non-educational support staff and services_Administrative and clerical staff",
+        "Non-educational support staff and services_Other staff",
+        "Revenue reserve",
         "Non-educational support staff and services_Professional services "
         "(non-curriculum)",
         "Non-educational support staff and services_Audit cost",
+        "Premises staff and services_Maintenance of premises",
+        "Other costs_Grounds maintenance",
+        "Other costs_Indirect employee expenses",
         "Other costs_Interest charges for loan and bank",
-        "Other costs_Direct revenue financing",
+        "Other costs_Other insurance premiums",
         "Other costs_PFI charges",
-        "Revenue reserve",
+        "Other costs_Rent and rates",
+        "Other costs_Special facilities",
+        "Other costs_Staff development and training",
+        "Other costs_Staff-related insurance",
+        "Other costs_Supply teacher insurance",
+        "Premises staff and services_Cleaning and caretaking",
+        "Premises staff and services_Other occupation costs",
+        "Premises staff and services_Premises staff",
+        "Teaching and Teaching support staff_Teaching staff",
+        "Teaching and Teaching support staff_Supply teaching staff",
+        "Teaching and Teaching support staff_Education support staff",
+        "Teaching and Teaching support staff_Educational consultancy",
+        "Teaching and Teaching support staff_Agency supply teaching staff",
+        "Utilities_Energy",
+        "Utilities_Water and sewerage",
+        "In year balance",
         "Income_Total grant funding",
-        "Income_Direct grants",
-        "Income_Other Revenue Income",
-        "Targeted Grants",
         "Income_Total self generated funding",
-        "Income_Total",
-        "Supply Staff Costs",
-        "Other Staff Costs",
-        "Total Staff Costs",
-        "Maintenance & Improvement Costs",
-        "Premises Costs",
-        "Catering Expenses",
-        "Occupation Costs",
-        "Total Costs of Supplies and Services",
-        "Total Costs of Educational Supplies",
-        "Costs of Brought in Professional Services",
+        "Income_Direct grants",
+        "Income_Other DFE grants",
+        "Income_Other Revenue Income",
+        "Income_Facilities and services",
         "Total Expenditure",
-        "London Weighting",
-        "Date joined or opened if in period",
-        "Date left or closed if in period",
+        "Total Income",
         "Trust Balance",
         "Financial Position",
         "Trust Financial Position",
-        "Is PFI",
+        "London Weighting",
+        "PFI School",
+        "Is PFI"
     ]
 
 
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Trust Balance"][
-            prepared_aar_data["Lead UPIN"] == 137157
-        ].iloc[0]
-        == 2001
-    )
+    assert prepared_aar_data["Trust Balance"].loc[100150] == 499.0
 
 
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Financial Position"][
-            prepared_aar_data["Lead UPIN"] == 137157
-        ].iloc[0]
-        == "Surplus"
-    )
+    assert prepared_aar_data["Financial Position"].loc[100150] == "Surplus"
 
 
-def test_aar_trust_financial_position_deficit(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Trust Financial Position"][
-            prepared_aar_data["Lead UPIN"] == 135112
-        ].iloc[0]
-        == "Deficit"
-    )
+def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
+    assert prepared_aar_data["In year balance"].loc[100153] == -1.0
 
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Financial Position"][
-            prepared_aar_data["Lead UPIN"] == 135112
-        ].iloc[0]
-        == "Deficit"
-    )
+    assert prepared_aar_data["Financial Position"].loc[100153] == "Deficit"

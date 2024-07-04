@@ -25,7 +25,7 @@ public class SchoolSpendingController(
     : Controller
 {
     [HttpGet]
-    [SchoolRequestTelemetry(TrackedRequestFeature.Spending)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.SpendingPriorities)]
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new

@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -37,7 +36,9 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "Proceed",  value.ToString()}
+                {
+                    "Proceed", value.ToString()
+                }
             });
         });
 
@@ -62,25 +63,29 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "Proceed",  "" }
+                {
+                    "Proceed", ""
+                }
             });
         });
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("Proceed", "Select yes if you want to continue without adding other teaching periods"));
+        DocumentAssert.FormErrors(page, ("Proceed", "Confirm if you want to proceed without adding other teaching periods"));
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateBack(string financeType)
+    [Fact]
+    // [InlineData(EstablishmentTypes.Academies)]
+    // [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        /*
+         See decision log: temp remove navigation to be review post private beta
+         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());*/
     }
 
     [Fact]

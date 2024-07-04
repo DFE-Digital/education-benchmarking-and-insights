@@ -3,10 +3,9 @@ import pandas as pd
 
 def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFrame):
     assert list(prepared_census_data.columns) == [
-        "Percentage claiming Free school meals",
         "Percentage Free school meals",
+        "Number of pupils (headcount)",
         "Number of pupils",
-        "Number of Pupils (FTE)",
         "ward_name",
         "district_administrative_name",
         "region_name",
@@ -36,11 +35,11 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
 
 
 def test_dual_pupils_handled(prepared_census_data: pd.DataFrame):
-    assert prepared_census_data.loc[100152]["Number of pupils"] == 628
+    assert prepared_census_data.loc[100152]["Number of pupils"] == 619
 
 
-def test_dual_pupils_handled_when_z(prepared_census_data: pd.DataFrame):
-    assert prepared_census_data.loc[100150]["Number of pupils"] == 325
+def test_dual_pupils_handled_when_zero(prepared_census_data: pd.DataFrame):
+    assert prepared_census_data.loc[100150]["Number of pupils"] == 320
 
 
 def test_total_nursery_computed_correctly(prepared_census_data: pd.DataFrame):

@@ -21,10 +21,10 @@ public enum TrackedRequestEstablishmentType
 
 public enum TrackedRequestFeature
 {
-    [StringValue("census")]
-    Census,
-    [StringValue("comparators")]
-    Comparators,
+    [StringValue("benchmark-workforce")]
+    BenchmarkWorkforce,
+    [StringValue("benchmark-costs")]
+    BenchmarkCosts,
     [StringValue("customised-data")]
     CustomisedData,
     [StringValue("details")]
@@ -35,12 +35,12 @@ public enum TrackedRequestFeature
     History,
     [StringValue("home")]
     Home,
-    [StringValue("planning")]
+    [StringValue("curriculum-financial-planning")]
     Planning,
     [StringValue("resources")]
     Resources,
-    [StringValue("spending")]
-    Spending
+    [StringValue("spending-priorities")]
+    SpendingPriorities
 }
 
 public enum TrackedRequestRouteParameters

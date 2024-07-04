@@ -15,6 +15,8 @@ public class NavigationTagHelper(
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
+        /*
+        See decision log: temp remove navigation to be review post private beta
         if (ViewContext.ViewData[ViewDataKeys.HiddenNavigation] is true)
         {
             return;
@@ -38,7 +40,7 @@ public class NavigationTagHelper(
         else
         {
             await base.ProcessAsync(context, output);
-        }
+        }*/
     }
 }
 public class BacklinkInfo(string? action, string title = "Back")

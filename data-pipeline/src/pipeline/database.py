@@ -258,7 +258,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Period covered by return": "PeriodCoveredByReturn",
         "Financial Position": "FinancialPosition",
         "Trust Financial Position": "TrustPosition",
-        "Income_Total": "TotalIncome",
+        "Total Income": "TotalIncome",
         "Total Expenditure": "TotalExpenditure",
         "Total Internal Floor Area": "TotalInternalFloorArea",
         "Number of pupils": "TotalPupils",
@@ -322,7 +322,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Other costs_Supply teacher insurance": "SupplyTeacherInsurableCosts",
         "Other costs_School staff": "CommunityFocusedSchoolStaff",
         "Other costs_School costs": "CommunityFocusedSchoolCosts",
-        "Income_Total_CS": "TotalIncomeCS",
+        "Total Income_CS": "TotalIncomeCS",
         "Total Expenditure_CS": "TotalExpenditureCS",
         "In year balance_CS": "InYearBalanceCS",
         "Revenue reserve_CS": "RevenueReserveCS",
@@ -381,7 +381,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Other costs_Supply teacher insurance_CS": "SupplyTeacherInsurableCostsCS",
         "Income_Pre Post 16_CS": "PrePost16FundingCS",
         "Income_Pre Post 16": "PrePost16Funding",
-        # "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
+        "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]

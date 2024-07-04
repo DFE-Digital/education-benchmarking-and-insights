@@ -37,3 +37,16 @@ variable "configuration" {
     }
   }
 }
+
+variable "trackedEvents" {
+  type = set(string)
+  default = [
+    "gias-school-details",
+    "commercial-resource",
+    "guidance-resource",
+    "data-source",
+    "organisation",
+    "service-banner",
+    "change-organisation"
+  ]
+}

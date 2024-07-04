@@ -91,7 +91,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparison(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK", "Compare your costs");
+        DocumentAssert.TitleAndH1(page, "View school spending - Financial Benchmarking and Insights Tool - GOV.UK", "View school spending");
 
         var component = page.GetElementById("compare-your-costs");
         Assert.NotNull(component);
@@ -111,7 +111,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsSection, "Finance tools");
+        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(4, toolsLinks.Count);

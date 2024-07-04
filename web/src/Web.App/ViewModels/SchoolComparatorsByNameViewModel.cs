@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristicUserDefined[]? schoolCharacteristics)
@@ -15,8 +14,22 @@ public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristi
         .ToArray();
 }
 
-public record SchoolComparatorsUrnViewModel
+public record SchoolComparatorsUrnViewModel : IValidatableObject
 {
-    [Required(ErrorMessage = "Select a school from the suggester")]
+    public string? SchoolInput { get; init; }
     public string? Urn { get; init; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (string.IsNullOrWhiteSpace(Urn) || string.IsNullOrEmpty(SchoolInput))
+        {
+            var message = string.IsNullOrEmpty(SchoolInput)
+                ? "Enter a school or academy name, postcode or URN"
+                : "Select a school or academy from the suggested list";
+            yield return new ValidationResult(message, new[]
+            {
+                nameof(SchoolInput)
+            });
+        }
+    }
 }

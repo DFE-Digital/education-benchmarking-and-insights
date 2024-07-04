@@ -9,7 +9,7 @@ public static class PageTitles
     public const string FindOrganisation = "Find a school, trust or local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
-    public const string Comparison = "Compare your costs";
+    public const string Comparison = "Benchmark your costs";
     public const string Spending = "Spending priorities for this school";
     public const string Resources = "Find ways to spend less";
     public const string Census = "Benchmark pupil and workforce data";
@@ -33,6 +33,9 @@ public static class PageTitles
     public const string SchoolComparatorsPreview = "Schools successfully matched";
     public const string SchoolComparatorsSubmit = "Updating benchmarking data";
     public const string TrustHome = "Your trust";
+    public const string TrustComparison = "View school spending";
+    public const string TrustCensus = "View pupil and workforce data";
+    public const string TrustContactDetails = "Trust contact details";
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
     public const string SchoolPlanningMixedAgeClasses = "Which years have mixed age classes?";
@@ -56,6 +59,8 @@ public static class PageTitles
     public const string SchoolCustomisedData = "Use your customised data";
     public const string SchoolSpendingComparison = "Side-by-side comparison";
     public const string LocalAuthorityHome = "Your local authority";
+    public const string LocalAuthorityComparison = "View school spending";
+    public const string LocalAuthorityCensus = "View pupil and workforce data";
     public const string TrustSpending = "Spending priorities for this trust";
     public const string TrustComparatorsCreateBy = "How do you want to choose your own set of trusts?";
     public const string TrustComparatorsCreateByName = "Choose trusts to benchmark against";

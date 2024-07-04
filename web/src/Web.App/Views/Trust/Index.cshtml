@@ -10,7 +10,10 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust })" class="govuk-link govuk-link--no-visited-state">Change trust</a>
+            @Html.TrackedAnchor(
+            TrackedLinks.ChangeOrganisation,
+            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust }) ?? "",
+            "Change trust")
         </p>
     </div>
 </div>

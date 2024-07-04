@@ -21,7 +21,7 @@ public class SchoolCensusController(
     : Controller
 {
     [HttpGet]
-    [SchoolRequestTelemetry(TrackedRequestFeature.Census)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkWorkforce)]
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
