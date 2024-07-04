@@ -35,7 +35,7 @@
                     <span class="govuk-hint">@school.Address</span>
                 </td>
                 <td class="govuk-table__cell">@school.OverallPhase</td>
-                <td class="govuk-table__cell">@school.TotalPupils</td>
+                    <td class="govuk-table__cell">@school.TotalPupils.GetValueOrDefault().ToNumberSeparator()</td>
                 <td class="govuk-table__cell">@school.PercentSpecialEducationNeeds.ToPercent()</td>
                 <td class="govuk-table__cell">@school.PercentFreeSchoolMeals.ToPercent()</td>
                 <td class="govuk-table__cell">
