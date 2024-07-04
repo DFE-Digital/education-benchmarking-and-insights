@@ -1,3 +1,7 @@
+locals {
+  host_name = lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name
+}
+
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   name                = "${var.environment-prefix}-education-benchmarking-fd-profile"
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -162,7 +166,7 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   configuration = <<XML
 <WebTest Name="${var.environment-prefix}-web-app-test" Id="${random_uuid.idgen.result}" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="60" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="">
   <Items>
-    <Request Method="GET" Guid="${random_uuid.guidgen.result}" Version="1.1" Url="https://${azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name}" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="60" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" />
+    <Request Method="GET" Guid="${random_uuid.guidgen.result}" Version="1.1" Url="https://${local.host_name}" ThinkTime="0" Timeout="60" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="60" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" />
   </Items>
 </WebTest>
 XML
