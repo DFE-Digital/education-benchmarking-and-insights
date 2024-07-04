@@ -21,7 +21,7 @@ public class SchoolComparisonController(
     : Controller
 {
     [HttpGet]
-    [SchoolRequestTelemetry(TrackedRequestFeature.Comparators)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new

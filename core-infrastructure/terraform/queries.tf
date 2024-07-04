@@ -48,7 +48,7 @@ resource "azurerm_log_analytics_query_pack_query" "popular-school-requests-chart
     | render 
         columnchart with(title="50 most popular school requests")
   EOT
-  display_name  = "Popular Requests - School"
+  display_name  = "Popular Requests – School"
   description   = "Chart of the most popular School requests, split by feature"
   categories    = ["applications"]
   tags          = local.common-tags
@@ -75,7 +75,7 @@ resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests-chart"
     | render 
         columnchart with(title="50 most popular trust requests")
   EOT
-  display_name  = "Popular Requests - Trust"
+  display_name  = "Popular Requests – Trust"
   description   = "Chart of the most popular Trust requests, split by feature"
   categories    = ["applications"]
   tags          = local.common-tags
@@ -102,7 +102,7 @@ resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-reque
     | render 
         columnchart with(title="50 most popular local authority requests")
   EOT
-  display_name  = "Popular Requests - Local Authority"
+  display_name  = "Popular Requests – Local Authority"
   description   = "Chart of the most popular Local Authority requests, split by feature"
   categories    = ["applications"]
   tags          = local.common-tags
@@ -120,16 +120,12 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
     | where 
         Properties["baseTypeSource"] == "ClickEvent" and 
         Name in (
-            "gias-school-details", 
-            "commercial-resource", 
-            "guidance-resource",
-            "data-source", 
-            "organisation",
-            "service-banner", 
-            "change-organisation"
+            %{for s in var.trackedEvents~}
+            "${s}",
+            %{endfor~}
         )
     | extend
-        Source = tostring(Properties["refUri"]),
+        Source = tostring(Properties["uri"]),
         Target = tostring(Properties["targetUri"])
     | join kind=leftouter
         (
@@ -156,13 +152,24 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
   tags           = local.common-tags
 }
 
-resource "azurerm_log_analytics_query_pack_query" "tracked-links-gias-school-details" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca5"
+resource "random_uuid" "tracked-links-id" {
+  for_each = var.trackedEvents
+}
+
+locals {
+  trackedEventUuids = tomap({
+    for trackedEventName, uuid in random_uuid.tracked-links-id : trackedEventName => uuid.result
+  })
+}
+
+resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
+  for_each      = local.trackedEventUuids
+  name          = each.value
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   body          = <<-EOT
     GetTrackedLinks
     | where 
-        Name == "gias-school-details"
+        Name == "${each.key}"
     | project 
         TimeGenerated, 
         Source,
@@ -171,8 +178,30 @@ resource "azurerm_log_analytics_query_pack_query" "tracked-links-gias-school-det
         Feature, 
         Identifier
   EOT
-  display_name  = "Tracked Links - GIAS school details"
-  description   = "Table of GIAS school details clicks"
+  display_name  = "Tracked Links – ${each.key}"
+  description   = "Table of ${each.key} clicks"
+  categories    = ["applications"]
+  tags          = local.common-tags
+}
+
+resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca0"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  body          = <<-EOT
+    ContainerAppConsoleLogs_CL
+    | where 
+        RevisionName_s startswith "${var.environment-prefix}-ebis-data-pipeline"
+    | where 
+        TimeGenerated between (ago(1d)..now())
+    | project 
+        TimeGenerated, 
+        ContainerId_s, 
+        Log_s
+    | order by 
+        TimeGenerated desc 
+  EOT
+  display_name  = "Recent pipeline runs"
+  description   = "Logs from the most recent data pipeline runs"
   categories    = ["applications"]
   tags          = local.common-tags
 }
