@@ -54,6 +54,36 @@ public class SchoolComparatorsController(
     }
 
     [HttpGet]
+    [Route("workforce")]
+    public async Task<IActionResult> Workforce(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
+                var pupil = await GetSchoolCharacteristics<SchoolCharacteristicPupil>(set.Pupil);
+                var building = await GetSchoolCharacteristics<SchoolCharacteristicBuilding>(set.Building);
+                var userData = await userDataService.GetSchoolDataAsync(User, urn);
+
+                var viewModel = new SchoolComparatorsViewModel(school, pupil: pupil, building: building, hasCustomData: !string.IsNullOrEmpty(userData.CustomData));
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
     [Route("user-defined")]
     [Authorize]
     [FeatureGate(FeatureFlags.UserDefinedComparators)]

@@ -1,0 +1,93 @@
+﻿@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Web.App.Extensions
+@using Web.App.TagHelpers
+@model Web.App.ViewModels.SchoolComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparators;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+    {
+        title = ViewData[ViewDataKeys.Title],
+        name = Model.Name,
+        id = Model.Urn,
+        kind = OrganisationTypes.School
+    })
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">This is the set of similar schools we've chosen to benchmark this school's pupil and workforce data against.</p>
+
+        <feature name="@FeatureFlags.UserDefinedComparators">
+            @if (!Model.HasCustomData)
+            {
+                <p class="govuk-body">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Urn })">
+                        Choose your own set of schools
+                    </a>
+                </p>
+            }
+        </feature>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">We've chosen @Model.PupilSchools.Count(x => x.URN != Model.Urn) similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
+        <h2 class="govuk-heading-m">How we chose these schools</h2>
+        <p class="govuk-body">We chose these schools based on:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>school phase or type</li>
+            <li>region</li>
+            <li>number of pupils</li>
+            <li>pupils eligible for free school meals (FSM)</li>
+            <li>pupils with special educational needs (SEN)</li>
+        </ul>
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m">Schools we've chosen</caption>
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">School</th>
+                    <th scope="col" class="govuk-table__header">Type</th>
+                    <th scope="col" class="govuk-table__header">Number of pupils</th>
+                    <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
+                    <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+
+                @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <strong>@school.SchoolName</strong>
+                            <br />
+                            <span class="govuk-hint">@school.Address</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.OverallPhase
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.PercentSpecialEducationNeeds.ToPercent()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.PercentFreeSchoolMeals.ToPercent()
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}

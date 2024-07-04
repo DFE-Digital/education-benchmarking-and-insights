@@ -1,4 +1,5 @@
-﻿@model Web.App.ViewModels.SchoolCensusViewModel
+﻿@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.SchoolCensusViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
 }
@@ -22,7 +23,8 @@
 {
     identifier = Model.Urn, 
     hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
-    hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
+    hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId),
+    type = ComparatorSetType.Workforce
 })
 
 <div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
