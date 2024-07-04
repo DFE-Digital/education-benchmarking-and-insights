@@ -223,3 +223,22 @@ def test_update_custom_data_missing_columns():
     )
 
     assert "Total Internal Floor Area" not in result.columns
+
+
+def test_update_custom_data_missing_target():
+    """
+    If `target_urn` is absent, the data are unaltered.
+    """
+    df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
+    custom_data = _default_custom_data | {
+        "totalInternalFloorArea": 2.0,
+        "workforceFTE": 3.0,
+    }
+
+    result = update_custom_data(
+        existing_data=df,
+        custom_data=custom_data,
+        target_urn=4,
+    )
+
+    assert 4 not in result.index

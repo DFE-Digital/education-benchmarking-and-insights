@@ -1246,13 +1246,18 @@ def update_custom_data(
 
     Note: only a subset of the custom fields may be present in the
     inbound message; only a subset of mapped columns may be present in
-    the existing data.
+    the existing data. Equally, the data will only be updated if the
+    target is present in the existing data.
 
     :param existing_data: existing, pre-processed data
     :param custom_data: custom financial information
     :param target_urn: specific row to update
     :return: updated data
     """
+
+    if target_urn not in existing_data.index:
+        return existing_data
+
     custom_to_columns = {
         "administrativeSuppliesNonEducationalCosts": "Administrative supplies_Administrative supplies (non educational)",
         "cateringStaffCosts": "Catering staff and supplies_Catering staff",
