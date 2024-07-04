@@ -23,7 +23,7 @@ public class HistoricDataPage(IPage page)
     {
         "Teaching and teaching support staff", "Non-educational support staff", "Educational supplies",
         "Educational ICT",
-        "Premises and services", "Utilities", "Administrative supplies", "Catering staff and services", "Other",
+        "Premises staff and services", "Utilities", "Administrative supplies", "Catering staff and services", "Other costs",
     };
 
     private readonly string[] _incomeCategories = { "Grant funding", "Self-generated", "Direct revenue financing" };
@@ -34,7 +34,7 @@ public class HistoricDataPage(IPage page)
         "Pupils on roll",
         "School workforce (full time equivalent)",
         "Total number of teachers (full time equivalent)",
-        "Teachers with qualified teacher status (%)",
+        "Teachers with qualified teacher status (percentage)",
         "Senior leadership (full time equivalent)",
         "Teaching assistants (full time equivalent)",
         "Non-classroom support staff - excluding auxiliary staff (full time equivalent)",
