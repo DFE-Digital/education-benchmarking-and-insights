@@ -153,6 +153,7 @@ def aar_data() -> pd.DataFrame:
             "LA": [865, 845, 929],
             "Estab": [5411, 4026, 4002],
             "ACADEMYUPIN": [111443, 111451, 111453],
+            "ACADEMYTRUSTSTATUS": ["Existing", "Closed", "Existing"],
             "Company_Number": ["8146633", "8075785", "8146633"],
             "Date joined or opened if in period:": [None, "01/05/2023", None],
             "Date left or closed if in period:": [None, "01/05/2023", None],

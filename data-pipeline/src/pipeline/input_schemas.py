@@ -267,6 +267,7 @@ aar_academies = {
     "Estab": "Int64",
     "URN": "Int64",
     "ACADEMYUPIN": "Int64",
+    "ACADEMYTRUSTSTATUS": "string",
     "Company_Number": "string",
     "Date joined or opened if in period:": "string",
     "Date left or closed if in period:": "string",

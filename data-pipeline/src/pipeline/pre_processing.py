@@ -444,8 +444,11 @@ def prepare_aar_data(aar_path, current_year: int):
     mask = ~(
             aar["URN"].isin(transitioned_academy_urns)
             & aar["Date joined or opened if in period:"].isna()
+            & (aar["ACADEMYTRUSTSTATUS"] != "Closed")
     )
     aar = aar[mask]
+
+    aar.drop(columns=["ACADEMYTRUSTSTATUS"], inplace=True)
 
     aar["In year balance"] = (
             aar["BNCH11110T (EFA Revenue Grants)"] - aar["BNCH20000T (Total Costs)"]
@@ -751,10 +754,10 @@ def build_academy_data(
     )
 
     academies = (
-        academies_base.merge(census, on="URN", how="left")
+        aar.merge(academies_base, on="URN", how="left", suffixes=("_aar", ""))
+        .merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
-        .merge(aar, on="URN", how="left", suffixes=("", "_aar"))
         .merge(group_links, on="URN", how="inner")
         .merge(cfo, on="URN", how="left")
     )
