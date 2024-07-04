@@ -13,7 +13,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities)]
 [Route("local-authority/{code}/census")]
-[LocalAuthorityRequestTelemetry(TrackedRequestFeature.Census)]
+[LocalAuthorityRequestTelemetry(TrackedRequestFeature.BenchmarkWorkforce)]
 public class LocalAuthorityCensusController(
     IEstablishmentApi establishmentApi,
     ILogger<LocalAuthorityCensusController> logger)

@@ -20,7 +20,7 @@ namespace Web.App.Controllers;
 [Authorize]
 [FeatureGate(FeatureFlags.TrustComparison, FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/comparators/create")]
-[TrustRequestTelemetry(TrackedRequestFeature.Comparators)]
+[TrustRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class TrustComparatorsCreateByController(
     ILogger<TrustComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,

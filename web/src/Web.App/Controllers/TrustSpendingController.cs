@@ -14,7 +14,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/spending-and-costs")]
-[TrustRequestTelemetry(TrackedRequestFeature.Spending)]
+[TrustRequestTelemetry(TrackedRequestFeature.SpendingPriorities)]
 public class TrustSpendingController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {

@@ -13,7 +13,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities)]
 [Route("local-authority/{code}/comparison")]
-[LocalAuthorityRequestTelemetry(TrackedRequestFeature.Comparators)]
+[LocalAuthorityRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class LocalAuthorityComparisonController(
     IEstablishmentApi establishmentApi,
     ILogger<LocalAuthorityComparisonController> logger)
