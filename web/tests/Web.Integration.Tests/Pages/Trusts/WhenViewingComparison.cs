@@ -111,7 +111,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
+        DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(4, toolsLinks.Count);
