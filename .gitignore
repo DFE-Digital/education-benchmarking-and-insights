@@ -428,3 +428,4 @@ documentation/**/work
 
 # Database launch settings
 **/Core.Database/Properties/launchSettings.json
+web/src/Web.App/appsettings.Test.json
