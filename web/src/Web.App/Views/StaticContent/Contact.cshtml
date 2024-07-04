@@ -1,5 +1,38 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Contact</h1>
+        <h1 class="govuk-heading-xl">Contact us</h1>
+        
+        <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">
+                Contact us
+            </h2>
+            <ul class="govuk-tabs__list">
+                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#contact-us">
+                        Contact us
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#send-feedback">
+                        Send feedback
+                    </a>
+                </li>
+            </ul>
+            <div class="govuk-tabs__panel" id="contact-us">
+                <h2 class="govuk-heading-l">Contact us by email</h2>
+            </div>
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="send-feedback">
+                <h2 class="govuk-heading-l">Send feedback</h2>
+                <p class="govuk-body">Send us feedback about the Financial Benchmarking and Insights Tool by <a href="#" class="govuk-link">filling out this short survey</a>.</p>
+            </div>
+        </div>
     </div>
 </div>
+
+@section scripts
+            {
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}
