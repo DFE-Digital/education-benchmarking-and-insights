@@ -78,7 +78,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
 
         Assert.NotNull(trust.TrustName);
-        DocumentAssert.TitleAndH1(page, "Contact details - Financial Benchmarking and Insights Tool - GOV.UK", "Contact details");
+        DocumentAssert.TitleAndH1(page, "Trust contact details - Financial Benchmarking and Insights Tool - GOV.UK", "Trust contact details");
 
         var details = page.QuerySelector("dl.govuk-summary-list");
         Assert.NotNull(details);

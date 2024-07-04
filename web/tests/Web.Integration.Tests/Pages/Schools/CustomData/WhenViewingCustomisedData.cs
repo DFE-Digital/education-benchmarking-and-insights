@@ -143,7 +143,7 @@ public class WhenViewingCustomisedData(SchoolBenchmarkingWebAppClient client)
 
         DocumentAssert.Link(toolsLinks[0], "Side-by-side comparison",
             Paths.SchoolSpendingComparison(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Compare your costs",
+        DocumentAssert.Link(toolsLinks[1], "Benchmark your costs",
             Paths.SchoolComparisonCustomData(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[2], "Spending priorities for this school",
             Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());

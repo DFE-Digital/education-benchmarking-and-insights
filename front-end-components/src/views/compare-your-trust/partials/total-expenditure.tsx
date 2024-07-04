@@ -84,7 +84,7 @@ export const TotalExpenditure: React.FC<{
         chartName="total expenditure"
         trust
       >
-        <h2 className="govuk-heading-m">Total Expenditure</h2>
+        <h2 className="govuk-heading-m">Total expenditure</h2>
         <ChartDimensions
           dimensions={CostCategories.filter(function (category) {
             return category !== PercentageExpenditure;
