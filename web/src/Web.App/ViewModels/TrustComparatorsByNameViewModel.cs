@@ -15,7 +15,13 @@ public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUse
         .ToArray();
 }
 
-public record TrustComparatorsCompanyNumberViewModel : IValidatableObject
+public record TrustComparatorRemoveViewModel
+{
+    [Required(ErrorMessage = "Select a trust to remove")]
+    public string? CompanyNumber { get; init; }
+}
+
+public record TrustComparatorAddViewModel : IValidatableObject
 {
     public string? TrustInput { get; init; }
     public string? CompanyNumber { get; init; }
