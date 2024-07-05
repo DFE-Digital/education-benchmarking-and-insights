@@ -1,8 +1,8 @@
 {
-	"name": "blob_s198d02_school",
+	"name": "blob_s198d16_school",
 	"properties": {
 		"folder": {
-			"name": "blob_s198d02"
+			"name": "blob_s198d16"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -18,7 +18,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "s198d02_school",
+						"referenceName": "s198d16_school",
 						"type": "DatasetReference"
 					},
 					"name": "Sink"
