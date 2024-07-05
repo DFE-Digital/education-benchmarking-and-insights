@@ -62,7 +62,7 @@ public class MetricRagRatingsService : IMetricRagRatingsService
 
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId AND AND SetType = @SetType",
+        builder.Where("RunType = @RunType AND RunId = @RunId AND SetType = @SetType",
             new { RunType = runType, RunId = identifier, SetType = setType });
 
         if (!includeSubCategories)
