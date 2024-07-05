@@ -11,7 +11,7 @@ public interface IMetricRagRatingsService
     Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
         string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
 
-    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", bool includeSubCategories = false);
+    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
 }
 
 public class MetricRagRatingsService : IMetricRagRatingsService
@@ -56,13 +56,14 @@ public class MetricRagRatingsService : IMetricRagRatingsService
     }
 
     public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default",
-        bool includeSubCategories = false)
+        string setType = "unmixed", bool includeSubCategories = false)
     {
         using var conn = await _dbFactory.GetConnection();
 
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId", new { RunType = runType, RunId = identifier });
+        builder.Where("RunType = @RunType AND RunId = @RunId AND AND SetType = @SetType",
+            new { RunType = runType, RunId = identifier, SetType = setType });
 
         if (!includeSubCategories)
         {
