@@ -60,7 +60,7 @@ income_category_map = {
         # "I16  Community focussed school funding and   or grants": "Income_Community grants",
         # "I17  Community focused school facilities income": "",
         # "I18  Additional grant for schools": "Income_Other grants",
-        "Total Income   I01 to I18": "Income_Total",
+        "Total Income   I01 to I18": "Total Income",
         "Revenue Reserve   B01 plus B02 plus B06": "Revenue reserve",
         "Direct Grant": "Income_Direct grants",
         "Targeted Grants": "Income_Targeted grants",
