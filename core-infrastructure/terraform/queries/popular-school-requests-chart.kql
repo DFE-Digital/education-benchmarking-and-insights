@@ -1,0 +1,18 @@
+GetEstablishmentRequests
+| where 
+    Establishment == "school" and 
+    ResultCode == 200
+| project 
+    TimeGenerated, 
+    Feature, 
+    Urn = Identifier
+| summarize 
+    Count=count()
+    by Urn, 
+    Feature
+| sort by 
+    Count desc
+| take(50)
+| render 
+columnchart
+    with(title="50 most popular school requests")

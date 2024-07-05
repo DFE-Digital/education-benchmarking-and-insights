@@ -1,0 +1,10 @@
+ GetTrackedLinks
+| where
+    Name == "${name}"
+| project
+    TimeGenerated,
+    Source,
+    Target,
+    Establishment,
+    Feature,
+    Identifier

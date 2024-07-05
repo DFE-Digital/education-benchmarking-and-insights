@@ -1,0 +1,28 @@
+AppEvents
+| where
+    Properties["baseTypeSource"] == "ClickEvent" and
+    Name in (${trackedEvents})
+| extend
+    Source = tostring(Properties["uri"]),
+    Target = tostring(Properties["targetUri"])
+| join kind=leftouter
+    (
+    AppRequests
+    | extend
+        Urn = tostring(Properties["Urn"]),
+        CompanyNumber = tostring(Properties["CompanyNumber"]),
+        Code = tostring(Properties["Code"]),
+        Establishment = tostring(Properties["Establishment"]),
+        Feature = tostring(Properties["Feature"])
+    | where isnotempty(Establishment))
+    on $left.ParentId == $right.OperationId
+| project
+    TimeGenerated,
+    Name,
+    Source,
+    Target,
+    OperationId,
+    UserId,
+    Establishment,
+    Feature,
+    Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))

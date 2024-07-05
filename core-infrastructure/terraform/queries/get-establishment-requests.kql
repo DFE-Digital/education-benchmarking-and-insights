@@ -1,0 +1,19 @@
+AppRequests
+| extend
+    Urn = tostring(Properties["Urn"]),
+    CompanyNumber = tostring(Properties["CompanyNumber"]),
+    Code = tostring(Properties["Code"]),
+    Establishment = tostring(Properties["Establishment"]),
+    Feature = tostring(Properties["Feature"])
+| where isnotempty(Establishment)
+| project
+    TimeGenerated,
+    Name,
+    ResultCode,
+    OperationId,
+    UserId,
+    Establishment,
+    Feature,
+    Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
+| order by
+    TimeGenerated desc

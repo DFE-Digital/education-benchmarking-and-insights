@@ -1,0 +1,16 @@
+AppRequests
+| extend
+    Establishment = tostring(Properties["Establishment"]),
+    Feature = tostring(Properties["Feature"])
+| where isnotempty(Feature)
+| project
+    TimeGenerated,
+    Name,
+    ResultCode,
+    OperationId,
+    UserId,
+    UserAuthenticatedId,
+    Establishment,
+    Feature
+| order by
+    TimeGenerated desc
