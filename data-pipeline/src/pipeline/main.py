@@ -503,7 +503,8 @@ def compute_comparator_set_for(
     """
     Perform comparator-set calculation and persist the result.
 
-    Results are persisted in both blob-storage and the database.
+    Results are persisted in both blob-storage and, only if there are
+    data to be written, the database.
 
     :param data_type: type (e.g. academy) of the data
     :param set_type: "mixed" or "unmixed"
@@ -524,12 +525,13 @@ def compute_comparator_set_for(
         result.to_parquet(),
     )
 
-    insert_comparator_set(
-        run_type=run_type,
-        set_type=set_type,
-        run_id=run_id,
-        df=result,
-    )
+    if len(result.index):
+        insert_comparator_set(
+            run_type=run_type,
+            set_type=set_type,
+            run_id=run_id,
+            df=result,
+        )
 
 
 def compute_comparator_sets(
@@ -656,7 +658,8 @@ def compute_rag_for(
         df.to_parquet(),
     )
 
-    insert_metric_rag(run_type, set_type, run_id, df)
+    if len(df.index):
+        insert_metric_rag(run_type, set_type, run_id, df)
 
 
 def run_compute_rag(
