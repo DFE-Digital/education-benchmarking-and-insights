@@ -17,6 +17,12 @@
 		"s198d02_sql_properties_typeProperties_connectionString_secretName": {
 			"value": "core-sql-connection-string"
 		},
+		"s198d16_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://s198d16-ebis-keyvault.vault.azure.net/"
+		},
+		"s198d16_sql_properties_typeProperties_connectionString_secretName": {
+			"value": "core-sql-connection-string"
+		},
 		"s198d98_storage_sasUri": {
 			"value": ""
 		},

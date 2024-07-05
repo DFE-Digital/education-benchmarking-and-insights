@@ -23,6 +23,14 @@
 			"type": "string",
 			"defaultValue": "core-sql-connection-string"
 		},
+		"s198d16_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198d16-ebis-keyvault.vault.azure.net/"
+		},
+		"s198d16_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "core-sql-connection-string"
+		},
 		"s198d98_storage_sasUri": {
 			"type": "secureString",
 			"metadata": "Secure string for 'sasUri' of 's198d98_storage'"
@@ -80,6 +88,9 @@
 					"s198d02_keyvault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('s198d02_keyvault_properties_typeProperties_baseUrl')]"
 					},
+					"s198d16_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('s198d16_keyvault_properties_typeProperties_baseUrl')]"
+					},
 					"s198p02_keyvault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('s198p02_keyvault_properties_typeProperties_baseUrl')]"
 					},
@@ -91,6 +102,9 @@
 					},
 					"s198d02_sql_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('s198d02_sql_properties_typeProperties_connectionString_secretName')]"
+					},
+					"s198d16_sql_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198d16_sql_properties_typeProperties_connectionString_secretName')]"
 					},
 					"s198d98_storage_sasUri": {
 						"value": "[parameters('s198d98_storage_sasUri')]"
@@ -126,6 +140,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 's198d98-ebis-adf_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "s198d98-ebis-adf_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's198d98-ebis-adf_ArmTemplate_1')]"
 			]
 		}
 	]
