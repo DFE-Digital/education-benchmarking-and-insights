@@ -1,0 +1,75 @@
+{
+	"name": "blob_s198d16_trust",
+	"properties": {
+		"folder": {
+			"name": "blob_s198d16"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "blob_trust",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "s198d16_Trust",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CompanyNumber as string,",
+				"          TrustName as string,",
+				"          CFOName as string,",
+				"          CFOEmail as string,",
+				"          OpenDate as string,",
+				"          UID as string,",
+				"          TrustUPIN as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(OpenDate = toDate(OpenDate)) ~> derivedColumn1",
+				"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CompanyNumber as string,",
+				"          TrustName as string,",
+				"          CFOName as string,",
+				"          CFOEmail as string,",
+				"          OpenDate as date,",
+				"          UID as string,",
+				"          TrustUPIN as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['CompanyNumber'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'allErrors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false) ~> sink1"
+			]
+		}
+	}
+}

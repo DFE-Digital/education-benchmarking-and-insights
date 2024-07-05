@@ -1,0 +1,48 @@
+{
+	"name": "s198d16_Trust",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d16_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198d16"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CompanyNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TrustName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CFOName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CFOEmail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OpenDate",
+				"type": "date"
+			},
+			{
+				"name": "UID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TrustUPIN",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Trust"
+		}
+	}
+}

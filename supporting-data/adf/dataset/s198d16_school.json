@@ -1,0 +1,120 @@
+{
+	"name": "s198d16_school",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d16_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198d16"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "URN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SchoolName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TrustCompanyNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TrustName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FederationLeadURN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FederationLeadName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LACode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LAName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LondonWeighting",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FinanceType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OverallPhase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SchoolType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HasSixthForm",
+				"type": "bit"
+			},
+			{
+				"name": "HasNursery",
+				"type": "bit"
+			},
+			{
+				"name": "IsPFISchool",
+				"type": "bit"
+			},
+			{
+				"name": "OfstedDate",
+				"type": "date"
+			},
+			{
+				"name": "OfstedDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Telephone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Website",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressStreet",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressLocality",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressLine3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressTown",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressCounty",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AddressPostcode",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "School"
+		}
+	}
+}

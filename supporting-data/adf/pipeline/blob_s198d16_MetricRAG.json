@@ -1,0 +1,239 @@
+{
+	"name": "blob_s198d16_MetricRAG",
+	"properties": {
+		"activities": [
+			{
+				"name": "MetricRAG",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"RunType",
+								"RunId",
+								"URN",
+								"Category",
+								"SubCategory",
+								"SetType"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RunType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RunType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "RunId",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RunId",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Category",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Category",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SubCategory",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SubCategory",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SetType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SetType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Value",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Value",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "Mean",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Mean",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "DiffMean",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DiffMean",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "PercentDiff",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PercentDiff",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "Percentile",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Percentile",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "Decile",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Decile",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 16
+								}
+							},
+							{
+								"source": {
+									"name": "RAG",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RAG",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "blob_MetricRAG",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "s198d16_MetricRAG",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

@@ -1,0 +1,115 @@
+{
+	"name": "blob_s198d02_school",
+	"properties": {
+		"folder": {
+			"name": "blob_s198d02"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "blob_school",
+						"type": "DatasetReference"
+					},
+					"name": "Source"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "s198d02_school",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn"
+				},
+				{
+					"name": "AlterRow"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          URN as string,",
+				"          SchoolName as string,",
+				"          TrustCompanyNumber as string,",
+				"          TrustName as string,",
+				"          FederationLeadURN as string,",
+				"          FederationLeadName as string,",
+				"          LACode as string,",
+				"          LAName as string,",
+				"          LondonWeighting as string,",
+				"          FinanceType as string,",
+				"          OverallPhase as string,",
+				"          SchoolType as string,",
+				"          HasSixthForm as string,",
+				"          HasNursery as string,",
+				"          IsPFISchool as string,",
+				"          OfstedDate as string,",
+				"          OfstedDescription as string,",
+				"          Telephone as string,",
+				"          Website as string,",
+				"          AddressStreet as string,",
+				"          AddressLocality as string,",
+				"          AddressLine3 as string,",
+				"          AddressTown as string,",
+				"          AddressCounty as string,",
+				"          AddressPostcode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Source",
+				"Source derive(HasSixthForm = toBoolean(HasSixthForm),",
+				"          HasNursery = toBoolean(HasNursery),",
+				"          IsPFISchool = toBoolean(IsPFISchool),",
+				"          OfstedDate = toDate(OfstedDate)) ~> DerivedColumn",
+				"DerivedColumn alterRow(upsertIf(true())) ~> AlterRow",
+				"AlterRow sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          URN as string,",
+				"          SchoolName as string,",
+				"          TrustCompanyNumber as string,",
+				"          TrustName as string,",
+				"          FederationLeadURN as string,",
+				"          FederationLeadName as string,",
+				"          LACode as string,",
+				"          LAName as string,",
+				"          LondonWeighting as string,",
+				"          FinanceType as string,",
+				"          OverallPhase as string,",
+				"          SchoolType as string,",
+				"          HasSixthForm as boolean,",
+				"          HasNursery as boolean,",
+				"          IsPFISchool as boolean,",
+				"          OfstedDate as date,",
+				"          OfstedDescription as string,",
+				"          Telephone as string,",
+				"          Website as string,",
+				"          AddressStreet as string,",
+				"          AddressLocality as string,",
+				"          AddressLine3 as string,",
+				"          AddressTown as string,",
+				"          AddressCounty as string,",
+				"          AddressPostcode as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['URN'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false) ~> Sink"
+			]
+		}
+	}
+}
