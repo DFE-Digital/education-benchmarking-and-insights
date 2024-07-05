@@ -38,7 +38,8 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
                 Name = OrganisationName,
                 URN = urn
             })),
-            new(ClaimNames.Trusts, companyNumber.ToString())
+            new(ClaimNames.Trusts, companyNumber.ToString()),
+            new(ClaimTypes.NameIdentifier, Guid.Empty.ToString())
         };
 
         var identity = new ClaimsIdentity(claims, authType);
