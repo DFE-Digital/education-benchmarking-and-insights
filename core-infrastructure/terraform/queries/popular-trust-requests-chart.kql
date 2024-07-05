@@ -1,0 +1,18 @@
+GetEstablishmentRequests
+| where 
+    Establishment == "trust" and 
+    ResultCode == 200
+| project 
+    TimeGenerated, 
+    Feature, 
+    CompanyNumber = Identifier
+| summarize 
+    Count=count()
+    by CompanyNumber, 
+    Feature
+| sort by 
+    Count desc
+| take(50)
+| render 
+columnchart
+    with(title="50 most popular trust requests")
