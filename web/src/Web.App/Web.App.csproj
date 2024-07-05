@@ -12,6 +12,7 @@
         <NoWarn>1701;1702;CS1591</NoWarn>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Azure.Identity"/>
         <PackageReference Include="Azure.Storage.Blobs"/>
         <PackageReference Include="CorrelationId"/>
         <PackageReference Include="FluentValidation"/>
