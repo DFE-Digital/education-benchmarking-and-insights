@@ -130,7 +130,7 @@ public class WhenViewingCustomisedData(SchoolBenchmarkingWebAppClient client)
             "Use your customised data");
 
         var viewCustomDataLink = page.Body.SelectSingleNode("//main/div/p[2]/a") as IElement;
-        DocumentAssert.Link(viewCustomDataLink, "View or change your custom data", Paths.SchoolCustomData(school.URN).ToAbsolute());
+        DocumentAssert.Link(viewCustomDataLink, "View or change your custom data", Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
 
         var viewOriginalDataLink = page.Body.SelectSingleNode("//main/div/p[3]/a") as IElement;
         DocumentAssert.Link(viewOriginalDataLink, $"View the original data for {school.SchoolName}", Paths.SchoolHome(school.URN).ToAbsolute());
