@@ -459,7 +459,9 @@ def compute_comparator_set(
     ].copy()
 
     if target_urn and target_urn not in copy.index:
-        return pd.DataFrame(columns=list(copy.columns) + ["Pupil", "Building"])
+        return pd.DataFrame(
+            columns=list(copy.columns) + ["Pupil", "Building", "URN"],
+        ).set_index("URN")
 
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
 
