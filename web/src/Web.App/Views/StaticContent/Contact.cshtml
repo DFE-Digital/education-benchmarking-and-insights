@@ -1,3 +1,5 @@
+@using Web.App.Extensions
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Contact us</h1>
@@ -13,17 +15,39 @@
                     </a>
                 </li>
                 <li class="govuk-tabs__list-item">
-                    <a class="govuk-tabs__tab" href="#send-feedback">
-                        Send feedback
+                    <a class="govuk-tabs__tab" href="#send-us-feedback">
+                        Send us feedback
                     </a>
                 </li>
             </ul>
             <div class="govuk-tabs__panel" id="contact-us">
-                <h2 class="govuk-heading-l">Contact us by email</h2>
+                <h2 class="govuk-heading-l">Contact us</h2>
+
+                <p class="govuk-body">This is a new tool and we're still adding features. Your <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Contact", "StaticContent")#send-us-feedback">feedback</a> will help us continue to improve it.</p>
+
+                <p class="govuk-body">But if you have any other questions, please:</p>
+
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>email us at betterfinancialreporting.comms@education.gov.uk</li>
+                    <li>include your organisation name or URN</li>
+                </ul>
             </div>
-            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="send-feedback">
-                <h2 class="govuk-heading-l">Send feedback</h2>
-                <p class="govuk-body">Send us feedback about the Financial Benchmarking and Insights Tool by <a href="#" class="govuk-link">filling out this short survey</a>.</p>
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="send-us-feedback">
+                <h2 class="govuk-heading-l">Send us feedback</h2>
+
+                <p class="govuk-body">Your feedback will help us improve the Financial Benchmarking and Insights Tool as we add more features.</p>
+
+                <p class="govuk-body">
+                    You can send us feedback by @Html.TrackedAnchor(
+                    TrackedLinks.DataSource,
+                    "https://forms.office.com/e/vKvGkB6HtV",
+                    "filling out this short survey",
+                    "Opens in a new window",
+                    "_blank",
+                    ["noopener", "noreferrer", "external"]).
+                </p>
+
+                
             </div>
         </div>
     </div>

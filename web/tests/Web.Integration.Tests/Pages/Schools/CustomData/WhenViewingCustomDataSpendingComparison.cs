@@ -286,7 +286,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Benchmark your costs",
+        DocumentAssert.Link(toolsLinks[0], "Benchmark spending",
             Paths.SchoolComparisonCustomData(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Spending priorities for this school",
             Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());

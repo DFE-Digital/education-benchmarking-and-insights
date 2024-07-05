@@ -7,7 +7,7 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new[] { "View the spending between schools in this local authority." } })
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new[] { "View the spending for schools in this local authority." } })
 
 <div id="compare-your-costs"
      data-type="@OrganisationTypes.LocalAuthority"
