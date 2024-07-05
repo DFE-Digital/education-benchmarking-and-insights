@@ -135,6 +135,6 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
         DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 }

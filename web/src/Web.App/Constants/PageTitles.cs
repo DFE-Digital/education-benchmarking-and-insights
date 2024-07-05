@@ -9,7 +9,7 @@ public static class PageTitles
     public const string FindOrganisation = "Find a school, trust or local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
-    public const string Comparison = "Benchmark your costs";
+    public const string Comparison = "Benchmark spending";
     public const string Spending = "Spending priorities for this school";
     public const string Resources = "Find ways to spend less";
     public const string Census = "Benchmark pupil and workforce data";
