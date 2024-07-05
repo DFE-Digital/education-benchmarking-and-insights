@@ -39,7 +39,7 @@ variable "configuration" {
 }
 
 variable "trackedEvents" {
-  type = set(string)
+  type = list(string)
   default = [
     "gias-school-details",
     "commercial-resource",

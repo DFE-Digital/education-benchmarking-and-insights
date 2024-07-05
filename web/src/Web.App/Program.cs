@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
@@ -13,6 +14,7 @@ using Web.App.Handlers;
 using Web.App.HealthChecks;
 using Web.App.Middleware;
 using Web.App.Services;
+using Web.App.Telemetry;
 using Web.App.Validators;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
@@ -31,6 +33,7 @@ builder.Services
     .AddDefaultCorrelationId()
     .AddApplicationInsightsTelemetry()
     .AddHttpContextAccessor()
+    .AddSingleton<ITelemetryInitializer, AuthenticatedUserTelemetryInitializer>()
     .AddScoped<IFinanceService, FinanceService>()
     .AddScoped<IFinancialPlanService, FinancialPlanService>()
     .AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>()

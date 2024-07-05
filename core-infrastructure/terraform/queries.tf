@@ -23,6 +23,8 @@ resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
         Establishment,
         Feature,
         Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
+    | order by
+        TimeGenerated desc
   EOT
   tags           = local.common-tags
 }
@@ -108,84 +110,84 @@ resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-reque
   tags          = local.common-tags
 }
 
-# resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
-#   name                       = "GetTrackedLinks"
-#   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
-#
-#   category       = "Function"
-#   display_name   = "GetTrackedLinks"
-#   function_alias = "GetTrackedLinks"
-#   query          = <<-EOT
-#     AppEvents
-#     | where
-#         Properties["baseTypeSource"] == "ClickEvent" and
-#         Name in (
-#             %{for trackedEvent in var.trackedEvents~}
-#             "${trackedEvent}"
-#             %{if index(var.trackedEvents, trackedEvent) < length(var.trackedEvents) - 1}
-#             ,
-#             %{endif}
-#             %{endfor~}
-#         )
-#     | extend
-#         Source = tostring(Properties["uri"]),
-#         Target = tostring(Properties["targetUri"])
-#     | join kind=leftouter
-#         (
-#         AppRequests
-#         | extend
-#             Urn = tostring(Properties["Urn"]),
-#             CompanyNumber = tostring(Properties["CompanyNumber"]),
-#             Code = tostring(Properties["Code"]),
-#             Establishment = tostring(Properties["Establishment"]),
-#             Feature = tostring(Properties["Feature"])
-#         | where isnotempty(Establishment))
-#         on $left.ParentId == $right.OperationId
-#     | project
-#         TimeGenerated,
-#         Name,
-#         Source,
-#         Target,
-#         OperationId,
-#         UserId,
-#         Establishment,
-#         Feature,
-#         Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
-#   EOT
-#   tags           = local.common-tags
-# }
-#
-# resource "random_uuid" "tracked-links-id" {
-#   for_each = var.trackedEvents
-# }
-#
-# locals {
-#   trackedEventUuids = tomap({
-#     for trackedEventName, uuid in random_uuid.tracked-links-id : trackedEventName => uuid.result
-#   })
-# }
-#
-# resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
-#   for_each      = local.trackedEventUuids
-#   name          = each.value
-#   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-#   body          = <<-EOT
-#     GetTrackedLinks
-#     | where
-#         Name == "${each.key}"
-#     | project
-#         TimeGenerated,
-#         Source,
-#         Target,
-#         Establishment,
-#         Feature,
-#         Identifier
-#   EOT
-#   display_name  = "Tracked Links – ${each.key}"
-#   description   = "Table of ${each.key} clicks"
-#   categories    = ["applications"]
-#   tags          = local.common-tags
-# }
+resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
+  name                       = "GetTrackedLinks"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  category       = "Function"
+  display_name   = "GetTrackedLinks"
+  function_alias = "GetTrackedLinks"
+  query          = <<-EOT
+    AppEvents
+    | where
+        Properties["baseTypeSource"] == "ClickEvent" and
+        Name in (
+            %{for index, trackedEvent in var.trackedEvents~}
+            "${trackedEvent}"
+            %{if index < length(var.trackedEvents) - 1}
+            ,
+            %{endif}
+            %{endfor~}
+        )
+    | extend
+        Source = tostring(Properties["uri"]),
+        Target = tostring(Properties["targetUri"])
+    | join kind=leftouter
+        (
+        AppRequests
+        | extend
+            Urn = tostring(Properties["Urn"]),
+            CompanyNumber = tostring(Properties["CompanyNumber"]),
+            Code = tostring(Properties["Code"]),
+            Establishment = tostring(Properties["Establishment"]),
+            Feature = tostring(Properties["Feature"])
+        | where isnotempty(Establishment))
+        on $left.ParentId == $right.OperationId
+    | project
+        TimeGenerated,
+        Name,
+        Source,
+        Target,
+        OperationId,
+        UserId,
+        Establishment,
+        Feature,
+        Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
+  EOT
+  tags           = local.common-tags
+}
+
+resource "random_uuid" "tracked-links-id" {
+  for_each = toset(var.trackedEvents)
+}
+
+locals {
+  trackedEventUuids = tomap({
+    for trackedEventName, uuid in random_uuid.tracked-links-id : trackedEventName => uuid.result
+  })
+}
+
+resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
+  for_each      = local.trackedEventUuids
+  name          = each.value
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  body          = <<-EOT
+    GetTrackedLinks
+    | where
+        Name == "${each.key}"
+    | project
+        TimeGenerated,
+        Source,
+        Target,
+        Establishment,
+        Feature,
+        Identifier
+  EOT
+  display_name  = "Tracked Links – ${each.key}"
+  description   = "Table of ${each.key} clicks"
+  categories    = ["applications"]
+  tags          = local.common-tags
+}
 
 resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
   name          = "5fd0997f-94e2-481f-a390-3ebedf324ca0"
@@ -205,6 +207,59 @@ resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
   EOT
   display_name  = "Recent pipeline runs"
   description   = "Logs from the most recent data pipeline runs"
+  categories    = ["applications"]
+  tags          = local.common-tags
+}
+
+resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
+  name                       = "GetFeatureRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  category       = "Function"
+  display_name   = "GetFeatureRequests"
+  function_alias = "GetFeatureRequests"
+  query          = <<-EOT
+    AppRequests
+    | extend
+        Establishment = tostring(Properties["Establishment"]),
+        Feature = tostring(Properties["Feature"])
+    | where isnotempty(Feature)
+    | project
+        TimeGenerated,
+        Name,
+        ResultCode,
+        OperationId,
+        UserId,
+        UserAuthenticatedId,
+        Establishment,
+        Feature
+    | order by
+        TimeGenerated desc
+  EOT
+  tags           = local.common-tags
+}
+
+resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca5"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  body          = <<-EOT
+    GetFeatureRequests
+    | where 
+        ResultCode == 200
+    | project 
+        TimeGenerated, 
+        Establishment,
+        Feature, 
+        IsAuthenticated = isnotempty(UserAuthenticatedId)
+    | summarize 
+        Count=count() by Establishment, 
+        Feature,
+        IsAuthenticated
+    | sort by 
+        Count desc
+  EOT
+  display_name  = "Feature Requests"
+  description   = "Table of the most popular Feature requests, split by authenticated state"
   categories    = ["applications"]
   tags          = local.common-tags
 }
