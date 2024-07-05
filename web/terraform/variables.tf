@@ -91,14 +91,14 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       features = {
-        Trusts                        = false
-        CurriculumFinancialPlanning   = false
-        CustomData                    = false
-        LocalAuthorities              = false
-        UserDefinedComparators        = false
+        Trusts                        = true
+        CurriculumFinancialPlanning   = true
+        CustomData                    = true
+        LocalAuthorities              = true
+        UserDefinedComparators        = true
         DisableOrganisationClaimCheck = false
-        ForecastRisk                  = false
-        TrustComparison               = false
+        ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
     production = {
@@ -107,14 +107,14 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       features = {
-        Trusts                        = false
-        CurriculumFinancialPlanning   = false
-        CustomData                    = false
-        LocalAuthorities              = false
-        UserDefinedComparators        = false
+        Trusts                        = true
+        CurriculumFinancialPlanning   = true
+        CustomData                    = true
+        LocalAuthorities              = true
+        UserDefinedComparators        = true
         DisableOrganisationClaimCheck = false
-        ForecastRisk                  = false
-        TrustComparison               = false
+        ForecastRisk                  = true
+        TrustComparison               = true
       }
     }
   }
