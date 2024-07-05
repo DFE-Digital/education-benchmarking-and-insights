@@ -5,6 +5,7 @@ parameters:
   cipEnvironment: ''
   module: ''
   location: 'westeurope'
+  disablePurgeProtection: ''
 
 steps:
   - task: AzureCLI@1
@@ -19,6 +20,7 @@ steps:
         echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
         echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
         echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
+        echo "##vso[task.setvariable variable=disablePurgeProtection]${{ parameters.disablePurgeProtection }}"
 
         skipSync=false
         resourceGroup=$(az group show --name ${{ parameters.environmentPrefix }}-ebis-${{ parameters.module }} -o tsv 2>nul)

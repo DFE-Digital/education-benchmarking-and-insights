@@ -16,6 +16,7 @@ jobs:
       environment: ${{ parameters.environment }}
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
+      disablePurgeProtection: 'true'
 
   - template: ../data-pipeline/sync.yaml
     parameters:
