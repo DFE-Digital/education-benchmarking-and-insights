@@ -41,7 +41,7 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
       phase,
       customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {
