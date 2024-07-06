@@ -95,3 +95,7 @@ def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert prepared_aar_data["Financial Position"].loc[100153] == "Deficit"
+
+
+def test_aar_academy_does_not_include_closed(prepared_aar_data: pd.DataFrame):
+    assert prepared_aar_data.index.isin([100152]) == [True, False, True]
