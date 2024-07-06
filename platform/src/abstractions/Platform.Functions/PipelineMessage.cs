@@ -74,6 +74,7 @@ public record CustomDataPayload : Payload
     public decimal? StaffRelatedInsuranceCosts { get; set; }
     public decimal? SupplyTeacherInsurableCosts { get; set; }
     public decimal? TotalIncome { get; set; }
+    public decimal? TotalExpenditure { get; set; }
     public decimal? RevenueReserve { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }
