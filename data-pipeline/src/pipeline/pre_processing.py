@@ -1540,7 +1540,7 @@ def update_custom_data(
         "totalIncome": "Total Income",
         "totalExpenditure": "Total Expenditure",
         "revenueReserve": "Revenue reserve",
-        "totalPupils": "Total pupils in trust",
+        "totalPupils": "Number of pupils",
         "percentFreeSchoolMeals": "Percentage Free school meals",
         "percentSpecialEducationNeeds": "Percentage SEN",
         "totalInternalFloorArea": "Total Internal Floor Area",
