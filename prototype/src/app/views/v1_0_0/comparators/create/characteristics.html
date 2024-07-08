@@ -2,7 +2,7 @@
 {% from "govuk/components/accordion/macro.njk" import govukAccordion %}
 
 
-{% extends "layouts/latest.html" %}
+{% extends "layouts/v1_0_0.html" %}
 
 {% block pageTitle %}
 Choose characteristics to find matching schools – {{ serviceName }}
@@ -1358,7 +1358,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
             {{ govukButton({
                 text: "Continue",
-                href: '/comparators/create/preview',
+                href: '/' + version + '/comparators/create/preview',
                 classes: "govuk-button--primary"
             }) }}
 

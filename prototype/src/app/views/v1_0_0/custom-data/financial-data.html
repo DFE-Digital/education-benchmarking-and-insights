@@ -1,4 +1,4 @@
-{% extends "layouts/latest.html" %}
+{% extends "layouts/v1_0_0.html" %}
 
 {% block pageTitle %}
   Customise your data - {{ data['school-name'] }} – {{ serviceName }}
@@ -1319,7 +1319,7 @@
         }) }}
         
         {{ govukButton({
-          href: '/custom-data/school-characteristics',
+          href: '/' + version + '/custom-data/school-characteristics',
           text: "Continue"
         }) }}
 

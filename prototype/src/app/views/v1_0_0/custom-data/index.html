@@ -6,7 +6,7 @@
   Customise your data - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
-{% extends "layouts/latest.html" %}
+{% extends "layouts/v1_0_0.html" %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -47,7 +47,7 @@
         <p class="govuk-body">You will need a <a href="https://services.signin.education.gov.uk/">DfE Sign-in account</a>.</p>
 
         {{ govukButton({
-          href: '/sign-in?goTo=/' + version + '/custom-data/financial-data',
+          href: '/' + version + '/sign-in?goTo=/' + version + '/custom-data/financial-data',
           text: "Start now"
         }) }}
 
