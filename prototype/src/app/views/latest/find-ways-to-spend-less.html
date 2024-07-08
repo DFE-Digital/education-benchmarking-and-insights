@@ -4,7 +4,7 @@
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Find ways to spend less – {{ serviceName }}
@@ -627,11 +627,11 @@
 
 
   {% if data['signIn'] == 'trust' %}
-    <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+    <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
   {% elseif data['signIn'] == 'authority' %}
-  <span class="govuk-caption-l"><a href="/authority-homepage" class="govuk-link--no-underline">{{ data['authority-name'] }}</a></span>
+  <span class="govuk-caption-l"><a href="/{{ version }}/authority-homepage" class="govuk-link--no-underline">{{ data['authority-name'] }}</a></span>
   {% else %}
-    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
   {% endif %}
 
     <h1 class="govuk-heading-l">Find ways to spend less</h1>

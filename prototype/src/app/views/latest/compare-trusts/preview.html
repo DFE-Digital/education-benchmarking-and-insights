@@ -1,6 +1,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Trust comparison - {{ data['trust-name'] }} – {{ serviceName }}
@@ -20,14 +20,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
         
-    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+    <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
     <h1 class="govuk-heading-l">
       Trusts successfully matched
     </h1>
 
     <p class="govuk-body">We matched 52 trusts, but these are the 10 closest matches to {{ data['trust-name'] }} using the characteristics you selected.</p>
     
-    <p><a href="/compare-trusts/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
+    <p><a href="/{{ version }}/compare-trusts/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
 
     {{ govukButton({
       text: "Create a set using these trusts",

@@ -4,7 +4,7 @@
 {% from "templates/spend-category.njk" import spendCategory %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Customise your data - {{ data['school-name'] }} – {{ serviceName }}
@@ -31,7 +31,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <h1 class="govuk-heading-l">Enter custom data to benchmark spending</h1>
 
         <p>Use this to:</p>

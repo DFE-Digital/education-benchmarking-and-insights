@@ -5,7 +5,7 @@
 {% from "templates/spend-category-details.njk" import spendCategoryDetails %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
     Teaching and teaching support staff costs - {{ data['school-name'] }} – {{ serviceName }}
@@ -36,7 +36,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <h1 class="govuk-heading-l">Teaching and teaching support staff costs</h1>
 
         <p>

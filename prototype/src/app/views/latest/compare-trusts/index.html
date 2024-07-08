@@ -1,6 +1,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
     Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
@@ -29,7 +29,7 @@
     <div class="govuk-grid-column-two-thirds">
 
       <form action="/compare-trusts" method="post">
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
         <!---<h1 class="govuk-heading-l">How do you want to choose similar schools?</h1>
 
         {{ govukInsetText({

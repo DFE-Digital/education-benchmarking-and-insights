@@ -4,7 +4,7 @@
 {% from "templates/spend-category.njk" import spendCategory %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Customise your data - {{ data['school-name'] }} – {{ serviceName }}
@@ -32,7 +32,7 @@
 
 {% block content %}
 <div class="comparison">
-    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
     <h1 class="govuk-heading-l">Side-by-side comparison</h1>
 
     <div class="govuk-grid-row priority-figures">

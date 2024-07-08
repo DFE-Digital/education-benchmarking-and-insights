@@ -1,6 +1,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   View your custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
@@ -20,7 +20,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
         
-    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
     <h1 class="govuk-heading-l">
       Schools successfully matched
     </h1>
@@ -36,7 +36,7 @@
       <li>part of a private finance initiative</li>
     </ul>
 
-    <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
+    <p><a href="/{{ version }}/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
 
     {{ govukButton({
       text: "Create a set using these schools",

@@ -3,7 +3,7 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
     {{ data['authority-name'] }} – {{ serviceName }}
@@ -28,64 +28,64 @@
 
         <ul class="govuk-list">
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Alderwood Primary School">Alderwood Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Alderwood Primary School">Alderwood Primary School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Castle Manor Academy">Castle Manor Academy</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Castle Manor Academy">Castle Manor Academy</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=City of Peterborough Academy">City of Peterborough Academy</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=City of Peterborough Academy">City of Peterborough Academy</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Coldfair Green Community Primary School">Coldfair Green Community Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Coldfair Green Community Primary School">Coldfair Green Community Primary School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Delius Special School">Delius Special School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Delius Special School">Delius Special School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Dulwich Preparatory School">Dulwich Preparatory School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Dulwich Preparatory School">Dulwich Preparatory School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Gesher Primary Special School">Gesher Primary Special School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Gesher Primary Special School">Gesher Primary Special School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Hall and Oates Nursery School">Hall and Oates Nursery School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Hall and Oates Nursery School">Hall and Oates Nursery School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Holy Family Catholic Primary School">Holy Family Catholic Primary School, Warton</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Holy Family Catholic Primary School">Holy Family Catholic Primary School, Warton</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Ilfracombe Church of England Junior School">Ilfracombe Church of England Junior School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Ilfracombe Church of England Junior School">Ilfracombe Church of England Junior School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Iqra Academy">Iqra Academy</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Iqra Academy">Iqra Academy</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Kennall Vale School">Kennall Vale School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Kennall Vale School">Kennall Vale School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Khalsa College London">Khalsa College London</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Khalsa College London">Khalsa College London</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Minet Junior School">Minet Junior School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Minet Junior School">Minet Junior School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Overton St Helen's Church of England Primary School">Overton St Helen's Church of England Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Overton St Helen's Church of England Primary School">Overton St Helen's Church of England Primary School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Pound Park Nursery School">Pound Park Nursery School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Pound Park Nursery School">Pound Park Nursery School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=St Agnes' Catholic Primary School">St Agnes' Catholic Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Agnes' Catholic Primary School">St Agnes' Catholic Primary School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=St Johns Primary School">St Johns Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Johns Primary School">St Johns Primary School</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=The Ramsey Academy">The Ramsey Academy, Halstead</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=The Ramsey Academy">The Ramsey Academy, Halstead</a>
             </li>
             <li>
-                <a class="govuk-link" href="/school-homepage?school-name=Winthorpe Primary School">Winthorpe Primary School</a>
+                <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Winthorpe Primary School">Winthorpe Primary School</a>
             </li>
         </ul>
 
@@ -130,7 +130,7 @@
 {% block content %}
 
 <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['authority-name'] }}</h1>
-<p><a href="/find-school" class="govuk-link">Change local authority</a></p>
+<p><a href="/{{ version }}/find-school" class="govuk-link">Change local authority</a></p>
 
 <h1 class="govuk-heading-l">Schools in local authority</h1>
 
@@ -174,7 +174,7 @@
         <ul class="app-links">
             <li>
                 <h3 class="govuk-heading-s">
-                    <a href="/find-ways-to-spend-less?signIn=authority" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
+                    <a href="/{{ version }}/find-ways-to-spend-less?signIn=authority" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
                 </h3>
                 <p class="govuk-body">
                     Use these to help reduce spending and costs across this local authority.

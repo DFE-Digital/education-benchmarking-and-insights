@@ -2,7 +2,7 @@
 {% from "govuk/components/accordion/macro.njk" import govukAccordion %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
 Choose characteristics to find matching schools – {{ serviceName }}
@@ -17,7 +17,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
 {% block content %}
 
-<span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+<span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
 <h1 class="govuk-heading-l">Choose characteristics to find matching schools</h1>
 
 <div class="govuk-grid-row">

@@ -2,7 +2,7 @@
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
     {{ data['school-name'] }} – {{ serviceName }}
@@ -23,18 +23,18 @@
 {% block content %}
 
 <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['school-name'] }}</h1>
-<p><a href="/find-school" class="govuk-link">Change school</a></p>
+<p><a href="/{{ version }}/find-school" class="govuk-link">Change school</a></p>
 
 {% if data['trust-name'] %}
-<h2 class="govuk-heading-m">Part of <a href="/trust-homepage">{{ data['trust-name'] }}</a></h2>
+<h2 class="govuk-heading-m">Part of <a href="/{{ version }}/trust-homepage">{{ data['trust-name'] }}</a></h2>
 {% endif %}
 
 {% if data['confirmation'] == 'comparator-generated' %}
 
     {% set html %}
     <h3 class="govuk-notification-banner__heading">You are now benchmarking against your own set of schools</h3>
-    <p><a href="/comparators/create/view" class="govuk-link">View and change your set of schools</a></p>
-    <p><a href="/comparators/reset" class="govuk-link">Change back to the sets of schools we chose</a></p>
+    <p><a href="/{{ version }}/comparators/create/view" class="govuk-link">View and change your set of schools</a></p>
+    <p><a href="/{{ version }}/comparators/reset" class="govuk-link">Change back to the sets of schools we chose</a></p>
     {% endset %}
 
 {% elseif confirmation == 'comparator-reset' %}
@@ -42,7 +42,7 @@
     {% set html %}
     <h3 class="govuk-notification-banner__heading">You have now removed all the schools you chose</h3>
     <p class="govuk-body">Benchmarking has changed back to the sets of similar schools we chose originally.</p>
-    <p class="govuk-body"><a href="/comparators/create">Choose a new set of your own schools</a></p>
+    <p class="govuk-body"><a href="/{{ version }}/comparators/create">Choose a new set of your own schools</a></p>
     {% endset %}
 
 {% endif %}
@@ -62,7 +62,7 @@
 <p class="govuk-notification-banner__heading">
     This is the original data for this school, not your customised data
 </p>
-<p class="govuk-body"><a href="/custom-data/custom-homepage" class="govuk-notification-banner__link">Use your customised data for benchmarking</a></p>
+<p class="govuk-body"><a href="/{{ version }}/custom-data/custom-homepage" class="govuk-notification-banner__link">Use your customised data for benchmarking</a></p>
 {% endset %}
 
 {{ govukNotificationBanner({
@@ -137,7 +137,7 @@ html: html
 
 </div>
 
-<h3 class="govuk-heading-s"><a href="/spending-and-costs">View all spending priorities for this school</a></h3>
+<h3 class="govuk-heading-s"><a href="/{{ version }}/spending-and-costs">View all spending priorities for this school</a></h3>
 
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -202,7 +202,7 @@ html: html
         <ul class="app-links">
             <li>
                 <h3 class="govuk-heading-s">
-                    <a href="/find-ways-to-spend-less" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
+                    <a href="/{{ version }}/find-ways-to-spend-less" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
                 </h3>
                 <p class="govuk-body">
                     Use these to help reduce your spending and costs.

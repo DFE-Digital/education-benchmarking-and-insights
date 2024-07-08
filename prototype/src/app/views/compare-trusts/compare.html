@@ -29,7 +29,7 @@
     <div class="govuk-grid-column-full">
 
       <form action="/compare-trusts" method="post">
-        <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/{{ version }}/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
         <h1 class="govuk-heading-l">Benchmark spending for this trust</h1>
 
         {% if data['showBanner'] != 'false' %}
@@ -50,7 +50,7 @@
         }) }}
         {% endif %}
 
-        <p><a href="/{{ version }}/compare-trusts/view" class="govuk-link">View and change your set of trusts</a></p>
+        <p><a href="/{{ version }}/{{ version }}/compare-trusts/view" class="govuk-link">View and change your set of trusts</a></p>
         <p class="govuk-body">Compare spending costs for this trust against similar trusts.</p> 
         <p class="govuk-body">This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).</p>
 

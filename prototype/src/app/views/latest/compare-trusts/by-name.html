@@ -1,6 +1,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
@@ -38,7 +38,7 @@
       }}
   {% endif %}
 
-  <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+  <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
   <h1 class="govuk-heading-l">Choose trusts to benchmark against</h1>
     
       <form action="/compare-trusts/add-trust" method="post">
@@ -70,7 +70,7 @@
     <!--
       {% if trustSetType == 'generated' %}
       <p class="govuk-body">These 10 trusts are the closest matches based on the characteristics you selected.<br />
-          <a href="/compare-trusts/characteristics">Change characteristics and generate a new set</a>
+          <a href="/{{ version }}/compare-trusts/characteristics">Change characteristics and generate a new set</a>
       </p>
       {% endif %}
       -->
@@ -110,7 +110,7 @@
 
     {% if data['trusts'] | length and confirmation != 'trust-reset' %}
 
-    <p class="govuk-body" style="float: right"><a href="/compare-trusts/reset" class="govuk-link">Remove all your choices</a></p>
+    <p class="govuk-body" style="float: right"><a href="/{{ version }}/compare-trusts/reset" class="govuk-link">Remove all your choices</a></p>
     {% endif %}
 
 

@@ -2,7 +2,7 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
 Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName }}
@@ -12,14 +12,14 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
 <div class="govuk-breadcrumbs">
   <ol class="govuk-breadcrumbs__list">
     <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/find-school">Home</a>
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/find-school">Home</a>
     </li>
     <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/school-homepage?customData=generated">Your school</a>
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/school-homepage?customData=generated">Your school</a>
     </li>
     {% if data['customData'] == 'true' %}
     <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/custom-data/custom-homepage">Customised data</a>
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/custom-data/custom-homepage">Customised data</a>
     </li>
     {% endif %}
   </ol>
@@ -33,7 +33,7 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
 
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <h1 class="govuk-heading-l">Schools we chose for benchmarking</h1>
 
         {% if data['customData'] == 'true' %}
@@ -44,7 +44,7 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
         </p>
 
         <p class="govuk-body">To make sure you're still benchmarking against similar schools, we've updated the schools you are compared to based on the custom data you entered.</p>
-        <p class="govuk-body">You can still <a href="/comparators/view">view the 2 sets of schools we originally chose</a>.</p>
+        <p class="govuk-body">You can still <a href="/{{ version }}/comparators/view">view the 2 sets of schools we originally chose</a>.</p>
         {% endset %}
 
         {{ govukNotificationBanner({
@@ -54,7 +54,7 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
       {% else %}
 
         <p class="govuk-body">These are the 2 sets of similar schools we've chosen to benchmark this school's spending against.</p>
-        <p class="govuk-body"><a href="/comparators">Choose your own set of schools</a></p>
+        <p class="govuk-body"><a href="/{{ version }}/comparators">Choose your own set of schools</a></p>
        
       {% endif %}
 
