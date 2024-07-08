@@ -2,275 +2,36 @@ resource "random_uuid" "popular-school-requests-chart-id" {}
 resource "random_uuid" "popular-trust-requests-chart-id" {}
 resource "random_uuid" "popular-local-authority-requests-chart-id" {}
 
-resource "azapi_resource" "mi-dashboard" {
-  type                      = "Microsoft.Portal/dashboards@2020-09-01-preview"
-  name                      = "${var.environment-prefix}-ebis-dashboard-mi"
-  location                  = azurerm_resource_group.resource-group.location
-  parent_id                 = azurerm_resource_group.resource-group.id
-  schema_validation_enabled = false
+locals {
+  popular-school-requests-chart-query          = replace(replace(file("${path.module}/queries/popular-school-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  popular-trust-requests-chart-query           = replace(replace(file("${path.module}/queries/popular-trust-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  popular-local-authority-requests-chart-query = replace(replace(file("${path.module}/queries/popular-local-authority-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+}
+
+resource "azurerm_portal_dashboard" "mi-dashboard" {
+  name                = "${var.environment-prefix}-ebis-dashboard-mi"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
   tags = merge(
     local.common-tags,
     {
       "hidden-title" = "Management Information - ${var.environment-prefix}-ebis"
   })
 
-  body = jsonencode({
-    properties = {
-      lenses = [
-        {
-          metadata = {}
-          order    = 0
-          parts = [
-            {
-              position = {
-                colSpan = 10
-                rowSpan = 6
-                x       = 0
-                y       = 0
-              }
-              metadata = {
-                type = "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
-                inputs = [
-                  {
-                    name = "Scope"
-                    value = {
-                      resourceIds = [
-                        azurerm_log_analytics_workspace.application-insights-workspace.id
-                      ]
-                    }
-                  },
-                  {
-                    name  = "PartId"
-                    value = random_uuid.popular-school-requests-chart-id.result
-                  },
-                  {
-                    name  = "Version"
-                    value = "2.0"
-                  },
-                  {
-                    name  = "TimeRange"
-                    value = "P1D"
-                  },
-                  {
-                    name  = "Query"
-                    value = file("${path.module}/queries/popular-school-requests-chart.kql")
-                  },
-                  {
-                    name  = "ControlType"
-                    value = "FrameControlChart"
-                  },
-                  {
-                    name  = "SpecificChart"
-                    value = "StackedColumn"
-                  },
-                  {
-                    name  = "PartTitle"
-                    value = azurerm_log_analytics_query_pack_query.popular-school-requests-chart.description
-                  },
-                  {
-                    name : "Dimensions",
-                    value : {
-                      xAxis = {
-                        name = "Urn",
-                        type = "string"
-                      }
-                      yAxis = [
-                        {
-                          name = "Count"
-                          type = "long"
-                        }
-                      ]
-                      splitBy = [
-                        {
-                          name = "Feature"
-                          type = "string"
-                        }
-                      ]
-                      aggregation = "Sum"
-                    }
-                  },
-                  {
-                    name = "LegendOptions"
-                    value = {
-                      isEnabled = true
-                      position  = "Bottom"
-                    }
-                  },
-                  {
-                    name  = "IsQueryContainTimeRange"
-                    value = false
-                  }
-                ]
-              }
-            },
-            {
-              position = {
-                colSpan = 10
-                rowSpan = 6
-                x       = 0
-                y       = 6
-              }
-              metadata = {
-                type = "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
-                inputs = [
-                  {
-                    name = "Scope"
-                    value = {
-                      resourceIds = [
-                        azurerm_log_analytics_workspace.application-insights-workspace.id
-                      ]
-                    }
-                  },
-                  {
-                    name  = "PartId"
-                    value = random_uuid.popular-trust-requests-chart-id.result
-                  },
-                  {
-                    name  = "Version"
-                    value = "2.0"
-                  },
-                  {
-                    name  = "TimeRange"
-                    value = "P1D"
-                  },
-                  {
-                    name  = "Query"
-                    value = file("${path.module}/queries/popular-trust-requests-chart.kql")
-                  },
-                  {
-                    name  = "ControlType"
-                    value = "FrameControlChart"
-                  },
-                  {
-                    name  = "SpecificChart"
-                    value = "StackedColumn"
-                  },
-                  {
-                    name  = "PartTitle"
-                    value = azurerm_log_analytics_query_pack_query.popular-trust-requests-chart.description
-                  },
-                  {
-                    name : "Dimensions",
-                    value : {
-                      xAxis = {
-                        name = "CompanyNumber",
-                        type = "string"
-                      }
-                      yAxis = [
-                        {
-                          name = "Count"
-                          type = "long"
-                        }
-                      ]
-                      splitBy = [
-                        {
-                          name = "Feature"
-                          type = "string"
-                        }
-                      ]
-                      aggregation = "Sum"
-                    }
-                  },
-                  {
-                    name = "LegendOptions"
-                    value = {
-                      isEnabled = true
-                      position  = "Bottom"
-                    }
-                  },
-                  {
-                    name  = "IsQueryContainTimeRange"
-                    value = false
-                  }
-                ]
-              }
-            },
-            {
-              position = {
-                colSpan = 10
-                rowSpan = 6
-                x       = 0
-                y       = 12
-              }
-              metadata = {
-                type = "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
-                inputs = [
-                  {
-                    name = "Scope"
-                    value = {
-                      resourceIds = [
-                        azurerm_log_analytics_workspace.application-insights-workspace.id
-                      ]
-                    }
-                  },
-                  {
-                    name  = "PartId"
-                    value = random_uuid.popular-local-authority-requests-chart-id.result
-                  },
-                  {
-                    name  = "Version"
-                    value = "2.0"
-                  },
-                  {
-                    name  = "TimeRange"
-                    value = "P1D"
-                  },
-                  {
-                    name  = "Query"
-                    value = file("${path.module}/queries/popular-local-authority-requests-chart.kql")
-                  },
-                  {
-                    name  = "ControlType"
-                    value = "FrameControlChart"
-                  },
-                  {
-                    name  = "SpecificChart"
-                    value = "StackedColumn"
-                  },
-                  {
-                    name  = "PartTitle"
-                    value = azurerm_log_analytics_query_pack_query.popular-local-authority-requests-chart.description
-                  },
-                  {
-                    name : "Dimensions",
-                    value : {
-                      xAxis = {
-                        name = "Code",
-                        type = "string"
-                      }
-                      yAxis = [
-                        {
-                          name = "Count"
-                          type = "long"
-                        }
-                      ]
-                      splitBy = [
-                        {
-                          name = "Feature"
-                          type = "string"
-                        }
-                      ]
-                      aggregation = "Sum"
-                    }
-                  },
-                  {
-                    name = "LegendOptions"
-                    value = {
-                      isEnabled = true
-                      position  = "Bottom"
-                    }
-                  },
-                  {
-                    name  = "IsQueryContainTimeRange"
-                    value = false
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-      metadata = {}
-    }
+  dashboard_properties = templatefile("${path.module}/dashboards/mi.tpl",
+    {
+      workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id,
+
+      popular_school_requests_chart_id    = random_uuid.popular-school-requests-chart-id.result,
+      popular_school_requests_chart_query = local.popular-school-requests-chart-query,
+      popular_school_requests_chart_title = azurerm_log_analytics_query_pack_query.popular-school-requests-chart.description
+
+      popular_trust_requests_chart_id    = random_uuid.popular-trust-requests-chart-id.result,
+      popular_trust_requests_chart_query = local.popular-trust-requests-chart-query,
+      popular_trust_requests_chart_title = azurerm_log_analytics_query_pack_query.popular-trust-requests-chart.description
+
+      popular_local_authority_requests_chart_id    = random_uuid.popular-local-authority-requests-chart-id.result
+      popular_local_authority_requests_chart_query = local.popular-local-authority-requests-chart-query,
+      popular_local_authority_requests_chart_title = azurerm_log_analytics_query_pack_query.popular-local-authority-requests-chart.description
   })
 }
