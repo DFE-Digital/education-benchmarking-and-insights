@@ -10,7 +10,7 @@
 
     {{ govukBackLink({
         text: "Back",
-        href: "/compare-trusts/characteristics"
+        href: "/" + version + "/compare-trusts/characteristics"
     }) }}
 
 {% endblock %}
@@ -79,7 +79,7 @@
 
       {{ govukButton({
         text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these trusts",
-        href: '/loading?redirect={{ version }}/compare-trusts/compare?showBanner=true'
+        href: "/" + version + '/loading?redirect={{ version }}/compare-trusts/compare?showBanner=true'
       }) }}
 
       {{ govukTable({

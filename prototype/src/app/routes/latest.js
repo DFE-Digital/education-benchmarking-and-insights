@@ -1,7 +1,7 @@
-const govukPrototypeKit = require('govuk-prototype-kit')
-const router = govukPrototypeKit.requests.setupRouter('/latest')
+const govukPrototypeKit = require('govuk-prototype-kit');
+const router = govukPrototypeKit.requests.setupRouter('/latest');
 
-const version = 'latest'
+const version = 'latest';
 
 // FIND SCHOOLS
 
@@ -217,7 +217,7 @@ router.get( '/comparators/create/by-name', (req, res) => {
     
     for ( i=0; i<comparators.length; i++) {
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + comparators[i].comparatorName + "</span><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/{{ version }}/comparators/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="' + version + '/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( version + '/comparators/create/by-name', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -361,7 +361,7 @@ router.get( '/compare-trusts/by-name', (req, res) => {
         schoolTypes += '</p>';
         
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + trusts[i].trustName + "</span><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" }, {'html': '<a href="/{{ version }}/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" }, {'html': '<a href="/' + version + '/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( version + '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], trustSetType: req.session.data['trustSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );

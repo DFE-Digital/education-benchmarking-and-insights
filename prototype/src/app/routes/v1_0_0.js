@@ -1,12 +1,13 @@
-const govukPrototypeKit = require('govuk-prototype-kit')
-const router = govukPrototypeKit.requests.setupRouter('/latest')
+const govukPrototypeKit = require('govuk-prototype-kit');
+const router = govukPrototypeKit.requests.setupRouter('/v1_0_0');
 
-const version = 'v1_0_0'
+const version = 'v1_0_0';
 
 // FIND SCHOOLS
 
-router.get( '/find-school', (req, res) => {
+router.get(  '/find-school', (req, res) => {
 
+console.log('here - routes v1');
     var schools = getSchoolList();
     var trusts = getTrustList();
     var authorities = getLocalAuthorityList();
@@ -217,7 +218,7 @@ router.get( '/comparators/create/by-name', (req, res) => {
     
     for ( i=0; i<comparators.length; i++) {
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + comparators[i].comparatorName + "</span><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/{{ version }}/comparators/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/' + version + '/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( version + '/comparators/create/by-name', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -361,7 +362,7 @@ router.get( '/compare-trusts/by-name', (req, res) => {
         schoolTypes += '</p>';
         
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + trusts[i].trustName + "</span><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" }, {'html': '<a href="/{{ version }}/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" }, {'html': '<a href="/' + version + '/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( version + '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], trustSetType: req.session.data['trustSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -529,7 +530,7 @@ router.get( '/custom-data/generated', (req, res) => {
 
 
 router.get( '/custom-data/updated', (req, res) => {
-    
+    console.log('here');
     req.session.data['customData'] = 'generated';
     res.render( version + '/custom-data/custom-homepage', {confirmation: 'updated' } );
 
@@ -542,7 +543,7 @@ router.get( '/custom-data/updated', (req, res) => {
 
 function getSchoolList() {
 
-    var objSchoolsFile = require('../../app/data/schools.json');
+    var objSchoolsFile = require('../data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var schools = [];
 
@@ -557,7 +558,7 @@ function getSchoolList() {
 
 function getTrustList() {
 
-    var objTrustsFile = require('../../app/data/trusts.json');
+    var objTrustsFile = require('../data/trusts.json');
     var objTrusts = objTrustsFile.trusts;
     var trusts = [];
 
@@ -570,7 +571,7 @@ function getTrustList() {
 
 function getLocalAuthorityList() {
 
-    var objAuthorityFile = require('../../app/data/authorities.json');
+    var objAuthorityFile = require('../data/authorities.json');
     var objAuthorities = objAuthorityFile.localAuthorities;
     var lcoalAuthorities = [];
 
@@ -585,7 +586,7 @@ function getLocalAuthorityList() {
 
 function generatePupilComparators() {
 
-    var objSchoolsFile = require('../../app/data/schools.json');
+    var objSchoolsFile = require('../data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var comparators = [];
     
@@ -605,7 +606,7 @@ function generatePupilComparators() {
 
 function generateBuildingComparators() {
 
-    var objSchoolsFile = require('../../app/data/schools.json');
+    var objSchoolsFile = require('../data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var comparators = [];
 
@@ -623,7 +624,7 @@ function generateBuildingComparators() {
 
 function generateTrusts() {
 
-    var objTrustsFile = require('../../app/data/trusts.json');
+    var objTrustsFile = require('../data/trusts.json');
     var objTrusts = objTrustsFile.trusts;
     var trusts = [];
 

@@ -10,7 +10,7 @@
 
     {{ govukBackLink({
         text: "Back",
-        href: "/compare-trusts/characteristics"
+        href: "/" + version + "/compare-trusts/characteristics"
     }) }}
 
 {% endblock %}
@@ -31,7 +31,7 @@
 
     {{ govukButton({
       text: "Create a set using these trusts",
-      href: '/loading?action=generating&redirect={{ version }}/compare-trusts/compare?showBanner=true'
+      href: "/" + version + '/loading?action=generating&redirect={{ version }}/compare-trusts/compare?showBanner=true'
     }) }}
 
     {{ govukTable({
@@ -51,7 +51,7 @@
 
     {{ govukButton({
       text: "Create a set using these trusts",
-      href: '/loading?action=generating&redirect={{ version }}/compare-trusts/compare?showBanner=true'
+      href: "/" + version + '/loading?action=generating&redirect={{ version }}/compare-trusts/compare?showBanner=true'
     }) }}
 
     </div>
