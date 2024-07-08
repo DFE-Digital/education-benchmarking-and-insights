@@ -32,7 +32,7 @@ data "azurerm_key_vault_secret" "pipeline-message-hub-storage-connection-string"
 }
 
 data "azurerm_key_vault_secret" "core-sql-connection-string" {
-  name         = "core-sql-connection-string"
+  name         = "core-sql-connection-string-managed-identity"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 

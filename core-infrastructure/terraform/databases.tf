@@ -17,6 +17,15 @@ resource "azurerm_key_vault_secret" "sql-connection-string" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
+resource "azurerm_key_vault_secret" "sql-connection-string-managed-identity" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "core-sql-connection-string-managed-identity"
+  value        = "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql-db.name};Authentication=Active Directory Managed Identity;TrustServerCertificate=True;Encrypt=True;"
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "connection-string"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
 resource "azurerm_key_vault_secret" "sql-domain-name" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   key_vault_id = azurerm_key_vault.key-vault.id
