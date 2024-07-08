@@ -11,13 +11,19 @@ public abstract class RequestTelemetryAttribute : TypeFilterAttribute
         Dictionary<string, object?> properties,
         params string[] routePropertyNames) : base(typeof(RequestTelemetryFilter))
     {
+        Properties = properties;
+        RoutePropertyNames = routePropertyNames;
+
         // arguments list must match the `RequestTelemetryFilter` constructor arguments
         Arguments =
         [
-            properties,
-            routePropertyNames
+            Properties,
+            RoutePropertyNames
         ];
     }
+
+    internal Dictionary<string, object?> Properties { get; }
+    internal string[] RoutePropertyNames { get; }
 }
 
 internal class RequestTelemetryFilter(
