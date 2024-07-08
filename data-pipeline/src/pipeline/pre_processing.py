@@ -1493,7 +1493,8 @@ def update_custom_data(
 
     This will overwrite financial information for a specific row with
     data provided; additionally, _all_ "central services" information
-    will be set to zero, again for that row only.
+    (less the "Financial Position" as this is non-numeric) will be set
+    to zero, again for that row only.
 
     Note: only a subset of the custom fields may be present in the
     inbound message; only a subset of mapped columns may be present in
@@ -1571,7 +1572,9 @@ def update_custom_data(
     existing_data.loc[target_urn, existing_columns] = custom_values
 
     central_services_columns = [
-        column for column in existing_data.columns if column.endswith("_CS")
+        column
+        for column in existing_data.columns
+        if column.endswith("_CS") and column != "Financial Position_CS"
     ]
     central_services_values = [0.0] * len(central_services_columns)
     existing_data.loc[
