@@ -47,6 +47,7 @@ variable "trackedEvents" {
     "data-source",
     "organisation",
     "service-banner",
-    "change-organisation"
+    "change-organisation",
+    "survey"
   ]
 }

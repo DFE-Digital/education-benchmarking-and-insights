@@ -1,9 +1,8 @@
 @using Web.App.Extensions
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Contact us</h1>
-        
+
         <div class="govuk-tabs" data-module="govuk-tabs">
             <h2 class="govuk-tabs__title">
                 Contact us
@@ -39,22 +38,22 @@
 
                 <p class="govuk-body">
                     You can send us feedback by @Html.TrackedAnchor(
-                    TrackedLinks.DataSource,
-                    "https://forms.office.com/e/vKvGkB6HtV",
-                    "filling out this short survey",
-                    "Opens in a new window",
-                    "_blank",
-                    ["noopener", "noreferrer", "external"]).
+                                                    TrackedLinks.Survey,
+                                                    "https://forms.office.com/e/vKvGkB6HtV",
+                                                    "filling out this short survey",
+                                                    "Opens in a new window",
+                                                    "_blank",
+                                                    ["noopener", "noreferrer", "external"]).
                 </p>
 
-                
+
             </div>
         </div>
     </div>
 </div>
 
 @section scripts
-            {
+{
     <script type="module" add-nonce="true">
         import { initAll } from '/js/govuk-frontend.min.js'
         initAll()
