@@ -1,4 +1,4 @@
-{% extends "layouts/latest.html" %}
+{% extends "layouts/v1_0_0.html" %}
 
 {% set pageName="Home" %}
 
@@ -7,11 +7,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-xl">
-      {{ serviceName }}
-    </h1>
-
-    <h1 class="govuk-heading-l">Latest version - v1.0.1 (Post-MVP)</h1>
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-0">Archived version - v1.0.0 (MVP Spec)</h1>
+    <p class="govuk-hint">Archived 08 July 2024</p>
+    <p>
+      <a href="/latest">Return to latest version</a>
+    </p>
     
 
     <ul class="govuk-list govuk-list--bullet">
@@ -95,15 +95,5 @@
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-<h1 class="govuk-heading-l">Version history</h1>
-
-<ul class="govuk-list">
-  <li>
-    <a class="govuk-link" href="/v1_0_0">V1.0.0 - MVP Spec</a>
-    <p class="govuk-body">8 July 2024</p>
-  </li>
-</ul>
-
 
 {% endblock %}

@@ -1,0 +1,136 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+  Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+
+    {{ govukBackLink({
+        text: "Back",
+        href: "/compare-trusts/characteristics"
+    }) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+      
+    {% if errorThisPage == 'true' %}
+
+      {% set errorText = 'Enter a trust name or company number' %}
+
+      {{ govukErrorSummary
+          ({
+              titleText: "There is a problem",
+              errorList:
+              [
+                  {
+                      text: errorText,
+                      href: "#trust"
+                  }
+              ]
+          })
+      }}
+  {% endif %}
+
+  <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+  <h1 class="govuk-heading-l">Choose trusts to benchmark against</h1>
+    
+      <form action="/{{ version }}/compare-trusts/add-trust" method="post">
+        <div id="school-search-hint" class="govuk-hint">
+          Search by trust name or company number
+        </div>
+        <div class="school-search">
+
+            {{ xGovukAutocomplete({
+              id: "trust",
+              name: "trust",
+              allowEmpty: false,
+              hint: {
+                  text: ""
+              },
+              errorMessage: null if errorThisPage != 'true' else { html: errorText },
+              items: trustRows
+            }) }}
+
+            {{ govukButton({
+              text: "Choose trust"
+            }) }}
+        </div>
+      </form>
+  
+      
+    {% if data['trusts'] | length %}
+
+    <!--
+      {% if trustSetType == 'generated' %}
+      <p class="govuk-body">These 10 trusts are the closest matches based on the characteristics you selected.<br />
+          <a href="/{{ version }}/compare-trusts/characteristics">Change characteristics and generate a new set</a>
+      </p>
+      {% endif %}
+      -->
+
+      <h1 class="govuk-heading-m">Chosen trusts ({{rows.length}})</h1>
+
+      {{ govukButton({
+        text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these trusts",
+        href: '/loading?redirect={{ version }}/compare-trusts/compare?showBanner=true'
+      }) }}
+
+      {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "Trust"
+        },
+        {
+          text: "Schools"
+        },
+        {
+          text: "Number of pupils",
+          classes: "govuk-!-text-align-right"
+        },
+        {
+          text: "Total income",
+          classes: "govuk-!-text-align-right"
+        },
+        {
+          text: ""
+        }
+      ],
+      "rows": rows
+    }) }}
+    
+    {% endif %}
+
+    {% if data['trusts'] | length and confirmation != 'trust-reset' %}
+
+    <p class="govuk-body" style="float: right"><a href="/{{ version }}/compare-trusts/reset" class="govuk-link">Remove all your choices</a></p>
+    {% endif %}
+
+
+    </div>
+</div>
+
+<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
+
+  <select style="height:30px;" onchange="window.location.href='?'+this.value">
+
+      <option value="errorThisPage=false&errorNoSchool=false"
+              {% if errorThisPage != 'true' %}selected{% endif %}>Errors - Off</option>
+
+      <option value="errorThisPage=true&errorNoSchool=true"
+              {% if errorNoSchool == 'true' %}selected{% endif %}>Error: No answer entered</option>
+  </select>
+
+</form>
+
+
+
+
+{% endblock %}

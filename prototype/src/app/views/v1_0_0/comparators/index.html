@@ -1,0 +1,52 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Choose your own set of schools</h1>
+
+
+        <p class="govuk-body">Use this to choose which schools {{ data['school-name'] }} is benchmarked against.</p>
+        <p class="govuk-body">You will need a <a href="https://services.signin.education.gov.uk/">DfE Sign-in account</a>.</p>
+                
+        <!--
+        <div class="govuk-inset-text">
+          We will delete your choices when you leave the service. 
+        </div>
+        -->
+
+        {{ govukButton({
+          text: "Sign in",
+          href: "/sign-in?goTo=comparators/create",
+          classes: "govuk-button--primary"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}
