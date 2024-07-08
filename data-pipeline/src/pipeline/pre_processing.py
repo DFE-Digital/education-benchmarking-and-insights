@@ -1486,7 +1486,7 @@ def update_custom_data(
     Update existing financial data with custom data.
 
     This will overwrite financial information for a specific row with
-    data provided; additionally, all "central services" information
+    data provided; additionally, _all_ "central services" information
     will be set to zero, again for that row only.
 
     Note: only a subset of the custom fields may be present in the
@@ -1566,8 +1566,7 @@ def update_custom_data(
 
     central_services_columns = [
         f"{column}_CS"
-        for column in existing_columns
-        if f"{column}_CS" in existing_data.columns
+        for column in existing_data.columns
     ]
     central_services_values = [0.0] * len(central_services_columns)
     existing_data.loc[
