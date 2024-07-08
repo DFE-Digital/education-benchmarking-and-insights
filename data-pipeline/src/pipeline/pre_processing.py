@@ -1478,9 +1478,9 @@ def build_bfr_data(
 
 
 def update_custom_data(
-        existing_data: pd.DataFrame,
-        custom_data: dict,
-        target_urn: int,
+    existing_data: pd.DataFrame,
+    custom_data: dict,
+    target_urn: int,
 ) -> pd.DataFrame:
     """
     Update existing financial data with custom data.
@@ -1565,8 +1565,9 @@ def update_custom_data(
     existing_data.loc[target_urn, existing_columns] = custom_values
 
     central_services_columns = [
-        f"{column}_CS"
+        column
         for column in existing_data.columns
+        if column.endswith("_CS")
     ]
     central_services_values = [0.0] * len(central_services_columns)
     existing_data.loc[
@@ -1574,4 +1575,49 @@ def update_custom_data(
         central_services_columns,
     ] = central_services_values
 
+    existing_data.loc[target_urn] = _post_process_custom(
+        target_data=existing_data.loc[[target_urn]]
+    ).loc[target_urn]
+
     return existing_data
+
+
+def _post_process_custom(
+    target_data: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Recalculate total and per-unit costs for custom data.
+
+    Total and per-unit costs are set to zero before recalculating.
+
+    Note: largely repeats some of the logic from
+    :func:`build_maintained_school_data`; for this reason it accepts
+    a :class:`DataFrame` but must only include the URN of interest.
+
+    :param existing_data: existing, pre-processed data
+    :return: updated data
+    """
+    zero_columns = [
+        column
+        for column in target_data.columns
+        for category, _ in config.rag_category_settings.items()
+        if column.startswith(category)
+        and column.endswith(("_Per Unit", "_Total"))
+    ]
+    zero_column_indices = [target_data.columns.get_loc(c) for c in zero_columns]
+    target_data.iloc[
+        0,
+        zero_column_indices,
+    ] = [0.0] * len(zero_column_indices)
+
+    for category, settings in config.rag_category_settings.items():
+        basis_data = target_data[
+            "Number of pupils"
+            if settings["type"] == "Pupil"
+            else "Total Internal Floor Area"
+        ]
+        target_data = mappings.map_cost_series(
+            category, target_data, basis_data
+        )
+
+    return target_data
