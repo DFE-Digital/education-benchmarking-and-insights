@@ -1,5 +1,5 @@
-{% from "templates/priority-banner.njk" import priorityBanner %}
-{% from "templates/spending-panel.njk" import spendingPanel %}
+{% from "../templates/priority-banner.njk" import priorityBanner %}
+{% from "../templates/spending-panel.njk" import spendingPanel %}
 
 {% macro spendCategory(params) %}
 
@@ -18,6 +18,6 @@
         unit: params.unit
     }) }}
 
-    <p><a href="/{{ version }}/spending-and-costs/category">View all {{ params.title | lower }} costs</a></p>
+    <p><a href="spending-and-costs/category">View all {{ params.title | lower }} costs</a></p>
 </div>
 {% endmacro %}

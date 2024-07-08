@@ -1,8 +1,7 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "templates/spend-category.njk" import spendCategory %}
-{% from "templates/spend-category-details.njk" import spendCategoryDetails %}
+{% from "../templates/spend-category-details.njk" import spendCategoryDetails %}
 
 
 {% extends "layouts/latest.html" %}
@@ -16,11 +15,11 @@
     items: [
       {
         text: "Home",
-        href: "/find-school"
+        href: "/" + version + "/find-school"
       },
       {
         text: "Your school",
-        href: "/school-homepage"
+        href: "/" + version + "/school-homepage"
       },
       {
         text: "Spending and costs",
@@ -45,7 +44,7 @@
             This school's data covers the financial year April 2022 to March 2023 consistent financial reporting return (CFR).
         </p>
 
-        {% include "templates/details-comparators.njk" %}
+        {% include "../templates/details-comparators.njk" %}
 
     </div>
 </div>

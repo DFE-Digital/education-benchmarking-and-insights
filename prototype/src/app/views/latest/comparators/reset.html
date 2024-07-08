@@ -11,15 +11,15 @@
     items: [
       {
         text: "Home",
-        href: "/find-school"
+        href: "/" + version + "/find-school"
       },
       {
         text: "Your school",
-        href: "/school-homepage"
+        href: "/" + version + "/school-homepage"
       },
       {
         text: "Custom comparator set",
-        href: "/comparators/create/review"
+        href: "/" + version + "/comparators/create/review"
       }
     ]
   }) }}
@@ -40,7 +40,7 @@
         
         {{ govukButton({
           text: "Change back",
-          href: "/comparators/reset-confirmed",
+          href: "/" + version + "/comparators/reset-confirmed",
           classes: "govuk-button"
         }) }}
 

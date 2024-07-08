@@ -135,7 +135,7 @@ router.get( '/comparators/view', (req, res) => {
             if ( req.session.data['signedIn'] == 'true' ) {
                 buildingRow.push( {'text': buildingComparators[i].comparatorGifa.toLocaleString() + ' sqm'}, {'text': buildingComparators[i].comparatorAge + ' years'} );
             } else if ( i == 0 ) {
-                buildingRow.push( { 'html': "<a href=\"/sign-in?goTo=/comparators/view&hash=\&building\">Sign in</a> to see", colspan: 2, rowspan: buildingComparators.length, attributes: { style: "text-align: center; vertical-align: top;" } } );
+                buildingRow.push( { 'html': "<a href=\"/sign-in?goTo=/" + version + "/comparators/view&hash=\&building\">Sign in</a> to see", colspan: 2, rowspan: buildingComparators.length, attributes: { style: "text-align: center; vertical-align: top;" } } );
             }
 
             buildingRows.push( buildingRow );

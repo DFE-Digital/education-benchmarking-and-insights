@@ -11,7 +11,7 @@
     items: [
       {
         text: "Home",
-        href: "/find-school"
+        href: "/" + version + "/find-school"
       },
       {
         text: "Your trust",
@@ -28,7 +28,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form action="/compare-trusts" method="post">
+      <form action="/{{ version }}/compare-trusts" method="post">
         <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
         <!---<h1 class="govuk-heading-l">How do you want to choose similar schools?</h1>
 

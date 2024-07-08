@@ -1,25 +1,23 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "templates/spend-category.njk" import spendCategory %}
-
-
-{% extends "layouts/latest.html" %}
 
 {% block pageTitle %}
   Customise your data - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
+
+{% extends "layouts/latest.html" %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
     items: [
       {
         text: "Home",
-        href: "/find-school"
+        href: "/" + version + "/find-school"
       },
       {
         text: "Your school",
-        href: "/school-homepage"
+        href: "/" + version + "/school-homepage"
       }
     ]
   }) }}
@@ -49,7 +47,7 @@
         <p class="govuk-body">You will need a <a href="https://services.signin.education.gov.uk/">DfE Sign-in account</a>.</p>
 
         {{ govukButton({
-          href: '/sign-in?goTo=/custom-data/financial-data',
+          href: '/sign-in?goTo=/' + version + '/custom-data/financial-data',
           text: "Start now"
         }) }}
 

@@ -10,7 +10,7 @@
 
     {{ govukBackLink({
         text: "Back",
-        href: "/comparators/create"
+        href: "/" + version + "/comparators/create"
     }) }}
 
 {% endblock %}
@@ -40,7 +40,7 @@
 
     {{ govukButton({
       text: "Create a set using these schools",
-      href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
+      href: '/loading?redirect=/' + version + '/school-homepage?confirmation=comparator-generated'
     }) }}
 
     {{ govukTable({
@@ -60,7 +60,7 @@
     
     {{ govukButton({
       text: "Create a set using these schools",
-      href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
+      href: '/loading?redirect=/' + version + '/school-homepage?confirmation=comparator-generated'
     }) }}
 
 

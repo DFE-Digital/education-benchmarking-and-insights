@@ -41,7 +41,7 @@
   <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
   <h1 class="govuk-heading-l">Choose trusts to benchmark against</h1>
     
-      <form action="/compare-trusts/add-trust" method="post">
+      <form action="/{{ version }}/compare-trusts/add-trust" method="post">
         <div id="school-search-hint" class="govuk-hint">
           Search by trust name or company number
         </div>
@@ -79,7 +79,7 @@
 
       {{ govukButton({
         text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these trusts",
-        href: '/loading?redirect=/compare-trusts/compare?showBanner=true'
+        href: '/loading?redirect={{ version }}/compare-trusts/compare?showBanner=true'
       }) }}
 
       {{ govukTable({

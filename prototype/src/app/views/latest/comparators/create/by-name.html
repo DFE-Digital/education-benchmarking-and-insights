@@ -48,7 +48,7 @@
     Search by school name, postcode or URN
   </div>
 
-      <form action="/add-comparator-school" method="post">
+      <form action="/{{ version }}/add-comparator-school" method="post">
         <div class="school-search">
 
             {{ xGovukAutocomplete({
@@ -76,7 +76,7 @@
     
     {{ govukButton({
         text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these schools",
-        href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
+        href: '/loading?redirect=/' + version + '/school-homepage?confirmation=comparator-generated'
       }) }}
 
     {{ govukTable({

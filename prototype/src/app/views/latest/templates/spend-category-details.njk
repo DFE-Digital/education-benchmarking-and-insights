@@ -1,5 +1,5 @@
-{% from "templates/priority-banner.njk" import priorityBanner %}
-{% from "templates/spending-panel.njk" import spendingPanel %}
+{% from "../templates/priority-banner.njk" import priorityBanner %}
+{% from "../templates/spending-panel.njk" import spendingPanel %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% macro spendCategoryDetails(params) %}
@@ -62,7 +62,7 @@
         }) }}
 
         <p class="govuk-body">
-          <a href="/{{ version }}/public/images/charts/{{ params.title }} chart.png" class="govuk-link" download>Download chart (PNG)</a>
+          <a href="/public/images/charts/{{ params.title }} chart.png" class="govuk-link" download>Download chart (PNG)</a>
         </p>
 
     </div>

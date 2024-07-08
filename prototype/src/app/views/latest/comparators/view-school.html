@@ -13,11 +13,11 @@
     items: [
       {
         text: "Home",
-        href: "/find-school"
+        href: "/" + version + "/find-school"
       },
       {
         text: "Your school",
-        href: "/school-homepage"
+        href: "/" + version + "/school-homepage"
       }
     ]
   }) }}
@@ -32,7 +32,7 @@
 
 {% else %}
 
-{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"/sign-in?goTo=/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 3, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
+{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"/sign-in?goTo=//" + version + "/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 3, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
 {% set arrArea = [ { text: "Gross internal floor area" } ] %}
 {% set arrAge = [ { text: "Average building age" } ] %}
 
