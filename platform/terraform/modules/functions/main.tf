@@ -154,3 +154,27 @@ resource "azurerm_key_vault_secret" "fa-host" {
   key_vault_id = var.key-vault-id
   content_type = "host"
 }
+
+# ClientId rather than PrincipalId required for managed identity user in SQL database:
+# https://github.com/betr-io/terraform-provider-mssql/issues/54#issuecomment-1632638595
+data "azapi_resource" "app-service-identity" {
+  name                   = "default"
+  parent_id              = azurerm_windows_function_app.func-app.id
+  type                   = "Microsoft.ManagedIdentity/identities@2018-11-30"
+  response_export_values = ["properties.clientId"]
+}
+
+resource "mssql_user" "app-service-user" {
+  server {
+    host = var.sql-server-fqdn
+    login {
+      username = var.sql-server-username
+      password = var.sql-server-password
+    }
+  }
+
+  database  = "data"
+  username  = azurerm_windows_function_app.func-app.name
+  object_id = jsondecode(data.azapi_resource.app-service-identity.output).properties.clientId
+  roles     = ["db_datareader", "db_datawriter"]
+}

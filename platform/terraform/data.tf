@@ -35,3 +35,18 @@ data "azurerm_key_vault_secret" "core-sql-connection-string" {
   name         = "core-sql-connection-string"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
+
+data "azurerm_mssql_server" "sql-server" {
+  name                = "${var.environment-prefix}-sql"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}
+
+data "azurerm_key_vault_secret" "sql-user-name" {
+  name         = "core-sql-user-name"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "sql-password" {
+  name         = "core-sql-password"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}

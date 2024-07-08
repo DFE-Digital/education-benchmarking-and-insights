@@ -70,3 +70,16 @@ variable "common-tags" {
 variable "enable-restrictions" {
   type = bool
 }
+
+variable "sql-server-fqdn" {
+  type = string
+}
+
+variable "sql-server-username" {
+  type = string
+}
+
+variable "sql-server-password" {
+  type      = string
+  sensitive = true
+}
