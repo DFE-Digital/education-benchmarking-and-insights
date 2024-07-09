@@ -38,8 +38,7 @@ sed  -i '' -e "1s/^/@import '_${version}.scss';\n/g" assets/sass/application.scs
 # import new routes file
 sed  -i '' -e "s/require(\'.\/routes\/latest.js\');/require(\'.\/routes\/${version}.js\');\nrequire(\'.\/routes\/latest.js\');/g" routes.js
 
-
 # add new version to archive index
-sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/v1_0_0\"\>V1.0.0 - MVP Spec\<\/a\> - 8 July 2024\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
+sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/${version}\"\>${version}\<\/a\> - $(date +"%d %B %Y")\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
 
 # sed  -i '' -e "s/latest/${version}/g" "routes/${version}.js"
