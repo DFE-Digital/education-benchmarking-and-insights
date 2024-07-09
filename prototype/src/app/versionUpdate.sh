@@ -48,4 +48,4 @@ sed  -i '' -e "/\<\!-- VERSION HISTORY START --\>/,/\<\!-- VERSION HISTORY END -
 
 # update heading on archived page
 sed  -i '' -e "/\<\!-- HEADING START --\>/,/\<\!-- HEADING END --\>/d" views/${version}/index.html
-sed  -i '' -e "s/  \<\!-- HEADING --\>/  \<\!-- HEADING --\>\nXXX/g" views/${version}/index.html
+sed  -i '' -e "s/  \<\!-- HEADING --\>/  \<\!-- HEADING --\>\n    \<h1 class=\"govuk-heading-l govuk-\!-margin-bottom-0\"\>Archived version - ${versionDot}\<\/h1\>\n    \<p class=\"govuk-hint\"\>Archived $(date +"%d %B %Y")\<\/p\>\n    \<p\>\n      \<a href=\"\/latest\"\>Return to latest version\<\/a\>\n    \<\/p\>/g" views/${version}/index.html
