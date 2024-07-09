@@ -3,10 +3,12 @@
 read -p "
 
 Enter version number to archive the 'latest' build with.
-This should be in the format v0_0_0
-" version
+This should be in the format v0.0.0
+" versionDot
 echo "
-Archiving latest version to ${version}";
+Archiving latest version to ${versionDot}";
+
+version="${versionDot//./_}"
 
 # todo - check version number is valid format
 # todo - check folder doesn't already exist
@@ -39,6 +41,9 @@ sed  -i '' -e "1s/^/@import '_${version}.scss';\n/g" assets/sass/application.scs
 sed  -i '' -e "s/require(\'.\/routes\/latest.js\');/require(\'.\/routes\/${version}.js\');\nrequire(\'.\/routes\/latest.js\');/g" routes.js
 
 # add new version to archive index
-sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/${version}\"\>${version}\<\/a\> - $(date +"%d %B %Y")\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
+sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/${version}\"\>${versionDot}\<\/a\> - $(date +"%d %B %Y")\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
+
+# remove archive list from archive index page
+sed  -i '' -e "s/\<\!-- VERSION HISTORY START --\>.*\<\!-- VERSION HISTORY END --\>//g" views/${version}/index.html
 
 # sed  -i '' -e "s/latest/${version}/g" "routes/${version}.js"
