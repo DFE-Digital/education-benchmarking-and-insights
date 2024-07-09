@@ -2,7 +2,7 @@
 
 npm run lint
 npm test
-npm run build
+npm run build:dev
 
 mkdir -p ../web/src/Web.App/wwwroot/js
 mkdir -p ../web/src/Web.App/wwwroot/css
