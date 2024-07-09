@@ -44,6 +44,8 @@ sed  -i '' -e "s/require(\'.\/routes\/latest.js\');/require(\'.\/routes\/${versi
 sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/${version}\"\>${versionDot}\<\/a\> - $(date +"%d %B %Y")\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
 
 # remove archive list from archive index page
-sed  -i '' -e "s/\<\!-- VERSION HISTORY START --\>.*\<\!-- VERSION HISTORY END --\>//g" views/${version}/index.html
+sed  -i '' -e "/\<\!-- VERSION HISTORY START --\>/,/\<\!-- VERSION HISTORY END --\>/d" views/${version}/index.html
 
-# sed  -i '' -e "s/latest/${version}/g" "routes/${version}.js"
+# update heading on archived page
+sed  -i '' -e "/\<\!-- HEADING START --\>/,/\<\!-- HEADING END --\>/d" views/${version}/index.html
+sed  -i '' -e "s/  \<\!-- HEADING --\>/  \<\!-- HEADING --\>\nXXX/g" views/${version}/index.html
