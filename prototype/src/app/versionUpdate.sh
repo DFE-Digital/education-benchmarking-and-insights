@@ -5,13 +5,30 @@ read -p "
 Enter version number to archive the 'latest' build with.
 This should be in the format v0.0.0
 " versionDot
-echo "
-Archiving latest version to ${versionDot}";
+
+# convert version number to lowercase
+versionDot=$(echo "$versionDot" | tr '[:upper:]' '[:lower:]')
+
+# check version number is valid format
+if [ ! ${versionDot:0:1} == "v" ]; then 
+    echo "ERROR: ${versionDot} is not in the format 'v1.0.0'"
+    exit;
+fi
+
+if [[ ! $versionDot == *.* ]] ; then
+    echo "ERROR: ${versionDot} is not in the format 'v1.0.0'"
+    exit;
+fi
 
 version="${versionDot//./_}"
+# check folder doesn't already exist
+if [ -d "views/${version}" ]; then
+    echo "ERROR: ${versionDot} already exists at views/${version}. Try again with a unique version number."
+    exit;
+fi
 
-# todo - check version number is valid format
-# todo - check folder doesn't already exist
+echo "
+Archiving latest version to ${versionDot}";
 
 # creating files
 cp -r views/latest views/${version}; 
