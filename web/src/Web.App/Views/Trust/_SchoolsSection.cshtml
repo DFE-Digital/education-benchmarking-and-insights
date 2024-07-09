@@ -16,7 +16,14 @@
         {
             <tr class="govuk-table__row">
                 <td class="govuk-body-s">
-                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+                    @if (school.Total <= 0)
+                    {
+                        @school.Name
+                    }
+                    else
+                    {
+                        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>    
+                    }
                 </td>
                 <td>
                     @await Component.InvokeAsync("RagStack", new

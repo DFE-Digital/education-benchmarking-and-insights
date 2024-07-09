@@ -7,7 +7,7 @@ public abstract class RagViewModel(int red, int amber, int green)
     public int Green => green;
     public decimal RedRatio => Total > 0 ? red / Total : 0;
     public decimal AmberRatio => Total > 0 ? amber / Total : 0;
-    private decimal Total => red + amber + green;
+    public decimal Total => red + amber + green;
 }
 
 public class RagCostCategoryViewModel(string? category, int red, int amber, int green) : RagViewModel(red, amber, green)
