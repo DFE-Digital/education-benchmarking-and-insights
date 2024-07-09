@@ -1618,6 +1618,10 @@ def _post_process_custom(
         0.0
     ] * len(zero_column_indices)
 
+    # TODO: `_Net Costs` need to be recalculated as per line 1152.
+    catering_net_costs = target_data["Catering staff and supplies_Net Costs"].copy()
+    target_data["Catering staff and supplies_Net Costs"] = 0.0
+
     for category, settings in config.rag_category_settings.items():
         basis_data = target_data[
             (
@@ -1627,5 +1631,7 @@ def _post_process_custom(
             )
         ]
         target_data = mappings.map_cost_series(category, target_data, basis_data)
+
+    target_data["Catering staff and supplies_Net Costs"] = catering_net_costs
 
     return target_data
