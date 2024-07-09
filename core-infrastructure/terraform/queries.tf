@@ -127,3 +127,58 @@ resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
 
   body = file("${path.module}/queries/feature-requests.kql")
 }
+
+resource "azurerm_log_analytics_query_pack_query" "session-count-per-day" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca6"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User sessions"
+  description   = "Table of the number of user sessions per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/session-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_query_pack_query" "session-length-per-day" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca7"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User session duration"
+  description   = "Table of the duration of user sessions per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/session-length-per-day.kql")
+}
+
+resource "azurerm_log_analytics_query_pack_query" "user-count-per-day" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca8"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Users"
+  description   = "Table of the number of users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_query_pack_query" "user-auth-count-per-day" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca9"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Authenticated users"
+  description   = "Table of the number of authenticated users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-auth-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_query_pack_query" "user-new-count-per-day" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324caa"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "New users"
+  description   = "Table of the number of new users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-new-count-per-day.kql")
+}

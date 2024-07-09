@@ -1,0 +1,15 @@
+AppRequests 
+| where
+    UserId != ""
+| where 
+    SyntheticSource == ""
+| summarize 
+    arg_min(TimeGenerated, *)
+    by UserId
+| where 
+    TimeGenerated > ago(180d)
+| summarize 
+    Count = count_distinct(UserId)
+    by bin(TimeGenerated, 1d)
+| order by 
+    TimeGenerated asc
