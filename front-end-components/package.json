@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config-dev.js",
+    "build:dev": "tsc && vite build --sourcemap true",
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx,cjs --report-unused-disable-directives --max-warnings 0",
