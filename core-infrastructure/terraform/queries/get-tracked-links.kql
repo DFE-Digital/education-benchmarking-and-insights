@@ -26,3 +26,5 @@ AppEvents
     Establishment,
     Feature,
     Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
+| order by 
+    TimeGenerated asc

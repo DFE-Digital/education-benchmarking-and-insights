@@ -13,4 +13,4 @@ AppRequests
     Establishment,
     Feature
 | order by
-    TimeGenerated desc
+    TimeGenerated asc
