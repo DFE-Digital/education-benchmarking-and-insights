@@ -237,7 +237,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
             chartName="Investment income"
             data={data}
             seriesConfig={{
-              directRevenueFinancing: {
+              investmentIncome: {
                 label: "Investment income",
                 visible: true,
               },
