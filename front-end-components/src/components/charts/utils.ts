@@ -80,7 +80,7 @@ export function fullValueFormatter(
   options?: Partial<ValueFormatterOptions>
 ): string {
   if (typeof value !== "number") {
-    return String(value) || "";
+    return value ? String(value) : "";
   }
 
   return new Intl.NumberFormat("en-GB", {
