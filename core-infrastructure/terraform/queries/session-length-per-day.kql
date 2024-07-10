@@ -3,7 +3,7 @@ AppRequests
 | where
     SessionId != ""
 | where 
-    SyntheticSource == ""
+    isempty(SyntheticSource)
 | summarize 
     max(TimeGenerated), 
     TimeGenerated = min(TimeGenerated)

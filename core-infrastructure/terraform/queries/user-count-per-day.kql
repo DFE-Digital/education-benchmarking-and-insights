@@ -1,8 +1,4 @@
-AppRequests 
-| where 
-    UserId != ""
-| where 
-    SyntheticSource == ""
+GetUsers
 | summarize 
     Count = count_distinct(UserId)
     by bin(TimeGenerated, 1d)

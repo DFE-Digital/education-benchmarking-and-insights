@@ -2,7 +2,7 @@ AppRequests
 | where 
     SessionId != ""
 | where 
-    SyntheticSource == ""
+    isempty(SyntheticSource)
 | summarize 
     Count = count_distinct(SessionId)
     by bin(TimeGenerated, 1d)

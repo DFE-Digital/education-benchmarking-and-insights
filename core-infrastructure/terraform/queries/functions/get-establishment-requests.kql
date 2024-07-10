@@ -5,7 +5,10 @@ AppRequests
     Code = tostring(Properties["Code"]),
     Establishment = tostring(Properties["Establishment"]),
     Feature = tostring(Properties["Feature"])
-| where isnotempty(Establishment)
+| where 
+    isnotempty(Establishment)
+| where 
+    isempty(SyntheticSource)
 | project
     TimeGenerated,
     Name,
