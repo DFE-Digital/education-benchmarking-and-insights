@@ -296,3 +296,27 @@ resource "azurerm_log_analytics_query_pack_query" "custom-data-funnel" {
 
   body = file("${path.module}/queries/custom-data-funnel.kql")
 }
+
+resource "azurerm_log_analytics_saved_search" "get-commercial-resources" {
+  name                       = "GetCommercialResources"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetCommercialResources"
+  function_alias             = "GetCommercialResources"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-commercial-resources.kql")
+}
+
+resource "random_uuid" "popular-commercial-resources-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "popular-commercial-resources" {
+  name          = random_uuid.popular-commercial-resources-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Commercial resources"
+  description   = "Table of 10 most popular commercial resources"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/popular-commercial-resources.kql")
+}
