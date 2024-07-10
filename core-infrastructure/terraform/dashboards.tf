@@ -4,6 +4,7 @@ locals {
   popular-local-authority-requests-chart-query = replace(replace(file("${path.module}/queries/popular-local-authority-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   user-counts-table-query                      = replace(replace(file("${path.module}/queries/user-counts.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   user-sessions-table-query                    = replace(replace(file("${path.module}/queries/user-sessions.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  custom-data-funnel-query                     = replace(replace(file("${path.module}/queries/custom-data-funnel.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
@@ -18,7 +19,8 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
 
   dashboard_properties = templatefile("${path.module}/dashboards/mi.tpl",
     {
-      workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id,
+      workspace_id    = azurerm_log_analytics_workspace.application-insights-workspace.id,
+      app_insights_id = azurerm_application_insights.application-insights.id,
 
       popular_school_requests_chart_id    = azurerm_log_analytics_query_pack_query.popular-school-requests-chart.name,
       popular_school_requests_chart_query = local.popular-school-requests-chart-query,
@@ -39,6 +41,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       user_sessions_table_id    = azurerm_log_analytics_query_pack_query.user-sessions-table.name,
       user_sessions_table_query = local.user-sessions-table-query,
       user_sessions_table_title = azurerm_log_analytics_query_pack_query.user-sessions-table.description
+
+      custom_data_funnel_id    = azurerm_log_analytics_query_pack_query.custom-data-funnel.name,
+      custom_data_funnel_query = local.custom-data-funnel-query,
+      custom_data_funnel_title = azurerm_log_analytics_query_pack_query.custom-data-funnel.description
   })
 }
 

@@ -338,6 +338,47 @@
                             }
                         ]
                     }
+                },
+                "5": {
+                    "position": {
+                        "colSpan": 6,
+                        "rowSpan": 3,
+                        "x": 0,
+                        "y": 21
+                    },
+                    "metadata": {
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${app_insights_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${custom_data_funnel_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${custom_data_funnel_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "AnalyticsGrid"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${custom_data_funnel_title}"
+                            }
+                        ]
+                    }
                 }
             }
         }

@@ -283,3 +283,16 @@ resource "azurerm_log_analytics_query_pack_query" "user-sessions-table" {
 
   body = file("${path.module}/queries/user-sessions.kql")
 }
+
+resource "random_uuid" "custom-data-funnel-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "custom-data-funnel" {
+  name          = random_uuid.custom-data-funnel-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Custom Data funnel"
+  description   = "Funnel of users through Custom Data journey"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/custom-data-funnel.kql")
+}
