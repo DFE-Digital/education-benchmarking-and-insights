@@ -72,24 +72,28 @@ public class CensusProxyController(
         }
     }
 
-    private async Task<Census[]?> GetCustomAsync(string id, string category, string dimension, string customDataId)
+    private async Task<Census[]> GetCustomAsync(string id, string category, string dimension, string customDataId)
     {
 
         var set = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
-        var schools = set.Pupil.Where(x => x != id);
+        if (set == null || set.Pupil.Length == 0)
+        {
+            return [];
+        }
 
+        var schools = set.Pupil.Where(x => x != id);
         var setQuery = BuildApiQuery(category, dimension, schools);
         var customQuery = BuildApiQuery(category, dimension);
 
-        var defaultResults = await censusApi.Query(setQuery).GetResultOrDefault<Census[]>();
+        var defaultResults = await censusApi.Query(setQuery).GetResultOrDefault<Census[]>() ?? [];
         var customResult = await censusApi.GetCustom(id, customDataId, customQuery).GetResultOrDefault<Census>();
 
         return customResult != null
-            ? defaultResults?.Append(customResult).ToArray()
+            ? defaultResults.Append(customResult).ToArray()
             : defaultResults;
     }
 
-    private async Task<Census[]?> GetDefaultAsync(string type, string id, string category, string dimension, string? phase)
+    private async Task<Census[]> GetDefaultAsync(string type, string id, string category, string dimension, string? phase)
     {
         var set = type.ToLower() switch
         {
@@ -98,44 +102,48 @@ public class CensusProxyController(
             OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id, phase),
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
+        if (set.Length == 0)
+        {
+            return [];
+        }
 
         var query = BuildApiQuery(category, dimension, set);
         var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
-        return result;
+        return result ?? [];
     }
 
 
-    private async Task<IEnumerable<string>> GetSchoolSet(string id)
+    private async Task<string[]> GetSchoolSet(string id)
     {
         var userData = await userDataService.GetSchoolDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
-            return defaultSet.Pupil;
+            return defaultSet?.Pupil ?? [];
         }
 
         var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
-        return userDefinedSet.Set;
+        return userDefinedSet?.Set ?? [];
     }
 
-    private async Task<IEnumerable<string>> GetTrustSet(string id, string? phase)
+    private async Task<string[]> GetTrustSet(string id, string? phase)
     {
         var query = new ApiQuery()
             .AddIfNotNull("companyNumber", id)
             .AddIfNotNull("phase", phase);
 
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.URN).OfType<string>();
+        return result.Select(x => x.URN).OfType<string>().ToArray();
     }
 
-    private async Task<IEnumerable<string>> GetLocalAuthoritySet(string id, string? phase)
+    private async Task<string[]> GetLocalAuthoritySet(string id, string? phase)
     {
         var query = new ApiQuery()
             .AddIfNotNull("laCode", id)
             .AddIfNotNull("phase", phase);
 
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.URN).OfType<string>();
+        return result.Select(x => x.URN).OfType<string>().ToArray();
     }
 
     private static ApiQuery BuildApiQuery(string? category = null, string? dimension = null, IEnumerable<string>? urns = null)

@@ -15,6 +15,7 @@ import {
   ChartDimensionContext,
   PhaseContext,
   CustomDataContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -143,70 +144,75 @@ export const PremisesStaffServices: React.FC<{
   const elementId = "premises-staff-and-services";
   const [hash] = useHash();
 
+  const hasIncompleteData = false;
+  const hasNoData = data?.length === 0;
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-5"
-            >
-              Premises staff and services
-            </span>
-          </h2>
-        </div>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+      <ChartDimensionContext.Provider value={dimension}>
         <div
-          id="accordion-content-5"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-5"
-          role="region"
+          className={classNames("govuk-accordion__section", {
+            "govuk-accordion__section--expanded": hash === `#${elementId}`,
+          })}
+          id={elementId}
         >
-          <HorizontalBarChartWrapper
-            data={totalPremisesStaffServiceCostsBarData}
-            chartName="total premises staff and service costs"
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-heading-5"
+              >
+                Premises staff and services
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-content-5"
+            className="govuk-accordion__section-content"
+            aria-labelledby="accordion-heading-5"
+            role="region"
           >
-            <h3 className="govuk-heading-s">
-              Total premises staff and service costs
-            </h3>
-            <ChartDimensions
-              dimensions={PremisesCategories}
-              handleChange={handleSelectChange}
-              elementId="total-premises-staff-service-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={cleaningCaretakingBarData}
-            chartName="cleaning and caretaking costs"
-          >
-            <h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={maintenanceBarData}
-            chartName="maintenance of premises costs"
-          >
-            <h3 className="govuk-heading-s">Maintenance of premises costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={otherOccupationBarData}
-            chartName="other occupation costs"
-          >
-            <h3 className="govuk-heading-s">Other occupation costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={premisesStaffBarData}
-            chartName="premises staff costs"
-          >
-            <h3 className="govuk-heading-s">Premises staff costs</h3>
-          </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={totalPremisesStaffServiceCostsBarData}
+              chartName="total premises staff and service costs"
+            >
+              <h3 className="govuk-heading-s">
+                Total premises staff and service costs
+              </h3>
+              <ChartDimensions
+                dimensions={PremisesCategories}
+                handleChange={handleSelectChange}
+                elementId="total-premises-staff-service-costs"
+                value={dimension.value}
+              />
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={cleaningCaretakingBarData}
+              chartName="cleaning and caretaking costs"
+            >
+              <h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={maintenanceBarData}
+              chartName="maintenance of premises costs"
+            >
+              <h3 className="govuk-heading-s">Maintenance of premises costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={otherOccupationBarData}
+              chartName="other occupation costs"
+            >
+              <h3 className="govuk-heading-s">Other occupation costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={premisesStaffBarData}
+              chartName="premises staff costs"
+            >
+              <h3 className="govuk-heading-s">Premises staff costs</h3>
+            </HorizontalBarChartWrapper>
+          </div>
         </div>
-      </div>
-    </ChartDimensionContext.Provider>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

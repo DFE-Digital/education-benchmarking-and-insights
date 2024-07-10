@@ -9,7 +9,9 @@ public class WhenRequestingCensus(SchoolBenchmarkingWebAppClient client) : IClas
     public async Task CanReturnInternalServerError()
     {
         const string urn = "12345";
-        var response = await client.SetupCensusWithException()
+        var response = await client
+            .SetupComparatorSetApiWithException()
+            .SetupCensusWithException()
             .Get(Paths.ApiCensus(urn, "school", "workforce-fte", "Total"));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
