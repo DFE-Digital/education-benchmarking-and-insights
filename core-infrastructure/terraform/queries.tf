@@ -215,3 +215,14 @@ resource "azurerm_log_analytics_query_pack_query" "user-new-count-per-day" {
 
   body = file("${path.module}/queries/user-new-count-per-day.kql")
 }
+
+resource "azurerm_log_analytics_query_pack_query" "user-counts-table" {
+  name          = "5fd0997f-94e2-481f-a390-3ebedf324cab"
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User counts"
+  description   = "Table of the number of users"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-counts.kql")
+}
