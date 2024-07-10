@@ -29,14 +29,14 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     }
 
     [Fact]
-    public async Task CanDisplayNotAuthorised()
+    public async Task CanDisplayForbidden()
     {
         const string companyNumber = "121212";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.TrustForecast(companyNumber));
 
         PageAssert.IsAccessDeniedPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(companyNumber).ToAbsolute(), HttpStatusCode.Unauthorized);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(companyNumber).ToAbsolute(), HttpStatusCode.Forbidden);
     }
 
     [Fact]
