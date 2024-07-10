@@ -1,0 +1,70 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/v0_2_0.html" %}
+
+{% block pageTitle %}
+  Create a custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/" + version + "/comparators"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form action="/{{version}}/comparators/create" method="post">
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+        {{ govukInsetText({
+          text: "Custom comparator sets are not currently saved and will be lost when you end your session."
+        }) }}
+        
+
+        {{ govukRadios({
+          name: "compareRoute",
+          items: [
+            {
+              value: "review",
+              text: "Add schools by name",
+              checked: checked("compareRoute", "review")
+            },
+            {
+              value: "type",
+              text: "Find schools by characteristic",
+              checked: checked("compareRoute", "type"),
+              hint: { text: "For example by number of pupils or building size" }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-button--primary"
+        }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

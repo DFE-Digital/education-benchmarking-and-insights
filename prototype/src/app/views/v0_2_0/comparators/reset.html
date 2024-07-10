@@ -1,0 +1,53 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/v0_2_0.html" %}
+
+{% block pageTitle %}
+  Delete your comparator set - – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/" + version + "/comparators"
+      },
+      {
+        text: "Custom comparator set",
+        href: "/" + version + "/comparators/create"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Comparator sets</h1>
+
+        <h2 class="govuk-heading-m">Are you sure you want to delete your comparator set?</h2>
+
+        <p class="govuk-body">You will go back to using the default comparator sets.</p>
+        
+        {{ govukButton({
+          text: "Delete custom comparator set",
+          href: "/" + version + "/comparators/reset-confirmed",
+          classes: "govuk-button"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}
