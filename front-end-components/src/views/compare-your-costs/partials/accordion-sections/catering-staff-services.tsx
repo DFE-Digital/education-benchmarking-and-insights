@@ -15,6 +15,7 @@ import {
   ChartDimensionContext,
   CustomDataContext,
   PhaseContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -115,56 +116,61 @@ export const CateringStaffServices: React.FC<{
   const elementId = "catering-staff-and-supplies";
   const [hash] = useHash();
 
+  const hasIncompleteData = false;
+  const hasNoData = data?.length === 0;
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-8"
-            >
-              Catering staff and services
-            </span>
-          </h2>
-        </div>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+      <ChartDimensionContext.Provider value={dimension}>
         <div
-          id="accordion-content-8"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-8"
-          role="region"
+          className={classNames("govuk-accordion__section", {
+            "govuk-accordion__section--expanded": hash === `#${elementId}`,
+          })}
+          id={elementId}
         >
-          <HorizontalBarChartWrapper
-            data={totalCateringBarData}
-            chartName="total catering costs"
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-heading-8"
+              >
+                Catering staff and services
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-content-8"
+            className="govuk-accordion__section-content"
+            aria-labelledby="accordion-heading-8"
+            role="region"
           >
-            <h3 className="govuk-heading-s">Total catering costs</h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-catering-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={cateringStaffBarData}
-            chartName="catering staff costs"
-          >
-            <h3 className="govuk-heading-s">Catering staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={cateringSuppliesBarData}
-            chartName="catering supplies costs"
-          >
-            <h3 className="govuk-heading-s">Catering supplies costs</h3>
-          </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={totalCateringBarData}
+              chartName="total catering costs"
+            >
+              <h3 className="govuk-heading-s">Total catering costs</h3>
+              <ChartDimensions
+                dimensions={CostCategories}
+                handleChange={handleSelectChange}
+                elementId="total-catering-costs"
+                value={dimension.value}
+              />
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={cateringStaffBarData}
+              chartName="catering staff costs"
+            >
+              <h3 className="govuk-heading-s">Catering staff costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={cateringSuppliesBarData}
+              chartName="catering supplies costs"
+            >
+              <h3 className="govuk-heading-s">Catering supplies costs</h3>
+            </HorizontalBarChartWrapper>
+          </div>
         </div>
-      </div>
-    </ChartDimensionContext.Provider>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

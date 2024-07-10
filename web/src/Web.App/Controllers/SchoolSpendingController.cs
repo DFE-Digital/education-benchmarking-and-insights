@@ -40,25 +40,31 @@ public class SchoolSpendingController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 RagRating[] ratings;
-                SchoolExpenditure[] pupilExpenditure;
-                SchoolExpenditure[] areaExpenditure;
+                SchoolExpenditure[] pupilExpenditure = [];
+                SchoolExpenditure[] areaExpenditure = [];
 
                 if (string.IsNullOrEmpty(userData.ComparatorSet))
                 {
                     ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
 
                     var set = await schoolComparatorSetService.ReadComparatorSet(urn);
-                    pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
-                    areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
+                    if (set is { Building.Length: > 0, Pupil.Length: > 0 })
+                    {
+                        pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
+                        areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
+                    }
                 }
                 else
                 {
                     ratings = await metricRagRatingApi.UserDefinedAsync(userData.ComparatorSet).GetResultOrThrow<RagRating[]>();
                     var userSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, userData.ComparatorSet);
-                    var expenditures = await expenditureApi.QuerySchools(BuildQuery(userSet.Set)).GetResultOrThrow<SchoolExpenditure[]>();
+                    if (userSet is { Set.Length: > 0 })
+                    {
+                        var expenditures = await expenditureApi.QuerySchools(BuildQuery(userSet.Set)).GetResultOrThrow<SchoolExpenditure[]>();
 
-                    pupilExpenditure = expenditures;
-                    areaExpenditure = expenditures;
+                        pupilExpenditure = expenditures;
+                        areaExpenditure = expenditures;
+                    }
                 }
 
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
@@ -117,8 +123,13 @@ public class SchoolSpendingController(
 
                 var set = await schoolComparatorSetService.ReadComparatorSet(urn, customDataId);
 
-                var defaultPupilResult = await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
-                var defaultAreaResult = await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
+                var defaultPupilResult = set is { Pupil.Length: > 0 }
+                    ? await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>()
+                    : [];
+
+                var defaultAreaResult = set is { Building.Length: > 0 }
+                    ? await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>()
+                    : [];
 
                 var customPupilResult = await expenditureApi.SchoolCustom(urn, customDataId, new ApiQuery().AddIfNotNull("dimension", "PerUnit")).GetResultOrThrow<SchoolExpenditure>();
                 var customAreaResult = await expenditureApi.SchoolCustom(urn, customDataId, new ApiQuery().AddIfNotNull("dimension", "PerUnit")).GetResultOrThrow<SchoolExpenditure>();
