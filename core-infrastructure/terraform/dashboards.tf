@@ -6,6 +6,7 @@ locals {
   user-sessions-table-query                    = replace(replace(file("${path.module}/queries/user-sessions.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   custom-data-funnel-query                     = replace(replace(file("${path.module}/queries/custom-data-funnel.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-commercial-resources-query           = replace(replace(file("${path.module}/queries/popular-commercial-resources.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  feature-requests-chart-query                 = replace(replace(file("${path.module}/queries/feature-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
@@ -50,6 +51,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       popular_commercial_resources_id    = azurerm_log_analytics_query_pack_query.popular-commercial-resources.name,
       popular_commercial_resources_query = local.popular-commercial-resources-query,
       popular_commercial_resources_title = azurerm_log_analytics_query_pack_query.popular-commercial-resources.description
+
+      feature_requests_chart_id    = azurerm_log_analytics_query_pack_query.feature-requests-chart.name,
+      feature_requests_chart_query = local.feature-requests-chart-query,
+      feature_requests_chart_title = azurerm_log_analytics_query_pack_query.feature-requests-chart.description
   })
 }
 

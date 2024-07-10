@@ -1,7 +1,6 @@
  GetEstablishmentRequests
 | where 
-    Establishment == "local-authority"
-| where
+    Establishment == "local-authority" and 
     ResultCode == 200
 | project 
     TimeGenerated, 

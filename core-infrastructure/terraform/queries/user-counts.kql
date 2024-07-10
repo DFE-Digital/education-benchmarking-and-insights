@@ -15,5 +15,5 @@ let ["New Users"] = view() {
 };
 union withsource=Type
     Users, 
-    ["Authenticated Users"], 
-    ["New Users"]
+    ["New Users"],
+    ["Authenticated Users"]
