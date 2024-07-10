@@ -1,0 +1,14 @@
+// https://github.com/Microsoft/ApplicationInsights-Announcements/issues/10
+AppRequests 
+| where
+    SessionId != ""
+| where 
+    isempty(SyntheticSource)
+| summarize 
+    max(TimeGenerated), 
+    TimeGenerated = min(TimeGenerated)
+    by SessionId
+| extend 
+    sessionDurationSeconds = todouble(max_TimeGenerated - TimeGenerated) / 10000000.00
+| order by 
+    TimeGenerated asc

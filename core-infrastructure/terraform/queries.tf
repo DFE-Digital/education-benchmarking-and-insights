@@ -5,6 +5,8 @@ locals {
   }
 }
 
+resource "random_uuid" "popular-school-requests-chart-id" {}
+
 resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   name                       = "GetEstablishmentRequests"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
@@ -16,8 +18,10 @@ resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   query = file("${path.module}/queries/functions/get-establishment-requests.kql")
 }
 
+resource "random_uuid" "popular-trust-requests-chart-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "popular-school-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca2"
+  name          = random_uuid.popular-school-requests-chart-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Popular Requests – School"
   description   = "Chart of the most popular School requests, split by feature"
@@ -27,8 +31,10 @@ resource "azurerm_log_analytics_query_pack_query" "popular-school-requests-chart
   body = file("${path.module}/queries/popular-school-requests-chart.kql")
 }
 
+resource "random_uuid" "popular-local-authority-requests-chart-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca3"
+  name          = random_uuid.popular-trust-requests-chart-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Popular Requests – Trust"
   description   = "Chart of the most popular Trust requests, split by feature"
@@ -39,7 +45,7 @@ resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests-chart"
 }
 
 resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca4"
+  name          = random_uuid.popular-local-authority-requests-chart-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   tags          = local.query-tags
   display_name  = "Popular Requests – Local Authority"
@@ -93,8 +99,10 @@ resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
   })
 }
 
+resource "random_uuid" "pipeline-runs-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca0"
+  name          = random_uuid.pipeline-runs-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Recent pipeline runs"
   description   = "Logs from the most recent data pipeline runs"
@@ -117,8 +125,10 @@ resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
   query = file("${path.module}/queries/functions/get-feature-requests.kql")
 }
 
+resource "random_uuid" "feature-requests-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca5"
+  name          = random_uuid.feature-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Feature Requests"
   description   = "Table of the most popular Feature requests, split by authenticated state"
@@ -128,10 +138,23 @@ resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
   body = file("${path.module}/queries/feature-requests.kql")
 }
 
+resource "azurerm_log_analytics_saved_search" "get-sessions" {
+  name                       = "GetSessions"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSessions"
+  function_alias             = "GetSessions"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-sessions.kql")
+}
+
+resource "random_uuid" "session-count-per-day-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "session-count-per-day" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca6"
+  name          = random_uuid.session-count-per-day-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "User sessions"
+  display_name  = "User sessions per day"
   description   = "Table of the number of user sessions per day"
   categories    = ["applications"]
   tags          = local.query-tags
@@ -139,10 +162,23 @@ resource "azurerm_log_analytics_query_pack_query" "session-count-per-day" {
   body = file("${path.module}/queries/session-count-per-day.kql")
 }
 
+resource "azurerm_log_analytics_saved_search" "get-session-length" {
+  name                       = "GetSessionLength"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSessionLength"
+  function_alias             = "GetSessionLength"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-session-length.kql")
+}
+
+resource "random_uuid" "session-length-per-day-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "session-length-per-day" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca7"
+  name          = random_uuid.session-length-per-day-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "User session duration"
+  display_name  = "Session duration per day"
   description   = "Table of the duration of user sessions per day"
   categories    = ["applications"]
   tags          = local.query-tags
@@ -161,8 +197,10 @@ resource "azurerm_log_analytics_saved_search" "get-users" {
   query = file("${path.module}/queries/functions/get-users.kql")
 }
 
+resource "random_uuid" "user-count-per-day-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "user-count-per-day" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca8"
+  name          = random_uuid.user-count-per-day-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Users"
   description   = "Table of the number of users per day"
@@ -183,8 +221,10 @@ resource "azurerm_log_analytics_saved_search" "get-auth-users" {
   query = file("${path.module}/queries/functions/get-auth-users.kql")
 }
 
+resource "random_uuid" "user-auth-count-per-day-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "user-auth-count-per-day" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca9"
+  name          = random_uuid.user-auth-count-per-day-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Authenticated users"
   description   = "Table of the number of authenticated users per day"
@@ -205,8 +245,10 @@ resource "azurerm_log_analytics_saved_search" "get-new-users" {
   query = file("${path.module}/queries/functions/get-new-users.kql")
 }
 
+resource "random_uuid" "user-new-count-per-day-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "user-new-count-per-day" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324caa"
+  name          = random_uuid.user-new-count-per-day-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "New users"
   description   = "Table of the number of new users per day"
@@ -216,8 +258,10 @@ resource "azurerm_log_analytics_query_pack_query" "user-new-count-per-day" {
   body = file("${path.module}/queries/user-new-count-per-day.kql")
 }
 
+resource "random_uuid" "user-counts-table-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "user-counts-table" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324cab"
+  name          = random_uuid.user-counts-table-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "User counts"
   description   = "Table of the number of users"
@@ -225,4 +269,17 @@ resource "azurerm_log_analytics_query_pack_query" "user-counts-table" {
   tags          = local.query-tags
 
   body = file("${path.module}/queries/user-counts.kql")
+}
+
+resource "random_uuid" "user-sessions-table-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-sessions-table" {
+  name          = random_uuid.user-sessions-table-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User sessions"
+  description   = "Table of the number of user sessions"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-sessions.kql")
 }
