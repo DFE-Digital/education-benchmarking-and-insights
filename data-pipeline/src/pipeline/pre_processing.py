@@ -1611,12 +1611,8 @@ def _post_process_custom(
         if column.startswith(category) and column.endswith(("_Per Unit", "_Total"))
     ]
     zero_column_indices = [target_data.columns.get_loc(c) for c in zero_columns]
-    target_data.iloc[
-        0,
-        zero_column_indices,
-    ] = [
-        0.0
-    ] * len(zero_column_indices)
+    zero_column_values = [0.0] * len(zero_column_indices)
+    target_data.iloc[0, zero_column_indices] = zero_column_values
 
     # TODO: `_Net Costs` need to be recalculated as per line 1152.
     catering_net_costs = target_data["Catering staff and supplies_Net Costs"].copy()
