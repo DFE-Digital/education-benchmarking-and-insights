@@ -1,0 +1,18 @@
+let Sessions = view() { 
+    GetSessions
+    | summarize 
+        count_distinct(SessionId)
+        by bin(TimeGenerated, 1d)
+};
+let Length = view() {
+    GetSessionLength
+    | summarize 
+        avg(sessionDurationSeconds)
+        by bin(TimeGenerated, 1d)
+};
+Sessions
+| join Length on TimeGenerated
+| project 
+    Date = format_datetime(TimeGenerated, 'yyyy-MM-dd'), 
+    Count = count_distinct_SessionId, 
+    ["Average length in seconds"] = avg_sessionDurationSeconds

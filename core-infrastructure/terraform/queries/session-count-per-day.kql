@@ -1,10 +1,4 @@
-AppRequests 
-| where 
-    SessionId != ""
-| where 
-    isempty(SyntheticSource)
+GetSessions
 | summarize 
     Count = count_distinct(SessionId)
     by bin(TimeGenerated, 1d)
-| order by 
-    TimeGenerated asc

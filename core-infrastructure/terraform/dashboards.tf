@@ -3,6 +3,7 @@ locals {
   popular-trust-requests-chart-query           = replace(replace(file("${path.module}/queries/popular-trust-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-local-authority-requests-chart-query = replace(replace(file("${path.module}/queries/popular-local-authority-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   user-counts-table-query                      = replace(replace(file("${path.module}/queries/user-counts.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  user-sessions-table-query                    = replace(replace(file("${path.module}/queries/user-sessions.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
@@ -34,6 +35,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       user_counts_table_id    = azurerm_log_analytics_query_pack_query.user-counts-table.name,
       user_counts_table_query = local.user-counts-table-query,
       user_counts_table_title = azurerm_log_analytics_query_pack_query.user-counts-table.description
+
+      user_sessions_table_id    = azurerm_log_analytics_query_pack_query.user-sessions-table.name,
+      user_sessions_table_query = local.user-sessions-table-query,
+      user_sessions_table_title = azurerm_log_analytics_query_pack_query.user-sessions-table.description
   })
 }
 

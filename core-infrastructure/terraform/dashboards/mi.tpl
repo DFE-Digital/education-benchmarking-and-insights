@@ -259,8 +259,8 @@
                 },
                 "3": {
                     "position": {
-                        "colSpan": 5,
-                        "rowSpan": 2,
+                        "colSpan": 4,
+                        "rowSpan": 3,
                         "x": 0,
                         "y": 18
                     },
@@ -294,6 +294,47 @@
                             {
                                 "name": "PartTitle",
                                 "value": "${user_counts_table_title}"
+                            }
+                        ]
+                    }
+                },
+                "4": {
+                    "position": {
+                        "colSpan": 6,
+                        "rowSpan": 3,
+                        "x": 4,
+                        "y": 18
+                    },
+                    "metadata": {
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${user_sessions_table_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${user_sessions_table_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "AnalyticsGrid"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${user_sessions_table_title}"
                             }
                         ]
                     }
