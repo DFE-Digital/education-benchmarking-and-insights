@@ -738,7 +738,7 @@ def build_academy_data(
         index_col=input_schemas.groups_index_col,
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
-    )[["Group Type", "Group UID"]]
+    )[["Group Type", "Group UID", "Group Name", "Companies House Number"]]
 
     group_links = group_links[
         group_links["Group Type"].isin(

@@ -161,19 +161,19 @@ def insert_schools_and_trusts_and_local_authorities(
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
 
     trust_projections = {
-        "Trust Name": "TrustName",
+        "Group Name": "TrustName",
         "Group UID": "UID",
         "CFO name": "CFOName",
         "CFO email": "CFOEmail",
         "OpenDate": "OpenDate",
-        "Company Registration Number": "CompanyNumber",
+        "Companies House Number": "CompanyNumber",
     }
 
     trusts = (
-        df[~df["Company Registration Number"].isna()]
+        df[~df["Companies House Number"].isna()]
         .reset_index()
-        .sort_values(by=["Company Registration Number", "OpenDate"], ascending=False)
-        .groupby(["Company Registration Number"])
+        .sort_values(by=["Companies House Number", "OpenDate"], ascending=False)
+        .groupby(["Companies House Number"])
         .first()
         .reset_index()
         .rename(columns=trust_projections)[[*trust_projections.values()]]
