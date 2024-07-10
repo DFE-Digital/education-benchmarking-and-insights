@@ -2,7 +2,10 @@ AppRequests
 | extend
     Establishment = tostring(Properties["Establishment"]),
     Feature = tostring(Properties["Feature"])
-| where isnotempty(Feature)
+| where 
+    isnotempty(Feature)
+| where 
+    isempty(SyntheticSource)
 | project
     TimeGenerated,
     Name,

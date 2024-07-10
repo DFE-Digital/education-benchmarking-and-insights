@@ -36,6 +36,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
   })
 }
 
+locals {
+  failures-query-prefix = replace(replace(file("${path.module}/queries/failures-query-prefix.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+}
+
 resource "azurerm_portal_dashboard" "oi-dashboard" {
   name                = "${var.environment-prefix}-ebis-dashboard-oi"
   location            = azurerm_resource_group.resource-group.location
@@ -54,5 +58,7 @@ resource "azurerm_portal_dashboard" "oi-dashboard" {
       workspace_id      = azurerm_log_analytics_workspace.application-insights-workspace.id,
       app_insights_id   = azurerm_application_insights.application-insights.id,
       app_insights_name = azurerm_application_insights.application-insights.name,
+
+      failures_query_prefix = local.failures-query-prefix,
   })
 }

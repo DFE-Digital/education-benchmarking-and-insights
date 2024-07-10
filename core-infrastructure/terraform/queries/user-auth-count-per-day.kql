@@ -1,6 +1,4 @@
-AppRequests 
-| where 
-    UserAuthenticatedId != ""
+GetAuthUsers
 | summarize 
     Count = count_distinct(UserAuthenticatedId)
     by bin(TimeGenerated, 1d)

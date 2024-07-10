@@ -1,6 +1,7 @@
 GetEstablishmentRequests
 | where 
-    Establishment == "school" and 
+    Establishment == "school" 
+| where 
     ResultCode == 200
 | project 
     TimeGenerated, 

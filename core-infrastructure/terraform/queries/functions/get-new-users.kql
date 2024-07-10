@@ -1,0 +1,10 @@
+AppRequests 
+| where
+    UserId != ""
+| where 
+    isempty(SyntheticSource)
+| summarize 
+    arg_min(TimeGenerated, *)
+    by UserId
+| where 
+    TimeGenerated > ago(180d)

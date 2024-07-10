@@ -1,7 +1,10 @@
 AppEvents
 | where
-    Properties["baseTypeSource"] == "ClickEvent" and
+    Properties["baseTypeSource"] == "ClickEvent"
+| where
     Name in (${trackedEvents})
+| where 
+    isempty(SyntheticSource)
 | extend
     Source = tostring(Properties["uri"]),
     Target = tostring(Properties["targetUri"])
