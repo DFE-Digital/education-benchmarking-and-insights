@@ -320,3 +320,16 @@ resource "azurerm_log_analytics_query_pack_query" "popular-commercial-resources"
 
   body = file("${path.module}/queries/popular-commercial-resources.kql")
 }
+
+resource "random_uuid" "feature-requests-chart-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "feature-requests-chart" {
+  name          = random_uuid.feature-requests-chart-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Application features"
+  description   = "Chart of application features by establishment type"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/feature-requests-chart.kql")
+}

@@ -113,8 +113,8 @@
                     "position": {
                         "colSpan": 10,
                         "rowSpan": 6,
-                        "x": 0,
-                        "y": 6
+                        "x": 10,
+                        "y": 0
                     },
                     "metadata": {
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
@@ -188,7 +188,7 @@
                         "colSpan": 10,
                         "rowSpan": 6,
                         "x": 0,
-                        "y": 12
+                        "y": 6
                     },
                     "metadata": {
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
@@ -259,10 +259,84 @@
                 },
                 "3": {
                     "position": {
+                        "colSpan": 10,
+                        "rowSpan": 6,
+                        "x": 10,
+                        "y": 6
+                    },
+                    "metadata": {
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${feature_requests_chart_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${feature_requests_chart_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart"
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "StackedColumn"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${feature_requests_chart_title}"
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "xAxis": {
+                                        "name": "Establishment",
+                                        "type": "string"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "Count",
+                                            "type": "long"
+                                        }
+                                    ],
+                                    "splitBy": [
+                                        {
+                                            "name": "Feature",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "aggregation": "Sum"
+                                }
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": true,
+                                    "position": "Bottom"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "4": {
+                    "position": {
                         "colSpan": 4,
                         "rowSpan": 3,
                         "x": 0,
-                        "y": 18
+                        "y": 12
                     },
                     "metadata": {
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
@@ -298,12 +372,12 @@
                         ]
                     }
                 },
-                "4": {
+                "5": {
                     "position": {
                         "colSpan": 6,
                         "rowSpan": 3,
                         "x": 4,
-                        "y": 18
+                        "y": 12
                     },
                     "metadata": {
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
@@ -339,53 +413,12 @@
                         ]
                     }
                 },
-                "5": {
-                    "position": {
-                        "colSpan": 6,
-                        "rowSpan": 3,
-                        "x": 0,
-                        "y": 21
-                    },
-                    "metadata": {
-                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
-                        "inputs": [
-                            {
-                                "name": "Scope",
-                                "value": {
-                                    "resourceIds": [
-                                        "${app_insights_id}"
-                                    ]
-                                }
-                            },
-                            {
-                                "name": "PartId",
-                                "value": "${custom_data_funnel_id}"
-                            },
-                            {
-                                "name": "Version",
-                                "value": "2.0"
-                            },
-                            {
-                                "name": "Query",
-                                "value": "${custom_data_funnel_query}"
-                            },
-                            {
-                                "name": "ControlType",
-                                "value": "AnalyticsGrid"
-                            },
-                            {
-                                "name": "PartTitle",
-                                "value": "${custom_data_funnel_title}"
-                            }
-                        ]
-                    }
-                },
                 "6": {
                     "position": {
                         "colSpan": 10,
                         "rowSpan": 3,
-                        "x": 0,
-                        "y": 24
+                        "x": 10,
+                        "y": 12
                     },
                     "metadata": {
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
@@ -417,6 +450,47 @@
                             {
                                 "name": "PartTitle",
                                 "value": "${popular_commercial_resources_title}"
+                            }
+                        ]
+                    }
+                },
+                "7": {
+                    "position": {
+                        "colSpan": 6,
+                        "rowSpan": 3,
+                        "x": 0,
+                        "y": 15
+                    },
+                    "metadata": {
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${app_insights_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${custom_data_funnel_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${custom_data_funnel_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "AnalyticsGrid"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${custom_data_funnel_title}"
                             }
                         ]
                     }
