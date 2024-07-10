@@ -1,7 +1,38 @@
 {
     "lenses": {
         "0": {
-            "metadata": {},
+            "metadata": {
+                "model": {
+                    "timeRange": {
+                        "value": {
+                            "relative": {
+                                "duration": 24,
+                                "timeUnit": 1
+                            }
+                        },
+                        "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+                    },
+                    "filterLocale": {
+                        "value": "en-us"
+                    },
+                    "filters": {
+                        "value": {
+                            "MsPortalFx_TimeRange": {
+                                "model": {
+                                    "format": "utc",
+                                    "granularity": "auto",
+                                    "relative": "24h"
+                                },
+                                "displayCache": {
+                                    "name": "UTC Time",
+                                    "value": "Past 24 hours"
+                                },
+                                "filteredPartIds": []
+                            }
+                        }
+                    }
+                }
+            },
             "order": 0,
             "parts": {
                 "0": {
@@ -29,10 +60,6 @@
                             {
                                 "name": "Version",
                                 "value": "2.0"
-                            },
-                            {
-                                "name": "TimeRange",
-                                "value": "P1D"
                             },
                             {
                                 "name": "Query",
@@ -78,10 +105,6 @@
                                     "isEnabled": true,
                                     "position": "Bottom"
                                 }
-                            },
-                            {
-                                "name": "IsQueryContainTimeRange",
-                                "value": false
                             }
                         ]
                     }
@@ -111,10 +134,6 @@
                             {
                                 "name": "Version",
                                 "value": "2.0"
-                            },
-                            {
-                                "name": "TimeRange",
-                                "value": "P1D"
                             },
                             {
                                 "name": "Query",
@@ -160,10 +179,6 @@
                                     "isEnabled": true,
                                     "position": "Bottom"
                                 }
-                            },
-                            {
-                                "name": "IsQueryContainTimeRange",
-                                "value": false
                             }
                         ]
                     }
@@ -193,10 +208,6 @@
                             {
                                 "name": "Version",
                                 "value": "2.0"
-                            },
-                            {
-                                "name": "TimeRange",
-                                "value": "P1D"
                             },
                             {
                                 "name": "Query",
@@ -242,10 +253,47 @@
                                     "isEnabled": true,
                                     "position": "Bottom"
                                 }
+                            }
+                        ]
+                    }
+                },
+                "3": {
+                    "position": {
+                        "colSpan": 5,
+                        "rowSpan": 2,
+                        "x": 0,
+                        "y": 18
+                    },
+                    "metadata": {
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                }
                             },
                             {
-                                "name": "IsQueryContainTimeRange",
-                                "value": false
+                                "name": "PartId",
+                                "value": "${user_counts_table_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${user_counts_table_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "AnalyticsGrid"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${user_counts_table_title}"
                             }
                         ]
                     }

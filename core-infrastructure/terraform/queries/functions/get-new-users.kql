@@ -7,4 +7,4 @@ AppRequests
     arg_min(TimeGenerated, *)
     by UserId
 | where 
-    TimeGenerated > ago(180d)
+    TimeGenerated > ago(365d)

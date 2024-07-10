@@ -1,0 +1,19 @@
+let Users = view() { 
+    GetUsers
+    | summarize 
+        Count = count_distinct(UserId)
+};
+let ["Authenticated Users"] = view() {
+    GetAuthUsers
+    | summarize 
+        Count = count_distinct(UserAuthenticatedId)
+};
+let ["New Users"] = view() {
+    GetNewUsers
+    | summarize 
+        Count = count_distinct(UserId)
+};
+union withsource=Type
+    Users, 
+    ["Authenticated Users"], 
+    ["New Users"]
