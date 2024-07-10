@@ -7,6 +7,7 @@ const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
 require('./routes/v1_0_0.js');
+require('./routes/v0_1_0.js');
 require('./routes/latest.js');
 
 router.all( /^(?!((\/latest|\/v\d+))).*$/, (req, res) => {
