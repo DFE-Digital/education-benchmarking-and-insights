@@ -23,7 +23,7 @@ public class TrustAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFil
             companyNumber != null && c.Type == ClaimNames.Trusts && c.Value.Contains(companyNumber));
         if (!isValid)
         {
-            context.Result = new UnauthorizedResult();
+            context.Result = new ForbidResult();
         }
     }
 
