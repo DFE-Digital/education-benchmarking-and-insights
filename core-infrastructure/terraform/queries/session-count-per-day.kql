@@ -1,0 +1,10 @@
+AppRequests 
+| where 
+    SessionId != ""
+| where 
+    SyntheticSource == ""
+| summarize 
+    Count = count_distinct(SessionId)
+    by bin(TimeGenerated, 1d)
+| order by 
+    TimeGenerated asc

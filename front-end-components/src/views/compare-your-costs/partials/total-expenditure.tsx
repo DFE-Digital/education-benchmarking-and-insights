@@ -6,7 +6,11 @@ import React, {
   useState,
 } from "react";
 import { TotalExpenditureData } from "src/views/compare-your-costs/partials";
-import { ChartDimensionContext, PhaseContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  CustomDataContext,
+  PhaseContext,
+} from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -25,6 +29,7 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
+  const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<TotalExpenditureExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
@@ -33,9 +38,10 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
       id,
       dimension.value,
       "TotalExpenditure",
-      phase
+      phase,
+      customDataId
     );
-  }, [id, dimension, type, phase]);
+  }, [id, dimension, type, phase, customDataId]);
 
   useEffect(() => {
     getData().then((result) => {

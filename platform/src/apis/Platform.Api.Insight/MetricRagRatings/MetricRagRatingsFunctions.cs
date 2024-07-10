@@ -29,6 +29,7 @@ public class MetricRagRatingsFunctions
     [ProducesResponseType(typeof(MetricRagRating[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("useCustomData", "Sets whether or not to use custom data context", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("setType", "Comparator set type", DataType = typeof(string), Required = false)]
 
     public async Task<IActionResult> UserDefinedAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/{identifier}")] HttpRequest req,
@@ -46,7 +47,7 @@ public class MetricRagRatingsFunctions
         {
             try
             {
-                var result = await _service.UserDefinedAsync(identifier, queryParams.DataContext);
+                var result = await _service.UserDefinedAsync(identifier, queryParams.DataContext, queryParams.SetType);
 
                 return new JsonContentResult(result);
             }

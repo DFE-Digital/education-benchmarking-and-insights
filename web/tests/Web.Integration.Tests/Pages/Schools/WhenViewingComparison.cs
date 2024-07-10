@@ -116,8 +116,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark your costs - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Benchmark your costs");
+        DocumentAssert.TitleAndH1(page, "Benchmark spending - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Benchmark spending");
 
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);

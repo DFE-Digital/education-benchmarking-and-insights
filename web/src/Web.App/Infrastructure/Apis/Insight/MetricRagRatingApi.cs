@@ -9,7 +9,8 @@ public class MetricRagRatingApi(HttpClient httpClient, string? key = default) : 
 
     public async Task<ApiResult> UserDefinedAsync(string identifier)
     {
-        return await GetAsync(Api.MetricRagRating.Single(identifier));
+        var query = new ApiQuery().AddIfNotNull("setType", "mixed");
+        return await GetAsync($"{Api.MetricRagRating.Single(identifier)}{query.ToQueryString()}");
     }
 
     public async Task<ApiResult> CustomAsync(string identifier)

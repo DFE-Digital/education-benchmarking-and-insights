@@ -1,0 +1,11 @@
+ContainerAppConsoleLogs_CL
+| where 
+    RevisionName_s startswith "${name}"
+| where 
+    TimeGenerated between (ago(1d)..now())
+| project 
+    TimeGenerated, 
+    ContainerId_s, 
+    Log_s
+| order by 
+    TimeGenerated desc 

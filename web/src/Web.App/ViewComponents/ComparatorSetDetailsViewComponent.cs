@@ -5,8 +5,8 @@ namespace Web.App.ViewComponents;
 
 public class ComparatorSetDetailsViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(string identifier, bool hasUserDefinedSet, bool hasCustomData)
+    public IViewComponentResult Invoke(string identifier, bool hasUserDefinedSet, bool hasCustomData, ComparatorSetType type = ComparatorSetType.Costs)
     {
-        return View(new ComparatorSetDetailsViewModel(identifier, hasUserDefinedSet, hasCustomData));
+        return View(new ComparatorSetDetailsViewModel(identifier, hasUserDefinedSet, hasCustomData, type));
     }
 }

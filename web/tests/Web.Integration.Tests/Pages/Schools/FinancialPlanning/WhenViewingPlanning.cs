@@ -118,7 +118,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Benchmark your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[0], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 }

@@ -7,9 +7,13 @@ namespace Platform.Api.Insight.MetricRagRatings;
 public record MetricRagRatingParameters : QueryParameters
 {
     public string DataContext { get; set; } = "default";
+    public string SetType { get; set; } = "unmixed";
 
     public override void SetValues(IQueryCollection query)
     {
+        var setType = query["setType"].ToString();
+
+        SetType = setType is "mixed" or "unmixed" ? setType : "unmixed";
         DataContext = query.ToBool("useCustomData") ? "custom" : "default";
     }
 }

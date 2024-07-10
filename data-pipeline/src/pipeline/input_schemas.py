@@ -320,7 +320,7 @@ aar_academies = {
     "BNCH21604 (Educational Consultancy)": "float",
     "BNCH21606 (Agency supply teaching staff)": "float",
     "BNCH21403 (Energy)": "float",
-    "BNCH21402 (Water and sewerage)": "float"
+    "BNCH21402 (Water and sewerage)": "float",
 }
 
 aar_central_services_index_col = "Lead_UPIN"
@@ -377,7 +377,7 @@ aar_central_services = {
     "BNCH21606 (Agency supply teaching staff)": "float",
     "BNCH21403 (Energy)": "float",
     "BNCH21402 (Water and sewerage)": "float",
-    "BNCHBAI061 (Coronavirus Govt Funding)": "float"
+    "BNCHBAI061 (Coronavirus Govt Funding)": "float",
 }
 
 bfr_sofa_cols = {

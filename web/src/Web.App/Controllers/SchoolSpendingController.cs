@@ -120,8 +120,8 @@ public class SchoolSpendingController(
                 var defaultPupilResult = await expenditureApi.QuerySchools(BuildQuery(set.Pupil.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
                 var defaultAreaResult = await expenditureApi.QuerySchools(BuildQuery(set.Building.Where(x => x != urn))).GetResultOrThrow<SchoolExpenditure[]>();
 
-                var customPupilResult = await expenditureApi.SchoolCustom(urn, customDataId).GetResultOrThrow<SchoolExpenditure>();
-                var customAreaResult = await expenditureApi.SchoolCustom(urn, customDataId).GetResultOrThrow<SchoolExpenditure>();
+                var customPupilResult = await expenditureApi.SchoolCustom(urn, customDataId, new ApiQuery().AddIfNotNull("dimension", "PerUnit")).GetResultOrThrow<SchoolExpenditure>();
+                var customAreaResult = await expenditureApi.SchoolCustom(urn, customDataId, new ApiQuery().AddIfNotNull("dimension", "PerUnit")).GetResultOrThrow<SchoolExpenditure>();
 
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);

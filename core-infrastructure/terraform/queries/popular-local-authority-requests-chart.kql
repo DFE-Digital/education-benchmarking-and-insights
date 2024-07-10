@@ -1,0 +1,18 @@
+ GetEstablishmentRequests
+| where 
+    Establishment == "local-authority" and 
+    ResultCode == 200
+| project 
+    TimeGenerated, 
+    Feature, 
+    Code = Identifier
+| summarize 
+    Count=count()
+    by Code, 
+    Feature
+| sort by 
+    Count desc
+| take(50)
+| render 
+columnchart
+    with(title="50 most popular local authority requests")

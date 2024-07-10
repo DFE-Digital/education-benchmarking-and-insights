@@ -37,7 +37,7 @@ public class BenchmarkCensusPage(IPage page)
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
-            new PageLocatorOptions { HasText = "We've chosen 2 sets of similar schools" });
+            new PageLocatorOptions { HasText = "We've chosen this set of similar schools" });
 
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
