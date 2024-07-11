@@ -28,7 +28,7 @@ gantt
             TODO         :a1, 01-04-2023, 1d    
 ```
 
-
+## Dataset period
 
 | Dataset              | Period                      | 
 |:---------------------|:----------------------------|
@@ -41,3 +41,22 @@ gantt
 | **Pupil Census**     |                             |  
 | **Workforce Census** |                             | 
 | **BFR**              |                             |  
+
+
+## Data processing timeline
+```mermaid
+timeline
+    title Data processing
+        section Academic year - 2021/22 <br>Financial year - 2020/21
+            Data drop 1 <br> Sept <br> (CFR) : AAR (2020) : CFR (2021) : BFR (???)
+            Data drop 2 <br> ??? <br> (BFR) :  AAR (2020) : CFR (2021) : BFR (???)
+            Data drop 3 <br> Feb <br> (AAR) :  AAR (2021) : CFR (2021) : BFR (???)
+        section Academic year - 2022/23 <br>Financial year - 2021/22
+            Data drop 1 <br> Sept <br> (CFR) : AAR (2021) : CFR (2022) : BFR (???)
+            Data drop 2 <br> ??? <br> (BFR) :  AAR (2021) : CFR (2022) : BFR (???)
+            Data drop 3 <br> Feb <br> (AAR) :  AAR (2022) : CFR (2022) : BFR (???)    
+        section Academic year - 2023/24 <br>Financial year - 2022/23
+            Data drop 1 <br> Sept <br> (CFR) : AAR (2022) : CFR (2023) : BFR (???)
+            Data drop 2 <br> ??? <br> (BFR) :  AAR (2022) : CFR (2023) : BFR (???)
+            Data drop 3 <br> Feb <br> (AAR) :  AAR (2023) : CFR (2023) : BFR (???)       
+```
