@@ -127,7 +127,7 @@ def insert_schools_and_trusts_and_local_authorities(
         "URN": "URN",
         "EstablishmentName": "SchoolName",
         "Company Registration Number": "TrustCompanyNumber",
-        "Trust Name": "TrustName",
+        "Group Name": "TrustName",
         "Federation Lead School URN": "FederationLeadURN",
         "Federation Name": "FederationLeadName",
         "LA Code": "LACode",
