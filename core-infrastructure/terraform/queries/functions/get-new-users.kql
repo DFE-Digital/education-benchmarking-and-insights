@@ -1,3 +1,4 @@
+let timeRangeStart = toscalar(AppRequests | summarize MinTS=min(TimeGenerated));
 AppRequests 
 | where
     UserId != ""
@@ -7,4 +8,4 @@ AppRequests
     arg_min(TimeGenerated, *)
     by UserId
 | where 
-    TimeGenerated > ago(365d)
+    TimeGenerated > timeRangeStart
