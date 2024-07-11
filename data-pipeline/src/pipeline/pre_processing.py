@@ -738,7 +738,7 @@ def build_academy_data(
         index_col=input_schemas.groups_index_col,
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
-    )[["Group Type", "Group UID"]]
+    )[["Group Type", "Group UID", "Group Name", "Companies House Number"]]
 
     group_links = group_links[
         group_links["Group Type"].isin(
@@ -1611,12 +1611,8 @@ def _post_process_custom(
         if column.startswith(category) and column.endswith(("_Per Unit", "_Total"))
     ]
     zero_column_indices = [target_data.columns.get_loc(c) for c in zero_columns]
-    target_data.iloc[
-        0,
-        zero_column_indices,
-    ] = [
-        0.0
-    ] * len(zero_column_indices)
+    zero_column_values = [0.0] * len(zero_column_indices)
+    target_data.iloc[0, zero_column_indices] = zero_column_values
 
     # TODO: `_Net Costs` need to be recalculated as per line 1152.
     catering_net_costs = target_data["Catering staff and supplies_Net Costs"].copy()
