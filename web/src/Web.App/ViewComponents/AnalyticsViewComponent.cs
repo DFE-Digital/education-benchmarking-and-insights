@@ -15,7 +15,8 @@ public class AnalyticsViewComponent : ViewComponent
             return new HtmlContentViewComponentResult(new HtmlString(string.Empty));
         }
 
-        var vm = new AnalyticsViewModel(instrumentationKey);
+        var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
+        var vm = new AnalyticsViewModel(instrumentationKey, cookiePolicy != "disabled");
 
         var telemetry = HttpContext.Features.Get<RequestTelemetry>();
         if (telemetry != null)

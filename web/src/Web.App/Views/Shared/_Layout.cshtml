@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Web.App.Extensions
 @using Web.App.TagHelpers
-
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
 <head>
@@ -34,7 +33,7 @@
 </script>
 
 <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
-
+@await Component.InvokeAsync("Cookies")
 <header class="govuk-header" role="banner" data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
         <div class="govuk-header__logo">
@@ -59,7 +58,7 @@
                 "/",
                 Constants.ServiceName,
                 classes: ["govuk-header__link govuk-header__service-name"])
-            
+
             @if (User.Identity is { IsAuthenticated: true })
             {
                 @Html.ActionLink("Sign out", "Signout", "Home", null, new
@@ -114,7 +113,7 @@
                         </a>
                     </li> *@
                     <li class="govuk-footer__inline-list-item">
-                            <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/department-for-education/about/personal-information-charter">
+                        <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/department-for-education/about/personal-information-charter">
                             Privacy
                         </a>
                     </li>
@@ -142,7 +141,8 @@
                         class="govuk-footer__link"
                         href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                         rel="license">
-                        Open Government Licence v3.0</a>, except where otherwise stated
+                        Open Government Licence v3.0
+                    </a>, except where otherwise stated
                 </span>
             </div>
             <div class="govuk-footer__meta-item">
