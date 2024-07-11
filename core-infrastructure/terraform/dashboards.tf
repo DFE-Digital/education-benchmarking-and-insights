@@ -1,4 +1,6 @@
 locals {
+  dashboard-suffix = var.environment == "development" || var.environment == "feature" ? var.environment-prefix : var.environment
+
   popular-school-requests-chart-query          = replace(replace(file("${path.module}/queries/popular-school-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-trust-requests-chart-query           = replace(replace(file("${path.module}/queries/popular-trust-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-local-authority-requests-chart-query = replace(replace(file("${path.module}/queries/popular-local-authority-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
@@ -10,13 +12,13 @@ locals {
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
-  name                = "${var.environment-prefix}-ebis-dashboard-mi"
+  name                = "${var.environment-prefix}-mi-dashboard"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   tags = merge(
     local.common-tags,
     {
-      "hidden-title" = "Management Information - ${var.environment-prefix}-ebis"
+      "hidden-title" = "Management Information - ${local.dashboard-suffix}"
   })
 
   dashboard_properties = templatefile("${path.module}/dashboards/mi.tpl",
@@ -63,13 +65,13 @@ locals {
 }
 
 resource "azurerm_portal_dashboard" "oi-dashboard" {
-  name                = "${var.environment-prefix}-ebis-dashboard-oi"
+  name                = "${var.environment-prefix}-oi-dashboard"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   tags = merge(
     local.common-tags,
     {
-      "hidden-title" = "Operational Information - ${var.environment-prefix}-ebis"
+      "hidden-title" = "Operational Information - ${local.dashboard-suffix}"
   })
 
   dashboard_properties = templatefile("${path.module}/dashboards/oi.tpl",
