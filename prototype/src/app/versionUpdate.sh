@@ -58,7 +58,7 @@ sed  -i '' -e "1s/^/@import '_${version}.scss';\n/g" assets/sass/application.scs
 sed  -i '' -e "s/require(\'.\/routes\/latest.js\');/require(\'.\/routes\/${version}.js\');\nrequire(\'.\/routes\/latest.js\');/g" routes.js
 
 # add new version to archive index
-sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<a class=\"govuk-link\" href=\"\/${version}\"\>${versionDot}\<\/a\> - $(date +"%d %B %Y")\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
+sed  -i '' -e "s/  \<\!-- NEW VERSION --\>/  \<\!-- NEW VERSION --\>\n  \<li\>\n    \<h2 class=\"govuk-heading-m\"\>\<a class=\"govuk-link\" href=\"\/${version}\"\>${versionDot}\<\/a\> - $(date +"%d %B %Y")\<\/h2\>\n    \<p class=\"govuk-body\"\>Summary of changes\<\/p\>\n  \<\/li\>/g" views/latest/index.html
 
 # remove archive list from archive index page
 sed  -i '' -e "/\<\!-- VERSION HISTORY START --\>/,/\<\!-- VERSION HISTORY END --\>/d" views/${version}/index.html
