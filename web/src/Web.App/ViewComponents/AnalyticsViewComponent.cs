@@ -1,7 +1,5 @@
 ﻿using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Web.App.ViewModels.Components;
 namespace Web.App.ViewComponents;
 
@@ -12,7 +10,7 @@ public class AnalyticsViewComponent : ViewComponent
         var instrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
         if (string.IsNullOrWhiteSpace(instrumentationKey))
         {
-            return new HtmlContentViewComponentResult(new HtmlString(string.Empty));
+            return new EmptyContentView();
         }
 
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];

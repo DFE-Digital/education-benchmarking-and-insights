@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-
+using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
@@ -35,7 +35,28 @@ public class StaticContentController : Controller
     public IActionResult Cookies()
     {
         ViewData[ViewDataKeys.UseJsBackLink] = true;
-        return View();
+
+        var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
+        var vm = new StaticCookiesViewModel(Constants.CookieSettingsName, cookiePolicy != "disabled");
+        return View(vm);
+    }
+
+    [HttpPost]
+    [Route("cookies")]
+    public IActionResult SaveCookies([FromForm(Name = "cookies-analytics")] bool analytics)
+    {
+        HttpContext.Response.Cookies.Append(Constants.CookieSettingsName, analytics ? "enabled" : "disabled", new CookieOptions
+        {
+            Path = "/",
+            MaxAge = TimeSpan.FromDays(365)
+        });
+        if (!analytics)
+        {
+            HttpContext.Response.Cookies.Delete("ai_session");
+            HttpContext.Response.Cookies.Delete("ai_user");
+        }
+
+        return RedirectToAction("Cookies");
     }
 
     // TODO: review for public beta

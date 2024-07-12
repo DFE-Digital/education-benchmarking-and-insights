@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
+﻿using Microsoft.AspNetCore.Mvc;
 using Web.App.ViewModels.Components;
 namespace Web.App.ViewComponents;
 
@@ -10,7 +8,7 @@ public class CookiesViewComponent : ViewComponent
     {
         if (HttpContext.Request.Cookies.ContainsKey(Constants.CookieSettingsName))
         {
-            return new HtmlContentViewComponentResult(new HtmlString(string.Empty));
+            return new EmptyContentView();
         }
 
         return View(new CookiesViewModel(Constants.CookieSettingsName));
