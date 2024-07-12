@@ -29,7 +29,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -56,7 +56,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -107,7 +107,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 

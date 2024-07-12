@@ -6,7 +6,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -68,7 +67,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         client.SetupFinancialPlan();
 

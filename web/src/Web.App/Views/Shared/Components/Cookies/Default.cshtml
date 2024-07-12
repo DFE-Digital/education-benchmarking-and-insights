@@ -57,7 +57,7 @@
         if (window.setAppInsightsCookieEnabled !== undefined) {
             window.setAppInsightsCookieEnabled(enabled);
         }
-        document.cookie = `@Model.CookieName=${enabled ? "enabled" : "disabled"}; path=/; max-age=${60 * 60 * 24 * 365};`;
+        document.cookie = `@Model.CookieName=${enabled ? "enabled" : "disabled"}; path=/; max-age=${60 * 60 * 24 * 365}; secure;`;
         document.getElementById("unselected-cookies-banner").setAttribute("hidden", "hidden");
         if (enabled) {
             document.getElementById("accepted-cookies-banner").removeAttribute("hidden");

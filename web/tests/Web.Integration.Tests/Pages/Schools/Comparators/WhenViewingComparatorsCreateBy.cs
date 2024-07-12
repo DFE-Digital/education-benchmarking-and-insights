@@ -18,7 +18,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
     public async Task CanNavigateToComparatorsByName()
     {
         var (page, school) = await SetupNavigateInitPage();
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -38,7 +38,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
     public async Task CanNavigateToComparatorsByCharacteristic()
     {
         var (page, school) = await SetupNavigateInitPage();
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -78,7 +78,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             "How do you want to choose your set of schools? - Financial Benchmarking and Insights Tool - GOV.UK",
             "How do you want to choose your set of schools?");
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolComparatorsCreateBy(school.URN));
     }
 }

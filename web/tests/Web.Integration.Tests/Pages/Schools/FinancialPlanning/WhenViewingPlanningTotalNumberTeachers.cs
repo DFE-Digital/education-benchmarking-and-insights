@@ -49,7 +49,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     {
         var (page, school) = await SetupNavigateInitPage(financeType, false);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -86,7 +86,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -118,7 +118,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -144,7 +144,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
 

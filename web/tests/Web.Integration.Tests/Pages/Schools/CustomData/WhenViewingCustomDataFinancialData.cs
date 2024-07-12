@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -163,7 +162,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -179,7 +178,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -194,7 +193,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
          See decision log: temp remove navigation to be review post private beta
          var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -237,7 +236,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -361,7 +360,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "TotalIncome", customData.TotalIncome.ToSimpleDisplay());
         DocumentAssert.Input(page, "RevenueReserve", customData.RevenueReserve.ToSimpleDisplay());
 
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
         page = await Client.SubmitForm(page.Forms[0], action);
 
@@ -370,7 +369,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "SpecialEducationalNeedsPercent", customData.PercentSpecialEducationNeeds.ToSimpleDisplay());
         DocumentAssert.Input(page, "FloorArea", customData.TotalInternalFloorArea.ToSimpleDisplay());
 
-        action = page.QuerySelector(".govuk-button");
+        action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
         page = await Client.SubmitForm(page.Forms[0], action);
 

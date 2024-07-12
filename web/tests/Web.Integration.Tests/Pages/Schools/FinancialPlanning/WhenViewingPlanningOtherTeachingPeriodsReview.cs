@@ -4,7 +4,6 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -26,13 +25,33 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
     {
         yield return new object[]
         {
-        new List<FinancialPlanInput.OtherTeachingPeriod>
+            new List<FinancialPlanInput.OtherTeachingPeriod>
             {
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period1", PeriodsPerTimetable = "6" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period2", PeriodsPerTimetable = "7" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period3", PeriodsPerTimetable = "8" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period4", PeriodsPerTimetable = "9" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period5", PeriodsPerTimetable = "10" }
+                new()
+                {
+                    PeriodName = "Period1",
+                    PeriodsPerTimetable = "6"
+                },
+                new()
+                {
+                    PeriodName = "Period2",
+                    PeriodsPerTimetable = "7"
+                },
+                new()
+                {
+                    PeriodName = "Period3",
+                    PeriodsPerTimetable = "8"
+                },
+                new()
+                {
+                    PeriodName = "Period4",
+                    PeriodsPerTimetable = "9"
+                },
+                new()
+                {
+                    PeriodName = "Period5",
+                    PeriodsPerTimetable = "10"
+                }
             }
         };
 
@@ -40,9 +59,21 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         {
             new List<FinancialPlanInput.OtherTeachingPeriod>
             {
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period11", PeriodsPerTimetable = "14" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period12", PeriodsPerTimetable = "15" },
-                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period13", PeriodsPerTimetable = "16" }
+                new()
+                {
+                    PeriodName = "Period11",
+                    PeriodsPerTimetable = "14"
+                },
+                new()
+                {
+                    PeriodName = "Period12",
+                    PeriodsPerTimetable = "15"
+                },
+                new()
+                {
+                    PeriodName = "Period13",
+                    PeriodsPerTimetable = "16"
+                }
             }
         };
     }
@@ -82,7 +113,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
-        var anchor = page.QuerySelector(".govuk-button");
+        var anchor = page.QuerySelector("main .govuk-button");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
@@ -159,7 +190,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear));
 
         DocumentAssert.TitleAndH1(page,

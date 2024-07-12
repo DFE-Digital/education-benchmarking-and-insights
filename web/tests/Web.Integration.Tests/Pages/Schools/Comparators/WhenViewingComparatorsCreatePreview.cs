@@ -57,7 +57,7 @@ public class WhenViewingComparatorsCreatePreview(SchoolBenchmarkingWebAppClient 
         DocumentAssert.TitleAndH1(page,
             "Schools successfully matched - Financial Benchmarking and Insights Tool - GOV.UK",
             "Schools successfully matched");
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create a set using these schools", Paths.SchoolComparatorsCreateSubmit(school.URN));
         var change = page.QuerySelector("#change-set");
         DocumentAssert.Link(change, "Change characteristics and create a new set", Paths.SchoolComparatorsCreateByCharacteristic(school.URN).ToAbsolute());
