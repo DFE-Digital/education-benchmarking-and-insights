@@ -34,7 +34,7 @@ public static class DocumentAssert
     {
         Assert.NotNull(doc);
 
-        var h2 = doc.QuerySelector("h2");
+        var h2 = doc.QuerySelector("main h2");
         AssertNodeText(h2, header2);
     }
 

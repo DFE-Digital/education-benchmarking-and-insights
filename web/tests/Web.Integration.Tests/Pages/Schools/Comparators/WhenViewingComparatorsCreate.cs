@@ -62,7 +62,7 @@ public class WhenViewingComparatorsCreate(SchoolBenchmarkingWebAppClient client)
             "Choose your own set of schools - Financial Benchmarking and Insights Tool - GOV.UK",
             "Choose your own set of schools");
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolComparatorsCreateBy(school.URN));
     }
 }

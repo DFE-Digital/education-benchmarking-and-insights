@@ -48,7 +48,9 @@ public class StaticContentController : Controller
         HttpContext.Response.Cookies.Append(Constants.CookieSettingsName, analytics ? "enabled" : "disabled", new CookieOptions
         {
             Path = "/",
-            MaxAge = TimeSpan.FromDays(365)
+            MaxAge = TimeSpan.FromDays(365),
+            Secure = true,
+            HttpOnly = true
         });
         if (!analytics)
         {

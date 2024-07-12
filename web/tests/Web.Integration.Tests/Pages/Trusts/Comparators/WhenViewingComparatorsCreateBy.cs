@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AngleSharp.Html.Dom;
+﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
@@ -19,7 +18,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
     public async Task CanNavigateToComparatorsByName()
     {
         var (page, trust) = await SetupNavigateInitPage();
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -39,7 +38,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
     public async Task CanNavigateToComparatorsByCharacteristic()
     {
         var (page, trust) = await SetupNavigateInitPage();
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -79,7 +78,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             "How do you want to choose your own set of trusts? - Financial Benchmarking and Insights Tool - GOV.UK",
             "How do you want to choose your own set of trusts?");
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.TrustComparatorsCreateBy(trust.CompanyNumber));
     }
 }

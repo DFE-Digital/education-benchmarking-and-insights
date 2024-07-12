@@ -62,7 +62,7 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
             "Customise your data - Financial Benchmarking and Insights Tool - GOV.UK",
             "Change data used to compare this school");
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Start now", Paths.SchoolCustomDataFinancialData(school.URN));
     }
 }

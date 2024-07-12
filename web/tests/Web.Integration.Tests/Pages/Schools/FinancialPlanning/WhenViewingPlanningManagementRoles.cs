@@ -59,7 +59,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -106,7 +106,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -164,7 +164,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -304,7 +304,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
