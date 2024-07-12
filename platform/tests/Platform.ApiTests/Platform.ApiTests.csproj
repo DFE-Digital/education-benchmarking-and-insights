@@ -6,9 +6,11 @@
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <Using Include="TechTalk.SpecFlow"/>
+        <PackageReference Include="AutoFixture" />
         <PackageReference Include="Microsoft.Extensions.Configuration"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
@@ -35,6 +37,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
       <ProjectReference Include="..\..\src\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
       <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
     </ItemGroup>
 </Project>
