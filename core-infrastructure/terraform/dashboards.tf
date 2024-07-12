@@ -9,6 +9,7 @@ locals {
   custom-data-funnel-query                     = replace(replace(file("${path.module}/queries/custom-data-funnel.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-commercial-resources-query           = replace(replace(file("${path.module}/queries/popular-commercial-resources.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   feature-requests-chart-query                 = replace(replace(file("${path.module}/queries/feature-requests-chart.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  weekly-active-users-query                    = replace(replace(file("${path.module}/queries/weekly-active-users.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
@@ -25,6 +26,7 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
     {
       workspace_id    = azurerm_log_analytics_workspace.application-insights-workspace.id
       app_insights_id = azurerm_application_insights.application-insights.id
+      environment     = local.dashboard-suffix
 
       popular_school_requests_chart_id    = azurerm_log_analytics_query_pack_query.popular-school-requests-chart.name
       popular_school_requests_chart_query = local.popular-school-requests-chart-query,
@@ -57,6 +59,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       feature_requests_chart_id    = azurerm_log_analytics_query_pack_query.feature-requests-chart.name,
       feature_requests_chart_query = local.feature-requests-chart-query,
       feature_requests_chart_title = azurerm_log_analytics_query_pack_query.feature-requests-chart.description
+
+      weekly_active_users_id    = azurerm_log_analytics_query_pack_query.weekly-active-users.name,
+      weekly_active_users_query = local.weekly-active-users-query,
+      weekly_active_users_title = azurerm_log_analytics_query_pack_query.weekly-active-users.description
   })
 }
 
