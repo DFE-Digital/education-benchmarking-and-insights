@@ -333,3 +333,17 @@ resource "azurerm_log_analytics_query_pack_query" "feature-requests-chart" {
 
   body = file("${path.module}/queries/feature-requests-chart.kql")
 }
+
+resource "random_uuid" "weekly-active-users-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
+  name          = random_uuid.weekly-active-users-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Weekly active users"
+  description   = "Chart of weekly active users over past 30 days"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/weekly-active-users.kql")
+}
+

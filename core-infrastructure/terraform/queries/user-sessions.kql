@@ -16,3 +16,5 @@ Sessions
     Date = format_datetime(TimeGenerated, 'yyyy-MM-dd'), 
     Count = count_distinct_SessionId, 
     ["Average length in seconds"] = avg_sessionDurationSeconds
+| order by Date 
+    asc
