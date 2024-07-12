@@ -984,6 +984,43 @@ def build_academy_data(
             academies[target_income_col] + academies[income_col]
         )
 
+
+    academies["In year balance_CS"] = academies["In year balance_CS"] * (
+        academies["Number of pupils"].astype(float)
+        / academies["Total pupils in trust"].astype(float)
+    )
+
+    academies["In year balance_CS"] = (
+        academies["In year balance"] + academies["In year balance_CS"]
+    )
+
+    academies["Revenue reserve_CS"] = academies["Revenue reserve_CS"] * (
+        academies["Number of pupils"].astype(float)
+        / academies["Total pupils in trust"].astype(float)
+    )
+
+    academies["Revenue reserve"] = (
+        academies["Revenue reserve"] + academies["Revenue reserve_CS"]
+    )
+
+    academies["Total Income_CS"] = academies["Total Income_CS"] * (
+        academies["Number of pupils"].astype(float)
+        / academies["Total pupils in trust"].astype(float)
+    )
+
+    academies["Total Income"] = (
+        academies["Total Income"] + academies["Total Income_CS"]
+    )
+
+    academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
+        academies["Number of pupils"].astype(float)
+        / academies["Total pupils in trust"].astype(float)
+    )
+
+    academies["Total Expenditure"] = (
+        academies["Total Expenditure"] + academies["Total Expenditure_CS"]
+    )
+
     academies["Catering staff and supplies_Net Costs"] = (
         academies["Income_Catering services"]
         + academies["Catering staff and supplies_Total"]
@@ -1006,10 +1043,6 @@ def build_academy_data(
     )
 
     academies = academies.merge(trust_revenue_reserve, on="Trust UPIN", how="left")
-
-    academies["Trust Revenue reserve"] = (
-        academies["Revenue reserve_CS"] + academies["Trust Revenue reserve"]
-    )
 
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
