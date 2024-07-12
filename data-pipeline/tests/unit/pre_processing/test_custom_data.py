@@ -61,6 +61,7 @@ _default_existing_data = {
     ],
     "Catering staff and supplies_Catering staff": [0.0, 0.0, 0.0, 0.0],
     "Catering staff and supplies_Catering supplies": [0.0, 0.0, 0.0, 0.0],
+    "Catering staff and supplies_Net Costs": [0.0, 0.0, 0.0, 0.0],
     "Income_Catering services": [0.0, 0.0, 0.0, 0.0],
     "Educational supplies_Examination fees": [0.0, 0.0, 0.0, 0.0],
     "Educational supplies_Learning resources (not ICT equipment)": [0.0, 0.0, 0.0, 0.0],
@@ -79,6 +80,7 @@ _default_existing_data = {
         0.0,
         0.0,
     ],
+    "Number of pupils": [0.0, 0.0, 0.0, 0.0],
     "Premises staff and services_Cleaning and caretaking": [0.0, 0.0, 0.0, 0.0],
     "Premises staff and services_Maintenance of premises": [0.0, 0.0, 0.0, 0.0],
     "Premises staff and services_Other occupation costs": [0.0, 0.0, 0.0, 0.0],
@@ -108,7 +110,6 @@ _default_existing_data = {
     "Other costs_Supply teacher insurance": [0.0, 0.0, 0.0, 0.0],
     "Income_Total": [0.0, 0.0, 0.0, 0.0],
     "Revenue reserve": [0.0, 0.0, 0.0, 0.0],
-    "Total pupils in trust": [0.0, 0.0, 0.0, 0.0],
     "Percentage Free school meals": [0.0, 0.0, 0.0, 0.0],
     "Percentage SEN": [0.0, 0.0, 0.0, 0.0],
     "Total Internal Floor Area": [0.0, 0.0, 0.0, 0.0],
@@ -133,10 +134,14 @@ def test_update_custom_data():
     Existing data will always have a value of `0.0`.
 
     Custom data will update this to `1.0`, except for 2 named columns.
+
+    Note: `Catering staff and supplies_Net Costs` is unique insofar as
+    it will intentionally remain unchanged; any columns suffixed with
+    `_Total` or `_Per Unit` are re-calculated.
     """
     df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
     custom_data = _default_custom_data | {
-        "totalInternalFloorArea": 2.0,
+        "administrativeSuppliesNonEducationalCosts": 2.0,
         "workforceFTE": 3.0,
     }
 
@@ -148,7 +153,10 @@ def test_update_custom_data():
 
     assert result.loc[
         1,
-        ["Total Internal Floor Area", "Total School Workforce (Full-Time Equivalent)"],
+        [
+            "Administrative supplies_Administrative supplies (non educational)",
+            "Total School Workforce (Full-Time Equivalent)",
+        ],
     ].to_list() == [2.0, 3.0]
 
     assert all(
@@ -157,11 +165,18 @@ def test_update_custom_data():
             1,
             ~result.columns.isin(
                 [
-                    "Total Internal Floor Area",
+                    "Administrative supplies_Administrative supplies (non educational)",
                     "Total School Workforce (Full-Time Equivalent)",
                 ]
             ),
         ].items()
+        if column != "Catering staff and supplies_Net Costs"
+        and not column.endswith(
+            (
+                "_Total",
+                "_Per Unit",
+            )
+        )
     )
 
 
@@ -210,9 +225,13 @@ def test_update_custom_data_missing_columns():
     Existing data will be missing some mapped columns.
     """
     df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
-    df.drop("Total Internal Floor Area", axis="columns", inplace=True)
+    df.drop(
+        "Administrative supplies_Administrative supplies (non educational)",
+        axis="columns",
+        inplace=True,
+    )
     custom_data = _default_custom_data | {
-        "totalInternalFloorArea": 2.0,
+        "administrativeSuppliesNonEducationalCosts": 2.0,
         "workforceFTE": 3.0,
     }
 
@@ -222,7 +241,10 @@ def test_update_custom_data_missing_columns():
         target_urn=1,
     )
 
-    assert "Total Internal Floor Area" not in result.columns
+    assert (
+        "Administrative supplies_Administrative supplies (non educational)"
+        not in result.columns
+    )
 
 
 def test_update_custom_data_missing_target():
