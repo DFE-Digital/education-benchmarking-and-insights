@@ -20,7 +20,6 @@ namespace Web.App.Controllers;
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning/create")]
-[SchoolRequestTelemetry(TrackedRequestFeature.Planning)]
 public class SchoolPlanningCreateController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
