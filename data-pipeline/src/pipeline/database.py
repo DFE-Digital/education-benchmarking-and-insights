@@ -126,7 +126,7 @@ def insert_schools_and_trusts_and_local_authorities(
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
-        "Company Registration Number": "TrustCompanyNumber",
+        "Companies House Number": "TrustCompanyNumber",
         "Group Name": "TrustName",
         "Federation Lead School URN": "FederationLeadURN",
         "Federation Name": "FederationLeadName",
