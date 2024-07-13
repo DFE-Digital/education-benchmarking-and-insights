@@ -1,13 +1,4 @@
-AppRequests 
-| where
-    UserId != ""
-| where 
-    SyntheticSource == ""
-| summarize 
-    arg_min(TimeGenerated, *)
-    by UserId
-| where 
-    TimeGenerated > ago(180d)
+GetNewUsers
 | summarize 
     Count = count_distinct(UserId)
     by bin(TimeGenerated, 1d)

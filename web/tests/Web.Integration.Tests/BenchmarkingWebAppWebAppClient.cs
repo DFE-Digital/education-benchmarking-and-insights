@@ -338,16 +338,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    // public BenchmarkingWebAppClient SetupBenchmarkWithException()
-    // {
-    //     FinancialPlanApi.Reset();
-    //     ComparatorSetApi.Reset();
-    //     UserDataApi.Reset();
-    //     ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>())).Throws(new Exception());
-    //     FinancialPlanApi.Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
-    //     FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
-    //     return this;
-    // }
+    public BenchmarkingWebAppClient SetupComparatorSetApiWithException()
+    {
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>())).Throws(new Exception());
+        return this;
+    }
 
     // public BenchmarkingWebAppClient SetupBenchmarkWithNotFound()
     // {

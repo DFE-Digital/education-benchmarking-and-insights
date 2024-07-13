@@ -12,7 +12,6 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
 [Route("school/{urn}/comparators/create")]
-[SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class SchoolComparatorsCreateController(ILogger<SchoolComparatorsCreateController> logger, IEstablishmentApi establishmentApi) : Controller
 {
     [HttpGet]

@@ -1,0 +1,5 @@
+AppRequests 
+| where 
+    UserId != ""
+| where 
+    isempty(SyntheticSource)

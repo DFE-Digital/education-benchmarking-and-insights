@@ -1,0 +1,71 @@
+let topStepName = strcat('1. ', 'Financial');
+let secondStepName = strcat('2. ', 'Characteristics');
+let thirdStepName = strcat('3. ', 'Workforce');
+let fourthStepName = strcat('4. ', 'Submit');
+let allEvents=customEvents;
+let allPageViews=pageViews;
+let all = allEvents
+    | union allPageViews;
+let step1 = materialize(all
+    | where tostring(parseurl(url)["Path"]) endswith "/custom-data/financial-data"
+    | summarize arg_min(timestamp, *) by user_Id
+    | project user_Id, step1_time = timestamp);
+let step2 = materialize(step1
+    | join hint.strategy=broadcast (
+        all
+        | where tostring(parseurl(url)["Path"]) endswith "/custom-data/school-characteristics"
+        | project user_Id, step2_time=timestamp)
+        on user_Id
+    | where step1_time < step2_time
+    | summarize arg_min(step2_time, *) by user_Id
+    | project user_Id, step1_time, step2_time);
+let step3 = materialize(step2
+    | join hint.strategy=broadcast (
+        all
+        | where tostring(parseurl(url)["Path"]) endswith "/custom-data/workforce"
+        | project user_Id, step3_time=timestamp)
+        on user_Id
+    | where step2_time < step3_time
+    | summarize arg_min(step3_time, *) by user_Id
+    | project user_Id, step1_time, step2_time, step3_time);
+let step4 = materialize(step3
+    | join hint.strategy=broadcast (
+        all
+        | where tostring(parseurl(url)["Path"]) endswith "/custom-data/submit"
+        | project user_Id, step4_time=timestamp)
+        on user_Id
+    | where step3_time < step4_time
+    | summarize arg_min(step4_time, *) by user_Id
+    | project user_Id, step1_time, step2_time, step3_time, step4_time);
+let id1 = step1
+    | summarize userCount= dcount(user_Id)
+    | extend STEP = topStepName, rate = iff(userCount == 0, 0.0, todouble(100));
+let step1Count = toscalar(id1);
+let id2 = step2
+    | summarize userCount= dcount(user_Id)
+    | extend
+        STEP = secondStepName,
+        rate = iff(userCount == 0, 0.0, todouble(100 * userCount / step1Count));
+let step2Count = toscalar(id2);
+let id3 = step3
+    | summarize userCount= dcount(user_Id)
+    | extend
+        STEP = thirdStepName,
+        rate =  iff(userCount == 0, 0.0, todouble(100 * userCount / step1Count));
+let step3Count = toscalar(id3);
+let id4 = step4
+    | summarize userCount= dcount(user_Id)
+    | extend
+        STEP = fourthStepName,
+        rate =  iff(userCount == 0, 0.0, todouble(100 * userCount / step1Count));
+union 
+    id1, 
+    id2, 
+    id3, 
+    id4
+| project 
+    ['Step'] = STEP, 
+    ['Count'] = userCount, 
+    ['Funnel %'] = rate
+| order by 
+    Step asc

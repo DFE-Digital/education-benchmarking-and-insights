@@ -8,9 +8,9 @@ namespace Web.App.Services;
 
 public interface ISchoolComparatorSetService
 {
-    Task<SchoolComparatorSet> ReadComparatorSet(string urn);
-    Task<SchoolComparatorSet> ReadComparatorSet(string urn, string identifier);
-    Task<UserDefinedSchoolComparatorSet> ReadUserDefinedComparatorSet(string urn, string identifier);
+    Task<SchoolComparatorSet?> ReadComparatorSet(string urn);
+    Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier);
+    Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier);
     UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn);
     UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set);
     void ClearUserDefinedComparatorSet(string urn, string? identifier = null);
@@ -21,22 +21,22 @@ public interface ISchoolComparatorSetService
 
 public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ISchoolComparatorSetService
 {
-    public async Task<SchoolComparatorSet> ReadComparatorSet(string urn)
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn)
     {
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
+        return await api.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
     }
 
-    public async Task<SchoolComparatorSet> ReadComparatorSet(string urn, string identifier)
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier)
     {
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetCustomSchoolAsync(urn, identifier).GetResultOrThrow<SchoolComparatorSet>();
+        return await api.GetCustomSchoolAsync(urn, identifier).GetResultOrDefault<SchoolComparatorSet>();
     }
 
-    public async Task<UserDefinedSchoolComparatorSet> ReadUserDefinedComparatorSet(string urn, string identifier)
+    public async Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier)
     {
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetUserDefinedSchoolAsync(urn, identifier).GetResultOrThrow<UserDefinedSchoolComparatorSet>();
+        return await api.GetUserDefinedSchoolAsync(urn, identifier).GetResultOrDefault<UserDefinedSchoolComparatorSet>();
     }
 
     public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn)

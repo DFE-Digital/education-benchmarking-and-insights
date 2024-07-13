@@ -10,6 +10,7 @@ import {
   ChartDimensionContext,
   CustomDataContext,
   PhaseContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   CostCategories,
@@ -80,19 +81,27 @@ export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
+  const hasIncompleteData = false;
+  const hasNoData = data?.length === 0;
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
-        <h2 className="govuk-heading-m">Total expenditure</h2>
-        <ChartDimensions
-          dimensions={CostCategories.filter(function (category) {
-            return category !== PercentageExpenditure;
-          })}
-          handleChange={handleSelectChange}
-          elementId="total-expenditure"
-          value={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+      <ChartDimensionContext.Provider value={dimension}>
+        <HorizontalBarChartWrapper
+          data={chartData}
+          chartName="total expenditure"
+        >
+          <h2 className="govuk-heading-m">Total expenditure</h2>
+          <ChartDimensions
+            dimensions={CostCategories.filter(function (category) {
+              return category !== PercentageExpenditure;
+            })}
+            handleChange={handleSelectChange}
+            elementId="total-expenditure"
+            value={dimension.value}
+          />
+        </HorizontalBarChartWrapper>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

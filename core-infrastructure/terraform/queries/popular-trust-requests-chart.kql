@@ -1,6 +1,7 @@
 GetEstablishmentRequests
 | where 
-    Establishment == "trust" and 
+    Establishment == "trust" 
+| where 
     ResultCode == 200
 | project 
     TimeGenerated, 
