@@ -129,6 +129,6 @@ public static class Selectors
     public const string CookieBannerButtonFormat = "#{0}-cookies";
     public const string CookieBannerDismissedFormat = "#{0}ed-cookies-banner";
     public const string CookiesSavedBanner = "#cookies-saved-banner";
-    public const string CookieFormRadioFormat = "#cookies-analytics{0}";
+    public const string CookieFormRadioFormat = "#AnalyticsCookiesEnabled-{0}";
     public const string CookieFormButton = "#cookie-settings-button";
 }

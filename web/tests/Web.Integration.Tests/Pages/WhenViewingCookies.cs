@@ -1,3 +1,4 @@
+using AngleSharp.Dom;
 using Xunit;
 namespace Web.Integration.Tests.Pages;
 
@@ -27,20 +28,20 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
             f.SetFormValues(new Dictionary<string, string>
             {
                 {
-                    "cookies-analytics", accept.ToString().ToLower()
+                    "AnalyticsCookiesEnabled", accept.ToString().ToLower()
                 }
             });
         });
 
         // `checked` attribute will be `null` if not present, or `string.Empty` if present 
-        Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#cookies-analytics")?.Attributes.GetNamedItem("checked")?.Value);
-        Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#cookies-analytics-2")?.Attributes.GetNamedItem("checked")?.Value);
+        Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#AnalyticsCookiesEnabled-accept")?.Attributes.GetNamedItem("checked")?.Value);
+        Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#AnalyticsCookiesEnabled-reject")?.Attributes.GetNamedItem("checked")?.Value);
     }
 
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task CanToggleAnalyticsCookies(bool accept)
+    public async Task CanToggleAnalyticsCookiesOff(bool accept)
     {
         // ensure previously submitted cookie toggle has not prepopulated form
         Client.RebuildHttpClient();
@@ -54,13 +55,28 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
             f.SetFormValues(new Dictionary<string, string>
             {
                 {
-                    "cookies-analytics", accept.ToString().ToLower()
+                    "AnalyticsCookiesEnabled", accept.ToString().ToLower()
                 }
             });
         });
 
         // `checked` attribute will be `null` if not present, or `string.Empty` if present 
-        Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#cookies-analytics")?.Attributes.GetNamedItem("checked")?.Value);
-        Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#cookies-analytics-2")?.Attributes.GetNamedItem("checked")?.Value);
+        Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#AnalyticsCookiesEnabled-accept")?.Attributes.GetNamedItem("checked")?.Value);
+        Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#AnalyticsCookiesEnabled-reject")?.Attributes.GetNamedItem("checked")?.Value);
+    }
+
+    [Fact]
+    public async Task CanDisplayErrorIfAnalyticsCookieChoiceNotMade()
+    {
+        // ensure previously submitted cookie toggle has not prepopulated form
+        Client.RebuildHttpClient();
+
+        var page = await Client.Navigate(Paths.Cookies);
+        var action = page.QuerySelector("#cookie-settings-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        Assert.Equal("Error: Select if you want to accept analytics cookies", page.QuerySelector("#AnalyticsCookiesEnabled-error")?.GetInnerText());
     }
 }
