@@ -27,7 +27,6 @@ public record CustomDataRequest
     public decimal? TeachingStaffCosts { get; set; }
     public decimal? EnergyCosts { get; set; }
     public decimal? WaterSewerageCosts { get; set; }
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }
@@ -79,7 +78,6 @@ public record CustomDataRequest
             TeachingStaffCosts = TeachingStaffCosts,
             EnergyCosts = EnergyCosts,
             WaterSewerageCosts = WaterSewerageCosts,
-            DirectRevenueFinancingCosts = DirectRevenueFinancingCosts,
             GroundsMaintenanceCosts = GroundsMaintenanceCosts,
             IndirectEmployeeExpenses = IndirectEmployeeExpenses,
             InterestChargesLoanBank = InterestChargesLoanBank,

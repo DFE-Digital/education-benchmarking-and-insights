@@ -201,13 +201,6 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts,
-            Name = nameof(SchoolCustomDataViewModel.DirectRevenueFinancingCosts),
-            Current = CurrentValues.DirectRevenueFinancingCosts,
-            Custom = CustomInput.DirectRevenueFinancingCosts
-        },
-        new SchoolCustomDataValueViewModel
-        {
             Title = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts,
             Name = nameof(SchoolCustomDataViewModel.GroundsMaintenanceCosts),
             Current = CurrentValues.GroundsMaintenanceCosts,

@@ -43,7 +43,6 @@ public record CustomData
     public decimal? WaterSewerageCosts { get; set; }
 
     // Other costs
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }
@@ -132,7 +131,6 @@ public record CustomData
         WaterSewerageCosts = viewModel.WaterSewerageCosts;
 
         // Other costs
-        DirectRevenueFinancingCosts = viewModel.DirectRevenueFinancingCosts;
         GroundsMaintenanceCosts = viewModel.GroundsMaintenanceCosts;
         IndirectEmployeeExpenses = viewModel.IndirectEmployeeExpenses;
         InterestChargesLoanBank = viewModel.InterestChargesLoanBank;

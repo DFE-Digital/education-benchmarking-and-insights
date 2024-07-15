@@ -233,7 +233,6 @@ public static class ExpenditureResponseFactory
     private static void SetOther<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
         response.SchoolTotalOtherCosts = CalcPupilAmount(model.TotalOtherCosts - model.TotalOtherCostsCS.GetValueOrDefault(), model, parameters);
-        response.SchoolDirectRevenueFinancingCosts = CalcPupilAmount(model.DirectRevenueFinancingCosts - model.DirectRevenueFinancingCostsCS.GetValueOrDefault(), model, parameters);
         response.SchoolGroundsMaintenanceCosts = CalcPupilAmount(model.GroundsMaintenanceCosts - model.GroundsMaintenanceCostsCS.GetValueOrDefault(), model, parameters);
         response.SchoolIndirectEmployeeExpenses = CalcPupilAmount(model.IndirectEmployeeExpenses - model.IndirectEmployeeExpensesCS.GetValueOrDefault(), model, parameters);
         response.SchoolInterestChargesLoanBank = CalcPupilAmount(model.InterestChargesLoanBank - model.InterestChargesLoanBankCS.GetValueOrDefault(), model, parameters);
@@ -248,7 +247,6 @@ public static class ExpenditureResponseFactory
         response.SchoolCommunityFocusedSchoolCosts = CalcPupilAmount(model.CommunityFocusedSchoolCosts - model.CommunityFocusedSchoolCostsCS.GetValueOrDefault(), model, parameters);
 
         response.CentralTotalOtherCosts = CalcPupilAmount(model.TotalOtherCostsCS, model, parameters);
-        response.CentralDirectRevenueFinancingCosts = CalcPupilAmount(model.DirectRevenueFinancingCostsCS, model, parameters);
         response.CentralGroundsMaintenanceCosts = CalcPupilAmount(model.GroundsMaintenanceCostsCS, model, parameters);
         response.CentralIndirectEmployeeExpenses = CalcPupilAmount(model.IndirectEmployeeExpensesCS, model, parameters);
         response.CentralInterestChargesLoanBank = CalcPupilAmount(model.InterestChargesLoanBankCS, model, parameters);
@@ -263,7 +261,6 @@ public static class ExpenditureResponseFactory
         response.CentralCommunityFocusedSchoolCosts = CalcPupilAmount(model.CommunityFocusedSchoolCostsCS, model, parameters);
 
         response.TotalOtherCosts = CalcPupilTotal(model.TotalOtherCosts, model.TotalOtherCostsCS.GetValueOrDefault(), model, parameters);
-        response.DirectRevenueFinancingCosts = CalcPupilTotal(model.DirectRevenueFinancingCosts, model.DirectRevenueFinancingCostsCS.GetValueOrDefault(), model, parameters);
         response.GroundsMaintenanceCosts = CalcPupilTotal(model.GroundsMaintenanceCosts, model.GroundsMaintenanceCostsCS.GetValueOrDefault(), model, parameters);
         response.IndirectEmployeeExpenses = CalcPupilTotal(model.IndirectEmployeeExpenses, model.IndirectEmployeeExpensesCS.GetValueOrDefault(), model, parameters);
         response.InterestChargesLoanBank = CalcPupilTotal(model.InterestChargesLoanBank, model.InterestChargesLoanBankCS.GetValueOrDefault(), model, parameters);
@@ -370,7 +367,6 @@ public abstract record ExpenditureBaseResponse
     public decimal? SchoolCateringStaffCosts { get; set; }
     public decimal? SchoolCateringSuppliesCosts { get; set; }
     public decimal? SchoolTotalOtherCosts { get; set; }
-    public decimal? SchoolDirectRevenueFinancingCosts { get; set; }
     public decimal? SchoolGroundsMaintenanceCosts { get; set; }
     public decimal? SchoolIndirectEmployeeExpenses { get; set; }
     public decimal? SchoolInterestChargesLoanBank { get; set; }
@@ -413,7 +409,6 @@ public abstract record ExpenditureBaseResponse
     public decimal? CentralCateringStaffCosts { get; set; }
     public decimal? CentralCateringSuppliesCosts { get; set; }
     public decimal? CentralTotalOtherCosts { get; set; }
-    public decimal? CentralDirectRevenueFinancingCosts { get; set; }
     public decimal? CentralGroundsMaintenanceCosts { get; set; }
     public decimal? CentralIndirectEmployeeExpenses { get; set; }
     public decimal? CentralInterestChargesLoanBank { get; set; }
@@ -456,7 +451,6 @@ public abstract record ExpenditureBaseResponse
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
     public decimal? TotalOtherCosts { get; set; }
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }

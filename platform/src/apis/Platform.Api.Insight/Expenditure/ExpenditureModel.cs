@@ -36,7 +36,6 @@ public abstract record ExpenditureBaseModel
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
     public decimal? TotalOtherCosts { get; set; }
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }
@@ -81,7 +80,6 @@ public abstract record ExpenditureBaseModel
     public decimal? CateringStaffCostsCS { get; set; }
     public decimal? CateringSuppliesCostsCS { get; set; }
     public decimal? TotalOtherCostsCS { get; set; }
-    public decimal? DirectRevenueFinancingCostsCS { get; set; }
     public decimal? GroundsMaintenanceCostsCS { get; set; }
     public decimal? IndirectEmployeeExpensesCS { get; set; }
     public decimal? InterestChargesLoanBankCS { get; set; }

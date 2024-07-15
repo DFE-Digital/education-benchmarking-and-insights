@@ -42,7 +42,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public decimal? WaterSewerageCosts { get; init; }
 
     // Other costs
-    public decimal? DirectRevenueFinancingCosts { get; init; }
     public decimal? GroundsMaintenanceCosts { get; init; }
     public decimal? IndirectEmployeeExpenses { get; init; }
     public decimal? InterestChargesLoanBank { get; init; }
@@ -115,7 +114,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
         WaterSewerageCosts = customData.WaterSewerageCosts,
 
         // Other costs
-        DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
         GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
         IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
         InterestChargesLoanBank = customData.InterestChargesLoanBank,
@@ -173,7 +171,6 @@ public static class SchoolCustomDataViewModelTitles
     public const string TeachingStaffCosts = "Teaching staff";
     public const string EnergyCosts = "Energy";
     public const string WaterSewerageCosts = "Water and sewerage";
-    public const string DirectRevenueFinancingCosts = "Direct revenue financing";
     public const string GroundsMaintenanceCosts = "Grounds maintenance";
     public const string IndirectEmployeeExpenses = "Indirect employee expenses";
     public const string InterestChargesLoanBank = "Interest charges for loan and bank";

@@ -99,20 +99,6 @@ export const OtherCosts: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data?.map((school) => {
-            return {
-              ...school,
-              value: school.directRevenueFinancingCosts,
-            };
-          }) ?? [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
   const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
@@ -316,14 +302,6 @@ export const OtherCosts: React.FC<{
             >
               <h3 className="govuk-heading-s">
                 Other insurance premiums costs
-              </h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={directRevenueFinancingCostsBarData}
-              chartName="direct revenue financing costs"
-            >
-              <h3 className="govuk-heading-s">
-                Direct revenue financing costs
               </h3>
             </HorizontalBarChartWrapper>
             <HorizontalBarChartWrapper

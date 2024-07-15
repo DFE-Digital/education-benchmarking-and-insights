@@ -28,7 +28,6 @@ public interface IFinancialDataCustomDataViewModel : ICustomDataViewModel
     decimal? TeachingStaffCosts { get; }
     decimal? EnergyCosts { get; }
     decimal? WaterSewerageCosts { get; }
-    decimal? DirectRevenueFinancingCosts { get; }
     decimal? GroundsMaintenanceCosts { get; }
     decimal? IndirectEmployeeExpenses { get; }
     decimal? InterestChargesLoanBank { get; }
@@ -139,10 +138,6 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
     public decimal? WaterSewerageCosts { get; init; }
 
     // Other costs
-    [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts)]
-    public decimal? DirectRevenueFinancingCosts { get; init; }
-
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts)]
     public decimal? GroundsMaintenanceCosts { get; init; }
