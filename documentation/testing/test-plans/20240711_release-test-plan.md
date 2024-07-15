@@ -2,7 +2,7 @@
 Release date: 11/07/2024
 
 ## Introduction
-Objective: The purpose of this test plan is to outline the approach and scope for testing the bug fixes made today. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
+Objective: The purpose of this test plan is to outline the approach and scope for testing the bug fixes made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
 
 ### Scope 
 The scope of this testing plan includes thoroughly testing of the fixes made to ensure they function as intended.
