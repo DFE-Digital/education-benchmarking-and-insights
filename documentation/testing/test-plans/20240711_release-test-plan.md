@@ -64,7 +64,10 @@ Release test plan
 ### Exit Criteria:
 - all identified and logged issues during the testing phases are fixed and retested
 - sanity check in preprod are completed
-- all planned tests have been completed and with no pending issues
+- All tests have been completed, with any issues found logged in the product backlog
+- Issue priority agreed with Product owner;
+    - Any new critical issues found during release test are resolved prior to release and retested
+    - Any new major/minor issues found during release test will be scheduled for next release
 
 
 ## Risk Management
