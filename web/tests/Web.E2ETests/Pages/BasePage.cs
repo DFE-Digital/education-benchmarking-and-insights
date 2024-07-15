@@ -11,7 +11,7 @@ public abstract class BasePage(IPage page)
     private ILocator CookieFormButton => Page.Locator(Selectors.CookieFormButton);
     private ILocator CookieBannerButton(string accept) => Page.Locator(string.Format(Selectors.CookieBannerButtonFormat, accept));
     private ILocator CookieBannerDismissed(string accept) => Page.Locator(string.Format(Selectors.CookieBannerDismissedFormat, accept));
-    private ILocator CookieFormRadio(string accept) => Page.Locator(string.Format(Selectors.CookieFormRadioFormat, accept == "accept" ? string.Empty : "-2"));
+    private ILocator CookieFormRadio(string accept) => Page.Locator(string.Format(Selectors.CookieFormRadioFormat, accept));
 
     public abstract Task IsDisplayed();
 
