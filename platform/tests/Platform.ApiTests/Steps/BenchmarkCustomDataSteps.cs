@@ -48,8 +48,8 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         await api.Send();
     }
 
-    [Then("the the custom data response should contain:")]
-    private async Task ThenTheTheCustomDataResponseShouldContain(Table table)
+    [Then("the custom data response should contain:")]
+    private async Task ThenTheCustomDataResponseShouldContain(Table table)
     {
         var response = api[CustomDataKey].Response;
 
@@ -61,22 +61,22 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         Assert.Equal(GetJsonFromTable(table), result.Data);
     }
 
-    [Then("the the custom data response should return accepted")]
-    private void ThenTheTheCustomDataResponseShouldReturnAccepted()
+    [Then("the custom data response should return accepted")]
+    private void ThenTheCustomDataResponseShouldReturnAccepted()
     {
         var response = api[CustomDataKey].Response;
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
-    [Then("the the custom data response should return ok")]
-    private void ThenTheTheCustomDataResponseShouldReturnOk()
+    [Then("the custom data response should return ok")]
+    private void ThenTheCustomDataResponseShouldReturnOk()
     {
         var response = api[CustomDataKey].Response;
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Then("the the custom data response should return not found")]
-    private void ThenTheTheCustomDataResponseShouldReturnNotFound()
+    [Then("the custom data response should return not found")]
+    private void ThenTheCustomDataResponseShouldReturnNotFound()
     {
         var response = api[CustomDataKey].Response;
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
