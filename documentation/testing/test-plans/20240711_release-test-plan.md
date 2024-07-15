@@ -62,8 +62,6 @@ Release test plan
 - All changes have been deployed in pre-production environment
 
 ### Exit Criteria:
-- all identified and logged issues during the testing phases are fixed and retested
-- sanity check in preprod are completed
 - All tests have been completed, with any issues found logged in the product backlog
 - Issue priority agreed with Product owner;
     - Any new critical issues found during release test are resolved prior to release and retested
