@@ -98,7 +98,7 @@ public class FinancialPlansFunctions
     }
 
     [FunctionName(nameof(QueryFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanSummary), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<FinancialPlanSummary>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs to exclude", DataType = typeof(string[]), Required = true)]
     public async Task<IActionResult> QueryFinancialPlanAsync(
