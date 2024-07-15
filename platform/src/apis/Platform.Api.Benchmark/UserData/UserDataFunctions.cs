@@ -26,7 +26,7 @@ public class UserDataFunctions
     }
 
     [FunctionName(nameof(QueryAsync))]
-    [ProducesResponseType(typeof(UserData), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<UserData>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("userId", "User Id", DataType = typeof(string), Required = true)]
     [QueryStringParameter("type", "Type", DataType = typeof(string), Required = false)]
