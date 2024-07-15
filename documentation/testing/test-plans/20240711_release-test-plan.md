@@ -63,7 +63,7 @@ Release test plan
 
 ### Exit Criteria: 
 - testing is complete
-- logged issues are fixed and retested
+- all logged issues are fixed and retested
 - sanity check in preprod are completed
 
 
