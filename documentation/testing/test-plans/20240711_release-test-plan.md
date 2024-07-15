@@ -2,35 +2,24 @@
 Release date: 11/07/2024
 
 ## Introduction
-Objective: The purpose of this test plan is to outline the approach and scope for testing the new features and updates being implemented today. It will detail the various types of testing that will be conducted to ensure the quality and functionality of the changes, including functional, integration, regression, and user acceptance testing. This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
+Objective: The purpose of this test plan is to outline the approach and scope for testing the bug fixes made today. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
 
 ### Scope 
-The scope of this testing plan includes thoroughly testing the new features and updates to ensure they function as intended. Additionally, regression testing will be performed on the existing system to verify that the new changes have not introduced any new issues. However, load testing, performance testing, and data testing are outside the scope of today's testing activities and will not be conducted.
-
+The scope of this testing plan includes thoroughly testing of the fixes made to ensure they function as intended.
 
 ## Test Strategy
 ### Types of Testing
-#### Automated Testing:
-- End-to-End (E2E) Testing
-- Integration Testing
-- Unit Testing
-#### Manual Testing:
-- Functional Testing
-- Regression Testing for non-automated services
+- Manual Functional Testing
 - Sanity Testing
 ## Levels of Testing
 ## Approach
-### Automated Testing:
-All automated tests, including E2E, integration, and unit tests, will be executed as part of the continuous integration/continuous deployment (CI/CD) pipeline. These tests will provide quick feedback on the stability and functionality of the new features and updates.
-### Manual Testing: 
-Manual functional testing will be carried out to validate the new features and updates. Additionally, regression testing will be performed on parts of the service that are not covered by automated tests to ensure no existing functionality is broken. Sanity testing will also be conducted to verify that the key functionalities are working as expected after the updates. Details of the testing is mentioned later in the document.
-### Regression Testing: 
-Once all changes are merged in master, regression testing will be carried out to ensure rest of the service is working as expected and none other parts of the service has been affected by the updates. 
+### Manual functional Testing: 
+Manual functional testing will be carried out to validate fixes are in place in pre-prod. 
 ### Sanity Testing
-This Testing will be carried out in Pre prod to ensure all functionalities are working as expected. 
+This Testing will be carried out in pre-prod to ensure all functionalities are working as expected. 
 
 ## Test Scope
-### Features/Issues to be Tested:
+### Issues to be Tested:
 - [217481- App insights Analytics ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/217481) - this is part of the analytics work. further work will follow this.
 
 The above dashboard is manually checked while interacting with the service and validated that the interaction is recorded in the MI and OI dashboard. Sanity testing is also performed on the system making sure all major parts of the service are working as expected. 
@@ -55,8 +44,10 @@ if the school don't have current year data then benchmarking pages are throwing 
 
 This is related to Raw data that was used for trust details. Updated it to read Trust details from GIAS files which has resolved this issue. We have validated this by checking existing trust names with the updated ones and the ones that are not matching were compared with GIAS files. This ensures now we have correct trusts as expected. 
 
-- [218046 - Learn@ MAT appears to be using incorrect Group UID]()
-### Features/Issues Not to be Tested:
+- [218046 - Learn@ MAT appears to be using incorrect Group UID](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218046)
+
+This is related to the raw data that was used for trust details which was causing duplicate UIDs. We have ensured now that there are no duplicate UIDs for the trusts which are linked with schools. 
+### Issues Not to be Tested:
 n/a
 
 ## Test Deliverables
@@ -64,17 +55,15 @@ n/a
 Summary of testing performed and outcomes. 
 
 ### Reports:
-release test plan
+Release test plan
 
 ## Entry and Exit Criteria
 ### Entry Criteria:
-- dev work is complete
-- all unit, integration, e2e tests passing
+- all changes are in preprod after passing through the earlier quality gates 
 
 ### Exit Criteria: 
 - testing is complete
 - logged issues are fixed and retested
-- features are retested in pre prod 
 - sanity check in preprod are completed
 
 
