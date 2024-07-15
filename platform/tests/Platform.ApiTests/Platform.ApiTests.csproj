@@ -7,6 +7,7 @@
         <IsTestProject>true</IsTestProject>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <LangVersion>latest</LangVersion>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     </PropertyGroup>
     <ItemGroup>
         <Using Include="TechTalk.SpecFlow"/>
