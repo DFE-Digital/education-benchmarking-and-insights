@@ -6,16 +6,23 @@ namespace Web.E2ETests.Steps;
 
 [Binding]
 [Scope(Feature = "Manage cookies")]
-public class ManageCookiesSteps(PageDriver driver)
+public class ManageCookiesSteps(PageDriver driver, PageDriverWithJavaScriptDisabled driverNoJs)
 {
     private CookiesPage? _cookiesPage;
     private HomePage? _homePage;
+    private bool _javascriptDisabled;
+
+    [Given("JavaScript is '(.*)'")]
+    public void GivenJavaScriptIs(string enabled)
+    {
+        _javascriptDisabled = enabled == "disabled";
+    }
 
     [Given("I am on home page")]
     public async Task GivenIAmOnHomePage()
     {
         var url = HomePageUrl();
-        var page = await driver.Current;
+        var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
         await page.GotoAndWaitForLoadAsync(url);
 
         _homePage = new HomePage(page);
@@ -80,11 +87,25 @@ public class ManageCookiesSteps(PageDriver driver)
         }
     }
 
+    [Then("the cookie banner is not displayed")]
+    public async Task ThenTheCookieBannerIsNotDisplayed()
+    {
+        Assert.NotNull(_homePage);
+        await _homePage.CookieBannerIsNotDisplayed();
+    }
+
     [Then("the cookie banner is dismissed with the '(.*)' message")]
     public async Task ThenTheCookieBannerIsDismissedWithTheMessage(string accept)
     {
-        Assert.NotNull(_homePage);
-        await _homePage.CookieBannerIsDismissed(accept);
+        if (_homePage != null)
+        {
+            await _homePage.CookieBannerIsDismissed(accept);
+        }
+
+        if (_cookiesPage != null)
+        {
+            await _cookiesPage.CookieBannerIsDismissed(accept);
+        }
     }
 
     [Then("the cookies saved banner is displayed")]
