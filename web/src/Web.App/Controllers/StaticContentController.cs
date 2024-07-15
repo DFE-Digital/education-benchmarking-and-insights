@@ -32,12 +32,12 @@ public class StaticContentController : Controller
 
     [HttpGet]
     [Route("cookies")]
-    public IActionResult Cookies()
+    public IActionResult Cookies([FromQuery(Name = "cookies-saved")] bool cookiesSaved = false)
     {
         ViewData[ViewDataKeys.UseJsBackLink] = true;
 
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
-        var vm = new StaticCookiesViewModel(Constants.CookieSettingsName, cookiePolicy != "disabled");
+        var vm = new StaticCookiesViewModel(Constants.CookieSettingsName, cookiePolicy != "disabled", cookiesSaved);
         return View(vm);
     }
 
@@ -58,7 +58,12 @@ public class StaticContentController : Controller
             HttpContext.Response.Cookies.Delete("ai_user");
         }
 
-        return RedirectToAction("Cookies");
+        return RedirectToAction("Cookies", new Dictionary<string, string>
+        {
+            {
+                "cookies-saved", "true"
+            }
+        });
     }
 
     // TODO: review for public beta

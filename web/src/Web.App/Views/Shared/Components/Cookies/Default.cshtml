@@ -4,23 +4,32 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-                    Cookies on @Constants.ServiceName
+                    Cookies on the @Constants.ServiceName
                 </h2>
                 <div class="govuk-cookie-banner__content">
-                    <p class="govuk-body">We use some essential cookies to make this service work.</p>
-                    <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+                    <p class="govuk-body">We use some essential cookies to make this tool work.</p>
+                    <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the tool and make improvements.</p>
                 </div>
             </div>
         </div>
-        <div class="govuk-button-group">
-            <button type="button" class="govuk-button" data-module="govuk-button" id="accept-cookies">
-                Accept analytics cookies
-            </button>
-            <button type="button" class="govuk-button" data-module="govuk-button" id="reject-cookies">
-                Reject analytics cookies
-            </button>
-            <a class="govuk-link" href="@Url.Action("Cookies", "StaticContent")">View cookies</a>
-        </div>
+        @using (Html.BeginForm("SaveCookies", "StaticContent", new
+                {
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate",
+                    id = "cookie-settings-banner-form"
+                }))
+        {
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button" id="accept-cookies" name="cookies-analytics" value="true">
+                    Accept analytics cookies
+                </button>
+                <button type="submit" class="govuk-button" data-module="govuk-button" id="reject-cookies" name="cookies-analytics" value="false">
+                    Reject analytics cookies
+                </button>
+                <a class="govuk-link" href="@Url.Action("Cookies", "StaticContent")">View cookies</a>
+            </div>
+        }
     </div>
     <div class="govuk-cookie-banner__message govuk-width-container" role="alert" hidden id="accepted-cookies-banner">
         <div class="govuk-grid-row">
@@ -57,6 +66,7 @@
         if (window.setAppInsightsCookieEnabled !== undefined) {
             window.setAppInsightsCookieEnabled(enabled);
         }
+        
         document.cookie = `@Model.CookieName=${enabled ? "enabled" : "disabled"}; path=/; max-age=${60 * 60 * 24 * 365}; secure;`;
         document.getElementById("unselected-cookies-banner").setAttribute("hidden", "hidden");
         if (enabled) {
@@ -71,12 +81,12 @@
     }
     
     var cookiesBanner = document.getElementById("cookies-banner");
-    if (cookiesBanner !== undefined) {
+    if (cookiesBanner !== undefined && document.location.pathname !== "/cookies") {
         var acceptButton = document.getElementById("accept-cookies");
-        acceptButton.addEventListener("click", () => acceptOrRejectClick(true));
+        acceptButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(true); });
         
         var rejectButton = document.getElementById("reject-cookies");
-        rejectButton.addEventListener("click", () => acceptOrRejectClick(false));
+        rejectButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(false); });
         
         var hideCookiesButtons = document.getElementsByClassName("hide-cookies");
         for (var i = 0; i < hideCookiesButtons.length; i++) {
