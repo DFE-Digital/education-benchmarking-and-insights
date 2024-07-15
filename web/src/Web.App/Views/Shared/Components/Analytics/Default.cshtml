@@ -44,9 +44,7 @@
     if (window !== undefined) {
         window.setAppInsightsCookieEnabled = function (enabled) {
             if (!_sdk) return;
-            console.debug("isEnabled was", _sdk.getCookieMgr().isEnabled());
             _sdk.getCookieMgr().setEnabled(enabled);
-            console.debug("isEnabled now", _sdk.getCookieMgr().isEnabled());
         }
     }
 </script>
