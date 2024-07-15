@@ -70,10 +70,11 @@ Release test plan
 
 ## Risk Management
 ### Risk Identification:
-n/a
+Pre-production and production has existing data, which requires updating
 
 ### Risk Mitigation: 
-n/a
+- Ran in isolated clean environment prior to release to confirm fixes
+- Ran in test environment which has identical data to pre-prod and production to confirm fixes
 
 ## Review and Approval
 ### Review Process: 
