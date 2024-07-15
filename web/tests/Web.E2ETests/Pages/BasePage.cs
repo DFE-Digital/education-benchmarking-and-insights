@@ -8,16 +8,21 @@ public abstract class BasePage(IPage page)
     protected ILocator PageH1Heading => Page.Locator($"main {Selectors.H1}");
 
     private ILocator CookieBanner => Page.Locator(Selectors.CookieBanner);
+    private ILocator CookieFormButton => Page.Locator(Selectors.CookieFormButton);
     private ILocator CookieBannerButton(string accept) => Page.Locator(string.Format(Selectors.CookieBannerButtonFormat, accept));
     private ILocator CookieBannerDismissed(string accept) => Page.Locator(string.Format(Selectors.CookieBannerDismissedFormat, accept));
     private ILocator CookieFormRadio(string accept) => Page.Locator(string.Format(Selectors.CookieFormRadioFormat, accept == "accept" ? string.Empty : "-2"));
-    private ILocator CookieFormButton => Page.Locator(Selectors.CookieFormButton);
 
     public abstract Task IsDisplayed();
 
     public async Task CookieBannerIsDisplayed()
     {
         await CookieBanner.ShouldBeVisible();
+    }
+
+    public async Task CookieBannerIsNotDisplayed()
+    {
+        await CookieBanner.ShouldNotBeVisible();
     }
 
     public async Task CookieBannerIsDismissed(string accept)

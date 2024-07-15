@@ -1,5 +1,5 @@
 ﻿@model Web.App.ViewModels.Components.CookiesViewModel
-<div class="govuk-cookie-banner" data-nosnippet role="region" aria-label="Cookies on @Constants.ServiceName" id="cookies-banner">
+<div class="govuk-cookie-banner" data-nosnippet role="region" aria-label="Cookies on @Constants.ServiceName" id="cookies-banner" hidden>
     <div class="govuk-cookie-banner__message govuk-width-container" id="unselected-cookies-banner">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -12,24 +12,15 @@
                 </div>
             </div>
         </div>
-        @using (Html.BeginForm("SaveCookies", "StaticContent", new
-                {
-                }, FormMethod.Post, true, new
-                {
-                    novalidate = "novalidate",
-                    id = "cookie-settings-banner-form"
-                }))
-        {
-            <div class="govuk-button-group">
-                <button type="submit" class="govuk-button" data-module="govuk-button" id="accept-cookies" name="cookies-analytics" value="true">
-                    Accept analytics cookies
-                </button>
-                <button type="submit" class="govuk-button" data-module="govuk-button" id="reject-cookies" name="cookies-analytics" value="false">
-                    Reject analytics cookies
-                </button>
-                <a class="govuk-link" href="@Url.Action("Cookies", "StaticContent")">View cookies</a>
-            </div>
-        }
+        <div class="govuk-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button" id="accept-cookies" name="cookies-analytics" value="true">
+                Accept analytics cookies
+            </button>
+            <button type="submit" class="govuk-button" data-module="govuk-button" id="reject-cookies" name="cookies-analytics" value="false">
+                Reject analytics cookies
+            </button>
+            <a class="govuk-link" href="@Url.Action("Cookies", "StaticContent")">View cookies</a>
+        </div>
     </div>
     <div class="govuk-cookie-banner__message govuk-width-container" role="alert" hidden id="accepted-cookies-banner">
         <div class="govuk-grid-row">
@@ -81,7 +72,9 @@
     }
     
     var cookiesBanner = document.getElementById("cookies-banner");
-    if (cookiesBanner !== undefined && document.location.pathname !== "/cookies") {
+    if (cookiesBanner !== undefined) {
+        cookiesBanner.removeAttribute("hidden");
+    
         var acceptButton = document.getElementById("accept-cookies");
         acceptButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(true); });
         

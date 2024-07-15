@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using Microsoft.Playwright;
 using TechTalk.SpecFlow.Infrastructure;
-
 namespace Web.E2ETests.Drivers;
 
 public class PageDriver : IDisposable
@@ -10,11 +9,16 @@ public class PageDriver : IDisposable
     private readonly ISpecFlowOutputHelper _output;
     private readonly ConcurrentDictionary<string, byte> _pendingRequests;
 
-    private bool _isDisposed;
+    protected readonly BrowserNewContextOptions ContextOptions = new()
+    {
+        IgnoreHTTPSErrors = true
+    };
     private IBrowser? _browser;
+
+    private bool _isDisposed;
     private IPlaywright? _playwright;
 
-    public PageDriver(ISpecFlowOutputHelper output)
+    protected PageDriver(ISpecFlowOutputHelper output)
     {
         _current = new Lazy<Task<IPage>>(CreatePageDriver);
         _output = output;
@@ -69,8 +73,7 @@ public class PageDriver : IDisposable
     {
         _browser ??= await InitialiseBrowser();
 
-        var contextOptions = new BrowserNewContextOptions { IgnoreHTTPSErrors = true };
-        var browserContext = await _browser.NewContextAsync(contextOptions);
+        var browserContext = await _browser.NewContextAsync(ContextOptions);
 
         var page = await browserContext.NewPageAsync();
         if (TestConfiguration.OutputPageResponse)
@@ -89,12 +92,20 @@ public class PageDriver : IDisposable
     private async Task<IBrowser> InitialiseBrowser()
     {
         _playwright ??= await InitialisePlaywright();
-        var launchOptions = new BrowserTypeLaunchOptions { Headless = TestConfiguration.Headless };
+        var launchOptions = new BrowserTypeLaunchOptions
+        {
+            Headless = TestConfiguration.Headless
+        };
         return await _playwright.Chromium.LaunchAsync(launchOptions);
     }
 
-    private async Task<IPlaywright> InitialisePlaywright()
+    private async Task<IPlaywright> InitialisePlaywright() => await Playwright.CreateAsync();
+}
+
+public class PageDriverWithJavaScriptDisabled : PageDriver
+{
+    public PageDriverWithJavaScriptDisabled(ISpecFlowOutputHelper output) : base(output)
     {
-        return await Playwright.CreateAsync();
+        ContextOptions.JavaScriptEnabled = false;
     }
 }
