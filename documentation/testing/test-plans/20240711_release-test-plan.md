@@ -61,10 +61,10 @@ Release test plan
 ### Entry Criteria:
 - all changes are in preprod after passing through the earlier quality gates 
 
-### Exit Criteria: 
-- testing is complete
-- all logged issues are fixed and retested
+### Exit Criteria:
+- all identified and logged issues during the testing phases are fixed and retested
 - sanity check in preprod are completed
+- all planned tests have been completed and with no pending issues
 
 
 ## Risk Management
