@@ -2,7 +2,7 @@
 Release date: 11/07/2024
 
 ## Introduction
-Objective: The purpose of this test plan is to outline the approach and scope for testing the bug fixes made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
+Objective: The purpose of this test plan is to outline the approach and scope for testing the bug fixes and updates made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
 
 ### Scope 
 This test plan covers the functional and sanity testing to validate all features and bug fixes included in the release.
@@ -13,9 +13,9 @@ This test plan covers the functional and sanity testing to validate all features
 ## Levels of Testing
 ## Approach
 ### Manual functional Testing: 
-Manual functional testing will be carried out to validate fixes are in place in pre-prod. 
+Manual functional testing will be carried out to validate fixes and updates are in place in pre-prod. 
 ### Sanity Testing
-This Testing will be carried out in pre-prod to ensure all functionalities are working as expected. 
+This testing will be carried out in pre-prod to ensure all functionalities are working as expected. 
 
 ## Test Scope
 ### Issues to be Tested:
@@ -58,7 +58,7 @@ Release test plan
 
 ## Entry and Exit Criteria
 ### Entry Criteria:
-- All Fixes have successfully passed lower quality gates 
+- All Fixes and updates have successfully passed lower quality gates 
 - All changes have been deployed in pre-production environment
 
 ### Exit Criteria:
