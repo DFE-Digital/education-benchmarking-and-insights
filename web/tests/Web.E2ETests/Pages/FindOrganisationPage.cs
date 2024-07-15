@@ -1,5 +1,4 @@
 ﻿using Microsoft.Playwright;
-using Web.E2ETests.Pages.School;
 
 namespace Web.E2ETests.Pages;
 
@@ -40,11 +39,11 @@ public class FindOrganisationPage(IPage page)
         await page.Keyboard.PressAsync(EnterKey);
     }
 
-    public async Task<HomePage> ClickContinue()
+    public async Task<School.HomePage> ClickContinue()
     {
         await ContinueButton.ClickAsync();
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        return new HomePage(page);
+        return new School.HomePage(page);
     }
 
     public async Task SelectOrganisationType(OrganisationTypes type)
