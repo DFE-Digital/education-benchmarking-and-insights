@@ -59,7 +59,8 @@ Release test plan
 
 ## Entry and Exit Criteria
 ### Entry Criteria:
-- all changes are in preprod after passing through the earlier quality gates 
+- All Fixes have successfully passed lower quality gates 
+- All changes have been deployed in pre-production environment
 
 ### Exit Criteria:
 - all identified and logged issues during the testing phases are fixed and retested
