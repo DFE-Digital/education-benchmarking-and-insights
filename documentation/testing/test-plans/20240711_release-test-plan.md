@@ -70,7 +70,7 @@ Release test plan
 
 ## Risk Management
 ### Risk Identification:
-Pre-production and production has existing data, which requires updating
+Pre-production and production has existing data, which will require updating/modifying as the fixes included in this release correct the data mappings/calculation.
 
 ### Risk Mitigation: 
 - Ran in isolated clean environment prior to release to confirm fixes
