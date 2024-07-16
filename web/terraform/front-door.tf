@@ -185,7 +185,7 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   timeout                 = 60
   enabled                 = true
   retry_enabled           = true
-  geo_locations           = ["emea-nl-ams-azr", "emea-se-sto-edge", "emea-ru-msa-edge", "emea-gb-db3-azr", "emea-fr-pra-edge"]
+  geo_locations           = ["emea-se-sto-edge", "emea-ru-msa-edge"]
 
   lifecycle {
     ignore_changes = [tags]
