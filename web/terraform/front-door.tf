@@ -92,7 +92,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   custom_rule {
     name     = "block-uk-geo-location"
     action   = "Block"
-    priority = 1
+    priority = 2
     type     = "MatchRule"
 
     match_condition {
