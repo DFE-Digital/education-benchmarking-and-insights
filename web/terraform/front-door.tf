@@ -73,7 +73,35 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   tags                = local.common-tags
 
   sku_name = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name
-  mode     = "Detection"
+  mode     = var.configuration[var.environment].waf_mode
+
+  custom_rule {
+    name     = "block-invalid-request-method"
+    action   = "Block"
+    priority = 1
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "RequestMethod"
+      operator           = "Equal"
+      negation_condition = true
+      match_values       = ["GET", "POST"]
+    }
+  }
+
+  custom_rule {
+    name     = "block-uk-geo-location"
+    action   = "Block"
+    priority = 2
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "SocketAddr"
+      operator           = "GeoMatch"
+      negation_condition = true
+      match_values       = ["GB"]
+    }
+  }
 
   dynamic "managed_rule" {
     for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
