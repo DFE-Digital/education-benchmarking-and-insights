@@ -5,12 +5,14 @@
         And I am on home page
         When I have no cookies in context
         Then the cookie banner is displayed
+        And I have no cookies in context
 
     Scenario: Cookie banner is not displayed on home page when JavaScript disabled
         Given JavaScript is 'disabled'
         And I am on home page
         When I have no cookies in context
         Then the cookie banner is not displayed
+        And I have no cookies in context
 
     Scenario: Cookies may be accepted on home page
         Given JavaScript is 'enabled'

@@ -73,6 +73,13 @@ public class ManageCookiesSteps(PageDriver driver, PageDriverWithJavaScriptDisab
         await _cookiesPage.ClickCookieFormSubmit();
     }
 
+    [Then("I have no cookies in context")]
+    public async Task ThenIHaveNoCookiesInContext()
+    {
+        Assert.NotNull(_homePage);
+        Assert.False(await _homePage.HasCookies());
+    }
+
     [Then("the cookie banner is displayed")]
     public async Task ThenTheCookieBannerIsDisplayed()
     {
