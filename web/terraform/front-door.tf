@@ -92,20 +92,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   custom_rule {
     name     = "block-uk-geo-location"
     action   = "Block"
-    priority = 2
-    type     = "MatchRule"
-
-    match_condition {
-      match_variable     = "SocketAddr"
-      operator           = "GeoMatch"
-      negation_condition = true
-      match_values       = ["GB"]
-    }
-  }
-
-  custom_rule {
-    name     = "block-uk-geo-location"
-    action   = "Block"
     priority = 1
     type     = "MatchRule"
 
