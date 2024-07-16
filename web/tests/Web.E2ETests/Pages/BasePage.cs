@@ -44,4 +44,9 @@ public abstract class BasePage(IPage page)
     {
         await CookieFormButton.ClickAsync();
     }
+
+    public async Task<bool> HasCookies()
+    {
+        return (await page.Context.CookiesAsync()).Any();
+    }
 }
