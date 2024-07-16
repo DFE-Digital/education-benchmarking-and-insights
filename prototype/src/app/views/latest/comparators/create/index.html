@@ -1,0 +1,73 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+  Create a custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form action="/{{ version }}/comparators/create" method="post">
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <!---<h1 class="govuk-heading-l">How do you want to choose similar schools?</h1>
+
+        {{ govukInsetText({
+          text: "Custom comparator sets are not currently saved and will be lost when you end your session."
+        }) }} --->
+        
+
+        {{ govukRadios({
+          name: "compareRoute",
+          fieldset: {
+            legend: {
+              text: "How do you want to choose your set of schools?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "by-name?editSet=false",
+              text: "By name",
+              checked: checked("compareRoute", "by-name?editSet=false")
+            },
+            {
+              value: "characteristics",
+              text: "By characteristic",
+              checked: checked("compareRoute", "characteristics"),
+              hint: { text: "For example, number of pupils or building size." }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-button--primary"
+        }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

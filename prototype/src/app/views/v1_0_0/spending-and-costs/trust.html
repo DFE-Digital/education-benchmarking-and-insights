@@ -1,0 +1,1756 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+Spending priorities for this trust - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your trust",
+        href: "/" + version + "/trust-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Spending priorities for this trust</h1>
+
+        <p class="govuk-body">
+            Spending is broken down into costs and compared with similar schools.<br />
+            All data is 2022 to 2023 consistent financial reporting (CFR).
+        </p>
+
+        <div class="govuk-grid-row">
+            <aside class="govuk-grid-column-one-quarter">
+                <h3 class="govuk-heading-s">Filter priority schools</h3>
+        
+                <form method="get">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="priority">
+                            Priority
+                        </label>
+                        <select class="govuk-select" id="priority" name="priority">
+                            <option value="">All priorities</option>
+                            <option value="high" {% if data['priority'] == 'high' %}selected="selected"{% endif %}>High priority</option>
+                            <option value="medium" {% if data['priority'] == 'medium' %}selected="selected"{% endif %}>Medium priority</option>
+                            <option value="low" {% if data['priority'] == 'low' %}selected="selected"{% endif %}>Low priority</option>
+                        </select>
+                    </div>
+        
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="category">
+                            Cost category
+                        </label>
+                        <select class="govuk-select" id="category" name="category">
+                            <option value="">All categories</option>
+                            <option value="teaching-and-teaching-support-staff" {% if data['category'] == 'teaching-and-teaching-support-staff' %}selected="selected"{% endif %}>Teaching and Teaching support staff</option>
+                            <option value="non-educational-support-staff-and-services" {% if data['category'] == 'non-educational-support-staff-and-services' %}selected="selected"{% endif %}>Non-educational support staff and services</option>
+                            <option value="educational-supplies" {% if data['category'] == 'educational-supplies' %}selected="selected"{% endif %}>Educational supplies</option>
+                            <option value="educational-ict" {% if data['category'] == 'educational-ict' %}selected="selected"{% endif %}>Educational ICT</option>
+                            <option value="premises-staff-and-services" {% if data['category'] == 'premises-staff-and-services' %}selected="selected"{% endif %}>Premises staff and services</option>
+                            <option value="utilities" {% if data['category'] == 'utilities' %}selected="selected"{% endif %}>Utilities</option>
+                            <option value="administrative-supplies" {% if data['category'] == 'administrative-supplies' %}selected="selected"{% endif %}>Administrative supplies</option>
+                            <option value="catering-staff-and-supplies" {% if data['category'] == 'catering-staff-and-supplies' %}selected="selected"{% endif %}>Catering staff and supplies</option>
+                            <option value="other-costs" {% if data['category'] == 'other-costs' %}selected="selected"{% endif %}>Other costs</option>
+                        </select>
+                    </div>
+        
+                    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        Update filter
+                    </button>
+                </form>
+            </aside>
+            
+            <div class="govuk-grid-column-three-quarters">
+
+                {% if data['category'] == '' or data['category'] == 'administrative-supplies' %}
+
+                    <h2 class="govuk-heading-m" id="administrative-supplies">Administrative supplies</h2>
+
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    5 out of 15 schools are in the high priority range
+                                </p>
+
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-administrative-supplies-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£440</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£398</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£337</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£303</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£264</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    2 out of 15 schools are in the medium priority range
+                                </p>
+
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-administrative-supplies-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£289</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£163</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    8 out of 15 schools are in the low priority range
+                                </p>
+
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-administrative-supplies-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£110</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£109</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£73</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£72</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£50</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£44</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£43</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">8</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'catering-staff-and-supplies' %}
+
+                    <h2 class="govuk-heading-m" id="catering-staff-and-supplies">Catering staff and supplies</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    4 out of 15 schools are in the high priority range
+                                </p>
+
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-catering-staff-and-supplies-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£651</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£473</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£446</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£304</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    5 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-catering-staff-and-supplies-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£291</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£270</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£269</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£258</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£139</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    6 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-catering-staff-and-supplies-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£268</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£248</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£214</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£72</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£65</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'educational-ict' %}
+
+                    <h2 class="govuk-heading-m" id="educational-ict">Educational ICT</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    4 out of 15 schools are in the high priority range
+                                </p>
+                                
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-ict-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£175</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£129</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£115</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£101</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    7 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-ict-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£178</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£63</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£60</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£28</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£0</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    4 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-ict-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£24</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£22</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£12</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'educational-supplies' %}
+
+                    <h2 class="govuk-heading-m" id="educational-supplies">Educational supplies</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    5 out of 15 schools are in the high priority range
+                                </p>
+                                
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-supplies-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£721</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£556</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£192</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£156</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£82</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    5 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-supplies-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£871</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£743</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£306</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£254</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£142</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    5 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-educational-supplies-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£427</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£379</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£330</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£281</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£268</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'non-educational-support-staff-and-services' %}
+
+                    <h2 class="govuk-heading-m" id="non-educational-support-staff-and-services">Non-educational support staff and services</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    3 out of 15 schools are in the high priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-non-educational-support-staff-and-services-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5,212</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£1,058</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£860</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    7 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-non-educational-support-staff-and-services-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£771</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£667</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£536</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£478</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£422</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£389</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£376</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    5 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-non-educational-support-staff-and-services-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£453</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£376</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£345</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£320</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£248</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'other-costs' %}
+
+                    <h2 class="govuk-heading-m" id="other-costs">Other costs</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    4 out of 15 schools are in the high priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-other-costs-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£11,497</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£692</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£597</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£502</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    7 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-other-costs-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£246</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£188</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£187</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£170</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£97</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£89</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£63</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    4 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-other-costs-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£56</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£28</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">-£20</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">-£688</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'premises-staff-and-services' %}
+
+                    <h2 class="govuk-heading-m" id="premises-staff-and-services">Premises staff and services</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    6 out of 15 schools are in the high priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-premises-staff-and-services-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£92</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£71</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£61</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£51</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£46</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£41</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    8 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-premises-staff-and-services-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£40</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£38</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£38</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£38</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£37</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£37</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£30</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">8</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£28</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    1 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-premises-staff-and-services-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£11</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'teaching-and-teaching-support-staff' %}
+
+                    <h2 class="govuk-heading-m" id="teaching-and-teaching-support-staff">Teaching and Teaching support staff</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    5 out of 15 schools are in the high priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-teaching-and-teaching-support-staff-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£8,877</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,676</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£3,452</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£3,366</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£1,555</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    7 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-teaching-and-teaching-support-staff-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5,720</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5,210</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5,144</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£5,131</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,675</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,117</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,087</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    3 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-teaching-and-teaching-support-staff-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,916</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£4,303</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£3,763</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['category'] == '' or data['category'] == 'utilities' %}
+
+                    <h2 class="govuk-heading-m" id="utilities">Utilities</h2>
+                        {% if data['priority'] == '' or data['priority'] == 'high' %}
+                        <h3 class="govuk-heading-s">High priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority high">
+                                    <strong class="govuk-tag govuk-tag--red">
+                                        High priority
+                                    </strong>
+                                    1 out of 15 schools are in the high priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-utilities-red">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£23</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'medium' %}
+                        <h3 class="govuk-heading-s">Medium priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="priority medium">
+                                    <strong class="govuk-tag govuk-tag--yellow">
+                                        Medium priority
+                                    </strong>
+                                    10 out of 15 schools are in the medium priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-utilities-amber">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£25</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£22</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Sir Isaac Newton Sixth Form Free School">Sir Isaac Newton Sixth Form Free School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£21</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£21</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">5</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£21</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">6</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£18</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">7</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£18</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">8</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£17</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">9</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£11</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">10</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% if data['priority'] == '' or data['priority'] == 'low' %}
+                        <h3 class="govuk-heading-s">Low priority schools</h3>
+                        <div>
+                            <div>
+                                <p class="low priority">
+                                    <strong class="govuk-tag govuk-tag--green">
+                                        Low priority
+                                    </strong>
+                                    4 out of 15 schools are in the low priority range
+                                </p>
+                            </div>
+                        </div>
+                        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-utilities-green">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Rank</th>
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Expenditure</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">1</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£12</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">2</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£12</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">3</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£12</td>
+                                </tr>
+                                <tr class="govuk-table__row">
+                                    <td class="govuk-table__cell">4</td>
+                                    <td class="govuk-table__cell">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+                                    </td>
+                                    <td class="govuk-table__cell">£6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        {% endif %}
+                        {% endif %}
+
+        
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock %}

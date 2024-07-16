@@ -1,0 +1,111 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+  Find a school - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+{% set schoolsHtml %}
+
+{{ xGovukAutocomplete({
+    id: "school",
+    name: "school",
+    allowEmpty: false,
+    hint: {
+        text: "Name, address or unique reference number (URN)"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: schools
+  }) }}
+  
+{% endset -%}
+
+{% set trustsHtml %}
+
+{{ xGovukAutocomplete({
+    id: "trust",
+    name: "trust",
+    allowEmpty: false,
+    hint: {
+      text: "Name or company number"
+    },
+    items: trusts
+  }) }}
+{% endset -%}
+
+{% set authorityHtml %}
+
+{{ xGovukAutocomplete({
+    id: "authority",
+    name: "authority",
+    allowEmpty: false,
+    hint: {
+        text: "Name or 3 digit code"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: authorities
+  }) }}
+  
+{% endset -%}
+
+
+
+<form method="post" action="set-school" class="form">
+
+    <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                <h1 class="govuk-heading-l">Find a school, trust or local authority</h1>
+
+                {{ govukRadios({
+                name: "signIn",
+                fieldset: {
+                    legend: {
+                        text: "What are you looking for?",
+                        isPageHeading: false,
+                        classes: "govuk-fieldset__legend--m"
+                    }
+                },
+                items: [
+                    {
+                        value: "academy",
+                        text: "School or academy",
+                        checked: true,
+                        conditional: {
+                            html: schoolsHtml
+                        },
+                        checked: checked("signIn", "academy")
+                    },
+                    {
+                        value: "trust",
+                        text: "Trust",
+                        conditional: {
+                            html: trustsHtml
+                        },
+                        checked: checked("signIn", "trust")
+                    },
+                    {
+                        value: "authority",
+                        text: "Local authority",
+                        conditional: {
+                            html: authorityHtml
+                        },
+                        checked: checked("signIn", "authority")
+                    }
+                ]
+                }) }}
+
+
+            {{ govukButton({
+                text: "Continue"
+            }) }}
+
+        </div>
+    </div>
+
+</form>
+{% endblock %}

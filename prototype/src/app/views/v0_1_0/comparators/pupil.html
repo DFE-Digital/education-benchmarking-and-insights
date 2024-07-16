@@ -1,0 +1,577 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+
+{% extends "layouts/v0_1_0.html" %}
+
+{% block pageTitle %}
+  Pupil comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/" + version + "/comparators"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Pupil comparator set</h1>
+
+        {{ govukTable({
+          firstCellIsHeader: true,
+          head: [
+            {
+              text: "School"
+            },
+            {
+              text: "Type"
+            },
+            {
+              text: "Number of pupils"
+            },
+            {
+              text: "Ofsted rating"
+            },
+            {
+              text: "Percentage of free school meals"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Altrincham Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,029"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "5.5%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Ashbourne Secondary School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,860"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "7.6%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Aylesbury Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,045"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "15.4%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Beaconsfield High School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "792"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "16.2%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Bedford Secondary School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,501"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "6.0%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Boroughbridge High School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "445"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "8.7%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Bournemouth School for Girls</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,147"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "14.2%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Crypt School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,986"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "12.1%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Dr Challoner's High School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,759"
+              },
+              {
+                "text": "Outstanding"
+              },
+              {
+                "text": "15.8%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">King Edward VI Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,697"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "5.3%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Kendrick School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,747"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "8.2%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Langley Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,970"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "5.4%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Nonsuch High School for Girls</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,010"
+              },
+              {
+                "text": "Outstanding"
+              },
+              {
+                "text": "8.0%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Parmiter's School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "599"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "6.8%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Pate's Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,847"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "15.8%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Poole Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "448"
+              },
+              {
+                "text": "Requires improvement"
+              },
+              {
+                "text": "17.9%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Queen Elizabeth High School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "986"
+              },
+              {
+                "text": "Requires improvement"
+              },
+              {
+                "text": "6.2%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Queen Elizabeth's Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "711"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "14.7%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Queen Elizabeth's Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,303"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "11.3%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Reading School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,021"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "9.5%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Slough Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,439"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "14.8%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Sutton Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,180"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "10.6%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">The Henrietta Barnett School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,285"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "12.8%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">The Latymer School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "1,274"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "9.0%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">The Tiffin Girls' School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "778"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "10.2%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Upton-by-Chester High School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,426"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "11.7%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Wallington County Grammar School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "815"
+              },
+              {
+                "text": "Requires improvement"
+              },
+              {
+                "text": "5.4%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Watford Grammar School for Girls</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "788"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "14.9%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Wilson's School</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "2,504"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "16.1%"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"#\" class=\"govuk-link\">Wirral Grammar School for Girls</a>"
+              },
+              {
+                "text": "Secondary"
+              },
+              {
+                "text": "856"
+              },
+              {
+                "text": "Good"
+              },
+              {
+                "text": "4.9%"
+              }
+            ]
+          ]      
+        }) }}
+
+        <h2 class="govuk-heading-m">Custom comparator set</h2>
+        <p class="govuk-body">If you have a set of schools you would rather be compared with across all categories, you can <a href="/{{ version }}/comparators/create">create your own custom comparator set</a> to be used across all categories.</p>
+
+    </div>
+</div>
+{% endblock %}

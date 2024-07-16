@@ -1,0 +1,881 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+    {{ data['trust-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['trust-name'] }}</h1>
+<p><a href="/{{ version }}/find-school" class="govuk-link">Change trust</a></p>
+
+{% if confirmation == 'trust-reset' %}
+
+{{ govukNotificationBanner({
+    text: 'Your set of trusts has been removed',
+    type: "success"
+}) }}
+
+{% endif %}
+
+<p class="govuk-body">This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).
+</p>
+<div class="govuk-grid-row headline-figures">
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>In year balance</p>
+            <p>£826,943</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>Revenue reserve</p>
+            <p>£466,971</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>Number of academies</p>
+            <p>23</p>
+        </div>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Spending priorities for this trust</h2>
+
+<div class="govuk-grid-row priority-figures">
+    <div class="govuk-grid-column-one-third high">
+        <div>
+            <p>32</p>
+            <p>High priority costs</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third medium">
+        <div>
+            <p>76</p>
+            <p>Medium priority costs</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third low">
+        <div>
+            <p>321</p>
+            <p>Low priority costs</p>
+        </div>
+    </div>
+</div>
+
+<table class="govuk-table table-cost-category-rag">
+    <caption class="govuk-table__caption govuk-table__caption--m">Cost categories</caption>
+    <thead class="govuk-table__head govuk-visually-hidden">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Category</th>
+        <th scope="col" class="govuk-table__header">Sum of High/Medium/Low priority school cost categories</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=premises-staff-and-service" class="govuk-link govuk-link--no-visited-state">Premises staff and services</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="premises-staff-and-services-rag">
+        <title id="premises-staff-and-services-rag">6 high, 8 medium and 1 low priorities for Premises staff and services</title>
+                <a href="/{{ version }}/spending-and-costs/trust?priority=high&category=premises-staff-and-service" aria-label="6 high priority">
+            <rect role="presentation" x="0" y="0" width="40.0%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?priority=medium&category=premises-staff-and-service" aria-label="8 medium priority">
+            <rect role="presentation" x="40.0%" y="0" width="53.333333333333333333333333330%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?priority=low&category=premises-staff-and-service" aria-label="1 low priority">
+            <rect role="presentation" x="93.33333333333333333333333333%" y="0" width="6.6666666666666666666666666700%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=teaching-and-teaching-support-staff" class="govuk-link govuk-link--no-visited-state">Teaching and Teaching support staff</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="teaching-and-teaching-support-staff-rag">
+        <title id="teaching-and-teaching-support-staff-rag">5 high, 7 medium and 3 low priorities for Teaching and Teaching support staff</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=teaching-and-teaching-support-staff&amp;priority=high" aria-label="5 high priority">
+            <rect role="presentation" x="0" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=teaching-and-teaching-support-staff&amp;priority=medium" aria-label="7 medium priority">
+            <rect role="presentation" x="33.333333333333333333333333330%" y="0" width="46.666666666666666666666666670%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=teaching-and-teaching-support-staff&amp;priority=low" aria-label="3 low priority">
+            <rect role="presentation" x="80.00000000000000000000000000%" y="0" width="20.0%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=educational-supplies" class="govuk-link govuk-link--no-visited-state">Educational supplies</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="educational-supplies-rag">
+        <title id="educational-supplies-rag">5 high, 5 medium and 5 low priorities for Educational supplies</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-supplies&amp;priority=high" aria-label="5 high priority">
+            <rect role="presentation" x="0" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-supplies&amp;priority=medium" aria-label="5 medium priority">
+            <rect role="presentation" x="33.333333333333333333333333330%" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-supplies&amp;priority=low" aria-label="5 low priority">
+            <rect role="presentation" x="66.666666666666666666666666660%" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=administrative-supplies" class="govuk-link govuk-link--no-visited-state">Administrative supplies</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="administrative-supplies-rag">
+        <title id="administrative-supplies-rag">5 high, 2 medium and 8 low priorities for Administrative supplies</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=administrative-supplies&amp;priority=high" aria-label="5 high priority">
+            <rect role="presentation" x="0" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=administrative-supplies&amp;priority=medium" aria-label="2 medium priority">
+            <rect role="presentation" x="33.333333333333333333333333330%" y="0" width="13.333333333333333333333333330%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=administrative-supplies&amp;priority=low" aria-label="8 low priority">
+            <rect role="presentation" x="46.666666666666666666666666660%" y="0" width="53.333333333333333333333333330%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=educational-ict" class="govuk-link govuk-link--no-visited-state">Educational ICT</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="educational-ict-rag">
+        <title id="educational-ict-rag">4 high, 7 medium and 4 low priorities for Educational ICT</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-ict&amp;priority=high" aria-label="4 high priority">
+            <rect role="presentation" x="0" y="0" width="26.666666666666666666666666670%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-ict&amp;priority=medium" aria-label="7 medium priority">
+            <rect role="presentation" x="26.666666666666666666666666670%" y="0" width="46.666666666666666666666666670%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=educational-ict&amp;priority=low" aria-label="4 low priority">
+            <rect role="presentation" x="73.333333333333333333333333340%" y="0" width="26.666666666666666666666666670%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=catering-staff-and-supplies" class="govuk-link govuk-link--no-visited-state">Catering staff and supplies</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="catering-staff-and-supplies-rag">
+        <title id="catering-staff-and-supplies-rag">4 high, 5 medium and 6 low priorities for Catering staff and supplies</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=catering-staff-and-supplies&amp;priority=high" aria-label="4 high priority">
+            <rect role="presentation" x="0" y="0" width="26.666666666666666666666666670%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=catering-staff-and-supplies&amp;priority=medium" aria-label="5 medium priority">
+            <rect role="presentation" x="26.666666666666666666666666670%" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=catering-staff-and-supplies&amp;priority=low" aria-label="6 low priority">
+            <rect role="presentation" x="60.000000000000000000000000000%" y="0" width="40.0%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=non-educational-support-staff-and-services" class="govuk-link govuk-link--no-visited-state">Non-educational support staff and services</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="non-educational-support-staff-and-services-rag">
+        <title id="non-educational-support-staff-and-services-rag">3 high, 7 medium and 5 low priorities for Non-educational support staff and services</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=non-educational-support-staff-and-services&amp;priority=high" aria-label="3 high priority">
+            <rect role="presentation" x="0" y="0" width="20.0%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=non-educational-support-staff-and-services&amp;priority=medium" aria-label="7 medium priority">
+            <rect role="presentation" x="20.0%" y="0" width="46.666666666666666666666666670%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=non-educational-support-staff-and-services&amp;priority=low" aria-label="5 low priority">
+            <rect role="presentation" x="66.666666666666666666666666670%" y="0" width="33.333333333333333333333333330%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+                <a href="/{{ version }}/spending-and-costs/trust?priority=&category=utilities" class="govuk-link govuk-link--no-visited-state">Utilities</a>
+            </td>
+            <td class="govuk-table__cell">
+                    <svg style="height:30px;" class="rag-stack" role="img" aria-labelledby="utilities-rag">
+        <title id="utilities-rag">1 high, 10 medium and 4 low priorities for Utilities</title>
+                <a href="/{{ version }}/spending-and-costs/trust?category=utilities&amp;priority=high" aria-label="1 high priority">
+            <rect role="presentation" x="0" y="0" width="6.6666666666666666666666666700%" height="100%" class="rag-stack-red"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=utilities&amp;priority=medium" aria-label="10 medium priority">
+            <rect role="presentation" x="6.6666666666666666666666666700%" y="0" width="66.666666666666666666666666670%" height="100%" class="rag-stack-amber"></rect>
+                </a>
+
+                <a href="/{{ version }}/spending-and-costs/trust?category=utilities&amp;priority=low" aria-label="4 low priority">
+            <rect role="presentation" x="73.333333333333333333333333340%" y="0" width="26.666666666666666666666666670%" height="100%" class="rag-stack-green"></rect>
+                </a>
+    </svg>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p><a href="/{{ version }}/spending-and-costs/trust?category=&priority=">View all spending priorities for this trust</a></p>
+
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+<table class="govuk-table table-school-rag" id="school-rag-primary-schools">
+    <caption class="govuk-table__caption govuk-visually-hidden">Primary schools in this trust</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half govuk-body-s">Primary schools</th>
+        <th scope="col" class="govuk-table__header govuk-body-s">Status</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Stradbroke Primary Academy">Stradbroke Primary Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="stradbroke-primary-academy-rag">
+    <title id="stradbroke-primary-academy-rag">4 high, 3 medium and 1 low priorities for Stradbroke Primary Academy</title>
+        <rect role="presentation" x="0" y="0" width="50.0%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="50.0%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="87.500%" y="0" width="12.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cobholm Primary Academy">Cobholm Primary Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="cobholm-primary-academy-rag">
+    <title id="cobholm-primary-academy-rag">3 high, 3 medium and 2 low priorities for Cobholm Primary Academy</title>
+        <rect role="presentation" x="0" y="0" width="37.500%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="37.500%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="75.000%" y="0" width="25.00%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Norwich Primary Academy">Norwich Primary Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="norwich-primary-academy-rag">
+    <title id="norwich-primary-academy-rag">2 high, 0 medium and 6 low priorities for Norwich Primary Academy</title>
+        <rect role="presentation" x="0" y="0" width="25.00%" height="100%" class="rag-stack-red"></rect>
+
+
+        <rect role="presentation" x="25.00%" y="0" width="75.00%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Primary Academy">Great Yarmouth Primary Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="great-yarmouth-primary-academy-rag">
+    <title id="great-yarmouth-primary-academy-rag">0 high, 5 medium and 3 low priorities for Great Yarmouth Primary Academy</title>
+
+        <rect role="presentation" x="0%" y="0" width="62.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="62.500%" y="0" width="37.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Charles Darwin Primary School">Charles Darwin Primary School</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="charles-darwin-primary-school-rag">
+    <title id="charles-darwin-primary-school-rag">0 high, 3 medium and 5 low priorities for Charles Darwin Primary School</title>
+
+        <rect role="presentation" x="0%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="37.500%" y="0" width="62.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="govuk-table table-school-rag" id="school-rag-secondary-schools">
+    <caption class="govuk-table__caption govuk-visually-hidden">Secondary schools in this trust</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half govuk-body-s">Secondary schools</th>
+        <th scope="col" class="govuk-table__header govuk-body-s">Status</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Cromer Academy">Cromer Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="cromer-academy-rag">
+    <title id="cromer-academy-rag">6 high, 0 medium and 2 low priorities for Cromer Academy</title>
+        <rect role="presentation" x="0" y="0" width="75.00%" height="100%" class="rag-stack-red"></rect>
+
+
+        <rect role="presentation" x="75.00%" y="0" width="25.00%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hewett Academy">Hewett Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="hewett-academy-rag">
+    <title id="hewett-academy-rag">3 high, 3 medium and 2 low priorities for Hewett Academy</title>
+        <rect role="presentation" x="0" y="0" width="37.500%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="37.500%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="75.000%" y="0" width="25.00%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=The Thetford Academy">The Thetford Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="the-thetford-academy-rag">
+    <title id="the-thetford-academy-rag">3 high, 3 medium and 2 low priorities for The Thetford Academy</title>
+        <rect role="presentation" x="0" y="0" width="37.500%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="37.500%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="75.000%" y="0" width="25.00%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Hethersett Academy">Hethersett Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="hethersett-academy-rag">
+    <title id="hethersett-academy-rag">2 high, 6 medium and 0 low priorities for Hethersett Academy</title>
+        <rect role="presentation" x="0" y="0" width="25.00%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="25.00%" y="0" width="75.00%" height="100%" class="rag-stack-amber"></rect>
+
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=East Point Academy">East Point Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="east-point-academy-rag">
+    <title id="east-point-academy-rag">2 high, 5 medium and 1 low priorities for East Point Academy</title>
+        <rect role="presentation" x="0" y="0" width="25.00%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="25.00%" y="0" width="62.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="87.500%" y="0" width="12.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=King Edward VII Academy">King Edward VII Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="king-edward-vii-academy-rag">
+    <title id="king-edward-vii-academy-rag">2 high, 5 medium and 1 low priorities for King Edward VII Academy</title>
+        <rect role="presentation" x="0" y="0" width="25.00%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="25.00%" y="0" width="62.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="87.500%" y="0" width="12.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Great Yarmouth Charter Academy">Great Yarmouth Charter Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="great-yarmouth-charter-academy-rag">
+    <title id="great-yarmouth-charter-academy-rag">2 high, 3 medium and 3 low priorities for Great Yarmouth Charter Academy</title>
+        <rect role="presentation" x="0" y="0" width="25.00%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="25.00%" y="0" width="37.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="62.500%" y="0" width="37.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Jane Austen College">Jane Austen College</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="jane-austen-college-rag">
+    <title id="jane-austen-college-rag">1 high, 4 medium and 3 low priorities for Jane Austen College</title>
+        <rect role="presentation" x="0" y="0" width="12.500%" height="100%" class="rag-stack-red"></rect>
+
+        <rect role="presentation" x="12.500%" y="0" width="50.0%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="62.500%" y="0" width="37.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-body-s">
+                <a class="govuk-link govuk-link--no-visited-state" href="/{{ version }}/school-homepage?school-name=Wayland Academy">Wayland Academy</a>
+            </td>
+            <td>
+                    <svg style="height:15px;" class="rag-stack" role="img" aria-labelledby="wayland-academy-rag">
+    <title id="wayland-academy-rag">0 high, 5 medium and 3 low priorities for Wayland Academy</title>
+
+        <rect role="presentation" x="0%" y="0" width="62.500%" height="100%" class="rag-stack-amber"></rect>
+
+        <rect role="presentation" x="62.500%" y="0" width="37.500%" height="100%" class="rag-stack-green"></rect>
+</svg>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<!--
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+{% set currentHtml %}
+
+<h2 class="govuk-heading-s">Schools currently in trust</h2>
+
+<ul class="govuk-list">
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Alderwood Primary School">Alderwood Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Castle Manor Academy">Castle Manor Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=City of Peterborough Academy">City of Peterborough Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Coldfair Green Community Primary School">Coldfair Green Community Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Delius Special School">Delius Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Dulwich Preparatory School">Dulwich Preparatory School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Gesher Primary Special School">Gesher Primary Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Hall and Oates Nursery School">Hall and Oates Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Holy Family Catholic Primary School">Holy Family Catholic Primary School, Warton</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Ilfracombe Church of England Junior School">Ilfracombe Church of England Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Iqra Academy">Iqra Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Kennall Vale School">Kennall Vale School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Khalsa College London">Khalsa College London</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Minet Junior School">Minet Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Overton St Helen's Church of England Primary School">Overton St Helen's Church of England Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Pound Park Nursery School">Pound Park Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Agnes' Catholic Primary School">St Agnes' Catholic Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Johns Primary School">St Johns Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=The Ramsey Academy">The Ramsey Academy, Halstead</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Winthorpe Primary School">Winthorpe Primary School</a>
+    </li>
+  </ul>
+
+
+{% endset %}
+
+{% set returnHtml %}
+
+<h2 class="govuk-heading-s">Schools in trust’s 2022 to 2023 return</h2>
+<ul class="govuk-list">
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Alderwood Primary School">Alderwood Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=City of Peterborough Academy">City of Peterborough Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Coldfair Green Community Primary School">Coldfair Green Community Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Delius Special School">Delius Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Dulwich Preparatory School">Dulwich Preparatory School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Gesher Primary Special School">Gesher Primary Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Holy Family Catholic Primary School">Holy Family Catholic Primary School, Warton</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Ilfracombe Church of England Junior School">Ilfracombe Church of England Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Iqra Academy">Iqra Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Kennall Vale School">Kennall Vale School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Khalsa College London">Khalsa College London</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Minet Junior School">Minet Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Overton St Helen's Church of England Primary School">Overton St Helen's Church of England Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Agnes' Catholic Primary School">St Agnes' Catholic Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=St Johns Primary School">St Johns Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=The Ramsey Academy">The Ramsey Academy, Halstead</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="/{{ version }}/school-homepage?school-name=Winthorpe Primary School">Winthorpe Primary School</a>
+    </li>
+  </ul>
+
+{% endset %}
+
+{% set historyHtml %}
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+    <caption class="govuk-table__caption govuk-table__caption--m">Trust history</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">School year</th>
+        <th scope="col" class="govuk-table__header">Date</th>
+        <th scope="col" class="govuk-table__header">School</th>
+        <th scope="col" class="govuk-table__header">Event</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border">2023-2024</th>
+          <td class="govuk-table__cell no-border">01 Sep 2023</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">The Ramsey Academy, Halstead</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell no-border"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Pound Park Nursery School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Minet Junior School</a></td>
+          <td class="govuk-table__cell">Left trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell no-border">01 Apr 2023</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">St Johns Primary School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header"></th>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Dulwich Preparatory School</a></td>
+          <td class="govuk-table__cell">Left trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border">2022-2023</th>
+          <td class="govuk-table__cell">01 Oct 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Windmill CofE (VC) Primary School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell">01 Sep 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Castle Manor Academy</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell">01 Apr 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Iqra Academy</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+    </tbody>
+  </table>
+
+{% endset %}
+
+{{ govukTabs({
+    items: [
+      {
+        label: "Schools currently in trust",
+        id: "current",
+        panel: {
+          html: currentHtml
+        }
+      },
+      {
+        label: "Schools in trust’s 2022 to 2023 return",
+        id: "return",
+        panel: {
+          html: returnHtml
+        }
+      },
+      {
+        label: "Trust history",
+        id: "history",
+        panel: {
+          html: historyHtml
+        }
+      }
+    ]
+  }) }}
+
+-->
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Finance tools</h2>
+        <ul class="app-links">
+            <li>
+                <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}"><img src="/public/images/central-services.png" alt="" class="app-view-component"></a>
+                <h3 class="govuk-heading-s">
+                    <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
+                </h3>
+                <p class="govuk-body">
+                    Benchmark this trust's spending against similar trusts.
+                </p>
+                <strong class="govuk-tag govuk-tag--grey">
+                    Requires login
+                </strong>
+            </li>
+            <li>
+                <a href="#"><img src="/public/images/compare-your-costs.png" alt="" class="app-view-component"></a>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark schools spending</a>
+                </h3>
+                <p class="govuk-body">
+                    Benchmark spending between the schools in this trust.
+                </p>
+            </li>
+            <!--
+            <li>
+                <img src="/public/images/areas-for-investigation.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View your areas for investigation</a>
+                </h3>
+                <p class="govuk-body">
+                    See areas where your school is looking healthy or may need to focus on.
+                </p>
+                <p class="govuk-body">
+                    Create a report to reflect potential spending.
+                </p>
+            </li>
+            <li>
+                <img src="/public/images/curriculum-financial-planning.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+                </h3>
+                <p class="govuk-body">
+                    Measure expected curriculum spending and staffing structure
+                </p>
+                <strong class="govuk-tag govuk-tag--grey">
+                    Requires login
+                </strong>
+            </li>
+        -->
+            <li>
+                <a href="#"><img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component"></a>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare pupil and workforce data between schools in this trust.
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Resources</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="/{{ version }}/find-ways-to-spend-less?signIn=trust" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
+                </h3>
+                <p class="govuk-body">
+                    Use these to help reduce spending and costs across this trust.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View historic data</a>
+                </h3>
+                <p class="govuk-body">
+                    View trust-wide financial data from previous years.
+                </p>
+            </li>
+        <!--
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">School contact details</a>
+                </h3>
+                <p class="govuk-body">
+                    View contact details for this school.
+                </p>
+            </li>
+        -->
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Get help</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state app-view-component__link">Help with this service</a>
+                </h3>
+                <p class="govuk-body">
+                    If you're new to this website, new to school resource management, or are a non-finance person, take a look at our <a href="" class="govuk-link govuk-link--no-visited-state">user guide</a> to help you get started.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Ask for help from a school resource management advisor (SRMA)</a>
+                </h3>
+                <p class="govuk-body">
+                    You can request free, confidential advice from a SRMA.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Submit an enquiry</a>
+                </h3>
+                <p class="govuk-body">
+                    Let us know if you need help with any tools in this service
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+  Delete your comparator set - – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Custom comparator set",
+        href: "/" + version + "/comparators/create/review"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Change back to the schools we chose?</h1>
+
+        <p class="govuk-body">This will remove all the schools you've chosen yourself and change back to the 2 sets of schools we chose.</p>
+
+        <!---<h2 class="govuk-heading-m">Do you want to delete your choices?</h2>--->
+        
+        {{ govukButton({
+          text: "Change back",
+          href: "/" + version + "/comparators/reset-confirmed",
+          classes: "govuk-button"
+        }) }}
+
+        <p class="govuk-body"><a href="/{{ version }}/comparators/create/by-name?editSet=true" class="govuk-link">Cancel </a></p>
+
+    </div>
+</div>
+{% endblock %}

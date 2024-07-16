@@ -1,0 +1,64 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/v0_2_0.html" %}
+
+{% block pageTitle %}
+  Create a custom comparator set – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/" + version + "/comparators/create"
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form action="/{{version}}/comparators/create/phase" method="post">
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+        {{ govukRadios({
+          name: "compareType",
+          fieldset: {
+            legend: {
+              text: "Which type of schools do you want to compare against?",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "all",
+              text: "All schools",
+              checked: checked("compareType", "all")
+            },
+            {
+              value: "maintained",
+              text: "Maintained schools",
+              checked: checked("compareType", "maintained")
+            },
+            {
+              value: "academies",
+              text: "Academies",
+              checked: checked("compareType", "academies")
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-button--primary"
+        }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+
+{% extends "layouts/v0_2_0.html" %}
+
+{% block pageTitle %}
+  Building comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/" + version + "/comparators"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Building comparator set</h1>
+
+        {{ govukTable({
+          firstCellIsHeader: true,
+          head: [
+            {
+              text: "School"
+            },
+            {
+              text: "Type"
+            },
+            {
+              text: "Number of pupils"
+            },
+            {
+              text: "Ofsted rating"
+            },
+            {
+              text: "Percentage of free school meals"
+            }
+          ],
+          "rows": rows
+        }) }}
+
+        <h2 class="govuk-heading-m">Custom comparator set</h2>
+        <p class="govuk-body">If you have a set of schools you would rather be compared with across all categories, you can <a href="/{{ version }}/comparators/create">create your own custom comparator set</a> to be used across all categories.</p>
+
+    </div>
+</div>
+{% endblock %}
