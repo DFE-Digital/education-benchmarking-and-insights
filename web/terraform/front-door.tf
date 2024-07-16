@@ -76,7 +76,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   mode     = var.configuration[var.environment].waf_mode
 
   custom_rule {
-    name     = "block-invalid-request-method"
+    name     = "blockrequestmethod"
     action   = "Block"
     priority = 1
     type     = "MatchRule"
@@ -90,7 +90,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   custom_rule {
-    name     = "block-uk-geo-location"
+    name     = "blockgeolocation"
     action   = "Block"
     priority = 2
     type     = "MatchRule"
