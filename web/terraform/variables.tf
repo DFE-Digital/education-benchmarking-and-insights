@@ -9,6 +9,7 @@ variable "configuration" {
     zone_balancing_enabled = bool
     worker_count           = number
     front_door_sku_name    = string
+    waf_mode               = string
     features = object({
       CurriculumFinancialPlanning   = bool
       CustomData                    = bool
@@ -26,6 +27,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Detection"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
@@ -42,6 +44,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Detection"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
@@ -58,6 +61,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Prevention"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
@@ -74,6 +78,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Detection"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
@@ -90,6 +95,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Prevention"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
@@ -106,6 +112,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
+      waf_mode               = "Prevention"
       features = {
         Trusts                        = true
         CurriculumFinancialPlanning   = true
