@@ -30,7 +30,6 @@ public class MetricRagRatingsFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("useCustomData", "Sets whether or not to use custom data context", DataType = typeof(bool), Required = false)]
     [QueryStringParameter("setType", "Comparator set type", DataType = typeof(string), Required = false)]
-
     public async Task<IActionResult> UserDefinedAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/{identifier}")] HttpRequest req,
         string identifier)
