@@ -5,20 +5,14 @@ using Platform.ApiTests.Drivers;
 namespace Platform.ApiTests.Steps;
 
 [Binding, Scope(Feature = "Benchmark healthcheck endpoint")]
-public class BenchmarkHealthcheckSteps
+public class BenchmarkHealthcheckSteps(BenchmarkApiDriver api)
 {
     private const string RequestKey = "health-check";
-    private readonly BenchmarkApiDriver _api;
-
-    public BenchmarkHealthcheckSteps(BenchmarkApiDriver api)
-    {
-        _api = api;
-    }
 
     [Given("a valid benchmark health check request")]
     private void GivenAValidBenchmarkHealthCheckRequest()
     {
-        _api.CreateRequest(RequestKey, new HttpRequestMessage
+        api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/health", UriKind.Relative),
             Method = HttpMethod.Get
@@ -28,13 +22,13 @@ public class BenchmarkHealthcheckSteps
     [When("I submit the benchmark health check request")]
     private async Task WhenISubmitTheBenchmarkHealthCheckRequest()
     {
-        await _api.Send();
+        await api.Send();
     }
 
     [Then("the benchmark health check result should be healthy")]
     private async Task ThenTheBenchmarkHealthCheckResultShouldBeHealthy()
     {
-        var result = _api[RequestKey].Response;
+        var result = api[RequestKey].Response;
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);

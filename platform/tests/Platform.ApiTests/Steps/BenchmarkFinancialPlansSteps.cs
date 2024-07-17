@@ -57,7 +57,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid financial plans get request including school id '(.*)' in year '(.*)' but excluding:")]
-    public async Task GivenIHaveAValidFinancialPlansGetRequestExcludingSchoolIdInYearButIncluding(string urn, string year, Table table)
+    public async Task GivenIHaveAValidFinancialPlansGetRequestIncludingSchoolIdInYearButExcluding(string urn, string year, Table table)
     {
         var dictionary = table.Rows
             .Select(r => new KeyValuePair<string, string>(r.Values.ElementAt(0), r.Values.ElementAt(1)))
