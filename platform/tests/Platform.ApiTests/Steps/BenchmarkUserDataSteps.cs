@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Text;
 using FluentAssertions;
-using Platform.Api.Benchmark.CustomData;
 using Platform.Api.Benchmark.UserData;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
