@@ -117,7 +117,7 @@ router.get( '/comparators/view', (req, res) => {
     buildingComparators = req.session.data['buildingComparators'];
     
     if ( pupilComparators ) {
-        pupilRows.push( [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'}, {'text': '12.7%'}, {'text': '7.4%'} ] );
+        pupilRows.push( [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your chosen school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'}, {'text': '12.7%'}, {'text': '7.4%'} ] );
 
         pupilComparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
@@ -128,7 +128,7 @@ router.get( '/comparators/view', (req, res) => {
     }
 
     if ( buildingComparators ) {
-        buildingRow = [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'} ];
+        buildingRow = [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your chosen school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'} ];
 
         if ( req.session.data['signedIn'] == 'true' ) {
             buildingRow.push( {'text': '10,130 sqm'}, {'text': '60 years'} );
