@@ -347,3 +347,13 @@ resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
   body = file("${path.module}/queries/weekly-active-users.kql")
 }
 
+resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
+  name                       = "GetAnonymousRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetAnonymousRequests"
+  function_alias             = "GetAnonymousRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-anon-requests.kql")
+}

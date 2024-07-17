@@ -1,0 +1,9 @@
+AppRequests 
+| where 
+    UserId == ""
+| where 
+    isempty(SyntheticSource)
+| where
+    Name startswith "GET " 
+| where 
+    not(Name startswith "GET /")
