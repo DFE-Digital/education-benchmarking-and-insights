@@ -19,7 +19,8 @@ variables:
 
 steps:
   - bash: sudo apt-get update
-  
+    displayName: 'Update the package list'
+
   - bash: sudo apt-get install -y pandoc texlive-latex-extra
     displayName: 'Install pandoc & latex'
 
