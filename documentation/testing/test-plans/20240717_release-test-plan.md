@@ -26,6 +26,7 @@ This is a content update which we have validated in our test environment and ver
 - [218415- Non-essential cookie management](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218415)
 This update has added a cookie banner for non essential cookies and manage cookies accordingly depending if the user has accepted/rejected the cookies.  
 
+- WAF changes - We have applied a geo location restriction to block traffic from locations that are not identified as generating from the UK. 
 ### Issues Not to be Tested:
 n/a
 
@@ -50,10 +51,10 @@ n/a
 
 ### Risk Management
 #### Risk Identification:
-n/a
+Potential valid requests could be blocked with WAF changes.
 
 #### Risk Mitigation: 
-n/a
+We plan to continue to monitor the firewall logs to ensure potentially valid requests are not blocked as a result of WAF changes.
 ### Review and Approval
 #### Review Process: 
 The release plan will be shared with the Product Owner for review and approval. Following their review, the updates will proceed to pre-production for final sanity checks.
