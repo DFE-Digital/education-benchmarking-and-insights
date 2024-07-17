@@ -36,7 +36,7 @@
           | 990122 |
 
     Scenario: Sending a valid comparator trusts request
-        Given a valid comparator trusts request for trust id '10192252'
+        Given a valid comparator trusts request for company number '10192252'
         When I submit the comparator trusts request
         Then the comparator trusts should total '24' and contain:
           | CompanyNumber |  

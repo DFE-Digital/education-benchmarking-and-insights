@@ -119,7 +119,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Given("I have a valid user defined comparator set request for trust id '(.*)'")]
+    [Given("I have a valid user defined comparator set request for company number '(.*)'")]
     public void GivenIHaveAValidUserDefinedComparatorSetRequestForTrustId(string companyNumber)
     {
         var set = _fixture
@@ -133,7 +133,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         PutUserDefinedTrustComparatorRequest(companyNumber, set);
     }
 
-    [Given("I have an invalid user defined comparator set request for trust id '(.*)'")]
+    [Given("I have an invalid user defined comparator set request for company number '(.*)'")]
     public void GivenIHaveAnInvalidUserDefinedComparatorSetRequestForTrustId(string companyNumber)
     {
         var set = _fixture
@@ -143,13 +143,13 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         PutUserDefinedTrustComparatorRequest(companyNumber, set);
     }
 
-    [Given("I have an invalid delete user defined comparator set request for trust id '(.*)'")]
+    [Given("I have an invalid delete user defined comparator set request for company number '(.*)'")]
     public void GivenIHaveAnInvalidDeleteUserDefinedComparatorSetRequestForTrustId(string companyNumber)
     {
         DeleteUserDefinedTrustComparatorRequest(companyNumber, Guid.NewGuid());
     }
 
-    [Given("I have a valid user defined comparator set get request for trust id '(.*)' containing:")]
+    [Given("I have a valid user defined comparator set get request for company number '(.*)' containing:")]
     public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
@@ -165,7 +165,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         });
     }
 
-    [Given("I have a valid delete user defined comparator set get request for trust id '(.*)' containing:")]
+    [Given("I have a valid delete user defined comparator set get request for company number '(.*)' containing:")]
     public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
