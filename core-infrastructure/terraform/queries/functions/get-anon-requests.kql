@@ -7,3 +7,5 @@ AppRequests
     Name startswith "GET " 
 | where 
     not(Name startswith "GET /")
+| where 
+    not(Url contains "/api/")
