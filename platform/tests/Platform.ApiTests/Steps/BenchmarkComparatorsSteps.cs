@@ -60,7 +60,7 @@ public class BenchmarkComparatorsSteps(BenchmarkApiDriver api)
         table.CompareToDynamicSet(set, false);
     }
 
-    [Given("a valid comparator trusts request for trust id '(.*)'")]
+    [Given("a valid comparator trusts request for company number '(.*)'")]
     public void GivenAValidComparatorTrustsRequestForTrustId(string companyNumber)
     {
         var content = new ComparatorTrustsRequest

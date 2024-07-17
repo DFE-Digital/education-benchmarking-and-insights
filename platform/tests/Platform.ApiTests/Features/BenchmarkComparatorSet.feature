@@ -104,7 +104,7 @@
         Then the comparator result should be not found
         
     Scenario: Getting a user defined trust comparator set successfully
-        Given I have a valid user defined comparator set get request for trust id '10192252' containing:
+        Given I have a valid user defined comparator set get request for company number '10192252' containing:
           | CompanyNumber |  
           | 10249712      |
           | 10259334      |
@@ -118,22 +118,22 @@
           | 10192252      |
 
     Scenario: Create a user defined trust comparator set successfully
-        Given I have a valid user defined comparator set request for trust id '10192252'
+        Given I have a valid user defined comparator set request for company number '10192252'
         When I submit the user defined trust comparator set request
         Then the trust comparator result should be accepted
 
     Scenario: Sending a bad user defined trust comparator set request
-        Given I have an invalid user defined comparator set request for trust id '10192252'
+        Given I have an invalid user defined comparator set request for company number '10192252'
         When I submit the user defined trust comparator set request
         Then the trust comparator result should be bad request
         
     Scenario: Deleting a user defined trust comparator set that does not exist
-        Given I have an invalid delete user defined comparator set request for trust id '10192252'
+        Given I have an invalid delete user defined comparator set request for company number '10192252'
         When I submit the user defined trust comparator set request
         Then the trust comparator result should be not found
         
     Scenario: Deleting a user defined comparator set that does exist
-        Given I have a valid delete user defined comparator set get request for trust id '10192252' containing:
+        Given I have a valid delete user defined comparator set get request for company number '10192252' containing:
           | CompanyNumber |  
           | 10249712      |
           | 10259334      |
