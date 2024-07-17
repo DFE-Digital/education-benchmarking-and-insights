@@ -220,7 +220,7 @@ public class BalanceFunctions
     [FunctionName(nameof(QueryTrustsBalanceAsync))]
     [ProducesResponseType(typeof(TrustBalanceResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("companyNumbers", "List of trust company numberss", DataType = typeof(string[]), Required = true)]
+    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
     [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QueryTrustsBalanceAsync(
