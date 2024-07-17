@@ -120,7 +120,7 @@ router.get( '/comparators/view', (req, res) => {
         pupilComparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
         for ( i=0; i<pupilComparators.length; i++) {
-            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=pupil&comparatorId=" + [i] +"\" class=\"govuk-link\">" + pupilComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + pupilComparators[i].comparatorLocation + ", " + pupilComparators[i].comparatorPostcode + "</span>";
+            var nameHtml = "<a href=\"/" + version + "/comparators/view-school?comparatorType=pupil&comparatorId=" + [i] +"\" class=\"govuk-link\">" + pupilComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + pupilComparators[i].comparatorLocation + ", " + pupilComparators[i].comparatorPostcode + "</span>";
             pupilRows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': pupilComparators[i].comparatorPupils.toLocaleString()}, {'text': pupilComparators[i].comparatorSen + '%'}, {'text': pupilComparators[i].comparatorMeals + '%'} ] );
         }
     }
@@ -129,7 +129,7 @@ router.get( '/comparators/view', (req, res) => {
         buildingComparators.sort((a, b) => a.buildingComparators > b.buildingComparators ? 1 : -1);
 
         for ( i=0; i<buildingComparators.length; i++) {
-            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + buildingComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + buildingComparators[i].comparatorLocation + ", " + buildingComparators[i].comparatorPostcode + "</span>";
+            var nameHtml = "<a href=\"/" + version + "/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + buildingComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + buildingComparators[i].comparatorLocation + ", " + buildingComparators[i].comparatorPostcode + "</span>";
             var buildingRow = [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': buildingComparators[i].comparatorPupils.toLocaleString()} ];
 
             if ( req.session.data['signedIn'] == 'true' ) {
@@ -237,7 +237,7 @@ router.get( '/comparators/create/view', (req, res) => {
     var comparators = req.session.data.comparators || [];
     
     for ( i=0; i<comparators.length; i++) {
-        var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        var nameHtml = "<a href=\"/" + version + "/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
         rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'} ] );
     }
 
@@ -395,7 +395,7 @@ router.get( '/compare-trusts/view', (req, res) => {
         }
         schoolTypes += '</p>';
         
-        var nameHtml = "<a href=\"/trust-homepage?trust-name=" + trusts[i].trustName + "\" class=\"govuk-link\">" + trusts[i].trustName + "</a><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
+        var nameHtml = "<a href=\"/" + version + "/trust-homepage?trust-name=" + trusts[i].trustName + "\" class=\"govuk-link\">" + trusts[i].trustName + "</a><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
         rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" } ] );
     }
 

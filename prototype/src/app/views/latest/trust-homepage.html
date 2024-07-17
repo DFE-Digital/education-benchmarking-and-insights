@@ -748,9 +748,9 @@
         <h2 class="govuk-heading-m">Finance tools</h2>
         <ul class="app-links">
             <li>
-                <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}"><img src="/public/images/central-services.png" alt="" class="app-view-component"></a>
+                <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/{{ version }}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}"><img src="/public/images/central-services.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
-                    <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
+                    <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/{{ version }}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/{{ version }}/compare-trusts{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
                 </h3>
                 <p class="govuk-body">
                     Benchmark this trust's spending against similar trusts.
