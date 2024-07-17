@@ -16,7 +16,7 @@ Sessions
     Date = format_datetime(TimeGenerated, 'yyyy-MM-dd'), 
     Count = count_distinct_SessionId, 
     ["Average session length"] = strcat(
-    format_timespan(avg_sessionDuration, 'mm'), "m ",
-    format_timespan(avg_sessionDuration, 'ss'), "s")
+    format_timespan(avg_sessionDuration, 'm'), "m ",
+    format_timespan(avg_sessionDuration, 's'), "s")
 | order by Date 
     asc
