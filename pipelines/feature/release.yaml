@@ -27,11 +27,15 @@ parameters:
       - 17
       - 18
       - 19
+  - name: customBuildNumber
+    displayName: 'Custom build number'
+    type: string
+    default: ' '
 
 variables:
   Version.BranchRevision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.FeatureEnvironment: ${{ parameters.featureEnvironment }}
-  Version.BuildNumber: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
+  Version.BuildNumber: 1.$(Version.FeatureEnvironment).$(Version.BranchRevision)
   Version.BuildVersion: $(Version.BuildNumber)
   Environment.Name: ${{ parameters.environment }}
   Pipeline.Environment: 'feature'
@@ -53,21 +57,24 @@ stages:
         steps:
           - checkout: none
           - bash: |
-              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
-              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+              if [[ "${{ parameters.customBuildNumber }}" == "" || "${{ parameters.customBuildNumber }}" == " " ]]; then
+                buildNumber=$(Version.BuildNumber)
+              else
+                buildNumber=${{ parameters.customBuildNumber }}
+              fi
 
+              echo "##vso[task.setvariable variable=Version_BuildNumber;isOutput=true]$buildNumber"
+              echo "##vso[task.setvariable variable=Version_BuildVersion;isOutput=true]$buildNumber"
               environmentPrefix=s198d$(Version.FeatureEnvironment)
               if [[ "$(Environment.Name)" == "pre-production" ]]; then
                 environmentPrefix=s198p$(Version.FeatureEnvironment)
               fi
 
               echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]$environmentPrefix"
-              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
-              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+              echo "##vso[build.updatebuildnumber]$buildNumber"
+              echo "##vso[build.addbuildtag]$buildNumber"
               echo "##vso[build.addbuildtag]Environment $(Version.FeatureEnvironment)"
-
-              branchRevision=$(Version.BranchRevision)
-              echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]0.$(Version.FeatureEnvironment).$((branchRevision + 1))-$environmentPrefix.0"
+              echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]$buildNumber-$environmentPrefix.0"
             displayName: 'Set release build number'
             name: outputVars
 
@@ -76,6 +83,8 @@ stages:
     displayName: 'Core : Deploy'
     variables: 
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      buildNumber: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildNumber'] ]
+      buildVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildVersion'] ]
     jobs:
       - job: ZipStaticCoreArtifacts
         displayName: 'Zip static artifacts'
@@ -90,8 +99,8 @@ stages:
         steps:
           - template: ../core-infrastructure/steps/build.yaml
             parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
+              BuildVersion: $(buildVersion)
+              BuildNumber: $(buildNumber)
 
       - template: ../core-infrastructure/deployment.yaml
         parameters:
@@ -107,6 +116,8 @@ stages:
     displayName: 'Data Pipeline : Build and Deploy'
     variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      buildNumber: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildNumber'] ]
+      buildVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildVersion'] ]
     jobs:
       - job: ZipStaticDataPipelineArtifacts
         displayName: 'Zip static artifacts'
@@ -122,7 +133,7 @@ stages:
         steps: 
           - template: ../data-pipeline/steps/build-push-image.yaml
             parameters:
-              buildNumber: $(Version.BuildNumber)
+              buildNumber: $(buildNumber)
               environmentPrefix: $(environmentPrefix)
               subscription: $(Subscription)
 
@@ -134,7 +145,7 @@ stages:
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           importImage: false
-          buildNumber: $(Version.BuildNumber)
+          buildNumber: $(buildNumber)
           dependsOn: [ BuildAndPushDataPipeline ]
 
   - stage: BuildPlatform
@@ -142,6 +153,8 @@ stages:
     displayName: 'Platform : Build and Deploy'
     variables: 
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      buildNumber: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildNumber'] ]
+      buildVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildVersion'] ]
     jobs:
       - job: ZipStaticPlatformArtifacts
         displayName: 'Zip static artifacts'
@@ -156,8 +169,8 @@ stages:
         steps:
           - template: ../platform/steps/build.yaml
             parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
+              BuildVersion: $(buildVersion)
+              BuildNumber: $(buildNumber)
 
       - template: ../platform/deployment.yaml
         parameters:
@@ -171,7 +184,7 @@ stages:
     dependsOn: [ BuildNumber, BuildPlatform ]
     displayName: 'Front-end : Build and Publish'
     variables: 
-      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      frontEndVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: BuildAndRPublishFrontEnd
         displayName: 'Build and publish'
@@ -181,16 +194,7 @@ stages:
             continueOnError: false
             inputs:
               command: 'custom'
-              customCommand: 'version $(Version.BuildNumber)'
-              workingDir: $(WorkingDir.FrontEnd)
-              verbose: false
-
-          - task: Npm@1
-            displayName: 'Update pre-release version number'
-            continueOnError: false
-            inputs:
-              command: 'custom'
-              customCommand: 'version prerelease -preid=$(environmentPrefix)'
+              customCommand: 'version $(frontEndVersion)'
               workingDir: $(WorkingDir.FrontEnd)
               verbose: false
 
@@ -226,6 +230,10 @@ stages:
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
       - name: frontEndVersion
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
+      - name: buildNumber
+        value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildNumber'] ]
+      - name: buildVersion
+        value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_BuildVersion'] ]
     jobs:
       - job: ZipStaticWebArtifacts
         displayName: 'Zip static artifacts'
@@ -240,8 +248,8 @@ stages:
         steps:
           - template: ../web/steps/build.yaml
             parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
+              BuildVersion: $(buildVersion)
+              BuildNumber: $(buildNumber)
               frontEndVersion: $(frontEndVersion)
 
       - template: ../web/deployment.yaml
