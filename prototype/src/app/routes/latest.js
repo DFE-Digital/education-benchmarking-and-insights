@@ -117,6 +117,8 @@ router.get( '/comparators/view', (req, res) => {
     buildingComparators = req.session.data['buildingComparators'];
     
     if ( pupilComparators ) {
+        pupilRows.push( [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'}, {'text': '12.7%'}, {'text': '7.4%'} ] );
+
         pupilComparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
         for ( i=0; i<pupilComparators.length; i++) {
@@ -126,6 +128,15 @@ router.get( '/comparators/view', (req, res) => {
     }
 
     if ( buildingComparators ) {
+        buildingRow = [ {'html': '<strong>' + req.session.data['school-name'] + '</strong><br /><span class="govuk-hint">(Your school)</span>'}, {'text': 'Secondary'}, {'text': '1,408'} ];
+
+        if ( req.session.data['signedIn'] == 'true' ) {
+            buildingRow.push( {'text': '10,130 sqm'}, {'text': '60 years'} );
+        } else {
+            buildingRow.push( { 'html': "<a href=\"/sign-in?goTo=/comparators/view&hash=\&building\">Sign in</a> to see", colspan: 2, rowspan: buildingComparators.length, attributes: { style: "text-align: center; vertical-align: top;" } } );
+        }
+
+        buildingRows.push( buildingRow );
         buildingComparators.sort((a, b) => a.buildingComparators > b.buildingComparators ? 1 : -1);
 
         for ( i=0; i<buildingComparators.length; i++) {
@@ -134,8 +145,6 @@ router.get( '/comparators/view', (req, res) => {
 
             if ( req.session.data['signedIn'] == 'true' ) {
                 buildingRow.push( {'text': buildingComparators[i].comparatorGifa.toLocaleString() + ' sqm'}, {'text': buildingComparators[i].comparatorAge + ' years'} );
-            } else if ( i == 0 ) {
-                buildingRow.push( { 'html': "<a href=\"/sign-in?goTo=/" + version + "/comparators/view&hash=\&building\">Sign in</a> to see", colspan: 2, rowspan: buildingComparators.length, attributes: { style: "text-align: center; vertical-align: top;" } } );
             }
 
             buildingRows.push( buildingRow );
