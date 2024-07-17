@@ -20,7 +20,7 @@ This testing will be carried out in pre-prod to ensure all functionalities are w
 
 ### Test Scope
 #### Issues to be Tested:
-- [218460- Missing DSI cookie declaration ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218460) - 
+- [218460- Missing DSI cookie declaration ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218460) 
 This is a content update which we have validated in our test environment and verify in preprod once changes are in there.  
 
 - [218415- Non-essential cookie management](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218415)
