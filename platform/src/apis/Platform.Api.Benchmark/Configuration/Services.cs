@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FluentValidation;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs.Hosting;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Benchmark;
 using Platform.Api.Benchmark.Comparators;
 using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.CustomData;
@@ -14,39 +13,34 @@ using Platform.Api.Benchmark.UserData;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
 using Platform.Infrastructure.Sql;
-
-[assembly: WebJobsStartup(typeof(Startup))]
-
-namespace Platform.Api.Benchmark;
+namespace Platform.Api.Benchmark.Configuration;
 
 [ExcludeFromCodeCoverage]
-public class Startup : FunctionsStartup
+internal static class Services
 {
-    public override void Configure(IFunctionsHostBuilder builder)
+    internal static void Configure(IServiceCollection serviceCollection)
     {
-        builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
-
         var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         ArgumentNullException.ThrowIfNull(sql);
 
-        builder.Services
+        serviceCollection
             .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services
+        serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sql);
 
-        builder.Services
+        serviceCollection
             .AddOptions<SqlDatabaseOptions>()
             .BindConfiguration("Sql")
             .ValidateDataAnnotations();
 
-        builder.Services
+        serviceCollection
             .AddOptions<SearchServiceOptions>()
             .BindConfiguration("Search")
             .ValidateDataAnnotations();
 
-        builder.Services
+        serviceCollection
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
             .AddSingleton<IComparatorSetsService, ComparatorSetsService>()
             .AddSingleton<IFinancialPlansService, FinancialPlansService>()
@@ -55,8 +49,20 @@ public class Startup : FunctionsStartup
             .AddSingleton<IUserDataService, UserDataService>()
             .AddSingleton<ICustomDataService, CustomDataService>();
 
-        builder.Services
+        serviceCollection
             .AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>()
             .AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
+
+        serviceCollection
+            .AddApplicationInsightsTelemetryWorkerService()
+            .ConfigureFunctionsApplicationInsights();
+
+        serviceCollection.Configure<JsonSerializerOptions>(options =>
+        {
+            options.AllowTrailingCommas = true;
+            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.PropertyNameCaseInsensitive = true;
+        });
     }
 }
