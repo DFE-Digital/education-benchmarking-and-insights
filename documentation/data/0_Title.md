@@ -1,8 +1,8 @@
 ---
 title: Financial Benchmarking and Insights
-subtitle: Data Schematics
+subtitle: Data documentation
 author: Department for Education
-date: 16/07/2024
+date: 25/03/2024
 titlepage: true
 toc-own-page: true
 ---
