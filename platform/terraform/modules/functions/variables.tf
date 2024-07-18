@@ -83,3 +83,18 @@ variable "sql-server-password" {
   type      = string
   sensitive = true
 }
+
+variable "dotnet-version" {
+  type    = string
+  default = "v6.0"
+}
+
+variable "use-32-bit-worker" {
+  type    = bool
+  default = true
+}
+
+variable "worker-runtime" {
+  type    = string
+  default = "dotnet"
+}
