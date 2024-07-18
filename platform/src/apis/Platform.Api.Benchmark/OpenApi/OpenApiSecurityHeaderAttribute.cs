@@ -1,0 +1,14 @@
+﻿using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
+namespace Platform.Api.Benchmark.OpenApi;
+
+public sealed class OpenApiSecurityHeaderAttribute : OpenApiSecurityAttribute
+{
+    public OpenApiSecurityHeaderAttribute()
+        : base("ApiKey", SecuritySchemeType.ApiKey)
+    {
+        Name = "x-functions-key";
+        In = OpenApiSecurityLocationType.Header;
+    }
+}

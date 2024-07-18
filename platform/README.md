@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-1. Install .NET 6 SDK (Platform)
+1. Install .NET 8 SDK (Platform)
 2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2024
 3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
@@ -45,8 +45,7 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
 {
   "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "ASPNETCORE_ENVIRONMENT": "Development",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "Search__Name" : "s198d01-ebis-search",
     "Search__Key" : "[INSERT KEY VALUE]",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
