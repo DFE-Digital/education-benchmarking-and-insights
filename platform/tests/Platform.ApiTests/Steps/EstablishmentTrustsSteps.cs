@@ -14,10 +14,7 @@ namespace Platform.ApiTests.Steps;
 public class EstablishmentTrustsSteps
 {
     private const string RequestKey = "get-trust";
-    private const string QueryRequestKey = "query-trust";
-    private const string SearchRequestKey = "search-trust";
-    private const string SuggestInvalidRequestKey = "suggest-trust-invalid";
-    private const string SuggestValidRequestKey = "suggest-trust-invalid";
+    private const string SuggestRequestKey = "suggest-trust";
     private readonly EstablishmentApiDriver _api;
 
     public EstablishmentTrustsSteps(EstablishmentApiDriver api)
@@ -35,65 +32,22 @@ public class EstablishmentTrustsSteps
         });
     }
 
-    [When("I submit the trusts request")]
-    private async Task WhenISubmitTheTrustsRequest()
+    [Given("an invalid trust request with id '(.*)'")]
+    private void GivenAnInvalidValidTrustRequestWithId(string id)
     {
-        await _api.Send();
-    }
-
-    [Then("the trust result should be ok")]
-    private void ThenTheTrustResultShouldBeOk()
-    {
-        var result = _api[RequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    [Given("a valid trusts query request")]
-    private void GivenAValidTrustsQueryRequest()
-    {
-        _api.CreateRequest(QueryRequestKey, new HttpRequestMessage
+        _api.CreateRequest(RequestKey, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/trusts", UriKind.Relative),
+            RequestUri = new Uri($"/api/trust/{id}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    [Then("the trusts query result should be ok")]
-    private void ThenTheTrustsQueryResultShouldBeOk()
+    [Given("a valid trust suggest request with searchText '(.*)")]
+    private void GivenAValidTrustsSuggestRequest(string searchText)
     {
-        var result = _api[QueryRequestKey].Response;
+        var content = new { SearchText = searchText, Size = 5, SuggesterName = "trust-suggester" };
 
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    [Given("a valid trusts search request")]
-    private void GivenAValidTrustsSearchRequest()
-    {
-        _api.CreateRequest(SearchRequestKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/trusts/search", UriKind.Relative),
-            Method = HttpMethod.Post
-        });
-    }
-
-    [Then("the trusts search result should be ok")]
-    private void ThenTheTrustsSearchResultShouldBeOk()
-    {
-        var result = _api[SearchRequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    [Given("an invalid trusts suggest request")]
-    private void GivenAnInvalidTrustsSuggestRequest()
-    {
-        var content = new { Size = 0 };
-
-        _api.CreateRequest(SuggestInvalidRequestKey, new HttpRequestMessage
+        _api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -101,10 +55,106 @@ public class EstablishmentTrustsSteps
         });
     }
 
-    [Then("the trusts suggest result should have the follow validation errors:")]
+    [Given("an invalid trust suggest request")]
+    private void GivenAnInvalidTrustsSuggestRequest()
+    {
+        var content = new { Size = 0 };
+
+        _api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [When("I submit the trust request")]
+    private async Task WhenISubmitTheTrustsRequest()
+    {
+        await _api.Send();
+    }
+
+    [Then("the trust result should be correct")]
+    private async Task ThenTheTrustResultShouldBeCorrect()
+    {
+        var response = _api[RequestKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<Trust>();
+
+        result.CompanyNumber.Should().Be("7539918");
+        result.TrustName.Should().Be("Test Company/Trust  1");
+    }
+
+    [Then("the trust result should be not found")]
+    private void ThenTheTrustResultShouldBeNotFound()
+    {
+        var result = _api[RequestKey].Response;
+
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Then("the trust suggest result should be correct")]
+    private async Task ThenTheTrustsSuggestResultShouldBeCorrect()
+    {
+        var response = _api[SuggestRequestKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+        var result = results.FirstOrDefault();
+        result.Should().NotBeNull();
+
+        result?.Text.Should().Be("*7539918*");
+        result?.Document?.TrustName.Should().Be("Test Company/Trust  1");
+        result?.Document?.CompanyNumber.Should().Be("7539918");
+    }
+
+    [Then("the trust suggest result should be:")]
+    private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
+    {
+        var response = _api[SuggestRequestKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+
+        var set = new List<dynamic>();
+
+        foreach (var result in results)
+        {
+            set.Add(new { result.Text, result.Document?.TrustName, result.Document?.CompanyNumber });
+        }
+
+        table.CompareToDynamicSet(set, false);
+    }
+
+    [Then("the trust suggest result should be empty")]
+    private async Task ThenTheTrustsSuggestResultShouldBeEmpty()
+    {
+        var response = _api[SuggestRequestKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+
+        results.Should().BeEmpty();
+    }
+
+    [Then("the trust suggest result should have the follow validation errors:")]
     private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = _api[SuggestInvalidRequestKey].Response;
+        var response = _api[SuggestRequestKey].Response;
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -115,38 +165,6 @@ public class EstablishmentTrustsSteps
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
-    [Given("a valid trusts suggest request")]
-    private void GivenAValidTrustsSuggestRequest()
-    {
-        var content = new { SearchText = "trust", Size = 10, SuggesterName = "trust-suggester" };
-
-        _api.CreateRequest(SuggestValidRequestKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
-            Method = HttpMethod.Post,
-            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
-        });
-    }
-
-    [Then("the trusts suggest result should be:")]
-    private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
-    {
-        var response = _api[SuggestValidRequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<Trust>>().Results;
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
-        {
-            set.Add(new { result.Text, result.Document?.TrustName, result.Document?.CompanyNumber });
         }
 
         table.CompareToDynamicSet(set, false);
