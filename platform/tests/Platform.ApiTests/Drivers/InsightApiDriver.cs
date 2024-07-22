@@ -1,10 +1,5 @@
 using TechTalk.SpecFlow.Infrastructure;
-
 namespace Platform.ApiTests.Drivers;
 
-public class InsightApiDriver : ApiDriver
-{
-    public InsightApiDriver(ISpecFlowOutputHelper output) : base(TestConfiguration.Insight, output)
-    {
-    }
-}
+// ReSharper disable once ClassNeverInstantiated.Global
+public class InsightApiDriver(ISpecFlowOutputHelper output) : ApiDriver(TestConfiguration.Insight, output);
