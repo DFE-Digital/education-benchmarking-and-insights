@@ -8,8 +8,8 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Benchmark.FinancialPlans;
 
 public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IFinancialPlansService service)
@@ -17,7 +17,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [Function(nameof(SingleFinancialPlanAsync))]
     [OpenApiOperation(nameof(SingleFinancialPlanAsync), "Financial Plans")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", Type = typeof(int), Required = true)]
+    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(ExampleYear))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(FinancialPlanDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
@@ -63,7 +63,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [Function(nameof(DeploymentPlanAsync))]
     [OpenApiOperation(nameof(DeploymentPlanAsync), "Financial Plans")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", Type = typeof(int), Required = true)]
+    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(ExampleYear))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(FinancialPlanDeployment))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
@@ -144,7 +144,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [Function(nameof(UpsertFinancialPlanAsync))]
     [OpenApiOperation(nameof(UpsertFinancialPlanAsync), "Financial Plans")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", Type = typeof(int), Required = true)]
+    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(ExampleYear))]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(FinancialPlanDetails), Description = "The financial plan object")]
     [OpenApiResponseWithBody(HttpStatusCode.Created, "application/json", typeof(FinancialPlanDetails))]
@@ -194,7 +194,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [Function(nameof(RemoveFinancialPlanAsync))]
     [OpenApiOperation(nameof(RemoveFinancialPlanAsync), "Financial Plans")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", Type = typeof(int), Required = true)]
+    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(ExampleYear))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithoutBody(HttpStatusCode.OK)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]

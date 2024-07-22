@@ -8,7 +8,8 @@
 2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2024
 3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
-> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to prevent 'too long path name' errors at build time.
+> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to
+> prevent 'too long path name' errors at build time.
 
 ## Getting started
 
@@ -67,7 +68,7 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
 {
   "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
@@ -80,7 +81,8 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
 
 #### Orchestrator Function App
 
-For local development it's assumed Azurite will be used. More information can be found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+For local development it's assumed Azurite will be used. More information can be
+found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
 
 Add configuration in `local.settings.json` for `Platform.Orchestrator`
 
@@ -106,7 +108,8 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
 
 #### User Data Cleanup Function App
 
-For local development it's assumed Azurite will be used. More information can be found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+For local development it's assumed Azurite will be used. More information can be
+found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
 
 Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
 
@@ -138,7 +141,12 @@ The following program arguments are required to run the search index sync app
 
 ##### Azurite dependencies
 
-Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite with a tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer) using the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings) or by following [these instructions](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#microsoft-azure-storage-explorer). If nothing seems to be available locally on ports `10000` to `10002` then ensure Docker is running.
+Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite with a
+tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer) using
+the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
+or by
+following [these instructions](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#microsoft-azure-storage-explorer).
+If nothing seems to be available locally on ports `10000` to `10002` then ensure Docker is running.
 
 The following items should be created:
 

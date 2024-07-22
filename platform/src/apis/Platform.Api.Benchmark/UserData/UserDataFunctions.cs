@@ -7,8 +7,8 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Benchmark.UserData;
 
 public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctions> logger)

@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Hosting;
 using Platform.Functions;
-namespace Platform.Api.Benchmark.Configuration;
+namespace Platform.Api.Insight.Configuration;
 
 [ExcludeFromCodeCoverage]
 internal static class Worker

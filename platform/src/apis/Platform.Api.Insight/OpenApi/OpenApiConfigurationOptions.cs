@@ -4,7 +4,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using Platform.Functions.OpenApi;
-namespace Platform.Api.Benchmark.OpenApi;
+namespace Platform.Api.Insight.OpenApi;
 
 // ReSharper disable once UnusedType.Global
 internal class OpenApiConfigurationOptions : DefaultOpenApiConfigurationOptions

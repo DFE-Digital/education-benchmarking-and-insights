@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-namespace Platform.Api.Benchmark.OpenApi;
+namespace Platform.Functions.OpenApi;
 
 public sealed class OpenApiSecurityHeaderAttribute : OpenApiSecurityAttribute
 {

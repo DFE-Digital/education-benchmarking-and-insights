@@ -3,56 +3,61 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Dapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 using Platform.Infrastructure.Sql;
-
 namespace Platform.Api.Insight;
 
-[ApiExplorerSettings(GroupName = "Common")]
-public class CommonFunctions
+public class CommonFunctions(IDatabaseFactory dbFactory, ILogger<CommonFunctions> logger)
 {
-    private readonly IDatabaseFactory _dbFactory;
-    private readonly ILogger<CommonFunctions> _logger;
-
-    public CommonFunctions(IDatabaseFactory dbFactory, ILogger<CommonFunctions> logger)
-    {
-        _dbFactory = dbFactory;
-        _logger = logger;
-    }
-
-    [FunctionName(nameof(SingleCurrentReturnYearsAsync))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> SingleCurrentReturnYearsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "current-return-years")]
-        HttpRequest req)
+    [Function(nameof(SingleCurrentReturnYearsAsync))]
+    [OpenApiOperation(nameof(SingleCurrentReturnYearsAsync), "Common")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(object))]
+    public async Task<HttpResponseData> SingleCurrentReturnYearsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "current-return-years")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                using var conn = await _dbFactory.GetConnection();
+                using var conn = await dbFactory.GetConnection();
                 const string sql = "SELECT Value FROM Parameters WHERE Name = @Name";
 
-                var aar = await conn.QueryFirstOrDefaultAsync<string>(sql, new { Name = "LatestAARYear" });
-                var cfr = await conn.QueryFirstOrDefaultAsync<string>(sql, new { Name = "LatestCFRYear" });
+                var aar = await conn.QueryFirstOrDefaultAsync<string>(sql, new
+                {
+                    Name = "LatestAARYear"
+                });
+                var cfr = await conn.QueryFirstOrDefaultAsync<string>(sql, new
+                {
+                    Name = "LatestCFRYear"
+                });
 
-                return new JsonContentResult(new { aar, cfr });
+                var result = new
+                {
+                    aar,
+                    cfr
+                };
+
+                return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get current return years");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get current return years");
+                return req.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
     }

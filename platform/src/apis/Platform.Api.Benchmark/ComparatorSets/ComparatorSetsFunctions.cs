@@ -12,6 +12,7 @@ using Platform.Api.Benchmark.OpenApi;
 using Platform.Api.Benchmark.Responses;
 using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger,
