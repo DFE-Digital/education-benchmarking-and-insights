@@ -1,45 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <LangVersion>latest</LangVersion>
-        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-    </PropertyGroup>
-    <ItemGroup>
-        <Using Include="TechTalk.SpecFlow"/>
-        <PackageReference Include="AutoFixture" />
-        <PackageReference Include="Microsoft.Extensions.Configuration"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="Newtonsoft.Json" />
-        <PackageReference Include="SpecFlow"/>
-        <PackageReference Include="SpecFlow.Assist.Dynamic" />
-        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin"/>
-        <PackageReference Include="SpecFlow.xUnit"/>
-        <PackageReference Include="xunit"/>
-        <PackageReference Include="xunit.runner.visualstudio">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="FluentAssertions"/>
-        <None Update="appsettings.local.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="appsettings.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
-      <ProjectReference Include="..\..\src\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
-      <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
-      <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <LangVersion>latest</LangVersion>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="TechTalk.SpecFlow" />
+    <PackageReference Include="AutoFixture" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="SpecFlow" />
+    <PackageReference Include="SpecFlow.Assist.Dynamic" />
+    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" />
+    <PackageReference Include="SpecFlow.xUnit" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" />
+    <None Update="appsettings.local.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
+    <ProjectReference Include="..\..\src\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
+    <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
+    <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj" />
+  </ItemGroup>
 </Project>
