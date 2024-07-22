@@ -44,13 +44,29 @@ steps:
       modifyOutputPath: true
 
   - task: DotNetCoreCLI@2
-    displayName: 'Build platform apis'
+    displayName: 'Build .NET 6 platform apis'
     inputs:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(PLATFORM_NUGET_CACHE)
-      projects: 'platform/src/apis/**/*.csproj'
-      arguments: '-c Release -r win-x86 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      projects: |
+        platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj
+        platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
+        platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
+        platform/src/apis/Platform.UserDataCleanUp/Platform.UserDataCleanUp.csproj
+      arguments: '-c Release -r win-x86 -f net6.0 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build .NET 8 platform apis'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
+      projects: |
+        platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
+      arguments: '-c Release -r win-x64 -f net8.0 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
 
