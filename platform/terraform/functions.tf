@@ -1,16 +1,16 @@
 module "benchmark-fa" {
-  source               = "./modules/functions"
-  function-name        = "benchmark"
-  common-tags          = local.common-tags
-  environment-prefix   = var.environment-prefix
-  resource-group-name  = azurerm_resource_group.resource-group.name
-  storage-account-name = azurerm_storage_account.platform-storage.name
-  storage-account-id   = azurerm_storage_account.platform-storage.id
-  storage-account-key  = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id         = data.azurerm_key_vault.key-vault.id
-  location             = var.location
-  enable-restrictions  = lower(var.cip-environment) != "dev"
-  instrumentation-key  = data.azurerm_application_insights.application-insights.instrumentation_key
+  source                      = "./modules/functions"
+  function-name               = "benchmark"
+  common-tags                 = local.common-tags
+  environment-prefix          = var.environment-prefix
+  resource-group-name         = azurerm_resource_group.resource-group.name
+  storage-account-name        = azurerm_storage_account.platform-storage.name
+  storage-account-id          = azurerm_storage_account.platform-storage.id
+  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                = data.azurerm_key_vault.key-vault.id
+  location                    = var.location
+  enable-restrictions         = lower(var.cip-environment) != "dev"
+  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = azurerm_search_service.search.name
     "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
@@ -19,13 +19,14 @@ module "benchmark-fa" {
     "PipelineMessageHub__JobPendingQueue"    = "data-pipeline-job-pending"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
-  dotnet-version      = "v8.0"
-  use-32-bit-worker   = false
-  worker-runtime      = "dotnet-isolated"
+  subnet_id            = data.azurerm_subnet.web-app-subnet.id
+  sql-server-fqdn      = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
+  sql-server-username  = data.azurerm_key_vault_secret.sql-user-name.value
+  sql-server-password  = data.azurerm_key_vault_secret.sql-password.value
+  dotnet-version       = "v8.0"
+  use-32-bit-worker    = false
+  use-isolated-runtime = true
+  worker-runtime       = "dotnet-isolated"
 }
 
 module "insight-fa" {
