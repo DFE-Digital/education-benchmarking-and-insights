@@ -74,8 +74,8 @@ public class EstablishmentTrustsSteps
         await _api.Send();
     }
 
-    [Then("the trust result should be correct")]
-    private async Task ThenTheTrustResultShouldBeCorrect()
+    [Then("the trust result should be ok and have the following values:")]
+    private async Task ThenTheTrustResultShouldHaveValues(Table table)
     {
         var response = _api[RequestKey].Response;
 
@@ -84,9 +84,8 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Trust>();
-
-        result.CompanyNumber.Should().Be("7539918");
-        result.TrustName.Should().Be("Test Company/Trust  1");
+        
+        table.CompareToInstance(result);
     }
 
     [Then("the trust result should be not found")]
@@ -98,8 +97,8 @@ public class EstablishmentTrustsSteps
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    [Then("the trust suggest result should be correct")]
-    private async Task ThenTheTrustsSuggestResultShouldBeCorrect()
+    [Then("the trust suggest result should be ok and have the following values:")]
+    private async Task ThenTheTrustsSuggestResultShouldShouldHaveValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -110,14 +109,19 @@ public class EstablishmentTrustsSteps
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
         var result = results.FirstOrDefault();
         result.Should().NotBeNull();
-
-        result?.Text.Should().Be("*7539918*");
-        result?.Document?.TrustName.Should().Be("Test Company/Trust  1");
-        result?.Document?.CompanyNumber.Should().Be("7539918");
+        
+        var actual = new
+        {
+            result?.Text,
+            result?.Document?.TrustName,
+            result?.Document?.CompanyNumber
+        };
+       
+        table.CompareToInstance(actual);
     }
 
-    [Then("the trust suggest result should be:")]
-    private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
+    [Then("the trust suggest result should be ok and have the following multiple values:")]
+    private async Task ThenTheTrustsSuggestResultShouldHaveMultipleValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -126,15 +130,15 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
-
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
+        
+        var set = results.Select(result => new 
         {
-            set.Add(new { result.Text, result.Document?.TrustName, result.Document?.CompanyNumber });
-        }
-
-        table.CompareToDynamicSet(set, false);
+            result.Text,
+            result.Document?.TrustName,
+            result.Document?.CompanyNumber
+        }).ToList();
+        
+        table.CompareToSet(set);
     }
 
     [Then("the trust suggest result should be empty")]
@@ -151,7 +155,7 @@ public class EstablishmentTrustsSteps
         results.Should().BeEmpty();
     }
 
-    [Then("the trust suggest result should have the follow validation errors:")]
+    [Then("the trust suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
@@ -160,13 +164,7 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
-        {
-            set.Add(new { result.PropertyName, result.ErrorMessage });
-        }
-
-        table.CompareToDynamicSet(set, false);
+        
+        table.CompareToSet(results);
     }
 }

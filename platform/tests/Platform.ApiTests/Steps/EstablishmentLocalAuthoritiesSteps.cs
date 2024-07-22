@@ -74,8 +74,8 @@ public class EstablishmentLocalAuthoritiesSteps
         await _api.Send();
     }
 
-    [Then("the local authority result should be correct")]
-    private async Task ThenTheLocalAuthorityResultShouldBeCorrect()
+    [Then("the local authority result should be ok and have the following values:")]
+    private async Task ThenTheLocalAuthorityResultShouldHaveValues(Table table)
     {
         var response = _api[RequestKey].Response;
 
@@ -84,9 +84,8 @@ public class EstablishmentLocalAuthoritiesSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<LocalAuthority>();
-
-        result.Code.Should().Be("201");
-        result.Name.Should().Be("City of London");
+        
+        table.CompareToInstance(result);
     }
 
     [Then("the local authority result should be not found")]
@@ -98,8 +97,8 @@ public class EstablishmentLocalAuthoritiesSteps
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    [Then("the local authorities suggest result should be correct")]
-    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeCorrect()
+    [Then("the local authorities suggest result should be ok and have the following values:")]
+    private async Task ThenTheLocalAuthoritiesSuggestResultShouldHaveValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -111,13 +110,18 @@ public class EstablishmentLocalAuthoritiesSteps
         var result = results.FirstOrDefault();
         result.Should().NotBeNull();
 
-        result?.Text.Should().Be("*201*");
-        result?.Document?.Name.Should().Be("City of London");
-        result?.Document?.Code.Should().Be("201");
+        var actual = new
+        {
+            result?.Text,
+            result?.Document?.Name,
+            result?.Document?.Code
+        };
+       
+        table.CompareToInstance(actual);
     }
 
-    [Then("the local authorities suggest result should be:")]
-    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBe(Table table)
+    [Then("the local authorities suggest result should be ok and have the following multiple values:")]
+    private async Task ThenTheLocalAuthoritiesSuggestResultShouldHaveMultipleValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -125,16 +129,16 @@ public class EstablishmentLocalAuthoritiesSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results;
-
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
+        var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results.ToList();
+       
+        var set = results.Select(result => new 
         {
-            set.Add(new { result.Text, result.Document?.Name, result.Document?.Code });
-        }
-
-        table.CompareToDynamicSet(set, false);
+            result.Text,
+            result.Document?.Name,
+            result.Document?.Code
+        }).ToList();
+        
+        table.CompareToSet(set);
     }
 
     [Then("the local authorities suggest result should be empty")]
@@ -151,7 +155,7 @@ public class EstablishmentLocalAuthoritiesSteps
         results.Should().BeEmpty();
     }
 
-    [Then("the local authorities suggest result should have the follow validation errors:")]
+    [Then("the local authorities suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheLocalAuthoritiesSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
@@ -160,13 +164,7 @@ public class EstablishmentLocalAuthoritiesSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
-        var set = new List<dynamic>();
 
-        foreach (var result in results)
-        {
-            set.Add(new { result.PropertyName, result.ErrorMessage });
-        }
-
-        table.CompareToDynamicSet(set, false);
+        table.CompareToSet(results);
     }
 }

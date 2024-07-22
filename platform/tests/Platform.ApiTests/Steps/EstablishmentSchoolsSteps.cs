@@ -113,8 +113,8 @@ public class EstablishmentSchoolsSteps
         await _api.Send();
     }
 
-    [Then("the school result should be correct")]
-    private async Task ThenTheSchoolResultShouldBeOk()
+    [Then("the school result should be ok and have the following values:")]
+    private async Task ThenTheSchoolResultShouldHaveValues(Table table)
     {
         var response = _api[RequestKey].Response;
 
@@ -123,9 +123,8 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<School>();
-
-        result.URN.Should().Be("777042");
-        result.SchoolName.Should().Be("Test school 102");
+        
+        table.CompareToInstance(result);
     }
 
     [Then("the school result should be not found")]
@@ -137,8 +136,8 @@ public class EstablishmentSchoolsSteps
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    [Then("the schools suggest result should be correct")]
-    private async Task ThenTheSchoolsSuggestResultShouldBeCorrect()
+    [Then("the school suggest result should be ok and have the following values:")]
+    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -149,14 +148,19 @@ public class EstablishmentSchoolsSteps
         var results = content.FromJson<SuggestResponse<School>>().Results;
         var result = results.FirstOrDefault();
         result.Should().NotBeNull();
-
-        result?.Text.Should().Be("*777042*");
-        result?.Document?.SchoolName.Should().Be("Test school 102");
-        result?.Document?.URN.Should().Be("777042");
+        
+        var actual = new
+        {
+            result?.Text,
+            result?.Document?.SchoolName,
+            result?.Document?.URN
+        };
+       
+        table.CompareToInstance(actual);
     }
 
-    [Then("the schools suggest result should be:")]
-    private async Task ThenTheSchoolsSuggestResultShouldBe(Table table)
+    [Then("the schools suggest result should be ok and have the following multiple values:")]
+    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveMultipleValues(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -164,16 +168,16 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<School>>().Results;
-
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
+        var results = content.FromJson<SuggestResponse<School>>().Results.ToList();
+        
+        var set = results.Select(result => new 
         {
-            set.Add(new { result.Text, result.Document?.SchoolName, result.Document?.URN });
-        }
-
-        table.CompareToDynamicSet(set, false);
+            result.Text,
+            result.Document?.SchoolName,
+            result.Document?.URN
+        }).ToList();
+        
+        table.CompareToSet(set);
     }
 
     [Then("the schools suggest result should be empty")]
@@ -190,8 +194,8 @@ public class EstablishmentSchoolsSteps
         results.Should().BeEmpty();
     }
 
-    [Then("the schools suggest result should have the follow validation errors:")]
-    private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
+    [Then("the schools suggest result should be bad request and have the following validation errors:")]
+    private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowingValidationErrors(Table table)
     {
         var response = _api[SuggestRequestKey].Response;
 
@@ -199,18 +203,12 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
-        {
-            set.Add(new { result.PropertyName, result.ErrorMessage });
-        }
-
-        table.CompareToDynamicSet(set, false);
+        
+        table.CompareToSet(results);
     }
 
-    [Then("the schools query result should be:")]
-    private async Task ThenTheSchoolsQueryResultShouldBe(Table table)
+    [Then("the schools query result should be ok and have the following values:")]
+    private async Task ThenTheSchoolsQueryResultShouldHaveValues(Table table)
     {
         var response = _api[QueryRequestKey].Response;
 
@@ -219,15 +217,8 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<School[]>();
-
-        var set = new List<dynamic>();
-
-        foreach (var result in results)
-        {
-            set.Add(new { result.SchoolName, result.URN });
-        }
-
-        table.CompareToDynamicSet(set, false);
+        
+        table.CompareToSet(results);
     }
 
     [Then("the schools query result should be empty")]

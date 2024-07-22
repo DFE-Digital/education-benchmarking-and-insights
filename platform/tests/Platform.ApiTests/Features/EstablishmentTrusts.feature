@@ -3,7 +3,10 @@ Feature: Establishment trusts endpoints
     Scenario: Sending a valid trust request
         Given a valid trust request with id '7539918'
         When I submit the trust request
-        Then the trust result should be correct
+        Then the trust result should be ok and have the following values:
+          | Field          | Value                  |
+          | CompanyNumber  | 7539918                |
+          | TrustName      | Test Company/Trust  1  |
 
     Scenario: Sending an invalid trust request should return not found
         Given an invalid trust request with id '99999999'
@@ -13,12 +16,16 @@ Feature: Establishment trusts endpoints
     Scenario: Sending a valid suggest trust request with exact code
         Given a valid trust suggest request with searchText '7539918'
         When I submit the trust request
-        Then the trust suggest result should be correct
+        Then the trust suggest result should be ok and have the following values:
+          | Field          | Value                  |
+          | Text           | *7539918*              |
+          | CompanyNumber  | 7539918                |
+          | TrustName      | Test Company/Trust  1  |        
         
     Scenario: Sending a valid suggest trust request with partial name
         Given a valid trust suggest request with searchText 'test'
         When I submit the trust request
-        Then the trust suggest result should be:
+        Then the trust suggest result should be ok and have the following multiple values:
           | Text                         | TrustName                  | CompanyNumber |    
           | *Test* Company/Trust  334    | Test Company/Trust  334    | 10038640      |
           | *Test* Company/Trust  262    | Test Company/Trust  262    | 10264735      |
@@ -34,7 +41,7 @@ Feature: Establishment trusts endpoints
     Scenario: Sending an invalid suggest trust request returns the validation results
         Given an invalid trust suggest request
         When I submit the trust request
-        Then the trust suggest result should have the follow validation errors:
+        Then the trust suggest result should be bad request and have the following validation errors:
           | PropertyName  | ErrorMessage                                 |
           | SuggesterName | 'Suggester Name' must not be empty.          |
           | SearchText    | 'Search Text' must not be empty.             |
