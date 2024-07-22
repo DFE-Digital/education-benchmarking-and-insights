@@ -1,7 +1,6 @@
 ﻿using Platform.Functions;
 using Platform.Functions.Extensions;
 using Xunit;
-
 namespace Platform.Tests.Functions;
 
 public class WhenGetCorrelationIdIsCalled
@@ -11,7 +10,7 @@ public class WhenGetCorrelationIdIsCalled
     {
         var context = new DefaultHttpContext();
         var id = Guid.NewGuid();
-        context.Request.Headers.Add(Constants.CorrelationIdHeader, id.ToString());
+        context.Request.Headers.Append(Constants.CorrelationIdHeader, id.ToString());
 
         var result = context.Request.GetCorrelationId();
 
@@ -23,7 +22,7 @@ public class WhenGetCorrelationIdIsCalled
     {
         var context = new DefaultHttpContext();
         const string id = "invalid";
-        context.Request.Headers.Add(Constants.CorrelationIdHeader, id);
+        context.Request.Headers.Append(Constants.CorrelationIdHeader, id);
 
         var result = context.Request.GetCorrelationId();
 

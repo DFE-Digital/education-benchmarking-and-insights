@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Benchmark;
 
 public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctionsTestBase
@@ -16,13 +14,11 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
             .ReturnsAsync(new ComparatorSetSchool());
 
         var result =
-            await Functions.DefaultSchoolComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
+            await Functions.DefaultSchoolComparatorSetAsync(CreateHttpRequestData(), "12313");
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
-
-
 
     [Fact]
     public async Task ShouldReturn500OnError()
@@ -32,9 +28,9 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
             .Throws(new Exception());
 
         var result = await Functions
-            .DefaultSchoolComparatorSetAsync(CreateRequest(), "12313") as StatusCodeResult;
+            .DefaultSchoolComparatorSetAsync(CreateHttpRequestData(), "12313");
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }
