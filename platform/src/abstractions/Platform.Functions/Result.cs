@@ -37,7 +37,7 @@ public class CreatedResult<T>(T content, string location) : Result(ResultStatusC
         {
             response.Headers.Add(nameof(Location), Location);
         }
-        
+
         return response;
     }
 }

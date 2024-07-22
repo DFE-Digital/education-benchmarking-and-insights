@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
 namespace Platform.Api.Benchmark.FinancialPlans;
@@ -107,7 +108,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
 
     [Function(nameof(QueryFinancialPlanAsync))]
     [OpenApiOperation(nameof(QueryFinancialPlanAsync), "Financial Plans")]
-    [OpenApiParameter("urns", Description = "List of school URNs to include", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs to include", Type = typeof(string[]), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<FinancialPlanSummary>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
