@@ -1,16 +1,13 @@
-using System;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker.Http;
-using Platform.Functions;
-namespace Platform.Api.Benchmark.Extensions;
+namespace Platform.Functions.Extensions;
 
 public static class HttpRequestDataExtensions
 {
     public static Guid GetCorrelationId(this HttpRequestData req)
     {
-        if (req.Headers.TryGetValues(Functions.Constants.CorrelationIdHeader, out var values))
+        if (req.Headers.TryGetValues(Constants.CorrelationIdHeader, out var values))
         {
             return Guid.TryParse(values.ToString(), out var guid)
                 ? guid
@@ -32,8 +29,8 @@ public static class HttpRequestDataExtensions
 
     public static async Task<HttpResponseData> CreateJsonResponseAsync(this HttpRequestData req, object obj, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
-        var response = req.CreateResponse(statusCode);
-        await response.WriteAsJsonAsync(obj);
+        var response = req.CreateResponse();
+        await response.WriteAsJsonAsync(obj, statusCode);
         return response;
     }
 

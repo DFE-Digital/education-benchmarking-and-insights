@@ -6,7 +6,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Benchmark.Extensions;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Api.Benchmark.Responses;
 using Platform.Functions;
