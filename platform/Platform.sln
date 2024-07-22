@@ -21,7 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Api.Benchmark", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{40636378-A9AE-4BD0-95FC-755987FC7388}"
 	ProjectSection(SolutionItems) = preProject
-		terraform\databases.tf = terraform\databases.tf
 		terraform\functions.tf = terraform\functions.tf
 		terraform\main.tf = terraform\main.tf
 		terraform\provider.tf = terraform\provider.tf
@@ -29,17 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\storage.tf = terraform\storage.tf
 		terraform\terraform.tfvars = terraform\terraform.tfvars
 		terraform\variables.tf = terraform\variables.tf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{331196E5-A208-4344-8C07-321E17121CAE}"
-	ProjectSection(SolutionItems) = preProject
-		pipelines\build.yaml = pipelines\build.yaml
-		pipelines\jobs-platform-deployment.yaml = pipelines\jobs-platform-deployment.yaml
-		pipelines\security-scan.yaml = pipelines\security-scan.yaml
-		pipelines\steps-platform-build-api-tests.yaml = pipelines\steps-platform-build-api-tests.yaml
-		pipelines\steps-platform-build.yaml = pipelines\steps-platform-build.yaml
-		pipelines\steps-platform-run-unit-tests.yaml = pipelines\steps-platform-run-unit-tests.yaml
-		pipelines\steps-web-run-api-tests.yaml = pipelines\steps-web-run-api-tests.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
@@ -68,15 +56,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search", "src\search\Platform.Search\Platform.Search.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Functions", "src\abstractions\Platform.Functions\Platform.Functions.csproj", "{AD3DC4F8-B866-40FE-A456-B18BA3158403}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC}"
-	ProjectSection(SolutionItems) = preProject
-		pipelines\zaproxy\.artifactignore = pipelines\zaproxy\.artifactignore
-		pipelines\zaproxy\benchmark.prop = pipelines\zaproxy\benchmark.prop
-		pipelines\zaproxy\config.conf = pipelines\zaproxy\config.conf
-		pipelines\zaproxy\establishment.prop = pipelines\zaproxy\establishment.prop
-		pipelines\zaproxy\insight.prop = pipelines\zaproxy\insight.prop
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Orchestrator", "src\apis\Platform.Orchestrator\Platform.Orchestrator.csproj", "{1B14CB84-50E5-46D2-A8A4-321E37637EC3}"
 EndProject
@@ -165,7 +144,6 @@ Global
 		{D1FD7A16-3B98-4294-89D0-E77539D0E593} = {4150CD4C-2835-410D-BB90-B10FD04C6BE5}
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{AD3DC4F8-B866-40FE-A456-B18BA3158403} = {D52455F1-3BF5-46F4-9833-633817248295}
-		{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC} = {331196E5-A208-4344-8C07-321E17121CAE}
 		{1B14CB84-50E5-46D2-A8A4-321E37637EC3} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{B5D3CA95-E059-444F-AD07-153D1DC8095F} = {80C48401-A0AA-4707-B26A-332240A6C214}
 	EndGlobalSection
