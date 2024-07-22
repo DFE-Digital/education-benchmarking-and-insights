@@ -7,8 +7,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Benchmark.Extensions;
 using Platform.Api.Benchmark.OpenApi;
+using Platform.Functions.Extensions;
 namespace Platform.Api.Benchmark.FinancialPlans;
 
 public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IFinancialPlansService service)
@@ -180,7 +180,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
                 //TODO : Consider adding request validator
                 var result = await service.UpsertAsync(urn, year, body);
 
-                return await req.CreateJsonResponseAsync(result);
+                return await result.CreateResponse(req);
             }
             catch (Exception e)
             {

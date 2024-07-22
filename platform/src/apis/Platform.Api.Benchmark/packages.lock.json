@@ -2310,6 +2310,7 @@
           "FluentValidation": "[11.9.2, )",
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
+          "Microsoft.Azure.Functions.Worker.Core": "[1.18.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[6.0.0, )",
           "Microsoft.Extensions.Configuration.Json": "[6.0.0, )",

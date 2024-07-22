@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Azure.Functions.Worker.Http;
+using Platform.Functions.Extensions;
 namespace Platform.Functions;
 
 public enum ResultStatusCode
@@ -16,6 +18,8 @@ public abstract class Result(ResultStatusCode status)
     public ResultStatusCode Status => status;
 
     public abstract IActionResult CreateResponse();
+
+    public abstract Task<HttpResponseData> CreateResponse(HttpRequestData req);
 }
 
 [ExcludeFromCodeCoverage]
@@ -24,19 +28,26 @@ public class CreatedResult<T>(T content, string location) : Result(ResultStatusC
     public object? Content { get; } = content;
     public string Location { get; } = location;
 
-    public override CreatedResult CreateResponse()
+    public override CreatedResult CreateResponse() => new(Location, Content);
+
+    public override async Task<HttpResponseData> CreateResponse(HttpRequestData req)
     {
-        return new CreatedResult(Location, Content);
+        var response = Content == null ? req.CreateResponse(HttpStatusCode.Created) : await req.CreateJsonResponseAsync(Content, HttpStatusCode.Created);
+        if (!string.IsNullOrWhiteSpace(Location))
+        {
+            response.Headers.Add(nameof(Location), Location);
+        }
+        
+        return response;
     }
 }
 
 [ExcludeFromCodeCoverage]
 public class UpdatedResult() : Result(ResultStatusCode.Updated)
 {
-    public override NoContentResult CreateResponse()
-    {
-        return new NoContentResult();
-    }
+    public override NoContentResult CreateResponse() => new();
+
+    public override Task<HttpResponseData> CreateResponse(HttpRequestData req) => Task.FromResult(req.CreateResponse(HttpStatusCode.NoContent));
 }
 
 [ExcludeFromCodeCoverage]
@@ -55,8 +66,11 @@ public class DataConflictResult() : Result(ResultStatusCode.Conflict)
     public DateTimeOffset? UpdatedAt { get; set; }
     public Reason ConflictReason { get; set; }
 
-    public override ConflictObjectResult CreateResponse()
+    public override ConflictObjectResult CreateResponse() => new(this);
+
+    public override async Task<HttpResponseData> CreateResponse(HttpRequestData req)
     {
-        return new ConflictObjectResult(this);
+        var response = await req.CreateJsonResponseAsync(this, HttpStatusCode.Conflict);
+        return response;
     }
 }
