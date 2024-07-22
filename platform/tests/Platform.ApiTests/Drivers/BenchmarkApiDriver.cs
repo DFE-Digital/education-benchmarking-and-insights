@@ -1,10 +1,5 @@
 using TechTalk.SpecFlow.Infrastructure;
-
 namespace Platform.ApiTests.Drivers;
 
-public class BenchmarkApiDriver : ApiDriver
-{
-    public BenchmarkApiDriver(ISpecFlowOutputHelper output) : base(TestConfiguration.Benchmark, output)
-    {
-    }
-}
+// ReSharper disable once ClassNeverInstantiated.Global
+public class BenchmarkApiDriver(ISpecFlowOutputHelper output) : ApiDriver(TestConfiguration.Benchmark, output);

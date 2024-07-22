@@ -200,6 +200,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 if (!validationResult.IsValid)
                 {
                     response.HttpResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                    return response;
                 }
 
                 await service.UpsertUserDefinedSchoolAsync(comparatorSet);

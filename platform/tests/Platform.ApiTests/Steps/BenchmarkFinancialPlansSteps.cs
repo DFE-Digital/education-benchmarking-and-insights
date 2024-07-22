@@ -5,7 +5,6 @@ using Platform.Api.Benchmark.FinancialPlans;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using Xunit;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -52,7 +51,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         api.CreateRequest(FinancialPlansKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/financial-plan/{urn}/{year}/deployment", UriKind.Relative),
-            Method = HttpMethod.Get,
+            Method = HttpMethod.Get
         });
     }
 
@@ -72,7 +71,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
                     "Urn", kvp.Key
                 },
                 {
-                    "Year", kvp.Value
+                    "Year", int.Parse(kvp.Value)
                 },
                 {
                     "UpdatedBy", UserId
@@ -90,7 +89,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         api.CreateRequest(FinancialPlansKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/financial-plans?urns={urn}", UriKind.Relative),
-            Method = HttpMethod.Get,
+            Method = HttpMethod.Get
         });
     }
 
@@ -166,7 +165,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         api.CreateRequest(FinancialPlansKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/financial-plan/{urn}/{year}", UriKind.Relative),
-            Method = HttpMethod.Get,
+            Method = HttpMethod.Get
         });
     }
 
@@ -187,7 +186,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         api.CreateRequest(FinancialPlansKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/financial-plan/{urn}/{year}", UriKind.Relative),
-            Method = HttpMethod.Delete,
+            Method = HttpMethod.Delete
         });
     }
 
