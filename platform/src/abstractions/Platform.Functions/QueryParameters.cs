@@ -20,5 +20,7 @@ public abstract record QueryParameters
                 queryParameters[key] = new StringValues(values);
             }
         }
+
+        SetValues(new QueryCollection(queryParameters));
     }
 }

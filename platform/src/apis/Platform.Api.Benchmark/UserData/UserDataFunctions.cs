@@ -6,6 +6,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
 namespace Platform.Api.Benchmark.UserData;
@@ -14,12 +15,12 @@ public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctio
 {
     [Function(nameof(QueryAsync))]
     [OpenApiOperation(nameof(QueryAsync), "User Data")]
-    [OpenApiParameter("userId", Description = "User Id", Type = typeof(string), Required = true)]
-    [OpenApiParameter("type", Description = "Type", Type = typeof(string), Required = false)]
-    [OpenApiParameter("organisationType", Description = "Organisation Type", Type = typeof(string), Required = false)]
-    [OpenApiParameter("organisationId", Description = "Organisation Id", Type = typeof(string), Required = false)]
-    [OpenApiParameter("status", Description = "Status", Type = typeof(string), Required = false)]
-    [OpenApiParameter("id", Description = "Identifier", Type = typeof(string), Required = false)]
+    [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id", Type = typeof(string), Required = true)]
+    [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false)]
+    [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false)]
+    [OpenApiParameter("organisationId", In = ParameterLocation.Query, Description = "Organisation Id", Type = typeof(string), Required = false)]
+    [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false)]
+    [OpenApiParameter("id", In = ParameterLocation.Query, Description = "Identifier", Type = typeof(string), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<UserData>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
