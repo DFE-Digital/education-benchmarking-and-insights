@@ -1,57 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Trusts;
 
 [ApiExplorerSettings(GroupName = "Trusts")]
-public class TrustsFunctions
+public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service)
 {
-    private readonly ILogger<TrustsFunctions> _logger;
-    private readonly ITrustsService _service;
-
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-    [FunctionName(nameof(QueryTrustsCharacteristicsAsync))]
-    [ProducesResponseType(typeof(TrustCharacteristic[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]), Required = true)]
-    public async Task<IActionResult> QueryTrustsCharacteristicsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts/characteristics")]
-        HttpRequest req)
+    [Function(nameof(QueryTrustsCharacteristicsAsync))]
+    [OpenApiOperation(nameof(QueryTrustsCharacteristicsAsync), "Trust")]
+    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustCharacteristic[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QueryTrustsCharacteristicsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts/characteristics")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<TrustsParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var trusts = await _service.QueryCharacteristicAsync(queryParams.Truts);
-                return new JsonContentResult(trusts);
+                var trusts = await service.QueryCharacteristicAsync(queryParams.Truts);
+                return await req.CreateJsonResponseAsync(trusts);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trusts characteristics");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trusts characteristics");
+                return req.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
     }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs.Hosting;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Insight;
 using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.BudgetForecast;
 using Platform.Api.Insight.Census;
@@ -15,34 +14,29 @@ using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Sql;
-
-[assembly: WebJobsStartup(typeof(Startup))]
-
-namespace Platform.Api.Insight;
+namespace Platform.Api.Insight.Configuration;
 
 [ExcludeFromCodeCoverage]
-public class Startup : FunctionsStartup
+internal static class Services
 {
-    public override void Configure(IFunctionsHostBuilder builder)
+    internal static void Configure(IServiceCollection serviceCollection)
     {
-        builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
-
         var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         ArgumentNullException.ThrowIfNull(sql);
 
-        builder.Services
+        serviceCollection
             .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services
+        serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sql);
 
-        builder.Services
+        serviceCollection
             .AddOptions<SqlDatabaseOptions>()
             .BindConfiguration("Sql")
             .ValidateDataAnnotations();
 
-        builder.Services
+        serviceCollection
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
             .AddSingleton<ICensusService, CensusService>()
@@ -52,5 +46,17 @@ public class Startup : FunctionsStartup
             .AddSingleton<IExpenditureService, ExpenditureService>()
             .AddSingleton<IIncomeService, IncomeService>()
             .AddSingleton<IBudgetForecastService, BudgetForecastService>();
+
+        serviceCollection
+            .AddApplicationInsightsTelemetryWorkerService()
+            .ConfigureFunctionsApplicationInsights();
+
+        serviceCollection.Configure<JsonSerializerOptions>(options =>
+        {
+            options.AllowTrailingCommas = true;
+            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.PropertyNameCaseInsensitive = true;
+        });
     }
 }

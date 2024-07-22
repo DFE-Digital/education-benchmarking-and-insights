@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-
+using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight;
 
-[ApiExplorerSettings(GroupName = "Health Check")]
 [ExcludeFromCodeCoverage]
-public class HealthCheckFunctions
+public class HealthCheckFunctions(HealthCheckService healthCheck)
 {
-    private readonly HealthCheckService _healthCheck;
-
-
-    public HealthCheckFunctions(HealthCheckService healthCheck)
+    [Function(nameof(HealthAsync))]
+    [OpenApiOperation(nameof(HealthAsync), "Health Check")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "text/plain", typeof(string))]
+    public async Task<HttpResponseData> HealthAsync(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequestData req)
     {
-        _healthCheck = healthCheck;
-    }
-
-    [FunctionName(nameof(HealthAsync))]
-    public async Task<IActionResult> HealthAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequest req)
-    {
-        var healthStatus = await _healthCheck.CheckHealthAsync();
-        return new OkObjectResult(Enum.GetName(typeof(HealthStatus), healthStatus.Status));
+        var healthStatus = await healthCheck.CheckHealthAsync();
+        return await req.CreateObjectResponseAsync(Enum.GetName(typeof(HealthStatus), healthStatus.Status) ?? string.Empty);
     }
 }

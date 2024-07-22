@@ -4,7 +4,6 @@
         <AzureFunctionsVersion>v4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <PublishReadyToRun>true</PublishReadyToRun>
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enabled</ImplicitUsings>
@@ -44,8 +43,5 @@
     </ItemGroup>
     <ItemGroup>
         <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Extensions\"/>
     </ItemGroup>
 </Project>
