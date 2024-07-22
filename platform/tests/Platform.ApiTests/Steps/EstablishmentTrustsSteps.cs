@@ -84,7 +84,7 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Trust>();
-        
+
         table.CompareToInstance(result);
     }
 
@@ -109,14 +109,14 @@ public class EstablishmentTrustsSteps
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
         var result = results.FirstOrDefault();
         result.Should().NotBeNull();
-        
+
         var actual = new
         {
             result?.Text,
             result?.Document?.TrustName,
             result?.Document?.CompanyNumber
         };
-       
+
         table.CompareToInstance(actual);
     }
 
@@ -130,14 +130,14 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
-        
-        var set = results.Select(result => new 
+
+        var set = results.Select(result => new
         {
             result.Text,
             result.Document?.TrustName,
             result.Document?.CompanyNumber
         }).ToList();
-        
+
         table.CompareToSet(set);
     }
 
@@ -164,7 +164,7 @@ public class EstablishmentTrustsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
-        
+
         table.CompareToSet(results);
     }
 }

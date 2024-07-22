@@ -123,7 +123,7 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<School>();
-        
+
         table.CompareToInstance(result);
     }
 
@@ -148,14 +148,14 @@ public class EstablishmentSchoolsSteps
         var results = content.FromJson<SuggestResponse<School>>().Results;
         var result = results.FirstOrDefault();
         result.Should().NotBeNull();
-        
+
         var actual = new
         {
             result?.Text,
             result?.Document?.SchoolName,
             result?.Document?.URN
         };
-       
+
         table.CompareToInstance(actual);
     }
 
@@ -169,14 +169,14 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<School>>().Results.ToList();
-        
-        var set = results.Select(result => new 
+
+        var set = results.Select(result => new
         {
             result.Text,
             result.Document?.SchoolName,
             result.Document?.URN
         }).ToList();
-        
+
         table.CompareToSet(set);
     }
 
@@ -203,7 +203,7 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
-        
+
         table.CompareToSet(results);
     }
 
@@ -217,7 +217,7 @@ public class EstablishmentSchoolsSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<School[]>();
-        
+
         table.CompareToSet(results);
     }
 

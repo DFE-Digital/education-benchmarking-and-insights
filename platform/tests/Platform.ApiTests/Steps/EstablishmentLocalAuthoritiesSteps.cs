@@ -84,7 +84,7 @@ public class EstablishmentLocalAuthoritiesSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<LocalAuthority>();
-        
+
         table.CompareToInstance(result);
     }
 
@@ -116,7 +116,7 @@ public class EstablishmentLocalAuthoritiesSteps
             result?.Document?.Name,
             result?.Document?.Code
         };
-       
+
         table.CompareToInstance(actual);
     }
 
@@ -130,14 +130,14 @@ public class EstablishmentLocalAuthoritiesSteps
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results.ToList();
-       
-        var set = results.Select(result => new 
+
+        var set = results.Select(result => new
         {
             result.Text,
             result.Document?.Name,
             result.Document?.Code
         }).ToList();
-        
+
         table.CompareToSet(set);
     }
 
