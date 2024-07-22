@@ -53,14 +53,15 @@ resource "azurerm_windows_function_app" "func-app" {
   }
 
   site_config {
-    always_on                = var.always-on
-    http2_enabled            = true
-    application_insights_key = var.instrumentation-key
-    use_32_bit_worker        = var.use-32-bit-worker
-    
+    always_on                              = var.always-on
+    http2_enabled                          = true
+    application_insights_key               = var.instrumentation-key
+    application_insights_connection_string = var.instrumentation-conn-string
+    use_32_bit_worker                      = var.use-32-bit-worker
+
     application_stack {
       dotnet_version              = var.dotnet-version
-      use_dotnet_isolated_runtime = false
+      use_dotnet_isolated_runtime = var.use-isolated-runtime
     }
 
     ip_restriction_default_action = var.enable-restrictions ? "Deny" : "Allow"

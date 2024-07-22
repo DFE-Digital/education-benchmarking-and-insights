@@ -38,8 +38,16 @@ variable "subnet_id" {
 }
 
 variable "instrumentation-key" {
-  type = string
-} #
+  type     = string
+  nullable = true
+  default  = null
+}
+
+variable "instrumentation-conn-string" {
+  type     = string
+  nullable = true
+  default  = null
+}
 
 variable "location" {
   type = string
@@ -97,4 +105,9 @@ variable "use-32-bit-worker" {
 variable "worker-runtime" {
   type    = string
   default = "dotnet"
+}
+
+variable "use-isolated-runtime" {
+  type    = bool
+  default = false
 }
