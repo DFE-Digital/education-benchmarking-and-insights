@@ -123,7 +123,7 @@ module "orchestrator-fa" {
   sku = {
     size = "P0v3"
   }
-  instrumentation-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue" = "data-pipeline-job-finished"
@@ -131,8 +131,12 @@ module "orchestrator-fa" {
     "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+  subnet_id            = data.azurerm_subnet.web-app-subnet.id
+  sql-server-fqdn      = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
+  sql-server-username  = data.azurerm_key_vault_secret.sql-user-name.value
+  sql-server-password  = data.azurerm_key_vault_secret.sql-password.value
+  dotnet-version       = "v8.0"
+  use-32-bit-worker    = false
+  use-isolated-runtime = true
+  worker-runtime       = "dotnet-isolated"
 }
