@@ -82,7 +82,8 @@ public class SchoolsFunctions(ILogger<SchoolsFunctions> logger,
                        "CorrelationID", correlationId
                    },
                    {
-                       "Query", req.Url.Query
+                       // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
+                       "Query", req.Url?.Query
                    }
                }))
         {
