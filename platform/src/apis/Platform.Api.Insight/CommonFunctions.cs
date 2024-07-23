@@ -57,7 +57,7 @@ public class CommonFunctions(IDatabaseFactory dbFactory, ILogger<CommonFunctions
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get current return years");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

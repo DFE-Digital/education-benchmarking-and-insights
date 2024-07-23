@@ -50,12 +50,12 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
                 var plan = await service.DetailsAsync(urn, year);
                 return plan != null
                     ? await req.CreateJsonResponseAsync(plan)
-                    : req.CreateResponse(HttpStatusCode.NotFound);
+                    : req.CreateNotFoundResponse();
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get financial plan");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -96,12 +96,12 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
                 var plan = await service.DeploymentPlanAsync(urn, year);
                 return plan != null
                     ? await req.CreateJsonResponseAsync(plan)
-                    : req.CreateResponse(HttpStatusCode.NotFound);
+                    : req.CreateNotFoundResponse();
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get deployment plan");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -136,7 +136,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query financial plan");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -186,7 +186,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to upsert financial plan");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -229,7 +229,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to delete financial plan");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

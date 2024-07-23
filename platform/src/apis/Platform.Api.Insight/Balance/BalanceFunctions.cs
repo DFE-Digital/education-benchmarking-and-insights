@@ -69,13 +69,13 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             {
                 var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school balance");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -110,13 +110,13 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             {
                 var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get balance");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -155,7 +155,7 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school balance history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -194,7 +194,7 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get trust balance history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -232,7 +232,7 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query schools balance");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -270,7 +270,7 @@ public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService 
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query trusts balance");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

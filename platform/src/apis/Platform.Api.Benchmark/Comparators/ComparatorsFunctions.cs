@@ -43,7 +43,7 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to create school comparators");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -79,7 +79,7 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to create trust comparators");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

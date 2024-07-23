@@ -49,7 +49,7 @@ public class MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger
             catch (Exception e)
             {
                 logger.LogError(e, "Failed get user defined metric rag ratings");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -86,7 +86,7 @@ public class MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger
             catch (Exception e)
             {
                 logger.LogError(e, "Failed query metric rag ratings");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

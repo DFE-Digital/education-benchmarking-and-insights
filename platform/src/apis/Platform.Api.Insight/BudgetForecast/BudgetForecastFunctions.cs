@@ -53,7 +53,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get budget forecast returns");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -87,7 +87,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get budget forecast return metrics");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -126,7 +126,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
                     queryParams.Category);
                 if (year == null)
                 {
-                    return req.CreateResponse(HttpStatusCode.NotFound);
+                    return req.CreateNotFoundResponse();
                 }
 
                 return await req.CreateJsonResponseAsync(year);
@@ -134,7 +134,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get budget forecast current year");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

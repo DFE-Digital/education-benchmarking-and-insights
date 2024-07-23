@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,12 +56,6 @@ internal static class Services
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights();
 
-        serviceCollection.Configure<JsonSerializerOptions>(options =>
-        {
-            options.AllowTrailingCommas = true;
-            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.PropertyNameCaseInsensitive = true;
-        });
+        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
     }
 }

@@ -45,7 +45,7 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get trusts characteristics");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

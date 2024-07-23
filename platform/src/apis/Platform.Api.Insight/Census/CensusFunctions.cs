@@ -92,13 +92,13 @@ public class CensusFunctions(ILogger<CensusFunctions> logger, ICensusService ser
             {
                 var result = await service.GetAsync(urn);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get census");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -135,13 +135,13 @@ public class CensusFunctions(ILogger<CensusFunctions> logger, ICensusService ser
             {
                 var result = await service.GetCustomAsync(urn, identifier);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get custom census");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -179,7 +179,7 @@ public class CensusFunctions(ILogger<CensusFunctions> logger, ICensusService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get census history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -217,7 +217,7 @@ public class CensusFunctions(ILogger<CensusFunctions> logger, ICensusService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get census");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

@@ -54,7 +54,7 @@ public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctio
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get user data");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
