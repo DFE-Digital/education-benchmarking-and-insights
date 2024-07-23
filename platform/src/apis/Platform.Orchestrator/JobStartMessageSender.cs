@@ -2,12 +2,11 @@
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-
 namespace Platform.Orchestrator;
 
+// todo: deprecate in favour of [QueueOutput("output-queue")]
 public interface IJobStartMessageSender
 {
     Task Send(PipelineStartMessage input);
