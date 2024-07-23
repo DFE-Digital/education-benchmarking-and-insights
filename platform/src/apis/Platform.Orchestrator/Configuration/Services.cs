@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,13 +12,11 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        serviceCollection
-            .AddSerilogLoggerProvider(Constants.ApplicationName);
+        var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        ArgumentNullException.ThrowIfNull(sql);
 
         serviceCollection
-            .AddOptions<JobStartMessageSenderOptions>()
-            .BindConfiguration("PipelineMessageHub")
-            .ValidateDataAnnotations();
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
         serviceCollection
             .AddOptions<SqlDatabaseOptions>()
@@ -26,7 +25,6 @@ internal static class Services
 
         serviceCollection
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
-            .AddSingleton<IJobStartMessageSender, JobStartMessageSender>()
             .AddSingleton<IPipelineDb, PipelineDb>();
 
         serviceCollection
