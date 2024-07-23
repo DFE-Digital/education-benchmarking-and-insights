@@ -40,7 +40,7 @@ public class SchoolViewModel(School school)
 
         HasMetricRag = ratingsArray.Length != 0;
         Ratings = ratingsArray
-            .Where(x => x.RAG is "red" or "amber" && x.Category is not Category.Other)
+            .Where(x => x.RAG is "red" or "amber")
             .OrderBy(x => Lookups.StatusOrderMap[x.RAG ?? string.Empty])
             .ThenByDescending(x => x.Decile)
             .ThenByDescending(x => x.Value);
