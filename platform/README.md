@@ -91,7 +91,7 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
     "IsEncrypted": false,
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
         "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",

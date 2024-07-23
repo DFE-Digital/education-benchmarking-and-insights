@@ -1,37 +1,38 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs.Hosting;
+using System.Text.Json;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Sql;
-using Platform.Orchestrator;
-
-[assembly: WebJobsStartup(typeof(Startup))]
-
-namespace Platform.Orchestrator;
+namespace Platform.Orchestrator.Configuration;
 
 [ExcludeFromCodeCoverage]
-public class Startup : FunctionsStartup
+internal static class Services
 {
-    public override void Configure(IFunctionsHostBuilder builder)
+    internal static void Configure(IServiceCollection serviceCollection)
     {
-        builder.Services
+        serviceCollection
             .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services
+        serviceCollection
             .AddOptions<JobStartMessageSenderOptions>()
             .BindConfiguration("PipelineMessageHub")
             .ValidateDataAnnotations();
 
-        builder.Services
+        serviceCollection
             .AddOptions<SqlDatabaseOptions>()
             .BindConfiguration("Sql")
             .ValidateDataAnnotations();
 
-        builder.Services
+        serviceCollection
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
             .AddSingleton<IJobStartMessageSender, JobStartMessageSender>()
             .AddSingleton<IPipelineDb, PipelineDb>();
+
+        serviceCollection
+            .AddApplicationInsightsTelemetryWorkerService()
+            .ConfigureFunctionsApplicationInsights();
+
+        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
     }
 }
