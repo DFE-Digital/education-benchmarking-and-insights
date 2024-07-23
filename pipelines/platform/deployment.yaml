@@ -63,7 +63,7 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
+            - task: AzureFunctionApp@2
               displayName: 'Deploy insights function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -74,7 +74,7 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@1
               displayName: 'Deploy establishments function app'
