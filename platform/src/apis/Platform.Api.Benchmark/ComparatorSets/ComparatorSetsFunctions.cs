@@ -49,13 +49,13 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             {
                 var comparatorSet = await service.DefaultSchoolAsync(urn);
                 return comparatorSet == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get default school comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -96,13 +96,13 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             {
                 var comparatorSet = await service.CustomSchoolAsync(identifier, urn);
                 return comparatorSet == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get custom school comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -142,13 +142,13 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             {
                 var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
                 return comparatorSet == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get user defined school comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -238,7 +238,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to upsert user defined school comparator set");
-                response.HttpResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                response.HttpResponse = req.CreateErrorResponse();
             }
 
             return response;
@@ -283,7 +283,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
                 if (comparatorSet == null)
                 {
-                    return req.CreateResponse(HttpStatusCode.NotFound);
+                    return req.CreateNotFoundResponse();
                 }
 
                 await service.DeleteSchoolAsync(comparatorSet);
@@ -292,7 +292,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to delete user defined school comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -335,13 +335,13 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             {
                 var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
                 return comparatorSet == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get user defined trust comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -408,7 +408,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to upsert user defined trust comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -451,7 +451,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
                 if (comparatorSet == null)
                 {
-                    return req.CreateResponse(HttpStatusCode.NotFound);
+                    return req.CreateNotFoundResponse();
                 }
 
                 await service.DeleteTrustAsync(comparatorSet);
@@ -460,7 +460,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to delete user defined trust comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

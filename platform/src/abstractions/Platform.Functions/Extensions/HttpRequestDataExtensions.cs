@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using FluentValidation.Results;
 using Microsoft.Azure.Functions.Worker.Http;
 namespace Platform.Functions.Extensions;
 
@@ -42,4 +43,13 @@ public static class HttpRequestDataExtensions
         await response.WriteBytesAsync(bytes);
         return response;
     }
+
+    public static async Task<HttpResponseData> CreateValidationErrorsResponseAsync(this HttpRequestData req, IEnumerable<ValidationFailure> failures, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+    {
+        return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode);
+    }
+
+    public static HttpResponseData CreateErrorResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.InternalServerError);
+
+    public static HttpResponseData CreateNotFoundResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.NotFound);
 }

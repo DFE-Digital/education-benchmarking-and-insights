@@ -49,13 +49,13 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
             {
                 var data = await service.CustomDataSchoolAsync(urn, identifier);
                 return data == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(data);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get user defined school comparator set");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -119,7 +119,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to upsert school custom data");
-                response.HttpResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+                response.HttpResponse = req.CreateErrorResponse();
             }
 
             return response;
@@ -162,7 +162,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
                 var data = await service.CustomDataSchoolAsync(urn, identifier);
                 if (data == null)
                 {
-                    return req.CreateResponse(HttpStatusCode.NotFound);
+                    return req.CreateNotFoundResponse();
                 }
 
                 await service.DeleteSchoolAsync(data);
@@ -171,7 +171,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to delete school custom data");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

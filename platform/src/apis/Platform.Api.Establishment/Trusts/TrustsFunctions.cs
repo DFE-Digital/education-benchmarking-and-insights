@@ -5,99 +5,101 @@ using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 using Platform.Infrastructure.Search;
-
 namespace Platform.Api.Establishment.Trusts;
 
-[ApiExplorerSettings(GroupName = "Trusts")]
-public class TrustsFunctions
+public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service, IValidator<SuggestRequest> validator)
 {
-    private readonly ILogger<TrustsFunctions> _logger;
-    private readonly ITrustsService _service;
-    private readonly IValidator<SuggestRequest> _validator;
-
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service, IValidator<SuggestRequest> validator)
-    {
-        _logger = logger;
-        _service = service;
-        _validator = validator;
-    }
-
-    [FunctionName(nameof(SingleTrustAsync))]
-    [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SingleTrustAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequest req,
+    [Function(nameof(SingleTrustAsync))]
+    [OpenApiOperation(nameof(SingleTrustAsync), "Schools")]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Trust))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SingleTrustAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequestData req,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "Identifier", identifier}
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var response = await _service.GetAsync(identifier);
+                var response = await service.GetAsync(identifier);
 
                 return response == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(response);
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(response);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trust");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trust");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(SuggestTrustsAsync))]
-    [ProducesResponseType(typeof(SuggestResponse<Trust>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("companyNumbers", "List of trust company numbers to exclude", DataType = typeof(string[]), Required = false)]
-    public async Task<IActionResult> SuggestTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
-        [RequestBodyType(typeof(SuggestRequest), "The suggest object")] HttpRequest req)
+    [Function(nameof(SuggestTrustsAsync))]
+    [OpenApiOperation(nameof(SuggestTrustsAsync), "Trusts")]
+    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers to exclude", Type = typeof(string[]), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiRequestBody("application/json", typeof(SuggestRequest), Description = "The suggest object")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SuggestResponse<Trust>))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SuggestTrustsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")][RequestBodyType(typeof(SuggestRequest), "The suggest object")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var body = req.ReadAsJson<SuggestRequest>();
+                var body = await req.ReadAsJsonAsync<SuggestRequest>();
 
-                var validationResult = await _validator.ValidateAsync(body);
+                var validationResult = await validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
                 {
-                    return new ValidationErrorsResult(validationResult.Errors);
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var numbers = req.Query["companyNumbers"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var trusts = await _service.SuggestAsync(body, numbers);
-                return new JsonContentResult(trusts);
+                var numbers = req.Query["companyNumbers"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var trusts = await service.SuggestAsync(body, numbers);
+                return await req.CreateJsonResponseAsync(trusts);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trust suggestions");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trust suggestions");
+                return req.CreateErrorResponse();
             }
         }
     }

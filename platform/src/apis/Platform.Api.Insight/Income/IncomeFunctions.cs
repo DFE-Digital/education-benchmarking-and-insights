@@ -92,13 +92,13 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             {
                 var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(IncomeResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school income");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -134,13 +134,13 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             {
                 var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(IncomeResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get income");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -179,7 +179,7 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school income history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -218,7 +218,7 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get trust income history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -257,7 +257,7 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query schools income");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -296,7 +296,7 @@ public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService ser
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query trusts income");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

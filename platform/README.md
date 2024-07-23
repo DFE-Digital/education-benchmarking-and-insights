@@ -25,7 +25,7 @@ Add configuration in `local.settings.json` for `Platform.Api.Establishment`
 {
   "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Search__Name" : "s198d01-ebis-search",
     "Search__Key" : "[INSERT KEY VALUE]",

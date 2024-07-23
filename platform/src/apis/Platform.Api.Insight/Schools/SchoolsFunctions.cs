@@ -41,13 +41,13 @@ public class SchoolsFunctions(ILogger<SchoolsFunctions> logger, ISchoolsService 
             {
                 var result = await service.CharacteristicAsync(urn);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school characteristics");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -82,7 +82,7 @@ public class SchoolsFunctions(ILogger<SchoolsFunctions> logger, ISchoolsService 
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get schools characteristics");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }

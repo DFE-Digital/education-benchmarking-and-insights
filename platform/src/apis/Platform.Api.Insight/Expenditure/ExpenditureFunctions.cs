@@ -92,13 +92,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             {
                 var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school expenditure");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -136,13 +136,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             {
                 var result = await service.GetCustomSchoolAsync(urn, identifier);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get custom school expenditure");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -178,13 +178,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             {
                 var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? req.CreateResponse(HttpStatusCode.NotFound)
+                    ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get expenditure");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -223,7 +223,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school expenditure history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -262,7 +262,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get trust expenditure history");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -301,7 +301,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query schools expenditure");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
@@ -340,7 +340,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to query trusts expenditure");
-                return req.CreateResponse(HttpStatusCode.InternalServerError);
+                return req.CreateErrorResponse();
             }
         }
     }
