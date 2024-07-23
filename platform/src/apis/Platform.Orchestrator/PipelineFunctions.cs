@@ -9,7 +9,7 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 namespace Platform.Orchestrator;
 
-public class PipelineFunctions(ILogger<PipelineFunctions> logger, IJobStartMessageSender sender, IPipelineDb db)
+public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
@@ -95,10 +95,8 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IJobStartMessa
     }
 
     [Function(nameof(OnStartJobTrigger))]
-    public async Task OnStartJobTrigger([ActivityTrigger] PipelineStartMessage message)
-    {
-        await sender.Send(message);
-    }
+    [QueueOutput("%PipelineMessageHub:JobStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
+    public string[] OnStartJobTrigger([ActivityTrigger] PipelineStartMessage message) => [message.ToJson()];
 
     [Function(nameof(UpdateStatusTrigger))]
     public async Task UpdateStatusTrigger([ActivityTrigger] PipelineStatus status)
