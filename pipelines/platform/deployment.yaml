@@ -64,7 +64,7 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy insights function app'
+              displayName: 'Deploy insight function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
@@ -76,8 +76,8 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
-              displayName: 'Deploy establishments function app'
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy establishment function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
@@ -87,7 +87,7 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@1
               displayName: 'Deploy orchestrator function app'
