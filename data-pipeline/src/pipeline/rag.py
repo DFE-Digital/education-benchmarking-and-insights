@@ -109,7 +109,7 @@ def find_percentile(d, value):
     sorted_series = np.sort(d, axis=0, kind="stable")
     rank = np.searchsorted(sorted_series, value, side="right")
     pc = rank / len(d) * 100
-    return pc - 1
+    return pc
 
 
 def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_count):
