@@ -20,13 +20,12 @@
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Worker" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Abstractions"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>

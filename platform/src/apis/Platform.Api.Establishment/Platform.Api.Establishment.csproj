@@ -21,7 +21,6 @@
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage"/>

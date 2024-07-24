@@ -553,15 +553,6 @@
           "Newtonsoft.Json": "10.0.3"
         }
       },
-      "Microsoft.Azure.Functions.Extensions": {
-        "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "zYKtQQoS1fdzufxFApuMFiFtoi9QAGH6McXxntpylwLKgKjmCMWdgUd1dcekzTKNR9DPSDPRLiulvukqXnpWrQ==",
-        "dependencies": {
-          "Microsoft.Azure.WebJobs": "3.0.18",
-          "Microsoft.Extensions.DependencyInjection": "2.1.0"
-        }
-      },
       "Microsoft.Azure.Functions.Worker": {
         "type": "Transitive",
         "resolved": "1.22.0",
@@ -2486,7 +2477,6 @@
           "Dapper.Contrib": "[2.0.78, )",
           "FluentValidation": "[11.9.2, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
           "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
@@ -2512,7 +2502,6 @@
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "[8.0.2, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
           "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
@@ -2537,7 +2526,6 @@
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "[8.0.2, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
           "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "[1.3.0, )",
@@ -2562,7 +2550,6 @@
         "dependencies": {
           "FluentValidation": "[11.9.2, )",
           "JsonSubTypes": "[2.0.1, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[1.18.0, )",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.5.1, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",

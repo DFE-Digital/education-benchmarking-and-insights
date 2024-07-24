@@ -28,16 +28,6 @@
           "Microsoft.Extensions.Logging.ApplicationInsights": "2.22.0"
         }
       },
-      "Microsoft.Azure.Functions.Extensions": {
-        "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "zYKtQQoS1fdzufxFApuMFiFtoi9QAGH6McXxntpylwLKgKjmCMWdgUd1dcekzTKNR9DPSDPRLiulvukqXnpWrQ==",
-        "dependencies": {
-          "Microsoft.Azure.WebJobs": "3.0.18",
-          "Microsoft.Extensions.DependencyInjection": "2.1.0"
-        }
-      },
       "Microsoft.Azure.Functions.Worker": {
         "type": "Direct",
         "requested": "[1.22.0, )",
@@ -2267,7 +2257,6 @@
         "dependencies": {
           "FluentValidation": "[11.9.2, )",
           "JsonSubTypes": "[2.0.1, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[1.18.0, )",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.5.1, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",

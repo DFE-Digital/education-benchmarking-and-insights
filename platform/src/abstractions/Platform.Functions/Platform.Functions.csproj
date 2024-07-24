@@ -11,7 +11,6 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="JsonSubTypes"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Core"/>
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi.Core"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>

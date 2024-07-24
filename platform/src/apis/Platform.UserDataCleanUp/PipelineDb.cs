@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Infrastructure.Sql;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.UserDataCleanUp;
 
@@ -22,19 +23,13 @@ public interface IPlatformDb
 }
 
 [ExcludeFromCodeCoverage]
-public class PlatformDb : IPlatformDb
+public class PlatformDb(IDatabaseFactory dbFactory) : IPlatformDb
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public PlatformDb(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
 
     public async Task<IEnumerable<UserData>> GetUserDataForDeletion()
     {
         const string sql = "SELECT * FROM UserData WHERE Status = 'removed' OR Expiry < GETUTCDATE()";
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<UserData>(sql);
     }
 
@@ -44,9 +39,12 @@ public class PlatformDb : IPlatformDb
         const string metricRAGSql = "DELETE FROM MetricRAG WHERE RunId = @Id AND RunType = 'default'";
         const string userDataSql = "DELETE FROM UserData WHERE Id = @Id AND Type = 'comparator-set' AND OrganisationType = 'school'";
 
-        var parameters = new { Id = id };
+        var parameters = new
+        {
+            Id = id
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
 
         await conn.ExecuteAsync(comparatorSetSql, parameters, transaction);
@@ -62,9 +60,12 @@ public class PlatformDb : IPlatformDb
         const string comparatorSetSql = "DELETE FROM UserDefinedTrustComparatorSet WHERE RunId = @Id";
         const string userDataSql = "DELETE FROM UserData WHERE Id = @Id AND Type = 'comparator-set' AND OrganisationType = 'trust'";
 
-        var parameters = new { Id = id };
+        var parameters = new
+        {
+            Id = id
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
 
         await conn.ExecuteAsync(comparatorSetSql, parameters, transaction);
@@ -82,9 +83,12 @@ public class PlatformDb : IPlatformDb
         const string nonFinancialSql = "DELETE FROM NonFinancial WHERE RunId = @Id AND RunType = 'custom'";
         const string userDataSql = "DELETE FROM UserData WHERE Id = @Id AND Type = 'custom-data' AND OrganisationType = 'school'";
 
-        var parameters = new { Id = id };
+        var parameters = new
+        {
+            Id = id
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
 
         await conn.ExecuteAsync(comparatorSetSql, parameters, transaction);

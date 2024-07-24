@@ -17,16 +17,6 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
-      "Microsoft.Azure.Functions.Extensions": {
-        "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "zYKtQQoS1fdzufxFApuMFiFtoi9QAGH6McXxntpylwLKgKjmCMWdgUd1dcekzTKNR9DPSDPRLiulvukqXnpWrQ==",
-        "dependencies": {
-          "Microsoft.Azure.WebJobs": "3.0.18",
-          "Microsoft.Extensions.DependencyInjection": "2.1.0"
-        }
-      },
       "Microsoft.Azure.Functions.Worker.Core": {
         "type": "Direct",
         "requested": "[1.18.0, )",

@@ -23,7 +23,6 @@
         <PackageReference Include="Dapper.Contrib"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
-        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage"/>
