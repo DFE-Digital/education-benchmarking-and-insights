@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,12 +9,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Search.Documents" />
-    <PackageReference Include="Dapper.Contrib" />
-    <PackageReference Include="Dapper.SqlBuilder" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="Microsoft.Data.SqlClient" />
     <PackageReference Include="Microsoft.Extensions.Options" />
-    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Linq.Async" />
   </ItemGroup>
 </Project>
