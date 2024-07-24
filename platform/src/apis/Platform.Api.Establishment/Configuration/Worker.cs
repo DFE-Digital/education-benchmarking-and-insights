@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Hosting;
 using Platform.Functions;
+using Platform.Functions.Middleware;
 namespace Platform.Api.Establishment.Configuration;
 
 [ExcludeFromCodeCoverage]

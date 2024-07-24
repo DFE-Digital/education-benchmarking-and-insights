@@ -10,7 +10,7 @@ public static class HttpRequestDataExtensions
     {
         if (req.Headers.TryGetValues(Constants.CorrelationIdHeader, out var values))
         {
-            return Guid.TryParse(values.ToString(), out var guid)
+            return Guid.TryParse(values.FirstOrDefault(), out var guid)
                 ? guid
                 : Guid.NewGuid();
         }
@@ -18,7 +18,25 @@ public static class HttpRequestDataExtensions
         return Guid.NewGuid();
     }
 
-    public static async Task<T> ReadAsJsonAsync<T>(this HttpRequestData req) => await req.ReadFromJsonAsync<T>() ?? throw new ArgumentNullException();
+    public static async Task<T> ReadAsJsonAsync<T>(this HttpRequestData req)
+    {
+        var result = default(T);
+        try
+        {
+            result = await req.ReadFromJsonAsync<T>();
+        }
+        catch (Exception)
+        {
+            // known issue in .NET 8: https://github.com/dotnet/roslyn/issues/72141
+        }
+
+        if (result is null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        return result;
+    }
 
     public static T GetParameters<T>(this HttpRequestData req) where T : QueryParameters, new()
     {
