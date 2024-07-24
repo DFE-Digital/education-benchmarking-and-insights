@@ -4,13 +4,12 @@ GetFeatureRequests
 | project 
     TimeGenerated, 
     Establishment,
-    Feature
+    Feature, 
+    IsAuthenticated = isnotempty(UserAuthenticatedId)
 | summarize 
     Count=count()
     by Establishment, 
-    Feature
+    Feature,
+    IsAuthenticated
 | sort by 
     Count desc
-| render 
-columnchart
-    with(title="Application features by Establishment type")

@@ -13,6 +13,4 @@
 | sort by 
     Count desc
 | take(50)
-| render 
-columnchart
-    with(title="50 most popular local authority requests")
+| render
