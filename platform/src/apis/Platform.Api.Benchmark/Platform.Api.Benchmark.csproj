@@ -19,7 +19,6 @@
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
-        <PackageReference Include="Azure.Identity"/>
         <PackageReference Include="Dapper.Contrib"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
