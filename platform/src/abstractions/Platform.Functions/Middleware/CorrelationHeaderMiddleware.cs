@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
-namespace Platform.Functions;
+// ReSharper disable ClassNeverInstantiated.Global
+namespace Platform.Functions.Middleware;
 
 [ExcludeFromCodeCoverage]
 public sealed class CorrelationHeaderMiddleware : IFunctionsWorkerMiddleware

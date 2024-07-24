@@ -1,19 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
+// ReSharper disable UnusedMember.Global
 
 namespace Platform.Functions;
 
 [ExcludeFromCodeCoverage]
-public class ValidationError
+public class ValidationError(Severity severity, string propertyName, string errorMessage)
 {
-    public Severity Severity { get; }
-    public string PropertyName { get; }
-    public string ErrorMessage { get; }
-
-    public ValidationError(Severity severity, string propertyName, string errorMessage)
-    {
-        Severity = severity;
-        PropertyName = propertyName;
-        ErrorMessage = errorMessage;
-    }
+    public Severity Severity { get; } = severity;
+    public string PropertyName { get; } = propertyName;
+    public string ErrorMessage { get; } = errorMessage;
 }
