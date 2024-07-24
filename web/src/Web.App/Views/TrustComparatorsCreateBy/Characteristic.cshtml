@@ -5,7 +5,7 @@
 @model Web.App.ViewModels.TrustComparatorsByCharacteristicViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByCharacteristic;
-    var phases = Model.Characteristic?.Phases ?? [];
+    var phases = Model.Characteristic?.Phases.Select(p => p.Phase).OfType<string>().ToArray() ?? [];
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
