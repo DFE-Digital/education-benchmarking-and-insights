@@ -9,7 +9,6 @@
     </PropertyGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-        <PackageReference Include="AzureExtensions.Swashbuckle"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>

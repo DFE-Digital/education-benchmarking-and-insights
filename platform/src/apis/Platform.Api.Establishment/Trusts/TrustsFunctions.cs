@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -68,7 +67,8 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SuggestTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")][RequestBodyType(typeof(SuggestRequest), "The suggest object")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
+        HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 

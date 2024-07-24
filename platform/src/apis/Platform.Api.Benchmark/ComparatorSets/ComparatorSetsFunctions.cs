@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -358,7 +357,6 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
     public async Task<HttpResponseData> CreateUserDefinedTrustComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put",
             Route = "comparator-set/trust/{companyNumber}/user-defined/{identifier}")]
-        [RequestBodyType(typeof(ComparatorSetUserDefinedRequest), "The user defined set of schools object")]
         HttpRequestData req,
         string companyNumber,
         string identifier)
