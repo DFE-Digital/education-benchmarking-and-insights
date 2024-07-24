@@ -81,9 +81,22 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .CreateMany(20).ToArray();
 
+        var values = AllCostCategories.Where(k => k.Key != 9).Select(c => c.Value);
+        var queue = new Queue<string>();
         var ratings = Fixture.Build<RagRating>()
             .OmitAutoProperties()
-            .With(x => x.Category, () => AllCostCategories.Values.ElementAt(random.Next(0, AllCostCategories.Keys.Count - 1)))
+            .With(x => x.Category, () =>
+            {
+                if (queue.Count == 0)
+                {
+                    foreach (var value in values)
+                    {
+                        queue.Enqueue(value);
+                    }
+                }
+
+                return queue.Dequeue();
+            })
             .With(x => x.RAG, () => Lookups.StatusPriorityMap.Keys.ElementAt(random.Next(0, Lookups.StatusPriorityMap.Keys.Count - 1)))
             .CreateMany(50).ToArray();
 
