@@ -9,6 +9,9 @@
       "samplingSettings": {
         "isEnabled": true,
         "excludedTypes": "Request"
+      },
+      "logLevel": {
+        "default": "Information"
       }
     }
   }

@@ -102,7 +102,7 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
+            - task: AzureFunctionApp@2
               displayName: 'Deploy data clean up function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -113,4 +113,4 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.UserDataCleanUp.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
