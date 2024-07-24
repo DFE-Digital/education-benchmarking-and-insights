@@ -4,7 +4,6 @@ using Platform.Api.Insight.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -40,6 +39,19 @@ public class InsightTrustsSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<TrustCharacteristic[]>();
         table.CompareToSet(results);
+    }
+
+    [Then("the phases should contain:")]
+    public async Task ThenThePhasesShouldContain(Table table)
+    {
+        var response = api[InsightTrustsKey].Response;
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<TrustCharacteristic[]>();
+        table.CompareToSet(results.Select(r => new
+        {
+            r.CompanyNumber,
+            Phases = string.Join(", ", r.Phases.Select(p => $"{p.Phase}: {(p.Count.HasValue ? p.Count.ToString() : "?")}"))
+        }));
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)

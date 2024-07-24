@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -12,7 +11,6 @@ using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Trusts;
 
-[ApiExplorerSettings(GroupName = "Trusts")]
 public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service)
 {
     [Function(nameof(QueryTrustsCharacteristicsAsync))]
