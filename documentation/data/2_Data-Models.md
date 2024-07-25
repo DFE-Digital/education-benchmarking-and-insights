@@ -25,6 +25,9 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     gias| URN  |     URN    |URN  |    |
 |maintained_schools_master_list| Total Expenditure  E01 to E32  |     Total Expenditure    |TotalExpenditure  |  E30 Direct revenue financing (revenue contributions to capital) is not included in this summation    |  
 |N/A - computed     |   |   |TotalTeachingSupportStaffCosts |Computed as the sum of Teaching and Teaching support, staff_Teaching staff, Teaching and Teaching support staff_Supply teaching staff, Teaching and Teaching support staff_Educational consultancy, Teaching and Teaching support staff_Education support staff, Teaching and Teaching support staff_Agency supply teaching staff|  
 |maintained_schools_master_list| E01  Teaching Staff |    Teaching and Teaching support staff_Teaching staff    |TeachingStaffCosts  ||  
@@ -103,6 +106,8 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
 |     census_pupils| fte pupils  |     Number of pupils    |TotalPupils  |    |
 |     census_pupils| % of pupils known to be eligible for free school meals  |     Percentage Free school meals    |PercentFreeSchoolMeals  |    |
 |     sen| Total pupils  |     N/A - used in computation    |N/A - used in computation  |    |
@@ -161,3 +166,156 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 
 ### MetricRAG
 
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     gias| URN  |     URN    |URN  |    |
+|     1a | 1b  |    1c    | Category  | 1e   |
+|     1a | 1b  |    1c    | Subcategory  | 1e   |
+|     N/A - defined in pipeline run |   |        | SetType  |  SetType may take values such as: unmixed or mixed  |
+|     1a | 1b  |    1c    | Value  | 1e   |
+|     1a | 1b  |    1c    | Mean  | 1e   |
+|     1a | 1b  |    1c    | DiffMean  | 1e   |
+|     1a | 1b  |    1c    | PercentDiff  | 1e   |
+|     1a | 1b  |    1c    | Percentile  | 1e   |
+|     1a | 1b  |    1c    | Decile  | 1e   |
+|     1a | 1b  |    1c    | RAG  | 1e   |
+
+### UserDefinedSchoolComparatorSet
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     gias| URN  |     URN    |URN  |    |
+|     1a | 1b  |    1c    | Set  | 1e   |
+
+### ComparatorSet
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     gias| URN  |     URN    |URN  |    |
+|     N/A - defined in pipeline run |   |        | SetType  |  SetType may take values such as: unmixed or mixed  |
+|     1a | 1b  |    1c    | Pupil  | 1e   |
+|     1a | 1b  |    1c    | Building  | 1e   |
+
+### Parameters
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Name  | 1e   |
+|     1a | 1b  |    1c    | Value  | 1e   |
+
+### SchemaVersions
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Id  | 1e   |
+|     1a | 1b  |    1c    | ScriptName  | 1e   |
+|     1a | 1b  |    1c    | Applied  | 1e   |
+
+### CompletedPipelineRun
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Id  | 1e   |
+|     1a | 1b  |    1c    | OrchestrationId  | 1e   |
+|     1a | 1b  |    1c    | CompletedAt  | 1e   |
+|     1a | 1b  |    1c    | Message  | 1e   |
+
+### UserData
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Id  | 1e   |
+|     1a | 1b  |    1c    | Type  | 1e   |
+|     1a | 1b  |    1c    | UserId  | 1e   |
+|     1a | 1b  |    1c    | OrganisationType  | 1e   |
+|     1a | 1b  |    1c    | OrganisationId  | 1e   |
+|     1a | 1b  |    1c    | Status  | 1e   |
+|     1a | 1b  |    1c    | Expiry  | 1e   |
+
+### CustomDataSchool
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Id  | 1e   |
+|     gias| URN  |     URN    |URN  |    |
+|     1a | 1b  |    1c    | Data  | 1e   |
+
+### FinancialPlan
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     gias| URN  |     URN    |URN  |    |
+|     1a | 1b  |    1c    | Year  | 1e   |
+|     1a | 1b  |    1c    | Input  | 1e   |
+|     1a | 1b  |    1c    | DeploymentPlan  | 1e   |
+|     1a | 1b  |    1c    | Created  | 1e   |
+|     1a | 1b  |    1c    | CreatedBy  | 1e   |
+|     1a | 1b  |    1c    | UpdatedAt  | 1e   |
+|     1a | 1b  |    1c    | UpdatedBy  | 1e   |
+|     1a | 1b  |    1c    | IsComplete  | 1e   |
+|     1a | 1b  |    1c    | Version  | 1e   |
+|     1a | 1b  |    1c    | TeacherContactRatio  | 1e   |
+|     1a | 1b  |    1c    | InYearBalance  | 1e   |
+|     1a | 1b  |    1c    | InYearBalancePercentIncomeRating  | 1e   |
+|     1a | 1b  |    1c    | AverageClassSize  | 1e   |
+|     1a | 1b  |    1c    | AverageClassSizeRating  | 1e   |
+
+### Trust
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
+|     1a | 1b  |    1c    | TrustName  | 1e   |
+|     1a | 1b  |    1c    | CFOName  | 1e   |
+|     1a | 1b  |    1c    | CFOEmail  | 1e   |
+|     1a | 1b  |    1c    | OpenDate  | 1e   |
+|     1a | 1b  |    1c    | UID  | 1e   |
+|     1a | 1b  |    1c    | TrustUPIN  | 1e   |
+
+### LocalAuthority
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Code  | 1e   |
+|     1a | 1b  |    1c    | Name  | 1e   |
+
+### BudgetForecastReturnMetric
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     1a | 1b  |    1c    | Year  | 1e   |
+|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
+|     1a | 1b  |    1c    | Metric  | 1e   |
+|     1a | 1b  |    1c    | Value  | 1e   |
+
+### BudgetForecastReturn
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     N/A - defined in pipeline run |   |        | RunType  |    |
+|     N/A - defined in pipeline run |   |        | RunId  |    |
+|     1a | 1b  |    1c    | Year  | 1e   |
+|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
+|     1a | 1b  |    1c    | Category  | 1e   |
+|     1a | 1b  |    1c    | Value  | 1e   |
+|     1a | 1b  |    1c    | TotalPupils  | 1e   |
+
+### TrustHistory
+
+|  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
+|------------------|----------------|-----------------------------|-----------------------|--------------------------|
+|     1a | 1b  |    1c    | Id  | 1e   |
+|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
+|     1a | 1b  |    1c    | EventDate  | 1e   |
+|     1a | 1b  |    1c    | EventName  | 1e   |
+|     1a | 1b  |    1c    | AcademicYear  | 1e   |
+|     1a | 1b  |    1c    | SchoolURN  | 1e   |
+|     1a | 1b  |    1c    | SchoolName  | 1e   |
