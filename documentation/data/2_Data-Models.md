@@ -20,11 +20,12 @@ This section looks at each item listed in the SQL data model, and traces them ba
 
 It is also key to note that within the service, metrics such as "cost per pupil" are computed. However this has been ommited from this section to enable a more suscinct translation of the data schema. In cases where a "cost per pupil" or "cost per m2" unit is presented, this is simply the given metric divided by the `TotalPupils`, or the `GrossInternalFloorArea`, all of which can be found from the information below.
 
+
 ### Financial
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
-|maintained_schools_master_list| Total Expenditure  E01 to E32  |     Total Expenditure    |TotalExpenditure  |     |  
+|maintained_schools_master_list| Total Expenditure  E01 to E32  |     Total Expenditure    |TotalExpenditure  |  E30 Direct revenue financing (revenue contributions to capital) is not included in this summation    |  
 |N/A - computed     |   |   |TotalTeachingSupportStaffCosts |Computed as the sum of Teaching and Teaching support, staff_Teaching staff, Teaching and Teaching support staff_Supply teaching staff, Teaching and Teaching support staff_Educational consultancy, Teaching and Teaching support staff_Education support staff, Teaching and Teaching support staff_Agency supply teaching staff|  
 |maintained_schools_master_list| E01  Teaching Staff |    Teaching and Teaching support staff_Teaching staff    |TeachingStaffCosts  ||  
 |maintained_schools_master_list| E02  Supply teaching staff  |     Teaching and Teaching support staff_Supply teaching staff    |SupplyTeachingStaffCosts  ||  
@@ -68,14 +69,35 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |maintained_schools_master_list| E27  Bought in professional services - curriculum  |     Teaching and Teaching support staff_Educational consultancy    |EducationalConsultancyCosts  ||  
 |N/A - computed|   |   |TotalNonEducationalSupportStaffCosts  |Computed as the sum of Non-educational support staff and services_Administrative and clerical staff, Non-educational support staff and services_Other staff, Non-educational support staff and services_Professional services (non-curriculum)    |
 |maintained_schools_master_list| E23  Other insurance premiums  |     Other costs_Other insurance premiums    |OtherInsurancePremiumsCosts  ||  
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
-|     1a| 1b  |     1c    |1d  |   1e |
+|  maintained_schools_master_list  | Direct Grant  |     Income_Direct grants    | DirectGrants  |   |
+|     N/A - computed |    |     Income_Pre Post 16    |  PrePost16Funding  |   Computed from the sum of I01  Funds delegated by the LA, I02  Funding for 6th form students	 |
+|     maintained_schools_master_list | I06  Other government grants  |     Income_Other DFE grants    |OtherDfeGrants  |    |
+|     maintained_schools_master_list | I07  Other grants and payments  |     Income_Other grants    |OtherIncomeGrants  |    |
+|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Government source    |GovernmentSource  |    |
+|     maintained_schools_master_list | Community Grants  |     Income_Other Revenue Income    |CommunityGrants  |    |
+|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Academies    |Academies  |    |
+|     maintained_schools_master_list | Self Generated Funding  |     Income_Total self generated funding    |TotalSelfGeneratedFunding  |    |
+|     maintained_schools_master_list | I08  Income from facilities and services  |     Income_Facilities and services    |IncomeFacilitiesServices  |    |
+|     maintained_schools_master_list | I09  Income from catering  |     Income_Catering services    |IncomeCateringServices  |    |
+|     maintained_schools_master_list | I13  Donations and or private funds  |     Income_Donations and voluntary funds    |DonationsVoluntaryFunds  |    |
+|     maintained_schools_master_list | I10  Receipts from supply teacher insurance claims  |     Income_Receipts supply teacher insurance    |ReceiptsSupplyTeacherInsuranceClaims  |    |
+|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Investment income    |InvestmentIncome  |    |
+|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Other self-generated income    |OtherSelfGeneratedIncome  |    |
+|     N/A - computed |   |        | InYearBalance  | Computed as (Total Income   I01 to I18) - (Total Expenditure  E01 to E32)   |
+|     maintained_schools_master_list | Revenue Reserve   B01 plus B02 plus B06  |    Revenue reserve    | RevenueReserve  |    |
+|     N/A - computed |   |  Income_Total grant funding | TotalGrantFunding | Computed as the sum of Direct Grant, Community Grants ,Targeted Grants   |
+|     maintained_schools_master_list | Targeted Grants  |        |  | Only used in TotalGrantFunding computation   |
+|     maintained_schools_master_list | Total Income   I01 to I18  |    Total Income    | TotalIncome |    |
+|     1a | Period covered by return (months)  |    Period covered by return    | PeriodCoveredByReturn
+  | 1e   |
+|     N/A - computed |   |    Financial Position    | FinancialPosition  | Assigned based off the In Year Balance value   |
+|     N/A - computed |   |    Trust Financial Position    | TrustPosition  | Assinged based off the Trust Balance   |
+|     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | EstablishmentType  |    |
 
+
+
+	
+		
 
 ### Non-financial
 
@@ -96,6 +118,14 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |  census_workforce   | Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)  |     NonClassroomSupportStaffFTE    |NonClassroomSupportStaffFTE  ||  
 |  census_workforce   | Total Number of Auxiliary Staff (Full-Time Equivalent)  |     Total Number of Auxiliary Staff (Full-Time Equivalent)    |AuxiliaryStaffFTE  ||  
 |   census_workforce  | Total School Workforce (Headcount)  |     Total School Workforce (Headcount)    |WorkforceHeadcount  ||  
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
+|     1a | 1b  |    1c    | 1d  | 1e   |
 
 ### School
 
@@ -112,3 +142,22 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     gias| TelephoneNum  |     TelephoneNum    |Telephone  |    |
 |     gias| LA (name)  |     LA Name    |LAName  |    |
 |     gias| SchoolWebsite  |     SchoolWebsite    |Website  |    |
+|     gias | EstablishmentName  |    EstablishmentName    | SchoolName  | 1e   |
+|     academies_master_list | Company Registration Number  |    Company Registration Number    | TrustCompanyNumber  | 1e   |
+|     academies_master_list | Academy Trust Name  |    Trust Name    | TrustName  | 1e   |
+|     N/A - undefined | N/A  |    N/A    | FederaitonLeadURN  | 1e   |
+|     gias | LA (code)  |    LA Code    | LACode  | 1e   |
+|     maintained_schools_master_list | London Weighting  |    London Weighting    | LondonWeighting  | 1e   |
+|     N/A - computed |   |    Finance Type    | FinanceType  | Set during the preprocessing pipeline during the respective academy / maintained schools run   |
+|     maintained_schools_master_list | Overall Phase  |    Overall Phase    | OverallPhase  | 1e   |
+|     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | SchoolType  | 1e   |
+|     gias | OfficialSixthForm (name)  |    Has Sixth Form    | HasSixthForm  | Assinged through boolean logic operation   |
+|     gias | NurseryProvision (name)  |    Has Nursery    | HasNursery  | Assigned through boolean logic operation  |
+|     maintained_schools_master_list | PFI  |    Is PFI    | IsPFISchool  | Assigned through boolean logic operation   |
+|     gias | OfstedLastInsp  |    OfstedLastInsp    | OfstedDate  | 1e   |
+|     gias | OfstedRating (name)  |    OfstedRating (name)    | OfstedDescription  | 1e   |
+
+
+
+### MetricRAG
+
