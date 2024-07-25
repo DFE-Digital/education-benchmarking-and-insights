@@ -94,20 +94,20 @@ variable "sql-server-password" {
 
 variable "dotnet-version" {
   type    = string
-  default = "v6.0"
+  default = "v8.0"
 }
 
 variable "use-32-bit-worker" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "worker-runtime" {
   type    = string
-  default = "dotnet"
+  default = "dotnet-isolated"
 }
 
 variable "use-isolated-runtime" {
   type    = bool
-  default = false
+  default = true
 }

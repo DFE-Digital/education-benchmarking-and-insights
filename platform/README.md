@@ -118,7 +118,7 @@ Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
     "IsEncrypted": false,
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
     },
