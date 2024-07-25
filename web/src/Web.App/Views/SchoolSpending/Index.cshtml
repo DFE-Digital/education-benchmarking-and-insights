@@ -1,7 +1,4 @@
-﻿@using Web.App.Extensions
-@using Newtonsoft.Json
-@using Web.App.ViewModels
-@using Web.App.Domain
+﻿@using Web.App.ViewModels
 
 @model Web.App.ViewModels.SchoolSpendingViewModel
 @{
@@ -29,7 +26,7 @@
     hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
 })
 
-@if (Model.PriorityCosts.Any())
+@if (Model.HighPriorityCosts.Any() || Model.MediumPriorityCosts.Any())
 {
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -37,41 +34,22 @@
             <p class="govuk-body">This shows where spending is different to similar schools.</p>
         </div>
     </div>
-
-    @foreach (var category in Model.PriorityCosts)
+    
+    @await Html.PartialAsync("_Costs", new CostsViewModel
     {
-        var categoryToLower = @category.Rating.Category == Category.Other
-            ? "other"
-            : @category.Rating.Category == Category.EducationalIct
-            ? "Educational ICT"
-            : @category.Rating.Category?.ToLower();
-
-        var categoryHeading = @category.Rating.Category == Category.NonEducationalSupportStaff
-            ? "Non-educational support staff"
-            : @category.Rating.Category;
-
-        <div class="govuk-grid-row govuk-!-margin-bottom-4">
-            <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
-                <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
-                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
-                    Spending is higher than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
-                </p>
-                <div class="govuk-!-margin-bottom-2"
-                     data-spending-and-costs-composed
-                     data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
-                     data-highlight="@Model.Urn"
-                     data-suffix="@category.Rating.Unit"
-                     data-sort-direction="asc"
-                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
-                     data-has-incomplete-data="@Model.HasIncompleteData">
-                </div>
-                <p class="govuk-body">
-                        <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
-                </p>
-            </div>
-        </div>
-    }
+        Costs = Model.HighPriorityCosts,
+        Id = "high-priority",
+        Urn = Model.Urn,
+        HasIncompleteData = Model.HasIncompleteData
+    })
+    
+    @await Html.PartialAsync("_Costs", new CostsViewModel
+    {
+        Costs = Model.MediumPriorityCosts,
+        Id = "medium-priority",
+        Urn = Model.Urn,
+        HasIncompleteData = Model.HasIncompleteData
+    })    
 }
 
 @if (Model.LowPriorityCosts.Any())
@@ -82,39 +60,12 @@
             <p class="govuk-body">This shows where spending is close to similar schools.</p>
         </div>
     </div>
-
-    @foreach (var category in Model.LowPriorityCosts)
+    
+    @await Html.PartialAsync("_Costs", new CostsViewModel
     {
-        var categoryToLower = @category.Rating.Category == Category.Other
-            ? "other"
-            : @category.Rating.Category == Category.EducationalIct
-            ? "Educational ICT"
-            : @category.Rating.Category?.ToLower();
-
-        var categoryHeading = @category.Rating.Category == Category.NonEducationalSupportStaff
-            ? "Non-educational support staff"
-            : @category.Rating.Category;
-
-        <div class="govuk-grid-row govuk-!-margin-bottom-4">
-            <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
-                <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
-                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
-                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
-                </p>
-                <div class="govuk-!-margin-bottom-2"
-                     data-spending-and-costs-composed
-                     data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
-                     data-highlight="@Model.Urn"
-                     data-suffix="@category.Rating.Unit"
-                     data-sort-direction="asc"
-                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
-                     data-has-incomplete-data="@Model.HasIncompleteData">
-                </div>
-                <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
-                </p>
-            </div>
-        </div>
-    }
+        Costs = Model.LowPriorityCosts,
+        Id = "low-priority",
+        Urn = Model.Urn,
+        HasIncompleteData = Model.HasIncompleteData
+    }) 
 }
