@@ -174,7 +174,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         Assert.NotNull(response.HttpResponse);
         Assert.Equal(HttpStatusCode.InternalServerError, response.HttpResponse.StatusCode);
     }
-    
+
     [Fact]
     public async Task CreateUserDefinedTrustShouldCreateSuccessfully()
     {
