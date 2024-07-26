@@ -1,12 +1,12 @@
 # Data Sources
 
-There are two main data types used in the FBIT service: Financial and Non-Financial data. This data is obtained from a range of sources within the Department for Education. This document outlines the list of raw data files used within the service, their update frequency, and information on how to retrieve them. 
+There are two main data types used in the Financial Benchmarking and Insights Tool (FBIT) service: Financial and Non-Financial data. This data is obtained from a range of sources within the Department for Education. This document outlines the list of raw data files used within the service, their update frequency, and information on how to retrieve them. 
 
 ## Financial Data
 
-FBIT performs three data releases each submission year. These are the Consistent Finanical Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns for Academy Trusts, and Academy Account Returns also for Academy Trusts. 
+FBIT performs three data releases each submission year. These are the Consistent Finanical Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, and Academy Account Returns (AAR) also for Academy Trusts. 
 
-CFR data is typically recieved in September when Local Authorities require schools to complete their financial returns. These returns cover the period of April to March of the respective submission year.
+CFR data is typically received in September when Local Authorities require schools to complete their financial returns. These returns cover the period of April to March of the respective submission year.
 
 BFR data is submitted around August, and provides a forecasted return for academies for the following 3 years.
 

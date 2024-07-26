@@ -2,6 +2,8 @@
 
 ## Entity-Relationship Diagrams
 
+The Entity-Relationship Diagrams shown below can also be seen in [LucidChart](https://lucid.app/lucidchart/040c9819-bba6-40ce-a3d2-64df60f13903/edit?beaconFlowId=FF950DFA1CCD3672&invitationId=inv_118dfd2f-7f1f-4e74-8dbe-8ae8361bdf5c&page=0_0#)
+
 ### Raw
 
 ![Raw Data Model](./images/fbit_raw_data_model.png)
