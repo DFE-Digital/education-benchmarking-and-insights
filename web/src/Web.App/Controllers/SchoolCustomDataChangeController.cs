@@ -11,7 +11,6 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -208,12 +207,15 @@ public class SchoolCustomDataChangeController(
                     await customDataService.RemoveCustomData(urn, userData.CustomData);
                 }
 
-                await customDataService.CreateCustomData(urn, User.UserId());
+                await customDataService.CreateCustomData(urn, User.UserGuid().ToString());
 
                 customDataService.ClearCustomDataFromSession(urn);
                 // todo: persist orchestrator job ID to auth user data
 
-                return RedirectToAction("Submit", new { urn });
+                return RedirectToAction("Submit", new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
@@ -227,7 +229,10 @@ public class SchoolCustomDataChangeController(
     [Route("submit")]
     public async Task<IActionResult> Submit(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {

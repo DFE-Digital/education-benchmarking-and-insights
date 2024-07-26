@@ -6,7 +6,6 @@ using Platform.Api.Benchmark.ComparatorSets;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -15,8 +14,8 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     private const string DefaultComparatorSetKey = "default-comparator-set";
     private const string UserDefinedComparatorSetKey = "user-defined-comparator-set";
     private const string UserDefinedTrustComparatorSetKey = "user-defined-trust-comparator-set";
-    private const string UserId = "api.test@example.com";
     private readonly Fixture _fixture = new();
+    private readonly string _userGuid = Guid.NewGuid().ToString();
 
     [Then("the comparator result should be accepted")]
     public void ThenTheComparatorResultShouldBeAccepted()
@@ -71,7 +70,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForSchoolIdContaining(string urn, Table table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[] { urn })
+            .Concat(new[]
+            {
+                urn
+            })
             .ToArray();
         var identifier = PutUserDefinedComparatorRequest(urn, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
@@ -153,7 +155,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[] { companyNumber })
+            .Concat(new[]
+            {
+                companyNumber
+            })
             .ToArray();
         var identifier = PutUserDefinedTrustComparatorRequest(companyNumber, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
@@ -169,7 +174,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[] { companyNumber })
+            .Concat(new[]
+            {
+                companyNumber
+            })
             .ToArray();
         var identifier = PutUserDefinedTrustComparatorRequest(companyNumber, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
@@ -225,7 +233,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var set = new List<dynamic>();
         foreach (var urn in result.Building ?? [])
         {
-            set.Add(new { Urn = urn });
+            set.Add(new
+            {
+                Urn = urn
+            });
         }
 
         table.CompareToDynamicSet(set, false);
@@ -244,7 +255,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var set = new List<dynamic>();
         foreach (var urn in result.Pupil ?? [])
         {
-            set.Add(new { Urn = urn });
+            set.Add(new
+            {
+                Urn = urn
+            });
         }
 
         table.CompareToDynamicSet(set, false);
@@ -263,7 +277,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var set = new List<dynamic>();
         foreach (var urn in result.Building ?? [])
         {
-            set.Add(new { Urn = urn });
+            set.Add(new
+            {
+                Urn = urn
+            });
         }
 
         table.CompareToDynamicSet(set, false);
@@ -282,7 +299,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var set = new List<dynamic>();
         foreach (var companyNumber in result.Set ?? [])
         {
-            set.Add(new { CompanyNumber = companyNumber });
+            set.Add(new
+            {
+                CompanyNumber = companyNumber
+            });
         }
 
         table.CompareToDynamicSet(set, false);
@@ -301,7 +321,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var identifier = Guid.NewGuid();
         var content = new ComparatorSetUserDefinedRequest
         {
-            UserId = UserId,
+            UserId = _userGuid,
             Set = set
         };
 
@@ -329,7 +349,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var identifier = Guid.NewGuid();
         var content = new ComparatorSetUserDefinedRequest
         {
-            UserId = UserId,
+            UserId = _userGuid,
             Set = set
         };
 

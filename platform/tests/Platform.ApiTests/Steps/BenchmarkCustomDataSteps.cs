@@ -5,14 +5,13 @@ using Platform.Api.Benchmark.CustomData;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using Xunit;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
 public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
 {
     private const string CustomDataKey = "custom-data";
-    private const string UserId = "api.test@example.com";
+    private readonly string _userGuid = Guid.NewGuid().ToString();
 
     [Given("I have a valid custom data get request for school id '(.*)' containing:")]
     public async Task GivenIHaveAValidCustomDataGetRequestForSchoolIdContaining(string urn, Table table)
@@ -87,7 +86,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         api.CreateRequest(CustomDataKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/custom-data/school/{urn}/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Get,
+            Method = HttpMethod.Get
         });
     }
 
@@ -111,15 +110,17 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         api.CreateRequest(CustomDataKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/custom-data/school/{urn}/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Delete,
+            Method = HttpMethod.Delete
         });
     }
 
-    private static string GetJsonFromTable(Table table)
+    private string GetJsonFromTable(Table table)
     {
         var content = new Dictionary<string, object>
         {
-            { "UserId", UserId }
+            {
+                "UserId", _userGuid
+            }
         };
         foreach (var row in table.Rows)
         {
@@ -130,5 +131,4 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
 
         return content.ToJson();
     }
-
 }
