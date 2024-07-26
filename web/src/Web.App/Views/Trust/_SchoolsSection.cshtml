@@ -32,7 +32,10 @@
                         red = school.Red,
                         amber = school.Amber,
                         green = school.Green,
-                        height = 15
+                        height = 15,
+                        redHref = $"{@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#high-priority",
+                        amberHref = $"{@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#medium-priority",
+                        greenHref = $"{@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#low-priority",
                     })
                 </td>
             </tr>
