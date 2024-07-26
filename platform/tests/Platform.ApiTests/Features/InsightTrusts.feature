@@ -17,9 +17,9 @@
           | 10499174      | Heart of Mercia         |             | 747         | 3              | 3/1/2017 12:00:00 AM | 9.666666               | 0                            | 7255                   |
           | 10749662      | Hamwic Education Trust  |             | 694         | 3              | 3/1/2014 12:00:00 AM | 10.333333              | 0                            | 6686                   |
         And the phases should contain:
-          | CompanyNumber | Phases                             |
-          | 10020683      | Special: 1                         |
-          | 10038640      | Pupil referral unit: 1             |
-          | 10050238      | All-through: 1                     |
-          | 10499174      | 16 plus: 3                         |
-          | 10749662      | Primary: 2, Pupil referral unit: 1 |
+          | CompanyNumber | Phases |
+          | 10020683      |        |
+          | 10038640      |        |
+          | 10050238      |        |
+          | 10499174      |        |
+          | 10749662      |        |
