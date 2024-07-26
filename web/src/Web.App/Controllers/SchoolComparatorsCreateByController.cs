@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
-using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -221,7 +220,7 @@ public class SchoolComparatorsCreateByController(
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
                     Set = userDefinedSet.Set,
-                    UserId = User.UserId()
+                    UserId = User.UserGuid().ToString()
                 };
 
                 await comparatorSetApi.UpsertUserDefinedSchoolAsync(urn, request).EnsureSuccess();

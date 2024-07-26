@@ -5,14 +5,13 @@ using Platform.Api.Benchmark.UserData;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using Xunit;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
 public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
 {
     private const string UserDataKey = "user-data";
-    private const string UserId = "api.test@example.com";
+    private readonly string _userGuid = Guid.NewGuid().ToString();
 
     [Given("I have a valid user data get request for school id '(.*)' containing custom data:")]
     public async Task GivenIHaveAValidUserDataGetRequestForSchoolIdContainingCustomData(string urn, Table table)
@@ -40,7 +39,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
 
         var row = result.MaxBy(r => r.Expiry);
         Assert.NotNull(row);
-        Assert.Equal(UserId, row.UserId);
+        Assert.Equal(_userGuid, row.UserId);
         Assert.Equal("custom-data", row.Type);
         var nextMonth = DateTimeOffset.Now.AddMonths(1).AddDays(-1);
         Assert.InRange(row.Expiry, nextMonth.AddMinutes(-1), nextMonth.AddMinutes(1));
@@ -51,7 +50,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     {
         api.CreateRequest(UserDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/user-data?userId={UserId}&organisationId={urn}&organisationType=school&id={identifier}", UriKind.Relative),
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&id={identifier}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -71,11 +70,13 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
         return identifier;
     }
 
-    private static string GetJsonFromTable(Table table)
+    private string GetJsonFromTable(Table table)
     {
         var content = new Dictionary<string, object>
         {
-            { "UserId", UserId }
+            {
+                "UserId", _userGuid
+            }
         };
         foreach (var row in table.Rows)
         {

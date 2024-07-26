@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -16,7 +17,7 @@ public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctio
 {
     [Function(nameof(QueryAsync))]
     [OpenApiOperation(nameof(QueryAsync), "User Data")]
-    [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id", Type = typeof(string), Required = true)]
+    [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id as a Guid, email address or both", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataType))]
     [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false, Example = typeof(ExampleOrganisationType))]
     [OpenApiParameter("organisationId", In = ParameterLocation.Query, Description = "Organisation Id", Type = typeof(string), Required = false)]
@@ -42,13 +43,13 @@ public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctio
         {
             try
             {
-                var userId = req.Query["userId"] ?? string.Empty;
+                var userIds = req.Query["userId"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray() ?? [];
                 var type = req.Query["type"];
                 var status = req.Query["status"];
                 var id = req.Query["id"];
                 var organisationType = req.Query["organisationType"];
                 var organisationId = req.Query["organisationId"];
-                var data = await service.QueryAsync(userId, type, status, id, organisationId, organisationType);
+                var data = await service.QueryAsync(userIds, type, status, id, organisationId, organisationType);
 
                 return await req.CreateJsonResponseAsync(data);
             }
