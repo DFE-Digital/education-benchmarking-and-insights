@@ -28,74 +28,117 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - defined in pipeline run |   |        | RunType  |    |
 |     N/A - defined in pipeline run |   |        | RunId  |    |
 |     gias| URN  |     URN    |URN  |    |
-|maintained_schools_master_list| Total Expenditure  E01 to E32  |     Total Expenditure    |TotalExpenditure  |  E30 Direct revenue financing (revenue contributions to capital) is not included in this summation    |  
-|N/A - computed     |   |   |TotalTeachingSupportStaffCosts |Computed as the sum of Teaching and Teaching support, staff_Teaching staff, Teaching and Teaching support staff_Supply teaching staff, Teaching and Teaching support staff_Educational consultancy, Teaching and Teaching support staff_Education support staff, Teaching and Teaching support staff_Agency supply teaching staff|  
-|maintained_schools_master_list| E01  Teaching Staff |    Teaching and Teaching support staff_Teaching staff    |TeachingStaffCosts  ||  
-|maintained_schools_master_list| E02  Supply teaching staff  |     Teaching and Teaching support staff_Supply teaching staff    |SupplyTeachingStaffCosts  ||  
-|maintained_schools_master_list|E03 Education support staff  |Teaching and Teaching support staff_Educational consultancy    |EducationSupportStaffCosts  ||  
-|maintained_schools_master_list| E26 Agency supply teaching staff  |     Teaching and Teaching support staff_Agency supply teaching staff    |AgencySupplyTeachingStaffCosts  ||  
-|maintained_schools_master_list| E05 Administrative and clerical staff  |     Non-educational support staff and services_Administrative and clerical staff    |AdministrativeClericalStaffCosts  ||
-|maintained_schools_master_list| E07  Cost of other staff  |     Non-educational support staff and services_Other staff    |OtherStaffCosts  ||  
-|N/A - computed|   |   |TotalNonEducationalSupportStaffCosts |Computed as the sum of Non-educational support staff and services_Administrative and clerical staff, Non-educational support staff and services_Other staff, Non-educational support staff and services_Professional services (non-curriculum)     |  
-|maintained_schools_master_list| E28a  Bought in professional services - other (except PFI)  |     Non-educational support staff and services_Professional services (non-curriculum)    |ProfessionalServicesNonCurriculumCosts  ||  
-|N/A - computed|   |   |TotalEducationalSuppliesCosts | Computed as the sum of Educational supplies_Examination fees, Educational supplies_Learning resources (not ICT equipment)   |  
-|maintained_schools_master_list| E21  Exam fees  |     Educational supplies_Examination fees    |ExaminationFeesCosts  ||  
-|maintained_schools_master_list| E19  Learning resources (not ICT equipment)  |     Educational supplies_Learning resources (not ICT equipment)    |LearningResourcesNonIctCosts  ||  
-|maintained_schools_master_list| E20  ICT learning resources  |     Educational ICT_ICT learning resources    |LearningResourcesIctCosts  ||  
-|N/A - computed|   |   |TotalPremisesStaffServiceCosts    |Computed as the sum of Premises staff and services_Cleaning and caretaking, Premises staff and services_Maintenance of premises, Premises staff and services_Other occupation costs, Premises staff and services_Premises staff |  
-|maintained_schools_master_list| E14  Cleaning and caretaking  |     Premises staff and services_Cleaning and caretaking    |CleaningCaretakingCosts  ||  
-|maintained_schools_master_list| E12  Building maintenance and improvement  |     Premises staff and services_Maintenance of premises    |MaintenancePremisesCosts  ||  
-|maintained_schools_master_list| E18  Other occupation costs  |     Premises staff and services_Other occupation costs    |OtherOccupationCosts  ||  
-|maintained_schools_master_list| E04  Premises staff  |     Premises staff and services_Premises staff    |PremisesStaffCosts  ||  
-|N/A - computed|   |   |TotalUtilitiesCosts  |Computed as the sum of Utilities_Energy, Utilities_Water and sewerage|  
-|maintained_schools_master_list| E16  Energy  |     Utilities_Energy    |EnergyCosts  ||  
-|maintained_schools_master_list| E15  Water and sewerage  |     Utilities_Water and sewerage    |WaterSewerageCosts  ||  
-|maintained_schools_master_list| E22 Administrative supplies  |     Administrative supplies_Administrative supplies (non educational)    |AdministrativeSuppliesNonEducationalCosts  ||  
-|N/A - computed|   |   |TotalGrossCateringCosts |    Computed as the sum of Catering staff and supplies_Catering staff, Catering staff and supplies_Catering supplies     |  
-|maintained_schools_master_list| E06 Catering staff  |     Catering staff and supplies_Catering staff    |CateringStaffCosts  ||  
-|maintained_schools_master_list| E25  Catering supplies  |     Catering staff and supplies_Catering supplies    |CateringSuppliesCosts  ||  
-|N/A - computed|   |   |TotalOtherCosts  |Computed as the sum of,Other costs_Other insurance premiums,Other costs_Direct revenue financing,Other costs_Grounds maintenance,Other costs_Indirect employee expense,Other costs_Interest charges for loan and bank,Other costs_PFI charges,Other costs_Rent and rates,Other costs_Special facilities,Other costs_Staff development and training,Other costs_Staff-related insurance,Other costs_Supply teacher insurance
-|maintained_schools_master_list| E23  Other insurance premiums  |     Other costs_Other insurance premiums    |OtherInsurancePremiumsCosts  ||  
-|maintained_schools_master_list| E30 Direct revenue financing (revenue contributions to capital)  |     Other costs_Direct revenue financing    |DirectRevenueFinancingCosts  ||  
-|maintained_schools_master_list| E13  Grounds maintenance and improvement  |     Other costs_Grounds maintenance    |GroundsMaintenanceCosts  ||  
-|maintained_schools_master_list| E08  Indirect employee expenses  |     Other costs_Indirect employee expenses    |IndirectEmployeeExpenses  ||  
-|maintained_schools_master_list| E29  Loan interest  |     Other costs_Interest charges for loan and bank    |InterestChargesLoanBank  ||  
-|maintained_schools_master_list| E28b Bought in professional services - other (PFI)  |     Other costs_PFI charges    |PrivateFinanceInitiativeCharges  ||  
-|maintained_schools_master_list| E17  Rates  |     Other costs_Rent and rates    |RentRatesCosts  ||  
-|maintained_schools_master_list| E24  Special facilities  |     Other costs_Special facilities    |SpecialFacilitiesCosts  ||  
-|maintained_schools_master_list| E09  Development and training  |     Other costs_Staff development and training    |StaffDevelopmentTrainingCosts  ||  
-|maintained_schools_master_list| E11  Staff related insurance  |     Other costs_Staff-related insurance    |StaffRelatedInsuranceCosts  ||  
-|maintained_schools_master_list| E10  Supply teacher insurance  |     Other costs_Supply teacher insurance    |SupplyTeacherInsurableCosts  ||  
-|maintained_schools_master_list| E31  Community focused school staff  |     Other costs_School staff    |CommunityFocusedSchoolStaff  ||  
-|maintained_schools_master_list| E32 Community focused school costs  |     Other costs_School costs    |CommunityFocusedSchoolCosts  ||  
-|N/A - computed|   |   |TotalTeachingSupportStaffCosts  |Computed as the sum of Teaching and Teaching support staff_Teaching staff, Teaching and Teaching support staff_Supply teaching staff, Teaching and Teaching support staff_Educational consultancy, Teaching and Teaching support staff_Education support staff, Teaching and Teaching support staff_Agency supply teaching staff  ||   
-|maintained_schools_master_list| E27  Bought in professional services - curriculum  |     Teaching and Teaching support staff_Educational consultancy    |EducationalConsultancyCosts  ||  
-|N/A - computed|   |   |TotalNonEducationalSupportStaffCosts  |Computed as the sum of Non-educational support staff and services_Administrative and clerical staff, Non-educational support staff and services_Other staff, Non-educational support staff and services_Professional services (non-curriculum)    |
-|maintained_schools_master_list| E23  Other insurance premiums  |     Other costs_Other insurance premiums    |OtherInsurancePremiumsCosts  ||  
-|  maintained_schools_master_list  | Direct Grant  |     Income_Direct grants    | DirectGrants  |   |
+|maintained_schools_master_list| Total Expenditure  E01 to E32  |     Total Expenditure    | TotalExpenditure | For Maintained Schools total expenditure E30 Direct revenue financing (revenue contributions to capital) is not included in this summation    |  
+| N/A - computed |   |     Total Expenditure / Total Expenditure_CS   | TotalExpenditure / TotalExpenditureCS | Academies and Central Services total expenditure is computed as BNCH21101 (Teaching staff) + BNCH21102 (Supply teaching staff - extra note in guidance) + BNCH21103 (Education support staff) + BNCH21104 (Administrative and clerical staff) + BNCH21105 (Premises staff) + BNCH21106 (Catering staff) + BNCH21107 (Other staff) + BNCH21201 (Indirect employee expenses) + BNCH21202 (Staff development and training) + BNCH21203 (Staff-related insurance) + BNCH21204 (Supply teacher insurance) + BNCH21301 (Maintenance of premises) + BNCH21405 (Grounds maintenance) + BNCH21401 (Cleaning and caretaking) + BNCH21402 (Water and sewerage) + BNCH21403 (Energy) + BNCH21404 (Rent and rates) + BNCH21406 (Other occupation costs) + BNCH21501 (Special facilities) + BNCH21601 (Learning resources (not ICT equipment)) + BNCH21602 (ICT learning resources) + BNCH21603 (Examination fees) + BNCH21604 (Educational Consultancy) + BNCH21706 (Administrative supplies - non educational) + BNCH21606 (Agency supply teaching staff) + BNCH21701 (Catering supplies) + BNCH21705 (Other insurance premiums) + BNCH21702 (Professional Services - non-curriculum) + BNCH21703 (Auditor costs) + BNCH21801 (Interest charges for Loan and bank) + BNCH21802 (PFI Charges) - BNCH21707 (Direct revenue financing (Revenue contributions to capital))  |  
+| N/A - computed     |   |   | TotalTeachingSupportStaffCosts |For Maintaiend Schools, Academies and Central Services, computed as the sum of Teaching and Teaching support, staff_Teaching staff, Teaching and Teaching support staff_Supply teaching staff, Teaching and Teaching support staff_Educational consultancy, Teaching and Teaching support staff_Education support staff, Teaching and Teaching support staff_Agency supply teaching staff|  
+|maintained_schools_master_list | E01  Teaching Staff |    Teaching and Teaching support staff_Teaching staff    |TeachingStaffCosts  ||  
+|aar / arr_cs | BNCH21101 (Teaching staff) |    Teaching and Teaching support staff_Teaching staff / Teaching and Teaching support staff_Teaching staff_CS    | TeachingStaffCosts / TeachingStaffCostsCS  ||  
+|maintained_schools_master_list | E02  Supply teaching staff  |     Teaching and Teaching support staff_Supply teaching staff    |SupplyTeachingStaffCosts  ||  
+|aar / arr_cs | BNCH21102 (Supply teaching staff - extra note in guidance)  |     Teaching and Teaching support staff_Supply teaching staff / Teaching and Teaching support staff_Supply teaching staff_CS    |SupplyTeachingStaffCosts / SupplyTeachingStaffCostsCS  ||  
+|maintained_schools_master_list |E03 Education support staff  |Teaching and Teaching support staff_Educational consultancy    |EducationSupportStaffCosts  ||  
+|aar / arr_cs |BNCH21604 (Educational Consultancy)  |Teaching and Teaching support staff_Educational consultancy / Teaching and Teaching support staff_Educational consultancy_CS    | EducationSupportStaffCosts / EducationSupportStaffCostsCS  ||  
+|maintained_schools_master_list | E26 Agency supply teaching staff  |     Teaching and Teaching support staff_Agency supply teaching staff    |AgencySupplyTeachingStaffCosts  ||  
+|aar / arr_cs | BNCH21606 (Agency supply teaching staff)  |     Teaching and Teaching support staff_Agency supply teaching staff / Teaching and Teaching support staff_Agency supply teaching staff_CS    |AgencySupplyTeachingStaffCosts / AgencySupplyTeachingStaffCostsCS  ||  
+|maintained_schools_master_list | E05 Administrative and clerical staff  |     Non-educational support staff and services_Administrative and clerical staff    |AdministrativeClericalStaffCosts  ||
+|aar / aar_cs | BNCH21104 (Administrative and clerical staff)  |     Non-educational support staff and services_Administrative and clerical staff / Non-educational support staff and services_Administrative and clerical staff_CS    |AdministrativeClericalStaffCosts / AdministrativeClericalStaffCosts_CS  ||
+|maintained_schools_master_list | E07  Cost of other staff  |     Non-educational support staff and services_Other staff    |OtherStaffCosts  ||  
+|aar / aar_cs | BNCH21107 (Other staff)  |     Non-educational support staff and services_Other staff / Non-educational support staff and services_Other staff_CS    |OtherStaffCosts / OtherStaffCosts_CS  ||  
+|N/A - computed|   |   |TotalNonEducationalSupportStaffCosts / TotalNonEducationalSupportStaffCostsCS |For Maintaiend Schools, Academies and Central Services, computed as the sum of Non-educational support staff and services_Administrative and clerical staff, Non-educational support staff and services_Other staff, Non-educational support staff and services_Professional services (non-curriculum)     |  
+|maintained_schools_master_list | E28a  Bought in professional services - other (except PFI)  |     Non-educational support staff and services_Professional services (non-curriculum)    |ProfessionalServicesNonCurriculumCosts  ||  
+|aar / aar_cs | BNCH21702 (Professional Services - non-curriculum)  |     Non-educational support staff and services_Professional services (non-curriculum) / Non-educational support staff and services_Professional services (non-curriculum)_CS    | ProfessionalServicesNonCurriculumCosts / ProfessionalServicesNonCurriculumCostsCS  ||  
+|N/A - computed|   |   |TotalEducationalSuppliesCosts / TotalEducationalSuppliesCostsCS | For Maintaiend Schools, Academies and Central Services, computed as the sum of Educational supplies_Examination fees, Educational supplies_Learning resources (not ICT equipment)   |  
+|maintained_schools_master_list | E21  Exam fees  |     Educational supplies_Examination fees    |ExaminationFeesCosts  ||  
+|aar / aar_cs | BNCH21603 (Examination fees)  |     Educational supplies_Examination fees / Educational supplies_Examination fees_CS    | ExaminationFeesCosts / ExaminationFeesCostsCS  ||  
+|maintained_schools_master_list | E19  Learning resources (not ICT equipment)  |     Educational supplies_Learning resources (not ICT equipment)    |LearningResourcesNonIctCosts  ||  
+|aar / aar_cs | BNCH21601 (Learning resources (not ICT equipment))  |     Educational supplies_Learning resources (not ICT equipment) / Educational supplies_Learning resources (not ICT equipment)_CS    |LearningResourcesNonIctCosts / LearningResourcesNonIctCostsCS  ||  
+|maintained_schools_master_list | E20  ICT learning resources  |     Educational ICT_ICT learning resources    |LearningResourcesIctCosts  ||  
+|aar / aar_cs | BNCH21602 (ICT learning resources)  |     Educational ICT_ICT learning resources / Educational ICT_ICT learning resources_CS    |LearningResourcesIctCosts / LearningResourcesIctCostsCS  ||  
+|N/A - computed|   |   |TotalPremisesStaffServiceCosts / TotalPremisesStaffServiceCostsCS    |For Maintaiend Schools, Academies and Central Services, computed as the sum of Premises staff and services_Cleaning and caretaking, Premises staff and services_Maintenance of premises, Premises staff and services_Other occupation costs, Premises staff and services_Premises staff |  
+|maintained_schools_master_list | E14  Cleaning and caretaking  |     Premises staff and services_Cleaning and caretaking    |CleaningCaretakingCosts  ||  
+|aar / aar_cs | BNCH21401 (Cleaning and caretaking)  |     Premises staff and services_Cleaning and caretaking / Premises staff and services_Cleaning and caretaking_CS    |CleaningCaretakingCosts / CleaningCaretakingCostsCS  ||  
+|maintained_schools_master_list | E12  Building maintenance and improvement  |     Premises staff and services_Maintenance of premises    |MaintenancePremisesCosts  ||  
+|aar / aar_cs | BNCH21301 (Maintenance of premises)  |     Premises staff and services_Maintenance of premises / Premises staff and services_Maintenance of premises_CS    |MaintenancePremisesCosts / MaintenancePremisesCostsCS  ||  
+|maintained_schools_master_list | E18  Other occupation costs  |     Premises staff and services_Other occupation costs    |OtherOccupationCosts  ||  
+|aar / aar_cs | BNCH21406 (Other occupation costs)  |     Premises staff and services_Other occupation costs / Premises staff and services_Other occupation costs_CS    |OtherOccupationCosts / OtherOccupationCostsCS  ||  
+|maintained_schools_master_list | E04  Premises staff  |     Premises staff and services_Premises staff    |PremisesStaffCosts  ||  
+|aar / aar_cs | BNCH21105 (Premises staff)  |     Premises staff and services_Premises staff / Premises staff and services_Premises staff_CS    |PremisesStaffCosts / PremisesStaffCostsCS  ||  
+|N/A - computed|   |   |TotalUtilitiesCosts / TotalUtilitiesCostsCS  |For Maintaiend Schools, Academies and Central Services, computed as the sum of Utilities_Energy, Utilities_Water and sewerage|  
+|maintained_schools_master_list | E16  Energy  |     Utilities_Energy    |EnergyCosts  ||  
+|aar / aar_cs | BNCH21403 (Energy)  |     Utilities_Energy / Utilities_Energy_CS    |EnergyCosts / EnergyCostsCS  ||  
+|maintained_schools_master_list | E15  Water and sewerage  |     Utilities_Water and sewerage    |WaterSewerageCosts  ||  
+|aar / aar_cs | BNCH21402 (Water and sewerage)  |     Utilities_Water and sewerage / Utilities_Water and sewerage_CS    |WaterSewerageCosts / WaterSewerageCostsCS  ||  
+|maintained_schools_master_list | E22 Administrative supplies  |     Administrative supplies_Administrative supplies (non educational)    |AdministrativeSuppliesNonEducationalCosts  ||  
+|aar / aar_cs | BNCH21706 (Administrative supplies - non educational)  |     Administrative supplies_Administrative supplies (non educational) / Administrative supplies_Administrative supplies (non educational)_CS    |AdministrativeSuppliesNonEducationalCosts / AdministrativeSuppliesNonEducationalCostsCS  || 
+|N/A - computed|   |   |TotalGrossCateringCosts / TotalGrossCateringCostsCS |    For Maintaiend Schools, Academies and Central Services, computed as the sum of Catering staff and supplies_Catering staff, Catering staff and supplies_Catering supplies     |  
+|maintained_schools_master_list | E06 Catering staff  |     Catering staff and supplies_Catering staff    |CateringStaffCosts  ||  
+|aar / aar_cs | BNCH21106 (Catering staff)  |     Catering staff and supplies_Catering staff / Catering staff and supplies_Catering staff_CS    |CateringStaffCosts / CateringStaffCostsCS  ||  
+|maintained_schools_master_list | E25  Catering supplies  |     Catering staff and supplies_Catering supplies    |CateringSuppliesCosts  ||  
+|maintained_schools_master_list | BNCH21701 (Catering supplies)  |     Catering staff and supplies_Catering supplies / Catering staff and supplies_Catering supplies_CS    |CateringSuppliesCosts / CateringSuppliesCostsCS  ||  
+|N/A - computed|   |   |TotalOtherCosts / TotalOtherCostsCS  |For Maintaiend Schools, Academies and Central Services, computed as the sum of,Other costs_Other insurance premiums,Other costs_Direct revenue financing,Other costs_Grounds maintenance,Other costs_Indirect employee expense,Other costs_Interest charges for loan and bank,Other costs_PFI charges,Other costs_Rent and rates,Other costs_Special facilities,Other costs_Staff development and training,Other costs_Staff-related insurance,Other costs_Supply teacher insurance
+|maintained_schools_master_list | E23  Other insurance premiums  |     Other costs_Other insurance premiums    |OtherInsurancePremiumsCosts  ||  
+|aar / aar_cs | BNCH21705 (Other insurance premiums)  |     Other costs_Other insurance premiums / Other costs_Other insurance premiums_CS    |OtherInsurancePremiumsCosts / OtherInsurancePremiumsCostsCS  ||  
+|maintained_schools_master_list | E30 Direct revenue financing (revenue contributions to capital)  |     Other costs_Direct revenue financing    |DirectRevenueFinancingCosts  ||  
+|aar / aar_cs | BNCH21707 (Direct revenue financing (Revenue contributions to capital))  |     Other costs_Direct revenue financing / Other costs_Direct revenue financing_CS    |DirectRevenueFinancingCosts / DirectRevenueFinancingCostsCS  ||  
+|maintained_schools_master_list | E13  Grounds maintenance and improvement  |     Other costs_Grounds maintenance    |GroundsMaintenanceCosts  ||  
+|aar / aar_cs | BNCH21405 (Grounds maintenance)  |     Other costs_Grounds maintenance / Other costs_Grounds maintenance_CS    |GroundsMaintenanceCosts / GroundsMaintenanceCostsCS  ||  
+|maintained_schools_master_list | E08  Indirect employee expenses  |     Other costs_Indirect employee expenses    |IndirectEmployeeExpenses  ||  
+|aar / aar_cs | BNCH21201 (Indirect employee expenses)  |     Other costs_Indirect employee expenses / Other costs_Indirect employee expenses_CS    |IndirectEmployeeExpenses / IndirectEmployeeExpensesCS  ||  
+|maintained_schools_master_list | E29  Loan interest  |     Other costs_Interest charges for loan and bank    |InterestChargesLoanBank  ||  
+|aar / aar_cs | BNCH21801 (Interest charges for Loan and bank)  |     Other costs_Interest charges for loan and bank / Other costs_Interest charges for loan and bank_CS    |InterestChargesLoanBank / InterestChargesLoanBankCS  ||  
+|maintained_schools_master_list | E28b Bought in professional services - other (PFI)  |     Other costs_PFI charges    |PrivateFinanceInitiativeCharges  ||  
+|aar / aar_cs | BNCH21802 (PFI Charges)  |     Other costs_PFI charges / Other costs_PFI charges_CS    |PrivateFinanceInitiativeCharges / PrivateFinanceInitiativeChargesCS  ||  
+|maintained_schools_master_list | E17  Rates  |     Other costs_Rent and rates    |RentRatesCosts  ||  
+|aar / aar_cs | BNCH21404 (Rent and rates)  |     Other costs_Rent and rates / Other costs_Rent and rates_CS    | RentRatesCosts / RentRatesCostsCS  ||  
+|maintained_schools_master_list | E24  Special facilities  |     Other costs_Special facilities    |SpecialFacilitiesCosts  ||  
+|aar / aar_cs | BNCH21501 (Special facilities)  |     Other costs_Special facilities / Other costs_Special facilities_CS    |SpecialFacilitiesCosts / SpecialFacilitiesCostsCS  ||  
+|maintained_schools_master_list | E09  Development and training  |     Other costs_Staff development and training    |StaffDevelopmentTrainingCosts  ||  
+|aar / aar_cs | BNCH21202 (Staff development and training)  |     Other costs_Staff development and training / Other costs_Staff development and training_CS    |StaffDevelopmentTrainingCosts / StaffDevelopmentTrainingCostsCS  ||  
+|maintained_schools_master_list | E11  Staff related insurance  |     Other costs_Staff-related insurance    |StaffRelatedInsuranceCosts  ||  
+|aar / aar_cs | BNCH21203 (Staff-related insurance)  |     Other costs_Staff-related insurance / Other costs_Staff-related insurance_CS    |StaffRelatedInsuranceCosts / StaffRelatedInsuranceCostsCS  ||  
+|maintained_schools_master_list | E10  Supply teacher insurance  |     Other costs_Supply teacher insurance    |SupplyTeacherInsurableCosts  ||  
+|aar / aar_cs | BNCH21204 (Supply teacher insurance)  |     Other costs_Supply teacher insurance / Other costs_Supply teacher insurance_CS    |SupplyTeacherInsurableCosts / SupplyTeacherInsurableCostsCS  ||  
+|maintained_schools_master_list | E31  Community focused school staff  |     Other costs_School staff    |CommunityFocusedSchoolStaff  | Not provided for Academies and Central Services |  
+|maintained_schools_master_list | E32 Community focused school costs  |     Other costs_School costs    |CommunityFocusedSchoolCosts  | Not provided for Academies and Central Services |  
+|maintained_schools_master_list | E27  Bought in professional services - curriculum  |     Teaching and Teaching support staff_Educational consultancy    |EducationalConsultancyCosts  ||  
+|aar / aar_cs | BNCH21604 (Educational Consultancy)  |     Teaching and Teaching support staff_Educational consultancy / Teaching and Teaching support staff_Educational consultancy_CS    |EducationalConsultancyCosts / EducationalConsultancyCostsCS  ||  
+|N/A - computed|   |   |TotalNonEducationalSupportStaffCosts / TotalNonEducationalSupportStaffCostsCS  |For Maintaiend Schools, Academies and Central Services, computed as the sum of Non-educational support staff and services_Administrative and clerical staff, Non-educational support staff and services_Other staff, Non-educational support staff and services_Professional services (non-curriculum)    |
+|maintained_schools_master_list | E23  Other insurance premiums  |     Other costs_Other insurance premiums    |OtherInsurancePremiumsCosts  ||  
+|aar / aar_cs | BNCH21705 (Other insurance premiums)  |     Other costs_Other insurance premiums / Other costs_Other insurance premiums_CS    |OtherInsurancePremiumsCosts / OtherInsurancePremiumsCostsCS  ||  
+|  maintained_schools_master_list   | Direct Grant  |     Income_Direct grants    | DirectGrants  |  Not provided for Academies and Central Services |
 |     N/A - computed |    |     Income_Pre Post 16    |  PrePost16Funding  |   Computed from the sum of I01  Funds delegated by the LA, I02  Funding for 6th form students	 |
-|     maintained_schools_master_list | I06  Other government grants  |     Income_Other DFE grants    |OtherDfeGrants  |    |
-|     maintained_schools_master_list | I07  Other grants and payments  |     Income_Other grants    |OtherIncomeGrants  |    |
-|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Government source    |GovernmentSource  |    |
-|     maintained_schools_master_list | Community Grants  |     Income_Other Revenue Income    |CommunityGrants  |    |
-|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Academies    |Academies  |    |
-|     maintained_schools_master_list | Self Generated Funding  |     Income_Total self generated funding    |TotalSelfGeneratedFunding  |    |
-|     maintained_schools_master_list | I08  Income from facilities and services  |     Income_Facilities and services    |IncomeFacilitiesServices  |    |
-|     maintained_schools_master_list | I09  Income from catering  |     Income_Catering services    |IncomeCateringServices  |    |
-|     maintained_schools_master_list | I13  Donations and or private funds  |     Income_Donations and voluntary funds    |DonationsVoluntaryFunds  |    |
-|     maintained_schools_master_list | I10  Receipts from supply teacher insurance claims  |     Income_Receipts supply teacher insurance    |ReceiptsSupplyTeacherInsuranceClaims  |    |
-|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Investment income    |InvestmentIncome  |    |
-|     maintained_schools_master_list | N/A - not in maintained schools dataset  |     Income_Other self-generated income    |OtherSelfGeneratedIncome  |    |
-|     N/A - computed |   |        | InYearBalance  | Computed as (Total Income   I01 to I18) - (Total Expenditure  E01 to E32)   |
-|     maintained_schools_master_list | Revenue Reserve   B01 plus B02 plus B06  |    Revenue reserve    | RevenueReserve  |    |
-|     N/A - computed |   |  Income_Total grant funding | TotalGrantFunding | Computed as the sum of Direct Grant, Community Grants, Targeted Grants   |
-|     maintained_schools_master_list | Targeted Grants  |        |  | Only used in TotalGrantFunding computation   |
-|     maintained_schools_master_list | Total Income   I01 to I18  |    Total Income    | TotalIncome |    |
-|     maintained_schools_master_list | Period covered by return (months)  |    Period covered by return    | PeriodCoveredByReturn
-  |    |
+|     aar / aar_cs |  BNCH11142 (Other Revenue)  |     Income_Pre Post 16 / Income_Pre Post 16_CS    |  PrePost16Funding / PrePost16FundingCS  |   	 |
+|     maintained_schools_master_list  | I06  Other government grants  |     Income_Other DFE grants    |OtherDfeGrants  |  Not provided for Academies and Central Services  |
+|     maintained_schools_master_list  | I07  Other grants and payments  |     Income_Other grants    |OtherIncomeGrants  |    |
+|     aar / aar_cs  | BNCH11151 (Other Government Revenue Grants)  |     Income_Other grants / Income_Other grants_CS    |OtherIncomeGrants / OtherIncomeGrantsCS  |    |
+|     aar / aar_cs  | BNCH11161 (Government source (non-grant))  |     Income_Government source / Income_Government source_CS    | GovernmentSource / GovernmentSourceCS  |  Not provided for Maintained Schools  |
+|     maintained_schools_master_list  | Community Grants  |     Income_Other Revenue Income    |CommunityGrants  |  Not provided for Academies and Central Services  |
+|     aar / aar_cs  | BNCH11162 (Academies)  |     Income_Academies / Income_Academies_CS    | Academies / AcademiesCS  |  Not provided for Maintained Schools  |
+|     maintained_schools_master_list  | Self Generated Funding  |     Income_Total self generated funding    |TotalSelfGeneratedFunding  |  Not provided for Academies and Central Services  |
+|     maintained_schools_master_list  | I08  Income from facilities and services  |     Income_Facilities and services    |IncomeFacilitiesServices  |  Not provided for Academies and Central Services  |
+|     maintained_schools_master_list  | I09  Income from catering  |     Income_Catering services    |IncomeCateringServices  |    |
+|     aar / aar_cs  | BNCH11202 (Income from catering)  |     Income_Catering services / Income_Catering services_CS    |IncomeCateringServices / IncomeCateringServicesCS  |    |
+|     maintained_schools_master_list  | I13  Donations and or private funds  |     Income_Donations and voluntary funds    |DonationsVoluntaryFunds  |    |
+|     aar / aar_cs  | BNCH11300T (Voluntary income)  |     Income_Donations and voluntary funds / Income_Donations and voluntary funds_CS    |DonationsVoluntaryFunds / DonationsVoluntaryFundsCS  |    |
+|     maintained_schools_master_list  | I10  Receipts from supply teacher insurance claims  |     Income_Receipts supply teacher insurance    |ReceiptsSupplyTeacherInsuranceClaims  |    |
+|     aar / aar_cs  | BNCH11203 (Receipts from supply teacher insurance claims)  |     Income_Receipts supply teacher insurance / Income_Receipts supply teacher insurance_CS    |ReceiptsSupplyTeacherInsuranceClaims / ReceiptsSupplyTeacherInsuranceClaimsCS  |    |
+|     aar / aar_cs  | BNCH11400T (Investment income)  |     Income_Investment income / Income_Investment income_CS    |InvestmentIncome / InvestmentIncomeCS  |  Not provided for Maintained Schools  |
+|     aar / aar_cs  | BNCH11204 (Other income - revenue)  |     Income_Other self-generated income / Income_Other self-generated income_CS    |OtherSelfGeneratedIncome / OtherSelfGeneratedIncomeCS  |  Not provided for Maintained Schools  |
+|     N/A - computed |   |    In Year Balance    | InYearBalance  | Computed as (Total Income   I01 to I18) - (Total Expenditure  E01 to E32)   |
+|     N/A - computed |   |    In Year Balance_CS/In Year Balance_CS    | InYearBalance / InYearBalance_CS  | Computed as (BNCH11110T (EFA Revenue Grants)) - (BNCH20000T (Total Costs))   |
+|     maintained_schools_master_list  | Revenue Reserve   B01 plus B02 plus B06  |    Revenue reserve    | RevenueReserve  |    |
+|     aar / aar_cs  | BNCH44001CS (Closing Balance (Restricted and Unrestricted Funds))  |    Revenue reserve / Revenue reserve_CS    | RevenueReserve / RevenueReserve_CS  |    |
+|     N/A - computed |   |  Income_Total grant funding | TotalGrantFunding / TotalGrantFundingCS | For Maintaiend Schools, Academies and Central Services, computed as the sum of Direct Grant, Community Grants, Targeted Grants   |
+|     maintained_schools_master_list  | Targeted Grants  |    Targeted Grants    |  | Only used in TotalGrantFunding computation   |
+|     aar / aar_cs  | BNCH11141 (SEN)  |     Targeted Grants   |  | Only used in TotalGrantFunding computation   |
+|     maintained_schools_master_list  | Total Income   I01 to I18  |    Total Income    | TotalIncome |    |
+|     N/A - computed |   |    Total Income / Total Income_CS    | TotalIncome / TotalIncomeCS |  Computed as (Academies): Income_Total grant funding + Income_Total self generated funding - BNCH21707 (Direct revenue financing (Revenue contributions to capital)) + BNCH11123-BAI011-A (Academies - Income), (Central Services): Income_Total grant funding + Income_Total self generated funding - BNCH21707 (Direct revenue financing (Revenue contributions to capital)) + BNCH11123-BTI011-A (MAT Central services - Income)  |
+|     maintained_schools_master_list  | Period covered by return (months)  |    Period covered by return    | PeriodCoveredByReturn | |
+|     N/A - computed  |   |        | PeriodCoveredByReturn |  Mapped based on Academies Date joined or opened if in period and Date left or closed if in period  |
 |     N/A - computed |   |    Financial Position    | FinancialPosition  | Assigned based off the In Year Balance value   |
-|     N/A - computed |   |    Trust Financial Position    | TrustPosition  | Assinged based off the Trust Balance   |
+|     N/A - computed |   |    Trust Financial Position    | TrustPosition  | Assigned based off the Trust Balance   |
 |     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | EstablishmentType  |    |
+|     aar / aar_cs  | BNCH21703 (Auditor costs)  |    Non-educational support staff and services_Audit cost / Non-educational support staff and services_Audit cost_CS    | AuditorCosts / AuditorsCostsCS  |  Not provided for Maintained Schools   |
+|     aar / aar_cs  | BNCH20000T (Total Costs)  |        |   |  Only used in InYearBalance computation   |
 
 
 
@@ -194,12 +237,15 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - undefined | N/A  |    N/A    | FederaitonLeadURN  |    |
 |     gias | LA (code)  |    LA Code    | LACode  |    |
 |     maintained_schools_master_list | London Weighting  |    London Weighting    | LondonWeighting  |    |
+|     N/A - computed |   |    London Weighting    | LondonWeighting  |  Assinged via a mapping based off the academies LA and Estab values  |
 |     N/A - computed |   |    Finance Type    | FinanceType  | Set during the preprocessing pipeline during the respective academy / maintained schools run   |
-|     maintained_schools_master_list | Overall Phase  |    Overall Phase    | OverallPhase  |    |
+|     maintained_schools_master_list| Overall Phase  |    Overall Phase    | OverallPhase  |    |
+|     N/A - computed |   |    Overall Phase    | OverallPhase  |  Assinged via a mapping based off the academies TypeOfEstablishment (code) and Type of Provision - Phase |
 |     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | SchoolType  |    |
 |     gias | OfficialSixthForm (name)  |    Has Sixth Form    | HasSixthForm  | Assinged through boolean logic operation   |
 |     gias | NurseryProvision (name)  |    Has Nursery    | HasNursery  | Assigned through boolean logic operation  |
 |     maintained_schools_master_list | PFI  |    Is PFI    | IsPFISchool  | Assigned through boolean logic operation   |
+|     aar  | PFI School  |    Is PFI    | IsPFISchool  | Assigned through boolean logic operation   |
 |     gias | OfstedLastInsp  |    OfstedLastInsp    | OfstedDate  |    |
 |     gias | OfstedRating (name)  |    OfstedRating (name)    | OfstedDescription  |    |
 
