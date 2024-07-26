@@ -37,7 +37,7 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
         {
             try
             {
-                var trusts = await service.QueryCharacteristicAsync(queryParams.Truts);
+                var trusts = await service.QueryCharacteristicAsync(queryParams.Trusts);
                 return await req.CreateJsonResponseAsync(trusts);
             }
             catch (Exception e)

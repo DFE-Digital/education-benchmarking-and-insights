@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Platform.Api.Benchmark.OpenApi.Examples;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 namespace Platform.Api.Benchmark.UserData;
@@ -16,10 +17,10 @@ public class UserDataFunctions(IUserDataService service, ILogger<UserDataFunctio
     [Function(nameof(QueryAsync))]
     [OpenApiOperation(nameof(QueryAsync), "User Data")]
     [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id", Type = typeof(string), Required = true)]
-    [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false)]
-    [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false)]
+    [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataType))]
+    [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false, Example = typeof(ExampleOrganisationType))]
     [OpenApiParameter("organisationId", In = ParameterLocation.Query, Description = "Organisation Id", Type = typeof(string), Required = false)]
-    [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false)]
+    [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataStatus))]
     [OpenApiParameter("id", In = ParameterLocation.Query, Description = "Identifier", Type = typeof(string), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<UserData>))]
