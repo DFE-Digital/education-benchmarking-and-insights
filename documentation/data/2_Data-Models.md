@@ -91,8 +91,8 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - computed |   |  Income_Total grant funding | TotalGrantFunding | Computed as the sum of Direct Grant, Community Grants, Targeted Grants   |
 |     maintained_schools_master_list | Targeted Grants  |        |  | Only used in TotalGrantFunding computation   |
 |     maintained_schools_master_list | Total Income   I01 to I18  |    Total Income    | TotalIncome |    |
-|     1a | Period covered by return (months)  |    Period covered by return    | PeriodCoveredByReturn
-  | 1e   |
+|     maintained_schools_master_list | Period covered by return (months)  |    Period covered by return    | PeriodCoveredByReturn
+  |    |
 |     N/A - computed |   |    Financial Position    | FinancialPosition  | Assigned based off the In Year Balance value   |
 |     N/A - computed |   |    Trust Financial Position    | TrustPosition  | Assinged based off the Trust Balance   |
 |     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | EstablishmentType  |    |
@@ -115,7 +115,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     census_pupils| % of pupils known to be eligible for free school meals  |     Percentage Free school meals    |PercentFreeSchoolMeals  |    |
 |     sen| Total pupils  |     |N/A - only used in computation  |    |
 |     sen| SEN support  |  |N/A - only used in computation  |    |
-|     census_pupils | EHC plan  |        | N/A - only used in computation  | 1e   |
+|     census_pupils | EHC plan  |        | N/A - only used in computation  |    |
 |     N/A - computed|   |     Percentage SEN| PercentSpecialEducationNeeds|   Percentage SEN computed as ((EHC plan + SEN support) / Total pupils) * 100.0 |
 |     cdc| GIFA  |     Total Internal Floor Area    |TotalInternalFloorArea  |   TotalInternalFloorArea is the aggregated sum of the floor area of each building associated with a single URN |
 |     census_workforce| Total School Workforce (Full-Time Equivalent)  |     Total School Workforce (Full-Time Equivalent)    |WorkforceFTE  ||  
@@ -128,18 +128,18 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |   census_workforce  | Total School Workforce (Headcount)  |     Total School Workforce (Headcount)    |WorkforceHeadcount  ||  
 |     cdc | Block Age  |   Indicative Age / Building Age    | BuildingAverageAge  | Building Age is computed from as the mean Indicative Age of all blocks aggregated by URN. The Indicative age is the integer representation of the Block Age. |
 |     N/A - computed |   |    TotalPupilsSixthForm    | TotalPupilsSixthForm  | Computed as the sum of Full time boys Year group 12, Full time boys Year group 13, Full time girls Year group 12, Full time girls Year group 13   |
-|     cdc | Full time boys Year group 12  |        | N/A - only used in computation  | 1e   |
-|     cdc | Full time boys Year group 13  |        | N/A - only used in computation  | 1e   |
-|     cdc | Full time girls Year group 12  |        | N/A - only used in computation  | 1e   |
-|     cdc | Full time girls Year group 13  |        | N/A - only used in computation  | 1e   |
+|     cdc | Full time boys Year group 12  |        | N/A - only used in computation  |    |
+|     cdc | Full time boys Year group 13  |        | N/A - only used in computation  |    |
+|     cdc | Full time girls Year group 12  |        | N/A - only used in computation  |    |
+|     cdc | Full time girls Year group 13  |        | N/A - only used in computation  |    |
 |     N/A - computed |   |    TotalPupilsNursery    | TotalPupilsNursery  | Computed as the sum of Number of early year pupils (years E1 and E2),Number of nursery pupils (years N1 and N2)   |
-|     census_pupils | Number of early year pupils (years E1 and E2)  |    Number of early year pupils (years E1 and E2)    | N/A - only used in computation  | 1e   |
-|     census_pupils |  Number of nursery pupils (years N1 and N2)  |    Number of nursery pupils (years N1 and N2)    | N/A - only used in computation  | 1e   |
-|     workforce_census | Total Number of Teachers (Headcount)  |    Total Number of Teachers (Headcount)    | TeachersHeadcount  | 1e   |
-|     census_workforce | Total Number of Teachers in the Leadership Group (Headcount)  |    Total Number of Teachers in the Leadership Group (Headcount)    | SeniorLeadershipHeadcount  | 1e   |
-|     census_workforce | Total Number of Teaching Assistants (Headcount)  |    Total Number of Teaching Assistants (Headcount)    | TeachingAssistantHeadcount  | 1e   |
-|     census_workforce | Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)  |    NonClassroomSupportStaffHeadcount    | NonClassroomSupportStaffHeadcount  | 1e   |
-|     census_workforce | Total Number of Auxiliary Staff (Headcount)  |    Total Number of Auxiliary Staff (Headcount)    | AuxiliaryStaffHeadcount  | 1e   |
+|     census_pupils | Number of early year pupils (years E1 and E2)  |    Number of early year pupils (years E1 and E2)    | N/A - only used in computation  |    |
+|     census_pupils |  Number of nursery pupils (years N1 and N2)  |    Number of nursery pupils (years N1 and N2)    | N/A - only used in computation  |    |
+|     workforce_census | Total Number of Teachers (Headcount)  |    Total Number of Teachers (Headcount)    | TeachersHeadcount  |    |
+|     census_workforce | Total Number of Teachers in the Leadership Group (Headcount)  |    Total Number of Teachers in the Leadership Group (Headcount)    | SeniorLeadershipHeadcount  |    |
+|     census_workforce | Total Number of Teaching Assistants (Headcount)  |    Total Number of Teaching Assistants (Headcount)    | TeachingAssistantHeadcount  |    |
+|     census_workforce | Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)  |    NonClassroomSupportStaffHeadcount    | NonClassroomSupportStaffHeadcount  |    |
+|     census_workforce | Total Number of Auxiliary Staff (Headcount)  |    Total Number of Auxiliary Staff (Headcount)    | AuxiliaryStaffHeadcount  |    |
 |     N/A - computed |   |    Percentage with EHC    | PercentWithEducationalHealthCarePlan  | Computed as EHC plan / Total Pupils   |
 |     N/A - computed |   |    Percentage without EHC    | PercentWithoutEducationalHealthCarePlan  | Computed as Percentage SEN - Percentage with EHC   |
 |     N/A - computed |   |    KS2Progress    | KS2Progress  | Computed as the sum of READPROG, MATPROG, WRITPROG   |
@@ -147,31 +147,31 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     ks2 | MATPROG  |        | N/A - only used in computation  |    |
 |     ks2 | WRITPROG  |        | N/A - only used in computation  |    |
 |     ks4 | P8MEA  |    Progress8Measure    | KS4Progress  |    |
-|     N/A - undefined | N/A  |    N/A    | PredictedPercentChangePupils3To5Years  | 1e   |
+|     N/A - undefined | N/A  |    N/A    | PredictedPercentChangePupils3To5Years  |    |
 |     N/A - computed |   |    Percentage Primary Need VI    | PercentWithVI  | Computed as Primary Need VI / Total Pupils   |
-|     sen | Primary Need VI  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need VI  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need SPLD    | PercentWithSPLD  | Computed as Primary Need SPLD / Total Pupils   |
-|     sen | Primary Need SPLD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need SPLD  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need SLD    | PercentWithSLD  | Computed as Primary Need SLD / Total Pupils   |
-|     sen | Primary Need SLD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need SLD  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need SLCN    | PercentWithSLCN  | Computed as Primary Need SLCN / Total Pupils   |
-|     sen | Primary Need SLCN  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need SLCN  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need SEMH    | PercentWithSEMH  | Computed as Primary Need SEMH / Total Pupils   |
-|     sen | Primary Need SEMH  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need SEMH  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need PMLD    | PercentWithPMLD  | Computed as Primary Need PMLD / Total Pupils   |
-|     sen | Primary Need PMLD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need PMLD  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need PD    | PercentWithPD  | Computed as Primary Need PD / Total Pupils   |
-|     sen | Primary Need PD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need PD  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need OTH    | PercentWithOTH  | Computed as Primary Need OTH / Total Pupils   |
-|     sen | Primary Need OTH  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need OTH  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need MSI    | PercentWithMSI  | Computed as Primary Need MSI / Total Pupils   |
-|     sen | Primary Need MSI  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need MSI  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need MLD    | PercentWithMLD  | Computed as Primary Need MLD / Total Pupils   |
-|     sen | Primary Need MLD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need MLD  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need HI    | PercentWithHI  | Computed as Primary Need HI / Total Pupils   |
-|     sen | Primary Need HI  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need HI  |       | N/A - only used in computation  |    |
 |     N/A - computed |   |    Percentage Primary Need ASD    | PercentWithASD  | Computed as Primary Need ASD / Total Pupils   |
-|     sen | Primary Need ASD  |       | N/A - only used in computation  | 1e   |
+|     sen | Primary Need ASD  |       | N/A - only used in computation  |    |
 
 ### School
 
@@ -188,20 +188,20 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     gias| TelephoneNum  |     TelephoneNum    |Telephone  |    |
 |     gias| LA (name)  |     LA Name    |LAName  |    |
 |     gias| SchoolWebsite  |     SchoolWebsite    |Website  |    |
-|     gias | EstablishmentName  |    EstablishmentName    | SchoolName  | 1e   |
-|     academies_master_list | Company Registration Number  |    Company Registration Number    | TrustCompanyNumber  | 1e   |
-|     academies_master_list | Academy Trust Name  |    Trust Name    | TrustName  | 1e   |
-|     N/A - undefined | N/A  |    N/A    | FederaitonLeadURN  | 1e   |
-|     gias | LA (code)  |    LA Code    | LACode  | 1e   |
-|     maintained_schools_master_list | London Weighting  |    London Weighting    | LondonWeighting  | 1e   |
+|     gias | EstablishmentName  |    EstablishmentName    | SchoolName  |    |
+|     academies_master_list | Company Registration Number  |    Company Registration Number    | TrustCompanyNumber  |    |
+|     academies_master_list | Academy Trust Name  |    Trust Name    | TrustName  |    |
+|     N/A - undefined | N/A  |    N/A    | FederaitonLeadURN  |    |
+|     gias | LA (code)  |    LA Code    | LACode  |    |
+|     maintained_schools_master_list | London Weighting  |    London Weighting    | LondonWeighting  |    |
 |     N/A - computed |   |    Finance Type    | FinanceType  | Set during the preprocessing pipeline during the respective academy / maintained schools run   |
-|     maintained_schools_master_list | Overall Phase  |    Overall Phase    | OverallPhase  | 1e   |
-|     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | SchoolType  | 1e   |
+|     maintained_schools_master_list | Overall Phase  |    Overall Phase    | OverallPhase  |    |
+|     gias | TypeOfEstablishment (name)  |    TypeOfEstablishment (name)    | SchoolType  |    |
 |     gias | OfficialSixthForm (name)  |    Has Sixth Form    | HasSixthForm  | Assinged through boolean logic operation   |
 |     gias | NurseryProvision (name)  |    Has Nursery    | HasNursery  | Assigned through boolean logic operation  |
 |     maintained_schools_master_list | PFI  |    Is PFI    | IsPFISchool  | Assigned through boolean logic operation   |
-|     gias | OfstedLastInsp  |    OfstedLastInsp    | OfstedDate  | 1e   |
-|     gias | OfstedRating (name)  |    OfstedRating (name)    | OfstedDescription  | 1e   |
+|     gias | OfstedLastInsp  |    OfstedLastInsp    | OfstedDate  |    |
+|     gias | OfstedRating (name)  |    OfstedRating (name)    | OfstedDescription  |    |
 
 
 ### MetricRAG
@@ -211,8 +211,8 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - defined in pipeline run |   |        | RunType  |    |
 |     N/A - defined in pipeline run |   |        | RunId  |    |
 |     gias| URN  |     URN    |URN  |    |
-|     N/A - defined in pipeline run |   |   Category     | Category  | 1e   |
-|     N/A - defined in pipeline run |   |    Subcategory    | Subcategory  | 1e   |
+|     N/A - defined in pipeline run |   |   Category     | Category  |    |
+|     N/A - defined in pipeline run |   |    Subcategory    | Subcategory  |    |
 |     N/A - defined in pipeline run |   |        | SetType  |  SetType may take values such as: unmixed or mixed  |
 |     N/A - computed |   |    Value    | Value  | The numerical value for the specific Category, for a given URN  |
 |     N/A - computed |   |    Mean    | Mean  | Computed from the mean of a series of Category values for a comparator set  |
@@ -256,8 +256,8 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
-|     1a | 1b  |    1c    | Code  | 1e   |
-|     1a | 1b  |    1c    | Name  | 1e   |
+|     gias | LA (code)  |    LA Code        | Code  |    |
+|     gias| LA (name)  |     LA Name    | Name  |    |
 
 ### BudgetForecastReturnMetric
 
@@ -265,10 +265,10 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
 |     N/A - defined in pipeline run |   |        | RunType  |    |
 |     N/A - defined in pipeline run |   |        | RunId  |    |
-|     1a | 1b  |    1c    | Year  | 1e   |
-|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
-|     1a | 1b  |    1c    | Metric  | 1e   |
-|     1a | 1b  |    1c    | Value  | 1e   |
+|     N/A - defined in pipeline run |   |        | Year  |    |
+|     academies_master_list | Company Registration Number  |    CompanyNumber    | CompanyNumber  | Determined by merging the bfr data with the academies data on the Trust UPIN   |
+|     N/A - defined in pipeline run |   |    Metric    | Metric  |    |
+|     N/A - computed |   |    Value    | Value  | The numerical value for a given metric, for a given Trust UPIN. Determined by unpivoting the year forecast columns in the raw data  |
 
 ### BudgetForecastReturn
 
@@ -276,20 +276,20 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
 |     N/A - defined in pipeline run |   |        | RunType  |    |
 |     N/A - defined in pipeline run |   |        | RunId  |    |
-|     1a | 1b  |    1c    | Year  | 1e   |
-|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
-|     1a | 1b  |    1c    | Category  | 1e   |
-|     1a | 1b  |    1c    | Value  | 1e   |
-|     1a | 1b  |    1c    | TotalPupils  | 1e   |
+|     N/A - defined in pipeline run |   |        | Year  |    |
+|     academies_master_list | Company Registration Number  |    CompanyNumber    | CompanyNumber  | Determined by merging the bfr data with the academies data on the Trust UPIN   |
+|     bfr_SOFA_raw | Category  |    Category    | Category  | Mapped to a given metric provided in the BFR data, e.g. Revenue Reserves   |
+|     N/A - computed |   |    Value    | Value  | The numerical value for the specific Category, for a given Trust UPIN. Determined by unpivoting the year forecast columns in the raw data  |
+|     N/A - computed |   |    Value   | TotalPupils  | Taken as a value from the "Pupil numbers" Catagory and aggregated based on the TrustUPIN   |
 
 ### TrustHistory
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
-|     1a | 1b  |    1c    | Id  | 1e   |
-|     1a | 1b  |    1c    | CompanyNumber  | 1e   |
-|     1a | 1b  |    1c    | EventDate  | 1e   |
-|     1a | 1b  |    1c    | EventName  | 1e   |
-|     1a | 1b  |    1c    | AcademicYear  | 1e   |
-|     1a | 1b  |    1c    | SchoolURN  | 1e   |
-|     1a | 1b  |    1c    | SchoolName  | 1e   |
+|     N/A - undefined | N/A  |    N/A    | Id  |    |
+|     N/A - undefined | N/A  |    N/A    | CompanyNumber  |    |
+|     N/A - undefined | N/A  |    N/A    | EventDate  |    |
+|     N/A - undefined | N/A  |    N/A    | EventName  |    |
+|     N/A - undefined | N/A  |    N/A    | AcademicYear  |    |
+|     N/A - undefined | N/A  |    N/A    | SchoolURN  |    |
+|     N/A - undefined | N/A  |    N/A    | SchoolName  |    |u
