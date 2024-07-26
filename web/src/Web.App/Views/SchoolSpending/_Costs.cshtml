@@ -27,7 +27,7 @@
                         @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
                         Spending is higher than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                     </p>
-                    <div class="govuk-!-margin-bottom-2"
+                    <div class="govuk-!-margin-bottom-2 composed-container"
                          data-spending-and-costs-composed
                          data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                          data-highlight="@Model.Urn"
