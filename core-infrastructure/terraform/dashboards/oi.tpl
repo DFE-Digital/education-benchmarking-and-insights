@@ -17,10 +17,10 @@
                             "content": {
                                 "settings": {
                                     "content": "### Performance",
-                                    "title": "",
-                                    "subtitle": "",
                                     "markdownSource": 1,
-                                    "markdownUri": null
+                                    "markdownUri": null,
+                                    "subtitle": "",
+                                    "title": ""
                                 }
                             }
                         }
@@ -30,7 +30,7 @@
                     "position": {
                         "x": 3,
                         "y": 0,
-                        "colSpan": 5,
+                        "colSpan": 4,
                         "rowSpan": 3
                     },
                     "metadata": {
@@ -41,49 +41,49 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 4,
+                                                "metricVisualization": {
+                                                    "color": "#54A300",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "availabilityResults/availabilityPercentage",
-                                                "aggregationType": 4,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#54A300"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Availability",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "axisVisualization": {
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "min": 0,
-                                                    "max": 100
-                                                },
-                                                "x": {
-                                                    "isVisible": true
-                                                }
-                                            }
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "availability"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "availability"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "availability"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Availability",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "isVisible": true,
+                                                    "max": 100,
+                                                    "min": 0
+                                                }
+                                            },
+                                            "chartType": 2
                                         }
                                     }
                                 },
@@ -101,50 +101,50 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 4,
+                                                "metricVisualization": {
+                                                    "color": "#54A300",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "availabilityResults/availabilityPercentage",
-                                                "aggregationType": 4,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#54A300"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Availability",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "axisVisualization": {
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "min": 0,
-                                                    "max": 100
-                                                },
-                                                "x": {
-                                                    "isVisible": true
-                                                }
-                                            },
-                                            "disablePinning": true
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "availability"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "availability"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "availability"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Availability",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "isVisible": true,
+                                                    "max": 100,
+                                                    "min": 0
+                                                }
+                                            },
+                                            "chartType": 2,
+                                            "disablePinning": true
                                         }
                                     }
                                 }
@@ -154,7 +154,7 @@
                 },
                 "2": {
                     "position": {
-                        "x": 8,
+                        "x": 7,
                         "y": 0,
                         "colSpan": 4,
                         "rowSpan": 3
@@ -167,43 +167,43 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "performanceCounters/requestExecutionTime",
                                                 "aggregationType": 4,
-                                                "namespace": "microsoft.insights/components",
                                                 "metricVisualization": {
                                                     "displayName": "HTTP request execution time"
+                                                },
+                                                "name": "performanceCounters/requestExecutionTime",
+                                                "namespace": "microsoft.insights/components",
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Avg HTTP request execution time for ${app_insights_name}",
-                                        "titleKind": 1,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            }
-                                        },
                                         "timespan": {
+                                            "grain": 1,
                                             "relative": {
                                                 "duration": 86400000
                                             },
-                                            "showUTCTime": false,
-                                            "grain": 1
+                                            "showUTCTime": false
+                                        },
+                                        "title": "Avg HTTP request execution time for ${app_insights_name}",
+                                        "titleKind": 1,
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "axisType": 2,
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "axisType": 1,
+                                                    "isVisible": true
+                                                }
+                                            },
+                                            "chartType": 2,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
+                                            }
                                         }
                                     }
                                 },
@@ -221,37 +221,37 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "performanceCounters/requestExecutionTime",
                                                 "aggregationType": 4,
-                                                "namespace": "microsoft.insights/components",
                                                 "metricVisualization": {
                                                     "displayName": "HTTP request execution time"
+                                                },
+                                                "name": "performanceCounters/requestExecutionTime",
+                                                "namespace": "microsoft.insights/components",
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
                                         "title": "Avg HTTP request execution time for ${app_insights_name}",
                                         "titleKind": 1,
                                         "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
                                             "axisVisualization": {
                                                 "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
+                                                    "axisType": 2,
+                                                    "isVisible": true
                                                 },
                                                 "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
+                                                    "axisType": 1,
+                                                    "isVisible": true
                                                 }
                                             },
-                                            "disablePinning": true
+                                            "chartType": 2,
+                                            "disablePinning": true,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
+                                            }
                                         }
                                     }
                                 }
@@ -261,7 +261,7 @@
                 },
                 "3": {
                     "position": {
-                        "x": 12,
+                        "x": 11,
                         "y": 0,
                         "colSpan": 4,
                         "rowSpan": 3
@@ -274,39 +274,39 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 7,
+                                                "metricVisualization": {
+                                                    "color": "#0078D4",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/count",
-                                                "aggregationType": 7,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#0078D4"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Server requests",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 3
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "performance"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "performance"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "performance"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Server requests",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 3
                                         }
                                     }
                                 },
@@ -324,40 +324,40 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 7,
+                                                "metricVisualization": {
+                                                    "color": "#0078D4",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/count",
-                                                "aggregationType": 7,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#0078D4"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Server requests",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 3,
-                                            "disablePinning": true
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "performance"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "performance"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "performance"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Server requests",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 3,
+                                            "disablePinning": true
                                         }
                                     }
                                 }
@@ -367,7 +367,7 @@
                 },
                 "4": {
                     "position": {
-                        "x": 16,
+                        "x": 15,
                         "y": 0,
                         "colSpan": 4,
                         "rowSpan": 3
@@ -380,39 +380,39 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 4,
+                                                "metricVisualization": {
+                                                    "color": "#0078D4",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/duration",
-                                                "aggregationType": 4,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#0078D4"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Server response time",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 2
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "performance"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "performance"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "performance"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Server response time",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 2
                                         }
                                     }
                                 },
@@ -430,40 +430,40 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 4,
+                                                "metricVisualization": {
+                                                    "color": "#0078D4",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/duration",
-                                                "aggregationType": 4,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#0078D4"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Server response time",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "disablePinning": true
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "performance"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "performance"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "performance"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Server response time",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 2,
+                                            "disablePinning": true
                                         }
                                     }
                                 }
@@ -485,10 +485,10 @@
                             "content": {
                                 "settings": {
                                     "content": "### Failures",
-                                    "title": "",
-                                    "subtitle": "",
                                     "markdownSource": 1,
-                                    "markdownUri": null
+                                    "markdownUri": null,
+                                    "subtitle": "",
+                                    "title": ""
                                 }
                             }
                         }
@@ -509,39 +509,39 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 7,
+                                                "metricVisualization": {
+                                                    "color": "#EC008C",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/failed",
-                                                "aggregationType": 7,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#EC008C"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Failed requests",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 3
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "failures"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "failures"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "failures"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Failed requests",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 3
                                         }
                                     }
                                 },
@@ -559,40 +559,40 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 7,
+                                                "metricVisualization": {
+                                                    "color": "#EC008C",
+                                                    "resourceDisplayName": "${app_insights_name}"
                                                 },
                                                 "name": "requests/failed",
-                                                "aggregationType": 7,
                                                 "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "resourceDisplayName": "${app_insights_name}",
-                                                    "color": "#EC008C"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Failed requests",
-                                        "titleKind": 2,
-                                        "visualization": {
-                                            "chartType": 3,
-                                            "disablePinning": true
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
                                                 "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "failures"
-                                                },
                                                 "extensionName": "HubsExtension",
                                                 "options": {
                                                     "parameters": {
                                                         "id": "${app_insights_id}",
                                                         "menuid": "failures"
                                                     }
+                                                },
+                                                "parameters": {
+                                                    "id": "${app_insights_id}",
+                                                    "menuid": "failures"
                                                 }
-                                            }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Failed requests",
+                                        "titleKind": 2,
+                                        "visualization": {
+                                            "chartType": 3,
+                                            "disablePinning": true
                                         }
                                     }
                                 }
@@ -616,13 +616,13 @@
                             {
                                 "name": "ComponentId",
                                 "value": {
-                                    "SubscriptionId": "${subscription_id}",
-                                    "ResourceGroup": "${resource_group_name}",
-                                    "Name": "${app_insights_name}",
+                                    "IsAzureFirst": false,
                                     "LinkedApplicationType": 0,
+                                    "Name": "${app_insights_name}",
+                                    "ResourceGroup": "${resource_group_name}",
                                     "ResourceId": "${app_insights_id}",
                                     "ResourceType": "microsoft.insights/components",
-                                    "IsAzureFirst": false
+                                    "SubscriptionId": "${subscription_id}"
                                 }
                             },
                             {
@@ -632,21 +632,21 @@
                             {
                                 "name": "DataModel",
                                 "value": {
-                                    "version": "1.0.0",
-                                    "experience": 3,
                                     "clientTypeMode": "Server",
-                                    "timeContext": {
-                                        "durationMs": 86400000,
-                                        "createdTime": "2021-04-06T21:56:10.624Z",
-                                        "isInitialTime": false,
-                                        "grain": 1,
-                                        "useDashboardTimeRange": false
-                                    },
-                                    "prefix": "${failures_query_prefix}",
+                                    "experience": 3,
+                                    "filters": [],
                                     "grain": "5m",
+                                    "prefix": "${failures_query_prefix}",
                                     "selectedOperation": null,
                                     "selectedOperationName": null,
-                                    "filters": []
+                                    "timeContext": {
+                                        "createdTime": "2021-04-06T21:56:10.624Z",
+                                        "durationMs": 86400000,
+                                        "grain": 1,
+                                        "isInitialTime": false,
+                                        "useDashboardTimeRange": false
+                                    },
+                                    "version": "1.0.0"
                                 },
                                 "isOptional": true
                             },
@@ -664,113 +664,6 @@
                 },
                 "8": {
                     "position": {
-                        "x": 15,
-                        "y": 3,
-                        "colSpan": 5,
-                        "rowSpan": 4
-                    },
-                    "metadata": {
-                        "inputs": [
-                            {
-                                "name": "options",
-                                "value": {
-                                    "chart": {
-                                        "metrics": [
-                                            {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "requests/failed",
-                                                "aggregationType": 7,
-                                                "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "displayName": "Failed requests"
-                                                }
-                                            }
-                                        ],
-                                        "title": "Count Failed requests for ${app_insights_name}",
-                                        "titleKind": 1,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            }
-                                        },
-                                        "timespan": {
-                                            "relative": {
-                                                "duration": 86400000
-                                            },
-                                            "showUTCTime": false,
-                                            "grain": 1
-                                        }
-                                    }
-                                },
-                                "isOptional": true
-                            },
-                            {
-                                "name": "sharedTimeRange",
-                                "isOptional": true
-                            }
-                        ],
-                        "type": "Extension/HubsExtension/PartType/MonitorChartPart",
-                        "settings": {
-                            "content": {
-                                "options": {
-                                    "chart": {
-                                        "metrics": [
-                                            {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "requests/failed",
-                                                "aggregationType": 7,
-                                                "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "displayName": "Failed requests"
-                                                }
-                                            }
-                                        ],
-                                        "title": "Count Failed requests for ${app_insights_name}",
-                                        "titleKind": 1,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            },
-                                            "disablePinning": true
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "9": {
-                    "position": {
                         "x": 0,
                         "y": 7,
                         "colSpan": 3,
@@ -781,18 +674,16 @@
                         "type": "Extension/HubsExtension/PartType/MarkdownPart",
                         "settings": {
                             "content": {
-                                "settings": {
-                                    "content": "### Usage",
-                                    "title": "",
-                                    "subtitle": "",
-                                    "markdownSource": 1,
-                                    "markdownUri": null
-                                }
+                                "content": "### Usage",
+                                "title": "",
+                                "subtitle": "",
+                                "markdownSource": 1,
+                                "markdownUri": {}
                             }
                         }
                     }
                 },
-                "10": {
+                "9": {
                     "position": {
                         "x": 3,
                         "y": 7,
@@ -807,58 +698,58 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 5,
+                                                "metricVisualization": {
+                                                    "color": "#47BDF5",
+                                                    "displayName": "Sessions"
                                                 },
                                                 "name": "sessions/count",
-                                                "aggregationType": 5,
                                                 "namespace": "microsoft.insights/components/kusto",
-                                                "metricVisualization": {
-                                                    "displayName": "Sessions",
-                                                    "color": "#47BDF5"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             },
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 5,
+                                                "metricVisualization": {
+                                                    "color": "#7E58FF",
+                                                    "displayName": "Users"
                                                 },
                                                 "name": "users/count",
-                                                "aggregationType": 5,
                                                 "namespace": "microsoft.insights/components/kusto",
-                                                "metricVisualization": {
-                                                    "displayName": "Users",
-                                                    "color": "#7E58FF"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Unique sessions and users",
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            }
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
-                                                "extensionName": "HubsExtension",
                                                 "bladeName": "ResourceMenuBlade",
+                                                "extensionName": "HubsExtension",
                                                 "parameters": {
                                                     "id": "${app_insights_id}",
                                                     "menuid": "segmentationUsers"
                                                 }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Unique sessions and users",
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "axisType": 2,
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "axisType": 1,
+                                                    "isVisible": true
+                                                }
+                                            },
+                                            "chartType": 2,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
                                             }
                                         }
                                     }
@@ -876,59 +767,59 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 5,
+                                                "metricVisualization": {
+                                                    "color": "#47BDF5",
+                                                    "displayName": "Sessions"
                                                 },
                                                 "name": "sessions/count",
-                                                "aggregationType": 5,
                                                 "namespace": "microsoft.insights/components/kusto",
-                                                "metricVisualization": {
-                                                    "displayName": "Sessions",
-                                                    "color": "#47BDF5"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             },
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
+                                                "aggregationType": 5,
+                                                "metricVisualization": {
+                                                    "color": "#7E58FF",
+                                                    "displayName": "Users"
                                                 },
                                                 "name": "users/count",
-                                                "aggregationType": 5,
                                                 "namespace": "microsoft.insights/components/kusto",
-                                                "metricVisualization": {
-                                                    "displayName": "Users",
-                                                    "color": "#7E58FF"
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Unique sessions and users",
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            },
-                                            "disablePinning": true
-                                        },
                                         "openBladeOnClick": {
-                                            "openBlade": true,
                                             "destinationBlade": {
-                                                "extensionName": "HubsExtension",
                                                 "bladeName": "ResourceMenuBlade",
+                                                "extensionName": "HubsExtension",
                                                 "parameters": {
                                                     "id": "${app_insights_id}",
                                                     "menuid": "segmentationUsers"
                                                 }
+                                            },
+                                            "openBlade": true
+                                        },
+                                        "title": "Unique sessions and users",
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "axisType": 2,
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "axisType": 1,
+                                                    "isVisible": true
+                                                }
+                                            },
+                                            "chartType": 2,
+                                            "disablePinning": true,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
                                             }
                                         }
                                     }
@@ -937,7 +828,7 @@
                         }
                     }
                 },
-                "11": {
+                "10": {
                     "position": {
                         "x": 9,
                         "y": 7,
@@ -952,164 +843,43 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "availabilityResults/availabilityPercentage",
-                                                "aggregationType": 4,
-                                                "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "displayName": "Availability",
-                                                    "color": "#47BDF5"
-                                                }
-                                            }
-                                        ],
-                                        "title": "Average availability",
-                                        "visualization": {
-                                            "chartType": 3,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            }
-                                        },
-                                        "openBladeOnClick": {
-                                            "openBlade": true,
-                                            "destinationBlade": {
-                                                "extensionName": "HubsExtension",
-                                                "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "availability"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "name": "sharedTimeRange",
-                                "isOptional": true
-                            }
-                        ],
-                        "type": "Extension/HubsExtension/PartType/MonitorChartPart",
-                        "settings": {
-                            "content": {
-                                "options": {
-                                    "chart": {
-                                        "metrics": [
-                                            {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "availabilityResults/availabilityPercentage",
-                                                "aggregationType": 4,
-                                                "namespace": "microsoft.insights/components",
-                                                "metricVisualization": {
-                                                    "displayName": "Availability",
-                                                    "color": "#47BDF5"
-                                                }
-                                            }
-                                        ],
-                                        "title": "Average availability",
-                                        "visualization": {
-                                            "chartType": 3,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            },
-                                            "disablePinning": true
-                                        },
-                                        "openBladeOnClick": {
-                                            "openBlade": true,
-                                            "destinationBlade": {
-                                                "extensionName": "HubsExtension",
-                                                "bladeName": "ResourceMenuBlade",
-                                                "parameters": {
-                                                    "id": "${app_insights_id}",
-                                                    "menuid": "availability"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "12": {
-                    "position": {
-                        "x": 15,
-                        "y": 7,
-                        "colSpan": 5,
-                        "rowSpan": 4
-                    },
-                    "metadata": {
-                        "inputs": [
-                            {
-                                "name": "options",
-                                "value": {
-                                    "chart": {
-                                        "metrics": [
-                                            {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "pageViews/count",
                                                 "aggregationType": 7,
-                                                "namespace": "microsoft.insights/components",
                                                 "metricVisualization": {
                                                     "displayName": "Page views"
+                                                },
+                                                "name": "pageViews/count",
+                                                "namespace": "microsoft.insights/components",
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
-                                        "title": "Count Page views for ${app_insights_name}",
-                                        "titleKind": 1,
-                                        "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
-                                            "axisVisualization": {
-                                                "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
-                                                },
-                                                "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
-                                                }
-                                            }
-                                        },
                                         "timespan": {
+                                            "grain": 1,
                                             "relative": {
                                                 "duration": 86400000
                                             },
-                                            "showUTCTime": false,
-                                            "grain": 1
+                                            "showUTCTime": false
+                                        },
+                                        "title": "Count Page views for ${app_insights_name}",
+                                        "titleKind": 1,
+                                        "visualization": {
+                                            "axisVisualization": {
+                                                "x": {
+                                                    "axisType": 2,
+                                                    "isVisible": true
+                                                },
+                                                "y": {
+                                                    "axisType": 1,
+                                                    "isVisible": true
+                                                }
+                                            },
+                                            "chartType": 2,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
+                                            }
                                         }
                                     }
                                 },
@@ -1127,37 +897,37 @@
                                     "chart": {
                                         "metrics": [
                                             {
-                                                "resourceMetadata": {
-                                                    "id": "${app_insights_id}"
-                                                },
-                                                "name": "pageViews/count",
                                                 "aggregationType": 7,
-                                                "namespace": "microsoft.insights/components",
                                                 "metricVisualization": {
                                                     "displayName": "Page views"
+                                                },
+                                                "name": "pageViews/count",
+                                                "namespace": "microsoft.insights/components",
+                                                "resourceMetadata": {
+                                                    "id": "${app_insights_id}"
                                                 }
                                             }
                                         ],
                                         "title": "Count Page views for ${app_insights_name}",
                                         "titleKind": 1,
                                         "visualization": {
-                                            "chartType": 2,
-                                            "legendVisualization": {
-                                                "isVisible": true,
-                                                "position": 2,
-                                                "hideSubtitle": false
-                                            },
                                             "axisVisualization": {
                                                 "x": {
-                                                    "isVisible": true,
-                                                    "axisType": 2
+                                                    "axisType": 2,
+                                                    "isVisible": true
                                                 },
                                                 "y": {
-                                                    "isVisible": true,
-                                                    "axisType": 1
+                                                    "axisType": 1,
+                                                    "isVisible": true
                                                 }
                                             },
-                                            "disablePinning": true
+                                            "chartType": 2,
+                                            "disablePinning": true,
+                                            "legendVisualization": {
+                                                "hideSubtitle": false,
+                                                "isVisible": true,
+                                                "position": 2
+                                            }
                                         }
                                     }
                                 }
@@ -1174,10 +944,73 @@
                         }
                     }
                 },
-                "13": {
+                "11": {
                     "position": {
                         "x": 0,
                         "y": 11,
+                        "colSpan": 3,
+                        "rowSpan": 4
+                    },
+                    "metadata": {
+                        "inputs": [],
+                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                        "settings": {
+                            "content": {
+                                "content": "### Firewall",
+                                "title": "",
+                                "subtitle": "",
+                                "markdownSource": 1,
+                                "markdownUri": ""
+                            }
+                        }
+                    }
+                },
+                "12": {
+                    "position": {
+                        "x": 3,
+                        "y": 11,
+                        "colSpan": 6,
+                        "rowSpan": 4
+                    },
+                    "metadata": {
+                        "inputs": [],
+                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                        "settings": {
+                            "content": {
+                                "content": "",
+                                "title": "Placeholder",
+                                "subtitle": "",
+                                "markdownSource": 1,
+                                "markdownUri": ""
+                            }
+                        }
+                    }
+                },
+                "13": {
+                    "position": {
+                        "x": 9,
+                        "y": 11,
+                        "colSpan": 6,
+                        "rowSpan": 4
+                    },
+                    "metadata": {
+                        "inputs": [],
+                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                        "settings": {
+                            "content": {
+                                "content": "",
+                                "title": "Placeholder 2",
+                                "subtitle": "",
+                                "markdownSource": 1,
+                                "markdownUri": ""
+                            }
+                        }
+                    }
+                },
+                "14": {
+                    "position": {
+                        "x": 0,
+                        "y": 15,
                         "colSpan": 3,
                         "rowSpan": 9
                     },
@@ -1188,21 +1021,21 @@
                             "content": {
                                 "settings": {
                                     "content": "# Application map\nSpot performance bottlenecks or failure hotspots across all components of your distributed application.",
-                                    "title": "",
-                                    "subtitle": "",
                                     "markdownSource": 1,
-                                    "markdownUri": null
+                                    "markdownUri": null,
+                                    "subtitle": "",
+                                    "title": ""
                                 }
                             }
                         }
                     }
                 },
-                "14": {
+                "15": {
                     "position": {
                         "x": 3,
-                        "y": 11,
-                        "colSpan": 17,
-                        "rowSpan": 9
+                        "y": 15,
+                        "colSpan": 16,
+                        "rowSpan": 8
                     },
                     "metadata": {
                         "inputs": [
@@ -1221,10 +1054,10 @@
                             {
                                 "name": "TimeContext",
                                 "value": {
-                                    "durationMs": 3600000,
                                     "createdTime": "Tue Apr 06 2021 14:56:16 GMT-0700 (Pacific Daylight Time)",
-                                    "isInitialTime": false,
+                                    "durationMs": 3600000,
                                     "grain": 1,
+                                    "isInitialTime": false,
                                     "useDashboardTimeRange": false
                                 },
                                 "isOptional": true
@@ -1237,15 +1070,15 @@
                             {
                                 "name": "DataModel",
                                 "value": {
-                                    "timeContext": {
-                                        "durationMs": 3600000,
-                                        "createdTime": "Tue Apr 06 2021 14:56:16 GMT-0700 (Pacific Daylight Time)",
-                                        "isInitialTime": false,
-                                        "grain": 1,
-                                        "useDashboardTimeRange": false
-                                    },
+                                    "exclude4xxError": true,
                                     "layoutOption": "Organic",
-                                    "exclude4xxError": true
+                                    "timeContext": {
+                                        "createdTime": "Tue Apr 06 2021 14:56:16 GMT-0700 (Pacific Daylight Time)",
+                                        "durationMs": 3600000,
+                                        "grain": 1,
+                                        "isInitialTime": false,
+                                        "useDashboardTimeRange": false
+                                    }
                                 },
                                 "isOptional": true
                             },
@@ -1263,6 +1096,7 @@
                             }
                         ],
                         "type": "Extension/AppInsightsExtension/PartType/ApplicationMapPart",
+                        "settings": {},
                         "asset": {
                             "idInputName": "ComponentId",
                             "type": "ApplicationInsights"
@@ -1300,15 +1134,14 @@
                             "value": "Past 24 hours"
                         },
                         "filteredPartIds": [
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f06a",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f06c",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f06e",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f070",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f07c",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f074",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f078",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f07e",
-                            "StartboardPart-MonitorChartPart-c45652d9-4625-417a-9595-578d3e10f080"
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991a8",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991aa",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ac",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ae",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991b2",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ba",
+                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991be",
+                            "StartboardPart-ApplicationMapPart-601c0e92-821c-4e93-945d-13a0211991c2"
                         ]
                     }
                 }
