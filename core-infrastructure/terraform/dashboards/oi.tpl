@@ -973,15 +973,110 @@
                         "rowSpan": 4
                     },
                     "metadata": {
-                        "inputs": [],
-                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                        "inputs": [
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${waf_requests_id}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${waf_requests_query}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "Donut",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "xAxis": {
+                                        "name": "Path",
+                                        "type": "string"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "RequestCount",
+                                            "type": "long"
+                                        }
+                                    ],
+                                    "splitBy": [
+                                        {
+                                            "name": "RuleName",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "aggregation": "Sum"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": true,
+                                    "position": "Bottom"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {
                             "content": {
-                                "content": "",
-                                "title": "Placeholder",
-                                "subtitle": "",
-                                "markdownSource": 1,
-                                "markdownUri": ""
+                                "PartTitle": "${waf_requests_title}",
+                                "PartSubTitle": "${environment}"
                             }
                         }
                     }
@@ -994,15 +1089,110 @@
                         "rowSpan": 4
                     },
                     "metadata": {
-                        "inputs": [],
-                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
+                        "inputs": [
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${waf_blocked_requests_per_hour_id}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${waf_blocked_requests_per_hour_query}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "StackedColumn",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "xAxis": {
+                                        "name": "TimeGenerated",
+                                        "type": "datetime"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "RequestCount",
+                                            "type": "long"
+                                        }
+                                    ],
+                                    "splitBy": [
+                                        {
+                                            "name": "PolicyMode",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "aggregation": "Sum"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": true,
+                                    "position": "Bottom"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {
                             "content": {
-                                "content": "",
-                                "title": "Placeholder 2",
-                                "subtitle": "",
-                                "markdownSource": 1,
-                                "markdownUri": ""
+                                "PartTitle": "${waf_blocked_requests_per_hour_title}",
+                                "PartSubTitle": "${environment}"
                             }
                         }
                     }

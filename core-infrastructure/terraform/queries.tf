@@ -374,8 +374,8 @@ resource "random_uuid" "waf-requests-id" {}
 resource "azurerm_log_analytics_query_pack_query" "waf-requests" {
   name          = random_uuid.waf-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "Firewall blocked requests"
-  description   = "Firewall blocked request count per hour"
+  display_name  = "Firewall requests"
+  description   = "Firewall request count by host, path, rule, and action"
   categories    = ["audit"]
   tags          = local.query-tags
 
@@ -398,8 +398,8 @@ resource "random_uuid" "waf-blocked-requests-per-hour-id" {}
 resource "azurerm_log_analytics_query_pack_query" "waf-blocked-requests-per-hour" {
   name          = random_uuid.waf-blocked-requests-per-hour-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "Firewall requests"
-  description   = "Firewall request count by host, path, rule, and action"
+  display_name  = "Firewall blocked requests"
+  description   = "Firewall blocked request count per hour"
   categories    = ["audit"]
   tags          = local.query-tags
 
