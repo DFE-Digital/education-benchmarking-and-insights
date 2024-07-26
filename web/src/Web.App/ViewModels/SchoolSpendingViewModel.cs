@@ -1,4 +1,3 @@
-using System.Collections;
 using Web.App.Domain;
 
 namespace Web.App.ViewModels;
@@ -25,7 +24,7 @@ public class SchoolSpendingViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
-    
+
     public IEnumerable<CostCategory> MediumPriorityCosts => _categories
         .Where(x => x.Rating.RAG is "amber")
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
