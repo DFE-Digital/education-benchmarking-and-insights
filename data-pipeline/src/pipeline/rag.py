@@ -140,7 +140,8 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
         "PercentDiff": diff_percent,
         "Percentile": percentile,
         "Decile": decile,
-        "RAG": rag_mapping[key][int(decile)],
+        # note: 10th decile is considered to be in the last RAG category.
+        "RAG": rag_mapping[key][min(int(decile), 9)],
     }
 
 
