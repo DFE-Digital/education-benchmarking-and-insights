@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
 using TechTalk.SpecFlow.Assist;
@@ -60,5 +59,12 @@ public class InsightTrustsSteps(InsightApiDriver api)
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())
             .Where(v => !string.IsNullOrWhiteSpace(v))
             .OfType<string>();
+    }
+
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private record TrustCharacteristic : Platform.Api.Insight.Trusts.TrustCharacteristic
+    {
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
+        public new Api.Insight.Trusts.TrustPhase[] Phases { get; set; } = [];
     }
 }
