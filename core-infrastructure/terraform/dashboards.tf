@@ -90,6 +90,7 @@ resource "azurerm_portal_dashboard" "oi-dashboard" {
       workspace_id      = azurerm_log_analytics_workspace.application-insights-workspace.id,
       app_insights_id   = azurerm_application_insights.application-insights.id,
       app_insights_name = azurerm_application_insights.application-insights.name,
+      environment       = local.dashboard-suffix
 
       failures_query_prefix = local.failures-query-prefix,
 
