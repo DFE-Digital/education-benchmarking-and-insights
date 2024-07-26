@@ -99,7 +99,7 @@ export function HorizontalBarChartWrapper<
       />
       <ErrorBanner
         isRendered={hasNoData}
-        message="Unable to load data for this financial year"
+        message="No financial return data available"
       />
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">

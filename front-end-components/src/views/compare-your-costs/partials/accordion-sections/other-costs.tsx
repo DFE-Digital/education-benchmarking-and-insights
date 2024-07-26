@@ -15,6 +15,7 @@ import {
   ChartDimensionContext,
   PhaseContext,
   CustomDataContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -269,130 +270,141 @@ export const OtherCosts: React.FC<{
   const elementId = "other-costs";
   const [hash] = useHash();
 
+  const hasIncompleteData = false;
+  const hasNoData = data?.length === 0;
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-9"
-            >
-              Other costs
-            </span>
-          </h2>
-        </div>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+      <ChartDimensionContext.Provider value={dimension}>
         <div
-          id="accordion-content-9"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-9"
-          role="region"
+          className={classNames("govuk-accordion__section", {
+            "govuk-accordion__section--expanded": hash === `#${elementId}`,
+          })}
+          id={elementId}
         >
-          <HorizontalBarChartWrapper
-            data={totalOtherCostsBarData}
-            chartName="total other costs"
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-heading-9"
+              >
+                Other costs
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-content-9"
+            className="govuk-accordion__section-content"
+            aria-labelledby="accordion-heading-9"
+            role="region"
           >
-            <h3 className="govuk-heading-s">Total other costs</h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-otehr-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={otherInsurancePremiumsCostsBarData}
-            chartName="other insurance premiums costs"
-          >
-            <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={directRevenueFinancingCostsBarData}
-            chartName="direct revenue financing costs"
-          >
-            <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={groundsMaintenanceCostsBarData}
-            chartName="ground maintenance costs"
-          >
-            <h3 className="govuk-heading-s">Ground maintenance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={indirectEmployeeExpensesBarData}
-            chartName="indirect employee expenses"
-          >
-            <h3 className="govuk-heading-s">Indirect employee expenses</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={interestChargesLoanBankBarData}
-            chartName="interest charges for loan and bank"
-          >
-            <h3 className="govuk-heading-s">
-              Interest charges for loan and bank
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={privateFinanceInitiativeChargesBarData}
-            chartName="PFI charges"
-          >
-            <h3 className="govuk-heading-s">PFI charges</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={rentRatesCostsBarData}
-            chartName="rent and rates costs"
-          >
-            <h3 className="govuk-heading-s">Rent and rates costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={specialFacilitiesCostsBarData}
-            chartName="special facilities costs"
-          >
-            <h3 className="govuk-heading-s">Special facilities costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={staffDevelopmentTrainingCostsBarData}
-            chartName="staff development and training costs"
-          >
-            <h3 className="govuk-heading-s">
-              Staff development and training costs
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={staffRelatedInsuranceCostsBarData}
-            chartName="staff-related insurance costs"
-          >
-            <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={supplyTeacherInsurableCostsBarData}
-            chartName="supply teacher insurance costs"
-          >
-            <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={communityFocusedSchoolStaffBarData}
-            chartName="community focused school staff (maintained schools only)"
-          >
-            <h3 className="govuk-heading-s">
-              Community focused school staff (maintained schools only)
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={communityFocusedSchoolCostsBarData}
-            chartName="community focused school costs (maintained schools only)"
-          >
-            <h3 className="govuk-heading-s">
-              Community focused school costs (maintained schools only)
-            </h3>
-          </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={totalOtherCostsBarData}
+              chartName="total other costs"
+            >
+              <h3 className="govuk-heading-s">Total other costs</h3>
+              <ChartDimensions
+                dimensions={CostCategories}
+                handleChange={handleSelectChange}
+                elementId="total-otehr-costs"
+                value={dimension.value}
+              />
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={otherInsurancePremiumsCostsBarData}
+              chartName="other insurance premiums costs"
+            >
+              <h3 className="govuk-heading-s">
+                Other insurance premiums costs
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={directRevenueFinancingCostsBarData}
+              chartName="direct revenue financing costs"
+            >
+              <h3 className="govuk-heading-s">
+                Direct revenue financing costs
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={groundsMaintenanceCostsBarData}
+              chartName="ground maintenance costs"
+            >
+              <h3 className="govuk-heading-s">Ground maintenance costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={indirectEmployeeExpensesBarData}
+              chartName="indirect employee expenses"
+            >
+              <h3 className="govuk-heading-s">Indirect employee expenses</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={interestChargesLoanBankBarData}
+              chartName="interest charges for loan and bank"
+            >
+              <h3 className="govuk-heading-s">
+                Interest charges for loan and bank
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={privateFinanceInitiativeChargesBarData}
+              chartName="PFI charges"
+            >
+              <h3 className="govuk-heading-s">PFI charges</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={rentRatesCostsBarData}
+              chartName="rent and rates costs"
+            >
+              <h3 className="govuk-heading-s">Rent and rates costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={specialFacilitiesCostsBarData}
+              chartName="special facilities costs"
+            >
+              <h3 className="govuk-heading-s">Special facilities costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={staffDevelopmentTrainingCostsBarData}
+              chartName="staff development and training costs"
+            >
+              <h3 className="govuk-heading-s">
+                Staff development and training costs
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={staffRelatedInsuranceCostsBarData}
+              chartName="staff-related insurance costs"
+            >
+              <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={supplyTeacherInsurableCostsBarData}
+              chartName="supply teacher insurance costs"
+            >
+              <h3 className="govuk-heading-s">
+                Supply teacher insurance costs
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={communityFocusedSchoolStaffBarData}
+              chartName="community focused school staff (maintained schools only)"
+            >
+              <h3 className="govuk-heading-s">
+                Community focused school staff (maintained schools only)
+              </h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={communityFocusedSchoolCostsBarData}
+              chartName="community focused school costs (maintained schools only)"
+            >
+              <h3 className="govuk-heading-s">
+                Community focused school costs (maintained schools only)
+              </h3>
+            </HorizontalBarChartWrapper>
+          </div>
         </div>
-      </div>
-    </ChartDimensionContext.Provider>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

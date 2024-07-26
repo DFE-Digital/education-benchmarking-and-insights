@@ -1,0 +1,69 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+  Set of trusts - {{ data['trust-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/" + version + "/find-school"
+        },
+        {
+          text: "Your trust",
+          href: "/" + version + "/trust-homepage"
+        }
+      ]
+    }) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+  <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+  <h1 class="govuk-heading-l">
+    Your set of trusts
+  </h1>
+
+  <p><a href="/{{ version }}/compare-trusts/by-name?editSet=true" class="govuk-link">Change your set of trusts</a></p>
+
+    {% if data['trusts'] | length %}
+
+    {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+            text: "Trust"
+        },
+        {
+            text: "Schools"
+        },
+        {
+            text: "Number of pupils",
+            classes: "govuk-!-text-align-right"
+        },
+        {
+            text: "Total income",
+            classes: "govuk-!-text-align-right"
+        }
+      ],
+      "rows": rows
+    }) }}
+    
+    {% endif %}
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}

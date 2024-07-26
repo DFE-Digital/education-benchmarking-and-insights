@@ -15,7 +15,6 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
-[SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class SchoolComparatorsController(
     ILogger<SchoolComparatorsController> logger,
     IEstablishmentApi establishmentApi,

@@ -21,7 +21,7 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
     public async Task CanRevert()
     {
         var (page, trust) = await SetupNavigateInitPage(true);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -77,7 +77,7 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
         DocumentAssert.TitleAndH1(page,
             "Remove all your trusts? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Remove all your trusts?");
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Remove all trusts", Paths.TrustComparatorsRevert(trust.CompanyNumber));
         var change = page.QuerySelector("#cancel-revert");
         DocumentAssert.Link(change, "Cancel", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());

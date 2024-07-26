@@ -20,7 +20,6 @@ namespace Web.App.Controllers;
 [Authorize]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
 [Route("school/{urn}/comparators/create")]
-[SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class SchoolComparatorsCreateByController(
     ILogger<SchoolComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
@@ -99,7 +98,7 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                UserDefinedSchoolComparatorSet userDefinedSet;
+                UserDefinedSchoolComparatorSet? userDefinedSet;
                 if (string.IsNullOrEmpty(identifier))
                 {
                     userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
@@ -108,16 +107,17 @@ public class SchoolComparatorsCreateByController(
                 {
                     userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, identifier);
                     schoolComparatorSetService.ClearUserDefinedComparatorSet(urn, identifier);
-                    schoolComparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+                    if (userDefinedSet != null)
+                    {
+                        schoolComparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+                    }
+
                 }
 
-                var schoolsQuery = new ApiQuery();
-                foreach (var selectedUrn in userDefinedSet.Set)
-                {
-                    schoolsQuery.AddIfNotNull("urns", selectedUrn);
-                }
+                var schoolCharacteristics = userDefinedSet is { Set.Length: > 0 }
+                    ? await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set)
+                    : [];
 
-                var schoolCharacteristics = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);
                 var viewModel = new SchoolComparatorsByNameViewModel(school, schoolCharacteristics);
                 return View(viewModel);
             }

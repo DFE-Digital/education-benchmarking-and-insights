@@ -25,6 +25,8 @@ public enum TrackedRequestFeature
     BenchmarkWorkforce,
     [StringValue("benchmark-costs")]
     BenchmarkCosts,
+    [StringValue("benchmark-central-costs")]
+    BenchmarkCentralCosts,
     [StringValue("customised-data")]
     CustomisedData,
     [StringValue("details")]

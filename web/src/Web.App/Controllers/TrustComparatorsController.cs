@@ -18,7 +18,6 @@ namespace Web.App.Controllers;
 [Authorize]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.TrustComparison)]
 [Route("trust/{companyNumber}/comparators")]
-[TrustRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class TrustComparatorsController(
     ILogger<TrustComparatorsController> logger,
     IEstablishmentApi establishmentApi,
@@ -28,6 +27,7 @@ public class TrustComparatorsController(
     ITrustComparatorSetService trustComparatorSetService) : Controller
 {
     [HttpGet]
+    [TrustRequestTelemetry(TrackedRequestFeature.BenchmarkCentralCosts)]
     public async Task<IActionResult> Index(string companyNumber,
         [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {

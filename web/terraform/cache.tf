@@ -44,3 +44,13 @@ resource "azurerm_cosmosdb_sql_container" "session-cache-container" {
   partition_key_path    = "/id"
   partition_key_version = 1
 }
+
+resource "azurerm_cosmosdb_sql_role_assignment" "app-service-cache" {
+  resource_group_name = azurerm_resource_group.resource-group.name
+  account_name        = azurerm_cosmosdb_account.session-cache-account.name
+  scope               = azurerm_cosmosdb_account.session-cache-account.id
+  principal_id        = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
+
+  # see https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions
+  role_definition_id = "${azurerm_cosmosdb_account.session-cache-account.id}/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002"
+}

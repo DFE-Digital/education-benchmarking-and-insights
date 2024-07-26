@@ -1,0 +1,64 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/v0_1_0.html" %}
+
+{% block pageTitle %}
+  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Comparator sets</h1>
+
+        {% if confirmation == 'comparator-reset' %}
+
+        {{ govukNotificationBanner({
+          html: 'Your custom comparator set has been deleted',
+          type: "success"
+        }) }}
+
+        {% endif %}
+
+        <p class="govuk-body">Depending on the category, we compare this school against one of two comparator sets.</p>
+        
+        <h3 class="govuk-heading-s">Pupil comparators</h3>
+        <p class="govuk-body">Schools with a similar number and type of pupils to this school. Used to compare categories measured on a 'per pupil' basis, such as teaching staff costs.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/{{ version }}/comparators/pupil">View pupil comparator set</a></p>
+        
+        <h3 class="govuk-heading-s">Buildings comparators</h3>
+        <p class="govuk-body">Schools of a similar physical size. Used to compare categories measured on a 'per square metre' basis, such as utility costs.</p>
+        <p class="govuk-body"><a class="govuk-link" href="/{{ version }}/comparators/building">View buildings comparator set</a></p>
+
+        <h2 class="govuk-heading-m">Custom comparator set</h2>
+        <p class="govuk-body">If you have a set of schools you would rather be compared with across all categories, you can build your own custom comparator set to be used across all categories.</p>
+
+        {{ govukButton({
+          text: "Manage your custom comparator set" if data['comparators'] else "Create a custom comparator set",
+          href: "/" + version + "/comparators/create",
+          classes: "govuk-button--secondary"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

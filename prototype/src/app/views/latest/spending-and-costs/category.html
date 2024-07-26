@@ -1,0 +1,144 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../templates/spend-category-details.njk" import spendCategoryDetails %}
+
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+    Teaching and teaching support staff costs - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      },
+      {
+        text: "Spending and costs",
+        href: "/" + version + "/spending-and-costs"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Teaching and teaching support staff costs</h1>
+
+        <p>
+            This shows total and broken down spending for this cost compared to similar schools.<br /> 
+            <br> 
+            This school's data covers the financial year April 2022 to March 2023 consistent financial reporting return (CFR).
+        </p>
+
+        {% include "../templates/details-comparators.njk" %}
+
+    </div>
+</div>
+
+{% set intCount = 0 %}
+
+{{ spendCategoryDetails({
+    title: 'Total costs',
+    spendAmount: 4746,
+    medianAmount: 3128,
+    unit: 'pupil',
+    percentile: 92,
+    intCount: intCount
+}) }}
+
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Teaching staff costs',
+    spendAmount: 3773,
+    medianAmount: 2789,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
+
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Education support staff costs',
+    spendAmount: 750,
+    medianAmount: 489,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
+
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Agency supply teaching staff costs',
+    spendAmount: 189,
+    medianAmount: 148,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
+
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Educational consultancy costs',
+    spendAmount: 10,
+    medianAmount: 7,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
+
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Supply teaching staff costs',
+    spendAmount: 21,
+    medianAmount: 14,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-0">Find ways to spend less</h2>
+        <span class="govuk-caption-m govuk-!-margin-bottom-4">Teaching and teaching support staff costs</span>
+
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Agency supply teaching staff</h3>
+        <p><a class="govuk-link" href="https://find-dfe-approved-framework.service.gov.uk/list/supply-teachers">Hiring supply teachers and agency workers</a></p>
+
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Professional services</h3>
+        <p><a class="govuk-link" href="https://find-dfe-approved-framework.service.gov.uk/list/specialist-professional-services">Specialist professional services</a></p>
+        
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Teaching and teaching support staff</h3>
+        <p>
+            <a class="govuk-link" href="https://www.gov.uk/guidance/integrated-curriculum-and-financial-planning-icfp">Integrated curriculum and financial planning (ICFP)</a><br />
+            <a class="govuk-link" href="https://teaching-vacancies.service.gov.uk/">Teacher vacancies</a>
+        </p>
+
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Get help</h3>
+        <p>
+            <a class="govuk-link" href="#">Ask for help from a school resource management advisor (SRMA)</a><br />
+            Request free, confidential advice from a school resource management advisor.
+        </p>
+        <p>
+            <a class="govuk-link" href="#">Find a school business professional network</a><br />
+            Use business support networks to find peers tackling the same problems.
+        </p>
+        <p>
+            <a class="govuk-link" href="#">Contact other schools</a><br />
+            Contact similar schools who are performing well.
+        </p>
+        
+        
+    </div>
+</div>
+
+{% endblock %}

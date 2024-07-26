@@ -1,0 +1,260 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+    {{ comparatorName }} comparison – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% if data['signedIn'] == 'true' %}
+
+{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"mailto:stevesmith@" + data['school-name'] | lower | replace( " ", "" )+ ".org.uk\">stevesmith@&#8203;" + data['school-name'] | lower | replace( " ", "&#8203;" )+ ".org.uk</a>" }, { html: "<a href=\"mailto:janet.moss@" + comparatorName | lower | replace( " ", "" )+ ".org.uk\">janet.moss@&#8203;" + comparatorName | lower | replace( " ", "&#8203;" )+ ".org.uk</a>" } ] %}
+{% set arrArea = [ { text: "Gross internal floor area" }, { text: "10,130 square metres" }, { text: "14,163 square metres" } ] %}
+{% set arrAge = [ { text: "Average building age" }, { text: "60 years" }, { text: "46 years" } ] %}
+
+{% else %}
+
+{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"/sign-in?goTo=//" + version + "/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 3, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
+{% set arrArea = [ { text: "Gross internal floor area" } ] %}
+{% set arrAge = [ { text: "Average building age" } ] %}
+
+{% endif %}
+
+{% set charsHtml %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+            {{ govukTable({
+            caption: "Compare characteristics",
+            captionClasses: "govuk-table__caption--l",
+            firstCellIsHeader: true,
+            head: [
+                {
+                    text: "Characteristic",
+                    classes: "govuk-!-width-one-third"
+                },
+                {
+                    text: data['school-name'],
+                    classes: "govuk-!-width-one-third"
+                },
+                {
+                    text: comparatorName,
+                    classes: "govuk-!-width-one-third"
+                }
+            ],
+            rows: [
+            [
+                { text: "School phase" },
+                { text: "Secondary" },
+                { text: "Secondary" }
+            ],
+            [
+                { text: "Number of pupils" },
+                { text: "1,408" },
+                { text: comparatorPupils }
+            ],
+            [
+                { text: "Pupils eligible for free school meals" },
+                { text: "12.7%" },
+                { text: comparatorMeals + "%" }
+            ],
+            [
+                { text: "Pupils with special educational needs (SEN)" },
+                { text: "7.4%" },
+                { text: "4.9%" }
+            ],
+            [
+                { text: "Ofsted rating" },
+                { text: "Good" },
+                { text: "Good" }
+            ],
+            [
+                { text: "Region" },
+                { text: "London" },
+                { text: "West Midlands" }
+            ],
+            [
+                { text: "School financial position" },
+                { text: "Surplus" },
+                { text: "Surplus" }
+            ],
+            [
+                { text: "Trust/LA financial position" },
+                { text: "Surplus" },
+                { text: "Surplus" }
+            ],
+            [
+                { text: "Sector" },
+                { text: "Academy" },
+                { text: "Academy" }
+            ],
+            [
+                { text: "Sixth form" },
+                { text: "No sixth form" },
+                { text: "No sixth form" }
+            ],
+            [
+                { text: "Nursery" },
+                { text: "No nursery" },
+                { text: "No nursery" }
+            ],
+            [
+                { text: "Private financial incentive school" },
+                { text: "Non-PFI school" },
+                { text: "Non-PFI school" }
+            ],
+            [
+                { text: "Trust name" },
+                { text: data['trust-name'] },
+                { text: "Harbone Academy" }
+            ],
+            [
+                { text: "Local authority" },
+                { text: data['authority-name'] },
+                { text: "Birmingham" }
+            ],
+            arrContact,
+            arrArea,
+            arrAge
+        ]
+            }) }}
+
+    </div>
+</div>
+{% endset %}
+
+
+{% set spendingHtml %}
+
+<h2 class="govuk-heading-l">Compare spendings and costs</h2>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Pupil-based cost categories</h3>
+    </div>
+
+    <div class="govuk-grid-column-one-third sortWrapper">
+
+        {{ govukSelect({
+            id: "showAs",
+            name: "showAs",
+            label: {
+                text: "Show as"
+            },
+            formGroup: {
+                classes: 'sortSelect'
+            },
+            items: [
+            {
+                value: "amount",
+                text: "Amount per pupil",
+                selected: true
+            },
+            {
+                value: "spend",
+                text: "Amount spent"
+            },
+            {
+                value: "income",
+                text: "Percentage of income"
+            },
+            {
+                value: "expenditure",
+                text: "Percentage of expenditure"
+            }
+            ]
+        }) }}
+    </div>
+</div> 
+
+<p><img src="/public/images/school-comparison-pupil.png" /></p>
+
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Building-based cost categories</h3>
+    </div>
+
+    <div class="govuk-grid-column-one-third sortWrapper">
+
+        {{ govukSelect({
+            id: "showAs",
+            name: "showAs",
+            label: {
+                text: "Show as"
+            },
+            formGroup: {
+                classes: 'sortSelect'
+            },
+            items: [
+            {
+                value: "amount",
+                text: "Amount per square metre",
+                selected: true
+            },
+            {
+                value: "spend",
+                text: "Amount spent"
+            },
+            {
+                value: "income",
+                text: "Percentage of income"
+            },
+            {
+                value: "expenditure",
+                text: "Percentage of expenditure"
+            }
+            ]
+        }) }}
+    </div>
+</div> 
+
+<p><img src="/public/images/school-comparison-buildings.png" /></p>
+
+{% endset %}
+
+
+{% block content %}
+
+    <h1 class="govuk-heading-l">{{ comparatorName }} comparison</h1>
+
+    {{ govukTabs({
+    items: [
+      {
+        label: "Characteristics",
+        id: "characteristics",
+        panel: {
+          html: charsHtml
+        }
+      },
+      {
+        label: "Spending",
+        id: "spending",
+        panel: {
+          html: spendingHtml
+        }
+      }
+    ]
+  }) }}
+
+
+{% endblock %}

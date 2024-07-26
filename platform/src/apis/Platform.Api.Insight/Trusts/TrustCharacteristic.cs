@@ -1,6 +1,8 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text.Json.Serialization;
 using Platform.Functions.Extensions;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.Api.Insight.Trusts;
 
@@ -18,6 +20,18 @@ public record TrustCharacteristic
 
     [JsonIgnore]
     public string? PhasesCovered { get; set; }
-    public string[] Phases => PhasesCovered == null ? Array.Empty<string>() : PhasesCovered.FromJson<string[]>();
+    public TrustPhase[] Phases => PhasesCovered == null
+        ? []
+        : PhasesCovered.Contains("count")
+            ? PhasesCovered.FromJson<TrustPhase[]>()
+            : PhasesCovered.FromJson<string[]>().Select(p => new TrustPhase
+            {
+                Phase = p
+            }).ToArray();
+}
 
+public record TrustPhase
+{
+    public string? Phase { get; set; }
+    public int? Count { get; set; }
 }

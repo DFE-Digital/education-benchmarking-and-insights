@@ -3,309 +3,344 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
+using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Expenditure;
 
-[ApiExplorerSettings(GroupName = "Expenditure")]
-public class ExpenditureFunctions
+public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpenditureService service)
 {
-
-    private readonly ILogger<ExpenditureFunctions> _logger;
-    private readonly IExpenditureService _service;
-
-    public ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpenditureService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-    [FunctionName(nameof(ExpenditureAllCategories))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    public IActionResult ExpenditureAllCategories(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/categories")]
-        HttpRequest req)
+    [Function(nameof(ExpenditureAllCategories))]
+    [OpenApiOperation(nameof(ExpenditureAllCategories), "Expenditure")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
+    public async Task<HttpResponseData> ExpenditureAllCategories(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/categories")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
-
-            return new JsonContentResult(ExpenditureCategories.All);
+            return await req.CreateJsonResponseAsync(ExpenditureCategories.All);
         }
     }
 
-
-    [FunctionName(nameof(ExpenditureAllDimensions))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    public IActionResult ExpenditureAllDimensions(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/dimensions")]
-        HttpRequest req)
+    [Function(nameof(ExpenditureAllDimensions))]
+    [OpenApiOperation(nameof(ExpenditureAllDimensions), "Expenditure")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
+    public async Task<HttpResponseData> ExpenditureAllDimensions(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/dimensions")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
-
-            return new JsonContentResult(ExpenditureDimensions.All);
+            return await req.CreateJsonResponseAsync(ExpenditureDimensions.All);
         }
     }
 
-    [FunctionName(nameof(SchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditureResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}")]
-        HttpRequest req,
+    [Function(nameof(SchoolExpenditureAsync))]
+    [OpenApiOperation(nameof(SchoolExpenditureAsync), "Expenditure")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetSchoolAsync(urn);
+                var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school expenditure");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school expenditure");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(CustomSchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditureResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> CustomSchoolExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/custom/{identifier}")]
-        HttpRequest req,
+    [Function(nameof(CustomSchoolExpenditureAsync))]
+    [OpenApiOperation(nameof(CustomSchoolExpenditureAsync), "Expenditure")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> CustomSchoolExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/custom/{identifier}")] HttpRequestData req,
         string urn,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetCustomSchoolAsync(urn, identifier);
+                var result = await service.GetCustomSchoolAsync(urn, identifier);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get custom school expenditure");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get custom school expenditure");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-
-    [FunctionName(nameof(TrustExpenditureAsync))]
-    [ProducesResponseType(typeof(TrustExpenditureResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}")]
-        HttpRequest req,
+    [Function(nameof(TrustExpenditureAsync))]
+    [OpenApiOperation(nameof(TrustExpenditureAsync), "Expenditure")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetTrustAsync(companyNumber);
+                var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get expenditure");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get expenditure");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(SchoolExpenditureHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolExpenditureHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")]
-        HttpRequest req,
+    [Function(nameof(SchoolExpenditureHistoryAsync))]
+    [OpenApiOperation(nameof(SchoolExpenditureHistoryAsync), "Expenditure")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolExpenditureHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetSchoolHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
+                var result = await service.GetSchoolHistoryAsync(urn);
+                return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school expenditure history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school expenditure history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(TrustExpenditureHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustExpenditureHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}/history")]
-        HttpRequest req,
+    [Function(nameof(TrustExpenditureHistoryAsync))]
+    [OpenApiOperation(nameof(TrustExpenditureHistoryAsync), "Expenditure")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustExpenditureHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}/history")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetTrustHistoryAsync(companyNumber);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
+                var result = await service.GetTrustHistoryAsync(companyNumber);
+                return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trust expenditure history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trust expenditure history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QuerySchoolsExpenditureAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditureResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QuerySchoolsExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")]
-        HttpRequest req)
+    [Function(nameof(QuerySchoolsExpenditureAsync))]
+    [OpenApiOperation(nameof(QuerySchoolsExpenditureAsync), "Expenditure")]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QuerySchoolsExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for urns, category and dimension
-                var result = await _service.QuerySchoolsAsync(queryParams.Schools);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
+                var result = await service.QuerySchoolsAsync(queryParams.Schools);
+                return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query schools expenditure");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query schools expenditure");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QueryTrustsExpenditureAsync))]
-    [ProducesResponseType(typeof(TrustExpenditureResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
-    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]))]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QueryTrustsExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")]
-        HttpRequest req)
+    [Function(nameof(QueryTrustsExpenditureAsync))]
+    [OpenApiOperation(nameof(QuerySchoolsExpenditureAsync), "Expenditure")]
+    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QueryTrustsExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for companyNumbers, category and dimension
-                var result = await _service.QueryTrustsAsync(queryParams.Trusts);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
+                var result = await service.QueryTrustsAsync(queryParams.Trusts);
+                return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query trusts expenditure");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query trusts expenditure");
+                return req.CreateErrorResponse();
             }
         }
     }

@@ -21,7 +21,7 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
     public async Task CanRevert()
     {
         var (page, school) = await SetupNavigateInitPage(true);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -81,7 +81,7 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page,
             "Change back to the schools we chose? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Change back to the schools we chose?");
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Change back", Paths.SchoolComparatorsRevert(school.URN));
         var change = page.QuerySelector("#cancel-revert");
         DocumentAssert.Link(change, "Cancel", Paths.SchoolHome(school.URN).ToAbsolute());

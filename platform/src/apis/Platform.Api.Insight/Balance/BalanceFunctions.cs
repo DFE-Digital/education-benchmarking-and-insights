@@ -3,249 +3,274 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
+using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Balance;
 
-[ApiExplorerSettings(GroupName = "Balance")]
-public class BalanceFunctions
+public class BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService service)
 {
-
-    private readonly ILogger<BalanceFunctions> _logger;
-    private readonly IBalanceService _service;
-
-    public BalanceFunctions(ILogger<BalanceFunctions> logger, IBalanceService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-
-    [FunctionName(nameof(BalanceAllDimensions))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    public IActionResult BalanceAllDimensions(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/dimensions")]
-        HttpRequest req)
+    [Function(nameof(BalanceAllDimensions))]
+    [OpenApiOperation(nameof(BalanceAllDimensions), "Balance")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
+    public async Task<HttpResponseData> BalanceAllDimensions(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/dimensions")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
 
-            return new JsonContentResult(BalanceDimensions.All);
+            return await req.CreateJsonResponseAsync(BalanceDimensions.All);
         }
     }
 
-    [FunctionName(nameof(SchoolBalanceAsync))]
-    [ProducesResponseType(typeof(SchoolBalanceResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolBalanceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}")]
-        HttpRequest req,
+    [Function(nameof(SchoolBalanceAsync))]
+    [OpenApiOperation(nameof(SchoolBalanceAsync), "Balance")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolBalanceResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolBalanceAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetSchoolAsync(urn);
+                var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(BalanceResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school balance");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school balance");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-
-    [FunctionName(nameof(TrustBalanceAsync))]
-    [ProducesResponseType(typeof(TrustBalanceResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustBalanceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}")]
-        HttpRequest req,
+    [Function(nameof(TrustBalanceAsync))]
+    [OpenApiOperation(nameof(TrustBalanceAsync), "Balance")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustBalanceResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustBalanceAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetTrustAsync(companyNumber);
+                var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(BalanceResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get balance");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get balance");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(SchoolBalanceHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolBalanceHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolBalanceHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}/history")]
-        HttpRequest req,
+    [Function(nameof(SchoolBalanceHistoryAsync))]
+    [OpenApiOperation(nameof(SchoolBalanceHistoryAsync), "Balance")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolBalanceHistoryResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolBalanceHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}/history")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetSchoolHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
+                var result = await service.GetSchoolHistoryAsync(urn);
+                return await req.CreateJsonResponseAsync(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school balance history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school balance history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(TrustBalanceHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolBalanceHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustBalanceHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}/history")]
-        HttpRequest req,
+    [Function(nameof(TrustBalanceHistoryAsync))]
+    [OpenApiOperation(nameof(TrustBalanceHistoryAsync), "Balance")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustBalanceHistoryResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustBalanceHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}/history")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetTrustHistoryAsync(companyNumber);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
+                var result = await service.GetTrustHistoryAsync(companyNumber);
+                return await req.CreateJsonResponseAsync(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trust balance history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trust balance history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QuerySchoolsBalanceAsync))]
-    [ProducesResponseType(typeof(SchoolBalanceResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QuerySchoolsBalanceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/schools")]
-        HttpRequest req)
+    [Function(nameof(QuerySchoolsBalanceAsync))]
+    [OpenApiOperation(nameof(QuerySchoolsBalanceAsync), "Balance")]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolBalanceResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QuerySchoolsBalanceAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/schools")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for urns and dimension
-                var result = await _service.QuerySchoolsAsync(queryParams.Schools);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
+                var result = await service.QuerySchoolsAsync(queryParams.Schools);
+                return await req.CreateJsonResponseAsync(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query schools balance");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query schools balance");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QueryTrustsBalanceAsync))]
-    [ProducesResponseType(typeof(TrustBalanceResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("companyNumbers", "List of trust company numberss", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QueryTrustsBalanceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trusts")]
-        HttpRequest req)
+    [Function(nameof(QueryTrustsBalanceAsync))]
+    [OpenApiOperation(nameof(QueryTrustsBalanceAsync), "Balance")]
+    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustBalanceResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QueryTrustsBalanceAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trusts")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for companyNumbers and dimension
-                var result = await _service.QueryTrustsAsync(queryParams.Trusts);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
+                var result = await service.QueryTrustsAsync(queryParams.Trusts);
+                return await req.CreateJsonResponseAsync(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query trusts balance");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query trusts balance");
+                return req.CreateErrorResponse();
             }
         }
     }

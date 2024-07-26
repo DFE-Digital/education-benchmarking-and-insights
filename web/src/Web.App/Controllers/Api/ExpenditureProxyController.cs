@@ -201,11 +201,15 @@ public class ExpenditureProxyController(
     {
         var customSet = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
         var set = category is "PremisesStaffServices" or "Utilities"
-            ? customSet.Building
-            : customSet.Pupil;
+            ? customSet?.Building
+            : customSet?.Pupil;
 
-        var schools = set.Where(x => x != id);
+        if (set == null || set.Length == 0)
+        {
+            return new JsonResult(Array.Empty<SchoolExpenditure>());
+        }
 
+        var schools = set.Where(x => x != id).ToArray();
         var customResult = await expenditureApi
             .SchoolCustom(id, customDataId, BuildQuery(category, dimension))
             .GetResultOrDefault<SchoolExpenditure>();
@@ -226,8 +230,13 @@ public class ExpenditureProxyController(
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
             var set = category is "PremisesStaffServices" or "Utilities"
-                ? defaultSet.Building
-                : defaultSet.Pupil;
+                ? defaultSet?.Building
+                : defaultSet?.Pupil;
+
+            if (set == null || set.Length == 0)
+            {
+                return new JsonResult(Array.Empty<SchoolExpenditure>());
+            }
 
             var defaultResult = await expenditureApi
                 .QuerySchools(BuildQuery(set, "urns", category, dimension, excludeCentralServices))
@@ -237,6 +246,12 @@ public class ExpenditureProxyController(
         }
 
         var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        if (userDefinedSet == null || userDefinedSet.Set.Length == 0)
+        {
+            return new JsonResult(Array.Empty<SchoolExpenditure>());
+        }
+
+
         var userDefinedResult = await expenditureApi
             .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension, excludeCentralServices))
             .GetResultOrThrow<SchoolExpenditure[]>();

@@ -1,0 +1,238 @@
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+  Customise your data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+    text: "Back",
+    href: "/" + version + "/custom-data/school-characteristics"
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Enter custom workforce data</h1>
+
+       <!---<h2 class="govuk-heading-m">Update your workforce data</h2>--->
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Type of data"
+            },
+            {
+              text: "Current data",
+              classes: "govuk-!-text-align-right"
+            },
+            {
+              text: "Custom data",
+              classes: "govuk-!-text-align-right"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "School workforce (full time equivalent)"
+              },
+              {
+                text: "84",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Number of teachers (full time equivalent)"
+              },
+              {
+                text: "42",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Teachers with qualified teacher status"
+              },
+              {
+                text: "97%",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  suffix: {
+                    text: '%'
+                  },
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Senior leadership (full time equivalent)"
+              },
+              {
+                text: "3",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Teaching Assistants (full time equivalent)"
+              },
+              {
+                text: "24",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Non-classroom support staff - excluding auxiliary staff (full time equivalent)"
+              },
+              {
+                text: "9",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Auxiliary staff (full time equivalent)"
+              },
+              {
+                text: "7",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "School workforce (headcount)"
+              },
+              {
+                text: "122",
+                classes: "govuk-!-text-align-right"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+        
+        {{ govukButton({
+          href: '/' + version + '/loading?action=' + ( 'update' if data['customData'] == 'generated' else 'generating' ) + '&redirect=/' + version + '/custom-data/' + ( 'updated' if data['customData'] == 'generated' else 'generated' ),
+          text: "Benchmark using custom data"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

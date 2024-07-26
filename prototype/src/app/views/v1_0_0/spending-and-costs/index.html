@@ -1,0 +1,152 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "../templates/spend-category.njk" import spendCategory %}
+
+
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+  Spending and costs - Custom data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/find-school">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/school-homepage?customData=generated">Your school</a>
+    </li>
+    {% if data['customData'] == 'true' %}
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/{{ version }}/custom-data/custom-homepage">Customised data</a>
+    </li>
+    {% endif %}
+  </ol>
+</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage?customData=generated" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Spending priorities for this school</h1>
+
+        {% if data['customData'] == 'true' %}
+
+          {% set html %}
+          <p class="govuk-notification-banner__heading">
+            This is your custom data for this school, not the original data
+          </p>
+          <p><a href="/{{ version }}/school-homepage?customData=generated" class="govuk-link">View the original data for {{ data['school-name'] }}</a></p>
+
+          {% if data['changed'] == 'true' %}
+          <p class="govuk-body">As you have changed the characteristics of your school, we have updated the <a href="/{{ version }}/comparators/view?customData=true">similar schools</a> we benchmark this school against.</p>
+          {% endif %}
+
+      
+          {% endset %}
+
+          {{ govukNotificationBanner({
+          html: html
+          }) }}
+
+          </div>
+          <div class="govuk-grid-column-two-thirds">
+        {% else %}
+
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+          <p class="govuk-body">
+            This school's data covers the financial year September 2022 to August 2023 academies accounts return (AAR).
+          </p>
+
+          <p class="govuk-body"><a href="/{{ version }}/comparators/view">We’ve chosen 2 sets of similar schools</a> to benchmark this school's spending against.</p>
+          <p class="govuk-body"><a href="/{{ version }}/comparators" style="govuk-link">Choose a new or saved set of your own schools</a></p>
+          <p class="govuk-body"><a href="/{{ version }}/custom-data" style="govuk-link">Use new or saved custom data to benchmark spending</a></p>
+
+        {% endif %}
+
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Priority cost categories</h2>
+
+        <p>This shows where spending is different to similar schools.</p>
+
+        {{ spendCategory({
+            title: 'Teaching and teaching supply staff',
+            spendAmount: 4746,
+            medianAmount: 3128,
+            unit: 'pupil',
+            percentile: 92
+        }) }}
+
+        {{ spendCategory({
+            title: 'Premises staff and services',
+            spendAmount: 323,
+            medianAmount: 478,
+            unit: 'pupil',
+            percentile: 8
+        }) }}
+
+        {{ spendCategory({
+            title: 'Utilities',
+            spendAmount: 341,
+            medianAmount: 228,
+            unit: 'square metre',
+            percentile: 83
+        }) }}
+
+
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Low priority costs</h2>
+
+        <p>This shows where spending is close to similar schools.</p>
+
+        {{ spendCategory({
+            title: 'Non-educational support staff',
+            spendAmount: 323,
+            medianAmount: 301,
+            unit: 'pupil',
+            percentile: 53
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational supplies',
+            spendAmount: 298,
+            medianAmount: 274,
+            unit: 'pupil',
+            percentile: 55
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational ICT',
+            spendAmount: 48,
+            medianAmount: 74,
+            unit: 'pupil',
+            percentile: 31
+        }) }}
+
+        {{ spendCategory({
+            title: 'Administrative supplies',
+            spendAmount: 96,
+            medianAmount: 94,
+            unit: 'pupil',
+            percentile: 51
+        }) }}
+
+        {{ spendCategory({
+            title: 'Catering staff and services',
+            spendAmount: 427,
+            medianAmount: 351,
+            unit: 'pupil',
+            percentile: 72
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

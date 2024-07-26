@@ -1,0 +1,10 @@
+GetCommercialResources
+| summarize 
+    Count=count()
+    by TargetUri
+| project 
+    Url = TargetUri, 
+    Count
+| sort by 
+    Count desc
+| take 10

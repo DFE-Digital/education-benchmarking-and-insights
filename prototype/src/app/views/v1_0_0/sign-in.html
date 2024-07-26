@@ -1,0 +1,135 @@
+{% from "govuk/components/password-input/macro.njk" import govukPasswordInput %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% extends "layouts/v1_0_0.html" %}
+
+{% set serviceName %}
+    DfE Sign-In
+{% endset%}
+
+{% block pageTitle %}
+    DfE Sign-In
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <!-- NOTE FOR TOM: WE CAN'T CHANGE THE CONTENT ON THIS PAGE - IT'S OUTSIDE OUR SERVICE -->
+        <h1 class="govuk-heading-xl">Department for Education Sign-in</h1>
+
+        <p class="govuk-body govuk-!-margin-bottom-9">
+            Sign-in to access DfE online services.
+        </p>
+
+        {{ govukInput({
+            label: {
+              text: "Email address",
+              classes: "govuk-label--s"
+            },
+            id: "email-input",
+            name: "email",
+            classes: "govuk-!-width-three-quarters"
+          }) }}
+
+
+        {{ govukPasswordInput({
+          label: {
+            text: "Password",
+            classes: "govuk-label--s"
+          },
+          id: "password-input",
+          name: "password",
+          classes: "govuk-!-width-three-quarters",
+          formGroup: {
+            classes: "govuk-!-margin-bottom-1"
+          },
+          button: {
+            classes: "show-password"
+          }
+        }) }}
+
+        <p class="">
+            <a href="#" class="govuk-link govuk-!-font-weight-bold">Forgotten your password?</a>
+        </p>
+
+        {{ govukInsetText({
+            html: '<p class="govuk-body">By signing in you accept <a class="govuk-link govuk-!-font-weight-bold" href="https://interactions.signin.education.gov.uk/terms">DfE Sign-in terms and conditions</a>.</p>'
+        }) }}
+
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: "Sign in",
+                href: goToUrl + '?signedIn=true#' + data['hash']
+            }) }}
+
+            {{ govukButton({
+            text: "Create account",
+            classes: "govuk-button--secondary",
+            href: "https://profile.signin.education.gov.uk/register"
+            }) }}
+        </div>
+
+        {{ govukDetails({
+            summaryText: "Services accessed using DfE Sign-in",
+            html: '
+            <p class="govuk-body">
+                These DfE services are now accessed using your DfE Sign-in account.
+            </p>
+            <ol class="govuk-list govuk-list--bullet">
+                <li>Academy Budget Forecast Return</li>
+                <li>Analyse school performance</li>
+                <li>Apply To Become An Academy</li>
+                <li>Apply for funding to study abroad (Turing Scheme)</li>
+                <li>Apprenticeship service admin</li>
+                <li>Apprenticeship service bulk stop utility</li>
+                <li>Apprenticeship service employer support tool</li>
+                <li>Apprenticeship service for training providers</li>
+                <li>Apprenticeship service identify data locks</li>
+                <li>Apprenticeship service vacancy QA</li>
+                <li>Assessment Service</li>
+                <li>Assessment service: develop an assessment</li>
+                <li>Assessment service: manage your school\’s assessments</li>
+                <li>Assessment service: start an assessment</li>
+                <li>Check a teacher\'s record</li>
+                <li>Check the Children\’s barred list</li>
+                <li>Child Safeguarding Incident Notification System</li>
+                <li>Claim additional payments for teaching</li>
+                <li>Collect</li>
+                <li>College Financial Data (CFD) service</li>
+                <li>Customer help portal</li>
+                <li>DfE Connect</li>
+                <li>Document exchange</li>
+                <li>ESFA Digital Forms Service</li>
+                <li>Get Information About Schools</li>
+                <li>Get help buying for schools</li>
+                <li>Get information about pupils</li>
+                <li>Get my Ofsted Inspection Data Summary Report</li>
+                <li>Hiring Supply Teachers and Agency Workers</li>
+                <li>Manage your education and skills funding (MYESF)</li>
+                <li>Multiplication tables check</li>
+                <li>National non-domestic rates (NNDR) claims</li>
+                <li>Online Collections Service - including Risk Protection Arrangements</li>
+                <li>Plan Technology For Your School</li>
+                <li>Publish to the course directory</li>
+                <li>Register Trainee Teachers</li>
+                <li>Related Party Transactions (RPT) service</li>
+                <li>School Experience</li>
+                <li>School to School</li>
+                <li>Submit DBV SEND Progress Report (LAs)</li>
+                <li>Submit Learner Data</li>
+                <li>Submit Learner Data Operations</li>
+                <li>T Level Results and Certification</li>
+                <li>T Levels - Connect with Employers</li>
+                <li>Teacher Services - Appropriate Body</li>
+                <li>Teacher Services - Employer Access - Agent</li>
+                <li>Teacher Services - Employer Access - Schools</li>
+                <li>Teaching Vacancies</li>
+                <li>View Your Education Data (VYED)</li>
+            </ol>'
+          }) }}
+
+    </div>
+</div>
+{% endblock %}

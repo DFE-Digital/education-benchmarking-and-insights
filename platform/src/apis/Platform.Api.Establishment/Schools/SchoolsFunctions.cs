@@ -3,140 +3,147 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 using Platform.Infrastructure.Search;
-
 namespace Platform.Api.Establishment.Schools;
 
-[ApiExplorerSettings(GroupName = "Schools")]
-public class SchoolsFunctions
+public class SchoolsFunctions(ILogger<SchoolsFunctions> logger,
+    ISchoolsService service,
+    IValidator<SuggestRequest> validator)
 {
-    private readonly ILogger<SchoolsFunctions> _logger;
-    private readonly ISchoolsService _service;
-    private readonly IValidator<SuggestRequest> _validator;
-
-    public SchoolsFunctions(
-        ILogger<SchoolsFunctions> logger,
-        ISchoolsService service,
-        IValidator<SuggestRequest> validator)
-    {
-        _logger = logger;
-        _service = service;
-        _validator = validator;
-    }
-
-    [FunctionName(nameof(SingleSchoolAsync))]
-    [ProducesResponseType(typeof(School), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SingleSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{identifier}")]
-        HttpRequest req,
+    [Function(nameof(SingleSchoolAsync))]
+    [OpenApiOperation(nameof(SingleSchoolAsync), "Schools")]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(School))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SingleSchoolAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{identifier}")] HttpRequestData req,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "Identifier", identifier}
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var school = await _service.GetAsync(identifier);
+                var school = await service.GetAsync(identifier);
 
                 return school == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(school);
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(school);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QuerySchoolsAsync))]
-    [ProducesResponseType(typeof(IEnumerable<School>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("companyNumber", "Company number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("laCode", "Local authority code", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("phase", "Phase", DataType = typeof(string), Required = false)]
-    public async Task<IActionResult> QuerySchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")]
-        HttpRequest req)
+    [Function(nameof(QuerySchoolsAsync))]
+    [OpenApiOperation(nameof(QuerySchoolsAsync), "Schools")]
+    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Company number", Type = typeof(string), Required = false)]
+    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority code", Type = typeof(int), Required = false)]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Phase", Type = typeof(string), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<School>))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QuerySchoolsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object?>
+        using (logger.BeginScope(new Dictionary<string, object?>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "Query", req.QueryString.HasValue ? req.QueryString.Value : "" }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
+                       "Query", req.Url?.Query
+                   }
                }))
         {
             try
             {
-                var companyNumber = req.Query["companyNumber"].ToString();
-                var laCode = req.Query["laCode"].ToString();
-                var phase = req.Query["phase"].ToString();
-                var schools = await _service.QueryAsync(companyNumber, laCode, phase);
-                return new JsonContentResult(schools);
+                var companyNumber = req.Query["companyNumber"];
+                var laCode = req.Query["laCode"];
+                var phase = req.Query["phase"];
+                var schools = await service.QueryAsync(companyNumber, laCode, phase);
+                return await req.CreateJsonResponseAsync(schools);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query schools");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query schools");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(SuggestSchoolsAsync))]
-    [ProducesResponseType(typeof(SuggestResponse<School>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs to exclude", DataType = typeof(string[]), Required = false)]
-    public async Task<IActionResult> SuggestSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")]
-        [RequestBodyType(typeof(SuggestRequest), "The suggest object")]
-        HttpRequest req)
+    [Function(nameof(SuggestSchoolsAsync))]
+    [OpenApiOperation(nameof(SuggestSchoolsAsync), "Schools")]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs to exclude", Type = typeof(string[]), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiRequestBody("application/json", typeof(SuggestRequest), Description = "The suggest object")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SuggestResponse<School>))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SuggestSchoolsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var body = req.ReadAsJson<SuggestRequest>();
+                var body = await req.ReadAsJsonAsync<SuggestRequest>();
 
-                var validationResult = await _validator.ValidateAsync(body);
+                var validationResult = await validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
                 {
-                    return new ValidationErrorsResult(validationResult.Errors);
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
-                var urns = req.Query["urns"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var schools = await _service.SuggestAsync(body, urns);
-                return new JsonContentResult(schools);
+
+                var urns = req.Query["urns"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var schools = await service.SuggestAsync(body, urns);
+                return await req.CreateJsonResponseAsync(schools);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school suggestions");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school suggestions");
+                return req.CreateErrorResponse();
             }
         }
     }

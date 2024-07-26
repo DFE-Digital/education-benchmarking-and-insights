@@ -18,6 +18,9 @@ variables:
   DataDir: '$(FullWorkingDir)/tools'
 
 steps:
+  - bash: sudo apt-get update
+    displayName: 'Update the package list'
+
   - bash: sudo apt-get install -y pandoc texlive-latex-extra
     displayName: 'Install pandoc & latex'
 
@@ -62,12 +65,21 @@ steps:
     displayName: 'Copy testing output'
     workingDirectory: $(WorkingDir)
 
+<<<<<<< HEAD
   - bash: ./tools/build-docs.sh data data.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
     displayName: 'Generate data docs'
     workingDirectory: $(WorkingDir)
 
   - bash: cp -a build/. pub
     displayName: 'Copy data output'
+=======
+  - bash: ./tools/build-docs.sh prototype prototype.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+    displayName: 'Generate prototype docs'
+    workingDirectory: $(WorkingDir)
+
+  - bash: cp -a build/. pub
+    displayName: 'Copy prototype output'
+>>>>>>> main
     workingDirectory: $(WorkingDir)
 
   - task: PublishPipelineArtifact@1

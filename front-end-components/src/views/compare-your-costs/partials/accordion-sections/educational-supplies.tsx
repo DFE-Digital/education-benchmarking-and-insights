@@ -15,6 +15,7 @@ import {
   ChartDimensionContext,
   CustomDataContext,
   PhaseContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -115,60 +116,65 @@ export const EducationalSupplies: React.FC<{
   const elementId = "educational-supplies";
   const [hash] = useHash();
 
+  const hasIncompleteData = false;
+  const hasNoData = data?.length === 0;
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-3"
-            >
-              Educational supplies
-            </span>
-          </h2>
-        </div>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+      <ChartDimensionContext.Provider value={dimension}>
         <div
-          id="accordion-content-3"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-3"
-          role="region"
+          className={classNames("govuk-accordion__section", {
+            "govuk-accordion__section--expanded": hash === `#${elementId}`,
+          })}
+          id={elementId}
         >
-          <HorizontalBarChartWrapper
-            data={totalEducationalSuppliesBarData}
-            chartName="total educational supplies costs"
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-heading-3"
+              >
+                Educational supplies
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-content-3"
+            className="govuk-accordion__section-content"
+            aria-labelledby="accordion-heading-3"
+            role="region"
           >
-            <h3 className="govuk-heading-s">
-              Total educational supplies costs
-            </h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-educational-supplies-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={examinationFeesBarData}
-            chartName="examination fees costs"
-          >
-            <h3 className="govuk-heading-s">Examination fees costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={learningResourcesBarData}
-            chartName="learning resource (not ICT equipment) costs"
-          >
-            <h3 className="govuk-heading-s">
-              Learning resources (not ICT equipment) costs
-            </h3>
-          </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={totalEducationalSuppliesBarData}
+              chartName="total educational supplies costs"
+            >
+              <h3 className="govuk-heading-s">
+                Total educational supplies costs
+              </h3>
+              <ChartDimensions
+                dimensions={CostCategories}
+                handleChange={handleSelectChange}
+                elementId="total-educational-supplies-costs"
+                value={dimension.value}
+              />
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={examinationFeesBarData}
+              chartName="examination fees costs"
+            >
+              <h3 className="govuk-heading-s">Examination fees costs</h3>
+            </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              data={learningResourcesBarData}
+              chartName="learning resource (not ICT equipment) costs"
+            >
+              <h3 className="govuk-heading-s">
+                Learning resources (not ICT equipment) costs
+              </h3>
+            </HorizontalBarChartWrapper>
+          </div>
         </div>
-      </div>
-    </ChartDimensionContext.Provider>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

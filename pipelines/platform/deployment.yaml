@@ -50,8 +50,8 @@ jobs:
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
               failOnStderr: true
 
-            - task: AzureFunctionApp@1
-              displayName: 'Deploy benchmarks function app'
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy benchmark function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
@@ -61,10 +61,10 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Benchmark.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
-              displayName: 'Deploy insights function app'
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy insight function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
@@ -74,10 +74,10 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
-              displayName: 'Deploy establishments function app'
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy establishment function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
@@ -87,9 +87,9 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
+            - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -100,9 +100,9 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Orchestrator.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@1
+            - task: AzureFunctionApp@2
               displayName: 'Deploy data clean up function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -113,4 +113,4 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.UserDataCleanUp.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                DeploymentType: 'runFromZip'
+                deploymentMethod: 'runFromPackage'

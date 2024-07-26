@@ -1,7 +1,7 @@
 ﻿using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Tests.Mocks;
 using Xunit;
-
 namespace Platform.Tests.Functions;
 
 public class WhenGetCorrelationIdIsCalled
@@ -9,11 +9,11 @@ public class WhenGetCorrelationIdIsCalled
     [Fact]
     public void WithCorrelationIdHeaderAsValidGuid()
     {
-        var context = new DefaultHttpContext();
+        var request = MockHttpRequestData.Create();
         var id = Guid.NewGuid();
-        context.Request.Headers.Add(Constants.CorrelationIdHeader, id.ToString());
+        request.Headers.Add(Constants.CorrelationIdHeader, id.ToString());
 
-        var result = context.Request.GetCorrelationId();
+        var result = request.GetCorrelationId();
 
         Assert.Equal(id, result);
     }
@@ -21,23 +21,22 @@ public class WhenGetCorrelationIdIsCalled
     [Fact]
     public void WithCorrelationIdHeaderAsInvalidGuid()
     {
-        var context = new DefaultHttpContext();
+        var request = MockHttpRequestData.Create();
         const string id = "invalid";
-        context.Request.Headers.Add(Constants.CorrelationIdHeader, id);
+        request.Headers.Add(Constants.CorrelationIdHeader, id);
 
-        var result = context.Request.GetCorrelationId();
+        var result = request.GetCorrelationId();
 
         Assert.IsType<Guid>(result);
         Assert.NotEqual(Guid.Empty, result);
     }
 
-
     [Fact]
     public void WithoutCorrelationIdHeader()
     {
-        var context = new DefaultHttpContext();
+        var request = MockHttpRequestData.Create();
 
-        var result = context.Request.GetCorrelationId();
+        var result = request.GetCorrelationId();
 
         Assert.IsType<Guid>(result);
         Assert.NotEqual(Guid.Empty, result);

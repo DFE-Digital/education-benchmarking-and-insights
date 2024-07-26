@@ -1,0 +1,23 @@
+{% macro spendingPanel(params) %}
+
+{% if params.spendAmount > params.medianAmount %}
+    {% set difference = ( params.spendAmount - params.medianAmount ) | round(2) %}
+    {% set moreOrLess = 'more' %}
+{% else %}
+    {% set difference = ( params.medianAmount - params.spendAmount ) | round(2) %}
+    {% set moreOrLess = 'less' %}
+{% endif %}
+{% set differencePercentage = ( ( difference / params.medianAmount ) * 100 ) | round(1) %}
+
+{% if params.subcategory != 0 %}
+    {% set subcategory = ' sub' %}
+{% endif %}
+
+<div class="spend-panel{{ subcategory }}">
+    <div>
+        <p><span>This school spends</span> <strong>£{{ params.spendAmount | addCommas }}</strong> per {{ params.unit }}</p>
+        <p><span>Benchmarked schools spend</span> <strong>£{{ params.medianAmount | addCommas }}</strong> per {{ params.unit }}, on average</p>
+        <p><span>This school spends</span> <strong>£{{ difference | addCommas }} <span>({{differencePercentage}}%)</span></strong> <span>{{ moreOrLess }}</span> per {{ params.unit }}</p>
+    </div>
+</div>
+{% endmacro %}

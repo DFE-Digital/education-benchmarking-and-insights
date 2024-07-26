@@ -1,0 +1,25 @@
+let ["Unique Users"] = view() { 
+    GetUsers
+    | summarize 
+        Count = count_distinct(UserId)
+};
+let ["New Unique Users"] = view() {
+    GetNewUsers
+    | summarize 
+        Count = count_distinct(UserId)
+};
+let ["Authenticated Users"] = view() {
+    GetAuthUsers
+    | summarize 
+        Count = count_distinct(UserAuthenticatedId)
+};
+let ["Anonymous Requests"] = view() {
+    GetAnonymousRequests
+    | summarize 
+        Count = count_distinct(OperationId)
+};
+union withsource=Type
+    ["Unique Users"], 
+    ["New Unique Users"],
+    ["Authenticated Users"],
+    ["Anonymous Requests"]

@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -30,14 +29,16 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalIncome",  168794.ToString()}
+                {
+                    "TotalIncome", 168794.ToString()
+                }
             });
         });
 
@@ -65,7 +66,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -97,7 +98,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -121,7 +122,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
 
@@ -129,7 +130,9 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalIncome",  value?.ToString() ?? "" }
+                {
+                    "TotalIncome", value?.ToString() ?? ""
+                }
             });
         });
 

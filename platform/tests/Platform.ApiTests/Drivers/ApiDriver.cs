@@ -1,5 +1,4 @@
 using TechTalk.SpecFlow.Infrastructure;
-
 namespace Platform.ApiTests.Drivers;
 
 public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
@@ -9,7 +8,10 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
 
     protected ApiDriver(TestConfiguration.ApiEndpoint endpoint, ISpecFlowOutputHelper output)
     {
-        _client = new HttpClient { BaseAddress = new Uri(endpoint.Host) };
+        _client = new HttpClient
+        {
+            BaseAddress = new Uri(endpoint.Host)
+        };
         if (!string.IsNullOrEmpty(endpoint.Key))
         {
             _client.DefaultRequestHeaders.Add("x-functions-key", endpoint.Key);
@@ -29,8 +31,15 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
         {
             var response = await _client.SendAsync(message.Value.Request);
 #if DEBUG
+            var content = message.Value.Request.Content;
+            string? body = null;
+            if (content != null)
+            {
+                body = await content.ReadAsStringAsync();
+            }
+
             _output.WriteLine(
-                $"{response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
+                $"{response.RequestMessage?.Method}{(body == null ? string.Empty : $" {body}")} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
 #endif
             message.Value.Response = response;
             message.Value.Pending = false;

@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Establishment.Trusts;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Establishment;
 
 public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new Trust());
 
-        var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -29,10 +27,10 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((Trust?)null);
 
-        var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as NotFoundResult;
+        var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
@@ -42,9 +40,9 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

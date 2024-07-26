@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Insight.Census;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
             .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
             .ReturnsAsync(Array.Empty<CensusModel>());
 
-        var result = await Functions.QueryCensusAsync(CreateRequest()) as JsonContentResult;
+        var result = await Functions.QueryCensusAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
 
@@ -29,9 +27,9 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
             .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
             .Throws(new Exception());
 
-        var result = await Functions.QueryCensusAsync(CreateRequest()) as StatusCodeResult;
+        var result = await Functions.QueryCensusAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

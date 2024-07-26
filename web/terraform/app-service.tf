@@ -91,7 +91,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "DFESignInSettings__SignOutUri"                    = var.dfe-signin.sign-out-uri
     "DFESignInSettings__SignInUri"                     = var.dfe-signin.sign-in-uri
     "SessionData__Using"                               = "Cosmos"
-    "SessionData__Settings__ConnectionString"          = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
+    "SessionData__Settings__ConnectionString"          = "AccountEndpoint=${azurerm_cosmosdb_account.session-cache-account.endpoint}"
     "SessionData__Settings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name
     "SessionData__Settings__DatabaseName"              = azurerm_cosmosdb_sql_database.session-cache-database.name
     "Storage__ConnectionString"                        = azurerm_storage_account.data-source-storage.primary_connection_string

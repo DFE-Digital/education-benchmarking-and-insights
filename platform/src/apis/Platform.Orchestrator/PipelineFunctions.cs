@@ -1,72 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DurableTask.Core;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.DurableTask;
+using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-
 namespace Platform.Orchestrator;
 
-public class PipelineFunctions
+public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db)
 {
-    private readonly ILogger<PipelineFunctions> _logger;
-    private readonly IJobStartMessageSender _sender;
-    private readonly IPipelineDb _db;
-
-    public PipelineFunctions(ILogger<PipelineFunctions> logger, IJobStartMessageSender sender, IPipelineDb db)
-    {
-        _logger = logger;
-        _sender = sender;
-        _db = db;
-    }
-
-    [FunctionName(nameof(InitiatePipelineJob))]
-    [StorageAccount("PipelineMessageHub:ConnectionString")]
+    [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
-        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%")]
-        PipelineStartMessage message,
-        [DurableClient] IDurableClient client)
+        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelineStartMessage message,
+        [DurableClient] DurableTaskClient client)
     {
         try
         {
-            using (_logger.BeginScope(new Dictionary<string, object>
+            using (logger.BeginScope(new Dictionary<string, object>
                    {
-                       { "Application", Constants.ApplicationName }
+                       {
+                           "Application", Constants.ApplicationName
+                       }
                    }))
             {
-                var status = await client.GetStatusAsync(message.JobId);
+                var status = await client.GetInstanceAsync(message.JobId!);
 
                 if (status is not
                     { RuntimeStatus: OrchestrationRuntimeStatus.Pending or OrchestrationRuntimeStatus.Running })
                 {
-                    await client.StartNewAsync(nameof(PipelineJobOrchestrator), message.JobId, message);
+                    await client.ScheduleNewOrchestrationInstanceAsync(nameof(PipelineJobOrchestrator), message, new StartOrchestrationOptions(message.JobId));
                 }
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Initiating pipeline job");
+            logger.LogError(e, "Initiating pipeline job");
             throw;
         }
     }
 
-    [FunctionName(nameof(PipelineJobFinished))]
-    [StorageAccount("PipelineMessageHub:ConnectionString")]
+    [Function(nameof(PipelineJobFinished))]
     public async Task PipelineJobFinished(
-        [QueueTrigger("%PipelineMessageHub:JobFinishedQueue%")]
-        string message,
-        [DurableClient] IDurableOrchestrationClient client)
+        [QueueTrigger("%PipelineMessageHub:JobFinishedQueue%", Connection = "PipelineMessageHub:ConnectionString")] string message,
+        [DurableClient] DurableTaskClient client)
     {
         try
         {
-            using (_logger.BeginScope(new Dictionary<string, object>
-                       { { "Application", Constants.ApplicationName } }))
+            using (logger.BeginScope(new Dictionary<string, object>
+                   {
+                       {
+                           "Application", Constants.ApplicationName
+                       }
+                   }))
             {
                 var job = message.FromJson<PipelineFinishMessage>();
-                _db.WriteToLog(job.JobId, message);
+                await db.WriteToLog(job.JobId, message);
 
                 if (!string.IsNullOrEmpty(job.JobId))
                 {
@@ -76,61 +66,57 @@ public class PipelineFunctions
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Finished pipeline job");
+            logger.LogError(e, "Finished pipeline job");
             throw;
         }
     }
 
-    [FunctionName(nameof(PipelineJobOrchestrator))]
-    public async Task PipelineJobOrchestrator([OrchestrationTrigger] IDurableOrchestrationContext context)
+    [Function(nameof(PipelineJobOrchestrator))]
+    public async Task PipelineJobOrchestrator([OrchestrationTrigger] TaskOrchestrationContext context)
     {
         var input = context.GetInput<PipelineStartMessage>();
         await context.CallActivityAsync(nameof(OnStartJobTrigger), input);
 
-        _logger.LogInformation("{JobId} waiting for finished event", input.JobId);
+        logger.LogInformation("{JobId} waiting for finished event", input?.JobId);
         var success = await context.WaitForExternalEvent<bool>(nameof(PipelineJobFinished));
-        _logger.LogInformation("{JobId} received finished event", input.JobId);
+        logger.LogInformation("{JobId} received finished event", input?.JobId);
 
-        switch (input.Type)
+        switch (input?.Type)
         {
             case "comparator-set":
             case "custom-data":
-                await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus { Id = input.RunId, Success = success });
+                await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus
+                {
+                    Id = input.RunId,
+                    Success = success
+                });
                 break;
         }
     }
 
-    [FunctionName(nameof(OnStartJobTrigger))]
-    public async Task OnStartJobTrigger([ActivityTrigger] IDurableActivityContext context)
+    [Function(nameof(OnStartJobTrigger))]
+    [QueueOutput("%PipelineMessageHub:JobStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
+    public string[] OnStartJobTrigger([ActivityTrigger] PipelineStartMessage message) => [message.ToJson()];
+
+    [Function(nameof(UpdateStatusTrigger))]
+    public async Task UpdateStatusTrigger([ActivityTrigger] PipelineStatus status)
     {
-        var message = context.GetInput<PipelineStartMessage>();
-        await _sender.Send(message);
+        logger.LogInformation("Updating status for {RunId}", status.Id);
+        await db.UpdateStatus(status);
     }
 
-    [FunctionName(nameof(UpdateStatusTrigger))]
-    public async Task UpdateStatusTrigger([ActivityTrigger] IDurableActivityContext context)
-    {
-        var status = context.GetInput<PipelineStatus>();
-
-        _logger.LogInformation("Updating status for {RunId}", status.Id);
-        await _db.UpdateStatus(status);
-    }
-
-    [FunctionName(nameof(PipelineJobPurgeHistory))]
+    [Function(nameof(PipelineJobPurgeHistory))]
     public static Task PipelineJobPurgeHistory(
-        [DurableClient] IDurableOrchestrationClient client,
-        [TimerTrigger("0 0 12 * * *")] TimerInfo timer)
-    {
-        return client.PurgeInstanceHistoryAsync(
+        [DurableClient] DurableTaskClient client,
+        [TimerTrigger("0 0 12 * * *")] TimerInfo timer) => client.PurgeAllInstancesAsync(
+        new PurgeInstancesFilter(
             DateTime.MinValue,
             DateTime.UtcNow.AddDays(-7),
-            new List<OrchestrationStatus>
+            new List<OrchestrationRuntimeStatus>
             {
-                OrchestrationStatus.Completed,
-                OrchestrationStatus.Failed,
-                OrchestrationStatus.Canceled,
-                OrchestrationStatus.Terminated,
-                OrchestrationStatus.Suspended
-            });
-    }
+                OrchestrationRuntimeStatus.Completed,
+                OrchestrationRuntimeStatus.Failed,
+                OrchestrationRuntimeStatus.Terminated,
+                OrchestrationRuntimeStatus.Suspended
+            }));
 }

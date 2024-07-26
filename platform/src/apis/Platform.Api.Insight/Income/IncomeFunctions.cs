@@ -3,272 +3,300 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
+using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Income;
 
-[ApiExplorerSettings(GroupName = "Income")]
-public class IncomeFunctions
+public class IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService service)
 {
-
-    private readonly ILogger<IncomeFunctions> _logger;
-    private readonly IIncomeService _service;
-
-    public IncomeFunctions(ILogger<IncomeFunctions> logger, IIncomeService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-    [FunctionName(nameof(IncomeAllCategories))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    public IActionResult IncomeAllCategories(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/categories")]
-        HttpRequest req)
+    [Function(nameof(IncomeAllCategories))]
+    [OpenApiOperation(nameof(IncomeAllCategories), "Income")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
+    public async Task<HttpResponseData> IncomeAllCategories(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/categories")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
-
-            return new JsonContentResult(IncomeCategories.All);
+            return await req.CreateJsonResponseAsync(IncomeCategories.All);
         }
     }
 
-
-    [FunctionName(nameof(IncomeAllDimensions))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    public IActionResult IncomeAllDimensions(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/dimensions")]
-        HttpRequest req)
+    [Function(nameof(IncomeAllDimensions))]
+    [OpenApiOperation(nameof(IncomeAllDimensions), "Income")]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
+    public async Task<HttpResponseData> IncomeAllDimensions(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/dimensions")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
-
-            return new JsonContentResult(IncomeDimensions.All);
+            return await req.CreateJsonResponseAsync(IncomeDimensions.All);
         }
     }
 
-    [FunctionName(nameof(SchoolIncomeAsync))]
-    [ProducesResponseType(typeof(SchoolIncomeResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Income category", DataType = typeof(string))]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolIncomeAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}")]
-        HttpRequest req,
+    [Function(nameof(SchoolIncomeAsync))]
+    [OpenApiOperation(nameof(SchoolIncomeAsync), "Income")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Income category", Type = typeof(string), Example = typeof(ExampleIncomeCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolIncomeResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolIncomeAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetSchoolAsync(urn);
+                var result = await service.GetSchoolAsync(urn);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(IncomeResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(IncomeResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school income");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school income");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-
-    [FunctionName(nameof(TrustIncomeAsync))]
-    [ProducesResponseType(typeof(TrustIncomeResponse), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Income category", DataType = typeof(string))]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustIncomeAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trust/{companyNumber}")]
-        HttpRequest req,
+    [Function(nameof(TrustIncomeAsync))]
+    [OpenApiOperation(nameof(TrustIncomeAsync), "Income")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Income category", Type = typeof(string), Example = typeof(ExampleIncomeCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustIncomeResponse))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustIncomeAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trust/{companyNumber}")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetTrustAsync(companyNumber);
+                var result = await service.GetTrustAsync(companyNumber);
                 return result == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(IncomeResponseFactory.Create(result, queryParams));
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(IncomeResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get income");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get income");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(SchoolIncomeHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolIncomeHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> SchoolIncomeHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}/history")]
-        HttpRequest req,
+    [Function(nameof(SchoolIncomeHistoryAsync))]
+    [OpenApiOperation(nameof(SchoolIncomeHistoryAsync), "Income")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolIncomeHistoryResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolIncomeHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}/history")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetSchoolHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
+                var result = await service.GetSchoolHistoryAsync(urn);
+                return await req.CreateJsonResponseAsync(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get school income history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get school income history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(TrustIncomeHistoryAsync))]
-    [ProducesResponseType(typeof(SchoolIncomeHistoryResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> TrustIncomeHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trust/{companyNumber}/history")]
-        HttpRequest req,
+    [Function(nameof(TrustIncomeHistoryAsync))]
+    [OpenApiOperation(nameof(TrustIncomeHistoryAsync), "Income")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustIncomeHistoryResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> TrustIncomeHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trust/{companyNumber}/history")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for dimension
-                var result = await _service.GetTrustHistoryAsync(companyNumber);
-                return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
+                var result = await service.GetTrustHistoryAsync(companyNumber);
+                return await req.CreateJsonResponseAsync(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get trust income history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get trust income history");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QuerySchoolsIncomeAsync))]
-    [ProducesResponseType(typeof(SchoolIncomeResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Income category", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QuerySchoolsIncomeAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/schools")]
-        HttpRequest req)
+    [Function(nameof(QuerySchoolsIncomeAsync))]
+    [OpenApiOperation(nameof(QuerySchoolsIncomeAsync), "Income")]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Income category", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolIncomeResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QuerySchoolsIncomeAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/schools")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for urns, category and dimension
-                var result = await _service.QuerySchoolsAsync(queryParams.Schools);
-                return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
+                var result = await service.QuerySchoolsAsync(queryParams.Schools);
+                return await req.CreateJsonResponseAsync(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query schools income");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query schools income");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QueryTrustsIncomeAsync))]
-    [ProducesResponseType(typeof(TrustIncomeResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Income category", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
-    public async Task<IActionResult> QueryTrustsIncomeAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trusts")]
-        HttpRequest req)
+    [Function(nameof(QueryTrustsIncomeAsync))]
+    [OpenApiOperation(nameof(QueryTrustsIncomeAsync), "Income")]
+    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Income category", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeCategory))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
+    [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustIncomeResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QueryTrustsIncomeAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/trusts")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<IncomeParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
                 //TODO: Add validation for companyNumbers, category and dimension
-                var result = await _service.QueryTrustsAsync(queryParams.Trusts);
-                return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
+                var result = await service.QueryTrustsAsync(queryParams.Trusts);
+                return await req.CreateJsonResponseAsync(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to query trusts income");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to query trusts income");
+                return req.CreateErrorResponse();
             }
         }
     }

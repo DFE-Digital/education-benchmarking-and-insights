@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Benchmark.FinancialPlans;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Benchmark;
 
 public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunc
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new FinancialPlanDetails());
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as JsonContentResult;
+        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -29,10 +27,10 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunc
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync((FinancialPlanDetails?)null);
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
+        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
@@ -42,9 +40,9 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunc
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;
+        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

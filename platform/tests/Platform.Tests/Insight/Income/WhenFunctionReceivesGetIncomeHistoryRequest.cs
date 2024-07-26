@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Insight.Income;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Insight.Income;
 
 public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBa
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<SchoolIncomeHistoryModel>());
 
-        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -28,9 +26,9 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBa
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

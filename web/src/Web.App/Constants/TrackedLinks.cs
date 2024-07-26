@@ -16,5 +16,7 @@ public enum TrackedLinks
     [StringValue("service-banner")]
     ServiceBanner,
     [StringValue("change-organisation")]
-    ChangeOrganisation
+    ChangeOrganisation,
+    [StringValue("survey")]
+    Survey
 }

@@ -1,7 +1,7 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages;
-using Web.E2ETests.Pages.School;
 using Xunit;
+using HomePage = Web.E2ETests.Pages.School.HomePage;
 
 namespace Web.E2ETests.Steps;
 

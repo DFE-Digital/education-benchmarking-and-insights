@@ -1,0 +1,33 @@
+let timeRange = 30d;
+let monthDefinition = 7d;
+let hlls = union customEvents, pageViews
+    | where timestamp >= startofmonth(now() - timeRange - 2 * monthDefinition)
+    | where name in ('*') or '*' in ('*')
+    | summarize Hlls = hll(user_Id) by bin(timestamp, 1d)
+    | project DaysToMerge = timestamp, Hlls;
+let churnSeriesWithHllsToInclude = materialize(range d from 0d to timeRange step 1d
+    | extend Day = startofday(now() - d)
+    | extend R = range(0d, monthDefinition - 1d, 1d)
+    | mvexpand R
+    | extend ThisMonth = Day - totimespan(R)
+    | extend LastMonth = Day - monthDefinition - totimespan(R)
+    | project Day, ThisMonth, LastMonth);
+churnSeriesWithHllsToInclude
+| extend DaysToMerge = ThisMonth
+| join kind= inner (hlls) on DaysToMerge 
+| project Day, ThisMonthHlls = Hlls
+| union (
+    churnSeriesWithHllsToInclude
+    | extend DaysToMerge = LastMonth
+    | join kind= inner (hlls) on DaysToMerge
+    | project Day, LastMonthHlls = Hlls)
+| summarize ThisMonth = hll_merge(ThisMonthHlls), LastMonth = hll_merge(LastMonthHlls) by Day
+| evaluate dcount_intersect(ThisMonth, LastMonth)
+| extend NewUsers = s0 - s1
+| extend ChurnedUsers = -1 * (dcount_hll(LastMonth) - s1) // Last Months Users - Returning Users
+| project
+    Day,
+    ["Active Users"] = s1 + NewUsers,
+    ["Returning Users"] = s1,
+    ["Lost Users"] = ChurnedUsers,
+    ["New Users"] = NewUsers

@@ -10,8 +10,8 @@ public static class Selectors
     public const string GovShowAllLinkText = ".govuk-accordion__show-all-text";
     public const string GovAccordionSection = ".govuk-accordion__section";
     //public const string GovBackLink = ".govuk-back-link";
-    public const string GovButton = ".govuk-button";
-    public const string GovLink = ".govuk-link";
+    public const string GovButton = "main .govuk-button";
+    public const string GovLink = "main .govuk-link";
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
@@ -125,4 +125,10 @@ public static class Selectors
 
     public const string LineChartStats = ".chart-stat-line-chart";
 
+    public const string CookieBanner = "#cookies-banner";
+    public const string CookieBannerButtonFormat = "#{0}-cookies";
+    public const string CookieBannerDismissedFormat = "#{0}ed-cookies-banner";
+    public const string CookiesSavedBanner = "#cookies-saved-banner";
+    public const string CookieFormRadioFormat = "#AnalyticsCookiesEnabled-{0}";
+    public const string CookieFormButton = "#cookie-settings-button";
 }

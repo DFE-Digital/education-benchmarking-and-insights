@@ -1,0 +1,160 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.StaticCookiesViewModel
+@{
+    var hasError = ViewData.ModelState.HasError(nameof(Model.AnalyticsCookiesEnabled));
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Cookies</h1>
+
+        @await Html.PartialAsync("_ErrorSummary")
+        @if (Model.CookiesSaved)
+        {
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" id="cookies-saved-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Success
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <p class="govuk-notification-banner__heading">
+                        You've set your cookie preferences.
+                    </p>
+                </div>
+            </div>
+        }
+
+        <div>
+            <p class="govuk-body">Cookies are small files saved on your phone, tablet or computer when you visit a website.</p>
+            <p class="govuk-body">We use cookies to make the Financial Benchmarking and Insights Tool work and collect information about how you use it.</p>
+        </div>
+
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Essential cookies</h2>
+        <p class="govuk-body">These essential cookies remember selections on the Financial Benchmarking and Insights Tool as well as keeping your information secure while you use the tool.</p>
+        <p class="govuk-body">We do not need to ask permission to use them.</p>
+
+        <table class="govuk-table govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header left">Name</th>
+                <th scope="col" class="govuk-table__header left">Purpose</th>
+                <th scope="col" class="govuk-table__header left">Expires</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">.AspNetCore.Antiforgery*</td>
+                <td class="govuk-table__cell left">Protects the tool from cross-site request forgery (CSRF) attacks</td>
+                <td class="govuk-table__cell left">Expires at the end of your session</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">.AspNetCore.Session</td>
+                <td class="govuk-table__cell left">Helps the tool remember information about your session as you navigate through it</td>
+                <td class="govuk-table__cell left">Expires at the end of your session</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">dsi-education-benchmarking*</td>
+                <td class="govuk-table__cell left">Helps you sign in and keeps your information secure when you do</td>
+                <td class="govuk-table__cell left">Expires at the end of your session</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">@Model.CookieName</td>
+                <td class="govuk-table__cell left">Lets us know whether you agree to the use of analytics cookies</td>
+                <td class="govuk-table__cell left">1 year</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr class="govuk-section-break"/>
+
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Analytics cookies (optional)</h2>
+        <p class="govuk-body">
+            We use Azure Application Insights software to collect information about how you use the Financial Benchmarking and Insights Tool.
+        </p>
+        <p class="govuk-body">We do this to help make sure the tool is meeting the needs of its users and to help us make improvements.</p>
+        <p class="govuk-body">
+            Azure Application Insights stores information about:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the pages you visit on this tool</li>
+            <li>how long you spend on each page</li>
+            <li>how you got to the tool</li>
+            <li>what you click on while you're visiting the tool</li>
+        </ul>
+
+        <p class="govuk-body">
+            We don't collect or store your personal information (for example your name or address) so this information can't be used to identify who you are.
+        </p>
+        <p class="govuk-body">
+            We don't allow Microsoft to use or share our analytics data.
+        </p>
+        <p class="govuk-body">
+            Azure Application Insights sets the following cookies:
+        </p>
+
+        <table class="govuk-table govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header left">Name</th>
+                <th scope="col" class="govuk-table__header left">Purpose</th>
+                <th scope="col" class="govuk-table__header left">Expires</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">ai_session</td>
+                <td class="govuk-table__cell left">Tracks what you do on the tool during your visit</td>
+                <td class="govuk-table__cell left">30 minutes</td>
+            </tr>
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell left">ai_user</td>
+            <td class="govuk-table__cell left">Helps us recognise you as a unique visitor when you return</td>
+            <td class="govuk-table__cell left">1 year</td>
+            </tbody>
+        </table>
+
+        <h2 class="govuk-heading-m">Change your cookie settings</h2>
+        @using (Html.BeginForm("Save", "Cookies", new
+                {
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate",
+                    id = "cookie-settings-form"
+                }))
+        {
+            <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
+                <fieldset class="govuk-fieldset"@(hasError ? $" aria-describedby='{nameof(Model.AnalyticsCookiesEnabled)}-error'" : string.Empty)>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        Do you want to accept analytics cookies?
+                    </legend>
+                    @if (hasError)
+                    {
+                        <p id="@(nameof(Model.AnalyticsCookiesEnabled))-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.AnalyticsCookiesEnabled)]?.Errors.FirstOrDefault()?.ErrorMessage
+                        </p>
+                    }
+                    <div class="govuk-radios" id="@(nameof(Model.AnalyticsCookiesEnabled))">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="@(nameof(Model.AnalyticsCookiesEnabled))-accept" name="@(nameof(Model.AnalyticsCookiesEnabled))" type="radio" value="true"@(Model.AnalyticsCookiesEnabled == true ? " checked" : string.Empty)>
+                            <label class="govuk-label govuk-radios__label" for="@(nameof(Model.AnalyticsCookiesEnabled))-accept">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="@(nameof(Model.AnalyticsCookiesEnabled))-reject" name="@(nameof(Model.AnalyticsCookiesEnabled))" type="radio" value="false"@(Model.AnalyticsCookiesEnabled == false ? " checked" : string.Empty)>
+                            <label class="govuk-label govuk-radios__label" for="@(nameof(Model.AnalyticsCookiesEnabled))-reject">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" id="cookie-settings-button">
+                Save cookie settings
+            </button>
+        }
+    </div>
+</div>

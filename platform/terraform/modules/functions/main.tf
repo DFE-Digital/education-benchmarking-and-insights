@@ -1,6 +1,6 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME"    = var.worker-runtime
     "AzureWebJobsDisableHomepage" = true
   })
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
@@ -53,12 +53,15 @@ resource "azurerm_windows_function_app" "func-app" {
   }
 
   site_config {
-    always_on                = var.always-on
-    http2_enabled            = true
-    application_insights_key = var.instrumentation-key
+    always_on                              = var.always-on
+    http2_enabled                          = true
+    application_insights_key               = var.instrumentation-key
+    application_insights_connection_string = var.instrumentation-conn-string
+    use_32_bit_worker                      = var.use-32-bit-worker
+
     application_stack {
-      dotnet_version              = "v6.0"
-      use_dotnet_isolated_runtime = false
+      dotnet_version              = var.dotnet-version
+      use_dotnet_isolated_runtime = var.use-isolated-runtime
     }
 
     ip_restriction_default_action = var.enable-restrictions ? "Deny" : "Allow"
@@ -153,4 +156,28 @@ resource "azurerm_key_vault_secret" "fa-host" {
   value        = local.host
   key_vault_id = var.key-vault-id
   content_type = "host"
+}
+
+# ClientId rather than PrincipalId required for managed identity user in SQL database:
+# https://github.com/betr-io/terraform-provider-mssql/issues/54#issuecomment-1632638595
+data "azapi_resource" "app-service-identity" {
+  name                   = "default"
+  parent_id              = azurerm_windows_function_app.func-app.id
+  type                   = "Microsoft.ManagedIdentity/identities@2018-11-30"
+  response_export_values = ["properties.clientId"]
+}
+
+resource "mssql_user" "app-service-user" {
+  server {
+    host = var.sql-server-fqdn
+    login {
+      username = var.sql-server-username
+      password = var.sql-server-password
+    }
+  }
+
+  database  = "data"
+  username  = azurerm_windows_function_app.func-app.name
+  object_id = jsondecode(data.azapi_resource.app-service-identity.output).properties.clientId
+  roles     = ["db_datareader", "db_datawriter"]
 }

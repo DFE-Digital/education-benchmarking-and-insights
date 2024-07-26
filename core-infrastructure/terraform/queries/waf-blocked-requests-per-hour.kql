@@ -1,0 +1,10 @@
+GetWafBlockedRequests
+| summarize 
+    RequestCount = count()
+    by bin(TimeGenerated, 1h), 
+    Policy = policy_s,
+    PolicyMode = policyMode_s, 
+    Resource, 
+    ResourceId
+| order by 
+    RequestCount desc

@@ -1,160 +1,78 @@
+locals {
+  query-tags = {
+    "Type"   = "MI"
+    "Source" = "terraform"
+  }
+}
+
+resource "random_uuid" "popular-school-requests-id" {}
+
 resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   name                       = "GetEstablishmentRequests"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetEstablishmentRequests"
+  function_alias             = "GetEstablishmentRequests"
+  tags                       = local.query-tags
 
-  category       = "Function"
-  display_name   = "GetEstablishmentRequests"
-  function_alias = "GetEstablishmentRequests"
-  query          = <<-EOT
-    AppRequests
-    | extend
-        Urn = tostring(Properties["Urn"]),
-        CompanyNumber = tostring(Properties["CompanyNumber"]),
-        Code = tostring(Properties["Code"]),
-        Establishment = tostring(Properties["Establishment"]),
-        Feature = tostring(Properties["Feature"])
-    | where isnotempty(Establishment)
-    | project
-        TimeGenerated,
-        Name,
-        ResultCode,
-        OperationId,
-        UserId,
-        Establishment,
-        Feature,
-        Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
-    | order by
-        TimeGenerated desc
-  EOT
-  tags           = local.common-tags
+  query = file("${path.module}/queries/functions/get-establishment-requests.kql")
 }
 
-resource "azurerm_log_analytics_query_pack_query" "popular-school-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca2"
+resource "random_uuid" "popular-trust-requests-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "popular-school-requests" {
+  name          = random_uuid.popular-school-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    GetEstablishmentRequests
-    | where 
-        Establishment == "school" and 
-        ResultCode == 200
-    | project 
-        TimeGenerated, 
-        Feature, 
-        Urn = Identifier
-    | summarize 
-        Count=count() by Urn, 
-        Feature
-    | sort by 
-        Count desc
-    | take(50)
-    | render 
-        columnchart with(title="50 most popular school requests")
-  EOT
   display_name  = "Popular Requests – School"
-  description   = "Chart of the most popular School requests, split by feature"
+  description   = "The most popular School requests, split by feature"
   categories    = ["applications"]
-  tags          = local.common-tags
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/popular-school-requests.kql")
 }
 
-resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca3"
+resource "random_uuid" "popular-local-authority-requests-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests" {
+  name          = random_uuid.popular-trust-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    GetEstablishmentRequests
-    | where 
-        Establishment == "trust" and 
-        ResultCode == 200
-    | project 
-        TimeGenerated, 
-        Feature, 
-        CompanyNumber = Identifier
-    | summarize 
-        Count=count() by CompanyNumber, 
-        Feature
-    | sort by 
-        Count desc
-    | take(50)
-    | render 
-        columnchart with(title="50 most popular trust requests")
-  EOT
   display_name  = "Popular Requests – Trust"
-  description   = "Chart of the most popular Trust requests, split by feature"
+  description   = "The most popular Trust requests, split by feature"
   categories    = ["applications"]
-  tags          = local.common-tags
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/popular-trust-requests.kql")
 }
 
-resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-requests-chart" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca4"
+resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-requests" {
+  name          = random_uuid.popular-local-authority-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    GetEstablishmentRequests
-    | where 
-        Establishment == "local-authority" and 
-        ResultCode == 200
-    | project 
-        TimeGenerated, 
-        Feature, 
-        Code = Identifier
-    | summarize 
-        Count=count() by Code, 
-        Feature
-    | sort by 
-        Count desc
-    | take(50)
-    | render 
-        columnchart with(title="50 most popular local authority requests")
-  EOT
+  tags          = local.query-tags
   display_name  = "Popular Requests – Local Authority"
-  description   = "Chart of the most popular Local Authority requests, split by feature"
+  description   = "The most popular Local Authority requests, split by feature"
   categories    = ["applications"]
-  tags          = local.common-tags
+
+  body = file("${path.module}/queries/popular-local-authority-requests.kql")
 }
 
 resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
   name                       = "GetTrackedLinks"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetTrackedLinks"
+  function_alias             = "GetTrackedLinks"
+  tags                       = local.query-tags
 
-  category       = "Function"
-  display_name   = "GetTrackedLinks"
-  function_alias = "GetTrackedLinks"
-  query          = <<-EOT
-    AppEvents
-    | where
-        Properties["baseTypeSource"] == "ClickEvent" and
-        Name in (
-            %{for index, trackedEvent in var.trackedEvents~}
-            "${trackedEvent}"
-            %{if index < length(var.trackedEvents) - 1}
-            ,
-            %{endif}
-            %{endfor~}
-        )
-    | extend
-        Source = tostring(Properties["uri"]),
-        Target = tostring(Properties["targetUri"])
-    | join kind=leftouter
-        (
-        AppRequests
-        | extend
-            Urn = tostring(Properties["Urn"]),
-            CompanyNumber = tostring(Properties["CompanyNumber"]),
-            Code = tostring(Properties["Code"]),
-            Establishment = tostring(Properties["Establishment"]),
-            Feature = tostring(Properties["Feature"])
-        | where isnotempty(Establishment))
-        on $left.ParentId == $right.OperationId
-    | project
-        TimeGenerated,
-        Name,
-        Source,
-        Target,
-        OperationId,
-        UserId,
-        Establishment,
-        Feature,
-        Identifier = iff(Establishment == "school", Urn, iff(Establishment == "trust", CompanyNumber, iff(Establishment == "local-authority", Code, "")))
-  EOT
-  tags           = local.common-tags
+  query = templatefile("${path.module}/queries/functions/get-tracked-links.kql", {
+    trackedEvents = <<EOT
+      %{for index, trackedEvent in var.trackedEvents~}
+      "${trackedEvent}"
+      %{if index < length(var.trackedEvents) - 1}
+      ,
+      %{endif}
+      %{endfor~}
+    EOT
+  })
 }
 
 resource "random_uuid" "tracked-links-id" {
@@ -171,95 +89,319 @@ resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
   for_each      = local.trackedEventUuids
   name          = each.value
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    GetTrackedLinks
-    | where
-        Name == "${each.key}"
-    | project
-        TimeGenerated,
-        Source,
-        Target,
-        Establishment,
-        Feature,
-        Identifier
-  EOT
   display_name  = "Tracked Links – ${each.key}"
   description   = "Table of ${each.key} clicks"
   categories    = ["applications"]
-  tags          = local.common-tags
+  tags          = local.query-tags
+
+  body = templatefile("${path.module}/queries/tracked-links.kql", {
+    name = each.key
+  })
 }
 
+resource "random_uuid" "pipeline-runs-id" {}
+
 resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca0"
+  name          = random_uuid.pipeline-runs-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    ContainerAppConsoleLogs_CL
-    | where 
-        RevisionName_s startswith "${var.environment-prefix}-ebis-data-pipeline"
-    | where 
-        TimeGenerated between (ago(1d)..now())
-    | project 
-        TimeGenerated, 
-        ContainerId_s, 
-        Log_s
-    | order by 
-        TimeGenerated desc 
-  EOT
   display_name  = "Recent pipeline runs"
   description   = "Logs from the most recent data pipeline runs"
   categories    = ["applications"]
-  tags          = local.common-tags
+  tags          = local.query-tags
+
+  body = templatefile("${path.module}/queries/pipeline-runs.kql", {
+    name = "${var.environment-prefix}-ebis-data-pipeline"
+  })
 }
 
 resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
   name                       = "GetFeatureRequests"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetFeatureRequests"
+  function_alias             = "GetFeatureRequests"
+  tags                       = local.query-tags
 
-  category       = "Function"
-  display_name   = "GetFeatureRequests"
-  function_alias = "GetFeatureRequests"
-  query          = <<-EOT
-    AppRequests
-    | extend
-        Establishment = tostring(Properties["Establishment"]),
-        Feature = tostring(Properties["Feature"])
-    | where isnotempty(Feature)
-    | project
-        TimeGenerated,
-        Name,
-        ResultCode,
-        OperationId,
-        UserId,
-        UserAuthenticatedId,
-        Establishment,
-        Feature
-    | order by
-        TimeGenerated desc
-  EOT
-  tags           = local.common-tags
+  query = file("${path.module}/queries/functions/get-feature-requests.kql")
 }
 
-resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
-  name          = "5fd0997f-94e2-481f-a390-3ebedf324ca5"
+resource "random_uuid" "feature-requests-by-auth-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "feature-requests-by-auth" {
+  name          = random_uuid.feature-requests-by-auth-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  body          = <<-EOT
-    GetFeatureRequests
-    | where 
-        ResultCode == 200
-    | project 
-        TimeGenerated, 
-        Establishment,
-        Feature, 
-        IsAuthenticated = isnotempty(UserAuthenticatedId)
-    | summarize 
-        Count=count() by Establishment, 
-        Feature,
-        IsAuthenticated
-    | sort by 
-        Count desc
-  EOT
   display_name  = "Feature Requests"
   description   = "Table of the most popular Feature requests, split by authenticated state"
   categories    = ["applications"]
-  tags          = local.common-tags
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/feature-requests.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-sessions" {
+  name                       = "GetSessions"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSessions"
+  function_alias             = "GetSessions"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-sessions.kql")
+}
+
+resource "random_uuid" "session-count-per-day-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "session-count-per-day" {
+  name          = random_uuid.session-count-per-day-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User sessions per day"
+  description   = "Table of the number of user sessions per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/session-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-session-length" {
+  name                       = "GetSessionLength"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSessionLength"
+  function_alias             = "GetSessionLength"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-session-length.kql")
+}
+
+resource "random_uuid" "session-length-per-day-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "session-length-per-day" {
+  name          = random_uuid.session-length-per-day-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Session duration per day"
+  description   = "Table of the duration of user sessions per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/session-length-per-day.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-users" {
+  name                       = "GetUsers"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetUsers"
+  function_alias             = "GetUsers"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-users.kql")
+}
+
+resource "random_uuid" "user-count-per-day-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-count-per-day" {
+  name          = random_uuid.user-count-per-day-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Users"
+  description   = "Table of the number of users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-auth-users" {
+  name                       = "GetAuthUsers"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetAuthUsers"
+  function_alias             = "GetAuthUsers"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-auth-users.kql")
+}
+
+resource "random_uuid" "user-auth-count-per-day-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-auth-count-per-day" {
+  name          = random_uuid.user-auth-count-per-day-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Authenticated users"
+  description   = "Table of the number of authenticated users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-auth-count-per-day.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-new-users" {
+  name                       = "GetNewUsers"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetNewUsers"
+  function_alias             = "GetNewUsers"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-new-users.kql")
+}
+
+resource "random_uuid" "user-new-count-per-day-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-new-count-per-day" {
+  name          = random_uuid.user-new-count-per-day-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "New users"
+  description   = "Table of the number of new users per day"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-new-count-per-day.kql")
+}
+
+resource "random_uuid" "user-counts-table-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-counts-table" {
+  name          = random_uuid.user-counts-table-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User counts"
+  description   = "Table of the number of users"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-counts.kql")
+}
+
+resource "random_uuid" "user-sessions-table-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "user-sessions-table" {
+  name          = random_uuid.user-sessions-table-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "User sessions"
+  description   = "Table of the number of user sessions"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/user-sessions.kql")
+}
+
+resource "random_uuid" "custom-data-funnel-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "custom-data-funnel" {
+  name          = random_uuid.custom-data-funnel-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Custom Data funnel"
+  description   = "Funnel of users through Custom Data journey"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/custom-data-funnel.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-commercial-resources" {
+  name                       = "GetCommercialResources"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetCommercialResources"
+  function_alias             = "GetCommercialResources"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-commercial-resources.kql")
+}
+
+resource "random_uuid" "popular-commercial-resources-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "popular-commercial-resources" {
+  name          = random_uuid.popular-commercial-resources-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Commercial resources"
+  description   = "Table of 10 most popular commercial resources"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/popular-commercial-resources.kql")
+}
+
+resource "random_uuid" "feature-requests-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
+  name          = random_uuid.feature-requests-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Application features"
+  description   = "Application features by establishment type"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/feature-requests.kql")
+}
+
+resource "random_uuid" "weekly-active-users-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
+  name          = random_uuid.weekly-active-users-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Weekly active users"
+  description   = "Weekly active users over past 30 days"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/weekly-active-users.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
+  name                       = "GetAnonymousRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetAnonymousRequests"
+  function_alias             = "GetAnonymousRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-anon-requests.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-waf-logs" {
+  name                       = "GetWafLogs"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetWafLogs"
+  function_alias             = "GetWafLogs"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-waf-logs.kql")
+}
+
+resource "random_uuid" "waf-requests-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "waf-requests" {
+  name          = random_uuid.waf-requests-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Firewall requests"
+  description   = "Firewall request count by host, path, rule, and action"
+  categories    = ["audit"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/waf-requests.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-waf-blocked-requests" {
+  name                       = "GetWafBlockedRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetWafBlockedRequests"
+  function_alias             = "GetWafBlockedRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-waf-blocked-requests.kql")
+}
+
+resource "random_uuid" "waf-blocked-requests-per-hour-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "waf-blocked-requests-per-hour" {
+  name          = random_uuid.waf-blocked-requests-per-hour-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Firewall blocked requests"
+  description   = "Firewall blocked request count per hour"
+  categories    = ["audit"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/waf-blocked-requests-per-hour.kql")
 }

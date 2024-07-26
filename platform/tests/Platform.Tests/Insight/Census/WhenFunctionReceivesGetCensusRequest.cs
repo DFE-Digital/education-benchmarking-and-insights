@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.Insight.Census;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
@@ -18,10 +16,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .Setup(d => d.GetAsync(Urn))
             .ReturnsAsync(new CensusModel());
 
-        var result = await Functions.CensusAsync(CreateRequest(), Urn) as JsonContentResult;
+        var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Theory]
@@ -34,10 +32,14 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
 
         var query = new Dictionary<string, StringValues>
         {
-            { "category", category },
-            { "dimension", dimension }
+            {
+                "category", category
+            },
+            {
+                "dimension", dimension
+            }
         };
-        await Functions.CensusAsync(CreateRequest(query), Urn);
+        await Functions.CensusAsync(CreateHttpRequestData(query), Urn);
 
         Service.Verify();
     }
@@ -49,10 +51,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .Setup(d => d.GetAsync(Urn))
             .ReturnsAsync((CensusModel?)null);
 
-        var result = await Functions.CensusAsync(CreateRequest(), Urn) as NotFoundResult;
+        var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);
 
         Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
@@ -62,9 +64,9 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .Setup(d => d.GetAsync(Urn))
             .Throws(new Exception());
 
-        var result = await Functions.CensusAsync(CreateRequest(), Urn) as StatusCodeResult;
+        var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

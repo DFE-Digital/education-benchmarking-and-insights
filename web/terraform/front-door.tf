@@ -73,7 +73,35 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   tags                = local.common-tags
 
   sku_name = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name
-  mode     = "Detection"
+  mode     = var.configuration[var.environment].waf_mode
+
+  custom_rule {
+    name     = "blockrequestmethod"
+    action   = "Block"
+    priority = 1
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "RequestMethod"
+      operator           = "Equal"
+      negation_condition = true
+      match_values       = ["GET", "POST"]
+    }
+  }
+
+  custom_rule {
+    name     = "blockgeolocation"
+    action   = "Block"
+    priority = 2
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "SocketAddr"
+      operator           = "GeoMatch"
+      negation_condition = true
+      match_values       = ["GB"]
+    }
+  }
 
   dynamic "managed_rule" {
     for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
@@ -157,7 +185,7 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   timeout                 = 60
   enabled                 = true
   retry_enabled           = true
-  geo_locations           = ["emea-nl-ams-azr", "emea-se-sto-edge", "emea-ru-msa-edge", "emea-gb-db3-azr", "emea-fr-pra-edge"]
+  geo_locations           = ["emea-se-sto-edge", "emea-ru-msa-edge"]
 
   lifecycle {
     ignore_changes = [tags]

@@ -15,6 +15,7 @@ public class NavigationTagHelper(
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
+        await Task.CompletedTask;
         /*
         See decision log: temp remove navigation to be review post private beta
         if (ViewContext.ViewData[ViewDataKeys.HiddenNavigation] is true)

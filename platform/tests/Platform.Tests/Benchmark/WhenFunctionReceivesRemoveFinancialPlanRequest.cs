@@ -1,8 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Benchmark.FinancialPlans;
 using Xunit;
-
 namespace Platform.Tests.Benchmark;
 
 public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlansFunctionsTestBase
@@ -16,10 +15,10 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlansFunc
 
         Service.Setup(d => d.DeleteAsync(It.IsAny<string>(), It.IsAny<int>()));
 
-        var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as OkResult;
+        var result = await Functions.RemoveFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -29,9 +28,9 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlansFunc
             .Setup(d => d.DeleteAsync(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
-        var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;
+        var result = await Functions.RemoveFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

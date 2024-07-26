@@ -4,17 +4,22 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Xunit;
 using Xunit.Abstractions;
-
 namespace Web.Integration.Tests;
 
 public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
 {
-    private readonly HttpClient _http;
     private readonly IMessageSink _messageSink;
+    private HttpClient _http;
 
     protected WebAppClientBase(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)
     {
-        _http = WithWebHostBuilder(builder =>
+        _http = BuildHttpClient(authCfg);
+        _messageSink = messageSink;
+    }
+
+    private HttpClient BuildHttpClient(Action<TestAuthOptions>? authCfg = null)
+    {
+        return WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>
             {
@@ -30,8 +35,6 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
                 BaseAddress = new Uri("https://localhost"),
                 HandleCookies = true
             });
-
-        _messageSink = messageSink;
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -119,5 +122,10 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
 
         _messageSink.OnMessage(submit.ToDiagnosticMessage());
         return await _http.SendAsync(submission);
+    }
+
+    public void RebuildHttpClient(Action<TestAuthOptions>? authCfg = null)
+    {
+        _http = BuildHttpClient(authCfg);
     }
 }

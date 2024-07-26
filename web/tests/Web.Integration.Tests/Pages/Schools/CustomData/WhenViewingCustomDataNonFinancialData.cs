@@ -1,9 +1,7 @@
 ﻿using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -71,7 +69,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -87,7 +85,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -102,7 +100,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
          See decision log: temp remove navigation to be review post private beta
          var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -142,7 +140,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     {
         var (page, school) = await SetupNavigateInitPage();
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>

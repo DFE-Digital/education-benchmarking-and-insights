@@ -1,0 +1,6 @@
+GetUsers
+| summarize 
+    Count = count_distinct(UserId)
+    by bin(TimeGenerated, 1d)
+| order by 
+    TimeGenerated asc

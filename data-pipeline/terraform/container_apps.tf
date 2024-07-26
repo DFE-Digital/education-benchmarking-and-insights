@@ -7,7 +7,7 @@ resource "azurerm_container_app_environment" "main" {
   workload_profile {
     name                  = "Pipeline"
     workload_profile_type = "D4"
-    minimum_count         = var.environment == "production" ? 3 : 0
+    minimum_count         = 0
     maximum_count         = 10
   }
 
@@ -64,7 +64,7 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   template {
-    min_replicas    = var.environment == "production" ? 1 : 0
+    min_replicas    = 0
     max_replicas    = var.environment == "development" ? 1 : 10
     revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
     container {

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -29,14 +28,6 @@ public class StaticContentController : Controller
     //{
     //    return View();
     //}
-
-    [HttpGet]
-    [Route("cookies")]
-    public IActionResult Cookies()
-    {
-        ViewData[ViewDataKeys.UseJsBackLink] = true;
-        return View();
-    }
 
     // TODO: review for public beta
     //[HttpGet]

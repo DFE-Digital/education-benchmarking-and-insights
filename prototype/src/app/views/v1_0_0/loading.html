@@ -1,0 +1,35 @@
+{% extends "layouts/v1_0_0.html" %}
+
+{% block pageTitle %}
+    Generating benchmarking data - {{ data['trust-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full loading">
+            
+        <h1 class="govuk-heading-l">
+            {% if data['action'] == 'generating' and data['editSet'] != 'true' %}
+            Generating benchmarking data
+            {% else %}
+            Updating benchmarking data
+
+            {% endif %}
+        </h1>
+
+        <div class="spinner"></div>
+
+        <p class="govuk-hint">This may take a minute or two.</p>
+
+    </div>
+</div>
+
+<script>
+setTimeout(() => {
+ window.location = '{{ data['redirect'] }}'
+}, "2500");
+
+</script>
+
+{% endblock %}

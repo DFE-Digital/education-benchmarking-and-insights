@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Establishment.Schools;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Establishment;
 
 public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new School());
 
-        var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SingleSchoolAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -29,10 +27,10 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((School?)null);
 
-        var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as NotFoundResult;
+        var result = await Functions.SingleSchoolAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
@@ -42,9 +40,9 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SingleSchoolAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }
