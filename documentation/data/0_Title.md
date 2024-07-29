@@ -1,5 +1,5 @@
 ---
-title: Financial Benchmarking and Insights
+title: Financial Benchmarking and Insights Tool
 subtitle: Data documentation
 author: Department for Education
 date: 25/03/2024
