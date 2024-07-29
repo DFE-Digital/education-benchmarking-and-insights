@@ -410,9 +410,6 @@ def prepare_central_services_data(cs_path, current_year: int):
         - central_services_financial[
             "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
         ]
-        + central_services_financial[
-            "BNCH11123-BTI011-A (MAT Central services - Income)"
-        ]
     )
 
     central_services_financial.rename(
@@ -538,7 +535,6 @@ def prepare_aar_data(aar_path, current_year: int):
         aar["Income_Total grant funding"]
         + aar["Income_Total self generated funding"]
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
-        + aar["BNCH11123-BAI011-A (Academies - Income)"]
     )
 
     aar.rename(
