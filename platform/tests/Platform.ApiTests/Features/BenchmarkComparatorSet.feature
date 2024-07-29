@@ -1,68 +1,142 @@
-﻿@ignore
-Feature: Benchmark Comparator set Endpoint Testing
+﻿Feature: Benchmark Comparator set Endpoint Testing
 
-    Scenario: Create a comparator set successfully
-        Given I have a valid comparator set request of size set to '7'
-        When I submit the comparator set request
-        Then a valid comparator set of size '7' should be returned
-        Then the comparator result should be ok
+    Scenario: Getting a default comparator set's buildings successfully
+        Given I have a valid default comparator set get request for school id '990000'
+        When I submit the default comparator set request
+        Then the default comparator set result should contain comparator buildings:
+          | Urn    |  
+          | 990683 |
+          | 990545 |
+          | 990518 |
+          | 990283 |
+          | 990027 |
+          | 990716 |
+          | 990442 |
+          | 990108 |
+          | 990280 |
+          | 990626 |
+          | 990079 |
+          | 990075 |
+          | 990023 |
+          | 990362 |
+          | 990107 |
+          | 990465 |
+          | 990562 |
+          | 990059 |
+          | 990540 |
+          | 990014 |
+          | 990461 |
+          | 990072 |
+          | 990184 |
+          | 990432 |
+          | 990037 |
+          | 990534 |
+          | 990016 |
+          | 990250 |
+          | 990083 |
+          | 990576 |
+          
+    Scenario: Getting a default comparator set's pupils successfully
+        Given I have a valid default comparator set get request for school id '990000'
+        When I submit the default comparator set request
+        Then the default comparator set result should contain comparator pupils:
+          | Urn    |  
+          | 990708 |
+          | 990512 |
+          | 990257 |
+          | 990137 |
+          | 990750 |
+          | 990068 |
+          | 990062 |
+          | 990531 |
+          | 990461 |
+          | 990521 |
+          | 990407 |
+          | 990144 |
+          | 990570 |
+          | 990662 |
+          | 990601 |
+          | 990279 |
+          | 990742 |
+          | 990743 |
+          | 990333 |
+          | 990359 |
+          | 990536 |
+          | 990561 |
+          | 990386 |
+          | 990220 |
+          | 990712 |
+          | 990745 |
+          | 990351 |
+          | 990075 |
+          | 990533 |
+          | 990086 |
+    
+    # skip due to data pipeline dependency
+    @ignore  
+    Scenario: Getting a user defined comparator set's buildings successfully
+        Given I have a valid user defined comparator set get request for school id '990000' containing:
+          | Urn    |  
+          | 990683 |
+          | 990545 |
+          | 990518 |
+        When I submit the user defined comparator set request
+        Then the user defined comparator set result should contain comparator buildings:
+          | Urn    |  
+          | 990683 |
+          | 990545 |
+          | 990518 |
+          | 990000 |
 
-    Scenario: Sending a bad comparator set request
-        Given I have a invalid comparator set request
-        When I submit the comparator set request
+    Scenario: Create a user defined comparator set successfully
+        Given I have a valid user defined comparator set request for school id '990000'
+        When I submit the user defined comparator set request
+        Then the comparator result should be accepted
+
+    Scenario: Sending a bad user defined comparator set request
+        Given I have an invalid user defined comparator set request for school id '990000'
+        When I submit the user defined comparator set request
         Then the comparator result should be bad request
+        
+    Scenario: Deleting a user defined comparator set that does not exist
+        Given I have an invalid delete user defined comparator set request for school id '990000'
+        When I submit the user defined comparator set request
+        Then the comparator result should be not found
+        
+    Scenario: Getting a user defined trust comparator set successfully
+        Given I have a valid user defined comparator set get request for company number '10192252' containing:
+          | CompanyNumber |  
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the user defined trust comparator set request
+        Then the user defined trust comparator set result should contain comparators:
+          | CompanyNumber |  
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+          | 10192252      |
 
-    Scenario: sending a valid comparator set characteristics request
-        Given a valid comparator set characteristics request
-        When I submit the comparator set characteristics request
-        Then the comparator set characteristics result should be:
-          | Code                                 | Description                                                                                                    |
-          | LaCode                               | Local Authority Code                                                                                           |
-          | NumberOfPupils                       | Number of pupils                                                                                               |
-          | GenderOfPupils                       | Gender of pupils                                                                                               |
-          | SchoolPhase                          | School phase                                                                                                   |
-          | PeriodCoveredByReturn                | Period covered by return                                                                                       |
-          | SchoolOverallPhase                   | School overall phase                                                                                           |
-          | TypeofEstablishment                  | School type                                                                                                    |
-          | UrbanRural                           | Urban/rural schools                                                                                            |
-          | GovernmentOffice                     | Government office region                                                                                       |
-          | LondonBorough                        | London borough                                                                                                 |
-          | LondonWeighting                      | London weighting                                                                                               |
-          | PercentageOfEligibleFreeSchoolMeals  | Eligibility for free school meals                                                                              |
-          | PercentageOfPupilsWithStatementOfSen | Pupils with SEN who have statements or EHC plans                                                               |
-          | PercentageOfPupilsOnSenRegister      | Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans |
-          | PercentageOfPupilsWithEal            | Pupils with English as an additional language                                                                  |
-          | PercentageBoarders                   | Boarders                                                                                                       |
-          | AdmissionsPolicy                     | Admissions policy                                                                                              |
-          | Pfi                                  | Part of a private finance initiative?                                                                          |
-          | DoesTheSchoolHave6Form               | Does the school have a sixth form?                                                                             |
-          | NumberIn6Form                        | Number in sixth form                                                                                           |
-          | LowestAgePupils                      | Lowest age of pupils                                                                                           |
-          | HighestAgePupils                     | Highest age of pupils                                                                                          |
-          | PercentageQualifiedTeachers          | Percentage of teachers with qualified teacher status (full time equivalent)                                    |
-          | FullTimeTa                           | Number of teaching assistants (full time equivalent)                                                           |
-          | FullTimeOther                        | Number of non-classroom support staff – excluding auxiliary staff (full time equivalent)                       |
-          | FullTimeAux                          | Number of Auxiliary staff (Full Time Equivalent)                                                               |
-          | SchoolWorkforceFte                   | Number in the school workforce (full time equivalent)                                                          |
-          | NumberOfTeachersFte                  | Number of teachers (full time equivalent)                                                                      |
-          | SeniorLeadershipFte                  | Number in the senior leadership team (full time equivalent)                                                    |
-          | OfstedRating                         | Ofsted rating                                                                                                  |
-          | Ks2Actual                            | Key Stage 2 attainment                                                                                         |
-          | Ks2Progress                          | Key Stage 2 progress                                                                                           |
-          | AverageAttainment8                   | Average Attainment 8                                                                                           |
-          | Progress8Measure                     | Progress 8 measure                                                                                             |
-          | SpecificLearningDifficulty           | Specific learning difficulty                                                                                   |
-          | ModerateLearningDifficulty           | Moderate learning difficulty                                                                                   |
-          | SevereLearningDifficulty             | Severe learning difficulty                                                                                     |
-          | ProfLearningDifficulty               | Profound and multiple learning difficulty                                                                      |
-          | SocialHealth                         | Social, emotional and mental health                                                                            |
-          | SpeechNeeds                          | Speech, language and communications needs                                                                      |
-          | HearingImpairment                    | Hearing impairment                                                                                             |
-          | VisualImpairment                     | Visual impairment                                                                                              |
-          | MultiSensoryImpairment               | Multi-sensory impairment                                                                                       |
-          | PhysicalDisability                   | Physical disability                                                                                            |
-          | AutisticDisorder                     | Autistic spectrum disorder                                                                                     |
-          | OtherLearningDiff                    | Other learning difficulty                                                                                      |
-          | PerPupilExp                          | Expenditure per pupil                                                                                          |
-          | PerPupilGf                           | Grant funding per pupil                                                                                        |
-          | RrToIncome                           | RR to Income                                                                                                   |
+    Scenario: Create a user defined trust comparator set successfully
+        Given I have a valid user defined comparator set request for company number '10192252'
+        When I submit the user defined trust comparator set request
+        Then the trust comparator result should be accepted
+
+    Scenario: Sending a bad user defined trust comparator set request
+        Given I have an invalid user defined comparator set request for company number '10192252'
+        When I submit the user defined trust comparator set request
+        Then the trust comparator result should be bad request
+        
+    Scenario: Deleting a user defined trust comparator set that does not exist
+        Given I have an invalid delete user defined comparator set request for company number '10192252'
+        When I submit the user defined trust comparator set request
+        Then the trust comparator result should be not found
+        
+    Scenario: Deleting a user defined comparator set that does exist
+        Given I have a valid delete user defined comparator set get request for company number '10192252' containing:
+          | CompanyNumber |  
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the user defined trust comparator set request
+        Then the trust comparator result should be ok

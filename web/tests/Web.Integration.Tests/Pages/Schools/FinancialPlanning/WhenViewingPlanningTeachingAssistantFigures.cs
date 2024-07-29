@@ -6,7 +6,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -49,14 +48,16 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "AssistantsNursery",  "8"}
+                {
+                    "AssistantsNursery", "8"
+                }
             });
         });
 
@@ -72,14 +73,16 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "AssistantsNursery",  assistants }
+                {
+                    "AssistantsNursery", assistants
+                }
             });
         });
 
@@ -124,7 +127,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 

@@ -21,7 +21,7 @@ public class WhenViewingCustomDataRevert(SchoolBenchmarkingWebAppClient client) 
     public async Task CanRevert()
     {
         var (page, school) = await SetupNavigateInitPage(true);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -80,7 +80,7 @@ public class WhenViewingCustomDataRevert(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.TitleAndH1(page,
             "Change back to the original data? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Change back to the original data?");
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Remove custom data", Paths.SchoolCustomDataRevert(school.URN));
         var change = page.QuerySelector("#cancel-revert");
         DocumentAssert.Link(change, "Cancel", Paths.SchoolHome(school.URN).ToAbsolute());

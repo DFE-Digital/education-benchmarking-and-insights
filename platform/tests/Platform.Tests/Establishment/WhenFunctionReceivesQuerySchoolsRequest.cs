@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Establishment.Schools;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Establishment;
 
 public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
             .Setup(d => d.QueryAsync(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .ReturnsAsync(Array.Empty<School>());
 
-        var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
+        var result = await Functions.QuerySchoolsAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -28,9 +26,9 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
             .Setup(d => d.QueryAsync(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .Throws(new Exception());
 
-        var result = await Functions.QuerySchoolsAsync(CreateRequest()) as StatusCodeResult;
+        var result = await Functions.QuerySchoolsAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

@@ -1,0 +1,50 @@
+{% extends "layouts/v0_2_0.html" %}
+
+{% set pageName="Home" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-0">Archived version - v0.2.0</h1>
+    <p class="govuk-hint">Archived 19 March 2024</p>
+
+    <p>
+      <a href="/latest">Return to latest version</a>
+    </p>
+
+    <h2 class="govuk-heading-s">Updates</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Added characteristic-based comparator set generation</li>
+    </ul>
+
+    <h2 class="govuk-heading-m">Contents</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/start">Start page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/find-school">Find a school</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/school-homepage">School homepage</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/find-ways-to-spend-less">Find ways to spend less (commercial resources) </a></li>
+    </ul>
+
+    <h2 class="govuk-heading-s">Spending and costs</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/spending-and-costs">Overview</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/spending-and-costs/category">Category breakdown</a></li>
+    </ul>
+
+    
+    <h2 class="govuk-heading-s">Comparator set</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/comparators">Intro page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/pupil">Pupil set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/building">Building set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create">Create comparison set</a></li>
+    </ul>
+
+  </div>
+</div>
+
+{% endblock %}

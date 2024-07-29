@@ -1,0 +1,116 @@
+{% extends "layouts/v1_0_0.html" %}
+
+{% set pageName="Home" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-0">Archived version - v1.0.0 (MVP Spec)</h1>
+    <p class="govuk-hint">Archived 08 July 2024</p>
+    <p>
+      <a href="/latest">Return to latest version</a>
+    </p>
+    
+    <h2 class="govuk-heading-s">Updates</h2>
+    <p class="govuk-body">Main changes to comparator set journey:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Move away from talking about 'comparator sets'</li>
+      <li>Change to having a 'basket' rather than updating the set on every change</li>
+      <li>Added 'updating' loading screen</li>
+      <li>Iteration of labels surrounding phase/establishment/category etc</li>
+      <li>Removed district/ward options</li>
+      <li>Moved away from multiple screens to having more on one page to allow easier back-and-forth changes</li>
+      <li>Separated into default and additional characteristics</li>
+      <li>Change to previewing set before creating</li>
+      <li>Change to showing the values of the selected characteristics when previewing</li>
+      <li>New layout to show the selected characteristic values</li>
+    </ul>
+
+    <h2 class="govuk-heading-m">Contents</h2>
+
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/start">Start page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/find-school">Find a school</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/school-homepage">School homepage</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/trust-homepage">Trust homepage</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/authority-homepage">Local authority homepage</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/find-ways-to-spend-less?signIn=school">Find ways to spend less (schools) </a></li>
+      <li><a class="govuk-link" href="/{{ version }}/find-ways-to-spend-less?signIn=trust">Find ways to spend less (trusts) </a></li>
+    </ul>
+
+    <h2 class="govuk-heading-s">Spending and costs</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/spending-and-costs">Overview</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/spending-and-costs/category">Category breakdown</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/spending-and-costs/trust">Trust spending and costs</a></li>
+    </ul>
+
+    <h2 class="govuk-heading-s">Comparator set</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/comparators/view">Comparator sets</a></li>
+      <li>
+        <a class="govuk-link" href="/{{ version }}/comparators/index">Create comparison set</a>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><a class="govuk-link" href="/{{ version }}/comparators/create/by-name?editSet=false">Add by name</a></li>
+          <li><a class="govuk-link" href="/{{ version }}/comparators/create/review">View comparator set</a></li>
+        </ul>
+      </li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/reset">Reset comparator set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/view-school?signedIn=false">School comparison</a></li>
+    </ul>
+
+
+    <h2 class="govuk-heading-s">Comparator set - Add by-charecteristics</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/index">Menu page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/characteristics">Characteristics</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/preview">Preview set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/school-homepage?confirmation=comparator-generated">Confirmation</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/view">View set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/by-name?editSet=true">Manage set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/comparators/create/characteristics-post-mvp">Additional characteristics (Post-MVP?)</a></li>
+    </ul>
+
+
+    <h2 class="govuk-heading-s">Custom data</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/custom-data">Intro page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/sign-in?goTo=/{{ version }}/custom-data/financial-data">Sign-in</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/custom-data/financial-data">Financial data</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/custom-data/school-characteristics">School characteristics</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/custom-data/workforce">Workforce data</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/custom-data/custom-homepage">Custom homepage</a></li>
+    </ul>
+
+
+    <h2 class="govuk-heading-s">Trust-to-trust comparison</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/trust-homepage">Trust homepage</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts">Menu page</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts/by-name?editSet=false">Add by name</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts/characteristics">Generate from characteristics</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts/preview">Preview set</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts/compare">Trust vs trust comparison</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/compare-trusts/by-name?editSet=true">Manage set</a></li>
+    </ul>
+
+    <h2 class="govuk-heading-s">Static pages</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/{{ version }}/cookies">Cookies</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/privacy-notice">Privacy notice</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/contact-us">Contact us</a></li>
+      <li><a class="govuk-link" href="/{{ version }}/data-sources">Data sources and interpretation</a></li>
+    </ul>
+
+  </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+{% endblock %}

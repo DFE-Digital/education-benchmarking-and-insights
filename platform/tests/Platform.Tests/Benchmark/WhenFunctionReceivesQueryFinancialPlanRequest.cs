@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Benchmark.FinancialPlans;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Benchmark;
 
 public class WhenFunctionReceivesQueryFinancialPlanRequest : FinancialPlansFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesQueryFinancialPlanRequest : FinancialPlansFunct
             .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
             .ReturnsAsync(Array.Empty<FinancialPlanSummary>());
 
-        var result = await Functions.QueryFinancialPlanAsync(CreateRequest()) as JsonContentResult;
+        var result = await Functions.QueryFinancialPlanAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -28,9 +26,9 @@ public class WhenFunctionReceivesQueryFinancialPlanRequest : FinancialPlansFunct
             .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
             .Throws(new Exception());
 
-        var result = await Functions.QueryFinancialPlanAsync(CreateRequest()) as StatusCodeResult;
+        var result = await Functions.QueryFinancialPlanAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
@@ -8,11 +8,8 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AutoFixture" />
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="FluentValidation" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="Moq" />
-        <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +20,7 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+        <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
         <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
         <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
         <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj" />

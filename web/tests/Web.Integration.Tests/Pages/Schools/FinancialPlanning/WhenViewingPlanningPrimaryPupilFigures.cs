@@ -6,7 +6,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -67,7 +66,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     public async Task CanDisplayNotFoundOnSubmit(bool hasMixed)
     {
         var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, hasMixed);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -132,14 +131,16 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
 
         var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, composer);
         AssertPageLayout(page, school, plan);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { prop, value }
+                {
+                    prop, value
+                }
             });
         });
 
@@ -183,14 +184,16 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
 
         var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, composer);
         AssertPageLayout(page, school, plan);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { prop, value }
+                {
+                    prop, value
+                }
             });
         });
 

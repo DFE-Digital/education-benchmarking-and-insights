@@ -62,7 +62,7 @@ public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient c
         DocumentAssert.TitleAndH1(page,
             "Choose trusts to benchmark against - Financial Benchmarking and Insights Tool - GOV.UK",
             "Choose trusts to benchmark against");
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Choose trust", Paths.TrustComparatorsCreateByName(trust.CompanyNumber));
     }
 }

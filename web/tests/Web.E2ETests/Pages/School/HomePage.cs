@@ -4,8 +4,8 @@ namespace Web.E2ETests.Pages.School;
 
 public class HomePage(IPage page)
 {
-    private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator PageH2Headings => page.Locator($"{Selectors.H2}{Selectors.GovHeadingM}");
+    private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
+    private ILocator PageH2Headings => page.Locator($"main {Selectors.H2}{Selectors.GovHeadingM}");
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark spending" });
@@ -23,6 +23,8 @@ public class HomePage(IPage page)
 
     private ILocator ViewHistoricDataLink =>
         page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "View historic data" });
+
+    private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
     {
@@ -85,5 +87,10 @@ public class HomePage(IPage page)
     {
         await ViewHistoricDataLink.Click();
         return new HistoricDataPage(page);
+    }
+
+    public async Task CookieBannerIsDisplayed()
+    {
+        await CookieBanner.ShouldBeVisible();
     }
 }

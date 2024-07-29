@@ -2,97 +2,106 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
+using Platform.Api.Benchmark.Responses;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Benchmark.CustomData;
 
-
-[ApiExplorerSettings(GroupName = "Custom Data")]
-public class CustomDataFunctions
+public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDataService service)
 {
-    private readonly ILogger<CustomDataFunctions> _logger;
-    private readonly ICustomDataService _service;
-
-    public CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDataService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-    [FunctionName(nameof(SchoolCustomDataAsync))]
-    [ProducesResponseType(typeof(CustomDataSchool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "custom-data/school/{urn}/{identifier}")]
-        HttpRequest req,
+    [Function(nameof(SchoolCustomDataAsync))]
+    [OpenApiOperation(nameof(SchoolCustomDataAsync), "Custom Data")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CustomDataSchool))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolCustomDataAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "custom-data/school/{urn}/{identifier}")] HttpRequestData req,
         string urn,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn },
-                   { "Identifier", identifier }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "URN", urn
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var data = await _service.CustomDataSchoolAsync(urn, identifier);
+                var data = await service.CustomDataSchoolAsync(urn, identifier);
                 return data == null
-                    ? new NotFoundResult()
-                    : new JsonContentResult(data);
+                    ? req.CreateNotFoundResponse()
+                    : await req.CreateJsonResponseAsync(data);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get user defined school comparator set");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get user defined school comparator set");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(CreateSchoolCustomDataAsync))]
-    [ProducesResponseType((int)HttpStatusCode.Accepted)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> CreateSchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "custom-data/school/{urn}/{identifier}")]
-        [RequestBodyType(typeof(CustomDataRequest), "The user defined set of schools object")]
-        HttpRequest req,
-        [Queue("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-        IAsyncCollector<string> queue,
+    [Function(nameof(CreateSchoolCustomDataAsync))]
+    [OpenApiOperation(nameof(CreateSchoolCustomDataAsync), "Custom Data")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiRequestBody("application/json", typeof(CustomDataRequest), Description = "The user defined set of schools object")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<MultiResponse> CreateSchoolCustomDataAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "custom-data/school/{urn}/{identifier}")] HttpRequestData req,
         string urn,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
+        var response = new MultiResponse();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn },
-                   { "Identifier", identifier }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "URN", urn
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var body = req.ReadAsJson<CustomDataRequest>();
+                var body = await req.ReadAsJsonAsync<CustomDataRequest>();
                 var data = body.CreateData(identifier, urn);
 
-                await _service.UpsertCustomDataAsync(data);
-                await _service.UpsertUserDataAsync(CustomDataUserData.School(identifier, body.UserId, urn));
+                await service.UpsertCustomDataAsync(data);
+                await service.UpsertUserDataAsync(CustomDataUserData.School(identifier, body.UserId, urn));
 
-                var year = await _service.CurrentYearAsync();
+                var year = await service.CurrentYearAsync();
 
                 var message = new PipelineStartMessage
                 {
@@ -104,52 +113,65 @@ public class CustomDataFunctions
                     Payload = body.CreatePayload()
                 };
 
-                await queue.AddAsync(message.ToJson());
-                return new AcceptedResult();
+                response.Messages = [message.ToJson()];
+                response.HttpResponse = req.CreateResponse(HttpStatusCode.Accepted);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to upsert school custom data");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to upsert school custom data");
+                response.HttpResponse = req.CreateErrorResponse();
             }
+
+            return response;
         }
     }
 
-    [FunctionName(nameof(RemoveSchoolCustomDataAsync))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> RemoveSchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "delete",Route = "custom-data/school/{urn}/{identifier}")]
-        HttpRequest req,
+    [Function(nameof(RemoveSchoolCustomDataAsync))]
+    [OpenApiOperation(nameof(RemoveSchoolCustomDataAsync), "Custom Data")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithoutBody(HttpStatusCode.OK)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> RemoveSchoolCustomDataAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "custom-data/school/{urn}/{identifier}")] HttpRequestData req,
         string urn,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn },
-                   { "Identifier", identifier }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "URN", urn
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var data = await _service.CustomDataSchoolAsync(urn, identifier);
+                var data = await service.CustomDataSchoolAsync(urn, identifier);
                 if (data == null)
                 {
-                    return new NotFoundResult();
+                    return req.CreateNotFoundResponse();
                 }
 
-                await _service.DeleteSchoolAsync(data);
-                return new OkResult();
+                await service.DeleteSchoolAsync(data);
+                return req.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to delete school custom data");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to delete school custom data");
+                return req.CreateErrorResponse();
             }
         }
     }

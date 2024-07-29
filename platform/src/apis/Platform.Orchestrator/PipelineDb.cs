@@ -4,43 +4,42 @@ using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using Platform.Infrastructure.Sql;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.Orchestrator;
 
 public interface IPipelineDb
 {
     Task UpdateStatus(PipelineStatus status);
-    void WriteToLog(string? orchestrationId, string? message);
+    Task WriteToLog(string? orchestrationId, string? message);
 }
 
 [ExcludeFromCodeCoverage]
-public class PipelineDb : IPipelineDb
+public class PipelineDb(IDatabaseFactory dbFactory) : IPipelineDb
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public PipelineDb(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
-
     public async Task UpdateStatus(PipelineStatus status)
     {
         var sql = status.Success
             ? "UPDATE UserData SET Status = 'complete' where Id = @Id"
             : "UPDATE UserData SET Status = 'failed' where Id = @Id";
 
-        var parameters = new { status.Id };
+        var parameters = new
+        {
+            status.Id
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
         await conn.ExecuteAsync(sql, parameters, transaction);
 
         transaction.Commit();
     }
 
-    public async void WriteToLog(string? orchestrationId, string? message)
+    public async Task WriteToLog(string? orchestrationId, string? message)
     {
-        using var connection = await _dbFactory.GetConnection();
+        using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
         var newPlan = new CompletedPipelineRun

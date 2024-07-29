@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Moq;
 using Platform.Api.Establishment.LocalAuthorities;
-using Platform.Functions;
 using Xunit;
-
 namespace Platform.Tests.Establishment;
 
 public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunctionsTestBase
@@ -15,10 +13,10 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new LocalAuthority());
 
-        var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(200, result.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
@@ -28,10 +26,10 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((LocalAuthority?)null);
 
-        var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as NotFoundResult;
+        var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
     [Fact]
@@ -41,9 +39,9 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
-        Assert.Equal(500, result.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

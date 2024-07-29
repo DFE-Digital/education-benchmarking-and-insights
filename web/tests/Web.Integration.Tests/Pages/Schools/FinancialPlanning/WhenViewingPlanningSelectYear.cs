@@ -26,7 +26,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
 
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -61,7 +61,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -77,7 +77,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -128,7 +128,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Which academic year do you want to plan? - Financial Benchmarking and Insights Tool - GOV.UK", "Which academic year do you want to plan?");
 
-        var cta = page.QuerySelector(".govuk-button");
+        var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         var radios = page.QuerySelectorAll("input[type='radio']");

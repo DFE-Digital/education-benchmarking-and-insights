@@ -5,7 +5,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient client)
@@ -57,7 +56,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
 
@@ -88,19 +87,31 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "MixedAgeReceptionYear1", mixedAgeReceptionYear1.ToString() },
-                { "MixedAgeYear1Year2", mixedAgeYear1Year2.ToString() },
-                { "MixedAgeYear2Year3", mixedAgeYear2Year3.ToString() },
-                { "MixedAgeYear3Year4", mixedAgeYear3Year4.ToString() },
-                { "MixedAgeYear4Year5", mixedAgeYear4Year5.ToString() },
-                { "MixedAgeYear5Year6", mixedAgeYear5Year6.ToString() }
+                {
+                    "MixedAgeReceptionYear1", mixedAgeReceptionYear1.ToString()
+                },
+                {
+                    "MixedAgeYear1Year2", mixedAgeYear1Year2.ToString()
+                },
+                {
+                    "MixedAgeYear2Year3", mixedAgeYear2Year3.ToString()
+                },
+                {
+                    "MixedAgeYear3Year4", mixedAgeYear3Year4.ToString()
+                },
+                {
+                    "MixedAgeYear4Year5", mixedAgeYear4Year5.ToString()
+                },
+                {
+                    "MixedAgeYear5Year6", mixedAgeYear5Year6.ToString()
+                }
             });
         });
 
@@ -142,7 +153,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
+        var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
 

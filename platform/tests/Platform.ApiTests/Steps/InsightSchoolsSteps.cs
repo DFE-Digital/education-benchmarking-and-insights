@@ -1,86 +1,94 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Newtonsoft.Json.Linq;
+using Platform.Api.Insight.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+using TechTalk.SpecFlow.Assist;
 
 namespace Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightSchoolsSteps
+public class InsightSchoolsSteps(InsightApiDriver api)
 {
-    private const string SchoolFinancesKey = "get-school-finances";
-    private const string SchoolWorkforceKey = "get-school-workforce";
-    private readonly InsightApiDriver _api;
+    private const string InsightSchoolsKey = "insight-schools";
 
-    public InsightSchoolsSteps(InsightApiDriver api)
+    [Given("a valid school characteristics request with urn '(.*)'")]
+    public void GivenAValidSchoolCharacteristicsRequestWithUrn(string urn)
     {
-        _api = api;
-    }
-
-    [When("I submit the schools insights request")]
-    public async Task WhenISubmitTheSchoolsInsightsRequest()
-    {
-        await _api.Send();
-    }
-
-    [Given("a valid schools expenditure request with urn '(.*)' and '(.*)'")]
-    public void GivenAValidSchoolsExpenditureRequestWithUrnAnd(string urn1, string urn2)
-    {
-        _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
+        api.CreateRequest(InsightSchoolsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/expenditure?urns={urn1}%2c{urn2}", UriKind.Relative),
+            RequestUri = new Uri($"/api/school/{urn}/characteristics", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    [Given("a valid school expenditure request with page '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolExpenditureRequestWithPageAndUrn(string size, string urn)
+    [Given("an invalid school characteristics request with urn '(.*)'")]
+    public void GivenAnInvalidSchoolCharacteristicsRequestWithUrn(string urn)
     {
-        _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
+        api.CreateRequest(InsightSchoolsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/expenditure?urns={urn}&page={size}", UriKind.Relative),
+            RequestUri = new Uri($"/api/school/{urn}/characteristics", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    [Given("a valid school expenditure request with size '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolExpenditureRequestWithSizeAndUrn(string pageSize, string urn)
+    [Given("a valid school characteristics request with urns:")]
+    public void GivenAValidSchoolCharacteristicsRequestWithUrns(Table table)
     {
-        _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
+        var urns = GetFirstColumnsFromTableRowsAsString(table);
+        api.CreateRequest(InsightSchoolsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/expenditure?urns={urn}&pageSize={pageSize}", UriKind.Relative),
+            RequestUri = new Uri($"/api/schools/characteristics?urns={string.Join("&urns=", urns)}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    [Given("a valid schools workforce request with urn '(.*)'")]
-    public void GivenAValidSchoolsWorkforceRequestWithUrn(string urn)
+    [When("I submit the insight schools request")]
+    public async Task WhenISubmitTheInsightSchoolsRequest()
     {
-        _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/schools/workforce?urns={urn}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+        await api.Send();
     }
 
-    [Given("a valid school workforce request with page '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string page, string urn)
+    [Then("the school characteristics result should be ok and contain:")]
+    public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndContain(Table table)
     {
-        _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/schools/workforce?urns={urn}&page={page}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+        var response = api[InsightSchoolsKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<SchoolCharacteristic>();
+        table.CompareToInstance(result);
     }
 
-    [Given("a valid school workforce request with size '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string pageSize, string urn)
+    [Then("the school characteristics result should be not found")]
+    public void ThenTheSchoolCharacteristicsResultShouldBeNotFound()
     {
-        _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/schools/workforce?urns={urn}&pageSize={pageSize}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+        var response = api[InsightSchoolsKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Then("the school characteristics results should be ok and contain:")]
+    public async Task ThenTheSchoolCharacteristicsResultsShouldBeOkAndContain(Table table)
+    {
+        var response = api[InsightSchoolsKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SchoolCharacteristic[]>();
+        table.CompareToSet(results);
+    }
+
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    {
+        return table.Rows
+            .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())
+            .Where(v => !string.IsNullOrWhiteSpace(v))
+            .OfType<string>();
     }
 }

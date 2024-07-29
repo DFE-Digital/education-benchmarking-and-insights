@@ -9,5 +9,6 @@ public class SharedBrowserHooks
     public static void BeforeFeature(FeatureContext context)
     {
         context.FeatureContainer.Resolve<PageDriver>();
+        context.FeatureContainer.Resolve<PageDriverWithJavaScriptDisabled>();
     }
 }

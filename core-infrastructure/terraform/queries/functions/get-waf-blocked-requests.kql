@@ -1,0 +1,3 @@
+GetWafLogs
+| where 
+    action_s == "Block"

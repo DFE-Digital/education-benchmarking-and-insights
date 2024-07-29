@@ -1,0 +1,142 @@
+{% extends "layouts/v1_0_0.html" %}
+
+{% set pageName="Cookies" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="govuk-width-container" id="content">
+      <div class="govuk-grid-row govuk-!-margin-left-0 govuk-!-margin-right-0">
+          <main class="govuk-main-wrapper govuk-!-padding-top-0 cookies-settings" id="main-content">
+  
+          <div class="govuk-notification-banner govuk-notification-banner--success cookie-settings__confirmation" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" style="display:none">
+              <div class="govuk-notification-banner__header">
+                  <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                      Success
+                  </h2>
+              </div>
+              <div class="govuk-notification-banner__content">
+                  <p class="govuk-notification-banner__heading">
+                      You’ve set your cookie preferences. <a class="govuk-notification-banner__link">Go back to the page you were looking at</a>.
+                  </p>
+              </div>
+          </div>
+  
+          <h1 class="govuk-heading-xl page-heading">
+              Cookies
+          </h1>
+  
+          <div>
+              <p class="govuk-body">Cookies are small files saved on your phone, tablet or computer when you visit a website.</p>
+              <p class="govuk-body">We use cookies to make the Financial Bencmarking and Insights Tool work and collect information about how you use it.</p>
+          </div>
+  
+          <h2 class="govuk-heading-m govuk-!-margin-top-6">Essential cookies</h2>
+  
+          <p class="govuk-body">These essential cookies remember selections on the Financial Bencmarking and Insights Tool as well as keeping your information secure while you use the site. We do not need to ask permission to use them.</p>
+  
+          <table class="govuk-table govuk-table">
+              <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                      <th scope="col" class="govuk-table__header left">Name</th>
+                      <th scope="col" class="govuk-table__header left">Purpose</th>
+                      <th scope="col" class="govuk-table__header left">Expires</th>
+                  </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                      <td class="govuk-table__cell left">.AspNetCore.Antiforgery.RtGCWVXC8-4</td>
+                      <td class="govuk-table__cell left">Protects the service from cross-site request forgery (CSRF) attacks.</td>
+                      <td class="govuk-table__cell left">Expires at the end of your session</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell left">.AspNetCore.Session</td>
+                    <td class="govuk-table__cell left">Helps the service remember information about your session as you navigate through it.</td>
+                    <td class="govuk-table__cell left">Expires at the end of your session</td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell left">ai_session</td>
+                  <td class="govuk-table__cell left">Tracks what you do on the service during your visit.</td>
+                  <td class="govuk-table__cell left">30 minutes</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">ai_user</td>
+                <td class="govuk-table__cell left">Helps the service recognise you as a unique visitor when you return.</td>
+                <td class="govuk-table__cell left">1 year</td>
+            </tr>
+                  
+              </tbody>
+          </table>
+          
+          <!-- 
+  
+          <hr class="govuk-section-break" />
+          <h2 class="govuk-heading-m govuk-!-margin-top-6">Analytics cookies (optional)</h2>
+          <p class="govuk-body">With your permission, we use Google Analytics to collect data about how you use Schools financial benchmarking. This information helps us to improve our service.</p>
+          <p class="govuk-body">Google is not allowed to use or share our analytics data with anyone.</p>
+          <p class="govuk-body">Google Analytics stores anonymised information about:</p>
+          <ul class="govuk-list govuk-list--bullet">
+              <li>the pages you visit</li>
+              <li>how long you spend on each page</li>
+              <li>how you got to the site</li>
+              <li>what you click on while you’re visiting</li>
+          </ul>
+          <table class="govuk-table govuk-table">
+              <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                      <th scope="col" class="govuk-table__header left">Name</th>
+                      <th scope="col" class="govuk-table__header left">Purpose</th>
+                      <th scope="col" class="govuk-table__header left">Expires</th>
+                  </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                      <td class="govuk-table__cell left"></td>
+                      <td class="govuk-table__cell left"></td>
+                      <td class="govuk-table__cell left"></td>
+                  </tr>
+              </tbody>
+          </table>
+  
+      </div>
+  </div>
+  
+  <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="govuk-grid-column-two-thirds">
+          <h2 class="govuk-heading-m">Change your cookie settings</h2>
+          <form id="cookie-settings-form">
+
+              <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset">
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                          Do you want to accept analytics cookies?
+                      </legend>
+                      <div class="govuk-radios">
+                          <div class="govuk-radios__item">
+                              <input class="govuk-radios__input" id="analytics-cookies" name="usage" type="radio" value="on">
+                              <label class="govuk-label govuk-radios__label" for="analytics-cookies">
+                                  Yes
+                              </label>
+                          </div>
+                          <div class="govuk-radios__item">
+                              <input class="govuk-radios__input" id="analytics-cookies-2" name="usage" type="radio" value="off" checked="checked">
+                              <label class="govuk-label govuk-radios__label" for="analytics-cookies-2">
+                                  No
+                              </label>
+                          </div>
+                      </div>
+  
+                  </fieldset>
+              </div>
+  
+              <button class="govuk-button" data-module="govuk-button" id="cookie-settings-button">
+                  Save cookie settings
+              </button>
+          </form>
+      </div>
+      -->
+  </div>
+
+{% endblock %}

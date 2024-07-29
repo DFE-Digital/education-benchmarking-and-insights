@@ -1,0 +1,79 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+{% extends "layouts/v0_2_0.html" %}
+
+{% block pageTitle %}
+  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/" + version + "/comparators/create/phase"
+    }) }}
+{% endblock %}
+
+{% set authorityHtml %}
+
+{{ xGovukAutocomplete({
+    id: "local-authority",
+    name: "localAuthority",
+    type: "text",
+    label: {
+      text: "Local authority"
+    },
+    hint: {
+        text: "Enter a local authority name or a three-digit LA code"
+    },
+    items: rows
+  }) }}
+  
+{% endset %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form action="/{{version}}/comparators/create/characteristics" method="post">
+            <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+            {{  govukRadios({
+            name: "compareAuthority",
+            fieldset: {
+                legend: {
+                text: "Compare schools from",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [
+                {
+                    value: "all",
+                    text: "All of england",
+                    checked: checked("compareAuthority", "all")
+                },
+                {
+                    value: "localAuthority",
+                    text: "A specific local authority",
+                    checked: checked("compareAuthority", "localAuthority"),
+                    conditional: {
+                      html: authorityHtml
+                    }
+                }
+            ]
+            }) }}
+
+            {{ govukButton({
+            text: "Continue",
+            classes: "govuk-button--primary"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

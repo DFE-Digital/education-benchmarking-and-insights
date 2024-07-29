@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
+using Microsoft.Azure.Functions.Worker;
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 

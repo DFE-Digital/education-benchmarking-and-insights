@@ -1,0 +1,89 @@
+﻿@model Web.App.ViewModels.Components.CookiesViewModel
+<div class="govuk-cookie-banner" data-nosnippet role="region" aria-label="Cookies on @Constants.ServiceName" id="cookies-banner" hidden>
+    <div class="govuk-cookie-banner__message govuk-width-container" id="unselected-cookies-banner">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-cookie-banner__heading govuk-heading-m">
+                    Cookies on the @Constants.ServiceName
+                </h2>
+                <div class="govuk-cookie-banner__content">
+                    <p class="govuk-body">We use some essential cookies to make this tool work.</p>
+                    <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the tool and make improvements.</p>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button" id="accept-cookies" name="cookies-analytics" value="true">
+                Accept analytics cookies
+            </button>
+            <button type="submit" class="govuk-button" data-module="govuk-button" id="reject-cookies" name="cookies-analytics" value="false">
+                Reject analytics cookies
+            </button>
+            <a class="govuk-link" href="@Url.Action("Index", "Cookies")">View cookies</a>
+        </div>
+    </div>
+    <div class="govuk-cookie-banner__message govuk-width-container" role="alert" hidden id="accepted-cookies-banner">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-cookie-banner__content">
+                    <p class="govuk-body">You've accepted analytics cookies. You can <a class="govuk-link" href="@Url.Action("Index", "Cookies")">change your cookie settings</a> at any time.</p>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-button-group">
+            <button type="button" class="govuk-button hide-cookies" data-module="govuk-button">
+                Hide cookie message
+            </button>
+        </div>
+    </div>
+    <div class="govuk-cookie-banner__message govuk-width-container" role="alert" hidden id="rejected-cookies-banner">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-cookie-banner__content">
+                    <p class="govuk-body">You've rejected analytics cookies. You can <a class="govuk-link" href="@Url.Action("Index", "Cookies")">change your cookie settings</a> at any time.</p>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-button-group">
+            <button type="button" class="govuk-button hide-cookies" data-module="govuk-button">
+                Hide cookie message
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" add-nonce="true">
+    function acceptOrRejectClick(enabled) {
+        if (window.setAppInsightsCookieEnabled !== undefined) {
+            window.setAppInsightsCookieEnabled(enabled);
+        }
+        
+        document.cookie = `@Model.CookieName=${enabled ? "enabled" : "disabled"}; path=/; max-age=${60 * 60 * 24 * 365}; secure;`;
+        document.getElementById("unselected-cookies-banner").setAttribute("hidden", "hidden");
+        if (enabled) {
+            document.getElementById("accepted-cookies-banner").removeAttribute("hidden");
+        } else {
+            document.getElementById("rejected-cookies-banner").removeAttribute("hidden");
+            if (enabled === false) {
+                document.cookie = "ai_session=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+                document.cookie = "ai_user=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            }
+        }
+    }
+    
+    var cookiesBanner = document.getElementById("cookies-banner");
+    if (cookiesBanner !== undefined) {
+        cookiesBanner.removeAttribute("hidden");
+    
+        var acceptButton = document.getElementById("accept-cookies");
+        acceptButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(true); });
+        
+        var rejectButton = document.getElementById("reject-cookies");
+        rejectButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(false); });
+        
+        var hideCookiesButtons = document.getElementsByClassName("hide-cookies");
+        for (var i = 0; i < hideCookiesButtons.length; i++) {
+            hideCookiesButtons[i].addEventListener("click", () => cookiesBanner.setAttribute("hidden", "hidden"));
+        }
+    }
+</script>

@@ -2,90 +2,91 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
-
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.MetricRagRatings;
 
-[ApiExplorerSettings(GroupName = "Metric RAG Ratings")]
-public class MetricRagRatingsFunctions
+public class MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger<MetricRagRatingsFunctions> logger)
 {
-    private readonly ILogger<MetricRagRatingsFunctions> _logger;
-    private readonly IMetricRagRatingsService _service;
-
-    public MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger<MetricRagRatingsFunctions> logger)
-    {
-        _service = service;
-        _logger = logger;
-    }
-
-    [FunctionName(nameof(UserDefinedAsync))]
-    [ProducesResponseType(typeof(MetricRagRating[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("useCustomData", "Sets whether or not to use custom data context", DataType = typeof(bool), Required = false)]
-    [QueryStringParameter("setType", "Comparator set type", DataType = typeof(string), Required = false)]
-
-    public async Task<IActionResult> UserDefinedAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/{identifier}")] HttpRequest req,
+    [Function(nameof(UserDefinedAsync))]
+    [OpenApiOperation(nameof(UserDefinedAsync), "Metric RAG Ratings")]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiParameter("useCustomData", In = ParameterLocation.Query, Description = "Sets whether or not to use custom data context", Type = typeof(bool))]
+    [OpenApiParameter("setType", In = ParameterLocation.Query, Description = "Comparator set type", Type = typeof(string))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(MetricRagRating[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> UserDefinedAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/{identifier}")] HttpRequestData req,
         string identifier)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<MetricRagRatingParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {"Application", Constants.ApplicationName},
-                   {"CorrelationID", correlationId},
-                   {"Identifier", identifier}
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "Identifier", identifier
+                   }
                }))
         {
             try
             {
-                var result = await _service.UserDefinedAsync(identifier, queryParams.DataContext, queryParams.SetType);
-
-                return new JsonContentResult(result);
+                var result = await service.UserDefinedAsync(identifier, queryParams.DataContext, queryParams.SetType);
+                return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed get user defined metric rag ratings");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed get user defined metric rag ratings");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(QueryDefaultAsync))]
-    [ProducesResponseType(typeof(MetricRagRating[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("categories", "List of cost category", DataType = typeof(string[]), Required = false)]
-    [QueryStringParameter("statuses", "List of RAG statuses", DataType = typeof(string[]), Required = false)]
-    public async Task<IActionResult> QueryDefaultAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/default")] HttpRequest req)
+    [Function(nameof(QueryDefaultAsync))]
+    [OpenApiOperation(nameof(QueryDefaultAsync), "Metric RAG Ratings")]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]))]
+    [OpenApiParameter("statuses", In = ParameterLocation.Query, Description = "List of RAG statuses", Type = typeof(string[]))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(MetricRagRating[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> QueryDefaultAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/default")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<MetricRagRatingsParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {"Application", Constants.ApplicationName},
-                   {"CorrelationID", correlationId}
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.QueryAsync(queryParams.Schools, queryParams.Categories, queryParams.Statuses);
-                return new JsonContentResult(result);
+                var result = await service.QueryAsync(queryParams.Schools, queryParams.Categories, queryParams.Statuses);
+                return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed query metric rag ratings");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed query metric rag ratings");
+                return req.CreateErrorResponse();
             }
         }
     }

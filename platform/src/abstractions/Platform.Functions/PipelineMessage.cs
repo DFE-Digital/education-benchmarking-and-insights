@@ -1,6 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using JsonSubTypes;
 using Newtonsoft.Json;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Platform.Functions;
 
@@ -17,7 +23,7 @@ public record PipelineStartMessage
 {
     public string? JobId { get; set; } = Guid.NewGuid().ToString();
     public string? Type { get; set; } // Pipeline job type : default / comparator-set / custom-data
-    public string? RunType { get; set; }  // Data context : default / custom
+    public string? RunType { get; set; } // Data context : default / custom
     public string? RunId { get; set; } // year or id for comparator-set / custom-data
     public int? Year { get; set; } // Needed for when custom data or comparator set
     public string? URN { get; set; }
@@ -25,11 +31,11 @@ public record PipelineStartMessage
 }
 
 [JsonConverter(typeof(JsonSubtypes), "Kind")]
-public abstract record Payload
+public record Payload
 {
-    [JsonProperty("Kind")]
+    [JsonProperty(nameof(Kind))]
     public virtual string? Kind { get; }
-};
+}
 
 public record ComparatorSetPayload : Payload
 {

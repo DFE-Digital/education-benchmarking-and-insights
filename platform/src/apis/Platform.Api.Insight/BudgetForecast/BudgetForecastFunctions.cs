@@ -3,130 +3,138 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
+using Microsoft.OpenApi.Models;
+using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.BudgetForecast;
 
-[ApiExplorerSettings(GroupName = "Budget Forecast")]
-public class BudgetForecastFunctions
+public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IBudgetForecastService service)
 {
-    private readonly ILogger<BudgetForecastFunctions> _logger;
-    private readonly IBudgetForecastService _service;
-
-    public BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IBudgetForecastService service)
-    {
-        _logger = logger;
-        _service = service;
-    }
-
-    [FunctionName(nameof(BudgetForecastReturnAsync))]
-    [ProducesResponseType(typeof(BudgetForecastReturnResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("runType", "Forecast run type", "default", DataType = typeof(string))]
-    [QueryStringParameter("category", "Forecast run category", "Revenue reserve", DataType = typeof(string))]
-    [QueryStringParameter("runId", "Forecast run identifier or year", "2022", DataType = typeof(string))]
-    public async Task<IActionResult> BudgetForecastReturnAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}")]
-        HttpRequest req,
+    [Function(nameof(BudgetForecastReturnAsync))]
+    [OpenApiOperation(nameof(BudgetForecastReturnAsync), "Budget Forecast")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(ExampleBudgetForecastRunType))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunCategory))]
+    [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunId))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BudgetForecastReturnResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> BudgetForecastReturnAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BudgetForecastReturnParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var results = await _service.GetBudgetForecastReturnsAsync(
+                var results = await service.GetBudgetForecastReturnsAsync(
                     companyNumber,
                     queryParams.RunType,
                     queryParams.Category,
                     queryParams.RunId);
-                return new JsonContentResult(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(results));
+                return await req.CreateJsonResponseAsync(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(results));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get budget forecast returns");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get budget forecast returns");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(BudgetForecastReturnMetricsAsync))]
-    [ProducesResponseType(typeof(BudgetForecastReturnMetricResponse[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> BudgetForecastReturnMetricsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/metrics")]
-        HttpRequest req,
+    [Function(nameof(BudgetForecastReturnMetricsAsync))]
+    [OpenApiOperation(nameof(BudgetForecastReturnMetricsAsync), "Budget Forecast")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BudgetForecastReturnMetricResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> BudgetForecastReturnMetricsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/metrics")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var result = await _service.GetBudgetForecastReturnMetricsAsync(companyNumber, "default");
-                return new JsonContentResult(result.Select(BudgetForecastReturnsResponseFactory.Create));
+                var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, "default");
+                return await req.CreateJsonResponseAsync(result.Select(BudgetForecastReturnsResponseFactory.Create));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get budget forecast return metrics");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get budget forecast return metrics");
+                return req.CreateErrorResponse();
             }
         }
     }
 
-    [FunctionName(nameof(BudgetForecastCurrentYearAsync))]
-    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("runType", "Forecast run type", "default", DataType = typeof(string))]
-    [QueryStringParameter("category", "Forecast run category", "Revenue reserve", DataType = typeof(string))]
-    public async Task<IActionResult> BudgetForecastCurrentYearAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/current-year")]
-        HttpRequest req,
+    [Function(nameof(BudgetForecastCurrentYearAsync))]
+    [OpenApiOperation(nameof(BudgetForecastCurrentYearAsync), "Budget Forecast")]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(ExampleBudgetForecastRunType))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunCategory))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(int))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> BudgetForecastCurrentYearAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "budget-forecast/{companyNumber}/current-year")] HttpRequestData req,
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<BudgetForecastReturnParameters>();
 
-        using (_logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
                }))
         {
             try
             {
-                var year = await _service.GetBudgetForecastCurrentYearAsync(
+                var year = await service.GetBudgetForecastCurrentYearAsync(
                     companyNumber,
                     queryParams.RunType,
                     queryParams.Category);
                 if (year == null)
                 {
-                    return new NotFoundResult();
+                    return req.CreateNotFoundResponse();
                 }
 
-                return new JsonContentResult(year);
+                return await req.CreateJsonResponseAsync(year);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get budget forecast current year");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                logger.LogError(e, "Failed to get budget forecast current year");
+                return req.CreateErrorResponse();
             }
         }
     }

@@ -5,7 +5,7 @@ locals {
   }
 }
 
-resource "random_uuid" "popular-school-requests-chart-id" {}
+resource "random_uuid" "popular-school-requests-id" {}
 
 resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   name                       = "GetEstablishmentRequests"
@@ -18,41 +18,41 @@ resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   query = file("${path.module}/queries/functions/get-establishment-requests.kql")
 }
 
-resource "random_uuid" "popular-trust-requests-chart-id" {}
+resource "random_uuid" "popular-trust-requests-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "popular-school-requests-chart" {
-  name          = random_uuid.popular-school-requests-chart-id.result
+resource "azurerm_log_analytics_query_pack_query" "popular-school-requests" {
+  name          = random_uuid.popular-school-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Popular Requests – School"
-  description   = "Chart of the most popular School requests, split by feature"
+  description   = "The most popular School requests, split by feature"
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = file("${path.module}/queries/popular-school-requests-chart.kql")
+  body = file("${path.module}/queries/popular-school-requests.kql")
 }
 
-resource "random_uuid" "popular-local-authority-requests-chart-id" {}
+resource "random_uuid" "popular-local-authority-requests-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests-chart" {
-  name          = random_uuid.popular-trust-requests-chart-id.result
+resource "azurerm_log_analytics_query_pack_query" "popular-trust-requests" {
+  name          = random_uuid.popular-trust-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Popular Requests – Trust"
-  description   = "Chart of the most popular Trust requests, split by feature"
+  description   = "The most popular Trust requests, split by feature"
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = file("${path.module}/queries/popular-trust-requests-chart.kql")
+  body = file("${path.module}/queries/popular-trust-requests.kql")
 }
 
-resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-requests-chart" {
-  name          = random_uuid.popular-local-authority-requests-chart-id.result
+resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-requests" {
+  name          = random_uuid.popular-local-authority-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   tags          = local.query-tags
   display_name  = "Popular Requests – Local Authority"
-  description   = "Chart of the most popular Local Authority requests, split by feature"
+  description   = "The most popular Local Authority requests, split by feature"
   categories    = ["applications"]
 
-  body = file("${path.module}/queries/popular-local-authority-requests-chart.kql")
+  body = file("${path.module}/queries/popular-local-authority-requests.kql")
 }
 
 resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
@@ -125,10 +125,10 @@ resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
   query = file("${path.module}/queries/functions/get-feature-requests.kql")
 }
 
-resource "random_uuid" "feature-requests-id" {}
+resource "random_uuid" "feature-requests-by-auth-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
-  name          = random_uuid.feature-requests-id.result
+resource "azurerm_log_analytics_query_pack_query" "feature-requests-by-auth" {
+  name          = random_uuid.feature-requests-by-auth-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Feature Requests"
   description   = "Table of the most popular Feature requests, split by authenticated state"
@@ -321,17 +321,17 @@ resource "azurerm_log_analytics_query_pack_query" "popular-commercial-resources"
   body = file("${path.module}/queries/popular-commercial-resources.kql")
 }
 
-resource "random_uuid" "feature-requests-chart-id" {}
+resource "random_uuid" "feature-requests-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "feature-requests-chart" {
-  name          = random_uuid.feature-requests-chart-id.result
+resource "azurerm_log_analytics_query_pack_query" "feature-requests" {
+  name          = random_uuid.feature-requests-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Application features"
-  description   = "Chart of application features by establishment type"
+  description   = "Application features by establishment type"
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = file("${path.module}/queries/feature-requests-chart.kql")
+  body = file("${path.module}/queries/feature-requests.kql")
 }
 
 resource "random_uuid" "weekly-active-users-id" {}
@@ -340,10 +340,68 @@ resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
   name          = random_uuid.weekly-active-users-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "Weekly active users"
-  description   = "Chart of weekly active users over past 30 days"
+  description   = "Weekly active users over past 30 days"
   categories    = ["applications"]
   tags          = local.query-tags
 
   body = file("${path.module}/queries/weekly-active-users.kql")
 }
 
+resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
+  name                       = "GetAnonymousRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetAnonymousRequests"
+  function_alias             = "GetAnonymousRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-anon-requests.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-waf-logs" {
+  name                       = "GetWafLogs"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetWafLogs"
+  function_alias             = "GetWafLogs"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-waf-logs.kql")
+}
+
+resource "random_uuid" "waf-requests-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "waf-requests" {
+  name          = random_uuid.waf-requests-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Firewall requests"
+  description   = "Firewall request count by host, path, rule, and action"
+  categories    = ["audit"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/waf-requests.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-waf-blocked-requests" {
+  name                       = "GetWafBlockedRequests"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetWafBlockedRequests"
+  function_alias             = "GetWafBlockedRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-waf-blocked-requests.kql")
+}
+
+resource "random_uuid" "waf-blocked-requests-per-hour-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "waf-blocked-requests-per-hour" {
+  name          = random_uuid.waf-blocked-requests-per-hour-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Firewall blocked requests"
+  description   = "Firewall blocked request count per hour"
+  categories    = ["audit"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/waf-blocked-requests-per-hour.kql")
+}

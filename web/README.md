@@ -159,7 +159,12 @@ Add the following configuration in `appsetings.local.json` in the root of `Web.E
 ```json
 {
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",
-  "Headless" : true
+  "Headless": false,
+  "OutputPageResponse": true,
+  "Authentication": {
+    "Username": "<DSI_USERNAME>",
+    "Password": "<DSI_PASSWORD>"
+  }
 }
 ```
 

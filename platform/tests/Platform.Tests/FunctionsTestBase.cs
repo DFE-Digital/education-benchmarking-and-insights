@@ -1,9 +1,10 @@
 using System.IO.Pipelines;
 using System.Text;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Functions.Extensions;
-
+using Platform.Tests.Mocks;
 namespace Platform.Tests;
 
 public class FunctionsTestBase
@@ -27,10 +28,7 @@ public class FunctionsTestBase
         return reqMock.Object;
     }
 
-    protected static HttpRequest CreateRequestWithBody(object item, Dictionary<string, StringValues>? query = null)
-    {
-        return CreateRequestWithBody(item.ToJson(), query).Result;
-    }
+    protected static HttpRequest CreateRequestWithBody(object item, Dictionary<string, StringValues>? query = null) => CreateRequestWithBody(item.ToJson(), query).Result;
 
     protected static HttpRequest CreateRequest(Dictionary<string, StringValues>? query = null, Stream? body = null)
     {
@@ -49,6 +47,18 @@ public class FunctionsTestBase
         return reqMock.Object;
     }
 
+    protected static HttpRequestData CreateHttpRequestDataWithBody<T>(T item, Dictionary<string, StringValues>? query = null) where T : class
+    {
+        var reqMock = MockHttpRequestData.Create(item);
+        return reqMock;
+    }
+
+    protected static HttpRequestData CreateHttpRequestData(Dictionary<string, StringValues>? query = null)
+    {
+        var reqMock = MockHttpRequestData.Create();
+        return reqMock;
+    }
+
     public static HttpRequest CreateMultipartRequest(FormCollection formCollection)
     {
         var context = new DefaultHttpContext();
@@ -61,12 +71,9 @@ public class FunctionsTestBase
         return request;
     }
 
-    public static IFormFile CreateFormFile(string keyname, Stream stream, string contentType, string fileName)
+    public static IFormFile CreateFormFile(string keyname, Stream stream, string contentType, string fileName) => new FormFile(stream, 0, stream.Length, keyname, fileName)
     {
-        return new FormFile(stream, 0, stream.Length, keyname, fileName)
-        {
-            Headers = new HeaderDictionary(),
-            ContentType = contentType
-        };
-    }
+        Headers = new HeaderDictionary(),
+        ContentType = contentType
+    };
 }

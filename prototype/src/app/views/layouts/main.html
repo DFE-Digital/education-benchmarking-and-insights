@@ -30,9 +30,9 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
           {{ serviceName }}
         </a>
         {% if data['signedIn'] == 'true' %}
-        <a href="/sign-out" class="govuk-header__link govuk-header__service-name sign-in">Sign out</a>
+        <a href="/{{ version }}/sign-out" class="govuk-header__link govuk-header__service-name sign-in">Sign out</a>
         {% else %}
-        <a href="/sign-in?goTo=" class="govuk-header__link govuk-header__service-name sign-in">Sign in</a>
+        <a href="/{{ version }}/sign-in?goTo=" class="govuk-header__link govuk-header__service-name sign-in">Sign in</a>
 
         {% endif %}
       </div>

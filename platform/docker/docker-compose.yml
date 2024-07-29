@@ -3,8 +3,8 @@ version: '3.7'
 services:
   azurite:
     container_name: "azurite-platform"
-    image: "mcr.microsoft.com/azure-storage/azurite"
-    ports: 
+    image: "mcr.microsoft.com/azure-storage/azurite:3.31.0"
+    ports:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"

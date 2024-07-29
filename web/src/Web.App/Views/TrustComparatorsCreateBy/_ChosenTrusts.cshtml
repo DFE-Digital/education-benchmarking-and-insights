@@ -33,7 +33,17 @@
                     <br/>
                     <span class="govuk-hint">@trust.CompanyNumber</span>
                 </td>
-                <td class="govuk-table__cell">@trust.SchoolsInTrust.GetValueOrDefault().ToSimpleDisplay()</td>
+                <td class="govuk-table__cell">
+                    @trust.SchoolsInTrust.GetValueOrDefault().ToSimpleDisplay()
+                    @($"school{(trust.SchoolsInTrust == 1 ? string.Empty : "s")}")
+                    <p class="govuk-hint govuk-!-margin-top-1 govuk-!-font-size-16">
+                        @foreach (var phase in trust.Phases.Where(p => p.Count.HasValue))
+                        {
+                            <span>@phase.Count @phase.Phase?.ToLower()</span>
+                            <br/>
+                        }
+                    </p>
+                </td>
                 <td class="govuk-table__cell">@trust.TotalPupils.GetValueOrDefault().ToNumberSeparator()</td>
                 <td class="govuk-table__cell">@trust.TotalIncome?.ToCurrency(0)</td>
                 <td class="govuk-table__cell">

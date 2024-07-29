@@ -377,7 +377,7 @@
                             },
                             {
                                 "name": "PartId",
-                                "value": "${popular_school_requests_chart_id}"
+                                "value": "${popular_school_requests_id}"
                             },
                             {
                                 "name": "Version",
@@ -385,7 +385,7 @@
                             },
                             {
                                 "name": "Query",
-                                "value": "${popular_school_requests_chart_query}"
+                                "value": "${popular_school_requests_query}"
                             },
                             {
                                 "name": "ControlType",
@@ -397,7 +397,7 @@
                             },
                             {
                                 "name": "PartTitle",
-                                "value": "${popular_school_requests_chart_title}"
+                                "value": "${popular_school_requests_title}"
                             },
                             {
                                 "name": "Dimensions",
@@ -460,7 +460,7 @@
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {},
                         "partHeader": {
-                            "title": "${popular_school_requests_chart_title}",
+                            "title": "${popular_school_requests_title}",
                             "subtitle": "${environment}"
                         }
                     }
@@ -484,7 +484,7 @@
                             },
                             {
                                 "name": "PartId",
-                                "value": "${popular_trust_requests_chart_id}"
+                                "value": "${popular_trust_requests_id}"
                             },
                             {
                                 "name": "Version",
@@ -492,7 +492,7 @@
                             },
                             {
                                 "name": "Query",
-                                "value": "${popular_trust_requests_chart_query}"
+                                "value": "${popular_trust_requests_query}"
                             },
                             {
                                 "name": "ControlType",
@@ -504,7 +504,7 @@
                             },
                             {
                                 "name": "PartTitle",
-                                "value": "${popular_trust_requests_chart_title}"
+                                "value": "${popular_trust_requests_title}"
                             },
                             {
                                 "name": "Dimensions",
@@ -567,7 +567,7 @@
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {},
                         "partHeader": {
-                            "title": "${popular_trust_requests_chart_title}",
+                            "title": "${popular_trust_requests_title}",
                             "subtitle": "${environment}"
                         }
                     }
@@ -591,7 +591,7 @@
                             },
                             {
                                 "name": "PartId",
-                                "value": "${popular_local_authority_requests_chart_id}"
+                                "value": "${popular_local_authority_requests_id}"
                             },
                             {
                                 "name": "Version",
@@ -599,7 +599,7 @@
                             },
                             {
                                 "name": "Query",
-                                "value": "${popular_local_authority_requests_chart_query}"
+                                "value": "${popular_local_authority_requests_query}"
                             },
                             {
                                 "name": "ControlType",
@@ -611,7 +611,7 @@
                             },
                             {
                                 "name": "PartTitle",
-                                "value": "${popular_local_authority_requests_chart_title}"
+                                "value": "${popular_local_authority_requests_title}"
                             },
                             {
                                 "name": "Dimensions",
@@ -674,7 +674,7 @@
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {},
                         "partHeader": {
-                            "title": "${popular_local_authority_requests_chart_title}",
+                            "title": "${popular_local_authority_requests_title}",
                             "subtitle": "${environment}"
                         }
                     }
@@ -698,7 +698,7 @@
                             },
                             {
                                 "name": "PartId",
-                                "value": "${feature_requests_chart_id}"
+                                "value": "${feature_requests_id}"
                             },
                             {
                                 "name": "Version",
@@ -706,7 +706,7 @@
                             },
                             {
                                 "name": "Query",
-                                "value": "${feature_requests_chart_query}"
+                                "value": "${feature_requests_query}"
                             },
                             {
                                 "name": "ControlType",
@@ -718,7 +718,7 @@
                             },
                             {
                                 "name": "PartTitle",
-                                "value": "${feature_requests_chart_title}"
+                                "value": "${feature_requests_title}"
                             },
                             {
                                 "name": "Dimensions",
@@ -781,7 +781,7 @@
                         "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
                         "settings": {},
                         "partHeader": {
-                            "title": "${feature_requests_chart_title}",
+                            "title": "${feature_requests_title}",
                             "subtitle": "${environment}"
                         }
                     }

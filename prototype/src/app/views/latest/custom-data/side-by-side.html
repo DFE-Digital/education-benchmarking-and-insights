@@ -1,0 +1,411 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+
+{% extends "layouts/latest.html" %}
+
+{% block pageTitle %}
+  Customise your data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/" + version + "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/" + version + "/school-homepage?customData=generated"
+      },
+      {
+        text: "Customised data",
+        href: "/" + version + "/custom-data/custom-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+<div class="comparison">
+    <span class="govuk-caption-l"><a href="/{{ version }}/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <h1 class="govuk-heading-l">Side-by-side comparison</h1>
+
+    <div class="govuk-grid-row priority-figures">
+        <div class="govuk-grid-column-one-third high">
+            <div>
+                <p>
+                    <span>2</span>
+                    <span>▼</span>
+                </p>
+                <p>(was 4)</p>
+                <p>High priority costs</p>
+            </div>
+        </div>
+        <div class="govuk-grid-column-one-third medium">
+            <div>
+                <p>
+                    <span>1</span>
+                    <span>▲</span>
+                </p>
+                <p>(was 0)</p>
+                <p>Medium priority costs</p>
+            </div>
+        </div>
+        <div class="govuk-grid-column-one-third low">
+            <div>
+                <p>
+                    <span>14</span>
+                    <span>▼</span>
+                </p>
+                <p>(was 13)</p>
+                <p>Low priority costs</p>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="govuk-heading-m">Categories with changes to priority</h2>
+
+    <div class="top-categories">
+
+        <div>
+
+            {{ govukTable({
+                caption: "Teaching and teaching supply staff",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--red\">High priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£623"
+                        },
+                        {
+                            text: "82% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+
+        <div>
+
+            {{ govukTable({
+                caption: "Teaching and teaching supply staff",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--red\">High priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£623"
+                        },
+                        {
+                            text: "82% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+
+        <div>
+
+            {{ govukTable({
+                caption: "Teaching and teaching supply staff",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--red\">High priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£623"
+                        },
+                        {
+                            text: "82% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+
+    </div>
+
+
+    <h2 class="govuk-heading-m">Other categories</h2>
+
+    <div class="top-categories">
+
+        <div>
+
+            {{ govukTable({
+                caption: "Utilities",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+        <div>
+
+            {{ govukTable({
+                caption: "Utilities",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+        <div>
+
+            {{ govukTable({
+                caption: "Utilities",
+                captionClasses: "govuk-table__caption--m",
+                firstCellIsHeader: true,
+                attributes: "style=\"margin-bottom: auto\"",
+                head: [
+                    {
+
+                    },
+                    {
+                        text: "Priority"
+                    },
+                    {
+                        text: "Spend (per pupil)"
+                    },
+                    {
+                        text: "Spending is higher than"
+                    }
+                ],
+                rows: [
+                    [
+                        {
+                            text: "Original value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ],
+                    [
+                        {
+                            text: "Custom value"
+                        },
+                        {
+                            html: "<strong class=\"govuk-tag govuk-tag--yellow\">Medium priority</strong>"
+                        },
+                        {
+                            text: "£735"
+                        },
+                        {
+                            text: "92% of all benchmarked schools"
+                        }
+                    ]
+                ]
+            }) }}
+                
+        </div>
+
+    </div>
+</div>
+{% endblock %}

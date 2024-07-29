@@ -38,8 +38,16 @@ variable "subnet_id" {
 }
 
 variable "instrumentation-key" {
-  type = string
-} #
+  type     = string
+  nullable = true
+  default  = null
+}
+
+variable "instrumentation-conn-string" {
+  type     = string
+  nullable = true
+  default  = null
+}
 
 variable "location" {
   type = string
@@ -82,4 +90,24 @@ variable "sql-server-username" {
 variable "sql-server-password" {
   type      = string
   sensitive = true
+}
+
+variable "dotnet-version" {
+  type    = string
+  default = "v8.0"
+}
+
+variable "use-32-bit-worker" {
+  type    = bool
+  default = false
+}
+
+variable "worker-runtime" {
+  type    = string
+  default = "dotnet-isolated"
+}
+
+variable "use-isolated-runtime" {
+  type    = bool
+  default = true
 }
