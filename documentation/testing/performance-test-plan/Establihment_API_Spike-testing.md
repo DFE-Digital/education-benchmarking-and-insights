@@ -1,15 +1,21 @@
-﻿# API Peak Load Testing Plan
+﻿# API Spike Testing Plan
 
 ## Description
-This test simulates a gradual increase in the number of users to evaluate the system's performance at its expected peak load. The goal is to ensure that the API endpoints can handle the load without significant degradation in performance metrics.
-
+This test simulates a sudden and significant increase in the number of users to evaluate the system's performance under unexpected peak loads. The goal is to ensure that the API endpoints can handle the load without significant degradation in performance metrics.
+## Objective
+- Assess system stability under sudden and extreme load increases.
+- Identify performance bottlenecks when load spikes occur.
+- Ensure system resilience and graceful recovery after spikes.
+- Understand performance limits and capacity thresholds.
+- Improve system design based on testing insights.
+- Maintain acceptable user experience during high-load scenarios.
 ## Procedure
 
 ### Determine Capacity
-Calculate the total number of requests that each API endpoint can handle simultaneously.
+Calculate the total number of requests that each API endpoint can handle simultaneously. For spike test we will do 1/3 the number of users in 30 minutes duration.
 
-### Ramp-Up Phase
-For each endpoint, gradually increase the number of concurrent users over a ramp-up period of 5-10 seconds.
+### Spike Phase
+For each endpoint, abruptly increase the number of concurrent users to simulate a spike load.
 
 ### Monitoring Performance
 
@@ -59,7 +65,7 @@ For each endpoint, gradually increase the number of concurrent users over a ramp
 - `POST /local-authority/suggest`
 
 ### Total Peak Calls to Each Endpoint
-- `GET /school/{identifier}` 
+- `GET /school/{identifier}`
 - `GET /schools`
 - `POST /schools/suggest`
 - `GET /trust/{identifier}`
@@ -72,6 +78,6 @@ For each API endpoint, run the tests.
 ## Test Output
 
 ### Summary Report
-A summary of test report will be shared. 
+A summary of test report will be shared.
 ### Findings and recommendations
-Findings from the test run and recommendations will be shared with the wider team. 
+Findings from the test run and recommendations will be shared with the wider team.
