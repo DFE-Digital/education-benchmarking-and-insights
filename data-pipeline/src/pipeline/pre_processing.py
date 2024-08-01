@@ -864,7 +864,7 @@ def build_academy_data(
         trust_basis_data, on="Trust UPIN", how="left"
     )
 
-    central_services['Trust Balance'] = central_services['Trust Balance'] -(central_services["BNCH11000T (Revenue Income)"] - central_services["BNCH20000T (Total Costs)"])
+    
 
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
@@ -1056,6 +1056,8 @@ def build_academy_data(
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
+
+    academies['Trust Balance'] = academies['Trust Balance'] + (academies["BNCH11000T (Revenue Income)_CS"] - academies["BNCH20000T (Total Costs)_CS"])
     
     return academies.set_index("URN")
 
