@@ -42,7 +42,7 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 - **Response Time Distribution**: Verify that 95% of responses are within 1 second.
 - **Error Rate**: Maintain an error rate below 1%.
 - **CPU Utilisation**: Ensure CPU usage remains below 80%.
-- **Throughput**: Achieve a throughput of at least 50,000 requests per second.
+- **Throughput**: Achieve a throughput of at least {X} requests per second.
 
 ## APIs and Endpoints
 
