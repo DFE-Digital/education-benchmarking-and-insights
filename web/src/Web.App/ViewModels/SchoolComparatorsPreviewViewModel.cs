@@ -16,8 +16,12 @@ public class SchoolComparatorsPreviewViewModel(
     public long? ClosestSchools => closestSchools;
     public long? TotalSchools => totalSchools;
 
-    public bool AnyUniqueGroupings => AllAcademies == true || AllMaintained == true || AllNursery == true || AllPrimary == true
-                                      || AllSecondary == true || AllPupilReferralUnit == true || AllSpecial == true || AllPfi == true;
+    public bool AnyUniqueGroupings => AllAcademies == true || AllMaintained == true || AllNursery == true ||
+                                      AllPrimary == true
+                                      || AllSecondary == true || AllPupilReferralUnit == true || AllSpecial == true ||
+                                      AllPfi == true
+                                      || AllAlternativeProvision == true || AllAllThrough == true ||
+                                      AllPostSixteen == true || AllUniversityTechnicalCollege == true;
 
     public bool? AllAcademies => characteristics?.All(c => c.FinanceType == EstablishmentTypes.Academies);
     public bool? AllMaintained => characteristics?.All(c => c.FinanceType == EstablishmentTypes.Maintained);
@@ -27,6 +31,10 @@ public class SchoolComparatorsPreviewViewModel(
     public bool? AllSecondary => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.Secondary);
     public bool? AllPupilReferralUnit => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.PupilReferralUnit);
     public bool? AllSpecial => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.Special);
+    public bool? AllAlternativeProvision => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.AlternativeProvision);
+    public bool? AllAllThrough => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.AllThrough);
+    public bool? AllPostSixteen => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.PostSixteen);
+    public bool? AllUniversityTechnicalCollege => characteristics?.All(c => c.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege);
 
     public string? AllInLaName => AllLaNames?.Count() == 1 ? AllLaNames.Single() : null;
     public bool? AllPfi => characteristics?.All(c => c.IsPFISchool == true);

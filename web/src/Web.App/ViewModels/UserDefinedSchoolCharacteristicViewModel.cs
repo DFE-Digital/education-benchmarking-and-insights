@@ -17,9 +17,13 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
                 OverallPhaseTypes.Nursery => "Nursery",
                 OverallPhaseTypes.Primary => "Primary",
                 OverallPhaseTypes.Secondary => "Secondary",
-                OverallPhaseTypes.PupilReferralUnit => "Pupil referral units or alternative provision schools",
+                OverallPhaseTypes.PupilReferralUnit => "Pupil referral units",
+                OverallPhaseTypes.AlternativeProvision => "Alternative provision",
                 OverallPhaseTypes.Special => "Special",
-                _ => "University technical college"
+                OverallPhaseTypes.UniversityTechnicalCollege => "University technical college",
+                OverallPhaseTypes.PostSixteen => "Post 16",
+                OverallPhaseTypes.AllThrough => "All through",
+                _ => characteristic?.OverallPhase
             }
         ];
         LaSelection = "All";

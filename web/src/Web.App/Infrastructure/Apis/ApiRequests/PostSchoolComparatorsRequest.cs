@@ -39,8 +39,12 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
                 "Nursery" => OverallPhaseTypes.Nursery,
                 "Primary" => OverallPhaseTypes.Primary,
                 "Secondary" => OverallPhaseTypes.Secondary,
-                "Pupil referral units or alternative provision schools" => OverallPhaseTypes.PupilReferralUnit,
+                "Pupil referral units" => OverallPhaseTypes.PupilReferralUnit,
+                "Alternative provision schools" => OverallPhaseTypes.AlternativeProvision,
                 "Special" => OverallPhaseTypes.Special,
+                "University technical college" => OverallPhaseTypes.UniversityTechnicalCollege,
+                "Post 16" => OverallPhaseTypes.PostSixteen,
+                "All through" => OverallPhaseTypes.AllThrough,
                 _ => value
             })
             .ToArray())

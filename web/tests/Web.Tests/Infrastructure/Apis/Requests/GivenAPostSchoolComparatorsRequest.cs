@@ -96,10 +96,17 @@ public class GivenAPostSchoolComparatorsRequest
     })]
     [InlineData(new[]
     {
-        "Pupil referral units or alternative provision schools"
+        "Pupil referral units"
     }, new[]
     {
         "Pupil referral unit"
+    })]
+    [InlineData(new[]
+    {
+        "Alternative provision schools"
+    }, new[]
+    {
+        "Alternative Provision"
     })]
     [InlineData(new[]
     {
@@ -107,6 +114,27 @@ public class GivenAPostSchoolComparatorsRequest
     }, new[]
     {
         "Special"
+    })]
+    [InlineData(new[]
+    {
+        "University technical college"
+    }, new[]
+    {
+        "University technical college"
+    })]
+    [InlineData(new[]
+    {
+        "All through"
+    }, new[]
+    {
+        "All-through"
+    })]
+    [InlineData(new[]
+    {
+        "Post 16"
+    }, new[]
+    {
+        "Post-16"
     })]
     [InlineData(new[]
     {
