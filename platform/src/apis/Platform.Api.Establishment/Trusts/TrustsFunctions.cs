@@ -17,7 +17,7 @@ namespace Platform.Api.Establishment.Trusts;
 public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service, IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleTrustAsync))]
-    [OpenApiOperation(nameof(SingleTrustAsync), "Schools")]
+    [OpenApiOperation(nameof(SingleTrustAsync), "Trusts")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Trust))]
