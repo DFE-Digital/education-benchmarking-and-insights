@@ -4,6 +4,7 @@
 @model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparators;
+    var chosenSchool = Model.PupilSchools.FirstOrDefault(x => x.URN == Model.Urn);
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -34,7 +35,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <p class="govuk-body">We've chosen @Model.PupilSchools.Count(x => x.URN != Model.Urn) similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
+        <p class="govuk-body">We've chosen @Model.PupilSchools.Count() similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
         <h2 class="govuk-heading-m">How we chose these schools</h2>
         <p class="govuk-body">We chose these schools based on:</p>
         <ul class="govuk-list govuk-list--bullet">
@@ -57,12 +58,35 @@
             </thead>
             <tbody class="govuk-table__body">
 
+                @if (chosenSchool != null)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <strong>@chosenSchool.SchoolName</strong>
+                            <br/>
+                            <span class="govuk-hint">(Your chosen school)</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.OverallPhase
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.PercentSpecialEducationNeeds.ToPercent()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.PercentFreeSchoolMeals.ToPercent()
+                        </td>
+                    </tr>
+                }
+
                 @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
                 {
                     <tr class="govuk-table__row">
                         <td class="govuk-table__cell">
                             <strong>@school.SchoolName</strong>
-                            <br />
+                            <br/>
                             <span class="govuk-hint">@school.Address</span>
                         </td>
                         <td class="govuk-table__cell">
