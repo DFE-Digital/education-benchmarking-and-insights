@@ -56,20 +56,43 @@
         "Opens in a new window",
         "_blank",
         ["noopener", "noreferrer", "external"]).
+</p>
+
+<p class="govuk-body">
+    The period covered matches the submissions for financial returns. 
+</p>
+
+<h3 class="govuk-heading-m">Pupil data</h3>
+
+<p class="govuk-body">
+    This comes from
+    @Html.TrackedAnchor(
+        TrackedLinks.DataSource,
+        "https://www.gov.uk/government/collections/statistics-school-and-pupil-numbers",
+        "Statistics: school and pupil numbers",
+        "Opens in a new window",
+        "_blank",
+        ["noopener", "noreferrer", "external"]).
+</p>
+
+<p class="govuk-body">
     The period covered matches the submissions for financial returns.
 </p>
 
-<h3 class="govuk-heading-m">Workforce census</h3>
+<h3 class="govuk-heading-m">Workforce data</h3>
 
 <p class="govuk-body">
     This comes from the
     @Html.TrackedAnchor(
         TrackedLinks.DataSource,
         "https://www.gov.uk/government/collections/statistics-school-workforce",
-        "school workforce census",
+        "Statistics: school workforce",
         "Opens in a new window",
         "_blank",
         ["noopener", "noreferrer", "external"]).
+</p>
+
+<p class="govuk-body">
     The period covered matches the submissions for financial returns.
 </p>
 
@@ -83,7 +106,11 @@
         "Ofsted school inspections",
         "Opens in a new window",
         "_blank",
-            ["noopener", "noreferrer", "external"]). Ratings are accurate at the date the financial data was uploaded.
+        ["noopener", "noreferrer", "external"]).
+</p>
+
+<p class="govuk-body">
+    Ratings are accurate at the date the financial data was uploaded.
 </p>
 
 <h3 class="govuk-heading-m">Special educational needs data</h3>
@@ -93,7 +120,7 @@
     @Html.TrackedAnchor(
         TrackedLinks.DataSource,
         "https://www.gov.uk/government/collections/statistics-special-educational-needs-sen",
-        "special educational needs statistics",
+        "Statistics: special educational needs",
         "Opens in a new window",
         "_blank",
         ["noopener", "noreferrer", "external"]).
