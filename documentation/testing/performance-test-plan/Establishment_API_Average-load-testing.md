@@ -1,21 +1,21 @@
-﻿# API Spike Testing Plan
+﻿# API Average Load Testing Plan
 
 ## Description
-This test simulates a sudden and significant increase in the number of users to evaluate the system's performance under unexpected peak loads. The goal is to ensure that the API endpoints can handle the load without significant degradation in performance metrics.
+This test simulates typical user activity to evaluate the system's performance under expected normal loads. The goal is to ensure that the API endpoints perform efficiently and reliably during everyday usage scenarios.
 ## Objective
-- Assess system stability under sudden and extreme load increases.
-- Identify performance bottlenecks when load spikes occur.
-- Ensure system resilience and graceful recovery after spikes.
-- Understand performance limits and capacity thresholds.
+- Assess system stability under typical load conditions.
+- Identify performance bottlenecks during normal usage.
+- Ensure system reliability and responsiveness during average load.
+- Understand performance metrics and capacity thresholds under regular load.
 - Improve system design based on testing insights.
-- Maintain acceptable user experience during high-load scenarios.
+- Maintain an optimal user experience during average load scenarios.
 ## Procedure
 
 ### Determine Capacity
-Calculate the total number of requests that each API endpoint can handle simultaneously. For spike test we will do 1/3 the number of users in 30 minutes duration.
+Calculate the average number of requests that each API endpoint typically handles simultaneously. For the average load test, simulate the number of users equivalent to the expected daily usage pattern.
 
-### Spike Phase
-For each endpoint, abruptly increase the number of concurrent users to simulate a spike load.
+### Average Load Phase
+For each endpoint, simulate the typical number of concurrent users to mimic average load conditions over a period of 5 days.
 
 ### Monitoring Performance
 
@@ -29,6 +29,7 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 
 #### CPU Utilisation
 - **Definition**: The percentage of CPU resources used by the system while handling API requests.
+
 - **Measurement**: Use application insights or an operational dashboard to measure CPU utilisation during the test run.
 
 #### Throughput
@@ -37,11 +38,12 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 
 ## Success Criteria
 
+{revisit the performance success criteria} 
 ### Performance
-- **Response Time Distribution**: Verify that 95% of responses are within 1 second.
+- **Response Time Distribution**: Verify that 95% of responses are within acceptable limits for normal usage, which is within 1 second.
 - **Error Rate**: Maintain an error rate below 1%.
-- **CPU Utilisation**: Ensure CPU usage remains below 80%.
-- **Throughput**: Achieve a throughput of at least {X} requests per second.
+- **CPU Utilisation**: Ensure CPU usage remains within 45%.
+- **Throughput**: Achieve a throughput that meets the typical demands of average user activity. 
 
 ## APIs and Endpoints
 
@@ -63,7 +65,7 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 - `GET /local-authority/{identifier}`
 - `POST /local-authority/suggest`
 
-### Total Peak Calls to Each Endpoint
+### Total Average Calls to Each Endpoint
 - `GET /school/{identifier}`
 - `GET /schools`
 - `POST /schools/suggest`
@@ -72,11 +74,11 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 - `GET /local-authority/{identifier}`
 - `POST /local-authority/suggest`
 
-For each API endpoint, run the tests.
+For each API endpoint, run the tests to simulate average load conditions.
 
 ## Test Output
 
 ### Summary Report
-A summary of test report will be shared.
-### Findings and recommendations
+A summary of the test report will be shared.
+### Findings and Recommendations
 Findings from the test run and recommendations will be shared with the wider team.

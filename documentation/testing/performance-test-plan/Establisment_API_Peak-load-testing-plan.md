@@ -23,7 +23,6 @@ For each endpoint, gradually increase the number of concurrent users over a ramp
 
 #### CPU Utilisation
 - **Definition**: The percentage of CPU resources used by the system while handling API requests.
-- **Success Criteria**: Ensure CPU usage remains below 80%.
 - **Measurement**: Use application insights or an operational dashboard to measure CPU utilisation during the test run.
 
 #### Throughput
