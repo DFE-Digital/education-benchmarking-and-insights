@@ -9,23 +9,25 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
         IReadOnlyCollection<School> schools)
         : this(localAuthority)
     {
-        PrimarySchools = schools.Where(IsPrimary).OrderBy(x => x.SchoolName);
-        SecondarySchools = schools.Where(IsSecondary).OrderBy(x => x.SchoolName);
-        SpecialOrPruSchools = schools.Where(IsSpecialOrPru).OrderBy(x => x.SchoolName);
-        OtherSchools = schools.Where(IsOther).OrderBy(x => x.SchoolName);
+        GroupedSchools = schools
+            .OrderBy(x => x.SchoolName)
+            .GroupBy(x => x.OverallPhase)
+            .OrderBy(x => LaPhaseOrderMap[x.Key ?? string.Empty]);
     }
 
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
-    public IEnumerable<School> PrimarySchools { get; } = [];
-    public IEnumerable<School> SecondarySchools { get; } = [];
-    public IEnumerable<School> SpecialOrPruSchools { get; } = [];
-    public IEnumerable<School> OtherSchools { get; } = [];
+    public IEnumerable<IGrouping<string?, School>> GroupedSchools { get; } = [];
 
-    private static bool IsPrimary(School school) => school.OverallPhase is OverallPhaseTypes.Primary;
-    private static bool IsSecondary(School school) => school.OverallPhase is OverallPhaseTypes.Secondary;
-    private static bool IsSpecialOrPru(School school) => school.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit;
-    private static bool IsOther(School school) => !IsPrimary(school) && !IsSecondary(school) && !IsSpecialOrPru(school);
+    private static Dictionary<string, int> LaPhaseOrderMap => new()
+    {
+        { OverallPhaseTypes.Primary, 1 },
+        { OverallPhaseTypes.Secondary, 2 },
+        { OverallPhaseTypes.Special, 3 },
+        { OverallPhaseTypes.PupilReferralUnit, 4 },
+        { OverallPhaseTypes.Nursery, 5 },
+        { OverallPhaseTypes.AllThrough, 6 }
+    };
 }
 
 public class LocalAuthoritySchoolsSectionViewModel
