@@ -120,7 +120,7 @@ def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
         raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8"
     )
     aar = prepare_aar_data(academy_ar_data, year)
-
+    
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/aar.parquet",
@@ -206,7 +206,6 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
         cfo,
         central_services,
     )
-
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/academies.parquet",
