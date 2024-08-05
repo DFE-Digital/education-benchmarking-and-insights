@@ -1025,7 +1025,7 @@
                             },
                             {
                                 "name": "SpecificChart",
-                                "value": "Donut",
+                                "value": "UnstackedColumn",
                                 "isOptional": true
                             },
                             {
@@ -1040,7 +1040,7 @@
                                 "name": "Dimensions",
                                 "value": {
                                     "xAxis": {
-                                        "name": "Path",
+                                        "name": "RuleName",
                                         "type": "string"
                                     },
                                     "yAxis": [
@@ -1049,12 +1049,7 @@
                                             "type": "long"
                                         }
                                     ],
-                                    "splitBy": [
-                                        {
-                                            "name": "RuleName",
-                                            "type": "string"
-                                        }
-                                    ],
+                                    "splitBy": [],
                                     "aggregation": "Sum"
                                 },
                                 "isOptional": true
@@ -1062,7 +1057,7 @@
                             {
                                 "name": "LegendOptions",
                                 "value": {
-                                    "isEnabled": true,
+                                    "isEnabled": false,
                                     "position": "Bottom"
                                 },
                                 "isOptional": true
