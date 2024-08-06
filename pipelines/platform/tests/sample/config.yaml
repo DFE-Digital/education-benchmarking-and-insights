@@ -1,0 +1,24 @@
+version: v0.1
+testId: __environmentPrefix__-health-check-tests
+displayName: Health Check Tests
+description: Load test health check endpoints
+testPlan: requests.json # full example: https://learn.microsoft.com/en-us/azure/load-testing/reference-test-config-yaml#requests-json-file
+testType: URL
+engineInstances: 1
+#subnetId: /subscriptions/abcdef01-2345-6789-0abc-def012345678/resourceGroups/sample-rg/providers/Microsoft.Network/virtualNetworks/load-testing-vnet/subnets/load-testing
+#configurationFiles:
+#  - 'sampledata.csv'
+#zipArtifacts:
+#   - bigdata.zip
+#splitAllCSVs: True
+failureCriteria:
+  - avg(response_time_ms) > 300
+  - percentage(error) > 50
+#  - GetCustomerDetails: avg(latency) >200
+autoStop:
+  errorPercentage: 80
+  timeWindow: 60
+secrets:
+  - name: insight-host-key
+    value: https://__environmentPrefix__-ebis-keyvault.vault.azure.net/secrets/insight-host-key/
+#keyVaultReferenceIdentity: /subscriptions/abcdef01-2345-6789-0abc-def012345678/resourceGroups/sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sample-identity

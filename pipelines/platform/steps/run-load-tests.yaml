@@ -1,0 +1,40 @@
+parameters:
+  environmentPrefix: ''
+  subscription: ''
+  buildNumber: ''
+  
+steps:
+  - checkout: self
+
+  - script: echo "##vso[task.setvariable variable=__environmentPrefix__]${{ parameters.environmentPrefix }}"
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in load test config files'
+    inputs:
+      sources: '$(System.DefaultWorkingDirectory)/pipelines/platform/tests/**'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - script: cat '$(System.DefaultWorkingDirectory)/pipelines/platform/tests/sample/config.yaml'
+
+  - task: AzureLoadTest@1
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      loadTestConfigFile: '$(System.DefaultWorkingDirectory)/pipelines/platform/tests/sample/config.yaml'
+      loadTestResource: ${{ parameters.environmentPrefix }}-platform-load-test
+      loadTestRunName:  ${{ parameters.buildNumber }}
+      resourceGroup: ${{ parameters.environmentPrefix }}-ebis-platform
+
+  - publish: $(System.DefaultWorkingDirectory)/loadTest
+    artifact: loadTestResults
+
+  - task: AzureCLI@2
+    displayName: 'Assign app components to load tests'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptType: 'bash'
+      scriptLocation: inlineScript
+      inlineScript: |
+        SUBSCRIPTION_ID=$(az account list --query "[?isDefault].id | [0]" | sed "s/\"//g")
+        echo $SUBSCRIPTION_ID
+        az load test app-component add --test-id ${{ parameters.environmentPrefix }}-health-check-tests --load-test-resource ${{ parameters.environmentPrefix }}-platform-load-test --resource-group ${{ parameters.environmentPrefix }}-ebis-platform --app-component-name ${{ parameters.environmentPrefix }}-ebis-insight-fa --app-component-type Microsoft.Web/sites --app-component-id "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/${{ parameters.environmentPrefix }}-ebis-platform/providers/Microsoft.Web/sites/${{ parameters.environmentPrefix }}-ebis-insight-fa" --app-component-kind functionapp

@@ -143,29 +143,39 @@ stages:
     variables: 
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
-      - job: ZipStaticPlatformArtifacts
-        displayName: 'Zip static artifacts'
-        steps:
-          - template: ..\common\publish-terraform-artifacts.yaml
-            parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Platform)/terraform'
-              Module: 'platform'
+      # - job: ZipStaticPlatformArtifacts
+      #   displayName: 'Zip static artifacts'
+      #   steps:
+      #     - template: ..\common\publish-terraform-artifacts.yaml
+      #       parameters:
+      #         TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Platform)/terraform'
+      #         Module: 'platform'
 
-      - job: BuildPlatform
-        displayName: 'Platform : Build'
-        steps:
-          - template: ../platform/steps/build.yaml
-            parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
+      # - job: BuildPlatform
+      #   displayName: 'Platform : Build'
+      #   steps:
+      #     - template: ../platform/steps/build.yaml
+      #       parameters:
+      #         BuildVersion: $(Version.BuildVersion)
+      #         BuildNumber: $(Version.BuildNumber)
 
-      - template: ../platform/deployment.yaml
-        parameters:
-          subscription: $(Subscription)
-          environmentPrefix: $(environmentPrefix)
-          environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticPlatformArtifacts, BuildPlatform ]
+      # - template: ../platform/deployment.yaml
+      #   parameters:
+      #     subscription: $(Subscription)
+      #     environmentPrefix: $(environmentPrefix)
+      #     environment: $(Pipeline.Environment)
+      #     cipEnvironment: 'Dev'
+      #     dependsOn: [ ZipStaticPlatformArtifacts, BuildPlatform ]
+
+      - job: LoadTestPlatform
+        displayName: 'Platform : Load Test'
+        #dependsOn: [ PlatformDeployment ]
+        steps:
+          - template: ../platform/steps/run-load-tests.yaml
+            parameters:
+              subscription: $(Subscription)
+              environmentPrefix: $(environmentPrefix)
+              buildNumber: $(Version.BuildNumber)
 
   - stage: BuildFrontEndComponents
     dependsOn: [ BuildNumber, BuildPlatform ]

@@ -1,0 +1,31 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "health",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://__environmentPrefix__-ebis-insight-fa.azurewebsites.net/api/health",
+                    "headers": {
+                        "x-functions-key": "${insight-host-key}",
+                        "x-synthetic-source": "platform-load-tests"
+                    },
+                    "method": "GET"
+                }
+            ],
+            "csvDataSetConfigList": []
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 1,
+            "durationInSeconds": 60,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 30
+        }
+    ]
+}
