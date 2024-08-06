@@ -15,7 +15,7 @@ This test simulates typical user activity to evaluate the system's performance u
 Calculate the average number of requests that each API endpoint typically handles simultaneously. For the average load test, simulate the number of users equivalent to the expected daily usage pattern.
 
 ### Average Load Phase
-For each endpoint, simulate the typical number of concurrent users to mimic average load conditions over a period of 5 days.
+For each endpoint, simulate the typical number of concurrent users to mimic average load conditions over a period of 5 minutes. 
 
 ### Monitoring Performance
 
@@ -29,7 +29,6 @@ For each endpoint, simulate the typical number of concurrent users to mimic aver
 
 #### CPU Utilisation
 - **Definition**: The percentage of CPU resources used by the system while handling API requests.
-
 - **Measurement**: Use application insights or an operational dashboard to measure CPU utilisation during the test run.
 
 #### Throughput
@@ -38,12 +37,12 @@ For each endpoint, simulate the typical number of concurrent users to mimic aver
 
 ## Success Criteria
 
-{revisit the performance success criteria} 
+In the context of average load testing, we aim to monitor and document the system's behavior under normal user load conditions. This will help in understanding the system's performance and identifying potential areas for improvement. The following metrics will be observed. 
 ### Performance
-- **Response Time Distribution**: Verify that 95% of responses are within acceptable limits for normal usage, which is within 1 second.
-- **Error Rate**: Maintain an error rate below 1%.
-- **CPU Utilisation**: Ensure CPU usage remains within 45%.
-- **Throughput**: Achieve a throughput that meets the typical demands of average user activity. 
+- Response Time Distribution
+- Error Rate
+- CPU Utilisation
+- Throughput
 
 ## APIs and Endpoints
 
@@ -65,20 +64,22 @@ For each endpoint, simulate the typical number of concurrent users to mimic aver
 - `GET /local-authority/{identifier}`
 - `POST /local-authority/suggest`
 
+For this test, we will focus exclusively on the Schools endpoints, as the Trusts and Local Authority endpoints are identical to school. Additionally, we will not be testing the healthcheck endpoint.
 ### Total Average Calls to Each Endpoint
-- `GET /school/{identifier}`
+- `GET /school/{identifier}` 
 - `GET /schools`
 - `POST /schools/suggest`
-- `GET /trust/{identifier}`
-- `POST /trusts/suggest`
-- `GET /local-authority/{identifier}`
-- `POST /local-authority/suggest`
 
 For each API endpoint, run the tests to simulate average load conditions.
+
+## Test Execution
+For each API endpoint we will increase the requests to the total number identified earlier gradually. Starting with 20 requests, we will increase the load every 5 seconds until we reach the specified number. The system will then run for 5 minutes under that load before gradually decreasing the load in the same manner it was increased.
+
 
 ## Test Output
 
 ### Summary Report
-A summary of the test report will be shared.
+We will provide a summary of the test results, including a detailed report on the system's performance against the specified metrics.
+
 ### Findings and Recommendations
-Findings from the test run and recommendations will be shared with the wider team.
+We will share the findings from the test along with recommendations with the wider team.
