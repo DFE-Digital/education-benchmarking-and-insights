@@ -999,7 +999,7 @@ def build_academy_data(
         / academies["Total pupils in trust"].astype(float)
     )
 
-    academies["In year balance_CS"] = (
+    academies["In year balance"] = (
         academies["In year balance"] + academies["In year balance_CS"]
     )
 
@@ -1056,8 +1056,6 @@ def build_academy_data(
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
-
-    academies['Trust Balance'] = academies['Trust Balance'] + (academies["BNCH11000T (Revenue Income)_CS"] - academies["BNCH20000T (Total Costs)_CS"])
     
     return academies.set_index("URN")
 
