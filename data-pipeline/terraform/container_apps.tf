@@ -84,6 +84,16 @@ resource "azurerm_container_app" "data-pipeline" {
       }
 
       env {
+        name  = "DEAD_LETTER_QUEUE_NAME"
+        value = "data-pipeline-job-dlq"
+      }
+
+      env {
+        name  = "DEAD_LETTER_QUEUE_DEQUEUE_MAX"
+        value = "5"
+      }
+
+      env {
         name  = "RAW_DATA_CONTAINER"
         value = "raw"
       }

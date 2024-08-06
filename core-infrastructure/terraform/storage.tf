@@ -53,6 +53,11 @@ resource "azurerm_storage_queue" "pipeline-message-finished-queue" {
   storage_account_name = azurerm_storage_account.data.name
 }
 
+resource "azurerm_storage_queue" "pipeline-message-dead-letter-queue" {
+  name                 = "data-pipeline-job-dlq"
+  storage_account_name = azurerm_storage_account.data.name
+}
+
 resource "azurerm_storage_container" "pipeline-raw-data" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "raw"
