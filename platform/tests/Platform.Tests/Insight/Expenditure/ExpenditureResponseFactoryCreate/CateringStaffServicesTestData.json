@@ -1,0 +1,106 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrossCateringCosts": 1480000,
+      "CateringStaffCosts": 1670000,
+      "CateringSuppliesCosts": 1860000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrossCateringCosts": 14800,
+      "CateringStaffCosts": 16700,
+      "CateringSuppliesCosts": 18600
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrossCateringCosts": 14800,
+      "CateringStaffCosts": 16700,
+      "CateringSuppliesCosts": 18600
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrossCateringCosts": 1480,
+      "CateringStaffCosts": 1670,
+      "CateringSuppliesCosts": 1860
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrossCateringCosts": 1800000,
+      "SchoolTotalGrossCateringCosts": 1480000,
+      "CentralTotalGrossCateringCosts": 320000,
+      "CateringStaffCosts": 2000000,
+      "SchoolCateringStaffCosts": 1670000,
+      "CentralCateringStaffCosts": 330000,
+      "CateringSuppliesCosts": 2200000,
+      "SchoolCateringSuppliesCosts": 1860000,
+      "CentralCateringSuppliesCosts": 340000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrossCateringCosts": 180,
+      "SchoolTotalGrossCateringCosts": 148,
+      "CentralTotalGrossCateringCosts": 32,
+      "CateringStaffCosts": 200,
+      "SchoolCateringStaffCosts": 167,
+      "CentralCateringStaffCosts": 33,
+      "CateringSuppliesCosts": 220,
+      "SchoolCateringSuppliesCosts": 186,
+      "CentralCateringSuppliesCosts": 34
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrossCateringCosts": 90,
+      "SchoolTotalGrossCateringCosts": 74,
+      "CentralTotalGrossCateringCosts": 16,
+      "CateringStaffCosts": 100,
+      "SchoolCateringStaffCosts": 83.5,
+      "CentralCateringStaffCosts": 16.5,
+      "CateringSuppliesCosts": 110,
+      "SchoolCateringSuppliesCosts": 93,
+      "CentralCateringSuppliesCosts": 17
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrossCateringCosts": 1800,
+      "SchoolTotalGrossCateringCosts": 1480,
+      "CentralTotalGrossCateringCosts": 320,
+      "CateringStaffCosts": 2000,
+      "SchoolCateringStaffCosts": 1670,
+      "CentralCateringStaffCosts": 330,
+      "CateringSuppliesCosts": 2200,
+      "SchoolCateringSuppliesCosts": 1860,
+      "CentralCateringSuppliesCosts": 340
+    }
+  }
+]

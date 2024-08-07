@@ -1,0 +1,106 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 320000,
+      "ExaminationFeesCosts": 640000,
+      "LearningResourcesNonIctCosts": 650000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 3200,
+      "ExaminationFeesCosts": 6400,
+      "LearningResourcesNonIctCosts": 6500
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 3200,
+      "ExaminationFeesCosts": 6400,
+      "LearningResourcesNonIctCosts": 6500
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 320,
+      "ExaminationFeesCosts": 640,
+      "LearningResourcesNonIctCosts": 650
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 820000,
+      "SchoolTotalEducationalSuppliesCosts": 320000,
+      "CentralTotalEducationalSuppliesCosts": 500000,
+      "ExaminationFeesCosts": 840000,
+      "SchoolExaminationFeesCosts": 640000,
+      "CentralExaminationFeesCosts": 200000,
+      "LearningResourcesNonIctCosts": 860000,
+      "SchoolLearningResourcesNonIctCosts": 650000,
+      "CentralLearningResourcesNonIctCosts": 210000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 82,
+      "SchoolTotalEducationalSuppliesCosts": 32,
+      "CentralTotalEducationalSuppliesCosts": 50,
+      "ExaminationFeesCosts": 84,
+      "SchoolExaminationFeesCosts": 64,
+      "CentralExaminationFeesCosts": 20,
+      "LearningResourcesNonIctCosts": 86,
+      "SchoolLearningResourcesNonIctCosts": 65,
+      "CentralLearningResourcesNonIctCosts": 21
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 41,
+      "SchoolTotalEducationalSuppliesCosts": 16,
+      "CentralTotalEducationalSuppliesCosts": 25,
+      "ExaminationFeesCosts": 42,
+      "SchoolExaminationFeesCosts": 32,
+      "CentralExaminationFeesCosts": 10,
+      "LearningResourcesNonIctCosts": 43,
+      "SchoolLearningResourcesNonIctCosts": 32.5,
+      "CentralLearningResourcesNonIctCosts": 10.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 820,
+      "SchoolTotalEducationalSuppliesCosts": 320,
+      "CentralTotalEducationalSuppliesCosts": 500,
+      "ExaminationFeesCosts": 840,
+      "SchoolExaminationFeesCosts": 640,
+      "CentralExaminationFeesCosts": 200,
+      "LearningResourcesNonIctCosts": 860,
+      "SchoolLearningResourcesNonIctCosts": 650,
+      "CentralLearningResourcesNonIctCosts": 210
+    }
+  }
+]

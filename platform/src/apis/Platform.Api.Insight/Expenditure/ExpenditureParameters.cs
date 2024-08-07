@@ -1,17 +1,15 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-
 namespace Platform.Api.Insight.Expenditure;
 
 public record ExpenditureParameters : QueryParameters
 {
-    public bool ExcludeCentralServices { get; private set; }
-    public string? Category { get; private set; }
-    public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
-    public string[] Schools { get; private set; } = Array.Empty<string>();
-    public string[] Trusts { get; private set; } = Array.Empty<string>();
+    public bool ExcludeCentralServices { get; internal set; }
+    public string? Category { get; internal set; }
+    public string Dimension { get; internal set; } = ExpenditureDimensions.Actuals;
+    public string[] Schools { get; private set; } = [];
+    public string[] Trusts { get; private set; } = [];
 
     public override void SetValues(IQueryCollection query)
     {
@@ -31,6 +29,7 @@ public record ExpenditureParameters : QueryParameters
         Category = category;
         Dimension = dimension;
         Schools = query.ToStringArray("urns");
-        Trusts = query.ToStringArray("companyNumbers"); ;
+        Trusts = query.ToStringArray("companyNumbers");
+        ;
     }
 }

@@ -1,0 +1,106 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalUtilitiesCosts": 720000,
+      "EnergyCosts": 910000,
+      "WaterSewerageCosts": 1100000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalUtilitiesCosts": 7200,
+      "EnergyCosts": 9100,
+      "WaterSewerageCosts": 11000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalUtilitiesCosts": 7200,
+      "EnergyCosts": 9100,
+      "WaterSewerageCosts": 11000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalUtilitiesCosts": 58.32,
+      "EnergyCosts": 73.71,
+      "WaterSewerageCosts": 89.1
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalUtilitiesCosts": 1000000,
+      "SchoolTotalUtilitiesCosts": 720000,
+      "CentralTotalUtilitiesCosts": 280000,
+      "EnergyCosts": 1200000,
+      "SchoolEnergyCosts": 910000,
+      "CentralEnergyCosts": 290000,
+      "WaterSewerageCosts": 1400000,
+      "SchoolWaterSewerageCosts": 1100000,
+      "CentralWaterSewerageCosts": 300000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalUtilitiesCosts": 100,
+      "SchoolTotalUtilitiesCosts": 72,
+      "CentralTotalUtilitiesCosts": 28,
+      "EnergyCosts": 120,
+      "SchoolEnergyCosts": 91,
+      "CentralEnergyCosts": 29,
+      "WaterSewerageCosts": 140,
+      "SchoolWaterSewerageCosts": 110,
+      "CentralWaterSewerageCosts": 30
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalUtilitiesCosts": 50,
+      "SchoolTotalUtilitiesCosts": 36,
+      "CentralTotalUtilitiesCosts": 14,
+      "EnergyCosts": 60,
+      "SchoolEnergyCosts": 45.5,
+      "CentralEnergyCosts": 14.5,
+      "WaterSewerageCosts": 70,
+      "SchoolWaterSewerageCosts": 55,
+      "CentralWaterSewerageCosts": 15
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalUtilitiesCosts": 81,
+      "SchoolTotalUtilitiesCosts": 58.32,
+      "CentralTotalUtilitiesCosts": 22.68,
+      "EnergyCosts": 97.2,
+      "SchoolEnergyCosts": 73.71,
+      "CentralEnergyCosts": 23.49,
+      "WaterSewerageCosts": 113.41,
+      "SchoolWaterSewerageCosts": 89.1,
+      "CentralWaterSewerageCosts": 24.30
+    }
+  }
+]
