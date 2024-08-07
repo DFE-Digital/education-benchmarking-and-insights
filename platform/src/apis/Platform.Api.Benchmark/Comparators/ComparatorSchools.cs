@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics.CodeAnalysis;
 namespace Platform.Api.Benchmark.Comparators;
 
+[ExcludeFromCodeCoverage]
 public record ComparatorSchools
 {
     public long? TotalSchools { get; set; }

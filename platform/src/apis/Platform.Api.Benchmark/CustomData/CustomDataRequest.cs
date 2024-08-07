@@ -1,8 +1,9 @@
-﻿using Platform.Functions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Platform.Functions;
 using Platform.Functions.Extensions;
-
 namespace Platform.Api.Benchmark.CustomData;
 
+[ExcludeFromCodeCoverage]
 public record CustomDataRequest
 {
     public string? UserId { get; set; }
@@ -54,67 +55,61 @@ public record CustomDataRequest
     public decimal? AuxiliaryStaffFTE { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
 
-    public CustomDataPayload CreatePayload()
+    public CustomDataPayload CreatePayload() => new()
     {
-        return new CustomDataPayload
-        {
-            AdministrativeSuppliesNonEducationalCosts = AdministrativeSuppliesNonEducationalCosts,
-            CateringStaffCosts = CateringStaffCosts,
-            CateringSuppliesCosts = CateringSuppliesCosts,
-            ExaminationFeesCosts = ExaminationFeesCosts,
-            LearningResourcesNonIctCosts = LearningResourcesNonIctCosts,
-            LearningResourcesIctCosts = LearningResourcesIctCosts,
-            AdministrativeClericalStaffCosts = AdministrativeClericalStaffCosts,
-            AuditorsCosts = AuditorsCosts,
-            OtherStaffCosts = OtherStaffCosts,
-            ProfessionalServicesNonCurriculumCosts = ProfessionalServicesNonCurriculumCosts,
-            CleaningCaretakingCosts = CleaningCaretakingCosts,
-            MaintenancePremisesCosts = MaintenancePremisesCosts,
-            OtherOccupationCosts = OtherOccupationCosts,
-            PremisesStaffCosts = PremisesStaffCosts,
-            AgencySupplyTeachingStaffCosts = AgencySupplyTeachingStaffCosts,
-            EducationSupportStaffCosts = EducationSupportStaffCosts,
-            EducationalConsultancyCosts = EducationalConsultancyCosts,
-            SupplyTeachingStaffCosts = SupplyTeachingStaffCosts,
-            TeachingStaffCosts = TeachingStaffCosts,
-            EnergyCosts = EnergyCosts,
-            WaterSewerageCosts = WaterSewerageCosts,
-            DirectRevenueFinancingCosts = DirectRevenueFinancingCosts,
-            GroundsMaintenanceCosts = GroundsMaintenanceCosts,
-            IndirectEmployeeExpenses = IndirectEmployeeExpenses,
-            InterestChargesLoanBank = InterestChargesLoanBank,
-            OtherInsurancePremiumsCosts = OtherInsurancePremiumsCosts,
-            PrivateFinanceInitiativeCharges = PrivateFinanceInitiativeCharges,
-            RentRatesCosts = RentRatesCosts,
-            SpecialFacilitiesCosts = SpecialFacilitiesCosts,
-            StaffDevelopmentTrainingCosts = StaffDevelopmentTrainingCosts,
-            StaffRelatedInsuranceCosts = StaffRelatedInsuranceCosts,
-            SupplyTeacherInsurableCosts = SupplyTeacherInsurableCosts,
-            TotalIncome = TotalIncome,
-            TotalExpenditure = TotalExpenditure,
-            RevenueReserve = RevenueReserve,
-            TotalPupils = TotalPupils,
-            PercentFreeSchoolMeals = PercentFreeSchoolMeals,
-            PercentSpecialEducationNeeds = PercentSpecialEducationNeeds,
-            TotalInternalFloorArea = TotalInternalFloorArea,
-            WorkforceFTE = WorkforceFTE,
-            TeachersFTE = TeachersFTE,
-            PercentTeacherWithQualifiedStatus = PercentTeacherWithQualifiedStatus,
-            SeniorLeadershipFTE = SeniorLeadershipFTE,
-            TeachingAssistantFTE = TeachingAssistantFTE,
-            NonClassroomSupportStaffFTE = NonClassroomSupportStaffFTE,
-            AuxiliaryStaffFTE = AuxiliaryStaffFTE,
-            WorkforceHeadcount = WorkforceHeadcount
-        };
-    }
+        AdministrativeSuppliesNonEducationalCosts = AdministrativeSuppliesNonEducationalCosts,
+        CateringStaffCosts = CateringStaffCosts,
+        CateringSuppliesCosts = CateringSuppliesCosts,
+        ExaminationFeesCosts = ExaminationFeesCosts,
+        LearningResourcesNonIctCosts = LearningResourcesNonIctCosts,
+        LearningResourcesIctCosts = LearningResourcesIctCosts,
+        AdministrativeClericalStaffCosts = AdministrativeClericalStaffCosts,
+        AuditorsCosts = AuditorsCosts,
+        OtherStaffCosts = OtherStaffCosts,
+        ProfessionalServicesNonCurriculumCosts = ProfessionalServicesNonCurriculumCosts,
+        CleaningCaretakingCosts = CleaningCaretakingCosts,
+        MaintenancePremisesCosts = MaintenancePremisesCosts,
+        OtherOccupationCosts = OtherOccupationCosts,
+        PremisesStaffCosts = PremisesStaffCosts,
+        AgencySupplyTeachingStaffCosts = AgencySupplyTeachingStaffCosts,
+        EducationSupportStaffCosts = EducationSupportStaffCosts,
+        EducationalConsultancyCosts = EducationalConsultancyCosts,
+        SupplyTeachingStaffCosts = SupplyTeachingStaffCosts,
+        TeachingStaffCosts = TeachingStaffCosts,
+        EnergyCosts = EnergyCosts,
+        WaterSewerageCosts = WaterSewerageCosts,
+        DirectRevenueFinancingCosts = DirectRevenueFinancingCosts,
+        GroundsMaintenanceCosts = GroundsMaintenanceCosts,
+        IndirectEmployeeExpenses = IndirectEmployeeExpenses,
+        InterestChargesLoanBank = InterestChargesLoanBank,
+        OtherInsurancePremiumsCosts = OtherInsurancePremiumsCosts,
+        PrivateFinanceInitiativeCharges = PrivateFinanceInitiativeCharges,
+        RentRatesCosts = RentRatesCosts,
+        SpecialFacilitiesCosts = SpecialFacilitiesCosts,
+        StaffDevelopmentTrainingCosts = StaffDevelopmentTrainingCosts,
+        StaffRelatedInsuranceCosts = StaffRelatedInsuranceCosts,
+        SupplyTeacherInsurableCosts = SupplyTeacherInsurableCosts,
+        TotalIncome = TotalIncome,
+        TotalExpenditure = TotalExpenditure,
+        RevenueReserve = RevenueReserve,
+        TotalPupils = TotalPupils,
+        PercentFreeSchoolMeals = PercentFreeSchoolMeals,
+        PercentSpecialEducationNeeds = PercentSpecialEducationNeeds,
+        TotalInternalFloorArea = TotalInternalFloorArea,
+        WorkforceFTE = WorkforceFTE,
+        TeachersFTE = TeachersFTE,
+        PercentTeacherWithQualifiedStatus = PercentTeacherWithQualifiedStatus,
+        SeniorLeadershipFTE = SeniorLeadershipFTE,
+        TeachingAssistantFTE = TeachingAssistantFTE,
+        NonClassroomSupportStaffFTE = NonClassroomSupportStaffFTE,
+        AuxiliaryStaffFTE = AuxiliaryStaffFTE,
+        WorkforceHeadcount = WorkforceHeadcount
+    };
 
-    public CustomDataSchool CreateData(string identifier, string urn)
+    public CustomDataSchool CreateData(string identifier, string urn) => new()
     {
-        return new CustomDataSchool
-        {
-            Id = identifier,
-            URN = urn,
-            Data = this.ToJson()
-        };
-    }
+        Id = identifier,
+        URN = urn,
+        Data = this.ToJson()
+    };
 }

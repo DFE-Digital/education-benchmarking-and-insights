@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 namespace Platform.Api.Insight.BudgetForecast;
 
@@ -69,6 +70,7 @@ public static class BudgetForecastReturnsResponseFactory
     }
 }
 
+[ExcludeFromCodeCoverage]
 public record BudgetForecastReturnResponse
 {
     public string? RunType { get; set; }
@@ -94,6 +96,7 @@ public record BudgetForecastReturnResponse
     };
 }
 
+[ExcludeFromCodeCoverage]
 public record BudgetForecastReturnMetricResponse
 {
     public string? RunType { get; set; }

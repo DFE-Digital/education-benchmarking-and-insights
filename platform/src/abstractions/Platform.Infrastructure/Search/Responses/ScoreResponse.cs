@@ -1,5 +1,7 @@
-﻿namespace Platform.Infrastructure.Search;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public record ScoreResponse<T>
 {
     public double? Score { get; set; }

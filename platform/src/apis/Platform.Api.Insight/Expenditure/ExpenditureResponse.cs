@@ -1,4 +1,5 @@
-﻿namespace Platform.Api.Insight.Expenditure;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Expenditure;
 
 public static class ExpenditureResponseFactory
 {
@@ -306,19 +307,13 @@ public static class ExpenditureResponseFactory
         return CalculateValue(value, model.TotalInternalFloorArea, totalIncome, totalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcPupilAmount(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
-    {
-        return parameters.ExcludeCentralServices
-            ? null
-            : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
-    }
+    private static decimal? CalcPupilAmount(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters) => parameters.ExcludeCentralServices
+        ? null
+        : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
 
-    private static decimal? CalcBuildingAmount(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
-    {
-        return parameters.ExcludeCentralServices
-            ? null
-            : CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
-    }
+    private static decimal? CalcBuildingAmount(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters) => parameters.ExcludeCentralServices
+        ? null
+        : CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
         decimal? totalExpenditure, string dimension)
@@ -339,6 +334,7 @@ public static class ExpenditureResponseFactory
     }
 }
 
+[ExcludeFromCodeCoverage]
 public abstract record ExpenditureBaseResponse
 {
     public decimal? SchoolTotalExpenditure { get; set; }
@@ -471,6 +467,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? CommunityFocusedSchoolCosts { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolExpenditureResponse : ExpenditureBaseResponse
 {
     public string? URN { get; set; }
@@ -481,12 +478,14 @@ public record SchoolExpenditureResponse : ExpenditureBaseResponse
     public decimal? TotalInternalFloorArea { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustExpenditureResponse : ExpenditureBaseResponse
 {
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolExpenditureHistoryResponse : ExpenditureBaseResponse
 {
     public string? URN { get; set; }
@@ -494,6 +493,7 @@ public record SchoolExpenditureHistoryResponse : ExpenditureBaseResponse
     public string? Term => Year != null ? $"{Year - 1} to {Year}" : null;
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustExpenditureHistoryResponse : ExpenditureBaseResponse
 {
     public string? CompanyNumber { get; set; }

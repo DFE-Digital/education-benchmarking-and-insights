@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Platform.Functions.Extensions;
@@ -6,6 +7,7 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight.Trusts;
 
+[ExcludeFromCodeCoverage]
 public record TrustCharacteristic
 {
     public string? CompanyNumber { get; set; }
@@ -30,6 +32,7 @@ public record TrustCharacteristic
             }).ToArray();
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustPhase
 {
     public string? Phase { get; set; }

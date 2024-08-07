@@ -20,15 +20,8 @@ public interface IBudgetForecastService
         string category);
 }
 
-public class BudgetForecastService : IBudgetForecastService
+public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecastService
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public BudgetForecastService(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
-
     public async Task<IEnumerable<BudgetForecastReturnModel>> GetBudgetForecastReturnsAsync(
         string companyNumber,
         string runType,
@@ -53,7 +46,7 @@ public class BudgetForecastService : IBudgetForecastService
             });
         }
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<BudgetForecastReturnModel>(template.RawSql, template.Parameters);
     }
 
@@ -68,7 +61,7 @@ public class BudgetForecastService : IBudgetForecastService
             RunType = runType
         };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters);
     }
 
@@ -88,7 +81,7 @@ public class BudgetForecastService : IBudgetForecastService
             Category = category
         };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.ExecuteScalarAsync<int?>(sql, parameters);
     }
 }

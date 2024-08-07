@@ -1,8 +1,10 @@
-﻿using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 using Newtonsoft.Json.Serialization;
 namespace Platform.Functions.OpenApi;
 
+[ExcludeFromCodeCoverage]
 public class ExampleYear : OpenApiExample<int>
 {
     public override IOpenApiExample<int> Build(NamingStrategy namingStrategy = null!)

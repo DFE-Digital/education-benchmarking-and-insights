@@ -1,7 +1,8 @@
 using System;
-
+using System.Diagnostics.CodeAnalysis;
 namespace Platform.Api.Benchmark.Comparators;
 
+[ExcludeFromCodeCoverage]
 public record ComparatorTrust
 {
     public string? CompanyNumber { get; set; }

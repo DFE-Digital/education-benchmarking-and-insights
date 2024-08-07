@@ -1,5 +1,7 @@
-﻿namespace Platform.Api.Insight.Census;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Census;
 
+[ExcludeFromCodeCoverage]
 public abstract record CensusBaseModel
 {
     public string? URN { get; set; }
@@ -19,6 +21,7 @@ public abstract record CensusBaseModel
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CensusModel : CensusBaseModel
 {
     public string? SchoolName { get; set; }
@@ -26,8 +29,8 @@ public record CensusModel : CensusBaseModel
     public string? LAName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CensusHistoryModel : CensusBaseModel
 {
     public int? Year { get; set; }
 }
-

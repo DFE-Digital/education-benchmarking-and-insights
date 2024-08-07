@@ -1,6 +1,7 @@
-﻿namespace Platform.Api.Insight.Expenditure;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Expenditure;
 
-
+[ExcludeFromCodeCoverage]
 public abstract record ExpenditureBaseModel
 {
     public decimal? TotalPupils { get; set; }
@@ -96,6 +97,7 @@ public abstract record ExpenditureBaseModel
     public decimal? CommunityFocusedSchoolCostsCS { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolExpenditureModel : ExpenditureBaseModel
 {
     public string? URN { get; set; }
@@ -104,18 +106,21 @@ public record SchoolExpenditureModel : ExpenditureBaseModel
     public string? LAName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolExpenditureHistoryModel : ExpenditureBaseModel
 {
     public string? URN { get; set; }
     public int? Year { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustExpenditureModel : ExpenditureBaseModel
 {
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustExpenditureHistoryModel : ExpenditureBaseModel
 {
     public string? CompanyNumber { get; set; }

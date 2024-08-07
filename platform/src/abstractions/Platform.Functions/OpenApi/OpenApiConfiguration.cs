@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.OpenApi.Models;
 namespace Platform.Functions.OpenApi;
 
+[ExcludeFromCodeCoverage]
 public static class OpenApiConfiguration
 {
     public static OpenApiInfo GetOpenApiInfo(FileVersionInfo fileVersion) => new()
