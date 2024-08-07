@@ -38,41 +38,161 @@ For each endpoint, abruptly increase the number of concurrent users to simulate 
 ## Success Criteria
 
 ### Performance
-- **Response Time Distribution**: Verify that 95% of responses are within 1 second.
+
+- **Response Time Distribution**: Verify that 95% of responses are within 600 ms.
 - **Error Rate**: Maintain an error rate below 1%.
 - **CPU Utilisation**: Ensure CPU usage remains below 80%.
-- **Throughput**: Achieve a throughput of at least {X} requests per second.
+- **Throughput**: get insights from average load test to compute the throughput.
 
 ## APIs and Endpoints
 
-### Api.Establishment
+| Category              | API Endpoint                                                             |
+|-----------------------|--------------------------------------------------------------------------|
+| **API Establishment** |                                                                          |
+| Health Check          | `GET /health`                                                            |
+| Trusts                | `GET /trust/{identifier}`                                                |
+|                       | `POST /trusts/suggest`                                                   |
+| Schools               | `GET /school/{identifier}`                                               |
+|                       | `GET /schools`                                                           |
+|                       | `POST /schools/suggest`                                                  |
+| Local Authorities     | `GET /local-authority/{identifier}`                                      |
+|                       | `POST /local-authorities/suggest`                                        |
+| **API Benchmark**     |                                                                          |
+| Health Check          | `GET /health`                                                            |
+| User Data             | `GET /user-data`                                                         |
+| Financial Plans       | `GET /financial-plan/{urn}/{year}`                                       |
+|                       | `PUT /financial-plan/{urn}/{year}`                                       |
+|                       | `DELETE /financial-plan/{urn}/{year}`                                    |
+|                       | `GET /financial-plan/{urn}/{year}/deployment`                            |
+|                       | `GET /financial-plans`                                                   |
+| Custom Data           | `GET /custom-data/school/{urn}/{identifier}`                             |
+|                       | `PUT /custom-data/school/{urn}/{identifier}`                             |
+|                       | `DELETE /custom-data/school/{urn}/{identifier}`                          |
+| Comparator Sets       | `GET /comparator-set/school/{urn}/default`                               |
+|                       | `GET /comparator-set/school/{urn}/custom/{identifier}`                   |
+|                       | `GET /comparator-set/school/{urn}/user-defined/{identifier}`             |
+|                       | `PUT /comparator-set/school/{urn}/user-defined/{identifier}`             |
+|                       | `DELETE /comparator-set/school/{urn}/user-defined/{identifier}`          |
+|                       | `GET /comparator-set/trust/{companyNumber}/user-defined/{identifier}`    |
+|                       | `PUT /comparator-set/trust/{companyNumber}/user-defined/{identifier}`    |
+|                       | `DELETE /comparator-set/trust/{companyNumber}/user-defined/{identifier}` |
+| Comparators           | `POST /comparators/schools`                                              |
+|                       | `POST /comparators/trusts`                                               |
+| **API Insight**       |                                                                          |
+| Common                | `GET /current-return-years`                                              |
+| Health Check          | `GET /health`                                                            |
+| Trust                 | `GET /trusts/characteristics`                                            |
+| Schools               | `GET /school/{urn}/characteristics`                                      |
+|                       | `GET /schools/characteristics`                                           |
+| Metric RAG Ratings    | `GET /metric-rag/{identifier}`                                           |
+|                       | `GET /metric-rag/default`                                                |
+| Income                | `GET /income/categories`                                                 |
+|                       | `GET /income/dimensions`                                                 |
+|                       | `GET /income/school/{urn}`                                               |
+|                       | `GET /income/trust/{companyNumber}`                                      |
+|                       | `GET /income/school/{urn}/history`                                       |
+|                       | `GET /income/trust/{companyNumber}/history`                              |
+|                       | `GET /income/schools`                                                    |
+|                       | `GET /income/trusts`                                                     |
+| Expenditure           | `GET /expenditure/categories`                                            |
+|                       | `GET /expenditure/dimensions`                                            |
+|                       | `GET /expenditure/school/{urn}`                                          |
+|                       | `GET /expenditure/school/{urn}/custom/{identifier}`                      |
+|                       | `GET /expenditure/trust/{companyNumber}`                                 |
+|                       | `GET /expenditure/school/{urn}/history`                                  |
+|                       | `GET /expenditure/trust/{companyNumber}/history`                         |
+|                       | `GET /expenditure/schools`                                               |
+|                       | `GET /expenditure/trusts`                                                |
+| Census                | `GET /census/categories`                                                 |
+|                       | `GET /census/dimensions`                                                 |
+|                       | `GET /census/{urn}`                                                      |
+|                       | `GET /census/{urn}/custom/{identifier}`                                  |
+|                       | `GET /census/{urn}/history`                                              |
+|                       | `GET /census`                                                            |
+| Budget Forecast       | `GET /budget-forecast/{companyNumber}`                                   |
+|                       | `GET /budget-forecast/{companyNumber}/metrics`                           |
+|                       | `GET /budget-forecast/{companyNumber}/current-year`                      |
+| Balance               | `GET /balance/dimensions`                                                |
+|                       | `GET /balance/school/{urn}`                                              |
+|                       | `GET /balance/trust/{companyNumber}`                                     |
+|                       | `GET /balance/school/{urn}/history`                                      |
+|                       | `GET /balance/trust/{companyNumber}/history`                             |
+|                       | `GET /balance/schools`                                                   |
+|                       | `GET /balance/trusts`                                                    |
 
-#### Health Check
-- `GET /health`
+For this test, we will focus exclusively on the Schools endpoints, as the Trusts and Local Authority endpoints are
+identical to school. Additionally, we will not be testing the healthcheck endpoint.
 
-### Schools
-- `GET /school/{identifier}`
-- `GET /schools`
-- `POST /schools/suggest`
+### Total Average Calls to Each Establishment API Endpoint
+For spike we will take 50% of peak load.
 
-### Trusts
-- `GET /trust/{identifier}`
-- `POST /trusts/suggest`
+| Endpoints                  | Average Estimate Requests |
+|----------------------------|---------------------------|
+| `GET /school/{identifier}` | 70000                     |
+| `GET /schools`             | 1250                      |
+| `POST /schools/suggest`    | 80000                     |
 
-### Local Authorities
-- `GET /local-authority/{identifier}`
-- `POST /local-authority/suggest`
 
-### Total Peak Calls to Each Endpoint
-- `GET /school/{identifier}`
-- `GET /schools`
-- `POST /schools/suggest`
-- `GET /trust/{identifier}`
-- `POST /trusts/suggest`
-- `GET /local-authority/{identifier}`
-- `POST /local-authority/suggest`
+### Total Average Calls to Each Benchmark API Endpoint
 
-For each API endpoint, run the tests.
+| Endpoints                                                       | Average Estimate Requests |
+|-----------------------------------------------------------------|---------------------------|
+| `GET /user-data`                                                | 40000                     |
+| `GET /financial-plan/{urn}/{year}`                              | 14000                     |
+| `PUT /financial-plan/{urn}/{year}`                              | 14000                     |
+| `DELETE /financial-plan/{urn}/{year}`                           | 3500                      |
+| `GET /financial-plan/{urn}/{year}/deployment`                   | 7000                      |
+| `GET /financial-plans`                                          | 4125                      |
+| `GET /custom-data/school/{urn}/{identifier}`                    | 5000                      |
+| `PUT /custom-data/school/{urn}/{identifier}`                    | 5000                      |
+| `DELETE /custom-data/school/{urn}/{identifier}`                 | 4200                      |
+| `GET /comparator-set/school/{urn}/default`                      | 30000                     |
+| `GET /comparator-set/school/{urn}/custom/{identifier}`          | 3000                      |
+| `GET /comparator-set/school/{urn}/user-defined/{identifier}`    | 3000                      |
+| `PUT /comparator-set/school/{urn}/user-defined/{identifier}`    | 3000                      |
+| `DELETE /comparator-set/school/{urn}/user-defined/{identifier}` | 3000                      |
+| `POST /comparators/schools`                                     |                           |
+
+### Total Average Calls to Each Insight API Endpoint
+
+| Endpoints                                           | Average Estimate Requests |
+|-----------------------------------------------------|---------------------------|
+| `GET /current-return-years`                         | 40000                     |
+| `GET /school/{urn}/characteristics`                 | 7000                      |
+| `GET /schools/characteristics`                      | 7000                      |
+| `GET /metric-rag/default`                           | 20000                     |
+| `GET /income/categories`                            | 10000                     |
+| `GET /income/school/{urn}/history`                  | 10000                     |
+| `GET /income/schools`                               | 10000                     |
+| `GET /expenditure/categories`                       | 20000                     |
+| `GET /expenditure/dimensions`                       | 20000                     |
+| `GET /expenditure/school/{urn}`                     | 20000                     |
+| `GET /expenditure/school/{urn}/custom/{identifier}` | 20000                     |
+| `GET /expenditure/school/{urn}/history`             | 10000                     |
+| `GET /expenditure/schools`                          | 10000                     |
+| `GET /census/categories`                            | 10000                     |
+| `GET /census/dimensions`                            | 10000                     |
+| `GET /census/{urn}`                                 | 10000                     |
+| `GET /census/{urn}/custom/{identifier}`             | 10000                     |
+| `GET /census/{urn}/history`                         | 10000                     |
+| `GET /census`                                       | 10000                     |
+| `GET /budget-forecast/{companyNumber}`              | 10000                     |
+| `GET /budget-forecast/{companyNumber}/metrics`      | 10000                     |
+| `GET /budget-forecast/{companyNumber}/current-year` | 10000                     |
+| `GET /balance/dimensions`                           | 10000                     |
+| `GET /balance/school/{urn}`                         | 10000                     |
+| `GET /balance/school/{urn}/history`                 | 10000                     |
+| `GET /balance/schools`                              | 10000                     |
+
+
+For each API endpoint, run the tests to simulate average load conditions.
+
+## Test Execution
+
+For each API endpoint we will spike the requests to the total number identified above. Starting with 50000
+requests, we will increase the load every 2 seconds until we reach the specified number. The system will then run for 5
+minutes under that load before gradually decreasing the load in the same manner it was increased.
+
 
 ## Test Output
 
