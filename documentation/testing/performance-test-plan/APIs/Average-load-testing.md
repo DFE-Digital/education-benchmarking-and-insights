@@ -156,7 +156,7 @@ identical to school. Additionally, we will not be testing the healthcheck endpoi
 | `GET /user-data`                                                | 28000                     | 4 x 7000                                     |
 | `GET /financial-plan/{urn}/{year}`                              | 2800                      | 2 x1400(5% of 28000)                         |
 | `PUT /financial-plan/{urn}/{year}`                              | 2800                      | 10 x1400(5% of 28000)                        |
-| `DELETE /financial-plan/{urn}/{year}`                           | 350                       | 10% of 3500(users who created the plan       |
+| `DELETE /financial-plan/{urn}/{year}`                           | 280                       | 10% of 2800(users who created the plan       |
 | `GET /financial-plan/{urn}/{year}/deployment`                   | 1400                      | 5% of 28000                                  |
 | `GET /financial-plans`                                          | 1650                      | 1400(5% of 28000) + 250 (10% of 2500 trusts) |
 | `GET /custom-data/school/{urn}/{identifier}`                    | 2800                      | 40% of 7000                                  |
@@ -204,7 +204,7 @@ For each API endpoint, run the tests to simulate average load conditions.
 
 ## Test Execution
 
-For each API endpoint we will increase the requests to the total number identified earlier gradually. Starting with 20
+For each API endpoint we will increase the requests to the total number identified earlier gradually. Starting with 5000
 requests, we will increase the load every 5 seconds until we reach the specified number. The system will then run for 5
 minutes under that load before gradually decreasing the load in the same manner it was increased.
 
