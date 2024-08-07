@@ -297,7 +297,7 @@ def prepare_central_services_data(cs_path, current_year: int):
             ] = central_services_financial["BNCHBAI061 (Coronavirus Govt Funding)"]
 
     central_services_financial["In year balance"] = (
-        central_services_financial["BNCH11110T (EFA Revenue Grants)"]
+        central_services_financial["BNCH11000T (Revenue Income)"]
         - central_services_financial["BNCH20000T (Total Costs)"]
     )
 
@@ -448,7 +448,7 @@ def prepare_aar_data(aar_path, current_year: int):
     aar = aar[mask]
 
     aar["In year balance"] = (
-        aar["BNCH11110T (EFA Revenue Grants)"] - aar["BNCH20000T (Total Costs)"]
+        aar["BNCH11000T (Revenue Income)"] - aar["BNCH20000T (Total Costs)"]
     )
 
     aar["Income_Total grant funding"] = (
@@ -472,6 +472,8 @@ def prepare_aar_data(aar_path, current_year: int):
         + aar["BNCH11205 (Other Income from facilities and services)"]
         + aar["BNCH11400T (Investment income)"]
     )
+
+    
 
     aar["Income_Direct grants"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
@@ -575,6 +577,8 @@ def prepare_aar_data(aar_path, current_year: int):
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
     aar.drop(labels=["Company Registration Number"], axis=1, inplace=True)
+
+    
 
     return aar.set_index("URN")
 
@@ -752,6 +756,8 @@ def build_academy_data(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     )
 
+    
+
     academies = (
         academies_base.merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
@@ -760,6 +766,7 @@ def build_academy_data(
         .merge(group_links, on="URN", how="inner")
         .merge(cfo, on="URN", how="left")
     )
+    
 
     if ks2 is not None:
         academies = academies.merge(ks2, on="URN", how="left")
@@ -793,6 +800,7 @@ def build_academy_data(
         ),
         axis=1,
     )
+    
 
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
@@ -803,6 +811,7 @@ def build_academy_data(
         ),
         axis=1,
     )
+    
 
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_school_phase_type(
@@ -827,6 +836,7 @@ def build_academy_data(
         | config.cost_category_map["academies"],
         inplace=True,
     )
+    
 
     academies["OfstedLastInsp"] = pd.to_datetime(
         academies["OfstedLastInsp"], dayfirst=True
@@ -849,14 +859,17 @@ def build_academy_data(
             }
         )
     )
-
+    
     central_services = central_services.merge(
         trust_basis_data, on="Trust UPIN", how="left"
     )
 
+    
+
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
     )
+
 
     for category in config.rag_category_settings.keys():
 
@@ -979,14 +992,14 @@ def build_academy_data(
         academies[target_income_col] = (
             academies[target_income_col] + academies[income_col]
         )
-
-
+        
+    
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils"].astype(float)
         / academies["Total pupils in trust"].astype(float)
     )
 
-    academies["In year balance_CS"] = (
+    academies["In year balance"] = (
         academies["In year balance"] + academies["In year balance_CS"]
     )
 
@@ -1037,13 +1050,13 @@ def build_academy_data(
             }
         )
     )
-
+    
     academies = academies.merge(trust_revenue_reserve, on="Trust UPIN", how="left")
 
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
-
+    
     return academies.set_index("URN")
 
 

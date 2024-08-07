@@ -35,29 +35,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Infrastructure"
@@ -65,31 +42,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
@@ -97,31 +49,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
@@ -129,31 +56,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
@@ -161,31 +63,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
@@ -193,31 +70,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
@@ -225,31 +77,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
@@ -257,31 +84,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
@@ -289,31 +91,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
@@ -321,31 +98,6 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-      ignore:
-        - dependency-name: "Microsoft.Extensions.Logging.Console"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Configuration"
-          versions: ["7.*", "8.*"]
-        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Serilog.AspNetCore"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Logging"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "Microsoft.Extensions.Configuration.Json"
-          versions: [ "7.*", "8.*" ]
-        - dependency-name: "AzureExtensions.Swashbuckle"
-          versions: [ "4.*" ]
-        - dependency-name: "AspNetCore.HealthChecks.SqlServer"
-          versions: [ "7.*", "8.*" ]
           
     - package-ecosystem: "npm"
       directory: "/prototype/src"

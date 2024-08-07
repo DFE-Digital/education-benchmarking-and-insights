@@ -4,7 +4,6 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
-
 namespace Web.App.Services;
 
 public interface IUserDataService
@@ -31,6 +30,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
         }
 
         var query = new ApiQuery()
+            .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
@@ -50,6 +50,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
 
 
         var query = new ApiQuery()
+            .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", CustomData)
@@ -70,6 +71,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
 
 
         var query = new ApiQuery()
+            .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
@@ -89,6 +91,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
 
 
         var query = new ApiQuery()
+            .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
@@ -108,6 +111,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
 
 
         var query = new ApiQuery()
+            .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);

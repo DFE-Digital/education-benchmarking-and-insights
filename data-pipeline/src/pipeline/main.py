@@ -46,6 +46,8 @@ from src.pipeline.storage import (
     blob_service_client,
     complete_queue_name,
     connect_to_queue,
+    dead_letter_queue_name,
+    dead_letter_dequeue_max,
     get_blob,
     queue_service_client,
     raw_container,
@@ -206,7 +208,6 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
         cfo,
         central_services,
     )
-
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/academies.parquet",
@@ -878,14 +879,61 @@ def handle_msg(
     return msg_payload
 
 
+def _check_msg_dequeue(
+    message: QueueMessage,
+    dead_letter_queue: QueueClient,
+    origin_queue: QueueClient,
+    dequeue_limit: int,
+) -> None:
+    """
+    Determine whether to redirect to the dead-letter queue.
+
+    If the message's `dequeue_count` exceeds the `dequeue_limit`, it is:
+
+    1. added to the dead-letter queue.
+    2. removed from the originating queue.
+
+    The entire message (not just the payload) is serialised when passed
+    to the dead-letter queue, for additional context.
+
+    :param message: incoming message to check
+    :param dead_letter_queue: target for messages exceeding the limit
+    :param worker_queue: source for incoming messages
+    :param dequeue_limit: retry limit for re-queued messages
+    :raises Exception: when the retry limit is exceeded
+    """
+    if message.dequeue_count <= dequeue_limit:
+        return
+
+    logger.error(
+        f"Message {message.id} has exceeded the retry limit of {dequeue_limit}."
+    )
+    dead_letter_queue.send_message(json.dumps(message, default=str))
+
+    with suppress(ResourceNotFoundError):
+        origin_queue.delete_message(message)
+
+    raise Exception(
+        f"Message {message.id} has exceeded the retry limit of {dequeue_limit}."
+    )
+
+
 def receive_one_message(worker_client):
     try:
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
             complete_queue = connect_to_queue(complete_queue_name)
-            with worker_queue, complete_queue:
-                msg = worker_queue.receive_message(visibility_timeout=300)
-                if msg is not None:
+            dead_letter_queue = connect_to_queue(dead_letter_queue_name)
+
+            with worker_queue, complete_queue, dead_letter_queue:
+                if msg := worker_queue.receive_message(visibility_timeout=300):
+                    _check_msg_dequeue(
+                        message=msg,
+                        dead_letter_queue=dead_letter_queue,
+                        origin_queue=worker_queue,
+                        dequeue_limit=dead_letter_dequeue_max,
+                    )
+
                     logger.info(f"received message {msg.content}")
                     msg = handle_msg(worker_client, msg, worker_queue, complete_queue)
                     exit(0) if msg["success"] else exit(1)
@@ -904,10 +952,17 @@ def receive_messages(worker_client):
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
             complete_queue = connect_to_queue(complete_queue_name)
+            dead_letter_queue = connect_to_queue(dead_letter_queue_name)
             with worker_queue, complete_queue:
                 while True:
-                    msg = worker_queue.receive_message(visibility_timeout=300)
-                    if msg is not None:
+                    if msg := worker_queue.receive_message(visibility_timeout=300):
+                        _check_msg_dequeue(
+                            message=msg,
+                            dead_letter_queue=dead_letter_queue,
+                            origin_queue=worker_queue,
+                            dequeue_limit=dead_letter_dequeue_max,
+                        )
+
                         logger.info(f"received message {msg.content}")
                         msg = handle_msg(
                             worker_client, msg, worker_queue, complete_queue
