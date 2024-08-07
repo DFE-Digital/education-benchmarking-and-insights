@@ -1,0 +1,58 @@
+﻿[
+  {
+    "Category": "NonClassroomSupportStaffFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "NonClassroomSupportStaff": 1.25
+    }
+  },
+  {
+    "Category": "NonClassroomSupportStaffFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "NonClassroomSupportStaff": 44.44
+    }
+  },
+  {
+    "Category": "NonClassroomSupportStaffFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "NonClassroomSupportStaff": 25
+    }
+  },
+  {
+    "Category": "NonClassroomSupportStaffFte",
+    "Dimension": "Total",
+    "Expected": {
+      "NonClassroomSupportStaff": 40
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "NonClassroomSupportStaff": 1.25
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "NonClassroomSupportStaff": 44.44
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "NonClassroomSupportStaff": 25
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "NonClassroomSupportStaff": 40
+    }
+  }
+]
