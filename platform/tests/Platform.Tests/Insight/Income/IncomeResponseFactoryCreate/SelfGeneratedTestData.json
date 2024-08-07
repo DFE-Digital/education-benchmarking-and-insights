@@ -1,0 +1,170 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 200000,
+      "IncomeFacilitiesServices": 5000,
+      "IncomeCatering": 10000,
+      "DonationsVoluntaryFunds": 500000,
+      "ReceiptsSupplyTeacherInsuranceClaims": -30000,
+      "InvestmentIncome": 10000,
+      "OtherSelfGeneratedIncome": 30000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 10,
+      "IncomeFacilitiesServices": 0.25,
+      "IncomeCatering": 0.5,
+      "DonationsVoluntaryFunds": 25,
+      "ReceiptsSupplyTeacherInsuranceClaims": -1.5,
+      "InvestmentIncome": 0.5,
+      "OtherSelfGeneratedIncome": 1.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 2000,
+      "IncomeFacilitiesServices": 50,
+      "IncomeCatering": 100,
+      "DonationsVoluntaryFunds": 5000,
+      "ReceiptsSupplyTeacherInsuranceClaims": -300,
+      "InvestmentIncome": 100,
+      "OtherSelfGeneratedIncome": 300
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 200,
+      "IncomeFacilitiesServices": 5,
+      "IncomeCatering": 10,
+      "DonationsVoluntaryFunds": 500,
+      "ReceiptsSupplyTeacherInsuranceClaims": -30,
+      "InvestmentIncome": 10,
+      "OtherSelfGeneratedIncome": 30
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 830000,
+      "IncomeFacilitiesServices": 10000,
+      "IncomeCatering": 20000,
+      "DonationsVoluntaryFunds": 800000,
+      "ReceiptsSupplyTeacherInsuranceClaims": 600000,
+      "InvestmentIncome": 30000,
+      "OtherSelfGeneratedIncome": 40000,
+      "SchoolTotalSelfGeneratedFunding": 200000,
+      "SchoolIncomeFacilitiesServices": 5000,
+      "SchoolIncomeCatering": 10000,
+      "SchoolDonationsVoluntaryFunds": 500000,
+      "SchoolReceiptsSupplyTeacherInsuranceClaims": -380000,
+      "SchoolInvestmentIncome": 10000,
+      "SchoolOtherSelfGeneratedIncome": 30000,
+      "CentralTotalSelfGeneratedFunding": 630000,
+      "CentralIncomeFacilitiesServices": 5000,
+      "CentralIncomeCatering": 10000,
+      "CentralDonationsVoluntaryFunds": 300000,
+      "CentralReceiptsSupplyTeacherInsuranceClaims": 250000,
+      "CentralInvestmentIncome": 20000,
+      "CentralOtherSelfGeneratedIncome": 10000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 83,
+      "IncomeFacilitiesServices": 1,
+      "IncomeCatering": 2,
+      "DonationsVoluntaryFunds": 80,
+      "ReceiptsSupplyTeacherInsuranceClaims": 60,
+      "InvestmentIncome": 3,
+      "OtherSelfGeneratedIncome": 4,
+      "SchoolTotalSelfGeneratedFunding": 20,
+      "SchoolIncomeFacilitiesServices": 0.5,
+      "SchoolIncomeCatering": 1,
+      "SchoolDonationsVoluntaryFunds": 50,
+      "SchoolReceiptsSupplyTeacherInsuranceClaims": -38,
+      "SchoolInvestmentIncome": 1,
+      "SchoolOtherSelfGeneratedIncome": 3,
+      "CentralTotalSelfGeneratedFunding": 63,
+      "CentralIncomeFacilitiesServices": 0.5,
+      "CentralIncomeCatering": 1,
+      "CentralDonationsVoluntaryFunds": 30,
+      "CentralReceiptsSupplyTeacherInsuranceClaims": 25,
+      "CentralInvestmentIncome": 2,
+      "CentralOtherSelfGeneratedIncome": 1
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 41.5,
+      "IncomeFacilitiesServices": 0.5,
+      "IncomeCatering": 1,
+      "DonationsVoluntaryFunds": 40,
+      "ReceiptsSupplyTeacherInsuranceClaims": 30,
+      "InvestmentIncome": 1.5,
+      "OtherSelfGeneratedIncome": 2,
+      "SchoolTotalSelfGeneratedFunding": 10,
+      "SchoolIncomeFacilitiesServices": 0.25,
+      "SchoolIncomeCatering": 0.5,
+      "SchoolDonationsVoluntaryFunds": 25,
+      "SchoolReceiptsSupplyTeacherInsuranceClaims": -19,
+      "SchoolInvestmentIncome": 0.5,
+      "SchoolOtherSelfGeneratedIncome": 1.5,
+      "CentralTotalSelfGeneratedFunding": 31.5,
+      "CentralIncomeFacilitiesServices": 0.25,
+      "CentralIncomeCatering": 0.5,
+      "CentralDonationsVoluntaryFunds": 15,
+      "CentralReceiptsSupplyTeacherInsuranceClaims": 12.5,
+      "CentralInvestmentIncome": 1,
+      "CentralOtherSelfGeneratedIncome": 0.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 830,
+      "IncomeFacilitiesServices": 10,
+      "IncomeCatering": 20,
+      "DonationsVoluntaryFunds": 800,
+      "ReceiptsSupplyTeacherInsuranceClaims": 600,
+      "InvestmentIncome": 30,
+      "OtherSelfGeneratedIncome": 40,
+      "SchoolTotalSelfGeneratedFunding": 200,
+      "SchoolIncomeFacilitiesServices": 5,
+      "SchoolIncomeCatering": 10,
+      "SchoolDonationsVoluntaryFunds": 500,
+      "SchoolReceiptsSupplyTeacherInsuranceClaims": -380,
+      "SchoolInvestmentIncome": 10,
+      "SchoolOtherSelfGeneratedIncome": 30,
+      "CentralTotalSelfGeneratedFunding": 630,
+      "CentralIncomeFacilitiesServices": 5,
+      "CentralIncomeCatering": 10,
+      "CentralDonationsVoluntaryFunds": 300,
+      "CentralReceiptsSupplyTeacherInsuranceClaims": 250,
+      "CentralInvestmentIncome": 20,
+      "CentralOtherSelfGeneratedIncome": 10
+    }
+  }
+]

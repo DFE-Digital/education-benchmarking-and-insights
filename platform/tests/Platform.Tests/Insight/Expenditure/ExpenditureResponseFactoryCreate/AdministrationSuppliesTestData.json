@@ -1,0 +1,74 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 1290000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 12900
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 12900
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 1290
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 1600000,
+      "SchoolAdministrativeSuppliesCosts": 1290000,
+      "CentralAdministrativeSuppliesCosts": 310000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 160,
+      "SchoolAdministrativeSuppliesCosts": 129,
+      "CentralAdministrativeSuppliesCosts": 31
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 80,
+      "SchoolAdministrativeSuppliesCosts": 64.5,
+      "CentralAdministrativeSuppliesCosts": 15.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 1600,
+      "SchoolAdministrativeSuppliesCosts": 1290,
+      "CentralAdministrativeSuppliesCosts": 310
+    }
+  }
+]

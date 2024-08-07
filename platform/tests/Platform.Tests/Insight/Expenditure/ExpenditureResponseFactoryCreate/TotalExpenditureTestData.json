@@ -1,0 +1,82 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalExpenditure": 10000,
+      "SchoolTotalExpenditure": null,
+      "CentralTotalExpenditure": null
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalExpenditure": 100,
+      "SchoolTotalExpenditure": null,
+      "CentralTotalExpenditure": null
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalExpenditure": 100,
+      "SchoolTotalExpenditure": null,
+      "CentralTotalExpenditure": null
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalExpenditure": 10,
+      "SchoolTotalExpenditure": null,
+      "CentralTotalExpenditure": null
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalExpenditure": 2000000,
+      "SchoolTotalExpenditure": 10000,
+      "CentralTotalExpenditure": 1990000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalExpenditure": 100,
+      "SchoolTotalExpenditure": 0.5,
+      "CentralTotalExpenditure": 99.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalExpenditure": 200,
+      "SchoolTotalExpenditure": 1,
+      "CentralTotalExpenditure": 199
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalExpenditure": 2000,
+      "SchoolTotalExpenditure": 10,
+      "CentralTotalExpenditure": 1990
+    }
+  }
+]
