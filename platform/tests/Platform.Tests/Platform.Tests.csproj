@@ -114,6 +114,39 @@
         <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\OtherCostsTestData.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Insight\Balance\BalanceResponseFactoryCreate\BalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Balance\BalanceResponseFactoryCreate\TotalBalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\BalanceResponseFactoryCreate\BalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\BalanceResponseFactoryCreate\TotalBalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\WorkforceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\CensusTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\TeachersTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\SeniorLeadershipTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\TeachingAssistantTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\NonClassroomSupportStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\AuxiliaryStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="Insight\Expenditure\ExpenditureResponseFactoryCreate\WhenIncomeResponseFactoryCreatesResponseFromSchoolIncomeHistory.cs"/>

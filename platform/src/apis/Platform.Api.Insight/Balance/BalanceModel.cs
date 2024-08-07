@@ -7,12 +7,12 @@ public abstract record BalanceBaseModel
     public decimal? TotalPupils { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }
-    public decimal? InYearBalance { get; }
-    public decimal? RevenueReserve { get; }
+    public decimal? InYearBalance { get; set; }
+    public decimal? RevenueReserve { get; set; }
     public decimal? TotalIncomeCS { get; set; }
     public decimal? TotalExpenditureCS { get; set; }
-    public decimal? InYearBalanceCS { get; }
-    public decimal? RevenueReserveCS { get; }
+    public decimal? InYearBalanceCS { get; set; }
+    public decimal? RevenueReserveCS { get; set; }
 }
 
 [ExcludeFromCodeCoverage]

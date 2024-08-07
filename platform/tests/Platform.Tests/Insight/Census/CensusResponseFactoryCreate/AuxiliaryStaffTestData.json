@@ -1,0 +1,58 @@
+﻿[
+  {
+    "Category": "AuxiliaryStaffFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "AuxiliaryStaff": 1.5
+    }
+  },
+  {
+    "Category": "AuxiliaryStaffFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "AuxiliaryStaff": 22.22
+    }
+  },
+  {
+    "Category": "AuxiliaryStaffFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "AuxiliaryStaff": 50
+    }
+  },
+  {
+    "Category": "AuxiliaryStaffFte",
+    "Dimension": "Total",
+    "Expected": {
+      "AuxiliaryStaff": 20
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "AuxiliaryStaff": 1.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "AuxiliaryStaff": 22.22
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "AuxiliaryStaff": 50
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "AuxiliaryStaff": 20
+    }
+  }
+]
