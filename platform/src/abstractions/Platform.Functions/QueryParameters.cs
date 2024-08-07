@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Specialized;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using System.Collections.Specialized;
-
 namespace Platform.Functions;
 
 public abstract record QueryParameters
 {
+    // ReSharper disable once MemberCanBeProtected.Global
     public abstract void SetValues(IQueryCollection query);
 
     public void SetValues(NameValueCollection query)

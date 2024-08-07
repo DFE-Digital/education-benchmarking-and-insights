@@ -1,5 +1,7 @@
-﻿namespace Platform.Api.Insight.BudgetForecast;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.BudgetForecast;
 
+[ExcludeFromCodeCoverage]
 public record BudgetForecastReturnModel
 {
     public string? RunType { get; set; }
@@ -11,6 +13,7 @@ public record BudgetForecastReturnModel
     public decimal? TotalPupils { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record BudgetForecastReturnMetricModel
 {
     public string? RunType { get; set; }

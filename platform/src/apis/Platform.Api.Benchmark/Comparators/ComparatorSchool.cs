@@ -1,5 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
 namespace Platform.Api.Benchmark.Comparators;
 
+[ExcludeFromCodeCoverage]
 public record ComparatorSchool
 {
     public string? URN { get; set; }

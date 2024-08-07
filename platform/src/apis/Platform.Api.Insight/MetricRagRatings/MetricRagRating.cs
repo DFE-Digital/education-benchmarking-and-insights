@@ -1,5 +1,7 @@
-﻿namespace Platform.Api.Insight.MetricRagRatings;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.MetricRagRatings;
 
+[ExcludeFromCodeCoverage]
 public record MetricRagRating
 {
     public string? URN { get; set; }

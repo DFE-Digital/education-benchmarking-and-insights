@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Infrastructure.Sql;
-
 namespace Platform.Api.Insight.Census;
 
 public interface ICensusService
@@ -13,48 +12,54 @@ public interface ICensusService
     Task<CensusModel?> GetCustomAsync(string urn, string identifier);
 }
 
-public class CensusService : ICensusService
+public class CensusService(IDatabaseFactory dbFactory) : ICensusService
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public CensusService(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
-
     public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn)
     {
         const string sql = "SELECT * from SchoolCensusHistoric WHERE URN = @URN";
-        var parameters = new { URN = urn };
+        var parameters = new
+        {
+            URN = urn
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
     }
 
     public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns)
     {
         const string sql = "SELECT * from SchoolCensus WHERE URN IN @URNS";
-        var parameters = new { URNS = urns };
+        var parameters = new
+        {
+            URNS = urns
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<CensusModel>(sql, parameters);
     }
 
     public async Task<CensusModel?> GetAsync(string urn)
     {
         const string sql = "SELECT * from SchoolCensus WHERE URN = @URN";
-        var parameters = new { URN = urn };
+        var parameters = new
+        {
+            URN = urn
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CensusModel>(sql, parameters);
     }
 
     public async Task<CensusModel?> GetCustomAsync(string urn, string identifier)
     {
         const string sql = "SELECT * from SchoolCensusCustom WHERE URN = @URN AND RunId = @RunId";
-        var parameters = new { URN = urn, RunId = identifier };
+        var parameters = new
+        {
+            URN = urn,
+            RunId = identifier
+        };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CensusModel>(sql, parameters);
     }
 }

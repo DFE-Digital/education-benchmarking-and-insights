@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 namespace Platform.Api.Insight.Schools;
 
+[ExcludeFromCodeCoverage]
 public record SchoolCharacteristic
 {
     public string? URN { get; set; }
@@ -39,5 +40,9 @@ public record SchoolCharacteristic
 
     public string? SchoolPosition { get; set; }
 
-    public string Address => string.Join(", ", new List<string?> { AddressTown, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
+    public string Address => string.Join(", ", new List<string?>
+    {
+        AddressTown,
+        AddressPostcode
+    }.Where(x => !string.IsNullOrEmpty(x)));
 }

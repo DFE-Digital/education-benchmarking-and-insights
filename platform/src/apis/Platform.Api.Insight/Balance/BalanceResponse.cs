@@ -1,4 +1,5 @@
-﻿namespace Platform.Api.Insight.Balance;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Balance;
 
 public static class BalanceResponseFactory
 {
@@ -45,18 +46,15 @@ public static class BalanceResponseFactory
         return response;
     }
 
-    private static T CreateResponse<T>(BalanceBaseModel model, BalanceParameters parameters) where T : BalanceBaseResponse, new()
+    private static T CreateResponse<T>(BalanceBaseModel model, BalanceParameters parameters) where T : BalanceBaseResponse, new() => new()
     {
-        return new T
-        {
-            SchoolInYearBalance = CalcAmount(model.InYearBalance - model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
-            CentralInYearBalance = CalcAmount(model.InYearBalanceCS, model, parameters),
-            SchoolRevenueReserve = CalcAmount(model.RevenueReserve - model.RevenueReserveCS.GetValueOrDefault(), model, parameters),
-            CentralRevenueReserve = CalcAmount(model.RevenueReserveCS, model, parameters),
-            InYearBalance = CalcTotal(model.InYearBalance, model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
-            RevenueReserve = CalcTotal(model.RevenueReserve, model.RevenueReserveCS.GetValueOrDefault(), model, parameters)
-        };
-    }
+        SchoolInYearBalance = CalcAmount(model.InYearBalance - model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
+        CentralInYearBalance = CalcAmount(model.InYearBalanceCS, model, parameters),
+        SchoolRevenueReserve = CalcAmount(model.RevenueReserve - model.RevenueReserveCS.GetValueOrDefault(), model, parameters),
+        CentralRevenueReserve = CalcAmount(model.RevenueReserveCS, model, parameters),
+        InYearBalance = CalcTotal(model.InYearBalance, model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
+        RevenueReserve = CalcTotal(model.RevenueReserve, model.RevenueReserveCS.GetValueOrDefault(), model, parameters)
+    };
 
     private static decimal? CalcTotal(decimal? value, decimal valueCentral, BalanceBaseModel model, BalanceParameters parameters)
     {
@@ -72,12 +70,9 @@ public static class BalanceResponseFactory
         return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcAmount(decimal? value, BalanceBaseModel model, BalanceParameters parameters)
-    {
-        return parameters.ExcludeCentralServices
-            ? null
-            : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
-    }
+    private static decimal? CalcAmount(decimal? value, BalanceBaseModel model, BalanceParameters parameters) => parameters.ExcludeCentralServices
+        ? null
+        : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
         decimal? totalExpenditure, string dimension)
@@ -98,6 +93,7 @@ public static class BalanceResponseFactory
     }
 }
 
+[ExcludeFromCodeCoverage]
 public abstract record BalanceBaseResponse
 {
     public decimal? SchoolInYearBalance { get; set; }
@@ -108,6 +104,7 @@ public abstract record BalanceBaseResponse
     public decimal? RevenueReserve { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolBalanceResponse : BalanceBaseResponse
 {
     public string? URN { get; set; }
@@ -117,12 +114,14 @@ public record SchoolBalanceResponse : BalanceBaseResponse
     public decimal? TotalPupils { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustBalanceResponse : BalanceBaseResponse
 {
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolBalanceHistoryResponse : BalanceBaseResponse
 {
     public string? URN { get; set; }
@@ -130,6 +129,7 @@ public record SchoolBalanceHistoryResponse : BalanceBaseResponse
     public string? Term => Year != null ? $"{Year - 1} to {Year}" : null;
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustBalanceHistoryResponse : BalanceBaseResponse
 {
     public string? CompanyNumber { get; set; }

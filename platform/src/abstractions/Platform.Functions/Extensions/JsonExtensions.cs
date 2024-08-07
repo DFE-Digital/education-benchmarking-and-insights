@@ -34,9 +34,6 @@ public static class JsonExtensions
 
     public static string ToJson(this object? source, Formatting formatting = Formatting.None) => JsonConvert.SerializeObject(source, formatting, Settings);
 
-    public static byte[] ToJsonByteArray(this object source, Formatting formatting = Formatting.None) => Encoding.UTF8.GetBytes(ToJson(source, formatting));
-
-
     public static T FromJson<T>(this string? source) => JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
 
     public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
@@ -46,23 +43,9 @@ public static class JsonExtensions
             throw new ArgumentException("The source was empty", nameof(source));
         }
 
-        using (var sr = new StreamReader(new MemoryStream(source), encoding ?? Encoding.UTF8))
-        using (var jr = new JsonTextReader(sr))
-        {
-            var js = JsonSerializer.CreateDefault(Settings);
-
-            return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
-        }
-    }
-
-    public static T FromJson<T>(this Stream stream)
-    {
-        using (var sr = new StreamReader(stream))
-        using (var jr = new JsonTextReader(sr))
-        {
-            var js = JsonSerializer.CreateDefault(Settings);
-
-            return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
-        }
+        using var sr = new StreamReader(new MemoryStream(source), encoding ?? Encoding.UTF8);
+        using var jr = new JsonTextReader(sr);
+        var js = JsonSerializer.CreateDefault(Settings);
+        return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Hosting;
 using Platform.Orchestrator.Configuration;
 var hostBuilder = new HostBuilder()
@@ -6,3 +7,7 @@ var hostBuilder = new HostBuilder()
     .ConfigureLogging(Logging.Configure);
 
 hostBuilder.Build().Run();
+
+[ExcludeFromCodeCoverage]
+// ReSharper disable once UnusedType.Global
+public partial class Program;
