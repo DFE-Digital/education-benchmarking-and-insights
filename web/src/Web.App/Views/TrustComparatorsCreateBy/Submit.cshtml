@@ -1,7 +1,9 @@
 ﻿@using Web.App.TagHelpers
 @model Web.App.ViewModels.TrustComparatorsSubmittedViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsSubmit;
+    ViewData[ViewDataKeys.Title] = Model.IsEdit
+        ? PageTitles.TrustComparatorsSubmitEdit
+        : PageTitles.TrustComparatorsSubmit;
 }
 
 <div class="govuk-grid-row">

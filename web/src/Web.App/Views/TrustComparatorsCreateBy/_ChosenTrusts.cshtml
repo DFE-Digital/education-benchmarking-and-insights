@@ -11,7 +11,7 @@
         class="govuk-button"
         data-module="govuk-button"
         id="create-set">
-        Create a set using these trusts
+        @(Model.IsEdit ? "Change your set": "Create a set using these trusts")
     </a>
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen trusts (@Model.Trusts.Count(x => x.CompanyNumber != Model.CompanyNumber))</caption>

@@ -58,7 +58,7 @@
             novalidate = "novalidate"
         }))
 {
-    @await Html.PartialAsync("_ChosenTrusts", new TrustComparatorsChosenTrustsViewModel(Model.CompanyNumber, Model.Trusts))
+    @await Html.PartialAsync("_ChosenTrusts", new TrustComparatorsChosenTrustsViewModel(Model.CompanyNumber, Model.Trusts, Model.IsEdit))
 }
 
 @if (Model.Trusts != null && Model.Trusts.Any(x => x.CompanyNumber != Model.CompanyNumber))

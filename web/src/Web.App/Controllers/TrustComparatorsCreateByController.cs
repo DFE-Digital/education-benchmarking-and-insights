@@ -116,7 +116,10 @@ public class TrustComparatorsCreateByController(
                 }
 
                 var trustCharacteristics = await GetTrustCharacteristics<TrustCharacteristicUserDefined>(userDefinedSet.Set);
-                var viewModel = new TrustComparatorsByNameViewModel(trust, trustCharacteristics);
+
+                var isEdit = !string.IsNullOrEmpty(userDefinedSet.RunId);
+
+                var viewModel = new TrustComparatorsByNameViewModel(trust, trustCharacteristics, isEdit);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -215,6 +218,8 @@ public class TrustComparatorsCreateByController(
                     userDefinedSet.Set = list.ToArray();
                 }
 
+                var isEdit = !string.IsNullOrEmpty(userDefinedSet.RunId);
+
                 var request = new PutComparatorSetUserDefinedRequest
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
@@ -225,7 +230,7 @@ public class TrustComparatorsCreateByController(
                 await comparatorSetApi.UpsertUserDefinedTrustAsync(companyNumber, request).EnsureSuccess();
                 trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
                 trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
-                var viewModel = new TrustComparatorsSubmittedViewModel(trust, request);
+                var viewModel = new TrustComparatorsSubmittedViewModel(trust, request, isEdit);
                 return View(viewModel);
             }
             catch (Exception e)
