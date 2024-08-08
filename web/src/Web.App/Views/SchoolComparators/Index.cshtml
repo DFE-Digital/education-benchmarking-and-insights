@@ -4,6 +4,8 @@
 @model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparators;
+    var chosenSchoolPupil = Model.PupilSchools.FirstOrDefault(x => x.URN == Model.Urn);
+    var chosenSchoolBuilding = Model.BuildingSchools.FirstOrDefault(x => x.URN == Model.Urn);
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -49,7 +51,7 @@
             </ul>
             <div class="govuk-tabs__panel" id="running">
                 <h2 class="govuk-heading-l">Running cost categories</h2>
-                <p class="govuk-body">We've chosen @Model.PupilSchools.Count(x => x.URN != Model.Urn) similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
+                <p class="govuk-body">We've chosen @Model.PupilSchools.Count() similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
                 <h3 class="govuk-heading-m">How we chose these schools</h3>
                 <p class="govuk-body">We chose these schools based on:</p>
                 <ul class="govuk-list govuk-list--bullet">
@@ -72,34 +74,57 @@
                     </thead>
                     <tbody class="govuk-table__body">
 
-                    @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
-                    {
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">
-                                <strong>@school.SchoolName</strong>
-                                <br/>
-                                <span class="govuk-hint">@school.Address</span>
-                            </td>
-                            <td class="govuk-table__cell">
-                                @school.OverallPhase
-                            </td>
-                            <td class="govuk-table__cell">
+                        @if (chosenSchoolPupil != null)
+                        {
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <strong>@chosenSchoolPupil.SchoolName</strong>
+                                    <br/>
+                                    <span class="govuk-hint">(Your chosen school)</span>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolPupil.OverallPhase
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolPupil.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolPupil.PercentSpecialEducationNeeds.ToPercent()
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolPupil.PercentFreeSchoolMeals.ToPercent()
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
+                        {
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <strong>@school.SchoolName</strong>
+                                    <br/>
+                                    <span class="govuk-hint">@school.Address</span>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @school.OverallPhase
+                                </td>
+                                <td class="govuk-table__cell">
                                     @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
-                            </td>
-                            <td class="govuk-table__cell">
-                                @school.PercentSpecialEducationNeeds.ToPercent()
-                            </td>
-                            <td class="govuk-table__cell">
-                                @school.PercentFreeSchoolMeals.ToPercent()
-                            </td>
-                        </tr>
-                    }
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @school.PercentSpecialEducationNeeds.ToPercent()
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @school.PercentFreeSchoolMeals.ToPercent()
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
             <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="building">
                 <h2 class="govuk-heading-l">Building cost categories</h2>
-                <p class="govuk-body">We've chosen @Model.BuildingSchools.Count(x => x.URN != Model.Urn) similar schools to benchmark this school against building cost categories, which includes utilities, cleaning and maintenance.</p>
+                <p class="govuk-body">We've chosen @Model.BuildingSchools.Count() similar schools to benchmark this school against building cost categories, which includes utilities, cleaning and maintenance.</p>
                 <h3 class="govuk-heading-m">How we chose these schools</h3>
                 <p class="govuk-body">We chose these schools based on:</p>
                 <ul class="govuk-list govuk-list--bullet">
@@ -121,39 +146,65 @@
                     </tr>
                     </thead>
                     <tbody class="govuk-table__body">
+                        
+                        @if (chosenSchoolBuilding != null)
+                        {
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <strong>@chosenSchoolBuilding.SchoolName</strong>
+                                    <br/>
+                                    <span class="govuk-hint">(Your chosen school)</span>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolBuilding.OverallPhase
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @chosenSchoolBuilding.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                                </td>
+                                @if (User.Identity is { IsAuthenticated: true })
+                                {
+                                    <td class="govuk-table__cell">
+                                        @chosenSchoolBuilding.TotalInternalFloorArea
+                                    </td>
+                                    <td class="govuk-table__cell">
+                                        @chosenSchoolBuilding.BuildingAverageAge.ToAge()
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="govuk-table__cell" colspan="2" rowspan="@Model.BuildingSchools.Count()" style="text-align: center; vertical-align: top;">
+                                        @Html.ActionLink("Sign in", "Signin", "Home", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-link govuk-link--no-visited-state" })
+                                        to see
+                                    </td>
+                                }
+                            </tr>
+                        }
 
-                    @foreach (var (index, school) in Model.BuildingSchools.Where(x => x.URN != Model.Urn).Select((school, index) => (index, school)))
-                    {
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">
-                                <strong>@school.SchoolName</strong>
-                                <br/>
-                                <span class="govuk-hint">@school.Address</span>
-                            </td>
-                            <td class="govuk-table__cell">
-                                @school.OverallPhase
-                            </td>
-                            <td class="govuk-table__cell">
-                                    @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
-                            </td>
-                            @if (User.Identity is { IsAuthenticated: true })
-                            {
+                        @foreach (var school in Model.BuildingSchools.Where(x => x.URN != Model.Urn))
+                        {
+                            <tr class="govuk-table__row">
                                 <td class="govuk-table__cell">
-                                    @school.TotalInternalFloorArea
+                                    <strong>@school.SchoolName</strong>
+                                    <br/>
+                                    <span class="govuk-hint">@school.Address</span>
                                 </td>
                                 <td class="govuk-table__cell">
-                                    @school.BuildingAverageAge.ToAge()
+                                    @school.OverallPhase
                                 </td>
-                            }
-                            else if (index == 0)
-                            {
-                                <td class="govuk-table__cell" colspan="2" rowspan="@Model.BuildingSchools.Count()" style="text-align: center; vertical-align: top;">
-                                    @Html.ActionLink("Sign in", "Signin", "Home", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-link govuk-link--no-visited-state" })
-                                    to see
+                                <td class="govuk-table__cell">
+                                        @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
                                 </td>
-                            }
-                        </tr>
-                    }
+                                @if (User.Identity is { IsAuthenticated: true })
+                                {
+                                    <td class="govuk-table__cell">
+                                        @school.TotalInternalFloorArea
+                                    </td>
+                                    <td class="govuk-table__cell">
+                                        @school.BuildingAverageAge.ToAge()
+                                    </td>
+                                }
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

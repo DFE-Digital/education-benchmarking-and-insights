@@ -3,6 +3,7 @@
 @model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsUserDefined;
+    var chosenSchool = Model.UserDefinedSchools.FirstOrDefault(x => x.URN == Model.Urn);
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -33,28 +34,51 @@
             </thead>
             <tbody class="govuk-table__body">
 
-            @foreach (var school in Model.UserDefinedSchools.Where(x => x.URN != Model.Urn))
-            {
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">
-                        <strong>@school.SchoolName</strong>
-                        <br/>
-                        <span class="govuk-hint">@school.Address</span>
-                    </td>
-                    <td class="govuk-table__cell">
-                        @school.OverallPhase
-                    </td>
-                    <td class="govuk-table__cell">
+                @if (chosenSchool != null)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <strong>@chosenSchool.SchoolName</strong>
+                            <br/>
+                            <span class="govuk-hint">(Your chosen school)</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.OverallPhase
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.PercentSpecialEducationNeeds.ToPercent()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @chosenSchool.PercentFreeSchoolMeals.ToPercent()
+                        </td>
+                    </tr>
+                }
+
+                @foreach (var school in Model.UserDefinedSchools.Where(x => x.URN != Model.Urn))
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <strong>@school.SchoolName</strong>
+                            <br/>
+                            <span class="govuk-hint">@school.Address</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.OverallPhase
+                        </td>
+                        <td class="govuk-table__cell">
                             @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
-                    </td>
-                    <td class="govuk-table__cell">
-                        @school.PercentSpecialEducationNeeds.ToPercent()
-                    </td>
-                    <td class="govuk-table__cell">
-                        @school.PercentFreeSchoolMeals.ToPercent()
-                    </td>
-                </tr>
-            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.PercentSpecialEducationNeeds.ToPercent()
+                        </td>
+                        <td class="govuk-table__cell">
+                            @school.PercentFreeSchoolMeals.ToPercent()
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
