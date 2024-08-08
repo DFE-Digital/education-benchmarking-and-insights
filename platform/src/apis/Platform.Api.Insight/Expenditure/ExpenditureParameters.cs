@@ -30,6 +30,5 @@ public record ExpenditureParameters : QueryParameters
         Dimension = dimension;
         Schools = query.ToStringArray("urns");
         Trusts = query.ToStringArray("companyNumbers");
-        ;
     }
 }
