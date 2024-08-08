@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 using Microsoft.Azure.Functions.Worker.Http;
-namespace Platform.Tests.Extensions;
+namespace Platform.Tests;
 
-public static class HttpResponseDataExtensions
+public static class TestExtensions
 {
     public static async Task<T?> ReadAsJsonAsync<T>(this HttpResponseData response)
     {

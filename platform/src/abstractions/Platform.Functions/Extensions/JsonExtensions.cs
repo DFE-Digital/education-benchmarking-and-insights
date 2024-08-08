@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -23,6 +24,7 @@ public static class JsonExtensions
         }
     };
 
+    [ExcludeFromCodeCoverage]
     public static void Options(JsonSerializerOptions options)
     {
         options.AllowTrailingCommas = true;
@@ -36,7 +38,7 @@ public static class JsonExtensions
 
     public static T FromJson<T>(this string? source) => JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
 
-    public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
+    public static T FromJson<T>(this byte[]? source, Encoding? encoding = null)
     {
         if (source == null || source.Length == 0)
         {
