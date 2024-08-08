@@ -70,5 +70,25 @@
       "SchoolDirectRevenueFinancing": 320,
       "CentralDirectRevenueFinancing": 500
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "DirectRevenueFinancing",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 320000
+    }
+  },
+  {
+    "Category": "NotDirectRevenueFinancing",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

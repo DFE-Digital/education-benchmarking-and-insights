@@ -4,9 +4,7 @@
     "Dimension": "Actuals",
     "ExcludeCentralServices": true,
     "Expected": {
-      "TotalExpenditure": 10000,
-      "SchoolTotalExpenditure": null,
-      "CentralTotalExpenditure": null
+      "TotalExpenditure": 10000
     }
   },
   {
@@ -14,9 +12,7 @@
     "Dimension": "PercentExpenditure",
     "ExcludeCentralServices": true,
     "Expected": {
-      "TotalExpenditure": 100,
-      "SchoolTotalExpenditure": null,
-      "CentralTotalExpenditure": null
+      "TotalExpenditure": 100
     }
   },
   {
@@ -24,9 +20,7 @@
     "Dimension": "PercentIncome",
     "ExcludeCentralServices": true,
     "Expected": {
-      "TotalExpenditure": 100,
-      "SchoolTotalExpenditure": null,
-      "CentralTotalExpenditure": null
+      "TotalExpenditure": 100
     }
   },
   {
@@ -34,9 +28,7 @@
     "Dimension": "PerUnit",
     "ExcludeCentralServices": true,
     "Expected": {
-      "TotalExpenditure": 10,
-      "SchoolTotalExpenditure": null,
-      "CentralTotalExpenditure": null
+      "TotalExpenditure": 10
     }
   },
   {

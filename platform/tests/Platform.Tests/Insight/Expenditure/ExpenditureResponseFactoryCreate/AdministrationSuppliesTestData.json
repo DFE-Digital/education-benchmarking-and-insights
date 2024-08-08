@@ -70,5 +70,25 @@
       "SchoolAdministrativeSuppliesCosts": 1290,
       "CentralAdministrativeSuppliesCosts": 310
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "AdministrationSupplies",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "AdministrativeSuppliesCosts": 1290000
+    }
+  },
+  {
+    "Category": "NotAdministrationSupplies",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

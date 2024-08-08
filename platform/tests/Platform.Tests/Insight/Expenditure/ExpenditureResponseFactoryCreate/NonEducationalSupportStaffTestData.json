@@ -134,5 +134,29 @@
       "CentralOtherStaffCosts": 300,
       "CentralProfessionalServicesNonCurriculumCosts": 250
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "NonEducationalSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 200000,
+      "AdministrativeClericalStaffCosts": 5000,
+      "AuditorsCosts": 10000,
+      "OtherStaffCosts": 500000,
+      "ProfessionalServicesNonCurriculumCosts": 350000
+    }
+  },
+  {
+    "Category": "NotNonEducationalSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

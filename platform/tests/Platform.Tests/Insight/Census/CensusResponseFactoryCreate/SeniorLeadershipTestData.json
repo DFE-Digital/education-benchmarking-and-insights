@@ -54,5 +54,10 @@
     "Expected": {
       "SeniorLeadership": 70
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
   }
 ]

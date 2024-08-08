@@ -278,5 +278,38 @@
       "CommunityFocusedSchoolStaff": 3600,
       "CommunityFocusedSchoolCosts": 3700
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "Other",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalOtherCosts": 2050000,
+      "DirectRevenueFinancingCosts": 2140000,
+      "GroundsMaintenanceCosts": 2230000,
+      "IndirectEmployeeExpenses": 2320000,
+      "InterestChargesLoanBank": 2410000,
+      "OtherInsurancePremiumsCosts": 2500000,
+      "PrivateFinanceInitiativeCharges": 2590000,
+      "RentRatesCosts": 2680000,
+      "SpecialFacilitiesCosts": 2770000,
+      "StaffDevelopmentTrainingCosts": 2860000,
+      "StaffRelatedInsuranceCosts": 2950000,
+      "SupplyTeacherInsurableCosts": 3040000,
+      "CommunityFocusedSchoolStaff": 3130000,
+      "CommunityFocusedSchoolCosts": 3220000
+    }
+  },
+  {
+    "Category": "NotOther",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

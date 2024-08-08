@@ -70,5 +70,25 @@
       "SchoolLearningResourcesIctCosts": 660,
       "CentralLearningResourcesIctCosts": 220
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "EducationalIct",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 660000
+    }
+  },
+  {
+    "Category": "NotEducationalIct",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]
