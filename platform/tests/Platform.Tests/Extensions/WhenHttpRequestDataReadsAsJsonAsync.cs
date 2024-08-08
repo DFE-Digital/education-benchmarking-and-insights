@@ -1,13 +1,12 @@
 ﻿using Platform.Functions.Extensions;
 using Platform.Tests.Mocks;
 using Xunit;
+namespace Platform.Tests.Extensions;
 
-namespace Platform.Tests.Functions;
-
-public class WhenReadAsJsonAsyncIsCalled
+public class WhenHttpRequestDataReadsAsJsonAsync
 {
     [Fact]
-    public async Task ReturnsObjectMatchingType()
+    public async Task ShouldReturnObjectMatchingType()
     {
         var request = MockHttpRequestData.Create(new TestObjectType("testValue"));
         var result = await request.ReadAsJsonAsync<TestObjectType>();
@@ -18,14 +17,9 @@ public class WhenReadAsJsonAsyncIsCalled
     }
 
     [Fact]
-    public async Task IfResultIsNullThrowsArgumentNullException()
+    public async Task ShouldThrowArgumentNullExceptionIfResultIsNull()
     {
         var request = MockHttpRequestData.Create("");
         await Assert.ThrowsAsync<ArgumentNullException>(() => request.ReadAsJsonAsync<TestObjectType>());
     }
-}
-
-public class TestObjectType(string testProp)
-{
-    public string TestProp { get; } = testProp;
 }
