@@ -10,14 +10,16 @@ namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplay(bool isEdit)
     {
-        var page = await SetupNavigateInitPage();
-        AssertPageLayout(page);
+        var page = await SetupNavigateInitPage(isEdit);
+        AssertPageLayout(page, isEdit);
     }
 
-    private async Task<IHtmlDocument> SetupNavigateInitPage()
+    private async Task<IHtmlDocument> SetupNavigateInitPage(bool isEdit)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345")
@@ -27,7 +29,8 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
         var set = new UserDefinedTrustComparatorSet
         {
             Set = ["1", "2", "3"],
-            TotalTrusts = 123
+            TotalTrusts = 123,
+            RunId = isEdit ? Guid.NewGuid().ToString() : null
         };
         var sessionState = new ConcurrentDictionary<string, byte[]>
         {
@@ -50,10 +53,16 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
         return page;
     }
 
-    private static void AssertPageLayout(IHtmlDocument page)
+    private static void AssertPageLayout(IHtmlDocument page, bool isEdit)
     {
-        DocumentAssert.TitleAndH1(page,
-            "Generating benchmarking data - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Generating benchmarking data");
+        var expectedTitle = isEdit
+            ? "Updating benchmarking data - Financial Benchmarking and Insights Tool - GOV.UK"
+            : "Generating benchmarking data - Financial Benchmarking and Insights Tool - GOV.UK";
+
+        var expectedHeading = isEdit
+            ? "Updating benchmarking data"
+            : "Generating benchmarking data";
+
+        DocumentAssert.TitleAndH1(page, expectedTitle, expectedHeading);
     }
 }
