@@ -102,5 +102,27 @@
       "SchoolCateringSuppliesCosts": 1860,
       "CentralCateringSuppliesCosts": 340
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "CateringStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrossCateringCosts": 1480000,
+      "CateringStaffCosts": 1670000,
+      "CateringSuppliesCosts": 1860000
+    }
+  },
+  {
+    "Category": "NotCateringStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

@@ -54,5 +54,10 @@
     "Expected": {
       "AuxiliaryStaff": 20
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
   }
 ]

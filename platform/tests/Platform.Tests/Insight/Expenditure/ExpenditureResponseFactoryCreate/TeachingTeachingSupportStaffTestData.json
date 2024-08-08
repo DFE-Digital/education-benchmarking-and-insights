@@ -150,5 +150,30 @@
       "CentralEducationSupportStaffCosts": 510,
       "CentralAgencySupplyTeachingStaffCosts": 495
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "TeachingTeachingSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 110000,
+      "TeachingStaffCosts": 200000,
+      "SupplyTeachingStaffCosts": 330000,
+      "EducationalConsultancyCosts": 310000,
+      "EducationSupportStaffCosts": 410000,
+      "AgencySupplyTeachingStaffCosts": 405000
+    }
+  },
+  {
+    "Category": "NotTeachingTeachingSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

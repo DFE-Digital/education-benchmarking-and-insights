@@ -182,5 +182,32 @@
       "CentralCommunityGrants": 250,
       "CentralAcademies": 130
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "GrantFunding",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 110000,
+      "DirectGrants": 210000,
+      "PrePost16Funding": 310000,
+      "OtherDfeGrants": 410000,
+      "OtherIncomeGrants": 405000,
+      "GovernmentSource": 510000,
+      "CommunityGrants": 610000,
+      "Academies": 710000
+    }
+  },
+  {
+    "Category": "NotGrantFunding",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

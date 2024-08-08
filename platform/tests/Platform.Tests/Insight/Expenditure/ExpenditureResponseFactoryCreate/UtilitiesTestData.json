@@ -102,5 +102,27 @@
       "SchoolWaterSewerageCosts": 89.1,
       "CentralWaterSewerageCosts": 24.30
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "Utilities",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalUtilitiesCosts": 720000,
+      "EnergyCosts": 910000,
+      "WaterSewerageCosts": 1100000
+    }
+  },
+  {
+    "Category": "NotUtilities",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

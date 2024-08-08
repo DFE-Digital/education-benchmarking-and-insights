@@ -134,5 +134,29 @@
       "SchoolPremisesStaffCosts": 57.51,
       "CentralPremisesStaffCosts": 21.87
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "PremisesStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 670000,
+      "CleaningCaretakingCosts": 680000,
+      "MaintenancePremisesCosts": 690000,
+      "OtherOccupationCosts": 700000,
+      "PremisesStaffCosts": 710000
+    }
+  },
+  {
+    "Category": "NotPremisesStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

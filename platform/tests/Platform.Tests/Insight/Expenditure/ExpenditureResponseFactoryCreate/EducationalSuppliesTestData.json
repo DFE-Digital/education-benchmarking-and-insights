@@ -102,5 +102,27 @@
       "SchoolLearningResourcesNonIctCosts": 650,
       "CentralLearningResourcesNonIctCosts": 210
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "EducationalSupplies",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalEducationalSuppliesCosts": 320000,
+      "ExaminationFeesCosts": 640000,
+      "LearningResourcesNonIctCosts": 650000
+    }
+  },
+  {
+    "Category": "NotEducationalSupplies",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]

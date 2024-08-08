@@ -166,5 +166,31 @@
       "CentralInvestmentIncome": 20,
       "CentralOtherSelfGeneratedIncome": 10
     }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "SelfGenerated",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalSelfGeneratedFunding": 200000,
+      "IncomeFacilitiesServices": 5000,
+      "IncomeCatering": 10000,
+      "DonationsVoluntaryFunds": 500000,
+      "ReceiptsSupplyTeacherInsuranceClaims": -30000,
+      "InvestmentIncome": 10000,
+      "OtherSelfGeneratedIncome": 30000
+    }
+  },
+  {
+    "Category": "NotSelfGenerated",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
   }
 ]
