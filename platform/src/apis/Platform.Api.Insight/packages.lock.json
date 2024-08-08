@@ -161,11 +161,6 @@
           "System.Text.Json": "4.7.2"
         }
       },
-      "Dapper": {
-        "type": "Transitive",
-        "resolved": "2.0.78",
-        "contentHash": "vLPwL2HZXp/DN17Eu7sg6GMEj02alq7jcy6atn5Gv8i96b9Hu1UoxlCrhInUPfSFLQQiD8O7pdWAE1fdUEO/1Q=="
-      },
       "Google.Protobuf": {
         "type": "Transitive",
         "resolved": "3.25.2",
@@ -2029,6 +2024,7 @@
         "type": "Project",
         "dependencies": {
           "Azure.Search.Documents": "[11.6.0, )",
+          "Dapper": "[2.1.35, )",
           "FluentValidation": "[11.9.2, )",
           "Microsoft.Data.SqlClient": "[5.2.1, )",
           "Microsoft.Extensions.Options": "[8.0.2, )",
@@ -2045,6 +2041,12 @@
           "System.Text.Json": "4.7.2",
           "System.Threading.Channels": "4.7.1"
         }
+      },
+      "Dapper": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.35, )",
+        "resolved": "2.1.35",
+        "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
       },
       "FluentValidation": {
         "type": "CentralTransitive",
