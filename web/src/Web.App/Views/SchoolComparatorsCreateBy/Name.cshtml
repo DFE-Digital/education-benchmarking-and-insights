@@ -58,7 +58,7 @@
             novalidate = "novalidate"
         }))
 {
-    @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools))
+    @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools, Model.IsEdit))
 }
 
 @if (Model.Schools != null && Model.Schools.Any(x => x.URN != Model.Urn))
