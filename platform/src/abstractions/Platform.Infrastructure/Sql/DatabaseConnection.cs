@@ -56,6 +56,10 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
 
     public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null) => connection.QueryFirstOrDefaultAsync<T>(sql, param);
 
+    public Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null) => connection.ExecuteScalarAsync<T>(sql, param);
+
+    public Task<T> QueryFirstAsync<T>(string sql, object? param = null) => connection.QueryFirstAsync<T>(sql, param);
+
     public Task OpenAsync() => connection.OpenAsync();
 }
 
@@ -81,4 +85,22 @@ public interface IDatabaseConnection : IDbConnection
     /// <param name="sql">The SQL to execute for the query.</param>
     /// <param name="param">The parameters to pass, if any.</param>
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null);
+
+    /// <summary>
+    ///     Execute parameterized SQL that selects a single value.
+    /// </summary>
+    /// <typeparam name="T">The type to return.</typeparam>
+    /// <param name="sql">The SQL to execute.</param>
+    /// <param name="param">The parameters to use for this command.</param>
+    /// <returns>The first cell returned, as <typeparamref name="T" />.</returns>
+    Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null);
+
+
+    /// <summary>
+    ///     Execute a single-row query asynchronously using Task.
+    /// </summary>
+    /// <typeparam name="T">The type of result to return.</typeparam>
+    /// <param name="sql">The SQL to execute for the query.</param>
+    /// <param name="param">The parameters to pass, if any.</param>
+    Task<T> QueryFirstAsync<T>(string sql, object? param = null);
 }

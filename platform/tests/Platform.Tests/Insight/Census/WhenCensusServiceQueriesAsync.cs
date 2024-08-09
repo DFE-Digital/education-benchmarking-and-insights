@@ -86,7 +86,7 @@ public class WhenCensusServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryAsyncWhenGetAsync()
+    public async Task ShouldQueryFirstOrDefaultAsyncWhenGetAsync()
     {
         // arrange
         const string urn = "urn";
@@ -116,7 +116,7 @@ public class WhenCensusServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryAsyncWhenGetCustomAsync()
+    public async Task ShouldQueryFirstOrDefaultAsyncWhenGetCustomAsync()
     {
         // arrange
         const string urn = "urn";
