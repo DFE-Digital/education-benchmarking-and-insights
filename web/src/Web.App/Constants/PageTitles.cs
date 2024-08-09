@@ -31,7 +31,8 @@ public static class PageTitles
     public const string SchoolComparatorsCreateByCharacteristic = "Choose characteristics to find matching schools";
     public const string SchoolComparatorsCreateByName = "Choose schools to benchmark against";
     public const string SchoolComparatorsPreview = "Schools successfully matched";
-    public const string SchoolComparatorsSubmit = "Updating benchmarking data";
+    public const string SchoolComparatorsSubmitEdit = "Updating benchmarking data";
+    public const string SchoolComparatorsSubmit = "Generating benchmarking data";
     public const string TrustHome = "Your trust";
     public const string TrustComparison = "View school spending";
     public const string TrustCensus = "View pupil and workforce data";

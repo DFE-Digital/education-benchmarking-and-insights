@@ -11,7 +11,7 @@
         class="govuk-button"
         data-module="govuk-button"
         id="create-set">
-        Create a set using these schools
+            @(Model.IsEdit ? "Change your set": "Create a set using these schools")
     </a>
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen schools (@Model.Schools.Count(x => x.URN != Model.Urn))</caption>
