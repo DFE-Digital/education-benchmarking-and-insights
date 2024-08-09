@@ -15,7 +15,7 @@ python-dotenv = "^1.0.1"
 openpyxl = "^3.1.2"
 azure-storage-blob = "^12.19.1"
 psutil = "^5.9.8"
-aiohttp = "^3.9.5"
+aiohttp = "^3.10.2"
 pyarrow = "^16.0.0"
 dask = {extras = ["distributed"], version = "^2024.5.0"}
 pyodbc = "^5.1.0"
