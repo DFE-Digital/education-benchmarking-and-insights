@@ -148,9 +148,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.Equal(AllCostCategories.Count - 1, costCategoryRagRows?.Length);
 
         // school phases
-        var nurserySchoolRag = page.QuerySelector("#school-rag-nursery-schools") as IHtmlTableElement;
-        var nurserySchoolRagRows = nurserySchoolRag?.Bodies.First().Rows;
-        Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.Nursery), nurserySchoolRagRows?.Length ?? 0);
 
         var primarySchoolRag = page.QuerySelector("#school-rag-primary-schools") as IHtmlTableElement;
         var primarySchoolRagRows = primarySchoolRag?.Bodies.First().Rows;
@@ -160,12 +157,20 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var secondarySchoolRagRows = secondarySchoolRag?.Bodies.First().Rows;
         Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.Secondary), secondarySchoolRagRows?.Length ?? 0);
 
-        var specialSchoolRag = page.QuerySelector("#school-rag-specials-and-pupil-referrals-units-prus") as IHtmlTableElement;
+        var specialSchoolRag = page.QuerySelector("#school-rag-special") as IHtmlTableElement;
         var specialSchoolRagRows = specialSchoolRag?.Bodies.First().Rows;
-        Assert.Equal(schools.Count(s => s.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit), specialSchoolRagRows?.Length ?? 0);
+        Assert.Equal(schools.Count(s => s.OverallPhase is OverallPhaseTypes.Special), specialSchoolRagRows?.Length ?? 0);
 
-        var allThroughSchoolRag = page.QuerySelector("#school-rag-all-through") as IHtmlTableElement;
-        var allThroughSchoolRagRows = allThroughSchoolRag?.Bodies.First().Rows;
-        Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.AllThrough), allThroughSchoolRagRows?.Length ?? 0);
+        var alternativeProvisionSchoolRag = page.QuerySelector("#school-rag-alternative-provision") as IHtmlTableElement;
+        var alternativeProvisionSchoolRagRows = alternativeProvisionSchoolRag?.Bodies.First().Rows;
+        Assert.Equal(schools.Count(s => s.OverallPhase is OverallPhaseTypes.AlternativeProvision), alternativeProvisionSchoolRagRows?.Length ?? 0);
+
+        var postSixteenSchoolRag = page.QuerySelector("#school-rag-post-16") as IHtmlTableElement;
+        var postSixteenSchoolRagRows = postSixteenSchoolRag?.Bodies.First().Rows;
+        Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.PostSixteen), postSixteenSchoolRagRows?.Length ?? 0);
+
+        var universityTechnicalCollegeRag = page.QuerySelector("#school-rag-university-technical-colleges") as IHtmlTableElement;
+        var universityTechnicalCollegeRagRows = universityTechnicalCollegeRag?.Bodies.First().Rows;
+        Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege), universityTechnicalCollegeRagRows?.Length ?? 0);
     }
 }

@@ -102,12 +102,6 @@
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-    Heading = "Nursery schools",
-    Schools = Model.NurserySchools
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
     Heading = "Primary schools",
     Schools = Model.PrimarySchools
 })
@@ -120,14 +114,32 @@
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-    Heading = "Specials and Pupil Referrals units (PRUs)",
-    Schools = Model.SpecialOrPruSchools
+    Heading = "Special",
+    Schools = Model.Special
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+Heading = "Alternative provision",
+Schools = Model.AlternativeProvision
 })
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
     Heading = "All-through",
     Schools = Model.AllThroughSchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+Heading = "Post 16",
+Schools = Model.PostSixteen
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+Heading = "University technical colleges",
+Schools = Model.UniversityTechnicalColleges
 })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
