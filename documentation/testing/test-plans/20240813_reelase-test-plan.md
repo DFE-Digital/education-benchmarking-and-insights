@@ -1,5 +1,5 @@
 ﻿# Release Test Plan
-Release date: 07/08/2024
+Release date: 07/13/2024
 
 ### Introduction
 The purpose of this test plan is to outline the approach and scope for testing the updates made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
