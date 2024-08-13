@@ -1,7 +1,9 @@
 ﻿@using Web.App.TagHelpers
 @model Web.App.ViewModels.SchoolComparatorsSubmittedViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsSubmit;
+    ViewData[ViewDataKeys.Title] = Model.IsEdit
+        ? PageTitles.SchoolComparatorsSubmitEdit
+        : PageTitles.SchoolComparatorsSubmit;
 }
 
 <div class="govuk-grid-row">

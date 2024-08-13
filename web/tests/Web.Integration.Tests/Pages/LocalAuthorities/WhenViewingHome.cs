@@ -19,7 +19,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
     [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
     [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
-    [InlineData([])]
     public async Task CanDisplay(params string[] phaseTypes)
     {
         var (page, authority, schools) = await SetupNavigateInitPage(phaseTypes);
@@ -152,60 +151,40 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
 
-        var primarySchoolsHeading = page.GetElementById("accordion-schools-heading-1");
-        Assert.NotNull(primarySchoolsHeading);
-        Assert.Contains("Primary schools", primarySchoolsHeading.TextContent);
+        var accordion = page.QuerySelector("#accordion-schools");
+        Assert.NotNull(accordion);
 
-        var primarySchoolsContent = page.GetElementById("accordion-schools-content-1");
-        Assert.NotNull(primarySchoolsContent);
-        AssertAccordionContent(primarySchoolsContent, authority, schools, OverallPhaseTypes.Primary);
+        var accordionSections = accordion.QuerySelectorAll(".govuk-accordion__section");
+        Assert.NotEmpty(accordionSections);
 
-        var secondarySchoolsHeading = page.GetElementById("accordion-schools-heading-2");
-        Assert.NotNull(secondarySchoolsHeading);
-        Assert.Contains("Secondary schools", secondarySchoolsHeading.TextContent);
+        foreach (var section in accordionSections)
+        {
+            var headingElement = section.QuerySelector(".govuk-accordion__section-heading");
+            Assert.NotNull(headingElement);
+            var headingText = headingElement.TextContent.Trim();
 
-        var secondarySchoolsContent = page.GetElementById("accordion-schools-content-2");
-        Assert.NotNull(secondarySchoolsContent);
-        AssertAccordionContent(secondarySchoolsContent, authority, schools, OverallPhaseTypes.Secondary);
+            var contentElement = section.QuerySelector(".govuk-accordion__section-content");
+            Assert.NotNull(contentElement);
 
-        var specialOrPruSchoolsHeading = page.GetElementById("accordion-schools-heading-3");
-        Assert.NotNull(specialOrPruSchoolsHeading);
-        Assert.Contains("Specials and Pupil Referrals units (PRUs)", specialOrPruSchoolsHeading.TextContent);
-
-        var specialOrPruSchoolsContent = page.GetElementById("accordion-schools-content-3");
-        Assert.NotNull(specialOrPruSchoolsContent);
-        AssertAccordionContent(specialOrPruSchoolsContent, authority, schools, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit);
-
-        var otherSchoolsHeading = page.GetElementById("accordion-schools-heading-4");
-        Assert.NotNull(otherSchoolsHeading);
-        Assert.Contains("Other schools", otherSchoolsHeading.TextContent);
-
-        var otherSchoolsContent = page.GetElementById("accordion-schools-content-4");
-        Assert.NotNull(otherSchoolsContent);
-        AssertAccordionContent(otherSchoolsContent, authority, schools, OverallPhaseTypes.Nursery, OverallPhaseTypes.AllThrough);
+            AssertAccordionContent(contentElement, authority, schools, headingText);
+        }
     }
 
-    private static void AssertAccordionContent(IElement element, LocalAuthority authority, School[] schools, params string[] expectedPhaseTypes)
+    private static void AssertAccordionContent(IElement element, LocalAuthority authority, School[] schools, string expectedPhaseType)
     {
-        var expectedSchools = schools.Where(x => expectedPhaseTypes.Contains(x.OverallPhase));
-        if (expectedSchools.Any())
-        {
-            var schoolList = element.QuerySelector(".govuk-list");
-            Assert.NotNull(schoolList);
-            Assert.Equal(expectedSchools.Count(), schoolList.Children.Length);
+        var expectedSchools = schools.Where(x => x.OverallPhase == expectedPhaseType);
 
-            foreach (var schoolElement in schoolList.Children)
-            {
-                var schoolName = schoolElement.QuerySelector("a")?.TextContent;
-                var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
-                Assert.NotNull(school);
-                Assert.Equal(authority.Name, school.LAName);
-                Assert.Contains(school.OverallPhase, expectedPhaseTypes);
-            }
-        }
-        else
+        var schoolList = element.QuerySelector(".govuk-list");
+        Assert.NotNull(schoolList);
+        Assert.Equal(expectedSchools.Count(), schoolList.Children.Length);
+
+        foreach (var schoolElement in schoolList.Children)
         {
-            Assert.Contains("There are no schools to display of this type in this local authority", element.TextContent);
+            var schoolName = schoolElement.QuerySelector("a")?.TextContent;
+            var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
+            Assert.NotNull(school);
+            Assert.Equal(authority.Name, school.LAName);
+            Assert.Equal(school.OverallPhase, expectedPhaseType);
         }
     }
 }

@@ -31,7 +31,8 @@ public static class PageTitles
     public const string SchoolComparatorsCreateByCharacteristic = "Choose characteristics to find matching schools";
     public const string SchoolComparatorsCreateByName = "Choose schools to benchmark against";
     public const string SchoolComparatorsPreview = "Schools successfully matched";
-    public const string SchoolComparatorsSubmit = "Updating benchmarking data";
+    public const string SchoolComparatorsSubmitEdit = "Updating benchmarking data";
+    public const string SchoolComparatorsSubmit = "Generating benchmarking data";
     public const string TrustHome = "Your trust";
     public const string TrustComparison = "View school spending";
     public const string TrustCensus = "View pupil and workforce data";
@@ -67,6 +68,7 @@ public static class PageTitles
     public const string TrustComparatorsCreateByCharacteristic = "Choose characteristics to find matching trusts";
     public const string TrustComparatorsPreview = "Trusts successfully matched";
     public const string TrustComparatorsSubmit = "Generating benchmarking data";
+    public const string TrustComparatorsSubmitEdit = "Updating benchmarking data";
     public const string TrustComparatorsUserDefined = "Your set of trusts";
     public const string TrustComparatorsRevert = "Remove all your trusts?";
     public const string TrustToTrustHome = "Benchmark spending for this trust";

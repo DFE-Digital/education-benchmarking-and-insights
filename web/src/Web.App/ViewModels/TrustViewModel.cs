@@ -74,10 +74,6 @@ public class TrustViewModel(Trust trust)
     public IEnumerable<School> Schools { get; } = [];
     public IEnumerable<RagCostCategoryViewModel> Ratings { get; } = [];
 
-    public IEnumerable<RagSchoolViewModel> NurserySchools => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.Nursery)
-        .SelectMany(s => s.Schools);
-
     public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.Primary)
         .SelectMany(s => s.Schools);
@@ -86,13 +82,27 @@ public class TrustViewModel(Trust trust)
         .Where(s => s.OverallPhase == OverallPhaseTypes.Secondary)
         .SelectMany(s => s.Schools);
 
+    public IEnumerable<RagSchoolViewModel> Special => GroupedSchools
+        .Where(s => s.OverallPhase is OverallPhaseTypes.Special)
+        .SelectMany(s => s.Schools);
+
+    public IEnumerable<RagSchoolViewModel> AlternativeProvision => GroupedSchools
+        .Where(s => s.OverallPhase is OverallPhaseTypes.AlternativeProvision)
+        .SelectMany(s => s.Schools);
+
     public IEnumerable<RagSchoolViewModel> AllThroughSchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.AllThrough)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> SpecialOrPruSchools => GroupedSchools
-        .Where(s => s.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit)
+    public IEnumerable<RagSchoolViewModel> UniversityTechnicalColleges => GroupedSchools
+        .Where(s => s.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege)
         .SelectMany(s => s.Schools);
+
+    public IEnumerable<RagSchoolViewModel> PostSixteen => GroupedSchools
+        .Where(s => s.OverallPhase == OverallPhaseTypes.PostSixteen)
+        .SelectMany(s => s.Schools);
+
+
 
     private IEnumerable<(string? OverallPhase, IOrderedEnumerable<RagSchoolViewModel> Schools)> GroupedSchools { get; } = [];
 

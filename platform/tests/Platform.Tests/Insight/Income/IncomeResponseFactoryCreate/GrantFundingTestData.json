@@ -1,0 +1,213 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 110000,
+      "DirectGrants": 210000,
+      "PrePost16Funding": 310000,
+      "OtherDfeGrants": 410000,
+      "OtherIncomeGrants": 405000,
+      "GovernmentSource": 510000,
+      "CommunityGrants": 610000,
+      "Academies": 710000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 5.5,
+      "DirectGrants": 10.5,
+      "PrePost16Funding": 15.5,
+      "OtherDfeGrants": 20.5,
+      "OtherIncomeGrants": 20.25,
+      "GovernmentSource": 25.5,
+      "CommunityGrants": 30.5,
+      "Academies": 35.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 1100,
+      "DirectGrants": 2100,
+      "PrePost16Funding": 3100,
+      "OtherDfeGrants": 4100,
+      "OtherIncomeGrants": 4050,
+      "GovernmentSource": 5100,
+      "CommunityGrants": 6100,
+      "Academies": 7100
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 110,
+      "DirectGrants": 210,
+      "PrePost16Funding": 310,
+      "OtherDfeGrants": 410,
+      "OtherIncomeGrants": 405,
+      "GovernmentSource": 510,
+      "CommunityGrants": 610,
+      "Academies": 710
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrantFunding": 980000,
+      "SchoolTotalGrantFunding": 110000,
+      "CentralTotalGrantFunding": 870000,
+      "DirectGrants": 960000,
+      "SchoolDirectGrants": 210000,
+      "CentralDirectGrants": 750000,
+      "PrePost16Funding": 940000,
+      "SchoolPrePost16Funding": 310000,
+      "CentralPrePost16Funding": 630000,
+      "OtherDfeGrants": 920000,
+      "SchoolOtherDfeGrants": 410000,
+      "CentralOtherDfeGrants": 510000,
+      "OtherIncomeGrants": 900000,
+      "SchoolOtherIncomeGrants": 405000,
+      "CentralOtherIncomeGrants": 495000,
+      "GovernmentSource": 880000,
+      "SchoolGovernmentSource": 510000,
+      "CentralGovernmentSource": 370000,
+      "CommunityGrants": 860000,
+      "SchoolCommunityGrants": 610000,
+      "CentralCommunityGrants": 250000,
+      "Academies": 840000,
+      "SchoolAcademies": 710000,
+      "CentralAcademies": 130000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrantFunding": 98,
+      "SchoolTotalGrantFunding": 11,
+      "CentralTotalGrantFunding": 87,
+      "DirectGrants": 96,
+      "SchoolDirectGrants": 21,
+      "CentralDirectGrants": 75,
+      "PrePost16Funding": 94,
+      "SchoolPrePost16Funding": 31,
+      "CentralPrePost16Funding": 63,
+      "OtherDfeGrants": 92,
+      "SchoolOtherDfeGrants": 41,
+      "CentralOtherDfeGrants": 51,
+      "OtherIncomeGrants": 90,
+      "SchoolOtherIncomeGrants": 40.5,
+      "CentralOtherIncomeGrants": 49.5,
+      "GovernmentSource": 88,
+      "SchoolGovernmentSource": 51,
+      "CentralGovernmentSource": 37,
+      "CommunityGrants": 86,
+      "SchoolCommunityGrants": 61,
+      "CentralCommunityGrants": 25,
+      "Academies": 84,
+      "SchoolAcademies": 71,
+      "CentralAcademies": 13
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrantFunding": 49,
+      "SchoolTotalGrantFunding": 5.5,
+      "CentralTotalGrantFunding": 43.5,
+      "DirectGrants": 48,
+      "SchoolDirectGrants": 10.5,
+      "CentralDirectGrants": 37.5,
+      "PrePost16Funding": 47,
+      "SchoolPrePost16Funding": 15.5,
+      "CentralPrePost16Funding": 31.5,
+      "OtherDfeGrants": 46,
+      "SchoolOtherDfeGrants": 20.5,
+      "CentralOtherDfeGrants": 25.5,
+      "OtherIncomeGrants": 45,
+      "SchoolOtherIncomeGrants": 20.2500,
+      "CentralOtherIncomeGrants": 24.7500,
+      "GovernmentSource": 44,
+      "SchoolGovernmentSource": 25.5,
+      "CentralGovernmentSource": 18.5,
+      "CommunityGrants": 43,
+      "SchoolCommunityGrants": 30.5,
+      "CentralCommunityGrants": 12.5,
+      "Academies": 42,
+      "SchoolAcademies": 35.5,
+      "CentralAcademies": 6.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalGrantFunding": 980,
+      "DirectGrants": 960,
+      "PrePost16Funding": 940,
+      "OtherDfeGrants": 920,
+      "OtherIncomeGrants": 900,
+      "GovernmentSource": 880,
+      "CommunityGrants": 860,
+      "Academies": 840,
+      "SchoolTotalGrantFunding": 110,
+      "SchoolDirectGrants": 210,
+      "SchoolPrePost16Funding": 310,
+      "SchoolOtherDfeGrants": 410,
+      "SchoolOtherIncomeGrants": 405,
+      "SchoolGovernmentSource": 510,
+      "SchoolCommunityGrants": 610,
+      "SchoolAcademies": 710,
+      "CentralTotalGrantFunding": 870,
+      "CentralDirectGrants": 750,
+      "CentralPrePost16Funding": 630,
+      "CentralOtherDfeGrants": 510,
+      "CentralOtherIncomeGrants": 495,
+      "CentralGovernmentSource": 370,
+      "CentralCommunityGrants": 250,
+      "CentralAcademies": 130
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "GrantFunding",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalGrantFunding": 110000,
+      "DirectGrants": 210000,
+      "PrePost16Funding": 310000,
+      "OtherDfeGrants": 410000,
+      "OtherIncomeGrants": 405000,
+      "GovernmentSource": 510000,
+      "CommunityGrants": 610000,
+      "Academies": 710000
+    }
+  },
+  {
+    "Category": "NotGrantFunding",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

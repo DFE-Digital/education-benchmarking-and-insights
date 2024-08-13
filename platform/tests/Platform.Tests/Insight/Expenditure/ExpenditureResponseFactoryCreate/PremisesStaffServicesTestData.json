@@ -1,0 +1,162 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 670000,
+      "CleaningCaretakingCosts": 680000,
+      "MaintenancePremisesCosts": 690000,
+      "OtherOccupationCosts": 700000,
+      "PremisesStaffCosts": 710000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 6700,
+      "CleaningCaretakingCosts": 6800,
+      "MaintenancePremisesCosts": 6900,
+      "OtherOccupationCosts": 7000,
+      "PremisesStaffCosts": 7100
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 6700,
+      "CleaningCaretakingCosts": 6800,
+      "MaintenancePremisesCosts": 6900,
+      "OtherOccupationCosts": 7000,
+      "PremisesStaffCosts": 7100
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 54.27,
+      "CleaningCaretakingCosts": 55.08,
+      "MaintenancePremisesCosts": 55.89,
+      "OtherOccupationCosts": 56.7,
+      "PremisesStaffCosts": 57.51
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 900000,
+      "SchoolTotalPremisesStaffServiceCosts": 670000,
+      "CentralTotalPremisesStaffServiceCosts": 230000,
+      "CleaningCaretakingCosts": 920000,
+      "SchoolCleaningCaretakingCosts": 680000,
+      "CentralCleaningCaretakingCosts": 240000,
+      "MaintenancePremisesCosts": 940000,
+      "SchoolMaintenancePremisesCosts": 690000,
+      "CentralMaintenancePremisesCosts": 250000,
+      "OtherOccupationCosts": 960000,
+      "SchoolOtherOccupationCosts": 700000,
+      "CentralOtherOccupationCosts": 260000,
+      "PremisesStaffCosts": 980000,
+      "SchoolPremisesStaffCosts": 710000,
+      "CentralPremisesStaffCosts": 270000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 90,
+      "SchoolTotalPremisesStaffServiceCosts": 67,
+      "CentralTotalPremisesStaffServiceCosts": 23,
+      "CleaningCaretakingCosts": 92,
+      "SchoolCleaningCaretakingCosts": 68,
+      "CentralCleaningCaretakingCosts": 24,
+      "MaintenancePremisesCosts": 94,
+      "SchoolMaintenancePremisesCosts": 69,
+      "CentralMaintenancePremisesCosts": 25,
+      "OtherOccupationCosts": 96,
+      "SchoolOtherOccupationCosts": 70,
+      "CentralOtherOccupationCosts": 26,
+      "PremisesStaffCosts": 98,
+      "SchoolPremisesStaffCosts": 71,
+      "CentralPremisesStaffCosts": 27
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 45,
+      "SchoolTotalPremisesStaffServiceCosts": 33.5,
+      "CentralTotalPremisesStaffServiceCosts": 11.5,
+      "CleaningCaretakingCosts": 46,
+      "SchoolCleaningCaretakingCosts": 34,
+      "CentralCleaningCaretakingCosts": 12,
+      "MaintenancePremisesCosts": 47,
+      "SchoolMaintenancePremisesCosts": 34.5,
+      "CentralMaintenancePremisesCosts": 12.5,
+      "OtherOccupationCosts": 48,
+      "SchoolOtherOccupationCosts": 35,
+      "CentralOtherOccupationCosts": 13,
+      "PremisesStaffCosts": 49,
+      "SchoolPremisesStaffCosts": 35.5,
+      "CentralPremisesStaffCosts": 13.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 72.9,
+      "SchoolTotalPremisesStaffServiceCosts": 54.27,
+      "CentralTotalPremisesStaffServiceCosts": 18.63,
+      "CleaningCaretakingCosts": 74.52,
+      "SchoolCleaningCaretakingCosts": 55.08,
+      "CentralCleaningCaretakingCosts": 19.44,
+      "MaintenancePremisesCosts": 76.14,
+      "SchoolMaintenancePremisesCosts": 55.89,
+      "CentralMaintenancePremisesCosts": 20.25,
+      "OtherOccupationCosts": 77.76,
+      "SchoolOtherOccupationCosts": 56.7,
+      "CentralOtherOccupationCosts": 21.06,
+      "PremisesStaffCosts": 79.38,
+      "SchoolPremisesStaffCosts": 57.51,
+      "CentralPremisesStaffCosts": 21.87
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "PremisesStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalPremisesStaffServiceCosts": 670000,
+      "CleaningCaretakingCosts": 680000,
+      "MaintenancePremisesCosts": 690000,
+      "OtherOccupationCosts": 700000,
+      "PremisesStaffCosts": 710000
+    }
+  },
+  {
+    "Category": "NotPremisesStaffServices",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

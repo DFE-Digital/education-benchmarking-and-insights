@@ -7,6 +7,7 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.UserDataCleanUp;
 
+[ExcludeFromCodeCoverage]
 public record UserData
 {
     public string? Id { get; set; }

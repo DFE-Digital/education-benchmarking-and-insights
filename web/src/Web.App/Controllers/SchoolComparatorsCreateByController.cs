@@ -117,7 +117,9 @@ public class SchoolComparatorsCreateByController(
                     ? await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set)
                     : [];
 
-                var viewModel = new SchoolComparatorsByNameViewModel(school, schoolCharacteristics);
+                var isEdit = !string.IsNullOrEmpty(userDefinedSet?.RunId);
+
+                var viewModel = new SchoolComparatorsByNameViewModel(school, schoolCharacteristics, isEdit);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -216,6 +218,8 @@ public class SchoolComparatorsCreateByController(
                     userDefinedSet.Set = list.ToArray();
                 }
 
+                var isEdit = !string.IsNullOrEmpty(userDefinedSet.RunId);
+
                 var request = new PutComparatorSetUserDefinedRequest
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
@@ -226,7 +230,7 @@ public class SchoolComparatorsCreateByController(
                 await comparatorSetApi.UpsertUserDefinedSchoolAsync(urn, request).EnsureSuccess();
                 schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
                 schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
-                var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
+                var viewModel = new SchoolComparatorsSubmittedViewModel(school, request, isEdit);
                 return View(viewModel);
             }
             catch (Exception e)

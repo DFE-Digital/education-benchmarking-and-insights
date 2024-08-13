@@ -27,10 +27,17 @@
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Schools in local authority</h2>
         <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
-            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Primary schools", Id = 1, Schools = Model.PrimarySchools })
-            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Secondary schools", Id = 2, Schools = Model.SecondarySchools })
-            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Specials and Pupil Referrals units (PRUs)", Id = 3, Schools = Model.SpecialOrPruSchools })
-            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Other schools", Id = 4, Schools = Model.OtherSchools })
+            @{
+                foreach (var (group, index) in Model.GroupedSchools.Select((group, index) => (group, index)))
+                {
+                    @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+                    {
+                        Heading = group.Key,
+                        Schools = group,
+                        Id = index
+                    })
+                }
+            }
         </div>
     </div>
 </div>

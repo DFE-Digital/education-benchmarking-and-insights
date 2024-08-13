@@ -2,7 +2,7 @@
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristicUserDefined[]? schoolCharacteristics)
+public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristicUserDefined[]? schoolCharacteristics, bool isEdit)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -12,6 +12,7 @@ public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristi
         .Concat([school.URN])
         .OfType<string>()
         .ToArray();
+    public bool IsEdit => isEdit;
 }
 
 public record SchoolComparatorRemoveViewModel

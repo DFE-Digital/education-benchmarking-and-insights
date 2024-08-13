@@ -1,8 +1,10 @@
-﻿using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 using Newtonsoft.Json.Serialization;
 namespace Platform.Api.Insight.OpenApi.Examples;
 
+[ExcludeFromCodeCoverage]
 internal class ExampleBudgetForecastRunType : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
@@ -12,6 +14,7 @@ internal class ExampleBudgetForecastRunType : OpenApiExample<string>
     }
 }
 
+[ExcludeFromCodeCoverage]
 internal class ExampleBudgetForecastRunCategory : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
@@ -21,6 +24,7 @@ internal class ExampleBudgetForecastRunCategory : OpenApiExample<string>
     }
 }
 
+[ExcludeFromCodeCoverage]
 internal class ExampleBudgetForecastRunId : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)

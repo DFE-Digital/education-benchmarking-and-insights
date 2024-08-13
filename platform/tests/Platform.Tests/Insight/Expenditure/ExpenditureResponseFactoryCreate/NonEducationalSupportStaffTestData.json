@@ -1,0 +1,162 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 200000,
+      "AdministrativeClericalStaffCosts": 5000,
+      "AuditorsCosts": 10000,
+      "OtherStaffCosts": 500000,
+      "ProfessionalServicesNonCurriculumCosts": 350000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 2000,
+      "AdministrativeClericalStaffCosts": 50,
+      "AuditorsCosts": 100,
+      "OtherStaffCosts": 5000,
+      "ProfessionalServicesNonCurriculumCosts": 3500
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 2000,
+      "AdministrativeClericalStaffCosts": 50,
+      "AuditorsCosts": 100,
+      "OtherStaffCosts": 5000,
+      "ProfessionalServicesNonCurriculumCosts": 3500
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 200,
+      "AdministrativeClericalStaffCosts": 5,
+      "AuditorsCosts": 10,
+      "OtherStaffCosts": 500,
+      "ProfessionalServicesNonCurriculumCosts": 350
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 830000,
+      "AdministrativeClericalStaffCosts": 10000,
+      "AuditorsCosts": 20000,
+      "OtherStaffCosts": 800000,
+      "ProfessionalServicesNonCurriculumCosts": 600000,
+      "SchoolTotalNonEducationalSupportStaffCosts": 200000,
+      "SchoolAdministrativeClericalStaffCosts": 5000,
+      "SchoolAuditorsCosts": 10000,
+      "SchoolOtherStaffCosts": 500000,
+      "SchoolProfessionalServicesNonCurriculumCosts": 350000,
+      "CentralTotalNonEducationalSupportStaffCosts": 630000,
+      "CentralAdministrativeClericalStaffCosts": 5000,
+      "CentralAuditorsCosts": 10000,
+      "CentralOtherStaffCosts": 300000,
+      "CentralProfessionalServicesNonCurriculumCosts": 250000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 83,
+      "AdministrativeClericalStaffCosts": 1,
+      "AuditorsCosts": 2,
+      "OtherStaffCosts": 80,
+      "ProfessionalServicesNonCurriculumCosts": 60,
+      "SchoolTotalNonEducationalSupportStaffCosts": 20,
+      "SchoolAdministrativeClericalStaffCosts": 0.5,
+      "SchoolAuditorsCosts": 1,
+      "SchoolOtherStaffCosts": 50,
+      "SchoolProfessionalServicesNonCurriculumCosts": 35,
+      "CentralTotalNonEducationalSupportStaffCosts": 63,
+      "CentralAdministrativeClericalStaffCosts": 0.5,
+      "CentralAuditorsCosts": 1,
+      "CentralOtherStaffCosts": 30,
+      "CentralProfessionalServicesNonCurriculumCosts": 25
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 41.5,
+      "AdministrativeClericalStaffCosts": 0.5,
+      "AuditorsCosts": 1,
+      "OtherStaffCosts": 40,
+      "ProfessionalServicesNonCurriculumCosts": 30,
+      "SchoolTotalNonEducationalSupportStaffCosts": 10,
+      "SchoolAdministrativeClericalStaffCosts": 0.25,
+      "SchoolAuditorsCosts": 0.5,
+      "SchoolOtherStaffCosts": 25,
+      "SchoolProfessionalServicesNonCurriculumCosts": 17.5,
+      "CentralTotalNonEducationalSupportStaffCosts": 31.5,
+      "CentralAdministrativeClericalStaffCosts": 0.25,
+      "CentralAuditorsCosts": 0.5,
+      "CentralOtherStaffCosts": 15,
+      "CentralProfessionalServicesNonCurriculumCosts": 12.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 830,
+      "AdministrativeClericalStaffCosts": 10,
+      "AuditorsCosts": 20,
+      "OtherStaffCosts": 800,
+      "ProfessionalServicesNonCurriculumCosts": 600,
+      "SchoolTotalNonEducationalSupportStaffCosts": 200,
+      "SchoolAdministrativeClericalStaffCosts": 5,
+      "SchoolAuditorsCosts": 10,
+      "SchoolOtherStaffCosts": 500,
+      "SchoolProfessionalServicesNonCurriculumCosts": 350,
+      "CentralTotalNonEducationalSupportStaffCosts": 630,
+      "CentralAdministrativeClericalStaffCosts": 5,
+      "CentralAuditorsCosts": 10,
+      "CentralOtherStaffCosts": 300,
+      "CentralProfessionalServicesNonCurriculumCosts": 250
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "NonEducationalSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalNonEducationalSupportStaffCosts": 200000,
+      "AdministrativeClericalStaffCosts": 5000,
+      "AuditorsCosts": 10000,
+      "OtherStaffCosts": 500000,
+      "ProfessionalServicesNonCurriculumCosts": 350000
+    }
+  },
+  {
+    "Category": "NotNonEducationalSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

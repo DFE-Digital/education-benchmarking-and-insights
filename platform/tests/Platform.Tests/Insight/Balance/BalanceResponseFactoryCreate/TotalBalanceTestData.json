@@ -1,0 +1,87 @@
+﻿[
+  {
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "InYearBalance": 110000,
+      "RevenueReserve": 200000
+    }
+  },
+  {
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "InYearBalance": 36.67,
+      "RevenueReserve": 66.67
+    }
+  },
+  {
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "InYearBalance": 1100,
+      "RevenueReserve": 2000
+    }
+  },
+  {
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "InYearBalance": 110,
+      "RevenueReserve": 200
+    }
+  },
+  {
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "InYearBalance": 980000,
+      "SchoolInYearBalance": 110000,
+      "CentralInYearBalance": 870000,
+      "RevenueReserve": 830000,
+      "SchoolRevenueReserve": 200000,
+      "CentralRevenueReserve": 630000
+    }
+  },
+  {
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "InYearBalance": 98,
+      "SchoolInYearBalance": 11,
+      "CentralInYearBalance": 87,
+      "RevenueReserve": 83,
+      "SchoolRevenueReserve": 20,
+      "CentralRevenueReserve": 63
+    }
+  },
+  {
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "InYearBalance": 49,
+      "SchoolInYearBalance": 5.5,
+      "CentralInYearBalance": 43.5,
+      "RevenueReserve": 41.5,
+      "SchoolRevenueReserve": 10,
+      "CentralRevenueReserve": 31.5
+    }
+  },
+  {
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "InYearBalance": 980,
+      "SchoolInYearBalance": 110,
+      "CentralInYearBalance": 870,
+      "RevenueReserve": 830,
+      "SchoolRevenueReserve": 200,
+      "CentralRevenueReserve": 630
+    }
+  },
+  {
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

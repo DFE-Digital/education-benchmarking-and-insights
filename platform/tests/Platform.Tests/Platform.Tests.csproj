@@ -1,16 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <RunSettingsFilePath>$(MSBuildProjectDirectory)\..\coverlet.runsettings</RunSettingsFilePath>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AutoFixture" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Moq" />
-        <PackageReference Include="xunit" />
+        <PackageReference Include="AutoFixture"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="Moq"/>
+        <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.runner.visualstudio">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -19,10 +20,137 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-        <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj" />
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+        <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj"/>
+        <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj"/>
+        <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Insight\Income\Data\GrantFundingTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\Data\TotalIncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\Data\SchoolIncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\CreateResponseFromSchoolIncome\GrantFundingTestData.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\CreateResponseFromSchoolIncome\IncomeTestData.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\CreateResponseFromSchoolIncome\TotalIncomeTestData.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\CreateResponseFromSchoolIncome\SelfGeneratedTestData.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\CreateResponseFromSchoolIncome\DirectRevenueFinancingTestData.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\Create\DirectRevenueFinancingTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\Create\GrantFundingTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\Create\IncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\Create\SelfGeneratedTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactory\Create\TotalIncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactoryCreate\DirectRevenueFinancingTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactoryCreate\GrantFundingTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactoryCreate\IncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactoryCreate\SelfGeneratedTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Income\IncomeResponseFactoryCreate\TotalIncomeTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\EducationalSuppliesTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\TeachingTeachingSupportStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\ExpenditureTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\NonEducationalSupportStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\TotalExpenditureTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\EducationalIctTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\PremisesStaffServicesTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\UtilitiesTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\AdministrationSuppliesTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\CateringStaffServicesTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Expenditure\ExpenditureResponseFactoryCreate\OtherCostsTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Balance\BalanceResponseFactoryCreate\BalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Balance\BalanceResponseFactoryCreate\TotalBalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\BalanceResponseFactoryCreate\BalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\BalanceResponseFactoryCreate\TotalBalanceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\WorkforceTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\CensusTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\TeachersTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\SeniorLeadershipTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\TeachingAssistantTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\NonClassroomSupportStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Insight\Census\CensusResponseFactoryCreate\AuxiliaryStaffTestData.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Insight\Expenditure\ExpenditureResponseFactoryCreate\WhenIncomeResponseFactoryCreatesResponseFromSchoolIncomeHistory.cs"/>
+        <Compile Remove="Insight\Expenditure\ExpenditureResponseFactoryCreate\WhenIncomeResponseFactoryCreatesResponseFromTrustIncome.cs"/>
+        <Compile Remove="Insight\Expenditure\ExpenditureResponseFactoryCreate\WhenIncomeResponseFactoryCreatesResponseFromTrustIncomeHistory.cs"/>
     </ItemGroup>
 </Project>

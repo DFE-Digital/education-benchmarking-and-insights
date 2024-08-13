@@ -1,0 +1,94 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 660000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 6600
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 6600
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 660
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "LearningResourcesIctCosts": 880000,
+      "SchoolLearningResourcesIctCosts": 660000,
+      "CentralLearningResourcesIctCosts": 220000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "LearningResourcesIctCosts": 88,
+      "SchoolLearningResourcesIctCosts": 66,
+      "CentralLearningResourcesIctCosts": 22
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "LearningResourcesIctCosts": 44,
+      "SchoolLearningResourcesIctCosts": 33,
+      "CentralLearningResourcesIctCosts": 11
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "LearningResourcesIctCosts": 880,
+      "SchoolLearningResourcesIctCosts": 660,
+      "CentralLearningResourcesIctCosts": 220
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "EducationalIct",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "LearningResourcesIctCosts": 660000
+    }
+  },
+  {
+    "Category": "NotEducationalIct",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

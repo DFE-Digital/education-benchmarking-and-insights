@@ -1,5 +1,7 @@
-﻿namespace Platform.Api.Insight.Income;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Income;
 
+[ExcludeFromCodeCoverage]
 public abstract record IncomeBaseModel
 {
     public decimal? TotalPupils { get; set; }
@@ -42,6 +44,7 @@ public abstract record IncomeBaseModel
     public decimal? OtherSelfGeneratedIncomeCS { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolIncomeModel : IncomeBaseModel
 {
     public string? URN { get; set; }
@@ -50,18 +53,21 @@ public record SchoolIncomeModel : IncomeBaseModel
     public string? LAName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolIncomeHistoryModel : IncomeBaseModel
 {
     public string? URN { get; set; }
     public int? Year { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustIncomeModel : IncomeBaseModel
 {
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustIncomeHistoryModel : IncomeBaseModel
 {
     public string? CompanyNumber { get; set; }

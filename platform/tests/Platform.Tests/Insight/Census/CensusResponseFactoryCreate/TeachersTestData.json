@@ -1,0 +1,63 @@
+﻿[
+  {
+    "Category": "TeachersFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "Teachers": 1.06
+    }
+  },
+  {
+    "Category": "TeachersFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "Teachers": 88.89
+    }
+  },
+  {
+    "Category": "TeachersFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "Teachers": 12.5
+    }
+  },
+  {
+    "Category": "TeachersFte",
+    "Dimension": "Total",
+    "Expected": {
+      "Teachers": 80
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "Teachers": 1.06
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "Teachers": 88.89
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "Teachers": 12.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "Teachers": 80
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
+  }
+]

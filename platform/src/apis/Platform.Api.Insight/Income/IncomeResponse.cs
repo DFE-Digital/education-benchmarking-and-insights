@@ -1,4 +1,5 @@
-﻿namespace Platform.Api.Insight.Income;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Income;
 
 public static class IncomeResponseFactory
 {
@@ -151,12 +152,9 @@ public static class IncomeResponseFactory
         return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcAmount(decimal? value, IncomeBaseModel model, IncomeParameters parameters)
-    {
-        return parameters.ExcludeCentralServices
-            ? null
-            : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
-    }
+    private static decimal? CalcAmount(decimal? value, IncomeBaseModel model, IncomeParameters parameters) => parameters.ExcludeCentralServices
+        ? null
+        : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
         decimal? totalExpenditure, string dimension)
@@ -177,6 +175,7 @@ public static class IncomeResponseFactory
     }
 }
 
+[ExcludeFromCodeCoverage]
 public abstract record IncomeBaseResponse
 {
     public decimal? TotalIncome { get; set; }
@@ -233,6 +232,7 @@ public abstract record IncomeBaseResponse
     public decimal? CentralOtherSelfGeneratedIncome { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolIncomeResponse : IncomeBaseResponse
 {
     public string? URN { get; set; }
@@ -242,12 +242,14 @@ public record SchoolIncomeResponse : IncomeBaseResponse
     public decimal? TotalPupils { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustIncomeResponse : IncomeBaseResponse
 {
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record SchoolIncomeHistoryResponse : IncomeBaseResponse
 {
     public string? URN { get; set; }
@@ -255,6 +257,7 @@ public record SchoolIncomeHistoryResponse : IncomeBaseResponse
     public string? Term => Year != null ? $"{Year - 1} to {Year}" : null;
 }
 
+[ExcludeFromCodeCoverage]
 public record TrustIncomeHistoryResponse : IncomeBaseResponse
 {
     public string? CompanyNumber { get; set; }

@@ -58,11 +58,27 @@
                 }
                 @if (Model.AllPupilReferralUnit == true)
                 {
-                    <li>pupil referral units or alternative provision schools</li>
+                    <li>pupil referral units</li>
+                }
+                @if (Model.AllAlternativeProvision == true)
+                {
+                    <li>alternative provision schools</li>
                 }
                 @if (Model.AllSpecial == true)
                 {
                     <li>special schools</li>
+                }
+                @if (Model.AllPostSixteen == true)
+                {
+                    <li>post 16</li>
+                }
+                @if (Model.AllAllThrough == true)
+                {
+                    <li>all through schools</li>
+                }
+                @if (Model.AllUniversityTechnicalCollege == true)
+                {
+                    <li>university technical colleges</li>
                 }
                 @if (!string.IsNullOrWhiteSpace(Model.AllInLaName))
                 {

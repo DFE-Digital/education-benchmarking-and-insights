@@ -1,0 +1,15 @@
+﻿{
+  "TotalPupils": 1000,
+  "WorkforceFTE": 90,
+  "WorkforceHeadcount": 100,
+  "TeachersFTE": 80,
+  "TeachersHeadcount": 85,
+  "SeniorLeadershipFTE": 70,
+  "SeniorLeadershipHeadcount": 75,
+  "TeachingAssistantFTE": 60,
+  "TeachingAssistantHeadcount": 65,
+  "NonClassroomSupportStaffFTE": 40,
+  "NonClassroomSupportStaffHeadcount": 50,
+  "AuxiliaryStaffFTE": 20,
+  "AuxiliaryStaffHeadcount": 30
+}

@@ -1,4 +1,5 @@
-﻿namespace Platform.Api.Insight.Census;
+﻿using System.Diagnostics.CodeAnalysis;
+namespace Platform.Api.Insight.Census;
 
 public static class CensusResponseFactory
 {
@@ -114,7 +115,7 @@ public static class CensusResponseFactory
     }
 }
 
-
+[ExcludeFromCodeCoverage]
 public abstract record CensusBaseResponse
 {
     public string? URN { get; set; }
@@ -129,6 +130,7 @@ public abstract record CensusBaseResponse
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CensusResponse : CensusBaseResponse
 {
     public string? SchoolName { get; set; }
@@ -136,6 +138,7 @@ public record CensusResponse : CensusBaseResponse
     public string? LAName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CensusHistoryResponse : CensusBaseResponse
 {
     public int? Year { get; set; }

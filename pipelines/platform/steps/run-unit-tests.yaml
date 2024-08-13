@@ -28,7 +28,7 @@ steps:
     inputs:
       command: test
       packagesDirectory: $(NUGET_PACKAGES)
-      arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" --settings platform/tests/coverlet.runsettings'
       projects: 'platform/**/*.Tests.csproj'
 
   - task: PublishCodeCoverageResults@2
@@ -36,10 +36,10 @@ steps:
     inputs:
       summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
-#  - task: BuildQualityChecks@9
-#    displayName: 'Check build quality'
-#    inputs:
-#      checkCoverage: true
-#      coverageType: lines
-#      coverageFailOption: fixed
-#      coverageThreshold: 50
+  - task: BuildQualityChecks@9
+    displayName: 'Check build quality'
+    inputs:
+      checkCoverage: true
+      coverageType: lines
+      coverageFailOption: fixed
+      coverageThreshold: 50

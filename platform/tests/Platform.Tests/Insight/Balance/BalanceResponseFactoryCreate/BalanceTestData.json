@@ -1,0 +1,15 @@
+﻿{
+  "URN": "URN",
+  "SchoolName": "SchoolName",
+  "SchoolType": "SchoolType",
+  "LAName": "LAName",
+  "TotalPupils": 1000,
+  "TotalIncome": 1000000,
+  "TotalIncomeCS": 990000,
+  "TotalExpenditure": 2000000,
+  "TotalExpenditureCS": 1700000,
+  "InYearBalance": 980000,
+  "InYearBalanceCS": 870000,
+  "RevenueReserve": 830000,
+  "RevenueReserveCS": 630000
+}

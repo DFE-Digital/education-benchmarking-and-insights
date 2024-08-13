@@ -1,0 +1,74 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalIncome": 10000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalIncome": 0.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalIncome": 100
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalIncome": 10
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalIncome": 1000000,
+      "SchoolTotalIncome": 10000,
+      "CentralTotalIncome": 990000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalIncome": 50,
+      "SchoolTotalIncome": 0.5,
+      "CentralTotalIncome": 49.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalIncome": 100,
+      "SchoolTotalIncome": 1,
+      "CentralTotalIncome": 99
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalIncome": 1000,
+      "SchoolTotalIncome": 10,
+      "CentralTotalIncome": 990
+    }
+  }
+]

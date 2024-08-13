@@ -1,9 +1,11 @@
-﻿using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 using Newtonsoft.Json.Serialization;
 using Platform.Api.Insight.Expenditure;
 namespace Platform.Api.Insight.OpenApi.Examples;
 
+[ExcludeFromCodeCoverage]
 internal class ExampleExpenditureCategory : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
@@ -17,6 +19,7 @@ internal class ExampleExpenditureCategory : OpenApiExample<string>
     }
 }
 
+[ExcludeFromCodeCoverage]
 internal class ExampleExpenditureDimension : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)

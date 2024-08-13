@@ -1,0 +1,63 @@
+﻿[
+  {
+    "Category": "TeachingAssistantsFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "TeachingAssistant": 1.08
+    }
+  },
+  {
+    "Category": "TeachingAssistantsFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "TeachingAssistant": 66.67
+    }
+  },
+  {
+    "Category": "TeachingAssistantsFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "TeachingAssistant": 16.67
+    }
+  },
+  {
+    "Category": "TeachingAssistantsFte",
+    "Dimension": "Total",
+    "Expected": {
+      "TeachingAssistant": 60
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "TeachingAssistant": 1.08
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "TeachingAssistant": 66.67
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "TeachingAssistant": 16.67
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "TeachingAssistant": 60
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
+  }
+]

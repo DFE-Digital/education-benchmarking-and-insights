@@ -30,6 +30,7 @@ public record PipelineStartMessage
     public Payload? Payload { get; set; } // null for default
 }
 
+[ExcludeFromCodeCoverage]
 [JsonConverter(typeof(JsonSubtypes), "Kind")]
 public record Payload
 {
@@ -37,12 +38,14 @@ public record Payload
     public virtual string? Kind { get; }
 }
 
+[ExcludeFromCodeCoverage]
 public record ComparatorSetPayload : Payload
 {
     public override string Kind => nameof(ComparatorSetPayload);
     public string[] Set { get; set; } = [];
 }
 
+[ExcludeFromCodeCoverage]
 public record CustomDataPayload : Payload
 {
     public override string Kind => nameof(CustomDataPayload);

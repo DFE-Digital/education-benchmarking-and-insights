@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 namespace Platform.Api.Benchmark.Comparators;
 
+[ExcludeFromCodeCoverage]
 public record CharacteristicList
 {
     public string[] Values { get; set; } = Array.Empty<string>();
 }
 
+[ExcludeFromCodeCoverage]
 public record CharacteristicValueBool
 {
     public bool Values { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CharacteristicRange
 {
     public decimal From { get; set; }
     public decimal To { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record CharacteristicDateRange
 {
     public DateTime From { get; set; }
@@ -68,10 +72,7 @@ public static class ExpressionBuilder
         return list;
     }
 
-    public static string BuildFilter(this List<string> list)
-    {
-        return string.Join(" and ", list);
-    }
+    public static string BuildFilter(this List<string> list) => string.Join(" and ", list);
 
     public static List<string> ListSearch(this List<string> list, string fieldName, CharacteristicList? characteristic)
     {
@@ -83,8 +84,5 @@ public static class ExpressionBuilder
         return list;
     }
 
-    public static string BuildSearch(this List<string> list)
-    {
-        return string.Join(" AND ", list);
-    }
+    public static string BuildSearch(this List<string> list) => string.Join(" AND ", list);
 }

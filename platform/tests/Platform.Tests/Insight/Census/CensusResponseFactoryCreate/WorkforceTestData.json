@@ -1,0 +1,63 @@
+﻿[
+  {
+    "Category": "WorkforceFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "Workforce": 1.11
+    }
+  },
+  {
+    "Category": "WorkforceFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "Workforce": 100
+    }
+  },
+  {
+    "Category": "WorkforceFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "Workforce": 11.11
+    }
+  },
+  {
+    "Category": "WorkforceFte",
+    "Dimension": "Total",
+    "Expected": {
+      "Workforce": 90
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "Workforce": 1.11
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "Workforce": 100
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "Workforce": 11.11
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "Workforce": 90
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
+  }
+]

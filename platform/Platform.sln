@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apis", "apis", "{80C48401-A0AA-4707-B26A-332240A6C214}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{88E9B775-3937-45F6-9899-F0ECDD635145}"
+	ProjectSection(SolutionItems) = preProject
+		tests\coverlet.runsettings = tests\coverlet.runsettings
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "search", "search", "{B59E14FF-BBC9-4659-BA54-94089935CBAA}"
 EndProject

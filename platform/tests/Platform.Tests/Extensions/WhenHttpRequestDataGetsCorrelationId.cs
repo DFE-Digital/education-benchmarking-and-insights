@@ -2,9 +2,9 @@
 using Platform.Functions.Extensions;
 using Platform.Tests.Mocks;
 using Xunit;
-namespace Platform.Tests.Functions;
+namespace Platform.Tests.Extensions;
 
-public class WhenGetCorrelationIdIsCalled
+public class WhenHttpRequestDataGetsCorrelationId
 {
     [Fact]
     public void WithCorrelationIdHeaderAsValidGuid()

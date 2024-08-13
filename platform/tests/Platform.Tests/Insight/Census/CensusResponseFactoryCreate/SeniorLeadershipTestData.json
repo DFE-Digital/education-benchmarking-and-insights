@@ -1,0 +1,63 @@
+﻿[
+  {
+    "Category": "SeniorLeadershipFte",
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "SeniorLeadership": 1.07
+    }
+  },
+  {
+    "Category": "SeniorLeadershipFte",
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "SeniorLeadership": 77.78
+    }
+  },
+  {
+    "Category": "SeniorLeadershipFte",
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "SeniorLeadership": 14.29
+    }
+  },
+  {
+    "Category": "SeniorLeadershipFte",
+    "Dimension": "Total",
+    "Expected": {
+      "SeniorLeadership": 70
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "HeadcountPerFte",
+    "Expected": {
+      "SeniorLeadership": 1.07
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentWorkforce",
+    "Expected": {
+      "SeniorLeadership": 77.78
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PupilsPerStaffRole",
+    "Expected": {
+      "SeniorLeadership": 14.29
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Total",
+    "Expected": {
+      "SeniorLeadership": 70
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "Expected": {}
+  }
+]

@@ -3,7 +3,7 @@ using Web.App.Domain;
 
 namespace Web.App.ViewModels;
 
-public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUserDefined[]? trustCharacteristics)
+public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUserDefined[]? trustCharacteristics, bool isEdit)
 {
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
@@ -13,6 +13,7 @@ public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUse
         .Concat([trust.CompanyNumber])
         .OfType<string>()
         .ToArray();
+    public bool IsEdit => isEdit;
 }
 
 public record TrustComparatorRemoveViewModel

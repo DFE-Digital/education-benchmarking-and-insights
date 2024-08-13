@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
 using Platform.Functions.Extensions;
-
 namespace Platform.Api.Benchmark.ComparatorSets;
 
+[ExcludeFromCodeCoverage]
 public record ComparatorSetSchool
 {
     public string? URN { get; set; }
@@ -14,9 +14,6 @@ public record ComparatorSetSchool
     public ComparatorSetIds? Pupil { get; set; }
     public ComparatorSetIds? Building { get; set; }
 }
-
-
-
 
 [ExcludeFromCodeCoverage]
 [Table("UserDefinedSchoolComparatorSet")]
@@ -28,7 +25,6 @@ public record ComparatorSetUserDefinedSchool
     public ComparatorSetIds? Set { get; set; }
 }
 
-
 [ExcludeFromCodeCoverage]
 [Table("UserDefinedTrustComparatorSet")]
 public record ComparatorSetUserDefinedTrust
@@ -39,12 +35,10 @@ public record ComparatorSetUserDefinedTrust
     public ComparatorSetIds? Set { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class ComparatorSetIds : List<string>
 {
-    public override string ToString()
-    {
-        return ToArray().ToJson();
-    }
+    public override string ToString() => ToArray().ToJson();
 
     public static ComparatorSetIds FromString(string? value)
     {

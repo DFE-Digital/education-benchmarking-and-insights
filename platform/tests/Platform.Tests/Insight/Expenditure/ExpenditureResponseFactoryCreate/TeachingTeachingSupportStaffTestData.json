@@ -1,0 +1,179 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 110000,
+      "TeachingStaffCosts": 200000,
+      "SupplyTeachingStaffCosts": 330000,
+      "EducationalConsultancyCosts": 310000,
+      "EducationSupportStaffCosts": 410000,
+      "AgencySupplyTeachingStaffCosts": 405000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 1100,
+      "TeachingStaffCosts": 2000,
+      "SupplyTeachingStaffCosts": 3300,
+      "EducationalConsultancyCosts": 3100,
+      "EducationSupportStaffCosts": 4100,
+      "AgencySupplyTeachingStaffCosts": 4050
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 1100,
+      "TeachingStaffCosts": 2000,
+      "SupplyTeachingStaffCosts": 3300,
+      "EducationalConsultancyCosts": 3100,
+      "EducationSupportStaffCosts": 4100,
+      "AgencySupplyTeachingStaffCosts": 4050
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 110,
+      "TeachingStaffCosts": 200,
+      "SupplyTeachingStaffCosts": 330,
+      "EducationalConsultancyCosts": 310,
+      "EducationSupportStaffCosts": 410,
+      "AgencySupplyTeachingStaffCosts": 405
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 980000,
+      "SchoolTotalTeachingSupportStaffCosts": 110000,
+      "CentralTotalTeachingSupportStaffCosts": 870000,
+      "TeachingStaffCosts": 830000,
+      "SchoolTeachingStaffCosts": 200000,
+      "CentralTeachingStaffCosts": 630000,
+      "SupplyTeachingStaffCosts": 960000,
+      "SchoolSupplyTeachingStaffCosts": 210000,
+      "CentralSupplyTeachingStaffCosts": 750000,
+      "EducationalConsultancyCosts": 940000,
+      "SchoolEducationalConsultancyCosts": 310000,
+      "CentralEducationalConsultancyCosts": 630000,
+      "EducationSupportStaffCosts": 920000,
+      "SchoolEducationSupportStaffCosts": 410000,
+      "CentralEducationSupportStaffCosts": 510000,
+      "AgencySupplyTeachingStaffCosts": 900000,
+      "SchoolAgencySupplyTeachingStaffCosts": 405000,
+      "CentralAgencySupplyTeachingStaffCosts": 495000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 98,
+      "SchoolTotalTeachingSupportStaffCosts": 11,
+      "CentralTotalTeachingSupportStaffCosts": 87,
+      "TeachingStaffCosts": 83,
+      "SchoolTeachingStaffCosts": 20,
+      "CentralTeachingStaffCosts": 63,
+      "SupplyTeachingStaffCosts": 96,
+      "SchoolSupplyTeachingStaffCosts": 21,
+      "CentralSupplyTeachingStaffCosts": 75,
+      "EducationalConsultancyCosts": 94,
+      "SchoolEducationalConsultancyCosts": 31,
+      "CentralEducationalConsultancyCosts": 63,
+      "EducationSupportStaffCosts": 92,
+      "SchoolEducationSupportStaffCosts": 41,
+      "CentralEducationSupportStaffCosts": 51,
+      "AgencySupplyTeachingStaffCosts": 90,
+      "SchoolAgencySupplyTeachingStaffCosts": 40.5,
+      "CentralAgencySupplyTeachingStaffCosts": 49.5
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 49,
+      "SchoolTotalTeachingSupportStaffCosts": 5.5,
+      "CentralTotalTeachingSupportStaffCosts": 43.5,
+      "TeachingStaffCosts": 41.5,
+      "SchoolTeachingStaffCosts": 10,
+      "CentralTeachingStaffCosts": 31.5,
+      "SupplyTeachingStaffCosts": 48,
+      "SchoolSupplyTeachingStaffCosts": 10.5,
+      "CentralSupplyTeachingStaffCosts": 37.5,
+      "EducationalConsultancyCosts": 47,
+      "SchoolEducationalConsultancyCosts": 15.5,
+      "CentralEducationalConsultancyCosts": 31.5,
+      "EducationSupportStaffCosts": 46,
+      "SchoolEducationSupportStaffCosts": 20.5,
+      "CentralEducationSupportStaffCosts": 25.5,
+      "AgencySupplyTeachingStaffCosts": 45,
+      "SchoolAgencySupplyTeachingStaffCosts": 20.25,
+      "CentralAgencySupplyTeachingStaffCosts": 24.75
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 980,
+      "TeachingStaffCosts": 830,
+      "SupplyTeachingStaffCosts": 960,
+      "EducationalConsultancyCosts": 940,
+      "EducationSupportStaffCosts": 920,
+      "AgencySupplyTeachingStaffCosts": 900,
+      "SchoolTotalTeachingSupportStaffCosts": 110,
+      "SchoolTeachingStaffCosts": 200,
+      "SchoolSupplyTeachingStaffCosts": 210,
+      "SchoolEducationalConsultancyCosts": 310,
+      "SchoolEducationSupportStaffCosts": 410,
+      "SchoolAgencySupplyTeachingStaffCosts": 405,
+      "CentralTotalTeachingSupportStaffCosts": 870,
+      "CentralTeachingStaffCosts": 630,
+      "CentralSupplyTeachingStaffCosts": 750,
+      "CentralEducationalConsultancyCosts": 630,
+      "CentralEducationSupportStaffCosts": 510,
+      "CentralAgencySupplyTeachingStaffCosts": 495
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "TeachingTeachingSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "TotalTeachingSupportStaffCosts": 110000,
+      "TeachingStaffCosts": 200000,
+      "SupplyTeachingStaffCosts": 330000,
+      "EducationalConsultancyCosts": 310000,
+      "EducationSupportStaffCosts": 410000,
+      "AgencySupplyTeachingStaffCosts": 405000
+    }
+  },
+  {
+    "Category": "NotTeachingTeachingSupportStaff",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

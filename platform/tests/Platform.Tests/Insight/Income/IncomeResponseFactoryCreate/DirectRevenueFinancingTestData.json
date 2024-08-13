@@ -1,0 +1,94 @@
+﻿[
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 320000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 16
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 3200
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 320
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "DirectRevenueFinancing": 820000,
+      "SchoolDirectRevenueFinancing": 320000,
+      "CentralDirectRevenueFinancing": 500000
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentIncome",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "DirectRevenueFinancing": 82,
+      "SchoolDirectRevenueFinancing": 32,
+      "CentralDirectRevenueFinancing": 50
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PercentExpenditure",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "DirectRevenueFinancing": 41,
+      "SchoolDirectRevenueFinancing": 16,
+      "CentralDirectRevenueFinancing": 25
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": "PerUnit",
+    "ExcludeCentralServices": false,
+    "Expected": {
+      "DirectRevenueFinancing": 820,
+      "SchoolDirectRevenueFinancing": 320,
+      "CentralDirectRevenueFinancing": 500
+    }
+  },
+  {
+    "Category": null,
+    "Dimension": null,
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  },
+  {
+    "Category": "DirectRevenueFinancing",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {
+      "DirectRevenueFinancing": 320000
+    }
+  },
+  {
+    "Category": "NotDirectRevenueFinancing",
+    "Dimension": "Actuals",
+    "ExcludeCentralServices": true,
+    "Expected": {}
+  }
+]

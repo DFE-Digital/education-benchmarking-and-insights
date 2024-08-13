@@ -13,6 +13,12 @@
           "System.Threading.Channels": "4.7.1"
         }
       },
+      "Dapper": {
+        "type": "Direct",
+        "requested": "[2.1.35, )",
+        "resolved": "2.1.35",
+        "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
+      },
       "FluentValidation": {
         "type": "Direct",
         "requested": "[11.9.2, )",
