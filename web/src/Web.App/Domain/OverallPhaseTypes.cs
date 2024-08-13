@@ -26,4 +26,15 @@ public static class OverallPhaseTypes
         AlternativeProvision,
         UniversityTechnicalCollege
     ];
+
+    public static string[] AcademyPhases =>
+    [
+        Primary,
+        Secondary,
+        Special,
+        AllThrough,
+        PostSixteen,
+        AlternativeProvision,
+        UniversityTechnicalCollege
+    ];
 }
