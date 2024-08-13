@@ -111,7 +111,7 @@
                                 phases.Length > 1
                                     ? $"{string.Join(", ", phases.Take(new Range(0, phases.Length - 1)))} and {phases.Last()}"
                                     : phases.FirstOrDefault(),
-                                [OverallPhaseTypes.Nursery, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough],
+                                OverallPhaseTypes.AcademyPhases,
                                 prefix: "contains",
                                 suffix: "schools"))
 
