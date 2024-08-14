@@ -327,6 +327,8 @@ def pre_process_bfr(run_type, year):
                 "Total pupils in trust",
             ],
         )
+        academies_y2["Trust Revenue reserve"] = 0.0
+
         if bfr_sofa_year_minus_two_file := try_get_blob(
             raw_container,
             f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
@@ -375,14 +377,16 @@ def pre_process_bfr(run_type, year):
                 "Total pupils in trust",
             ],
         )
-        if bfr_sofa_year_minus_two_file := try_get_blob(
+        academies_y1["Trust Revenue reserve"] = 0.0
+
+        if bfr_sofa_year_minus_one_file := try_get_blob(
             raw_container,
-            f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
+            f"{run_type}/{year - 1}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
-            bfr_sofa_year_minus_two = (
+            bfr_sofa_year_minus_one = (
                 pd.read_csv(
-                    bfr_sofa_year_minus_two_file,
+                    bfr_sofa_year_minus_one_file,
                     usecols=[
                         "TrustUPIN",
                         "EFALineNo",
@@ -397,8 +401,8 @@ def pre_process_bfr(run_type, year):
                 .query("EFALineNo == 430")
             )
             academies_y1 = academies_y1.merge(
-                bfr_sofa_year_minus_two[
-                    bfr_sofa_year_minus_two["EFALineNo"] == 430
+                bfr_sofa_year_minus_one[
+                    bfr_sofa_year_minus_one["EFALineNo"] == 430
                 ].rename(
                     {"y1P2": "Trust Revenue reserve"},
                     axis=1,
