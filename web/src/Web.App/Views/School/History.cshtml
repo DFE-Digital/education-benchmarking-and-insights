@@ -3,8 +3,8 @@
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.HistoricData;
     var dataSource = Model.IsPartOfTrust
-        ? "All data is from academies accounts return (AAR) return."
-        : "All data is from consistent financial reporting (CFR).";
+        ? "Financial data is from academies accounts return (AAR) return."
+        : "Financial data is from consistent financial reporting (CFR).";
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
@@ -13,6 +13,8 @@
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">View data from previous financial years.</p>
         <p class="govuk-body">@dataSource</p>
+        <p class="govuk-body">Workforce data is taken from the workforce census.</p>
+        <p class="govuk-body">Pupil data is taken from the school census data set in January.</p>
     </div>
 </div>
 
