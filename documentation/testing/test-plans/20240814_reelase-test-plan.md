@@ -1,5 +1,5 @@
 ﻿# Release Test Plan
-Release date: 07/13/2024
+Release date: 07/14/2024
 
 ### Introduction
 The purpose of this test plan is to outline the approach and scope for testing the updates made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
@@ -18,7 +18,8 @@ This test plan covers the functional and sanity testing to validate all features
 Manual functional testing will be carried out to validate fixes and updates are in place in pre-prod.
 #### Sanity Testing
 This testing will be carried out in pre-prod to ensure all functionalities are working as expected.
-
+#### Regression Testing
+A complete regression will be carried out in pre-prod to ensure all features are working as expected and updates made haven't broken anything else. 
 
 ### Test Scope
 #### Issues/Updates to be Tested:
@@ -39,6 +40,8 @@ This testing will be carried out in pre-prod to ensure all functionalities are w
 3. [219590 - Use ClaimTypes.NameIdentifier for user id rather than email](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/219590) This is update with how we are saving user data when custom comparator or data is used. It has been tested in test and no further actions are needed in preprod.  
 4. [219227 Add WAF log details to the operational dashboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/219227) WAF logs are now added to Operational dashboard and is tested in dev/test. No further testing is required in preprod. 
 5. [222350 Implement dead letter queue](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222350) We have dead letter queue for data pipelines which will dequeue the message after 5 retries so that it is not in the queue forever. Tested in dev/test and no further action is needed in preprod.
+6. [217947 BfR Figures Incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/217947) We have made the fixes which requires further validating of the figures. The feature is currently turned off in pre prod and production.
+
 ### Test Deliverables
 #### Documents:
 - Release test plan
