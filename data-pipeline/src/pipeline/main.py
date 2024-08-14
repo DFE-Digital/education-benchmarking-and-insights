@@ -334,6 +334,7 @@ def pre_process_bfr(run_type, year):
             f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
+            academies_y2 = academies_y2.drop(columns=["Trust Revenue reserve"])
             bfr_sofa_year_minus_two = (
                 pd.read_csv(
                     bfr_sofa_year_minus_two_file,
@@ -344,9 +345,8 @@ def pre_process_bfr(run_type, year):
                     ],
                 )
                 .rename(
-                    {
-                        "TrustUPIN": "Trust UPIN",
-                    }
+                    {"TrustUPIN": "Trust UPIN"},
+                    axis=1,
                 )
                 .query("EFALineNo == 430")
             )
@@ -384,6 +384,7 @@ def pre_process_bfr(run_type, year):
             f"{run_type}/{year - 1}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
+            academies_y1 = academies_y1.drop(columns=["Trust Revenue reserve"])
             bfr_sofa_year_minus_one = (
                 pd.read_csv(
                     bfr_sofa_year_minus_one_file,
@@ -394,9 +395,8 @@ def pre_process_bfr(run_type, year):
                     ],
                 )
                 .rename(
-                    {
-                        "TrustUPIN": "Trust UPIN",
-                    }
+                    {"TrustUPIN": "Trust UPIN"},
+                    axis=1,
                 )
                 .query("EFALineNo == 430")
             )
@@ -404,7 +404,7 @@ def pre_process_bfr(run_type, year):
                 bfr_sofa_year_minus_one[
                     bfr_sofa_year_minus_one["EFALineNo"] == 430
                 ].rename(
-                    {"y1P2": "Trust Revenue reserve"},
+                    {"Y2P2": "Trust Revenue reserve"},
                     axis=1,
                 )[
                     ["Trust UPIN", "Trust Revenue reserve"]
