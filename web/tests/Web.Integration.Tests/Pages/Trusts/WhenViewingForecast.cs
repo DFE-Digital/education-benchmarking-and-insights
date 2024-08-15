@@ -35,7 +35,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.TrustForecast(companyNumber));
 
-        PageAssert.IsAccessDeniedPage(page);
+        PageAssert.IsForbiddenPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(companyNumber).ToAbsolute(), HttpStatusCode.Forbidden);
     }
 

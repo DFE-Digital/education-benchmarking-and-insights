@@ -33,6 +33,6 @@ public class GivenRedirectDisabledFeatureHandler
 
         handler.HandleDisabledFeatures(Array.Empty<string>(), actionExecutingContext);
 
-        Assert.IsType<ForbidResult>(actionExecutingContext.Result);
+        Assert.IsType<ViewResult>(actionExecutingContext.Result);
     }
 }

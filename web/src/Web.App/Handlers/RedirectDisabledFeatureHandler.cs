@@ -8,7 +8,11 @@ public class RedirectDisabledFeatureHandler : IDisabledFeaturesHandler
 {
     public Task HandleDisabledFeatures(IEnumerable<string> features, ActionExecutingContext context)
     {
-        context.Result = new ForbidResult();
+        context.Result = context.Result = new ViewResult
+        {
+            ViewName = "~/Views/Error/FeatureDisabled.cshtml",
+            StatusCode = 403
+        };
         return Task.CompletedTask;
     }
 }

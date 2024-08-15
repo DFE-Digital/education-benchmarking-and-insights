@@ -22,7 +22,11 @@ public class SchoolAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFi
         var isValid = context.HttpContext.User.Claims.Any(c => urn != null && c.Type == ClaimNames.Schools && c.Value == urn);
         if (!isValid)
         {
-            context.Result = new ForbidResult();
+            context.Result = new ViewResult
+            {
+                ViewName = "~/Views/Error/Forbidden.cshtml",
+                StatusCode = 403
+            };
         }
     }
 }
