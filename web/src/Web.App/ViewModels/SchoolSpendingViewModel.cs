@@ -64,4 +64,5 @@ public class CostsViewModel
     public string? Id { get; init; }
     public string? Urn { get; init; }
     public bool HasIncompleteData { get; init; }
+    public bool IsCustomData { get; set; }
 }
