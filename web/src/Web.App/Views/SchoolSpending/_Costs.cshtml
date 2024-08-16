@@ -13,15 +13,20 @@
     {
         var category = costs[i];
         
-        var categoryToLower = @category.Rating.Category == Category.Other
-            ? "other"
-            : @category.Rating.Category == Category.EducationalIct
-                ? "Educational ICT"
-                : @category.Rating.Category?.ToLower();
+        var categoryToLower = category.Rating.Category switch
+        {
+            Category.Other => "other",
+            Category.EducationalIct => "Educational ICT",
+            _ => category.Rating.Category?.ToLower()
+        };
 
-        var categoryHeading = @category.Rating.Category == Category.NonEducationalSupportStaff
+        var categoryHeading = category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
-            : @category.Rating.Category;
+            : category.Rating.Category;
+
+        var categoryUri = Model.IsCustomData
+            ? Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })
+            : Url.Action("Index", "SchoolComparison", new { urn = Model.Urn });
 
         <div class="govuk-grid-row govuk-!-margin-bottom-4"
              @(i == 0 ? $"id={Model.Id}" : "")>
@@ -41,7 +46,7 @@
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
+                    <a href="@categoryUri#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
                 </p>
             </div>
         </div>
