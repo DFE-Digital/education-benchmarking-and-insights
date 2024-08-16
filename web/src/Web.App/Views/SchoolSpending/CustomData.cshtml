@@ -32,7 +32,9 @@
         Costs = Model.HighPriorityCosts,
         Id = "high-priority",
         Urn = Model.Urn,
-        HasIncompleteData = Model.HasIncompleteData
+        HasIncompleteData = Model.HasIncompleteData,
+        IsCustomData = true
+            
     })
     
     @await Html.PartialAsync("_Costs", new CostsViewModel
@@ -40,7 +42,8 @@
         Costs = Model.MediumPriorityCosts,
         Id = "medium-priority",
         Urn = Model.Urn,
-        HasIncompleteData = Model.HasIncompleteData
+        HasIncompleteData = Model.HasIncompleteData,
+        IsCustomData = true
     })
 }
 
