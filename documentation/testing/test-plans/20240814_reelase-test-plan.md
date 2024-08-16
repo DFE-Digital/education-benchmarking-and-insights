@@ -41,7 +41,7 @@ A complete regression will be carried out in pre-prod to ensure all features are
 4. [219227 Add WAF log details to the operational dashboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/219227) WAF logs are now added to Operational dashboard and is tested in dev/test. No further testing is required in preprod. 
 5. [222350 Implement dead letter queue](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222350) We have dead letter queue for data pipelines which will dequeue the message after 5 retries so that it is not in the queue forever. Tested in dev/test and no further action is needed in preprod.
 6. [217947 BfR Figures Incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/217947) We have made the fixes which requires further validating of the figures. The feature is currently turned off in pre prod and production.
-
+7. [224429 Incorrect View all link on spending prioritise for the school- custom data ](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/224429) There was an issue on one of the custom data page links which is also fixed as part of this release. Tested fully in test. 
 ### Test Deliverables
 #### Documents:
 - Release test plan
