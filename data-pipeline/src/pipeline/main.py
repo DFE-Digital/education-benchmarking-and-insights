@@ -292,7 +292,19 @@ def pre_process_all_schools(run_type, year, data_ref):
 
 
 def pre_process_bfr(run_type, year):
-    logger.info("Processing BFR Data")
+    """
+    Aggregate academies budget forecast return (BFR) from
+    statement of financial returns (SOFA) and three-year forecast
+    (3Y) files.
+
+    Forecast data for previous-and-current years are derived from BFR
+    SOFA data; forecast data for future years are derived from BFR 3Y
+    data.
+
+    :param run_type: "default" or "custom"
+    :param year: financial year in question
+    """
+    logger.info("Processing BFR data.")
 
     bfr_sofa = get_blob(
         raw_container, f"{run_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
@@ -302,37 +314,107 @@ def pre_process_bfr(run_type, year):
         raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
-    academies_y2_file = try_get_blob(
-        "pre-processed", f"{run_type}/{year - 2}/academies.parquet"
-    )
     academies_y2 = None
-    if academies_y2_file is not None:
+    if academies_y2_file := try_get_blob(
+        "pre-processed", f"{run_type}/{year - 2}/academies.parquet"
+    ):
         academies_y2 = pd.read_parquet(
             academies_y2_file,
             columns=[
                 "Trust UPIN",
                 "Company Registration Number",
-                "Trust Revenue reserve",
+                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430.
                 "Total pupils in trust",
             ],
         )
+        academies_y2["Trust Revenue reserve"] = 0.0
 
-    academies_y1_file = try_get_blob(
-        "pre-processed", f"{run_type}/{year - 1}/academies.parquet"
-    )
+        if bfr_sofa_year_minus_two_file := try_get_blob(
+            raw_container,
+            f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
+            encoding="unicode-escape",
+        ):
+            academies_y2 = academies_y2.drop(columns=["Trust Revenue reserve"])
+            bfr_sofa_year_minus_two = (
+                pd.read_csv(
+                    bfr_sofa_year_minus_two_file,
+                    usecols=[
+                        "TrustUPIN",
+                        "EFALineNo",
+                        "Y2P2",
+                    ],
+                )
+                .rename(
+                    {"TrustUPIN": "Trust UPIN"},
+                    axis=1,
+                )
+                .query("EFALineNo == 430")
+            )
+            academies_y2 = academies_y2.merge(
+                bfr_sofa_year_minus_two[
+                    bfr_sofa_year_minus_two["EFALineNo"] == 430
+                ].rename(
+                    {"Y2P2": "Trust Revenue reserve"},
+                    axis=1,
+                )[
+                    ["Trust UPIN", "Trust Revenue reserve"]
+                ],
+                on="Trust UPIN",
+                how="left",
+            )
+            academies_y2["Trust Revenue reserve"] *= 1_000
+
     academies_y1 = None
-
-    if academies_y1_file is not None:
+    if academies_y1_file := try_get_blob(
+        "pre-processed", f"{run_type}/{year - 1}/academies.parquet"
+    ):
         academies_y1 = pd.read_parquet(
             academies_y1_file,
             columns=[
                 "Trust UPIN",
                 "Company Registration Number",
-                "Trust Revenue reserve",
+                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430.
                 "Total pupils in trust",
             ],
         )
+        academies_y1["Trust Revenue reserve"] = 0.0
 
+        if bfr_sofa_year_minus_one_file := try_get_blob(
+            raw_container,
+            f"{run_type}/{year - 1}/BFR_SOFA_raw.csv",
+            encoding="unicode-escape",
+        ):
+            academies_y1 = academies_y1.drop(columns=["Trust Revenue reserve"])
+            bfr_sofa_year_minus_one = (
+                pd.read_csv(
+                    bfr_sofa_year_minus_one_file,
+                    usecols=[
+                        "TrustUPIN",
+                        "EFALineNo",
+                        "Y2P2",
+                    ],
+                )
+                .rename(
+                    {"TrustUPIN": "Trust UPIN"},
+                    axis=1,
+                )
+                .query("EFALineNo == 430")
+            )
+            academies_y1 = academies_y1.merge(
+                bfr_sofa_year_minus_one[
+                    bfr_sofa_year_minus_one["EFALineNo"] == 430
+                ].rename(
+                    {"Y2P2": "Trust Revenue reserve"},
+                    axis=1,
+                )[
+                    ["Trust UPIN", "Trust Revenue reserve"]
+                ],
+                on="Trust UPIN",
+                how="left",
+            )
+            academies_y1["Trust Revenue reserve"] *= 1_000
+
+    # TODO: handle condition where this doesn't exist.
     academies = pd.read_parquet(
         get_blob("pre-processed", f"{run_type}/{year}/academies.parquet"),
         columns=[
