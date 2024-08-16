@@ -37,6 +37,11 @@ def cdc_data() -> pd.DataFrame:
 
 
 @pytest.fixture
+def prepared_cdc_data_df(cdc_data: pd.DataFrame) -> dict:
+    return prepare_cdc_data(StringIO(cdc_data.to_csv()), 2022)
+
+
+@pytest.fixture
 def prepared_cdc_data(cdc_data: pd.DataFrame) -> dict:
     return (
         prepare_cdc_data(StringIO(cdc_data.to_csv()), 2022)
@@ -82,13 +87,17 @@ def sen_data() -> pd.DataFrame:
 
 
 @pytest.fixture
+def prepared_sen_data_df(sen_data: pd.DataFrame) -> pd.DataFrame:
+    return prepare_sen_data(StringIO(sen_data.to_csv()))
+
+
+@pytest.fixture
 def prepared_sen_data(sen_data: pd.DataFrame) -> dict:
     return (
         prepare_sen_data(StringIO(sen_data.to_csv()))
         .reset_index()
         .to_dict("records")[0]
     )
-
 
 @pytest.fixture
 def prepared_sen_data_with_nans(sen_data: pd.DataFrame) -> dict:
@@ -389,7 +398,7 @@ def pupil_census_data() -> pd.DataFrame:
 @pytest.fixture
 def prepared_census_data(
     workforce_census_data: pd.DataFrame, pupil_census_data: pd.DataFrame
-) -> dict:
+) -> pd.DataFrame:
     output = BytesIO()
     writer = pd.ExcelWriter(output)
     workforce_census_data.to_excel(
@@ -516,7 +525,7 @@ def gias_links():
 
 
 @pytest.fixture
-def prepared_schools_data(gias_data: pd.DataFrame, gias_links: pd.DataFrame) -> dict:
+def prepared_schools_data(gias_data: pd.DataFrame, gias_links: pd.DataFrame) -> pd.DataFrame:
     return prepare_schools_data(
         StringIO(gias_data.to_csv()), StringIO(gias_links.to_csv())
     )
@@ -623,4 +632,97 @@ def prepared_bfr_data(
         academies_y2,
         academies_y1,
         academies,
+    )
+
+
+@pytest.fixture
+def gias_group_links():
+    return pd.DataFrame(
+        {
+            "URN": [100152, 100154],
+            "Group UID": [16268, 16268],
+            "Group Name": ["A Federation", "A Federation"],
+            "Closed Date": [None, None]
+        }
+    )
+
+@pytest.fixture
+def gias_group_links_csv(gias_group_links):
+    return StringIO(gias_group_links.to_csv(index=False))
+
+@pytest.fixture
+def maintained_schools_master_list():
+    return pd.DataFrame(
+        {
+            "URN": [100150, 100152, 100153, 100154],
+            "LAEstab": ["20136154", "2026005", "2026006", "2026007"],
+            "Phase": ["Infant and junior", "Infant and junior", "Nursery", "Infant and junior"],
+            "Overall Phase": ["Primary", "Not applicable", "Nursery", "Primary"],
+            "Type": ["Community school", "Community school", "Community school", "Community school"],
+            "Period covered by return (months)": [11, 18, 4, 11],
+            "Did Not Supply flag": [0, 0, 1, 0],
+            "Federation": ["No", "Lead School", "No", "Yes"],
+            "Lead school in federation": [0, 0, 0, 1],
+            "Urban  Rural": ["Urban major conurbation", "Urban major conurbation", "Urban major conurbation", "Urban major conurbation"],
+            "London Weighting": ["Inner", "Outer", "Inner", "Inner"],
+            "PFI": ["Y", "N", "N", "N"],
+            "I01  Funds delegated by the LA": [1000, 1001, 1002, 1003],
+            "I02  Funding for 6th form students": [1000, 1001, 1002, 1003],
+            "I03  SEN funding": [1000, 1001, 1002, 1003],
+            "I04  Funding for minority ethnic pupils": [1000, 1001, 1002, 1003],
+            "I05  Pupil Premium": [1000, 1001, 1002, 1003],
+            "I06  Other government grants": [1000, 1001, 1002, 1003],
+            "I07  Other grants and payments": [1000, 1001, 1002, 1003],
+            "I08  Income from facilities and services": [1000, 1001, 1002, 1003],
+            "I09  Income from catering": [1000, 1001, 1002, 1003],
+            "I10  Receipts from supply teacher insurance claims": [1000, 1001, 1002, 1003],
+            "I11  Receipts from other insurance claims": [1000, 1001, 1002, 1003],
+            "I12  Income from contributions to visits etc ": [1000, 1001, 1002, 1003],
+            "I13  Donations and or private funds": [1000, 1001, 1002, 1003],
+            "I15  Pupil focussed extended school funding and   or grants": [1000, 1001, 1002, 1003],
+            "I16  Community focussed school funding and   or grants": [1000, 1001, 1002, 1003],
+            "I17  Community focused school facilities income": [1000, 1001, 1002, 1003],
+            "I18  Additional grant for schools": [1000, 1001, 1002, 1003],
+            "Total Income   I01 to I18": [1000, 1001, 1002, 1003],
+            "CI04 Direct revenue financing": [1000, 1001, 1002, 1003],
+            "E01  Teaching Staff": [1000, 1001, 1002, 1003],
+            "E02  Supply teaching staff": [1000, 1001, 1002, 1003],
+            "E03 Education support staff": [1000, 1001, 1002, 1003],
+            "E04  Premises staff": [1000, 1001, 1002, 1003],
+            "E05 Administrative and clerical staff": [1000, 1001, 1002, 1003],
+            "E06 Catering staff": [1000, 1001, 1002, 1003],
+            "E07  Cost of other staff": [1000, 1001, 1002, 1003],
+            "E08  Indirect employee expenses": [1000, 1001, 1002, 1003],
+            "E09  Development and training": [1000, 1001, 1002, 1003],
+            "E10  Supply teacher insurance": [1000, 1001, 1002, 1003],
+            "E11  Staff related insurance": [1000, 1001, 1002, 1003],
+            "E12  Building maintenance and improvement": [1000, 1001, 1002, 1003],
+            "E13  Grounds maintenance and improvement": [1000, 1001, 1002, 1003],
+            "E14  Cleaning and caretaking": [1000, 1001, 1002, 1003],
+            "E15  Water and sewerage": [1000, 1001, 1002, 1003],
+            "E16  Energy": [1000, 1001, 1002, 1003],
+            "E17  Rates": [1000, 1001, 1002, 1003],
+            "E18  Other occupation costs": [1000, 1001, 1002, 1003],
+            "E19  Learning resources (not ICT equipment)": [1000, 1001, 1002, 1003],
+            "E20  ICT learning resources": [1000, 1001, 1002, 1003],
+            "E21  Exam fees": [1000, 1001, 1002, 1003],
+            "E22 Administrative supplies": [1000, 1001, 1002, 1003],
+            "E23  Other insurance premiums": [1000, 1001, 1002, 1003],
+            "E24  Special facilities ": [1000, 1001, 1002, 1003],
+            "E25  Catering supplies": [1000, 1001, 1002, 1003],
+            "E26 Agency supply teaching staff": [1000, 1001, 1002, 1003],
+            "E27  Bought in professional services - curriculum": [1000, 1001, 1002, 1003],
+            "E28a  Bought in professional services - other (except PFI)": [1000, 1001, 1002, 1003],
+            "E28b Bought in professional services - other (PFI)": [1000, 1001, 1002, 1003],
+            "E29  Loan interest": [1000, 1001, 1002, 1003],
+            "E30 Direct revenue financing (revenue contributions to capital)": [1000, 1001, 1002, 1003],
+            "E31  Community focused school staff": [1000, 1001, 1002, 1003],
+            "E32 Community focused school costs": [1000, 1001, 1002, 1003],
+            "Total Expenditure  E01 to E32": [500, 501, 502, 503],
+            "Revenue Reserve   B01 plus B02 plus B06": [1000, 1001, 1002, 1003],
+            "Direct Grant": [1000, 1001, 1002, 1003],
+            "Targeted Grants": [1000, 1001, 1002, 1003],
+            "Community Grants": [1000, 1001, 1002, 1003],
+            "Self Generated Funding": [1000, 1001, 1002, 1003]
+        }
     )

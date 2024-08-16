@@ -230,24 +230,8 @@ groups_index_col = "URN"
 groups = {
     "URN": "Int64",
     "Group UID": "Int64",
-    "Group ID": "string",
     "Group Name": "string",
-    "Companies House Number": "string",
-    "Group Type (code)": "string",
-    "Group Type": "string",
-    "Closed Date": "string",
-    "Open date": "string",
-    "Incorporated on (open date)": "string",
-    "Group Status (code)": "string",
-    "Group Status": "string",
-    "Joined date": "string",
-    "EstablishmentName": "string",
-    "TypeOfEstablishment (code)": "string",
-    "TypeOfEstablishment (name)": "string",
-    "PhaseOfEducation (code)": "Int64",
-    "PhaseOfEducation (name)": "string",
-    "LA (code)": "Int64",
-    "LA (name)": "string",
+    "Closed Date": "string"
 }
 
 ks2_index_col = "URN"
