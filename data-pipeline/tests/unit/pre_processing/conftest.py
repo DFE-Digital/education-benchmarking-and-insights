@@ -99,6 +99,7 @@ def prepared_sen_data(sen_data: pd.DataFrame) -> dict:
         .to_dict("records")[0]
     )
 
+
 @pytest.fixture
 def prepared_sen_data_with_nans(sen_data: pd.DataFrame) -> dict:
     return (
@@ -525,7 +526,9 @@ def gias_links():
 
 
 @pytest.fixture
-def prepared_schools_data(gias_data: pd.DataFrame, gias_links: pd.DataFrame) -> pd.DataFrame:
+def prepared_schools_data(
+    gias_data: pd.DataFrame, gias_links: pd.DataFrame
+) -> pd.DataFrame:
     return prepare_schools_data(
         StringIO(gias_data.to_csv()), StringIO(gias_links.to_csv())
     )
@@ -642,13 +645,15 @@ def gias_group_links():
             "URN": [100152, 100154],
             "Group UID": [16268, 16268],
             "Group Name": ["A Federation", "A Federation"],
-            "Closed Date": [None, None]
+            "Closed Date": [None, None],
         }
     )
+
 
 @pytest.fixture
 def gias_group_links_csv(gias_group_links):
     return StringIO(gias_group_links.to_csv(index=False))
+
 
 @pytest.fixture
 def maintained_schools_master_list():
@@ -656,14 +661,29 @@ def maintained_schools_master_list():
         {
             "URN": [100150, 100152, 100153, 100154],
             "LAEstab": ["20136154", "2026005", "2026006", "2026007"],
-            "Phase": ["Infant and junior", "Infant and junior", "Nursery", "Infant and junior"],
+            "Phase": [
+                "Infant and junior",
+                "Infant and junior",
+                "Nursery",
+                "Infant and junior",
+            ],
             "Overall Phase": ["Primary", "Not applicable", "Nursery", "Primary"],
-            "Type": ["Community school", "Community school", "Community school", "Community school"],
+            "Type": [
+                "Community school",
+                "Community school",
+                "Community school",
+                "Community school",
+            ],
             "Period covered by return (months)": [11, 18, 4, 11],
             "Did Not Supply flag": [0, 0, 1, 0],
             "Federation": ["No", "Lead School", "No", "Yes"],
             "Lead school in federation": [0, 0, 0, 1],
-            "Urban  Rural": ["Urban major conurbation", "Urban major conurbation", "Urban major conurbation", "Urban major conurbation"],
+            "Urban  Rural": [
+                "Urban major conurbation",
+                "Urban major conurbation",
+                "Urban major conurbation",
+                "Urban major conurbation",
+            ],
             "London Weighting": ["Inner", "Outer", "Inner", "Inner"],
             "PFI": ["Y", "N", "N", "N"],
             "I01  Funds delegated by the LA": [1000, 1001, 1002, 1003],
@@ -675,12 +695,27 @@ def maintained_schools_master_list():
             "I07  Other grants and payments": [1000, 1001, 1002, 1003],
             "I08  Income from facilities and services": [1000, 1001, 1002, 1003],
             "I09  Income from catering": [1000, 1001, 1002, 1003],
-            "I10  Receipts from supply teacher insurance claims": [1000, 1001, 1002, 1003],
+            "I10  Receipts from supply teacher insurance claims": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
             "I11  Receipts from other insurance claims": [1000, 1001, 1002, 1003],
             "I12  Income from contributions to visits etc ": [1000, 1001, 1002, 1003],
             "I13  Donations and or private funds": [1000, 1001, 1002, 1003],
-            "I15  Pupil focussed extended school funding and   or grants": [1000, 1001, 1002, 1003],
-            "I16  Community focussed school funding and   or grants": [1000, 1001, 1002, 1003],
+            "I15  Pupil focussed extended school funding and   or grants": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
+            "I16  Community focussed school funding and   or grants": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
             "I17  Community focused school facilities income": [1000, 1001, 1002, 1003],
             "I18  Additional grant for schools": [1000, 1001, 1002, 1003],
             "Total Income   I01 to I18": [1000, 1001, 1002, 1003],
@@ -711,11 +746,31 @@ def maintained_schools_master_list():
             "E24  Special facilities ": [1000, 1001, 1002, 1003],
             "E25  Catering supplies": [1000, 1001, 1002, 1003],
             "E26 Agency supply teaching staff": [1000, 1001, 1002, 1003],
-            "E27  Bought in professional services - curriculum": [1000, 1001, 1002, 1003],
-            "E28a  Bought in professional services - other (except PFI)": [1000, 1001, 1002, 1003],
-            "E28b Bought in professional services - other (PFI)": [1000, 1001, 1002, 1003],
+            "E27  Bought in professional services - curriculum": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
+            "E28a  Bought in professional services - other (except PFI)": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
+            "E28b Bought in professional services - other (PFI)": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
             "E29  Loan interest": [1000, 1001, 1002, 1003],
-            "E30 Direct revenue financing (revenue contributions to capital)": [1000, 1001, 1002, 1003],
+            "E30 Direct revenue financing (revenue contributions to capital)": [
+                1000,
+                1001,
+                1002,
+                1003,
+            ],
             "E31  Community focused school staff": [1000, 1001, 1002, 1003],
             "E32 Community focused school costs": [1000, 1001, 1002, 1003],
             "Total Expenditure  E01 to E32": [500, 501, 502, 503],
@@ -723,6 +778,6 @@ def maintained_schools_master_list():
             "Direct Grant": [1000, 1001, 1002, 1003],
             "Targeted Grants": [1000, 1001, 1002, 1003],
             "Community Grants": [1000, 1001, 1002, 1003],
-            "Self Generated Funding": [1000, 1001, 1002, 1003]
+            "Self Generated Funding": [1000, 1001, 1002, 1003],
         }
     )

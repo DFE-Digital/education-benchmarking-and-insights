@@ -9,8 +9,8 @@ import pandas as pd
 import src.pipeline.bfr as BFR
 import src.pipeline.config as config
 import src.pipeline.input_schemas as input_schemas
-import src.pipeline.mappings as mappings
 import src.pipeline.maintained_schools as maintained_pipeline
+import src.pipeline.mappings as mappings
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -474,8 +474,6 @@ def prepare_aar_data(aar_path, current_year: int):
         + aar["BNCH11400T (Investment income)"]
     )
 
-    
-
     aar["Income_Direct grants"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
         + aar["BNCH11131 (DfE Family Revenue Grants)"]
@@ -578,8 +576,6 @@ def prepare_aar_data(aar_path, current_year: int):
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
     aar.drop(labels=["Company Registration Number"], axis=1, inplace=True)
-
-    
 
     return aar.set_index("URN")
 
@@ -757,8 +753,6 @@ def build_academy_data(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     )
 
-    
-
     academies = (
         academies_base.merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
@@ -767,7 +761,6 @@ def build_academy_data(
         .merge(group_links, on="URN", how="inner")
         .merge(cfo, on="URN", how="left")
     )
-    
 
     if ks2 is not None:
         academies = academies.merge(ks2, on="URN", how="left")
@@ -801,7 +794,6 @@ def build_academy_data(
         ),
         axis=1,
     )
-    
 
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
@@ -812,7 +804,6 @@ def build_academy_data(
         ),
         axis=1,
     )
-    
 
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_school_phase_type(
@@ -837,7 +828,6 @@ def build_academy_data(
         | config.cost_category_map["academies"],
         inplace=True,
     )
-    
 
     academies["OfstedLastInsp"] = pd.to_datetime(
         academies["OfstedLastInsp"], dayfirst=True
@@ -860,17 +850,14 @@ def build_academy_data(
             }
         )
     )
-    
+
     central_services = central_services.merge(
         trust_basis_data, on="Trust UPIN", how="left"
     )
 
-    
-
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
     )
-
 
     for category in config.rag_category_settings.keys():
 
@@ -993,8 +980,7 @@ def build_academy_data(
         academies[target_income_col] = (
             academies[target_income_col] + academies[income_col]
         )
-        
-    
+
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils"].astype(float)
         / academies["Total pupils in trust"].astype(float)
@@ -1018,9 +1004,7 @@ def build_academy_data(
         / academies["Total pupils in trust"].astype(float)
     )
 
-    academies["Total Income"] = (
-        academies["Total Income"] + academies["Total Income_CS"]
-    )
+    academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
     academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
         academies["Number of pupils"].astype(float)
@@ -1051,13 +1035,13 @@ def build_academy_data(
             }
         )
     )
-    
+
     academies = academies.merge(trust_revenue_reserve, on="Trust UPIN", how="left")
 
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
-    
+
     return academies.set_index("URN")
 
 
@@ -1080,8 +1064,7 @@ def build_maintained_school_data(
     )
 
     maintained_schools = maintained_pipeline.create_master_list(
-        maintained_schools_list,
-        schools, sen, census, cdc, ks2, ks4
+        maintained_schools_list, schools, sen, census, cdc, ks2, ks4
     )
 
     maintained_schools = maintained_pipeline.map_status(maintained_schools, year)
@@ -1093,10 +1076,12 @@ def build_maintained_school_data(
     maintained_schools = maintained_pipeline.map_cost_income_categories(
         maintained_schools,
         config.cost_category_map["maintained_schools"],
-        config.income_category_map["maintained_schools"]
+        config.income_category_map["maintained_schools"],
     )
 
-    maintained_schools = maintained_pipeline.calc_rag_cost_series(maintained_schools, config.rag_category_settings)
+    maintained_schools = maintained_pipeline.calc_rag_cost_series(
+        maintained_schools, config.rag_category_settings
+    )
     maintained_schools = maintained_pipeline.calc_catering_net_costs(maintained_schools)
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
 
@@ -1106,9 +1091,7 @@ def build_maintained_school_data(
 
     # Applying federation mappings
     maintained_schools = maintained_pipeline.apply_federation_mapping(
-        maintained_schools,
-        hard_federations,
-        soft_federations
+        maintained_schools, hard_federations, soft_federations
     )
 
     return maintained_schools.set_index("URN")

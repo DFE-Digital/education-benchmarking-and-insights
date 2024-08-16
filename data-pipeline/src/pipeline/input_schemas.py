@@ -231,7 +231,7 @@ groups = {
     "URN": "Int64",
     "Group UID": "Int64",
     "Group Name": "string",
-    "Closed Date": "string"
+    "Closed Date": "string",
 }
 
 ks2_index_col = "URN"

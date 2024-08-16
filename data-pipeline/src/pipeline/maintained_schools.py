@@ -1,22 +1,24 @@
-import pandas as pd
-import numpy as np
 import datetime
+
+import numpy as np
+import pandas as pd
+
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 
 
 def create_master_list(
-        maintained_schools_list: pd.DataFrame,
-        schools: pd.DataFrame,
-        sen: pd.DataFrame,
-        census: pd.DataFrame,
-        cdc: pd.DataFrame,
-        ks2: pd.DataFrame,
-        ks4: pd.DataFrame
+    maintained_schools_list: pd.DataFrame,
+    schools: pd.DataFrame,
+    sen: pd.DataFrame,
+    census: pd.DataFrame,
+    cdc: pd.DataFrame,
+    ks2: pd.DataFrame,
+    ks4: pd.DataFrame,
 ) -> pd.DataFrame:
 
     mask = (maintained_schools_list["Did Not Supply flag"] == "0").values | (
-            maintained_schools_list["Did Not Supply flag"] == 0
+        maintained_schools_list["Did Not Supply flag"] == 0
     ).values
     maintained_schools_list = maintained_schools_list[mask].copy()
     maintained_schools_list.replace("DNS", np.nan, inplace=True)
@@ -73,7 +75,10 @@ def map_submission_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
         "Period covered by return (months)"
     ].map(lambda x: x != 12)
 
-    maintained_schools.rename(columns={"Period covered by return (months)": "Period covered by return"}, inplace=True)
+    maintained_schools.rename(
+        columns={"Period covered by return (months)": "Period covered by return"},
+        inplace=True,
+    )
 
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
@@ -111,19 +116,19 @@ def map_school_type_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 
 def calc_base_financials(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Income_Total grant funding"] = (
-            maintained_schools["Direct Grant"]
-            + maintained_schools["Community Grants"]
-            + maintained_schools["Targeted Grants"]
+        maintained_schools["Direct Grant"]
+        + maintained_schools["Community Grants"]
+        + maintained_schools["Targeted Grants"]
     )
 
     maintained_schools["Income_Pre Post 16"] = (
-            maintained_schools["I01  Funds delegated by the LA"]
-            + maintained_schools["I02  Funding for 6th form students"]
+        maintained_schools["I01  Funds delegated by the LA"]
+        + maintained_schools["I02  Funding for 6th form students"]
     )
 
     maintained_schools["In year balance"] = (
-            maintained_schools["Total Income   I01 to I18"]
-            - maintained_schools["Total Expenditure  E01 to E32"]
+        maintained_schools["Total Income   I01 to I18"]
+        - maintained_schools["Total Expenditure  E01 to E32"]
     )
 
     maintained_schools["Financial Position"] = maintained_schools[
@@ -133,9 +138,11 @@ def calc_base_financials(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     return maintained_schools
 
 
-def map_cost_income_categories(maintained_schools: pd.DataFrame,
-                               cost_category_map: dict[str, str],
-                               income_category_map: dict[str, str]) -> pd.DataFrame:
+def map_cost_income_categories(
+    maintained_schools: pd.DataFrame,
+    cost_category_map: dict[str, str],
+    income_category_map: dict[str, str],
+) -> pd.DataFrame:
     maintained_schools.rename(
         columns=cost_category_map | income_category_map,
         inplace=True,
@@ -144,7 +151,9 @@ def map_cost_income_categories(maintained_schools: pd.DataFrame,
     return maintained_schools
 
 
-def calc_rag_cost_series(maintained_schools: pd.DataFrame, rag_category_settings: any) -> pd.DataFrame:
+def calc_rag_cost_series(
+    maintained_schools: pd.DataFrame, rag_category_settings: any
+) -> pd.DataFrame:
     for category in rag_category_settings.keys():
         basis_data = maintained_schools[
             (
@@ -162,24 +171,24 @@ def calc_rag_cost_series(maintained_schools: pd.DataFrame, rag_category_settings
 
 def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Catering staff and supplies_Net Costs"] = (
-            maintained_schools["Income_Catering services"]
-            - maintained_schools["Catering staff and supplies_Total"]
+        maintained_schools["Income_Catering services"]
+        - maintained_schools["Catering staff and supplies_Total"]
     )
 
     return maintained_schools
 
 
 def apply_federation_mapping(
-        maintained_schools: pd.DataFrame,
-        hard_federations: pd.DataFrame,
-        soft_federations: pd.DataFrame
+    maintained_schools: pd.DataFrame,
+    hard_federations: pd.DataFrame,
+    soft_federations: pd.DataFrame,
 ) -> pd.DataFrame:
     list_of_laestabs = maintained_schools["LAEstab"][
         maintained_schools["Lead school in federation"] != "0"
-        ]
+    ]
     list_of_urns = maintained_schools.index[
         maintained_schools["Lead school in federation"] != "0"
-        ]
+    ]
     lae_ukprn = dict(zip(list_of_laestabs, list_of_urns))
 
     maintained_schools["Federation Lead School URN"] = maintained_schools[
