@@ -27,6 +27,7 @@ from src.pipeline.log import setup_logger
 from src.pipeline.message import MessageType, get_message_type
 from src.pipeline.pre_processing import (
     build_academy_data,
+    build_bfr_historical_data,
     build_bfr_data,
     build_cfo_data,
     build_federations_data,
@@ -314,7 +315,20 @@ def pre_process_bfr(run_type, year):
         raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
+    # TODO: handle condition where this doesn't exist.
+    academies = pd.read_parquet(
+        get_blob("pre-processed", f"{run_type}/{year}/academies.parquet"),
+        columns=[
+            "Trust UPIN",
+            "Company Registration Number",
+            "Trust Revenue reserve",
+            "Total pupils in trust",
+        ],
+    )
+
+    # Conditionally read in academy/SOFA files, skipping unnecessary data…
     academies_y2 = None
+    bfr_sofa_year_minus_two = None
     if academies_y2_file := try_get_blob(
         "pre-processed", f"{run_type}/{year - 2}/academies.parquet"
     ):
@@ -327,14 +341,12 @@ def pre_process_bfr(run_type, year):
                 "Total pupils in trust",
             ],
         )
-        academies_y2["Trust Revenue reserve"] = 0.0
 
         if bfr_sofa_year_minus_two_file := try_get_blob(
             raw_container,
             f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
-            academies_y2 = academies_y2.drop(columns=["Trust Revenue reserve"])
             bfr_sofa_year_minus_two = (
                 pd.read_csv(
                     bfr_sofa_year_minus_two_file,
@@ -350,21 +362,9 @@ def pre_process_bfr(run_type, year):
                 )
                 .query("EFALineNo == 430")
             )
-            academies_y2 = academies_y2.merge(
-                bfr_sofa_year_minus_two[
-                    bfr_sofa_year_minus_two["EFALineNo"] == 430
-                ].rename(
-                    {"Y2P2": "Trust Revenue reserve"},
-                    axis=1,
-                )[
-                    ["Trust UPIN", "Trust Revenue reserve"]
-                ],
-                on="Trust UPIN",
-                how="left",
-            )
-            academies_y2["Trust Revenue reserve"] *= 1_000
 
     academies_y1 = None
+    bfr_sofa_year_minus_one = None
     if academies_y1_file := try_get_blob(
         "pre-processed", f"{run_type}/{year - 1}/academies.parquet"
     ):
@@ -377,14 +377,12 @@ def pre_process_bfr(run_type, year):
                 "Total pupils in trust",
             ],
         )
-        academies_y1["Trust Revenue reserve"] = 0.0
 
         if bfr_sofa_year_minus_one_file := try_get_blob(
             raw_container,
             f"{run_type}/{year - 1}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
-            academies_y1 = academies_y1.drop(columns=["Trust Revenue reserve"])
             bfr_sofa_year_minus_one = (
                 pd.read_csv(
                     bfr_sofa_year_minus_one_file,
@@ -400,35 +398,22 @@ def pre_process_bfr(run_type, year):
                 )
                 .query("EFALineNo == 430")
             )
-            academies_y1 = academies_y1.merge(
-                bfr_sofa_year_minus_one[
-                    bfr_sofa_year_minus_one["EFALineNo"] == 430
-                ].rename(
-                    {"Y2P2": "Trust Revenue reserve"},
-                    axis=1,
-                )[
-                    ["Trust UPIN", "Trust Revenue reserve"]
-                ],
-                on="Trust UPIN",
-                how="left",
-            )
-            academies_y1["Trust Revenue reserve"] *= 1_000
 
-    # TODO: handle condition where this doesn't exist.
-    academies = pd.read_parquet(
-        get_blob("pre-processed", f"{run_type}/{year}/academies.parquet"),
-        columns=[
-            "Trust UPIN",
-            "Company Registration Number",
-            "Trust Revenue reserve",
-            "Total pupils in trust",
-        ],
+    # Process BFR data…
+    academies_y2 = build_bfr_historical_data(
+        academies_historical=academies_y2,
+        bfr_sofa_historical=bfr_sofa_year_minus_two,
     )
 
+    academies_y1 = build_bfr_historical_data(
+        academies_historical=academies_y1,
+        bfr_sofa_historical=bfr_sofa_year_minus_one,
+    )
     bfr, bfr_metrics = build_bfr_data(
         year, bfr_sofa, bfr_3y, academies, academies_y1, academies_y2
     )
 
+    # Store results…
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/bfr_metrics.parquet",
