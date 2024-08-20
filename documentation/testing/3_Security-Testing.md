@@ -23,3 +23,4 @@ This testing is currently carried out manually when:
 - CSP: style-src unsafe-inline - required by front-end libraries
 - Proxy Disclosure - limit control over function apps
 
+\newpage

@@ -173,3 +173,4 @@ Any issues or discrepancies between browsers will be raised as defects and then 
 
 //TODO: Create a path to live diagram, that visualizes the stage gates from ideation through to release
 
+\newpage

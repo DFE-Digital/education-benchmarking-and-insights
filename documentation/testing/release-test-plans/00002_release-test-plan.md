@@ -1,8 +1,9 @@
-﻿# Release Test Plan
-Release date: 17/07/2024
+﻿# Release Test Plan - 17/07/2024 
 
 ### Introduction
 The purpose of this test plan is to outline the approach and scope for testing the updates made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
+
+Release date: 17/07/2024
 
 ### Scope 
 This test plan covers the functional and sanity testing to validate all features and bug fixes included in the release.
@@ -59,3 +60,5 @@ We plan to continue to monitor the firewall logs to ensure potentially valid req
 The release plan will be shared with the Product Owner for review and approval. Following their review, the updates will proceed to pre-production for final sanity checks.
 #### Sign-off:
 Product Owner
+
+\newpage
