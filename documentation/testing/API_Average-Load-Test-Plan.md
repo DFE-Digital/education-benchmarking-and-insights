@@ -97,34 +97,34 @@ identical to school. Additionally, we will not be testing the healthcheck endpoi
 
 ### Total Average Calls to Each Insight API Endpoint
 
-| Endpoints                                           | Average Estimate Requests | Comments    |
-|-----------------------------------------------------|---------------------------|-------------|
-| `GET /current-return-years`                         | 28000                     | 4 x 7000    |
-| `GET /school/{urn}/characteristics`                 | 1400                      | 20% of 7000 |
-| `GET /schools/characteristics`                      | 1400                      | 20% of 7000 |
-| `GET /metric-rag/default`                           | 14000                     | 2 x 7000    |
-| `GET /income/categories`                            | 7000                      |             |
-| `GET /income/school/{urn}/history`                  | 7000                      |             |
-| `GET /income/schools`                               | 7000                      |             |
-| `GET /expenditure/categories`                       | 14000                     | 2x7000      |
-| `GET /expenditure/dimensions`                       | 14000                     | 2x7000      |
-| `GET /expenditure/school/{urn}`                     | 14000                     | 2x7000      |
-| `GET /expenditure/school/{urn}/custom/{identifier}` | 14000                     | 2x7000      |
-| `GET /expenditure/school/{urn}/history`             | 7000                      |             |
-| `GET /expenditure/schools`                          | 7000                      |             |
-| `GET /census/categories`                            | 7000                      |             |
-| `GET /census/dimensions`                            | 7000                      |             |
-| `GET /census/{urn}`                                 | 7000                      |             |
-| `GET /census/{urn}/custom/{identifier}`             | 7000                      |             |
-| `GET /census/{urn}/history`                         | 7000                      |             |
-| `GET /census`                                       | 7000                      |             |
-| `GET /budget-forecast/{companyNumber}`              | 1000                      |             |
-| `GET /budget-forecast/{companyNumber}/metrics`      | 1000                      |             |
-| `GET /budget-forecast/{companyNumber}/current-year` | 1000                      |             |
-| `GET /balance/dimensions`                           | 7000                      |             |
-| `GET /balance/school/{urn}`                         | 7000                      |             |
-| `GET /balance/school/{urn}/history`                 | 7000                      |             |
-| `GET /balance/schools`                              | 7000                      |             |
+| Endpoints                                           | Average Estimate Requests | Comments                                                                                                             |
+|-----------------------------------------------------|---------------------------|----------------------------------------------------------------------------------------------------------------------|
+| `GET /current-return-years`                         | 28000                     | Used on every page where data is displayed. estimating  4 pages x 7000 users.                                        |
+| `GET /school/{urn}/characteristics`                 | 2800                      | Used on custom data and user defined comparator set. Estimating 40% of average users 7000 will use this.             |
+| `GET /schools/characteristics`                      | 2800                      | Used on trust benchmarking and view comparator page. Estimating 40% of average users 7000 will use this.             |
+| `GET /metric-rag/default`                           | 14000                     | Used on spending prioritise, school homepage and trust journey. Estimating 2 hits x 7000 users.                      |
+| `GET /income/categories`                            | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
+| `GET /income/school/{urn}/history`                  | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
+| `GET /income/schools`                               | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
+| `GET /expenditure/categories`                       | 7000                      | Used on comparison page. Estimating 7000  users.                                                                     |
+| `GET /expenditure/dimensions`                       | 14000                     | Used on comparison and history page. Estimating 2 x 7000  users.                                                     |
+| `GET /expenditure/school/{urn}`                     | 126000                    | Used on comparison page and history page. For each of the cost category 9 x 2(comparision and history) x 7000 users. |
+| `GET /expenditure/school/{urn}/custom/{identifier}` | 18900                     | Used in custom data pages. there are 9 cost categories x 2100(30 % users who will use custom journey)                |
+| `GET /expenditure/school/{urn}/history`             | 7000                      | Used on history page. Estimating 7000 users.                                                                         |
+| `GET /expenditure/schools`                          | 7000                      | Estimating 7000 users will hit this endpoint.                                                                        |
+| `GET /census/categories`                            | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
+| `GET /census/dimensions`                            | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
+| `GET /census/{urn}`                                 | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
+| `GET /census/{urn}/custom/{identifier}`             | 2100                      | Used on custom data journey. Estimating 2100 users (30% of 7000) will use it.                                        |
+| `GET /census/{urn}/history`                         | 7000                      | Used on history tab.  Estimating 7000 users will use it.                                                             |
+| `GET /census`                                       | 56000                     | Used on census page. There are 8 categories. Estimating 8  x 7000 users.                                             |
+| `GET /budget-forecast/{companyNumber}`              | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
+| `GET /budget-forecast/{companyNumber}/metrics`      | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
+| `GET /budget-forecast/{companyNumber}/current-year` | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
+| `GET /balance/dimensions`                           | 7000                      | Used on History page.  Estimating 7000 users will use it.                                                            |
+| `GET /balance/school/{urn}`                         | 7000                      | Estimating 7000 users will use it.                                                                                   |
+| `GET /balance/school/{urn}/history`                 | 7000                      | used on history page. Estimating 7000 users will use it.                                                             |
+| `GET /balance/schools`                              | 7000                      | Estimating 7000 users will use it.                                                                                   |
 
 For each API endpoint, run the tests to simulate average load conditions.
 
