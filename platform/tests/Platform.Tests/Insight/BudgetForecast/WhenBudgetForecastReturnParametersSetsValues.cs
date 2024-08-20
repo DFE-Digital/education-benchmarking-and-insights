@@ -8,7 +8,6 @@ public class WhenBudgetForecastReturnParametersSetsValues
 {
     [Theory]
     [InlineData("runType", "category", "runId", "runType", "category", "runId")]
-    [InlineData(null, null, null, "default", "Revenue reserve", null)]
     public void ShouldSetValuesFromIQueryCollection(string? runType, string? category, string? runId, string expectedRunType, string expectedCategory, string? expectedRunId)
     {
         var parameters = new BudgetForecastReturnParameters();

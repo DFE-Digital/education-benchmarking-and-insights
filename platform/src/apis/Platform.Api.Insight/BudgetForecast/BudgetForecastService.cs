@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Infrastructure.Sql;
@@ -10,7 +12,7 @@ public interface IBudgetForecastService
         string companyNumber,
         string runType,
         string category,
-        string? runId = null);
+        string runId);
     Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
         string companyNumber,
         string runType);
@@ -18,6 +20,11 @@ public interface IBudgetForecastService
         string companyNumber,
         string runType,
         string category);
+
+    Task<IEnumerable<ActualReturnModel>> GetActualReturnsAsync(
+        string companyNumber,
+        string category,
+        string runId);
 }
 
 public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecastService
@@ -26,7 +33,7 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
         string companyNumber,
         string runType,
         string category,
-        string? runId = null)
+        string runId)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from BudgetForecastReturn /**where**/");
@@ -34,17 +41,11 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
         {
             CompanyNumber = companyNumber,
             RunType = runType,
-            Category = category
+            Category = category,
+            RunId = runId
         };
 
-        builder.Where("CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category", parameters);
-        if (!string.IsNullOrWhiteSpace(runId))
-        {
-            builder.Where("RunId = @RunId", new
-            {
-                RunId = runId
-            });
-        }
+        builder.Where("CompanyNumber = @CompanyNumber AND RunType = @RunType AND Category = @Category AND RunId = @RunId", parameters);
 
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<BudgetForecastReturnModel>(template.RawSql, template.Parameters);
@@ -83,5 +84,30 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
 
         using var conn = await dbFactory.GetConnection();
         return await conn.ExecuteScalarAsync<int?>(sql, parameters);
+    }
+
+    public Task<IEnumerable<ActualReturnModel>> GetActualReturnsAsync(string companyNumber, string category, string runId)
+    {
+        _ = int.TryParse(runId, out var year);
+
+        return category.ToLower() switch
+        {
+            "revenue reserve" => GetActualRevenueReserveAsync(companyNumber, year),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), "Unknown category")
+        };
+    }
+
+    private async Task<IEnumerable<ActualReturnModel>> GetActualRevenueReserveAsync(string companyNumber, int year)
+    {
+        const string sql = "SELECT Year, RevenueReserve 'Value', TotalPupils FROM TrustBalanceHistoric WHERE CompanyNumber = @CompanyNumber AND Year >= @StartYear AND Year <= @EndYear";
+        var parameters = new
+        {
+            CompanyNumber = companyNumber,
+            StartYear = year - 2,
+            EndYear = year
+        };
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<ActualReturnModel>(sql, parameters);
     }
 }

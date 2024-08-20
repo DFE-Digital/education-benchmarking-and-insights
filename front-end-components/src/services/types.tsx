@@ -366,10 +366,7 @@ export type Income = {
 };
 
 export type BudgetForecastReturn = {
-  runType: string;
-  runId: string;
   year: number;
-  companyNumber: string;
   forecast?: number;
   actual?: number;
   forecastTotalPupils?: number;

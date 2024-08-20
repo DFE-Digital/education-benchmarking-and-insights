@@ -20,7 +20,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(ExampleBudgetForecastRunType))]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunCategory))]
-    [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunId))]
+    [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = true, Example = typeof(ExampleBudgetForecastRunId))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BudgetForecastReturnResponse[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -43,12 +43,18 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
         {
             try
             {
-                var results = await service.GetBudgetForecastReturnsAsync(
+                var bfr = await service.GetBudgetForecastReturnsAsync(
                     companyNumber,
                     queryParams.RunType,
                     queryParams.Category,
                     queryParams.RunId);
-                return await req.CreateJsonResponseAsync(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(results));
+
+                var ar = await service.GetActualReturnsAsync(
+                    companyNumber,
+                    queryParams.Category,
+                    queryParams.RunId);
+
+                return await req.CreateJsonResponseAsync(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(bfr, ar));
             }
             catch (Exception e)
             {

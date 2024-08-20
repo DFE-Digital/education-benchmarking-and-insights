@@ -17,10 +17,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponseForMetric
         var actual = BudgetForecastReturnsResponseFactory.Create(model);
 
         // assert
-        Assert.Equal(model.RunType, actual.RunType);
-        Assert.Equal(model.RunId, actual.RunId);
         Assert.Equal(model.Year, actual.Year);
-        Assert.Equal(model.CompanyNumber, actual.CompanyNumber);
         Assert.Equal(model.Metric, actual.Metric);
         Assert.Equal(model.Value, actual.Value);
     }
