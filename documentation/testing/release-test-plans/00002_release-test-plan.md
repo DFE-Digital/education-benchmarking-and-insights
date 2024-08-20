@@ -6,6 +6,7 @@
 The purpose of this test plan is to outline the approach and scope for testing the updates made as part of this release. It will detail the various types of testing that will be conducted as part of release process.  This plan aims to ensure all aspects of the updates are thoroughly tested and meet the required standards before deployment.
 
 **Scope:** 
+
 This test plan covers the functional and sanity testing to validate all features and bug fixes included in the release.
 
 **Release date:**
@@ -26,10 +27,10 @@ This test plan covers the functional and sanity testing to validate all features
 ## Test Scope
 **Issues/Updates to be Tested:**
 
-- [218460- Missing DSI cookie declaration ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218460) - This is a content update which we have validated in our test environment and verify in preprod once changes are in there.
-- [218415- Non-essential cookie management](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218415) - This update has added a cookie banner for non essential cookies and manage cookies accordingly depending if the user has accepted/rejected the cookies.
-- [219080 - Block non UK trafic](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/219080) - We have applied a geo location restriction to block traffic from locations that are not identified as generating from the UK.
-- [219333 - Add anonymous user requests to MI Dashboard](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/219333) - Now that we have added non-essential Cookies, MI dashboard has been updated to track count of anonymous requests.
+- [218460- Missing DSI cookie declaration ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218460) : This is a content update which we have validated in our test environment and verify in preprod once changes are in there.
+- [218415- Non-essential cookie management](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/218415) : This update has added a cookie banner for non essential cookies and manage cookies accordingly depending on if the user has accepted/rejected the cookies.
+- [219080 - Block non UK traffic](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/219080) : We have applied a geolocation restriction to block traffic from locations that are not identified as generating from the UK.
+- [219333 - Add anonymous user requests to MI Dashboard](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/219333) : Now that we have added non-essential Cookies, MI dashboard has been updated to track count of anonymous requests.
 
 **Issues Not to be Tested:**
 
