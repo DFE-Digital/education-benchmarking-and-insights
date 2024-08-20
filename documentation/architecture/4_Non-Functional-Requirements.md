@@ -1,19 +1,5 @@
 ﻿# Non Functional Requirements
 
-## Volumetrics
-
-**//TODO: Throughput and Data growth calculations (see example below)**
-
-### Throughput Calculations
-
-**//TODO: Insert throughput calculations (data growth, archival strategy)**
-
-### Capacity Calculation
-
-**//TODO: Insert capacity calculations (data growth, archival strategy)**
-
-## Non-Functional Requirements
-
 **//TODO: The following are example NFR's delete or reuse as suited for your project.**
 
 ### Accessibility
