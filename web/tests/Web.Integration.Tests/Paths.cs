@@ -33,6 +33,7 @@ public static class Paths
     public static string SchoolComparisonCustomData(string? urn) => $"/school/{urn}/comparison/custom-data";
     public static string SchoolCensus(string? urn) => $"/school/{urn}/census";
     public static string SchoolCensusCustomData(string? urn) => $"/school/{urn}/census/custom-data";
+    public static string SchoolSpending(string? urn) => $"/school/{urn}/spending-and-costs";
     public static string SchoolSpendingCustomData(string? urn) => $"/school/{urn}/spending-and-costs/custom-data";
     public static string SchoolInvestigation(string? urn) => $"/school/{urn}/investigation";
     public static string SchoolFinancialPlanning(string? urn) => $"/school/{urn}/financial-planning";
