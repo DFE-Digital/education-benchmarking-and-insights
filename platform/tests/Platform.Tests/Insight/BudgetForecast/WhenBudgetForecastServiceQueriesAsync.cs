@@ -20,8 +20,7 @@ public class WhenBudgetForecastServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData("companyNumber", "runType", "category", "runId", "SELECT * from BudgetForecastReturn WHERE CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category AND RunId = @RunId")]
-    [InlineData("companyNumber", "runType", "category", null, "SELECT * from BudgetForecastReturn WHERE CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category")]
+    [InlineData("companyNumber", "runType", "category", "runId", "SELECT * from BudgetForecastReturn WHERE CompanyNumber = @CompanyNumber AND RunType = @RunType AND Category = @Category AND RunId = @RunId")]
     public async Task ShouldQueryAsyncWhenGetBudgetForecastReturns(string companyNumber, string runType, string category, string? runId, string expectedSql)
     {
         // arrange

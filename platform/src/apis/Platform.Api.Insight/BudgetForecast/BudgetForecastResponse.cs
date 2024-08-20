@@ -6,49 +6,22 @@ namespace Platform.Api.Insight.BudgetForecast;
 
 public static class BudgetForecastReturnsResponseFactory
 {
-    public static BudgetForecastReturnResponse[] CreateForDefaultRunType(IEnumerable<BudgetForecastReturnModel> models)
+    public static BudgetForecastReturnResponse[] CreateForDefaultRunType(IEnumerable<BudgetForecastReturnModel> bfr, IEnumerable<ActualReturnModel> ar)
     {
-        var results = new Dictionary<int, BudgetForecastReturnResponse>();
-        foreach (var model in models
-                     .Where(m => m.RunType == "default")
-                     .Where(m => m.Year != null)
-                     .Where(m => m.RunId != null)
-                     .OrderBy(m => m.RunId)
-                     .ThenBy(m => m.Year))
+        var results = bfr.Distinct().ToDictionary(x => x.Year, x => new BudgetForecastReturnResponse
         {
-            if (!int.TryParse(model.RunId, out var runId))
-            {
-                throw new ArithmeticException($"Expected {nameof(model.RunId)} to be of type int for {nameof(model.RunType)} default but found '{model.RunId}'");
-            }
+            Year = x.Year,
+            Forecast = x.Value,
+            ForecastTotalPupils = x.TotalPupils
+        });
 
-            if (!results.TryGetValue(model.Year!.Value, out var response))
+        foreach (var accountReturn in ar)
+        {
+            if (results.TryGetValue(accountReturn.Year, out var response))
             {
-                response = new BudgetForecastReturnResponse();
+                response.Actual = accountReturn.Value;
+                response.ActualTotalPupils = accountReturn.TotalPupils;
             }
-
-            response.Year = model.Year;
-
-            // year being processed is in the future compared to the RunId corresponding to the BFR submission date
-            if (model.Year > runId)
-            {
-                // ensure the latest forecast is set for the year being processed in the case of multiple differing
-                // forecasts over the range of historical BFR submissions
-                response.Forecast = model.Value;
-                response.ForecastTotalPupils = model.TotalPupils;
-            }
-            else if (model.Value == 0)
-            {
-                // historical zero values should be skipped
-                continue;
-            }
-            else if (response.Actual == null)
-            {
-                // sanity check that the first actual values are not overwritten by a subsequent RunId year's values
-                response.Actual = model.Value;
-                response.ActualTotalPupils = model.TotalPupils;
-            }
-
-            results[response.Year.Value] = response;
         }
 
         return results.Values.ToArray();
@@ -58,10 +31,7 @@ public static class BudgetForecastReturnsResponseFactory
     {
         var response = new BudgetForecastReturnMetricResponse
         {
-            RunType = model.RunType,
-            RunId = model.RunId,
             Year = model.Year,
-            CompanyNumber = model.CompanyNumber,
             Metric = model.Metric,
             Value = model.Value
         };
@@ -73,11 +43,7 @@ public static class BudgetForecastReturnsResponseFactory
 [ExcludeFromCodeCoverage]
 public record BudgetForecastReturnResponse
 {
-    public string? RunType { get; set; }
-    public string? RunId { get; set; }
     public int? Year { get; set; }
-    public string? CompanyNumber { get; set; }
-
     public decimal? Forecast { get; set; }
     public decimal? Actual { get; set; }
     public decimal? ForecastTotalPupils { get; set; }

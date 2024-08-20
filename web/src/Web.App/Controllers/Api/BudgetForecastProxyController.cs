@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 namespace Web.App.Controllers.Api;
 
@@ -26,8 +25,10 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
         {
             try
             {
+                var bfrYear = await budgetForecastApi.GetCurrentBudgetForecastYear(companyNumber).GetResultOrDefault(Constants.CurrentYear - 1);
+                var query = new ApiQuery().AddIfNotNull("runId", bfrYear.ToString());
                 var result = await budgetForecastApi
-                    .BudgetForecastReturns(companyNumber)
+                    .BudgetForecastReturns(companyNumber, query)
                     .GetResultOrDefault<BudgetForecastReturn[]>();
 
                 return new JsonResult(result);
