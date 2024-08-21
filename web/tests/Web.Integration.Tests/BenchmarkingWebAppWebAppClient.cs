@@ -101,7 +101,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureManager.Setup(fm => fm.IsEnabledAsync(feature))
                 .ReturnsAsync(false);
         }
-        
+
         return this;
     }
 
