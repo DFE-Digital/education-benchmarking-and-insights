@@ -24,7 +24,7 @@ public class SchoolAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFi
         {
             context.Result = new ViewResult
             {
-                ViewName = "~/Views/Error/Forbidden.cshtml",
+                ViewName = "../Error/Forbidden",
                 StatusCode = 403
             };
         }

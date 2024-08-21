@@ -10,7 +10,7 @@ public class RedirectDisabledFeatureHandler : IDisabledFeaturesHandler
     {
         context.Result = context.Result = new ViewResult
         {
-            ViewName = "~/Views/Error/FeatureDisabled.cshtml",
+            ViewName = "../Error/FeatureDisabled",
             StatusCode = 403
         };
         return Task.CompletedTask;
