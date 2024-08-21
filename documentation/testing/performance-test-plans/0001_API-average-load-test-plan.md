@@ -59,8 +59,11 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 
 ## Performance Success Criteria
 
-- Response Time - `TBC`
-- Error Rate - below 0.1%
+- Response Time:
+  - P50 below 10ms
+  - P95 below 100ms
+  - P99 below 200ms
+- Error Rate:  below 0.1%
 
 ## Test Execution
 
