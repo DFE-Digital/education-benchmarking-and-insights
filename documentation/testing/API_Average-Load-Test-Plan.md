@@ -5,6 +5,10 @@
 This test simulates typical user activity to evaluate the system's performance under expected normal loads. The goal is
 to ensure that the API endpoints perform efficiently and reliably during everyday usage scenarios.
 
+## Goal
+
+Ensure that the system consistently performs well under typical operating conditions, with a particular focus on verifying that the most used and critical endpoints are reliable, responsive, and functioning as expected.
+
 ## Objective
 
 - Assess system stability under typical load conditions.
@@ -13,6 +17,7 @@ to ensure that the API endpoints perform efficiently and reliably during everyda
 - Understand performance metrics and capacity thresholds under regular load.
 - Improve system design based on testing insights.
 - Maintain an optimal user experience during average load scenarios.
+
 
 ## Procedure
 
@@ -57,10 +62,10 @@ The following metrics will be observed.
 
 ### Performance
 
-- Response Time
-- Error Rate
-- CPU Utilisation
-- Throughput
+- Response Time - should be < ~500ms
+- Error Rate - below 1%
+- CPU Utilisation - below 35%
+- Throughput - minimum of 45 requests per second. 
 
 ## APIs and Endpoints
 
