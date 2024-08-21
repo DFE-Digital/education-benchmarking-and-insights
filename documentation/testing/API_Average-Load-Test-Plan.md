@@ -7,7 +7,8 @@ to ensure that the API endpoints perform efficiently and reliably during everyda
 
 ## Goal
 
-Ensure that the system consistently performs well under typical operating conditions, with a particular focus on verifying that the most used and critical endpoints are reliable, responsive, and functioning as expected.
+Ensure that the system consistently performs well under typical operating conditions, with a particular focus on
+verifying that the most used and critical endpoints are reliable, responsive, and functioning as expected.
 
 ## Objective
 
@@ -17,7 +18,6 @@ Ensure that the system consistently performs well under typical operating condit
 - Understand performance metrics and capacity thresholds under regular load.
 - Improve system design based on testing insights.
 - Maintain an optimal user experience during average load scenarios.
-
 
 ## Procedure
 
@@ -62,81 +62,55 @@ The following metrics will be observed.
 
 ### Performance
 
-- Response Time - should be < ~500ms
+- Response Time - less than ~500ms
 - Error Rate - below 1%
 - CPU Utilisation - below 35%
-- Throughput - minimum of 45 requests per second. 
+- Throughput - minimum of 45 requests per second
 
 ## APIs and Endpoints
 
 For this test, we will focus exclusively on the Schools endpoints, as the Trusts and Local Authority endpoints are
 identical to school. Additionally, we will not be testing the healthcheck endpoint.
 
-### Total Average Calls to Each Establishment API Endpoint
+### Total Average Calls to Critical Establishment API Endpoint
 
-| Endpoints                  | Average Estimate Requests | Comments                                                                                                                                             |
-|----------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `GET /school/{identifier}` | 49000                     | This endpoint is almost called everytime the user interacts with the service. if a users visits 7 pages then 7 requests x 7000 users at a given time |
-| `GET /schools`             | 650                       | Called on trust journeys to get the schools. total trusts ~2500/4                                                                                    |
-| `POST /schools/suggest`    | 56000                     | Used when a user is searching for school. Assuming 8 requests per user x 7000 users                                                                  |
+The average requests on this API is 4500 requests per minute.
 
-### Total Average Calls to Each Benchmark API Endpoint
+| Endpoints               | Average Estimate Requests | Comments                                                                                |
+|-------------------------|---------------------------|-----------------------------------------------------------------------------------------|
+| `POST /schools/suggest` | 4000                      | This endpoint is most used as everytime a user search for school this is hit few times. |
 
-| Endpoints                                                       | Average Estimate Requests | Comments                                                                                                                           |
-|-----------------------------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `GET /user-data`                                                | 28000                     | Used mainly on benchmarking pages. on average there will be 4 requests  x 7000 users                                               |
-| `GET /financial-plan/{urn}/{year}`                              | 14000                     | Used on financial plan pages. Estimating 10 requests x 1400(5% of 28000 users will create the financial plan)                      |
-| `PUT /financial-plan/{urn}/{year}`                              | 14000                     | Used on financial plan pages. Estimating 10 pages are visited x 1400 users(5% of 28000)                                            |
-| `DELETE /financial-plan/{urn}/{year}`                           | 280                       | Used when financial plan is deleted. Estimating 10% of 1400(users who created the plan) will delete the created plan.              |
-| `GET /financial-plan/{urn}/{year}/deployment`                   | 1400                      | used when viewing the deployment plan. Estimating 5% of 28000 will view the deployment plan.                                       |
-| `GET /financial-plans`                                          | 1650                      | Used when viewing the financial plans. Estimating 1400 users(5% of 28000) + 250 (10% of 2500 trusts) will view the financial plans |
-| `GET /custom-data/school/{urn}/{identifier}`                    | 2800                      | Used when viewing the custom data. Estimating 40% of 7000 users use custom data.                                                   |
-| `PUT /custom-data/school/{urn}/{identifier}`                    | 2800                      | Used during the custom data journey. Estimating 40% of 7000 users use custom data.                                                 |
-| `DELETE /custom-data/school/{urn}/{identifier}`                 | 2100                      | Used when deleting the custom data. Estimating 30% of 7000 users will delete the custom data                                       |
-| `GET /comparator-set/school/{urn}/default`                      | 28000                     | used when getting the comparator set on benchmarking pages. Estimating 4 requests  x 7000 users.                                   |
-| `GET /comparator-set/school/{urn}/custom/{identifier}`          | 2100                      | Used in custom comparator set journey. Estimating 30% of 7000 will create a custom comparator.                                     |
-| `GET /comparator-set/school/{urn}/user-defined/{identifier}`    | 2100                      | Used in user defined comparator set. Estimating 30% of 7000 will use user-defined comparator set.                                  |
-| `PUT /comparator-set/school/{urn}/user-defined/{identifier}`    | 2100                      | Used in user defined comparator set. Estimating 30% of 7000 will use user-defined comparator set.                                  |
-| `DELETE /comparator-set/school/{urn}/user-defined/{identifier}` | 2100                      | Used in user defined comparator set. Estimating 30% of 7000 will use user-defined comparator set.                                  |
-| `POST /comparators/schools`                                     | x                         | x                                                                                                                                  |
+### Total Average Calls to Critical Benchmark API Endpoint
+The average requests on this API is 4500 requests per minute.
 
-### Total Average Calls to Each Insight API Endpoint
+| Endpoints                                                    | Average Estimate Requests | Comments                                                                                                                                                                                      |
+|--------------------------------------------------------------|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `GET /financial-plan/{urn}/{year}`                           | 500                       | Used on financial plan journey. This goes hand in hand with Put. Estimated traffic on this 500 requests                                                                                       |
+| `PUT /financial-plan/{urn}/{year}`                           | 500                       | Used on financial plan journey. This goes hand in hand with Get. Estimated traffic on this 500 requests                                                                                       |
+| `GET /custom-data/school/{urn}/{identifier}`                 | 500                       | Used when viewing the custom data. Estimating 500 requests on this endpoint.                                                                                                                  |
+| `GET /comparator-set/school/{urn}/default`                   | 1500                      | used when getting the comparator set on benchmarking pages. once the user has created a comparator set there could be multiple visits on the page. Estimating 1500 requests on this endpoint. |
+| `GET /comparator-set/school/{urn}/custom/{identifier}`       | 500                       | Used in custom data set journey if the user has changed data which has affected the comparator set. Estimating 500 request on this endpoint.                                                  |
+| `GET /comparator-set/school/{urn}/user-defined/{identifier}` | 1000                      | Used in user defined comparator set. Estimating 1000 requests on this endpoint.                                                                                                               |
 
-| Endpoints                                           | Average Estimate Requests | Comments                                                                                                             |
-|-----------------------------------------------------|---------------------------|----------------------------------------------------------------------------------------------------------------------|
-| `GET /current-return-years`                         | 28000                     | Used on every page where data is displayed. estimating  4 pages x 7000 users.                                        |
-| `GET /school/{urn}/characteristics`                 | 2800                      | Used on custom data and user defined comparator set. Estimating 40% of average users 7000 will use this.             |
-| `GET /schools/characteristics`                      | 2800                      | Used on trust benchmarking and view comparator page. Estimating 40% of average users 7000 will use this.             |
-| `GET /metric-rag/default`                           | 14000                     | Used on spending prioritise, school homepage and trust journey. Estimating 2 hits x 7000 users.                      |
-| `GET /income/categories`                            | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
-| `GET /income/school/{urn}/history`                  | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
-| `GET /income/schools`                               | 7000                      | Used on History page. Estimating 7000 users will use it.                                                             |
-| `GET /expenditure/categories`                       | 7000                      | Used on comparison page. Estimating 7000  users.                                                                     |
-| `GET /expenditure/dimensions`                       | 14000                     | Used on comparison and history page. Estimating 2 x 7000  users.                                                     |
-| `GET /expenditure/school/{urn}`                     | 126000                    | Used on comparison page and history page. For each of the cost category 9 x 2(comparision and history) x 7000 users. |
-| `GET /expenditure/school/{urn}/custom/{identifier}` | 18900                     | Used in custom data pages. there are 9 cost categories x 2100(30 % users who will use custom journey)                |
-| `GET /expenditure/school/{urn}/history`             | 7000                      | Used on history page. Estimating 7000 users.                                                                         |
-| `GET /expenditure/schools`                          | 7000                      | Estimating 7000 users will hit this endpoint.                                                                        |
-| `GET /census/categories`                            | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
-| `GET /census/dimensions`                            | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
-| `GET /census/{urn}`                                 | 7000                      | Used on census comparison page. Estimating 7000 users will use it.                                                   |
-| `GET /census/{urn}/custom/{identifier}`             | 2100                      | Used on custom data journey. Estimating 2100 users (30% of 7000) will use it.                                        |
-| `GET /census/{urn}/history`                         | 7000                      | Used on history tab.  Estimating 7000 users will use it.                                                             |
-| `GET /census`                                       | 56000                     | Used on census page. There are 8 categories. Estimating 8  x 7000 users.                                             |
-| `GET /budget-forecast/{companyNumber}`              | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
-| `GET /budget-forecast/{companyNumber}/metrics`      | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
-| `GET /budget-forecast/{companyNumber}/current-year` | 7000                      | Used on budget forecast. Estimating 7000 users will use it.                                                          |
-| `GET /balance/dimensions`                           | 7000                      | Used on History page.  Estimating 7000 users will use it.                                                            |
-| `GET /balance/school/{urn}`                         | 7000                      | Estimating 7000 users will use it.                                                                                   |
-| `GET /balance/school/{urn}/history`                 | 7000                      | used on history page. Estimating 7000 users will use it.                                                             |
-| `GET /balance/schools`                              | 7000                      | Estimating 7000 users will use it.                                                                                   |
+### Total Average Calls to Critical Insight API Endpoint
+
+The average requests on this API is 6300 requests per minute.
+
+| Endpoints                               | Average Estimate Requests | Comments                                                                                                                                                                              |
+|-----------------------------------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `GET /current-return-years`             | 1000                      | Used on every page where data is displayed. This will be most used endpoint so estimating 1000 requests on this endpoint.                                                             |
+| `GET /metric-rag/default`               | 1500                      | Used on spending prioritise, school homepage and trust journey. Homepage is mostly used so estimating 1500 requests on this endpoint                                                  |
+| `GET /expenditure/categories`           | 200                       | Used on comparison page which is a popular page.                                                                                                                                      |
+| `GET /expenditure/dimensions`           | 200                       | Used on comparison and history page to get the dimensions.                                                                                                                            |
+| `GET /expenditure/school/{urn}`         | 2000                      | Used on comparison page and history page. To get the expenditure of a given school. This endpoint is called 10 times on comparision page.  Estimating 2000 requests on this endpoint. |
+| `GET /expenditure/school/{urn}/history` | 500                       | Used on history page which also is a popular page looking at the logs. Estimating 500 requests.                                                                                       |
 
 For each API endpoint, run the tests to simulate average load conditions.
 
 ## Test Execution
 
-For each API endpoint we will increase the requests to the total number identified earlier gradually. Starting with 5000
-requests, we will increase the load every 5 seconds until we reach the specified number. The system will then run for 5
+For each API endpoint we will increase the requests to the total number identified earlier gradually. Starting with 105
+requests, we will increase the load every second until we reach the specified number. The system will then run for 5
 minutes under that load before gradually decreasing the load in the same manner it was increased.
 
 ## Test Output
