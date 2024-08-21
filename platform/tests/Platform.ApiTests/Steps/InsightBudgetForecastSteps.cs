@@ -32,16 +32,6 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid budget forecast current year request for company number '(.*)' with runType '(.*)' and category '(.*)'")]
-    public void GivenAValidBudgetForecastCurrentYearRequestForCompanyNumberWithRunTypeAndCategory(string companyNumber, string runType, string category)
-    {
-        api.CreateRequest(BudgetForecastKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/budget-forecast/{companyNumber}/current-year?runType={runType}&category={category}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
     [When("I submit the budget forecast request")]
     public async Task WhenISubmitTheBudgetForecastRequest()
     {
@@ -72,14 +62,5 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BudgetForecastReturnMetricResponse[]>();
         table.CompareToSet(result);
-    }
-
-    [Then("the budget forecast current year result should be not found")]
-    public void ThenTheBudgetForecastCurrentYearResultShouldBeNotFound()
-    {
-        var response = api[BudgetForecastKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }
