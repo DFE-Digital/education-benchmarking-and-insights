@@ -70,7 +70,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EnableFeatures();
     }
 
-    private void EnableFeatures()
+    private void EnableFeatures(params string[] ignoreFeatures)
     {
         var features = new[]
         {
@@ -81,25 +81,27 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.Trusts,
             FeatureFlags.LocalAuthorities,
             FeatureFlags.ForecastRisk
-
         };
 
-        foreach (var feature in features)
+        foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
         {
             FeatureManager.Setup(fm => fm.IsEnabledAsync(feature))
                 .ReturnsAsync(true);
         }
     }
 
-    public BenchmarkingWebAppClient SetupDisableFeatureFlags(string featureFlag)
+    public BenchmarkingWebAppClient SetupDisableFeatureFlags(params string[] features)
     {
         FeatureManager.Reset();
 
-        EnableFeatures();
+        EnableFeatures(features);
 
-        FeatureManager.Setup(fm => fm.IsEnabledAsync(featureFlag))
-            .ReturnsAsync(false);
-
+        foreach (var feature in features)
+        {
+            FeatureManager.Setup(fm => fm.IsEnabledAsync(feature))
+                .ReturnsAsync(false);
+        }
+        
         return this;
     }
 
