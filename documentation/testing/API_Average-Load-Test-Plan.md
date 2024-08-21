@@ -2,7 +2,7 @@
 
 ## Goal
 
-Ensure that the APIs consistently perform well under typical operating conditions, with a particular focus on verifying that the most used and critical endpoints are robust, responsive, and functioning as expected. The goal is to confirm that response time, error rates, and throughput meets the required performance standards. 
+Ensure that the APIs consistently perform well under typical operating conditions, with a particular focus on verifying that the most used and critical endpoints are robust, responsive, and functioning as expected. The goal is to confirm that response time, error rates, and throughput meets the set performance standards. 
 
 ## Objective
 
