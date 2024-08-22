@@ -64,7 +64,7 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 scriptLocation: inlineScript
-                inlineScript: ./Core.Database -c '$(core-sql-connection-string-managed-identity)'
+                inlineScript: ./Core.Database -c '$(core-sql-connection-string-default)'
                 workingDirectory: '${{ parameters.workspaceDir }}/db'
 
 #            - script: ./Core.Database -c '$(core-sql-connection-string-managed-identity)'
