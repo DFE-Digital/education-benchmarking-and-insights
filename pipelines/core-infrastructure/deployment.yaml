@@ -60,11 +60,12 @@ jobs:
 
             - task: AzureCLI@1
               displayName: 'Run core database migrations'
-              workingDirectory: '${{ parameters.workspaceDir }}/db'
+
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 scriptLocation: inlineScript
                 inlineScript: ./Core.Database -c '$(core-sql-connection-string-managed-identity)'
+                workingDirectory: '${{ parameters.workspaceDir }}/db'
 
 #            - script: ./Core.Database -c '$(core-sql-connection-string-managed-identity)'
 #              workingDirectory: '${{ parameters.workspaceDir }}/db'
