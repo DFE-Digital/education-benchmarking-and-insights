@@ -244,7 +244,7 @@ resource "mssql_user" "sp-user" {
   }
 
   database  = azurerm_mssql_database.sql-db.name
-  username  = data.azurerm_client_config.client.client_id
+  username  = data.azuread_service_principal.sp.display_name
   object_id = data.azurerm_client_config.client.client_id
   roles     = ["db_owner"]
 }
