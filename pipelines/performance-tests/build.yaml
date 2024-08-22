@@ -28,7 +28,6 @@ stages:
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
-        condition: eq(variables['ShouldDeploy'],'true')
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
@@ -36,6 +35,7 @@ stages:
               Module: 'performance-tests'
 
       - job: Deploy
+        dependsOn: ZipStaticArtifacts
         displayName: 'Deploy'
         steps:
           - template: ..\common\run-terraform.yaml
