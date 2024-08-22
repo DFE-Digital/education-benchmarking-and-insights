@@ -27,6 +27,7 @@ stages:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: ZipStaticArtifacts
+        dependsOn: [FmtValidateTf, RunCheckOv]
         displayName: 'Zip static artifacts'
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
