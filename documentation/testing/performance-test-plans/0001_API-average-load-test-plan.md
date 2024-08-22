@@ -1,5 +1,9 @@
 ﻿# Performance Test Plan - 0001 - API Average Load
 
+**Test run date:**
+
+DD/MM/YYYY
+
 ## Goal
 
 The goal of this test is to measure how well an APIs perform under typical load conditions. Focus will be on verifying the high demand and critical endpoints. 
@@ -48,21 +52,24 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 
 **APIs & Endpoints Under Test:**
 
-| API           | Endpoint                            | Target Throughput (requests per second) |
-|---------------|-------------------------------------|-----------------------------------------|
-| Establishment | `POST /school/suggest`              | 75                                      |
-| Establishment | `GET /school/{identifier}`          | 75                                      |
-| Benchmark     | `GET /user-data`                    | 75                                      |
-| Benchmark     | `POST /comparators/schools`         | 75                                      |
-| Insights      | `GET /school/{urn}/characteristics` | 105                                     |
+| API           | Endpoint                                   | Target Throughput (requests per second) |
+|---------------|--------------------------------------------|-----------------------------------------|
+| Establishment | `POST /school/suggest`                     | 75                                      |
+| Establishment | `GET /school/{identifier}`                 | 75                                      |
+| Benchmark     | `GET /user-data`                           | 75                                      |
+| Benchmark     | `POST /comparators/schools`                | 75                                      |
+| Benchmark     | `GET /comparator-set/school/{urn}/default` | 75                                      |
+| Insights      | `GET /school/{urn}/characteristics`        | 105                                     |
+| Insights      | `GET /expenditure/school/{urn}`            | 105                                     |
+| Insights      | `GET /metric-rag/default`                  | 105                                     |
 
 
 ## Performance Success Criteria
 
 - Response Time:
-  - P50 below 10ms
-  - P95 below 100ms
-  - P99 below 200ms
+  - P50 below 100ms
+  - P95 below 150ms
+  - P99 below 500ms
 - Error Rate:  below 0.1%
 
 ## Test Execution
@@ -80,3 +87,5 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 **Findings and Recommendations:**
 
 //TODO: Add finding and recommendation post test run
+
+\newpage
