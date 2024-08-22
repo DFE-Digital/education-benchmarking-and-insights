@@ -20,7 +20,8 @@
 
 @await Component.InvokeAsync("DataSource", new
 {
-    kind = OrganisationTypes.Trust,
+    organisationType = OrganisationTypes.Trust,
+    sourceType = DataSourceTypes.Spending,
     isPartOfTrust = true
 })
 

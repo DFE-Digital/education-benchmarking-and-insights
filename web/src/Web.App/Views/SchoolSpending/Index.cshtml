@@ -15,7 +15,8 @@
 
 @await Component.InvokeAsync("DataSource", new
 {
-    kind = OrganisationTypes.School,
+    organisationType = OrganisationTypes.School,
+    sourceType = DataSourceTypes.Spending,
     isPartOfTrust = Model.IsPartOfTrust
 })
 
