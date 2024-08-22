@@ -51,12 +51,12 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/core-db/Core.Database.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/db'
 
-            - task: AzureCLI@2
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: az login
+#            - task: AzureCLI@2
+#              inputs:
+#                azureSubscription: ${{ parameters.subscription }}
+#                scriptType: 'bash'
+#                scriptLocation: 'inlineScript'
+#                inlineScript: az login
 
             - script: ./Core.Database -c '$(core-sql-connection-string-managed-identity)'
               workingDirectory: '${{ parameters.workspaceDir }}/db'
