@@ -1,0 +1,47 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+pr: none
+
+variables:
+  TerraformFolder: 'performance-tests/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+
+stages:
+  - stage: BuildDeploy
+    displayName: 'Build artifacts'
+    jobs:
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: ..\common\fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
+        steps:
+          - template: ..\common\scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: ZipStaticArtifacts
+        displayName: 'Zip static artifacts'
+        condition: eq(variables['ShouldDeploy'],'true')
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
+              Module: 'performance-tests'
+
+      - job: Deploy
+        displayName: 'Deploy'
+        steps:
+          - template: ..\common\run-terraform.yaml
+            parameters:
+              subscription: 's198t.azdo-deployment'
+              environmentPrefix: 's198t01'
+              environment: 'test'
+              cipEnvironment: 'Test'
+              module: 'performance-tests'
