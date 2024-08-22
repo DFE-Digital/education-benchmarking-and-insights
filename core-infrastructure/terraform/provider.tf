@@ -9,6 +9,10 @@ terraform {
       source  = "azure/azapi"
       version = "1.14.0"
     }
+    mssql = {
+      source  = "betr-io/mssql"
+      version = "0.3.1"
+    }
   }
   backend "azurerm" {}
 }

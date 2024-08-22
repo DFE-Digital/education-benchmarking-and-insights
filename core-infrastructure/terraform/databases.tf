@@ -233,3 +233,18 @@ resource "azapi_resource_action" "sql-server-auto-tuning" {
   })
   depends_on = [azurerm_mssql_database.sql-db]
 }
+
+resource "mssql_user" "sp-user" {
+  server {
+    host = azurerm_mssql_server.sql-server.fully_qualified_domain_name
+    login {
+      username = local.sql-admin-login
+      password = random_password.sql-admin-password.result
+    }
+  }
+
+  database  = azurerm_mssql_database.sql-db.name
+  username  = data.azurerm_client_config.client.client_id
+  object_id = data.azurerm_client_config.client.client_id
+  roles     = ["db_owner"]
+}
