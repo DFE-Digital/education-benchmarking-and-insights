@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
+using Microsoft.FeatureManagement;
 using Moq;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
@@ -40,6 +42,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBudgetForecastApi> BudgetForecastApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
     public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
+    public Mock<IFeatureManager> FeatureManager { get; } = new();
+
 
     protected override void Configure(IServiceCollection services)
     {
@@ -61,6 +65,44 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(BudgetForecastApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
         services.AddSingleton(DataSourceStorage.Object);
+        services.AddSingleton(FeatureManager.Object);
+
+        EnableFeatures();
+    }
+
+    private void EnableFeatures(params string[] ignoreFeatures)
+    {
+        var features = new[]
+        {
+            FeatureFlags.CurriculumFinancialPlanning,
+            FeatureFlags.CustomData,
+            FeatureFlags.UserDefinedComparators,
+            FeatureFlags.TrustComparison,
+            FeatureFlags.Trusts,
+            FeatureFlags.LocalAuthorities,
+            FeatureFlags.ForecastRisk
+        };
+
+        foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
+        {
+            FeatureManager.Setup(fm => fm.IsEnabledAsync(feature))
+                .ReturnsAsync(true);
+        }
+    }
+
+    public BenchmarkingWebAppClient SetupDisableFeatureFlags(params string[] features)
+    {
+        FeatureManager.Reset();
+
+        EnableFeatures(features);
+
+        foreach (var feature in features)
+        {
+            FeatureManager.Setup(fm => fm.IsEnabledAsync(feature))
+                .ReturnsAsync(false);
+        }
+
+        return this;
     }
 
     public BenchmarkingWebAppClient SetupStorage()

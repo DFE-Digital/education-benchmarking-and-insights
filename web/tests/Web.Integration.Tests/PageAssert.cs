@@ -30,4 +30,22 @@ public static class PageAssert
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
         DocumentAssert.TextEqual(paras[0], "Try again later.");
     }
+
+    public static void IsForbiddenPage(IHtmlDocument doc)
+    {
+        DocumentAssert.TitleAndH1(doc, "Access denied - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Access denied");
+
+        var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
+        DocumentAssert.TextEqual(paras[0], "You are unable to access this page. This could be because:");
+    }
+
+    public static void IsFeatureDisabledPage(IHtmlDocument doc)
+    {
+        DocumentAssert.TitleAndH1(doc, "Access denied - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Access denied");
+
+        var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
+        DocumentAssert.TextEqual(paras[0], "This feature is currently disabled.");
+    }
 }
