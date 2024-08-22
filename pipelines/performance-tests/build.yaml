@@ -38,6 +38,8 @@ stages:
         dependsOn: ZipStaticArtifacts
         displayName: 'Deploy'
         steps:
+          - checkout: none
+          - download: current
           - template: ..\common\run-terraform.yaml
             parameters:
               subscription: 's198t.azdo-deployment'
