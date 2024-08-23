@@ -76,7 +76,7 @@ stages:
           cipEnvironment: 'Dev'
 
   - stage: DeployTest
-    dependsOn: [ DeployAutomatedTest ]
+    dependsOn: [ Build ]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Test'
     jobs:
@@ -87,8 +87,21 @@ stages:
           environment: 'test'
           cipEnvironment: 'Test'
 
+  - stage: Approval
+    dependsOn: [ DeployDevelopment, DeployAutomatedTest, DeployTest ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Approval'
+    jobs:
+      - job: ManualValidation
+        displayName: 'Validate'
+        steps:
+          - task: ManualValidation@0
+            displayName: 'Validation'
+            inputs:
+              instructions: 'Validate lower environments before continuing'
+
   - stage: DeployPreProd
-    dependsOn: [ DeployTest ]
+    dependsOn: [ Approval ]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Pre-production'
     jobs:
