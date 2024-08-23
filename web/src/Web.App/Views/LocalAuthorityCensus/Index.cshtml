@@ -9,8 +9,9 @@
 
 @await Component.InvokeAsync("DataSource", new
     {
-        kind = OrganisationTypes.LocalAuthority,
-        additionText = new[] { "View pupil and workforce data for schools in this local authority." }
+        organisationType = OrganisationTypes.LocalAuthority,
+        sourceType = DataSourceTypes.Census,
+        additionText = new[] { "View pupil and workforce data for schools in this local authority." },
     })
 
 <div id="compare-your-census"
