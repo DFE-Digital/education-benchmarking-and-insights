@@ -93,13 +93,13 @@ stages:
     displayName: 'Approval'
     jobs:
       - job: ManualValidation
-        displayName: 'Validate'
+        displayName: 'Validate lower environments'
         pool: server
         steps:
           - task: ManualValidation@0
             displayName: 'Validation'
             inputs:
-              instructions: 'Validate lower environments before continuing'
+              instructions: 'Validate changes in lower environments before continuing'
 
   - stage: DeployPreProd
     dependsOn: [ Approval ]
