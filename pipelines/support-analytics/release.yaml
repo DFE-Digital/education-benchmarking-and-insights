@@ -94,6 +94,7 @@ stages:
     jobs:
       - job: ManualValidation
         displayName: 'Validate'
+        pool: server
         steps:
           - task: ManualValidation@0
             displayName: 'Validation'
