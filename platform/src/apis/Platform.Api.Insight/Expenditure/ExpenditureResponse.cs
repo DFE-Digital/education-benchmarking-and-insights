@@ -219,14 +219,17 @@ public static class ExpenditureResponseFactory
     private static void SetCateringStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
         response.SchoolTotalGrossCateringCosts = CalcPupilAmount(model.TotalGrossCateringCosts - model.TotalGrossCateringCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolTotalNetCateringCosts = CalcPupilAmount(model.TotalNetCateringCosts - model.TotalNetCateringCostsCS.GetValueOrDefault(), model, parameters);
         response.SchoolCateringStaffCosts = CalcPupilAmount(model.CateringStaffCosts - model.CateringStaffCostsCS.GetValueOrDefault(), model, parameters);
         response.SchoolCateringSuppliesCosts = CalcPupilAmount(model.CateringSuppliesCosts - model.CateringSuppliesCostsCS.GetValueOrDefault(), model, parameters);
 
         response.CentralTotalGrossCateringCosts = CalcPupilAmount(model.TotalGrossCateringCostsCS, model, parameters);
+        response.CentralTotalNetCateringCosts = CalcPupilAmount(model.TotalNetCateringCostsCS, model, parameters);
         response.CentralCateringStaffCosts = CalcPupilAmount(model.CateringStaffCostsCS, model, parameters);
         response.CentralCateringSuppliesCosts = CalcPupilAmount(model.CateringSuppliesCostsCS, model, parameters);
 
         response.TotalGrossCateringCosts = CalcPupilTotal(model.TotalGrossCateringCosts, model.TotalGrossCateringCostsCS.GetValueOrDefault(), model, parameters);
+        response.TotalNetCateringCosts = CalcPupilTotal(model.TotalNetCateringCosts, model.TotalNetCateringCostsCS.GetValueOrDefault(), model, parameters);
         response.CateringStaffCosts = CalcPupilTotal(model.CateringStaffCosts, model.CateringStaffCostsCS.GetValueOrDefault(), model, parameters);
         response.CateringSuppliesCosts = CalcPupilTotal(model.CateringSuppliesCosts, model.CateringSuppliesCostsCS.GetValueOrDefault(), model, parameters);
     }
@@ -363,6 +366,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? SchoolWaterSewerageCosts { get; set; }
     public decimal? SchoolAdministrativeSuppliesCosts { get; set; }
     public decimal? SchoolTotalGrossCateringCosts { get; set; }
+    public decimal? SchoolTotalNetCateringCosts { get; set; }
     public decimal? SchoolCateringStaffCosts { get; set; }
     public decimal? SchoolCateringSuppliesCosts { get; set; }
     public decimal? SchoolTotalOtherCosts { get; set; }
@@ -406,6 +410,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? CentralWaterSewerageCosts { get; set; }
     public decimal? CentralAdministrativeSuppliesCosts { get; set; }
     public decimal? CentralTotalGrossCateringCosts { get; set; }
+    public decimal? CentralTotalNetCateringCosts { get; set; }
     public decimal? CentralCateringStaffCosts { get; set; }
     public decimal? CentralCateringSuppliesCosts { get; set; }
     public decimal? CentralTotalOtherCosts { get; set; }
@@ -449,6 +454,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? WaterSewerageCosts { get; set; }
     public decimal? AdministrativeSuppliesCosts { get; set; }
     public decimal? TotalGrossCateringCosts { get; set; }
+    public decimal? TotalNetCateringCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
     public decimal? TotalOtherCosts { get; set; }

@@ -59,6 +59,8 @@
   "AdministrativeSuppliesNonEducationalCostsCS": 310000,
   "TotalGrossCateringCosts": 1800000,
   "TotalGrossCateringCostsCS": 320000,
+  "TotalNetCateringCosts": -1800000,
+  "TotalNetCateringCostsCS": -320000,
   "CateringStaffCosts": 2000000,
   "CateringStaffCostsCS": 330000,
   "CateringSuppliesCosts": 2200000,

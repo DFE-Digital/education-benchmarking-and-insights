@@ -230,7 +230,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
 
     [Function(nameof(TrustExpenditureHistoryAsync))]
     [OpenApiOperation(nameof(TrustExpenditureHistoryAsync), "Expenditure")]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleExpenditureDimension))]
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
@@ -307,7 +307,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     }
 
     [Function(nameof(QueryTrustsExpenditureAsync))]
-    [OpenApiOperation(nameof(QuerySchoolsExpenditureAsync), "Expenditure")]
+    [OpenApiOperation(nameof(QueryTrustsExpenditureAsync), "Expenditure")]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
