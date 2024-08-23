@@ -82,6 +82,7 @@ export type CateringStaffServicesData = {
   urn: string;
   schoolType: string;
   totalGrossCateringCosts: number;
+  totalNetCateringCosts: number;
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
   totalPupils: bigint;

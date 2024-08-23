@@ -23,7 +23,12 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { ExpenditureApi, CateringStaffServicesExpenditure } from "src/services";
+import {
+  ExpenditureApi,
+  CateringStaffServicesExpenditure,
+  TotalCateringCostsField,
+} from "src/services";
+import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
 export const CateringStaffServices: React.FC<{
   type: string;
@@ -33,6 +38,8 @@ export const CateringStaffServices: React.FC<{
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<CateringStaffServicesExpenditure[] | null>();
+  const [totalCateringCostsField, setTotalCateringCostsField] =
+    useState<TotalCateringCostsField>("totalGrossCateringCosts");
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<CateringStaffServicesExpenditure>(
@@ -78,12 +85,15 @@ export const CateringStaffServices: React.FC<{
           data?.map((school) => {
             return {
               ...school,
-              value: school.totalGrossCateringCosts,
+              value:
+                (totalCateringCostsField == "totalGrossCateringCosts"
+                  ? school.totalGrossCateringCosts
+                  : school.totalNetCateringCosts) ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
-    }, [data, tableHeadings]);
+    }, [data, tableHeadings, totalCateringCostsField]);
 
   const cateringStaffBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
     useMemo(() => {
@@ -149,12 +159,22 @@ export const CateringStaffServices: React.FC<{
               chartName="total catering costs"
             >
               <h3 className="govuk-heading-s">Total catering costs</h3>
-              <ChartDimensions
-                dimensions={CostCategories}
-                handleChange={handleSelectChange}
-                elementId="total-catering-costs"
-                value={dimension.value}
-              />
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-one-half">
+                  <ChartDimensions
+                    dimensions={CostCategories}
+                    handleChange={handleSelectChange}
+                    elementId="total-catering-costs"
+                    value={dimension.value}
+                  />
+                </div>
+                <div className="govuk-grid-column-one-half">
+                  <TotalCateringCostsType
+                    field={totalCateringCostsField}
+                    onChange={setTotalCateringCostsField}
+                  />
+                </div>
+              </div>
             </HorizontalBarChartWrapper>
             <HorizontalBarChartWrapper
               data={cateringStaffBarData}

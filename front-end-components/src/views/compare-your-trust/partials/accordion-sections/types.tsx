@@ -60,6 +60,7 @@ export type AdministrativeSuppliesData = {
 export type CateringStaffServicesData = {
   companyNumber: string;
   totalGrossCateringCosts: number;
+  totalNetCateringCosts: number;
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
   trustName: string;

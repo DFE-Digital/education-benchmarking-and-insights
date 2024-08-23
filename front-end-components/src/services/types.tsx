@@ -16,6 +16,7 @@ export type AdministrativeSuppliesExpenditure = SchoolExpenditure &
 
 type CateringStaffServicesExpenditureBase = {
   totalGrossCateringCosts: number;
+  totalNetCateringCosts: number;
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
 };
@@ -125,10 +126,12 @@ export type AdministrativeSuppliesTrustExpenditure = TrustExpenditure &
 type CateringStaffServicesTrustExpenditureBase =
   CateringStaffServicesExpenditureBase & {
     schoolTotalGrossCateringCosts: number;
+    schoolTotalNetCateringCosts: number;
     schoolCateringStaffCosts: number;
     schoolCateringSuppliesCosts: number;
 
     centralTotalGrossCateringCosts: number;
+    centralTotalNetCateringCosts: number;
     centralCateringStaffCosts: number;
     centralCateringSuppliesCosts: number;
   };
@@ -375,3 +378,8 @@ export type BudgetForecastReturn = {
   percentVariance?: number;
   varianceStatus?: string;
 };
+
+export type TotalCateringCostsField = keyof Pick<
+  CateringStaffServicesExpenditureBase,
+  "totalGrossCateringCosts" | "totalNetCateringCosts"
+>;
