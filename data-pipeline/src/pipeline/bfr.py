@@ -3,15 +3,14 @@ import pandas as pd
 
 
 def calculate_metrics(bfr: pd.DataFrame) -> pd.DataFrame:
-    print(bfr.columns)
+    
     costs_list = ['Total income','Staff costs','Total expenditure']
-    bfr['test_metric'] = bfr.apply(lambda row: row['Y2P1'] + row['Y2P2'] if row['Category'] in costs_list else row['Y2P2'], axis=1)
+    bfr['metric'] = bfr.apply(lambda row: row['Y2P1'] + row['Y2P2'] if row['Category'] in costs_list else row['Y2P2'], axis=1)
 
 
-    df = bfr[["Company Registration Number", "Category", "test_metric"]].pivot_table(
-        index=["Company Registration Number"], columns="Category", values="test_metric"
+    df = bfr[["Company Registration Number", "Category", "metric"]].pivot_table(
+        index=["Company Registration Number"], columns="Category", values="metric"
     )
-    print(df.loc['04439859'])
 
     df["Revenue reserve as percentage of income"] = (
         df["Revenue reserve"] / df["Total income"]

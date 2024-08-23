@@ -1328,7 +1328,7 @@ def build_bfr_data(
         bfr["Y-1"] = 0.0
         bfr["Pupils Y-1"] = 0.0
 
-    bfr["Y1"] = bfr["Y1P2"]
+    bfr["Y1"] = bfr["Y2P2"]
     bfr = bfr.drop_duplicates()
     bfr_metrics = BFR.calculate_metrics(bfr.reset_index())
 
