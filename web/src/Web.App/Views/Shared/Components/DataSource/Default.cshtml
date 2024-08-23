@@ -6,6 +6,9 @@
         {
             <p class="govuk-body">@text</p>    
         }
-        <p class="govuk-body">@Model.DataSource</p>
+        @foreach (var dataSource in @Model.DataSource)
+        {
+            <p class="govuk-body">@dataSource</p>
+        }
     </div>
 </div>

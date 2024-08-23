@@ -1,4 +1,4 @@
-import { createRef, useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
 import {
   TableChart,
@@ -33,7 +33,7 @@ export function HorizontalBarChartWrapper<
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
-  const ref = createRef<ChartHandler>();
+  const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
   const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
@@ -83,9 +83,11 @@ export function HorizontalBarChartWrapper<
               className="govuk-button govuk-button--secondary"
               data-module="govuk-button"
               data-prevent-double-click="true"
-              onClick={() => ref.current?.download()}
+              onClick={() => chartRef.current?.download()}
               disabled={imageLoading}
               aria-disabled={imageLoading}
+              data-custom-event-id="save-chart-as-image"
+              data-custom-event-chart-name={chartName}
             >
               Save <span className="govuk-visually-hidden">{chartName}</span> as
               image
@@ -119,7 +121,7 @@ export function HorizontalBarChartWrapper<
                     onImageLoading={setImageLoading}
                     labels
                     margin={20}
-                    ref={ref}
+                    ref={chartRef}
                     seriesConfig={seriesConfig as object}
                     seriesLabelField={seriesLabelField}
                     tickWidth={400}

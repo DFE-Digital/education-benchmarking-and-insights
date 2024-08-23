@@ -19,7 +19,11 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority })
+@await Component.InvokeAsync("DataSource", new
+{
+    organisationType = OrganisationTypes.LocalAuthority,
+    sourceType = DataSourceTypes.Spending,
+})
 
 <hr class="govuk-section-break govuk-section-break--m">
 

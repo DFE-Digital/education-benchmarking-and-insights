@@ -7,7 +7,12 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new[] { "View pupil and workforce data for schools in this trust." } })
+@await Component.InvokeAsync("DataSource", new
+{
+    organisationType = OrganisationTypes.Trust,
+    sourceType = DataSourceTypes.Census,
+    additionText = new[] { "View pupil and workforce data for schools in this trust." },
+})
 
 <div id="compare-your-census" 
      data-type="@OrganisationTypes.Trust" 

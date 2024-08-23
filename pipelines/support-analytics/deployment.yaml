@@ -1,0 +1,30 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: 'feature'
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+
+jobs:
+  - deployment: Deployment
+    displayName: 'Deployment to ${{ parameters.environment }}'
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+              displayName: 'Download terraform artifacts'
+              artifact: support-analytics-terraform
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'support-analytics'
