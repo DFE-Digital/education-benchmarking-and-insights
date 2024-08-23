@@ -34,6 +34,7 @@ public abstract record ExpenditureBaseModel
     public decimal? WaterSewerageCosts { get; set; }
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? TotalGrossCateringCosts { get; set; }
+    public decimal? TotalNetCateringCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
     public decimal? TotalOtherCosts { get; set; }
@@ -79,6 +80,7 @@ public abstract record ExpenditureBaseModel
     public decimal? WaterSewerageCostsCS { get; set; }
     public decimal? AdministrativeSuppliesNonEducationalCostsCS { get; set; }
     public decimal? TotalGrossCateringCostsCS { get; set; }
+    public decimal? TotalNetCateringCostsCS { get; set; }
     public decimal? CateringStaffCostsCS { get; set; }
     public decimal? CateringSuppliesCostsCS { get; set; }
     public decimal? TotalOtherCostsCS { get; set; }

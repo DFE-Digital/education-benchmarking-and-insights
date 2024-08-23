@@ -134,6 +134,10 @@ public static class Assertions
         AssertEqual(nameof(ExpenditureBaseResponse.SchoolTotalGrossCateringCosts), expected.SchoolTotalGrossCateringCosts, response.SchoolTotalGrossCateringCosts);
         AssertEqual(nameof(ExpenditureBaseResponse.CentralTotalGrossCateringCosts), expected.CentralTotalGrossCateringCosts, response.CentralTotalGrossCateringCosts);
 
+        AssertEqual(nameof(ExpenditureBaseResponse.TotalNetCateringCosts), expected.TotalNetCateringCosts, response.TotalNetCateringCosts);
+        AssertEqual(nameof(ExpenditureBaseResponse.SchoolTotalNetCateringCosts), expected.SchoolTotalNetCateringCosts, response.SchoolTotalNetCateringCosts);
+        AssertEqual(nameof(ExpenditureBaseResponse.CentralTotalNetCateringCosts), expected.CentralTotalNetCateringCosts, response.CentralTotalNetCateringCosts);
+
         AssertEqual(nameof(ExpenditureBaseResponse.CateringStaffCosts), expected.CateringStaffCosts, response.CateringStaffCosts);
         AssertEqual(nameof(ExpenditureBaseResponse.SchoolCateringStaffCosts), expected.SchoolCateringStaffCosts, response.SchoolCateringStaffCosts);
         AssertEqual(nameof(ExpenditureBaseResponse.CentralCateringStaffCosts), expected.CentralCateringStaffCosts, response.CentralCateringStaffCosts);
