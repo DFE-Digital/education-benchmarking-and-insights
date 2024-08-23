@@ -405,3 +405,14 @@ resource "azurerm_log_analytics_query_pack_query" "waf-blocked-requests-per-hour
 
   body = file("${path.module}/queries/waf-blocked-requests-per-hour.kql")
 }
+
+resource "azurerm_log_analytics_saved_search" "get-tracked-save-charts" {
+  name                       = "GetTrackedSaveCharts"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetTrackedSaveCharts"
+  function_alias             = "GetTrackedSaveCharts"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-tracked-save-charts.kql")
+}
