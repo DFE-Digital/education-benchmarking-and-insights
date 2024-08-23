@@ -1,26 +1,42 @@
 import { HistoricChart } from "src/composed/historic-chart-composed";
-import { SchoolExpenditureHistory } from "src/services";
+import {
+  SchoolExpenditureHistory,
+  TotalCateringCostsField,
+} from "src/services";
 import { Loading } from "src/components/loading";
+import { useState } from "react";
+import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
 export const SpendingSectionCateringServices: React.FC<{
   data: SchoolExpenditureHistory[];
 }> = ({ data }) => {
+  const [totalCateringCostsField, setTotalCateringCostsField] =
+    useState<TotalCateringCostsField>("totalGrossCateringCosts");
+
   return (
     <>
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total gross catering costs"
+            chartName="Total catering costs"
             data={data}
             seriesConfig={{
               totalGrossCateringCosts: {
                 label: "Total gross catering costs",
-                visible: true,
+                visible: totalCateringCostsField == "totalGrossCateringCosts",
+              },
+              totalNetCateringCosts: {
+                label: "Total net catering costs",
+                visible: totalCateringCostsField == "totalNetCateringCosts",
               },
             }}
-            valueField="totalGrossCateringCosts"
+            valueField={totalCateringCostsField}
           >
-            <h3 className="govuk-heading-s">Total gross catering costs</h3>
+            <h3 className="govuk-heading-s">Total catering costs</h3>
+            <TotalCateringCostsType
+              field={totalCateringCostsField}
+              onChange={setTotalCateringCostsField}
+            />
           </HistoricChart>
 
           <HistoricChart

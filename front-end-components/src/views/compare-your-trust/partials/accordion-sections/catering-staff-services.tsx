@@ -18,11 +18,13 @@ import classNames from "classnames";
 import {
   ExpenditureApi,
   CateringStaffServicesTrustExpenditure,
+  TotalCateringCostsField,
 } from "src/services";
 import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
 export const CateringStaffServices: React.FC<{
   id: string;
@@ -32,6 +34,8 @@ export const CateringStaffServices: React.FC<{
   const [data, setData] = useState<
     CateringStaffServicesTrustExpenditure[] | null
   >();
+  const [totalCateringCostsField, setTotalCateringCostsField] =
+    useState<TotalCateringCostsField>("totalGrossCateringCosts");
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust<CateringStaffServicesTrustExpenditure>(
@@ -76,15 +80,24 @@ export const CateringStaffServices: React.FC<{
             ? data.map((trust) => {
                 return {
                   ...trust,
-                  totalValue: trust.totalGrossCateringCosts ?? 0,
-                  schoolValue: trust.schoolTotalGrossCateringCosts ?? 0,
-                  centralValue: trust.centralTotalGrossCateringCosts ?? 0,
+                  totalValue:
+                    (totalCateringCostsField == "totalGrossCateringCosts"
+                      ? trust.totalGrossCateringCosts
+                      : trust.totalNetCateringCosts) ?? 0,
+                  schoolValue:
+                    (totalCateringCostsField == "totalGrossCateringCosts"
+                      ? trust.schoolTotalGrossCateringCosts
+                      : trust.schoolTotalNetCateringCosts) ?? 0,
+                  centralValue:
+                    (totalCateringCostsField == "totalGrossCateringCosts"
+                      ? trust.centralTotalGrossCateringCosts
+                      : trust.centralTotalNetCateringCosts) ?? 0,
                 };
               })
             : [],
         tableHeadings,
       };
-    }, [data, tableHeadings]);
+    }, [data, tableHeadings, totalCateringCostsField]);
 
   const cateringStaffBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
     useMemo(() => {
@@ -155,12 +168,22 @@ export const CateringStaffServices: React.FC<{
             trust
           >
             <h3 className="govuk-heading-s">Total catering costs</h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-catering-costs"
-              value={dimension.value}
-            />
+            <div className="govuk-grid-row">
+              <div className="govuk-grid-column-one-half">
+                <ChartDimensions
+                  dimensions={CostCategories}
+                  handleChange={handleSelectChange}
+                  elementId="total-catering-costs"
+                  value={dimension.value}
+                />
+              </div>
+              <div className="govuk-grid-column-one-half">
+                <TotalCateringCostsType
+                  field={totalCateringCostsField}
+                  onChange={setTotalCateringCostsField}
+                />
+              </div>
+            </div>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringStaffBarData}

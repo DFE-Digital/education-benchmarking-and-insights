@@ -68,7 +68,7 @@ public class HistoricDataPage(IPage page)
         "Energy costs",
         "Water and sewerage costs",
         "Administration supplies (non educational) costs",
-        "Total gross catering costs",
+        "Total catering costs",
         "Catering staff costs",
         "Catering supplies costs",
         "Total other costs",
