@@ -17,7 +17,6 @@ It has been structured into separate components to streamline collaboration, whi
 **Core infrastructure:**
 ```mermaid
 block-beta
-    accDescr: Core infrastructure dependencies
     columns 1
     Core
     space
@@ -33,7 +32,6 @@ block-beta
 **Data pipeline:**
 ```mermaid
 block-beta
-    accDescr: Data pipeline dependencies
     columns 1
     Core
     space
@@ -47,7 +45,6 @@ block-beta
 **Platform APIs:**
 ```mermaid
 block-beta
-    accDescr: Platform APIs dependencies
     columns 1
     Core
     space
@@ -64,7 +61,6 @@ block-beta
 **Web application:**
 ```mermaid
 block-beta
-    accDescr: Web application dependencies
     columns 1
     block:a
         Core
@@ -81,7 +77,6 @@ block-beta
 **Support & analytics:**
 ```mermaid
 block-beta
-    accDescr: Support & analytics dependencies
     columns 1
     block:a
         Core
