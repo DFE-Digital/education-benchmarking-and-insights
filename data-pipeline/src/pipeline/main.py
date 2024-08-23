@@ -434,36 +434,36 @@ def pre_process_data(worker_client, run_type, year):
     start_time = time.time()
     logger.info(f"Pre-processing data {run_type} - {year}")
 
-    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
-        worker_client.gather(
-            [
-                worker_client.submit(pre_process_cdc, run_type, year),
-                worker_client.submit(pre_process_census, run_type, year),
-                worker_client.submit(pre_process_sen, run_type, year),
-                worker_client.submit(pre_process_ks2, run_type, year),
-                worker_client.submit(pre_process_ks4, run_type, year),
-                worker_client.submit(pre_process_academy_ar, run_type, year),
-                worker_client.submit(pre_process_schools, run_type, year),
-                worker_client.submit(pre_process_cfo, run_type, year),
-                worker_client.submit(pre_process_central_services, run_type, year),
-            ]
-        )
-    )
+    # cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
+    #     worker_client.gather(
+    #         [
+    #             worker_client.submit(pre_process_cdc, run_type, year),
+    #             worker_client.submit(pre_process_census, run_type, year),
+    #             worker_client.submit(pre_process_sen, run_type, year),
+    #             worker_client.submit(pre_process_ks2, run_type, year),
+    #             worker_client.submit(pre_process_ks4, run_type, year),
+    #             worker_client.submit(pre_process_academy_ar, run_type, year),
+    #             worker_client.submit(pre_process_schools, run_type, year),
+    #             worker_client.submit(pre_process_cfo, run_type, year),
+    #             worker_client.submit(pre_process_central_services, run_type, year),
+    #         ]
+    #     )
+    # )
 
-    data_ref = worker_client.scatter(
-        (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
-    )
+    # data_ref = worker_client.scatter(
+    #     (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
+    # )
 
-    academies, maintained_schools = worker_client.gather(
-        [
-            worker_client.submit(pre_process_academies_data, run_type, year, data_ref),
-            worker_client.submit(
-                pre_process_maintained_schools_data, run_type, year, data_ref
-            ),
-        ]
-    )
+    # academies, maintained_schools = worker_client.gather(
+    #     [
+    #         worker_client.submit(pre_process_academies_data, run_type, year, data_ref),
+    #         worker_client.submit(
+    #             pre_process_maintained_schools_data, run_type, year, data_ref
+    #         ),
+    #     ]
+    # )
 
-    pre_process_all_schools(run_type, year, (academies, maintained_schools))
+    # pre_process_all_schools(run_type, year, (academies, maintained_schools))
 
     pre_process_bfr(run_type, year)
 
@@ -893,42 +893,42 @@ def handle_msg(
                 msg_payload["pre_process_duration"] = pre_process_data(
                     worker_client, run_type, msg_payload["year"]
                 )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                    run_type,
-                    msg_payload["year"],
-                )
-                msg_payload["rag_duration"] = run_compute_rag(
-                    run_type=run_type,
-                    run_id=str(msg_payload["year"]),
-                )
+        #         msg_payload["comparator_set_duration"] = compute_comparator_sets(
+        #             run_type,
+        #             msg_payload["year"],
+        #         )
+        #         msg_payload["rag_duration"] = run_compute_rag(
+        #             run_type=run_type,
+        #             run_id=str(msg_payload["year"]),
+        #         )
 
-            case MessageType.DefaultUserDefined:
-                msg_payload["rag_duration"] = run_user_defined_rag(
-                    year=msg_payload["year"],
-                    run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
-                    comparator_set=list(map(int, msg_payload["payload"]["set"])),
-                )
+        #     case MessageType.DefaultUserDefined:
+        #         msg_payload["rag_duration"] = run_user_defined_rag(
+        #             year=msg_payload["year"],
+        #             run_id=msg_payload["runId"],
+        #             target_urn=int(msg_payload["urn"]),
+        #             comparator_set=list(map(int, msg_payload["payload"]["set"])),
+        #         )
 
-            case MessageType.Custom:
-                msg_payload["pre_process_duration"] = pre_process_custom_data(
-                    run_id=msg_payload["runId"],
-                    year=msg_payload["year"],
-                    target_urn=int(msg_payload["urn"]),
-                    custom_data={
-                        k: v for k, v in msg_payload["payload"].items() if k != "kind"
-                    },
-                )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                    run_type=run_type,
-                    run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
-                )
-                msg_payload["rag_duration"] = run_compute_rag(
-                    run_type=run_type,
-                    run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
-                )
+        #     case MessageType.Custom:
+        #         msg_payload["pre_process_duration"] = pre_process_custom_data(
+        #             run_id=msg_payload["runId"],
+        #             year=msg_payload["year"],
+        #             target_urn=int(msg_payload["urn"]),
+        #             custom_data={
+        #                 k: v for k, v in msg_payload["payload"].items() if k != "kind"
+        #             },
+        #         )
+        #         msg_payload["comparator_set_duration"] = compute_comparator_sets(
+        #             run_type=run_type,
+        #             run_id=msg_payload["runId"],
+        #             target_urn=int(msg_payload["urn"]),
+        #         )
+        #         msg_payload["rag_duration"] = run_compute_rag(
+        #             run_type=run_type,
+        #             run_id=msg_payload["runId"],
+        #             target_urn=int(msg_payload["urn"]),
+        #         )
 
         msg_payload["success"] = True
     except Exception as error:
