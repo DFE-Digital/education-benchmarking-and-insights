@@ -2,20 +2,22 @@ AppEvents
 | where
     Properties["baseTypeSource"] == "ClickEvent"
 | where
-    Name in (${trackedEvents})
+    Name == "save-chart-as-image"
 | where 
     isempty(SyntheticSource)
-| extend
-    Source = tostring(Properties["uri"]),
-    Target = tostring(Properties["targetUri"])
+| extend 
+    content=parsejson(tostring(Properties.['content']))
+| mv-expand 
+    content
+| extend 
+    ChartName = content["chart-name"]
 | join kind=leftouter
     GetEstablishmentRequests
     on $left.ParentId == $right.OperationId
 | project
     TimeGenerated,
     Name,
-    Source,
-    Target,
+    ChartName,
     OperationId,
     UserId,
     Establishment,

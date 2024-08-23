@@ -82,10 +82,12 @@ export const YearEnd: React.FC<{
     setDimension(dimension);
   };
 
+  const chartName = "Year-end revenue reserves";
+
   return (
     <div className="govuk-grid-row govuk-!-margin-top-5">
       <div className="govuk-grid-column-one-half">
-        <h2 className="govuk-heading-m">Year-end revenue reserves</h2>
+        <h2 className="govuk-heading-m">{chartName}</h2>
       </div>
       <div className="govuk-grid-column-one-half">
         <div>
@@ -95,10 +97,12 @@ export const YearEnd: React.FC<{
             disabled={imageLoading}
             aria-disabled={imageLoading}
             onClick={() => chartRef?.current?.download()}
+            data-custom-event-id="save-chart-as-image"
+            data-custom-event-chart-name={chartName.toLowerCase()}
           >
             Save{" "}
             <span className="govuk-visually-hidden">
-              year-end revenue reserves
+              {chartName.toLowerCase()}
             </span>{" "}
             as image
           </button>
