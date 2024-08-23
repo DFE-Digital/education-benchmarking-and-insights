@@ -4,7 +4,7 @@ import pandas as pd
 
 def calculate_metrics(bfr: pd.DataFrame) -> pd.DataFrame:
     
-    costs_list = ['Total income','Staff costs','Total expenditure']
+    costs_list = ['Total income','Staff costs','Total expenditure', "Self-generated income"]
     bfr['metric'] = bfr.apply(lambda row: row['Y2P1'] + row['Y2P2'] if row['Category'] in costs_list else row['Y2P2'], axis=1)
 
 
