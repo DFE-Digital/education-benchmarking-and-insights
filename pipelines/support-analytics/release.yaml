@@ -25,7 +25,7 @@ variables:
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
 stages:
-  - stage: BuildDeploy
+  - stage: Build
     displayName: 'Build artifacts'
     jobs:
       - job: FmtValidateTf
