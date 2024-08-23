@@ -1,0 +1,112 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - support-analytics
+      - pipelines/support-analytics
+      - pipelines/common
+
+pr:
+  paths:
+    include:
+      - support-analytics
+
+variables:
+  - template: ..\common\vars.yaml
+  - name: TerraformFolder
+    value: 'support-analytics/terraform'
+  - name: TerraformDirectory
+    value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+
+stages:
+  - stage: BuildDeploy
+    displayName: 'Build artifacts'
+    jobs:
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: ..\common\fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
+        steps:
+          - template: ..\common\scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: ZipStaticArtifacts
+        dependsOn: [FmtValidateTf, RunCheckOv]
+        displayName: 'Zip static artifacts'
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
+              Module: 'support-analytics'
+
+  - stage: DeployDevelopment
+    dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Development'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01'
+          environment: 'development'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployAutomatedTest
+    dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Automated test'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d02'
+          environment: 'automated-test'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployTest
+    dependsOn: [ DeployAutomatedTest ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Test'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198t.azdo-deployment'
+          environmentPrefix: 's198t01'
+          environment: 'test'
+          cipEnvironment: 'Test'
+
+  - stage: DeployPreProd
+    dependsOn: [ DeployTest ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Pre-production'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: ${{ parameters.preProdEnv }}
+          environment: 'pre-production'
+          cipEnvironment: 'Prod'
+
+  - stage: DeployProd
+    dependsOn: [ DeployPreProd ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Production'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p01'
+          environment: 'production'
+          cipEnvironment: 'Prod'
