@@ -27,8 +27,17 @@ public class FindOrganisationSteps(PageDriver driver)
     public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
     {
         Assert.NotNull(_findOrganisationPage);
-        await _findOrganisationPage.SelectSchoolFromSuggester(urn);
+        await _findOrganisationPage.TypeIntoSchoolSearchBox(urn);
+        await _findOrganisationPage.SelectItemFromSuggester();
     }
+
+    [When("I type '(.*)' into the search bar")]
+    public async Task WhenITypeIntoTheSearchBar(string keyword)
+    {
+        Assert.NotNull(_findOrganisationPage);
+        await _findOrganisationPage.TypeIntoSchoolSearchBox(keyword);
+    }
+
 
     [When("I click Continue")]
     public async Task WhenIClickContinue()
@@ -50,6 +59,13 @@ public class FindOrganisationSteps(PageDriver driver)
         Assert.NotNull(_findOrganisationPage);
         var parsed = Enum.TryParse(organisationType, out OrganisationTypes type);
         await _findOrganisationPage.SelectOrganisationType(type);
+    }
+
+    [Then("each suggester result contains '(.*)'")]
+    public async Task ThenEachSuggesterResultContains(string keyword)
+    {
+        Assert.NotNull(_findOrganisationPage);
+        await _findOrganisationPage.AssertSearchResults(keyword);
     }
 
     private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";

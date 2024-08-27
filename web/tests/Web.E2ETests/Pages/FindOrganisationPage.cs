@@ -13,7 +13,6 @@ public class FindOrganisationPage(IPage page)
     private const string ArrowDownKey = "ArrowDown";
     private const string EnterKey = "Enter";
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
 
@@ -26,15 +25,18 @@ public class FindOrganisationPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        //await Breadcrumbs.ShouldBeVisible();
         await OrganisationsTypeRadios.ShouldBeVisible();
         await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
     }
 
-    public async Task SelectSchoolFromSuggester(string text)
+    public async Task TypeIntoSchoolSearchBox(string text)
     {
         await SchoolSearchInputField.PressSequentially(text);
         await SchoolSuggestionsDropdown.ShouldBeVisible();
+    }
+
+    public async Task SelectItemFromSuggester()
+    {
         await SchoolSearchInputField.PressAsync(ArrowDownKey);
         await page.Keyboard.PressAsync(EnterKey);
     }
@@ -54,5 +56,14 @@ public class FindOrganisationPage(IPage page)
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
         await radioButton.Check();
+    }
+
+    public async Task AssertSearchResults(string keyword)
+    {
+        var listItems = await SchoolSuggestionsDropdown.Locator("li").AllAsync();
+        foreach (var item in listItems)
+        {
+            await item.ShouldContainText(keyword);
+        }
     }
 }

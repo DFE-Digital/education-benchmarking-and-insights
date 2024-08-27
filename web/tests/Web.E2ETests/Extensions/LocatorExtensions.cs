@@ -19,6 +19,7 @@ public static class LocatorExtensions
 
         return locator;
     }
+
     public static async Task<ILocator> ShouldBeVisible(this ILocator locator)
     {
         await Assertions.Expect(locator).ToBeVisibleAsync();
@@ -39,6 +40,17 @@ public static class LocatorExtensions
             new LocatorAssertionsToHaveTextOptions
             {
                 UseInnerText = true
+            });
+        return locator;
+    }
+
+    public static async Task<ILocator> ShouldContainText(this ILocator locator, string? text)
+    {
+        await Assertions.Expect(locator).ToContainTextAsync(text ?? throw new ArgumentNullException(nameof(text)),
+            new LocatorAssertionsToContainTextOptions
+            {
+                UseInnerText = true,
+                IgnoreCase = true
             });
         return locator;
     }
