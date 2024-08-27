@@ -64,9 +64,13 @@ public class SchoolsService : SearchService, ISchoolsService
     {
         var fields = new[]
         {
-            nameof(School.URN),
             nameof(School.SchoolName),
+            nameof(School.URN),
+            nameof(School.AddressStreet),
+            nameof(School.AddressLocality),
+            nameof(School.AddressLine3),
             nameof(School.AddressTown),
+            nameof(School.AddressCounty),
             nameof(School.AddressPostcode)
         };
 
