@@ -14,6 +14,9 @@
         Then each suggester result contains '<keyword>'
 
     Examples:
-      | keyword |
-      | ABC     |
-      | london  |
+      | keyword     |
+      | ABC         |
+      | london      |
+      | camber      |
+      | street      |
+      | test school |
