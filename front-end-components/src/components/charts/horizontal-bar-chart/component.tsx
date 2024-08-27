@@ -3,6 +3,7 @@ import {
   ReactElement,
   Ref,
   forwardRef,
+  useCallback,
   useImperativeHandle,
   useMemo,
   useState,
@@ -19,6 +20,7 @@ import {
   Label,
   LabelList,
   Legend,
+  Rectangle,
   ReferenceLine,
   ResponsiveContainer,
   Text,
@@ -35,6 +37,8 @@ import {
   ChartSeriesValue,
 } from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
+import { Props } from "recharts/types/component/Label";
+import { CartesianViewBox } from "recharts/types/util/types";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
   props: HorizontalBarChartProps<TData>,
@@ -93,13 +97,22 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 
   const margin = _margin || 5;
 
-  const hasNegativeValues = useMemo(() => {
-    return data.some((d) => {
+  const seriesHasNegativeValues = useCallback(
+    (d: TData) => {
       return visibleSeriesNames.some(
         (name) => parseFloat(String(d[name]) || "") < 0
       );
-    });
-  }, [data, visibleSeriesNames]);
+    },
+    [visibleSeriesNames]
+  );
+
+  const hasSomeNegativeValues = useMemo(() => {
+    return data.some(seriesHasNegativeValues);
+  }, [data, seriesHasNegativeValues]);
+
+  const hasAllNegativeValues = useMemo(() => {
+    return data.every(seriesHasNegativeValues);
+  }, [data, seriesHasNegativeValues]);
 
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
@@ -131,6 +144,33 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   };
 
+  const renderOriginLabel = (props: Props) => {
+    const { x, y, height } = props.viewBox as CartesianViewBox;
+    const x1 = x ?? 0;
+    const y1 = (y ?? 0) + (height ?? 0);
+    return (
+      <>
+        <Rectangle
+          x={x1 - 20}
+          y={y1 + 2}
+          width={40}
+          height={20}
+          fill="#fff"
+        ></Rectangle>
+        <Text
+          x={x}
+          y={y1 + 18}
+          textAnchor="middle"
+          orientation="bottom"
+          height={30}
+          className="recharts-cartesian-axis-tick-value"
+        >
+          {valueFormatter ? valueFormatter(0, { valueUnit }) : String(0)}
+        </Text>
+      </>
+    );
+  };
+
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
@@ -147,7 +187,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             top: margin,
             right: margin + (labels ? 25 : 5),
             bottom: margin,
-            left: margin,
+            left: hasSomeNegativeValues ? margin + 48 : margin,
           }}
           onMouseMove={handleBarChartMouseMove}
           ref={rechartsRef}
@@ -182,7 +222,11 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             );
           })}
           <XAxis
-            domain={hasNegativeValues ? ["dataMin", "dataMax"] : undefined}
+            domain={
+              hasSomeNegativeValues
+                ? ["dataMin", hasAllNegativeValues ? 0 : "dataMax"]
+                : undefined
+            }
             type="number"
             hide={hideXAxis}
             tickFormatter={(value) =>
@@ -202,21 +246,14 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             tick={tick}
             type="category"
             width={tickWidth}
-            axisLine={hasNegativeValues ? false : undefined}
-            tickLine={hasNegativeValues ? false : undefined}
-            tickMargin={hasNegativeValues ? 50 : undefined}
+            axisLine={hasSomeNegativeValues ? false : undefined}
+            tickLine={hasSomeNegativeValues ? false : undefined}
+            tickMargin={hasSomeNegativeValues ? 50 : undefined}
           ></YAxis>
-          {hasNegativeValues && (
-            <ReferenceLine
-              x={0}
-              label={{
-                position: "bottom",
-                offset: 8,
-                value: valueFormatter
-                  ? valueFormatter(0, { valueUnit })
-                  : String(0),
-              }}
-            />
+          {hasSomeNegativeValues && (
+            <ReferenceLine x={0}>
+              <Label offset={8} position="bottom" content={renderOriginLabel} />
+            </ReferenceLine>
           )}
           {legend && (
             <Legend
