@@ -43,7 +43,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         var suggestions = await establishmentApi.SuggestTrusts(search, query).GetResultOrThrow<SuggestOutput<Trust>>();
         return suggestions.Results.Select(TrustSuggestValue);
     }
-    
+
     public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
     {
         var query = new ApiQuery();
@@ -58,7 +58,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         var suggestions = await establishmentApi.SuggestLocalAuthorities(search, query).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
-    
+
     private static SuggestValue<Trust> TrustSuggestValue(SuggestValue<Trust> value)
     {
         var text = value.Text?.Replace("*", "");
@@ -74,7 +74,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         {
             value.Text = value.Document?.TrustName;
         }
-        
+
         value.Text = $"{value.Text}{additionalText}";
 
         return value;
@@ -90,12 +90,12 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         {
             additionalText = text == value.Document.Code ? $" ({value.Text})" : $" ({value.Document.Code})";
         }
-        
+
         if (text != value.Document?.Name)
         {
             value.Text = value.Document?.Name;
         }
-        
+
         value.Text = $"{value.Text}{additionalText}";
 
         return value;
