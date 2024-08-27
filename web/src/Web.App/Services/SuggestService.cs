@@ -44,23 +44,6 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(TrustSuggestValue);
     }
 
-    private static SuggestValue<Trust> TrustSuggestValue(SuggestValue<Trust> value)
-    {
-        var text = value.Text?.Replace("*", "");
-
-        var additionalText = "";
-
-        if (!string.IsNullOrWhiteSpace(value.Document?.CompanyNumber))
-            additionalText = text == value.Document.CompanyNumber ? $" ({value.Text})" : $" ({value.Document.CompanyNumber})";
-
-        if (text != value.Document?.TrustName)
-            value.Text = value.Document?.TrustName;
-
-        value.Text = $"{value.Text}{additionalText}";
-
-        return value;
-    }
-
     public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
     {
         var query = new ApiQuery();
@@ -76,14 +59,44 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
 
+    private static SuggestValue<Trust> TrustSuggestValue(SuggestValue<Trust> value)
+    {
+        var text = value.Text?.Replace("*", "");
+
+        var additionalText = "";
+
+        if (!string.IsNullOrWhiteSpace(value.Document?.CompanyNumber))
+        {
+            additionalText = text == value.Document.CompanyNumber ? $" ({value.Text})" : $" ({value.Document.CompanyNumber})";
+        }
+
+        if (text != value.Document?.TrustName)
+        {
+            value.Text = value.Document?.TrustName;
+        }
+
+        value.Text = $"{value.Text}{additionalText}";
+
+        return value;
+    }
+
     private static SuggestValue<LocalAuthority> LocalAuthoritySuggestValue(SuggestValue<LocalAuthority> value)
     {
         var text = value.Text?.Replace("*", "");
+
+        var additionalText = "";
+
+        if (!string.IsNullOrWhiteSpace(value.Document?.Code))
+        {
+            additionalText = text == value.Document.Code ? $" ({value.Text})" : $" ({value.Document.Code})";
+        }
 
         if (text != value.Document?.Name)
         {
             value.Text = value.Document?.Name;
         }
+
+        value.Text = $"{value.Text}{additionalText}";
 
         return value;
     }
