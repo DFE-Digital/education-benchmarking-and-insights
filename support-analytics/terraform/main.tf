@@ -12,3 +12,16 @@ resource "azurerm_resource_group" "resource-group" {
   location = var.location
   tags     = local.common-tags
 }
+
+resource "azurerm_monitor_action_group" "critical-alerts-action" {
+  name                = "CriticalAlertsAction"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  short_name          = "p0action"
+
+  email_receiver {
+    name                    = "sendtoadmin"
+    email_address           = "Jonathan.ABBOTT@EDUCATION.GOV.UK"
+    use_common_alert_schema = true
+  }
+}
+
