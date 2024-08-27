@@ -131,4 +131,9 @@ public static class Selectors
     public const string CookiesSavedBanner = "#cookies-saved-banner";
     public const string CookieFormRadioFormat = "#AnalyticsCookiesEnabled-{0}";
     public const string CookieFormButton = "#cookie-settings-button";
+
+    public const string TypeGross = "#type-gross";
+    public const string TypeNet = "#type-net";
+    public const string CateringStaffAndServicesDimension = "#total-catering-costs-dimension";
+    public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
 }

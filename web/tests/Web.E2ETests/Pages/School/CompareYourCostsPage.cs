@@ -1,6 +1,5 @@
 using Microsoft.Playwright;
 using Xunit;
-
 namespace Web.E2ETests.Pages.School;
 
 public enum ComparisonChartNames
@@ -40,21 +39,43 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CateringServicesAccordionContent => page.Locator(Selectors.SectionContent8);
     private ILocator OtherAccordionContent => page.Locator(Selectors.SectionContent9);
     private ILocator PremisesDimension => page.Locator(Selectors.PremisesDimension);
+    private ILocator CateringStaffAndServicesDimension => page.Locator(Selectors.CateringStaffAndServicesDimension);
+    private ILocator CateringStaffAndServicesTables => page.Locator(Selectors.CateringStaffAndServicesTables);
+    private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
+    private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
 
     private ILocator SaveAsImageButtons =>
-        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save" });
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save"
+        });
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
-            new PageLocatorOptions { HasText = "We've chosen 2 sets of similar schools" });
+            new PageLocatorOptions
+            {
+                HasText = "We've chosen 2 sets of similar schools"
+            });
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose your own similar schools" });
+        new PageLocatorOptions
+        {
+            HasText = "Choose your own similar schools"
+        });
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
+        new PageLocatorOptions
+        {
+            HasText = "Choose a new or saved set of your own schools"
+        });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Change the data for this school" });
+        new PageLocatorOptions
+        {
+            HasText = "Change the data for this school"
+        });
     private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "30 similar schools" });
+        new PageLocatorOptions
+        {
+            HasText = "30 similar schools"
+        });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
@@ -207,6 +228,11 @@ public class CompareYourCostsPage(IPage page)
 
     }
 
+    public async Task ClickViewAsNet()
+    {
+        await ViewAsNetRadio.Click();
+    }
+
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
     {
         var contentLocator = chartName switch
@@ -250,6 +276,7 @@ public class CompareYourCostsPage(IPage page)
         var chart = chartName switch
         {
             ComparisonChartNames.TotalExpenditure => TotalExpenditureTable,
+            ComparisonChartNames.CateringStaffAndServices => CateringStaffAndServicesTables.First,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
@@ -262,15 +289,16 @@ public class CompareYourCostsPage(IPage page)
         {
             ComparisonChartNames.Premises => PremisesDimension,
             ComparisonChartNames.TotalExpenditure => TotalExpenditureDimension,
+            ComparisonChartNames.CateringStaffAndServices => CateringStaffAndServicesDimension,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
         return chart;
     }
 
-    private ILocator SectionLink(string sectionId)
-    {
-        return page.Locator("button",
-            new PageLocatorOptions { Has = page.Locator($"span{sectionId}") });
-    }
+    private ILocator SectionLink(string sectionId) => page.Locator("button",
+        new PageLocatorOptions
+        {
+            Has = page.Locator($"span{sectionId}")
+        });
 }

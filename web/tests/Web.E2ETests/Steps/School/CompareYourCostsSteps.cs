@@ -2,7 +2,6 @@ using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -117,6 +116,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.AreTablesShown();
     }
 
+    [Given("Section '(.*)' is visible")]
     [When("I click section link for '(.*)'")]
     public async Task WhenIClickSectionLinkFor(string chartName)
     {
@@ -151,6 +151,7 @@ public class CompareYourCostsSteps(PageDriver driver)
             "total expenditure" => ComparisonChartNames.TotalExpenditure,
             "total number of teachers" => ComparisonChartNames.Premises,
             "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
+            "catering staff" => ComparisonChartNames.CateringStaffAndServices,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
@@ -182,6 +183,13 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.IsDisplayed();
+    }
+
+    [When("I click on display as Net")]
+    public async Task WhenIClickOnDisplayAsNet()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.ClickViewAsNet();
     }
 
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
