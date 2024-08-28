@@ -79,9 +79,9 @@ resource "azurerm_windows_function_app" "func-app" {
     }
 
     dynamic "ip_restriction" {
-      for_each = var.enable-restrictions ? ["apply"] : []
+      for_each = var.enable-restrictions ? var.subnet_ids : []
       content {
-        virtual_network_subnet_id = var.subnet_id
+        virtual_network_subnet_id = ip_restriction.value
       }
     }
   }

@@ -19,7 +19,10 @@ module "benchmark-fa" {
     "PipelineMessageHub__JobPendingQueue"    = "data-pipeline-job-pending"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
+  subnet_ids = [
+    data.azurerm_subnet.web-app-subnet.id,
+    data.azurerm_subnet.load-test-subnet.id
+  ]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
@@ -42,7 +45,10 @@ module "insight-fa" {
     "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
+  subnet_ids = [
+    data.azurerm_subnet.web-app-subnet.id,
+    data.azurerm_subnet.load-test-subnet.id
+  ]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
@@ -67,7 +73,10 @@ module "establishment-fa" {
     "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
+  subnet_ids = [
+    data.azurerm_subnet.web-app-subnet.id,
+    data.azurerm_subnet.load-test-subnet.id
+  ]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
@@ -89,7 +98,7 @@ module "data-clean-up-fa" {
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
+  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
@@ -119,7 +128,7 @@ module "orchestrator-fa" {
     "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
-  subnet_id           = data.azurerm_subnet.web-app-subnet.id
+  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
