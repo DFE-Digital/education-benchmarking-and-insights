@@ -20,6 +20,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_monitor_action_group.critical-alerts-action](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_resource_group.resource-group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_client_config.client](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 
@@ -31,6 +32,7 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
+| <a name="input_support-alert-email"></a> [support-alert-email](#input\_support-alert-email) | n/a | `any` | n/a | yes |
 
 ## Outputs
 
