@@ -96,19 +96,19 @@ export const TableChart: React.FC<
                   })}
                 {trust ? (
                   <>
-                    <td className="govuk-table__cell">
+                    <td className="govuk-table__cell table-cell-value">
                       {fullValueFormatter(totalValue, {
                         valueUnit,
                       })}
                     </td>
                     {breakdown === BreakdownInclude && (
                       <>
-                        <td className="govuk-table__cell">
+                        <td className="govuk-table__cell table-cell-value">
                           {fullValueFormatter(schoolValue, {
                             valueUnit,
                           })}
                         </td>
-                        <td className="govuk-table__cell">
+                        <td className="govuk-table__cell table-cell-value">
                           {fullValueFormatter(centralValue, {
                             valueUnit,
                           })}
@@ -117,7 +117,7 @@ export const TableChart: React.FC<
                     )}
                   </>
                 ) : (
-                  <td className="govuk-table__cell">
+                  <td className="govuk-table__cell table-cell-value">
                     {fullValueFormatter(value, {
                       valueUnit,
                     })}
