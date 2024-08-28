@@ -11,7 +11,7 @@ export const TotalCateringCostsType: React.FC<TotalCateringCostsTypeProps> = (
     <div className="govuk-form-group">
       <fieldset className="govuk-fieldset">
         <legend className="govuk-fieldset__legend govuk-!-margin-bottom-1">
-          <h2 className="govuk-fieldset__heading">Display income cost as</h2>
+          <h2 className="govuk-fieldset__heading">Display total as</h2>
         </legend>
         <div
           className="govuk-radios govuk-radios--small govuk-radios--inline"
