@@ -1,0 +1,20 @@
+displayName: Establishment API - Get School
+testPlan: url-test.json
+description: ''
+engineInstances: 1
+testId: d7f8fc2f-870c-4166-8958-3633a07e4007
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria:
+- Get School: p50(response_time_ms) > 100
+- Get School: p95(response_time_ms) > 150
+- Get School: p99(response_time_ms) > 500
+- percentage(error) > 0.1
+secrets:
+- name: establishment-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/establishment-host-key
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
