@@ -8,9 +8,10 @@
                     "responseVariables": [],
                     "queryParameters": [],
                     "requestType": "URL",
-                    "endpoint": "https://s198t01-ebis-insight-fa.azurewebsites.net/api/school/${identifier}",
+                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/school/${identifier}",
                     "headers": {
-                        "x-functions-key": "${establishment-host-key}"
+                        "x-functions-key": "${establishment-host-key}",
+                        "x-synthetic-source": "load-tests"
                     },
                     "body": null,
                     "method": "GET",
@@ -27,7 +28,7 @@
     },
     "testSetup": [
         {
-            "virtualUsersPerEngine": 75,
+            "virtualUsersPerEngine": 1,
             "durationInSeconds": 300,
             "loadType": "Linear",
             "scenario": "requestGroup1",
