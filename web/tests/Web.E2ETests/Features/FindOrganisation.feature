@@ -14,9 +14,13 @@
         Then each suggester result contains '<keyword>'
 
     Examples:
-      | keyword     |
-      | ABC         |
-      | london      |
-      | camber      |
-      | street      |
-      | test school |
+      | keyword            |
+      | Test               |
+      | 9905               |
+      | address            |
+      | brixton            |
+      | greenwich          |
+      | London             |
+      | Greater Manchester |
+      | ABC                |
+      
