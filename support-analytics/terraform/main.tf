@@ -19,8 +19,8 @@ resource "azurerm_monitor_action_group" "critical-alerts-action" {
   short_name          = "p0action"
 
   email_receiver {
-    name                    = "sendtoadmin"
-    email_address           = "Jonathan.ABBOTT@EDUCATION.GOV.UK"
+    name                    = "send-to-support"
+    email_address           = var.support-alert-email
     use_common_alert_schema = true
   }
 }

@@ -18,6 +18,7 @@ pr:
       - support-analytics
 
 variables:
+  - group: 'support'
   - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'support-analytics/terraform'
