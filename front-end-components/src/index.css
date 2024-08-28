@@ -281,6 +281,16 @@
 }
 
 .recharts-wrapper
+  foreignObject
+  > .recharts-tooltip-wrapper
+  .tooltip-table
+  > caption {
+  width: 370px;
+  overflow: visible;
+  white-space: pre-wrap;
+}
+
+.recharts-wrapper
   .recharts-tooltip-wrapper
   .tooltip-table
   > tbody
@@ -342,6 +352,10 @@
 
 .recharts-wrapper tspan::selection {
   background-color: var(--grid-colour);
+}
+
+.recharts-wrapper.recharts-wrapper-horizontal-bar-chart > .recharts-surface {
+  overflow: visible;
 }
 
 /* end recharts */

@@ -2,6 +2,7 @@
 import { Text } from "recharts";
 import { EstablishmentTickProps } from "src/components/charts/establishment-tick";
 import { ChartLink } from "../chart-link";
+import { createElement, useState } from "react";
 
 export function EstablishmentTick(props: EstablishmentTickProps) {
   const {
@@ -14,13 +15,15 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     tickFormatter,
     verticalAnchor,
     visibleTicksCount,
+    tooltip,
     ...rest
   } = props;
-  const urn =
+  const [focused, setFocused] = useState<boolean>();
+  const key =
     linkToEstablishment &&
     establishmentKeyResolver &&
     establishmentKeyResolver(value);
-  if (!urn) {
+  if (!key) {
     return <Text>{value}</Text>;
   }
 
@@ -30,25 +33,25 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     : 50;
   return (
     <>
-      {urn && (
-        <line
-          x1={rest.x}
-          y1={rest.y}
-          y2={rest.y}
-          width={rest.width}
-          height={rest.height}
-          className="establishment-tick-focus"
-        ></line>
-      )}
+      <line
+        x1={rest.x}
+        y1={rest.y}
+        y2={rest.y}
+        width={rest.width}
+        height={rest.height}
+        className="establishment-tick-focus"
+      ></line>
       <text
-        fontWeight={urn === highlightedItemKey ? "bold" : "normal"}
+        fontWeight={key === highlightedItemKey ? "bold" : "normal"}
         className="recharts-text establishment-tick"
         {...rest}
       >
         <ChartLink
-          href={href(urn)}
+          href={href(key)}
           className="govuk-link govuk-link--no-visited-state"
           aria-label={name}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
         >
           {name
             .substring(0, truncateAt)
@@ -59,6 +62,13 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
           {name.length > truncateAt && "…"}
         </ChartLink>
       </text>
+      {tooltip && focused && (
+        <foreignObject x="428" y="30" width="400" height="200">
+          <div className="recharts-tooltip-wrapper">
+            {createElement(tooltip, { active: true })}
+          </div>
+        </foreignObject>
+      )}
     </>
   );
 }
