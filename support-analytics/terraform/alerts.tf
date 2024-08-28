@@ -13,7 +13,7 @@ resource "azurerm_monitor_metric_alert" "availability-alert" {
     metric_name      = "availabilityResults/availabilityPercentage"
     aggregation      = "Average"
     operator         = "LessThan"
-    threshold        = 99.9
+    threshold        = var.configuration[var.environment].thresholds.availability
   }
 
   action {
@@ -36,7 +36,7 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
     metric_name      = "CpuPercentage"
     aggregation      = "Average"
     operator         = "GreaterThan"
-    threshold        = 85
+    threshold        = var.configuration[var.environment].thresholds.cpu
   }
 
   action {
@@ -59,7 +59,7 @@ resource "azurerm_monitor_metric_alert" "memory_alert" {
     metric_name      = "MemoryPercentage"
     aggregation      = "Average"
     operator         = "GreaterThan"
-    threshold        = 85
+    threshold        = var.configuration[var.environment].thresholds.memory
   }
 
   action {
@@ -82,7 +82,7 @@ resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
     metric_name      = "Http5xx"
     aggregation      = "Total"
     operator         = "GreaterThan"
-    threshold        = 1.0
+    threshold        = var.configuration[var.environment].thresholds.error
   }
 
   action {
@@ -105,7 +105,7 @@ resource "azurerm_monitor_metric_alert" "benchmark_api_error_alert" {
     metric_name      = "Http5xx"
     aggregation      = "Total"
     operator         = "GreaterThan"
-    threshold        = 1.0
+    threshold        = var.configuration[var.environment].thresholds.error
   }
 
   action {
@@ -128,7 +128,7 @@ resource "azurerm_monitor_metric_alert" "establishment_api_error_alert" {
     metric_name      = "Http5xx"
     aggregation      = "Total"
     operator         = "GreaterThan"
-    threshold        = 1.0
+    threshold        = var.configuration[var.environment].thresholds.error
   }
 
   action {
@@ -151,7 +151,7 @@ resource "azurerm_monitor_metric_alert" "insight_api_error_alert" {
     metric_name      = "Http5xx"
     aggregation      = "Total"
     operator         = "GreaterThan"
-    threshold        = 1.0
+    threshold        = var.configuration[var.environment].thresholds.error
   }
 
   action {
