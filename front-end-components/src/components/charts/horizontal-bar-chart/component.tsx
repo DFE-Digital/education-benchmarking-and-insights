@@ -191,6 +191,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           }}
           onMouseMove={handleBarChartMouseMove}
           ref={rechartsRef}
+          className="recharts-wrapper-horizontal-bar-chart"
         >
           {grid && <CartesianGrid />}
           {!!tooltip && <Tooltip content={tooltip} />}

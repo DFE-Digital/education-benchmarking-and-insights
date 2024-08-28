@@ -24,6 +24,13 @@ import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
+import { CartesianTickItem } from "recharts/types/util/types";
+import { TooltipProps } from "recharts";
+import {
+  NameType,
+  Payload,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -72,6 +79,51 @@ export function HorizontalBarChartWrapper<
         )
       ) as TData[];
   }, [data.dataPoints, sort, trust]);
+
+  const getEstablishmentKey = (name: string) => {
+    if (trust) {
+      return (data.dataPoints as TrustChartData[]).find(
+        (d) => d.trustName === name
+      )?.companyNumber;
+    }
+
+    return (data.dataPoints as SchoolChartData[]).find(
+      (d) => d.schoolName === name
+    )?.urn;
+  };
+
+  const renderTooltip = (
+    props: TooltipProps<ValueType, NameType>,
+    tick?: { payload: CartesianTickItem }
+  ) => {
+    const payloadProps: {
+      payload?: Payload<ValueType, NameType>[] | undefined;
+    } = {};
+
+    // if tick is valid then resolve payload from sorted data set based on its index
+    if (tick !== undefined) {
+      if (tick.payload.index == undefined) {
+        return null;
+      }
+
+      const payload = sortedDataPoints[tick.payload.index];
+      if (!payload) {
+        return null;
+      }
+
+      payloadProps.payload = [{ payload }];
+    }
+
+    return trust ? (
+      <TrustDataTooltip
+        {...props}
+        {...payloadProps}
+        valueUnit={valueUnit ?? dimension.unit}
+      />
+    ) : (
+      <SchoolCensusTooltip {...props} {...payloadProps} />
+    );
+  };
 
   return (
     <>
@@ -125,35 +177,19 @@ export function HorizontalBarChartWrapper<
                     seriesConfig={seriesConfig as object}
                     seriesLabelField={seriesLabelField}
                     tickWidth={400}
-                    tick={(t) => (
-                      <EstablishmentTick
-                        {...t}
-                        highlightedItemKey={selectedEstabishment}
-                        linkToEstablishment
-                        href={(id) => `/${trust ? "trust" : "school"}/${id}`}
-                        establishmentKeyResolver={(name) => {
-                          if (trust) {
-                            return (data.dataPoints as TrustChartData[]).find(
-                              (d) => d.trustName === name
-                            )?.companyNumber;
-                          }
-
-                          return (data.dataPoints as SchoolChartData[]).find(
-                            (d) => d.schoolName === name
-                          )?.urn;
-                        }}
-                      />
-                    )}
-                    tooltip={(t) =>
-                      trust ? (
-                        <TrustDataTooltip
+                    tick={(t) => {
+                      return (
+                        <EstablishmentTick
                           {...t}
-                          valueUnit={valueUnit ?? dimension.unit}
+                          highlightedItemKey={selectedEstabishment}
+                          linkToEstablishment
+                          href={(id) => `/${trust ? "trust" : "school"}/${id}`}
+                          establishmentKeyResolver={getEstablishmentKey}
+                          tooltip={(p) => renderTooltip(p, t)}
                         />
-                      ) : (
-                        <SchoolCensusTooltip {...t} />
-                      )
-                    }
+                      );
+                    }}
+                    tooltip={(p) => renderTooltip(p)}
                     valueFormatter={shortValueFormatter}
                     valueLabel={dimension.label}
                     valueUnit={valueUnit ?? dimension.unit}

@@ -152,6 +152,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             left: margin,
           }}
           ref={rechartsRef}
+          className="recharts-wrapper-line-chart"
         >
           {grid && <CartesianGrid vertical={false} />}
           <XAxis

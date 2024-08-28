@@ -138,6 +138,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
           }}
           onMouseMove={handleBarChartMouseMove}
           ref={rechartsRef}
+          className="recharts-wrapper-vertical-bar-chart"
         >
           {grid && (
             <CartesianGrid
