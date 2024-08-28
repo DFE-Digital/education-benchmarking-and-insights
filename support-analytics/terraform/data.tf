@@ -10,6 +10,11 @@ data "azurerm_service_plan" "web-app-service-plan" {
   resource_group_name = "${var.environment-prefix}-ebis-web"
 }
 
+data "azurerm_windows_web_app" "web-app-service" {
+  name                = "${var.environment-prefix}-education-benchmarking"
+  resource_group_name = "${var.environment-prefix}-ebis-web"
+}
+
 data "azurerm_windows_function_app" "benchmark-api" {
   name                = "${var.environment-prefix}-ebis-benchmark-fa"
   resource_group_name = "${var.environment-prefix}-ebis-platform"

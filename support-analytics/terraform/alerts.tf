@@ -70,7 +70,7 @@ resource "azurerm_monitor_metric_alert" "memory_alert" {
 resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
   name                = "web-app-error-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
-  scopes              = [data.azurerm_service_plan.web-app-service-plan.id]
+  scopes              = [data.azurerm_windows_web_app.web-app-service.id]
   description         = "Alert if HTTP 5xx error count exceeds 1"
   severity            = 0
   frequency           = "PT1M"
