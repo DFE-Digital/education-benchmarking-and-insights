@@ -43,6 +43,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CateringStaffAndServicesTables => page.Locator(Selectors.CateringStaffAndServicesTables);
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
+    private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -225,12 +226,34 @@ public class CompareYourCostsPage(IPage page)
     {
         await SchoolLinksInCharts.First.Click();
         return new HomePage(page);
+    }
 
+    public async Task TabToSchoolName()
+    {
+        await TotalExpenditureDimension.FocusAsync();
+        await page.Keyboard.PressAsync("Tab"); // save as image button
+        await page.Keyboard.PressAsync("Tab"); // first school
+    }
+
+    public async Task AssertSchoolNameFocused()
+    {
+        await Assertions.Expect(SchoolLinksInCharts.First).ToBeFocusedAsync();
+    }
+
+    public async Task<HomePage> PressEnterKey()
+    {
+        await page.Keyboard.PressAsync("Enter");
+        return new HomePage(page);
     }
 
     public async Task ClickViewAsNet()
     {
         await ViewAsNetRadio.Click();
+    }
+
+    public async Task TooltipIsDisplayed()
+    {
+        await ChartTooltip.ShouldBeVisible();
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)

@@ -136,4 +136,6 @@ public static class Selectors
     public const string TypeNet = "#type-net";
     public const string CateringStaffAndServicesDimension = "#total-catering-costs-dimension";
     public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
+
+    public const string ChartTooltips = ".recharts-tooltip-wrapper";
 }

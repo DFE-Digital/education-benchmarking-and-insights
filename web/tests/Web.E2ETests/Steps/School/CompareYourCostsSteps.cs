@@ -178,6 +178,21 @@ public class CompareYourCostsSteps(PageDriver driver)
         _schoolHomePage = await _comparisonPage.ClickSchoolName();
     }
 
+    [When("I tab to the school name on the chart")]
+    public async Task WhenITabToTheSchoolNameOnTheChart()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.TabToSchoolName();
+    }
+
+    [When("I press the Enter key when focused on the school name")]
+    public async Task WhenIPressTheEnterKeyWhenFocusedOnTheSchoolName()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.AssertSchoolNameFocused();
+        _schoolHomePage = await _comparisonPage.PressEnterKey();
+    }
+
     [Then("I am navigated to selected school home page")]
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
@@ -190,6 +205,13 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.ClickViewAsNet();
+    }
+
+    [Then("I can view the associated tooltip")]
+    public async Task ThenICanViewTheAssociatedTooltip()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.TooltipIsDisplayed();
     }
 
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
