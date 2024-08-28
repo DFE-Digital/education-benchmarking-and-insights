@@ -10,37 +10,34 @@ NB: The numbers below are based session counts from the existing services. Sessi
 
 ## Web Application Demand
 
-| **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
-|-----------|------------------------------|-------------------|---------------|-------------------------|
-| **Daily Active Users** | Number of unique users active on the web app per day. | 3,000 | 5,000 | N/A |
-| **Concurrent Users** | Number of users simultaneously active at peak times. | 375 | 600 | N/A |
-| **Page Load Time (ms)** | Average time it takes to fully load the web page. | P50 700ms | P90 1,000ms | P99 2,500ms |
-| **CPU Utilization (%)** | Average CPU usage across all application servers. | 35% | 75% | Above 85% for a for 5 minutes |
-| **Memory Utilization (%)** | Average memory usage across all application servers. | 40% | 50% | Above 85% for a for 5 minutes |
-| **Error Rate (%)** | Percentage of user requests that result in an error (e.g., 500s). | 0.0% | N/A | Above 1.0% |
-| **Availability (%)** | The availability of the application. | 100% | N/A | Below 99.9% |
+| **Metric**             | **Description**                                               | **Current Value** | **Peak Value** | **Threshold for Action**        |
+|------------------------|---------------------------------------------------------------|----------------|---------------|---------------------------------|
+| **Daily Active Users** | Number of unique users active on the web app per day.         | 3,000 | 5,000 | N/A                             |
+| **Concurrent Users**   | Number of users simultaneously active at peak times.          | 375 | 600 | N/A                             |
+| **Page Load Time (ms)** | Average time it takes to fully load the web page.             | P50 700ms | P90 1,000ms | P99 2,500ms                     |
+| **CPU Utilization (%)** | Average CPU usage across all application servers.             | 35% | 75% | Above 85% for a for 5 minutes   |
+| **Memory Utilization (%)** | Average memory usage across all application servers.          | 40% | 50% | Above 85% for a for 5 minutes   |
+| **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
+| **Availability (%)**   | The availability of the application.                          | 100% | N/A | Below 99.9%                     |
 
 ## Benchmark API Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 4,500 | 6,750 | N/A |
-| **Error Rate (%)** | Percentage of user requests that result in an error (e.g., 500s). | 0.0% | N/A | Above 1.0% |
-
+| **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
 ## Establishment API Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 4,500 | 6,750 | N/A |
-| **Error Rate (%)** | Percentage of user requests that result in an error (e.g., 500s). | 0.0% | N/A | Above 1.0% |
-
+| **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
 ## Insight API Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 6,300 | 9,450 | N/A |
-| **Error Rate (%)** | Percentage of user requests that result in an error (e.g., 500s). | 0.0% | N/A | Above 1.0% |
-
+| **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
 ## Storage Queue Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
