@@ -84,6 +84,17 @@ Feature: School compare your costs
         Given I am on compare your costs page for school with URN '777042'
         When I select the school name on the chart
         Then I am navigated to selected school home page
+        
+    Scenario: Tabbing to and selecting school name in chart directs to homepage
+        Given I am on compare your costs page for school with URN '777042'
+        When I tab to the school name on the chart
+        And I press the Enter key when focused on the school name
+        Then I am navigated to selected school home page
+        
+    Scenario: Tabbing to school name in chart displays tooltip
+        Given I am on compare your costs page for school with URN '777042'
+        When I tab to the school name on the chart
+        Then I can view the associated tooltip
 
     Scenario: View Catering staff and services using Gross figures
         Given I am on compare your costs page for school with URN '777042'
