@@ -4,6 +4,7 @@ locals {
     "Service Offering" = "DfE Financial Benchmarking service"
     "Product"          = "DfE Financial Benchmarking service"
     "Source"           = "terraform"
+    "Context"          = var.environment
   }
   default_app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "0"
