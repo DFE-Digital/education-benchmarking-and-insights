@@ -1,0 +1,3 @@
+StorageQueueLogs
+| extend QueueName = tostring(split(parseurl(Uri).Path, "/")[1])
+| where OperationName == "GetMessages"
