@@ -133,6 +133,8 @@ public class FinancialPlanningSteps(PageDriver driver)
         {
             // Login required
             await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
+            await page.Locator("button[type='submit']").Click();
+            await page.Locator("h1:text-is('Enter your password')").CheckVisible();
             await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
             await page.Locator("button[type='submit']").Click();
             await page.Locator("label", new PageLocatorOptions { HasTextString = organisation }).Check();
