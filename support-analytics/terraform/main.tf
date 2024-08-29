@@ -4,6 +4,7 @@ locals {
     "Service Offering" = "DfE Financial Benchmarking service"
     "Product"          = "DfE Financial Benchmarking service"
     "Source"           = "terraform"
+    "Context"          = var.environment
   }
 }
 
@@ -17,6 +18,7 @@ resource "azurerm_monitor_action_group" "critical-alerts-action" {
   name                = "CriticalAlertsAction"
   resource_group_name = azurerm_resource_group.resource-group.name
   short_name          = "p0action"
+  tags                = local.common-tags
 
   email_receiver {
     name                    = "send-to-support"

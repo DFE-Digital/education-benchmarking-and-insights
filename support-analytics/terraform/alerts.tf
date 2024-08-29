@@ -7,6 +7,7 @@ resource "azurerm_monitor_metric_alert" "availability-alert" {
   frequency           = "PT1M"
   window_size         = "PT1H"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "microsoft.insights/components"
@@ -30,6 +31,7 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/serverfarms"
@@ -53,6 +55,7 @@ resource "azurerm_monitor_metric_alert" "memory_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/serverfarms"
@@ -76,6 +79,7 @@ resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -99,6 +103,7 @@ resource "azurerm_monitor_metric_alert" "benchmark_api_error_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -122,6 +127,7 @@ resource "azurerm_monitor_metric_alert" "establishment_api_error_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -145,6 +151,7 @@ resource "azurerm_monitor_metric_alert" "insight_api_error_alert" {
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"

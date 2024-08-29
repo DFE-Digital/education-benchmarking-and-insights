@@ -61,7 +61,7 @@ variable "configuration" {
       }
     }
     production = {
-      alerts_enabled = false
+      alerts_enabled = true
       thresholds = {
         availability = 99.9
         cpu          = 85
