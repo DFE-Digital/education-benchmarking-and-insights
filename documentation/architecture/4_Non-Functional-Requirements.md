@@ -1,53 +1,46 @@
 ﻿# Non Functional Requirements
 
-**//TODO: The following are example NFR's delete or reuse as suited for your project.**
-
 ### Accessibility
 
-| ID	    |Theme	|Requirement|
-|:----------|:-----:|:----------|
-| NFR-U01 | Accessibility | As a User of the system, I want to use all the functionality provided by the solution regardless of any disabilities that I might have so that I can perform the responsibilities expected of me. |
-| NFR-U02 | Accessibility | As a User of the system I want the system user interface to display clear guidance on the system features, so that the user interface is clear and self explanatory. |
-| NFR-U03 | Look & Feel | As a User of the system I want the UI to be easy to use and consistent across different solution components so that I need minimal training and support to use the system. |
+| ID	     |    Theme	     | Requirement                                                        |
+|:--------|:-------------:|:-------------------------------------------------------------------|
+| NFR-U01 | Accessibility | Must meet Web Content Accessibility Guidelines 2.1                 |
+| NFR-U02 |   Usability   | The solution must be intuitive and give a positive user experience |
+| NFR-U03 |  Reusability  | Potential re-use of the design of the reports and portal           |
 
 
 ### Performance & Capacity
 
-| ID	    |Theme	|Requirement|
-|:----------|:-----:|:----------|
-| NFR-P01 | Performance | A a Service Manager I require the solution to support the forecasted voulumes of work so I can meet operational delivery targets. |
-| NFR-P02 | Scalability | As a Service Manager responsible for the service I want to know the solution is scalable (both up and down) between 50% & 150% of the projected peak load so that the solution can meet changs in demand for services. |
-| NFR-P03 | Response Time | As a User of the system I want the response time for page loading and page refreshes, excluding report & chart generation, to not exceed 2 (TBC) seconds for 95% of requests, with a 99 percentile response time of 10 (TBC) seconds. |
-| NFR-P04 | Response Time | As a User of the system I want the system user interface to be responsive so that I am provided with feedback when processing synchronous events. |
-| NFR-P05 | Response Time | As a User of the system I want the system response time from clicking on a benchmark set to the graphs being displayed to not exceed 5 (TBC) seconds for 95% or requests, with a 99 percentile response time of 10 (TBC) seconds. |
-
+| ID	     |    Theme	    | Requirement                                                                                                                            |
+|:--------|:------------:|:---------------------------------------------------------------------------------------------------------------------------------------|
+| NFR-P01 | Availability | 24/7 365 days a year availability                                                                                                      |
+| NFR-P02 | Availability | Updates to be deployed with prior agreement of Product Owner                                                                           |
+| NFR-P03 | Scalability  | The physical storage capacity must be adequate for the intended functionality                                                          ||
+| NFR-P04 | Performance  | Under peak load conditions no discernible delay for regular repeated tasks; no more than a 5s delay for one-off tasks, e.g. logging in |
+| NFR-P05 | Performance  | For users editing non-financial data or defining their peer group, updated data needs to be available within 2-3 minutes.              |
+| NFR-P06 | Performance  | Based on 2-3 users per organisation, assume max usage of 25% schools, c.3,000 users, with worst case of c. 5,000 users;                |
+| NFR-P07 | Performance  | Each Power BI page render request should take no longer than 5 seconds at a maximum                                                    |
+z
 
 ### Application and testing
-| ID	|Theme	|Requirement|
-|:----------|:-----:|:----------|
-| NFR-A01 | Data Standards | As a User of the systen I want the solution to adhere to the data definitions specified by the Business Information Model so that there is consistency of information stored and accessed. |
-
-
-
-### Technical Hosting & Maintenance
-
-| ID	|Theme	|Requirement|
-|:----------|:-----:|:----------|
+| ID	     |     Theme	     | Requirement                                                    |
+|:--------|:--------------:|:---------------------------------------------------------------|
+| NFR-A01 | Compatibility  | The solution must be compatible with specified browsers and OS |
+| NFR-A02 | Data Integrity | Whether the data going in matches the data coming out          |
 
 
 ### Security
-| ID	|Theme	|Requirement|
-|:----------|:-----:|:----------|
+| ID	     |  Theme	  | Requirement                                                                                |
+|:--------|:--------:|:-------------------------------------------------------------------------------------------|
+| NFR-S01 |   GDPR   | The solution must comply with the General Data Protection Regulation                       |
+| NFR-S02 | Security | The system must comply with the relevant security policies and DfE health check standards. |
 
 
-### Supportability 
+### Supportability, Operational and Service Continuity
 
-| ID	|Theme	|Requirement|
-|:----------|:-----:|:----------|
+| ID	     |     Theme	     | Requirement                                                                                                                                                      |
+|:--------|:--------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| NFR-C01 | Supportability | Access for developers must follow industry standards (e.g. ITIL)                                                                                                 |
+| NFR-C02 | Recoverability | Recovery Time Objective (maximum acceptable time to restore service) and resilience to network interruption must be defined and appropriate for the intended use |
 
-
-### Operational and Service Continuity 
-
-| ID	|Theme	|Requirement|
-|:----------|:-----:|:----------|
 
