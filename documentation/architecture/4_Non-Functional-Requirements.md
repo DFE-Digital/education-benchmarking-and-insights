@@ -2,17 +2,17 @@
 
 ### Accessibility
 
-| ID	     |    Theme	     | Requirement                                                        |
-|:--------|:-------------:|:-------------------------------------------------------------------|
+| ID      | Theme         | Requirement                                                        |
+|---------|---------------|--------------------------------------------------------------------|
 | NFR-U01 | Accessibility | Must meet Web Content Accessibility Guidelines 2.1                 |
-| NFR-U02 |   Usability   | The solution must be intuitive and give a positive user experience |
-| NFR-U03 |  Reusability  | Potential re-use of the design of the reports and portal           |
+| NFR-U02 | Usability     | The solution must be intuitive and give a positive user experience |
+| NFR-U03 | Reusability   | Potential re-use of the design of the reports and portal           |
 
 
 ### Performance & Capacity
 
-| ID	     |    Theme	    | Requirement                                                                                                                            |
-|:--------|:------------:|:---------------------------------------------------------------------------------------------------------------------------------------|
+| ID      | Theme        | Requirement                                                                                                                            |
+|---------|--------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | NFR-P01 | Availability | 24/7 365 days a year availability                                                                                                      |
 | NFR-P02 | Availability | Updates to be deployed with prior agreement of Product Owner                                                                           |
 | NFR-P03 | Scalability  | The physical storage capacity must be adequate for the intended functionality                                                          ||
@@ -23,23 +23,23 @@
 z
 
 ### Application and testing
-| ID	     |     Theme	     | Requirement                                                    |
-|:--------|:--------------:|:---------------------------------------------------------------|
+| ID      | Theme          | Requirement                                                    |
+|---------|----------------|----------------------------------------------------------------|
 | NFR-A01 | Compatibility  | The solution must be compatible with specified browsers and OS |
 | NFR-A02 | Data Integrity | Whether the data going in matches the data coming out          |
 
 
 ### Security
-| ID	     |  Theme	  | Requirement                                                                                |
-|:--------|:--------:|:-------------------------------------------------------------------------------------------|
-| NFR-S01 |   GDPR   | The solution must comply with the General Data Protection Regulation                       |
+| ID      | Theme    | Requirement                                                                                |
+|---------|----------|--------------------------------------------------------------------------------------------|
+| NFR-S01 | GDPR     | The solution must comply with the General Data Protection Regulation                       |
 | NFR-S02 | Security | The system must comply with the relevant security policies and DfE health check standards. |
 
 
 ### Supportability, Operational and Service Continuity
 
-| ID	     |     Theme	     | Requirement                                                                                                                                                      |
-|:--------|:--------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ID      | Theme          | Requirement                                                                                                                                                      |
+|---------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | NFR-C01 | Supportability | Access for developers must follow industry standards (e.g. ITIL)                                                                                                 |
 | NFR-C02 | Recoverability | Recovery Time Objective (maximum acceptable time to restore service) and resilience to network interruption must be defined and appropriate for the intended use |
 
