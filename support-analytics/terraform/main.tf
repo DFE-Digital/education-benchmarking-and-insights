@@ -14,10 +14,10 @@ resource "azurerm_resource_group" "resource-group" {
   tags     = local.common-tags
 }
 
-resource "azurerm_monitor_action_group" "critical-alerts-action" {
-  name                = "CriticalAlertsAction"
+resource "azurerm_monitor_action_group" "service-support-action" {
+  name                = "Service support"
   resource_group_name = azurerm_resource_group.resource-group.name
-  short_name          = "p0action"
+  short_name          = "ServiceSupport"
   tags                = local.common-tags
 
   email_receiver {

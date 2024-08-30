@@ -2,7 +2,7 @@ resource "azurerm_monitor_metric_alert" "availability-alert" {
   name                = "availability-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_application_insights.application-insights.id]
-  description         = "Alert for availability test failure"
+  description         = "Alert if availability is below ${var.configuration[var.environment].thresholds.availability}%"
   severity            = 0
   frequency           = "PT1M"
   window_size         = "PT1H"
@@ -18,7 +18,7 @@ resource "azurerm_monitor_metric_alert" "availability-alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -26,8 +26,8 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
   name                = "web-app-cpu-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_service_plan.web-app-service-plan.id]
-  description         = "Alert if CPU utilisation exceeds 90% for more than 5 minutes"
-  severity            = 0
+  description         = "Alert if CPU utilisation exceeds ${var.configuration[var.environment].thresholds.cpu}% for more than 5 minutes"
+  severity            = 2
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
@@ -42,7 +42,7 @@ resource "azurerm_monitor_metric_alert" "cpu_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -50,8 +50,8 @@ resource "azurerm_monitor_metric_alert" "memory_alert" {
   name                = "web-app-memory-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_service_plan.web-app-service-plan.id]
-  description         = "Alert if memory utilisation exceeds 90% for more than 5 minutes"
-  severity            = 0
+  description         = "Alert if memory utilisation exceeds ${var.configuration[var.environment].thresholds.memory}% for more than 5 minutes"
+  severity            = 2
   frequency           = "PT1M"
   window_size         = "PT5M"
   enabled             = var.configuration[var.environment].alerts_enabled
@@ -66,7 +66,7 @@ resource "azurerm_monitor_metric_alert" "memory_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -74,7 +74,7 @@ resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
   name                = "web-app-error-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_windows_web_app.web-app-service.id]
-  description         = "Alert if HTTP 5xx error count exceeds 1"
+  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
   window_size         = "PT5M"
@@ -90,7 +90,7 @@ resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -98,7 +98,7 @@ resource "azurerm_monitor_metric_alert" "benchmark_api_error_alert" {
   name                = "benchmark-api-error-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_windows_function_app.benchmark-api.id]
-  description         = "Alert if HTTP 5xx error count exceeds 1"
+  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
   window_size         = "PT5M"
@@ -114,7 +114,7 @@ resource "azurerm_monitor_metric_alert" "benchmark_api_error_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -122,7 +122,7 @@ resource "azurerm_monitor_metric_alert" "establishment_api_error_alert" {
   name                = "establishment-api-error-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_windows_function_app.establishment-api.id]
-  description         = "Alert if HTTP 5xx error count exceeds 1"
+  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
   window_size         = "PT5M"
@@ -138,7 +138,7 @@ resource "azurerm_monitor_metric_alert" "establishment_api_error_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
 
@@ -146,7 +146,7 @@ resource "azurerm_monitor_metric_alert" "insight_api_error_alert" {
   name                = "insight-api-error-alert"
   resource_group_name = azurerm_resource_group.resource-group.name
   scopes              = [data.azurerm_windows_function_app.insight-api.id]
-  description         = "Alert if HTTP 5xx error count exceeds 1"
+  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
   window_size         = "PT5M"
@@ -162,6 +162,6 @@ resource "azurerm_monitor_metric_alert" "insight_api_error_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical-alerts-action.id
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
   }
 }
