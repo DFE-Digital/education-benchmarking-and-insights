@@ -25,10 +25,19 @@ This test plan covers the functional and sanity testing to validate all features
 - Sanity testing will be carried out in pre-prod to ensure all functionalities are working as expected.
 ## Test Scope
 **Issues/Updates to be Tested:**
+- [Custom event tracking for "Save as image" button](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223210) - we are now tracking save an image actions. this is validated in test environment and we will verify it again in preprod. 
+- [Access Denied message - content review](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/218513) - this is copy update which has been tested in test environment and will be validated again in pre production.
+- [Post MVP feature 9 - Display Gross and Net Catering Income](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/214976) - We are now showing gross and net catering income on comparison page. Validated in test environment and will be checked again in pre production. 
+- [BfR Figures Incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/217947) - in progress
+- [Part year Data: Maintained Schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/224500) - in progress
+- [Misleading autocomplete results](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223871) - This was identified in accessibility audit to show which part of the input criteria is matched. Tested in test environment and will be verified again in pre production. 
+- [A02: Hover over information for horizontal bar charts needs to be available for keyboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225478) - Also identified in accessibility audit and now the hover over information is available to keyboard users. Validated in test environment and will be checked again pre production.
+- [Update mailbox details on service pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225527) - This is a copy update for email address shown on service. Validated in test and will be checked again in pre production. 
 
 
 **Updates Not to be Tested:**
 
+[Ensure Platform.Database app uses managed identities to access SQL db](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222561) - this update is linked with how secrets are read in pipeline. The pipelines are green so no further testing is required. 
 ## Test Deliverables
 **Documents:**
 
