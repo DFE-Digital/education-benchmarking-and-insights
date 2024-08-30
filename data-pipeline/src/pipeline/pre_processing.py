@@ -1169,18 +1169,19 @@ def build_bfr_historical_data(
 
     - Trust UPIN
     - Company Registration Number
-    - Total pupils in trust
 
     `bfr_sofa_historical` must have:
 
     - Trust UPIN
-    - EFALineNo (containing 430)
+    - EFALineNo (containing 430 and 999)
+    - Y1P2
     - Y2P2
 
     The return value will be of the same form as `academies_historical`,
     with an additional colums:
 
     - "Trust Revenue reserve"
+    - "Total pupils in trust"
 
     :param academies_historical: academy data from a previous year
     :param bfr_sofa_historical: BFR SOFA data from a previous year
@@ -1188,10 +1189,11 @@ def build_bfr_historical_data(
     """
     if academies_historical is not None:
         academies_historical["Trust Revenue reserve"] = 0.0
+        academies_historical["Total pupils in trust"] = 0.0
 
         if bfr_sofa_historical is not None:
             academies_historical = academies_historical.drop(
-                columns=["Trust Revenue reserve"],
+                columns=["Trust Revenue reserve", "Total pupils in trust"],
             )
 
             academies_historical = academies_historical.merge(
@@ -1203,6 +1205,14 @@ def build_bfr_historical_data(
                 how="left",
             )
             academies_historical["Trust Revenue reserve"] *= 1_000
+            academies_historical = academies_historical.merge(
+                bfr_sofa_historical[bfr_sofa_historical["EFALineNo"] == 999].rename(
+                    {"Y1P2": "Total pupils in trust"},
+                    axis=1,
+                )[["Trust UPIN", "Total pupils in trust"]],
+                on="Trust UPIN",
+                how="left",
+            )
 
     return academies_historical
 

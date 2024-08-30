@@ -327,6 +327,8 @@ def pre_process_bfr(run_type, year):
     )
 
     # Conditionally read in academy/SOFA files, skipping unnecessary data…
+    # TODO: "Company Reg…" isn't referenced for historic data; we can drop the
+    # join to historic academies data and just use the historic SOFA data.
     academies_y2 = None
     bfr_sofa_year_minus_two = None
     if academies_y2_file := try_get_blob(
@@ -337,8 +339,8 @@ def pre_process_bfr(run_type, year):
             columns=[
                 "Trust UPIN",
                 "Company Registration Number",
-                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430.
-                "Total pupils in trust",
+                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430 (Y2P2)
+                # "Total pupils in trust",  # SOFA, EFALineNo == 999 (Y1P2)
             ],
         )
 
@@ -353,6 +355,7 @@ def pre_process_bfr(run_type, year):
                     usecols=[
                         "TrustUPIN",
                         "EFALineNo",
+                        "Y1P2",
                         "Y2P2",
                     ],
                 )
@@ -360,7 +363,7 @@ def pre_process_bfr(run_type, year):
                     {"TrustUPIN": "Trust UPIN"},
                     axis=1,
                 )
-                .query("EFALineNo == 430")
+                .query("EFALineNo in (430, 999,)")
             )
 
     academies_y1 = None
@@ -373,8 +376,8 @@ def pre_process_bfr(run_type, year):
             columns=[
                 "Trust UPIN",
                 "Company Registration Number",
-                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430.
-                "Total pupils in trust",
+                # "Trust Revenue reserve",  # SOFA, EFALineNo == 430 (Y2P2)
+                # "Total pupils in trust",  # SOFA, EFALineNo == 999 (Y1P2)
             ],
         )
 
@@ -389,6 +392,7 @@ def pre_process_bfr(run_type, year):
                     usecols=[
                         "TrustUPIN",
                         "EFALineNo",
+                        "Y1P2",
                         "Y2P2",
                     ],
                 )
@@ -396,7 +400,7 @@ def pre_process_bfr(run_type, year):
                     {"TrustUPIN": "Trust UPIN"},
                     axis=1,
                 )
-                .query("EFALineNo == 430")
+                .query("EFALineNo in (430, 999,)")
             )
 
     # Process BFR data…
