@@ -3,6 +3,7 @@ import datetime
 import numpy as np
 import pandas as pd
 
+from src.pipeline import config
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 
@@ -207,3 +208,74 @@ def apply_federation_mapping(
     )
 
     return maintained_schools[~maintained_schools.index.duplicated()]
+
+
+def map_has_financial_data(
+    maintained_schools: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Whether the maintained school data contains financial data.
+
+    If all "financial" data columns are _not_ null—i.e. there are at
+    least _some_ financial data—the data are considered to contain
+    financial information.
+
+    :param maintained_schools: maintained schools data
+    :return: updated DataFrame
+    """
+    financial_columns = list(
+        set(
+            list(config.income_category_map["maintained_schools"].values())
+            + list(config.cost_category_map["maintained_schools"].values())
+        )
+    )
+
+    maintained_schools["Financial Data Present"] = (
+        ~maintained_schools[financial_columns].isna().all(axis=1)
+    )
+
+    return maintained_schools
+
+
+def map_has_pupil_comparator_data(
+    maintained_schools: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Whether the maintained school data has all the necessary data to
+    create a pupil comparator group.
+
+    Specifically, this is the FSM and SEN data.
+
+    :param maintained_schools: maintained schools data
+    :return: updated DataFrame
+    """
+    pupil_comparator_columns = list(
+        set(list(config.census_column_map.values()) + config.sen_generated_columns)
+    )
+
+    maintained_schools["Pupil Comparator Data Present"] = (
+        ~maintained_schools[pupil_comparator_columns].isna().all(axis=1)
+    )
+
+    return maintained_schools
+
+
+def map_has_building_comparator_data(
+    maintained_schools: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Whether the maintained school data has all the necessary data to
+    create a building comparator group.
+
+    Specifically, this is the CDC data.
+
+    :param maintained_schools: maintained schools data
+    :return: updated DataFrame
+    """
+    building_comparator_columns = config.cdc_generated_columns
+
+    maintained_schools["Building Comparator Data Present"] = (
+        ~maintained_schools[building_comparator_columns].isna().all(axis=1)
+    )
+
+    return maintained_schools
