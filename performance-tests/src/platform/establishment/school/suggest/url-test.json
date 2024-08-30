@@ -56,8 +56,8 @@
     },
     "testSetup": [
         {
-            "virtualUsersPerEngine": 1,
-            "durationInSeconds": 300,
+            "virtualUsersPerEngine": 2,
+            "durationInSeconds": 360,
             "loadType": "Linear",
             "scenario": "requestGroup1",
             "rampUpTimeInSeconds": 60

@@ -4,13 +4,18 @@
         "requestGroup1": {
             "requests": [
                 {
-                    "requestName": "Get School",
+                    "requestName": "Get User Data",
                     "responseVariables": [],
-                    "queryParameters": [],
+                    "queryParameters": [
+                        {
+                            "key": "userId",
+                            "value": "${user-id}"
+                        }
+                    ],
                     "requestType": "URL",
-                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/school/${identifier}",
+                    "endpoint": "https://s198t01-ebis-benchmark-fa.azurewebsites.net/api/user-data",
                     "headers": {
-                        "x-functions-key": "${establishment-host-key}",
+                        "x-functions-key": "${benchmark-host-key}",
                         "x-synthetic-source": "load-tests"
                     },
                     "body": null,
@@ -18,12 +23,7 @@
                     "requestBodyFormat": null
                 }
             ],
-            "csvDataSetConfigList": [
-                {
-                    "fileName": "schools.csv",
-                    "variableNames": "identifier,name"
-                }
-            ]
+            "csvDataSetConfigList": []
         }
     },
     "testSetup": [
