@@ -1,0 +1,23 @@
+displayName: Benchmark API - Get User Data
+testPlan: url-test.json
+description: ''
+engineInstances: 1
+testId: 2136802a-1ecf-4277-bf8f-d72ff72ab0e7
+testType: URL
+subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
+publicIPDisabled: true
+splitAllCSVs: False
+failureCriteria:
+- p50(response_time_ms) > 100
+- p95(response_time_ms) > 150
+- p99(response_time_ms) > 500
+- percentage(error) > 0.1
+secrets:
+- name: benchmark-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/benchmark-host-key
+env:
+- name: user-id
+  value: 0b39be11-6c9f-4f43-882a-a14fce1db545
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
