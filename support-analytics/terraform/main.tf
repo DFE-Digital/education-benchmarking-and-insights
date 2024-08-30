@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "resource-group" {
 resource "azurerm_monitor_action_group" "service-support-action" {
   name                = "Service support"
   resource_group_name = azurerm_resource_group.resource-group.name
-  short_name          = "ServiceSupport"
+  short_name          = "Support"
   tags                = local.common-tags
 
   email_receiver {
