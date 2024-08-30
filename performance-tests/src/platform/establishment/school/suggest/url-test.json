@@ -1,0 +1,66 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Suggest School by Name",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/schools/suggest",
+                    "headers": {
+                        "x-functions-key": "${establishment-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": "{\r\n  \"searchText\": \"${partialName}\",\r\n  \"size\": 10,\r\n  \"suggesterName\": \"school-suggester\"\r\n}",
+                    "method": "POST",
+                    "requestBodyFormat": "JSON"
+                },
+                {
+                    "requestName": "Suggest School by Postcode",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/schools/suggest",
+                    "headers": {
+                        "x-functions-key": "${establishment-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": "{\r\n  \"searchText\": \"${postcode}\",\r\n  \"size\": 10,\r\n  \"suggesterName\": \"school-suggester\"\r\n}",
+                    "method": "POST",
+                    "requestBodyFormat": "JSON"
+                },
+                {
+                    "requestName": "Suggest School by Identifier",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/schools/suggest",
+                    "headers": {
+                        "x-functions-key": "${establishment-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": "{\r\n    \"searchText\": \"${identifier}\",\r\n    \"size\": 10,\r\n    \"suggesterName\": \"school-suggester\"\r\n}",
+                    "method": "POST",
+                    "requestBodyFormat": "JSON"
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "suggest.csv",
+                    "variableNames": "identifier,name,partialName,street,town,postcode"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 1,
+            "durationInSeconds": 300,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}

@@ -6,7 +6,7 @@ DD/MM/YYYY
 
 ## Goal
 
-The goal of this test is to measure how well an APIs perform under typical load conditions. Focus will be on verifying the high demand and critical endpoints. 
+The goal of this test is to measure how well an APIs perform under typical load conditions. Focus will be on verifying the high demand and critical endpoints.
 
 ## Objective
 
@@ -31,7 +31,7 @@ To calculate the `Requests per User per Second`, use the following formula:
 
 Requests per User per Second = 1 / (Response Time + Think Time)
 
-- `Response Time` is average response time in seconds 
+- `Response Time` is average response time in seconds
 - `Think Time` is the user wait time in second between requests
 
 **Average Load Phase:**
@@ -45,7 +45,7 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
   - Measurement: This will be produced as an output of the test run.
 - Error Percentage
   - Definition: The percentage of API requests that result in an error response (5xx).
-  - Measurement: This will be produced as an output of the test run. 
+  - Measurement: This will be produced as an output of the test run.
 - Throughput
   - Definition: The number of API requests processed per second.
   - Measurement: This will be produced as an output of the test run.
@@ -63,7 +63,6 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 | Insights      | `GET /expenditure/school/{urn}`            | 105                                         |
 | Insights      | `GET /metric-rag/default`                  | 105                                         |
 
-
 ## Performance Success Criteria
 
 - Response Time:
@@ -80,12 +79,54 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 
 ## Test Output
 
-**Summary Report:**
-
-//TODO: Add summary post test run
+| API           | Endpoint                   | Initiated on         | Load (total requests) | Response time - 99th %ile (ms) | Errors (%) | Result                                                                                                                                                                                                                                                                                                                                                                     |
+|---------------|----------------------------|----------------------|-----------------------|--------------------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Establishment | `POST /school/suggest`     | 30/08/2024, 12:49:57 | 7046                  | 91                             | 0          | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c5e6f0a9-6512-4d8b-b0ca-8c6ac86a2050/testRunId/8db1ce89-be1a-40d9-a6d7-17b2af48b08e) |
+| Establishment | `GET /school/{identifier}` | 30/08/2024, 12:50:18 | 8629                  | 77                             | 0          | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/d7f8fc2f-870c-4166-8958-3633a07e4007/testRunId/8db1ce89-be1a-40d9-a6d7-17b2af48b099) |
 
 **Findings and Recommendations:**
 
 //TODO: Add finding and recommendation post test run
 
-\newpage
+## Azure Load Testing Nuances
+
+The items below are not exhaustive, nor terminal. They are just some things to be aware of when authoring and executing the load tests.
+
+### Sometimes parameters are cleared
+
+When editing an existing Load Test, ensure that the Parameters page of the settings does not get cleared unexpectedly.
+
+### CSV files
+
+Apostrophes in source CSV files sometimes cause POST-ed JSON to be malformed, possibly leading to `400` or `500` responses from the API.
+Additionally, hyphens do not seem to be supported when defining CSV column names.
+
+### Editing tests takes time
+
+It takes a short period of time for Azure Portal to process changes to tests.
+Errors will be raised when making additional changes while previous ones are being processed.
+Running a new test too early may lead to the wrong version of the test configuration being used.
+
+### Running tests takes time
+
+It takes around 5 minutes to provision the load test run, during which time there is no feedback in Azure Portal.
+It takes around 5 minutes to deprovision the load test run, during which time sometimes the test run is marked as 'Done' even though the results are not yet available.
+
+### Limited usefulness of Debug mode
+
+Test runs may be exeucted in 'Debug' mode which adds more detail to the logs available once the wrong run is complete via the 'Copy artifacts' button.
+However, the logs do not include POST-ed data, but do include Secret parameters.
+
+> **💡 Tip:** To view the artifacts, copy the SAS URL from the 'Copy artifacts' request and paste into Azure Storage Explorer > Connect > Blob container > SAS URL
+
+### App components
+
+Linking server side components to each load test does provide useful analytics after a short delay, however for those that consume Azure Search components nothing is shown. This appears to be a configuration issue with Azure Search rather than Azure Load Testing, however (even though the correct Diagnostic Settings appear to be pesent).
+
+### Traffic source
+
+It is possible to configure requests to be sourced from different locations, but due to the relative low numbers of requests for average load testing only a single engine is required, and locations are set per-engine. The location `West Europe` has therefore been configured everywhere.
+
+### Buggy UI
+
+Azure Portal is a little clunky when trying to navigate between tests and test runs, often erroneously taking you right back to the Portal landing page.

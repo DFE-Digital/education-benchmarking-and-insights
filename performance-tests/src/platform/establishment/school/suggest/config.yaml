@@ -1,0 +1,22 @@
+displayName: Establishment API - Suggest Schools
+testPlan: url-test.json
+description: ''
+engineInstances: 1
+testId: c5e6f0a9-6512-4d8b-b0ca-8c6ac86a2050
+testType: URL
+subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
+publicIPDisabled: true
+splitAllCSVs: False
+configurationFiles:
+- suggest.csv
+failureCriteria:
+- p50(response_time_ms) > 100
+- p95(response_time_ms) > 150
+- p99(response_time_ms) > 500
+- percentage(error) > 0.1
+secrets:
+- name: establishment-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/establishment-host-key
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
