@@ -48,7 +48,6 @@ def test_historical_bfr_sofa_none():
             {
                 "Trust UPIN": "0",
                 "Company Registration Number": "0",
-                "Total pupils in trust": 0,
             }
         ]
     )
@@ -68,7 +67,6 @@ def test_historical_bfr():
             {
                 "Trust UPIN": "0",
                 "Company Registration Number": "0",
-                "Total pupils in trust": 0,
             }
         ]
     )
@@ -77,6 +75,7 @@ def test_historical_bfr():
             {
                 "Trust UPIN": "0",
                 "EFALineNo": 430,
+                "Y1P2": 2_048.0,
                 "Y2P2": 1_024.0,
             }
         ]
