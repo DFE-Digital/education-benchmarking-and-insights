@@ -892,6 +892,9 @@ $endif$
 %% end added
 %%
 
+\makeatletter
+\def\UTFviii@undefined@err#1{}
+\makeatother
 \begin{document}
 
 %%
