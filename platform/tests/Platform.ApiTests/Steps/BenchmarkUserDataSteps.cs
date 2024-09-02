@@ -41,7 +41,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
         Assert.NotNull(row);
         Assert.Equal(_userGuid, row.UserId);
         Assert.Equal("custom-data", row.Type);
-        var nextMonth = DateTimeOffset.Now.AddMonths(1).AddDays(-1);
+        var nextMonth = DateTimeOffset.Now.AddDays(30);
         Assert.InRange(row.Expiry, nextMonth.AddMinutes(-1), nextMonth.AddMinutes(1));
         Assert.Equal("pending", row.Status);
     }
