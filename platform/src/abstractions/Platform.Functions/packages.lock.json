@@ -29,11 +29,11 @@
       },
       "Microsoft.Azure.Functions.Worker.Core": {
         "type": "Direct",
-        "requested": "[1.18.0, )",
-        "resolved": "1.18.0",
-        "contentHash": "AFHJMjPB7JhwnWnGFbroSGMRa5ertGrG6j9DcCzpto3YmjrM29BasD9zLekAniRjZHqBMF0sSsTm1aq/cKdVKQ==",
+        "requested": "[1.19.0, )",
+        "resolved": "1.19.0",
+        "contentHash": "srGJHtJNJRI/cxBkKSZd9+mA8V8nBbsCx3mwFBZKY2M6/EF3mP8EoUosd4W8AjrKOAEXjgXVEp3K0fQyPXcquA==",
         "dependencies": {
-          "Azure.Core": "1.37.0",
+          "Azure.Core": "1.41.0",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "5.0.0",
           "System.Collections.Immutable": "5.0.0",
@@ -154,10 +154,11 @@
       },
       "Azure.Core": {
         "type": "Transitive",
-        "resolved": "1.37.0",
-        "contentHash": "ZSWV/ftBM/c/+Eo2hlzeEWntjqNG+8TWXX/DAKjBSWIf7nEvFILQoJL7JZx5HjypDvdNUMj5J2ji8ZpFFSghSg==",
+        "resolved": "1.41.0",
+        "contentHash": "7OO8rPCVSvXj2IQET3NkRf8hU2ZDCCvCIUhlrE089qkLNpNfWufJnBwHRKLAOWF3bhKBGJS/9hPBgjJ8kupUIg==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
+          "System.ClientModel": "1.0.0",
           "System.Diagnostics.DiagnosticSource": "6.0.1",
           "System.Memory.Data": "1.0.2",
           "System.Numerics.Vectors": "4.5.0",
@@ -930,6 +931,15 @@
         "type": "Transitive",
         "resolved": "4.5.0",
         "contentHash": "pL2ChpaRRWI/p4LXyy4RgeWlYF2sgfj/pnVMvBqwNFr5cXg7CXNnWZWxrOONLg8VGdFB8oB+EG2Qw4MLgTOe+A=="
+      },
+      "System.ClientModel": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "I3CVkvxeqFYjIVEP59DnjbeoGNfo/+SZrCLpRz2v/g0gpCHaEMPtWSY0s9k/7jR1rAsLNg2z2u1JRB76tPjnIw==",
+        "dependencies": {
+          "System.Memory.Data": "1.0.2",
+          "System.Text.Json": "4.7.2"
+        }
       },
       "System.Collections": {
         "type": "Transitive",

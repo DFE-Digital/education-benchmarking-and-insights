@@ -20,12 +20,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[17.10.0, )",
-        "resolved": "17.10.0",
-        "contentHash": "0/2HeACkaHEYU3wc83YlcD2Fi4LMtECJjqrtvw0lPi9DCEa35zSPt1j4fuvM8NagjDqJuh1Ja35WcRtn1Um6/A==",
+        "requested": "[17.11.0, )",
+        "resolved": "17.11.0",
+        "contentHash": "fH7P0LihMXgnlNLtrXGetHd30aQcD+YrSbWXbCPBnrypdRApPgNqd/TgncTlSVY1bbLYdnvpBgts2dcnK37GzA==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "17.10.0",
-          "Microsoft.TestPlatform.TestHost": "17.10.0"
+          "Microsoft.CodeCoverage": "17.11.0",
+          "Microsoft.TestPlatform.TestHost": "17.11.0"
         }
       },
       "Moq": {
@@ -71,10 +71,10 @@
       },
       "Azure.Identity": {
         "type": "Transitive",
-        "resolved": "1.11.4",
-        "contentHash": "Sf4BoE6Q3jTgFkgBkx7qztYOFELBCo+wQgpYDwal/qJ1unBH73ywPztIJKXBXORRzAeNijsuxhk94h0TIMvfYg==",
+        "resolved": "1.12.0",
+        "contentHash": "OBIM3aPz8n9oEO5fdnee+Vsc5Nl4W3FeslPpESyDiyByntQI5BAa76KD60eFXm9ulevnwxGZP9YXL8Y+paI5Uw==",
         "dependencies": {
-          "Azure.Core": "1.38.0",
+          "Azure.Core": "1.40.0",
           "Microsoft.Identity.Client": "4.61.3",
           "Microsoft.Identity.Client.Extensions.Msal": "4.61.3",
           "System.Memory": "4.5.4",
@@ -436,14 +436,14 @@
       },
       "Microsoft.Azure.Functions.Worker.Grpc": {
         "type": "Transitive",
-        "resolved": "1.16.0",
-        "contentHash": "B4GhvNzH4w2pABkL1NbZikcxNSgKknUqqpO0zS488torBOe8AS6JOt4lgGFEe2Lzybkc8/fh7tVFbvkKN4EddA==",
+        "resolved": "1.17.0",
+        "contentHash": "Xv/QSD3C6LEIjAL8tXG4J2nA1zTCa6fIzuIww7OVdBJPBCDkS48IE5MtDiFWpEr0B6idP54L5nYjs5oi8P7dNQ==",
         "dependencies": {
-          "Azure.Core": "1.37.0",
+          "Azure.Core": "1.41.0",
           "Google.Protobuf": "3.25.2",
           "Grpc.Net.Client": "2.60.0",
           "Grpc.Net.ClientFactory": "2.60.0",
-          "Microsoft.Azure.Functions.Worker.Core": "1.17.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "5.0.0"
@@ -516,8 +516,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "17.10.0",
-        "contentHash": "yC7oSlnR54XO5kOuHlVOKtxomNNN1BWXX8lK1G2jaPXT9sUok7kCOoA4Pgs0qyFaCtMrNsprztYMeoEGqCm4uA=="
+        "resolved": "17.11.0",
+        "contentHash": "QKcOSuw7MZG4XiQ+pCj+Ib6amOwoRDEO7e3DbxqXeOPXSnfyGXYoZQI8I140s1mKQVn1Vh+c5WlKvCvlgMovpg=="
       },
       "Microsoft.CSharp": {
         "type": "Transitive",
@@ -895,18 +895,18 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "17.10.0",
-        "contentHash": "KkwhjQevuDj0aBRoPLY6OLAhGqbPUEBuKLbaCs0kUVw29qiOYncdORd4mLVJbn9vGZ7/iFGQ/+AoJl0Tu5Umdg==",
+        "resolved": "17.11.0",
+        "contentHash": "PU+CC1yRzbR0IllrtdILaeep7WP5OIrvmWrvCMqG3jB1h4F6Ur7CYHl6ENbDVXPzEvygXh0GWbTyrbjfvgTpAg==",
         "dependencies": {
           "System.Reflection.Metadata": "1.6.0"
         }
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "17.10.0",
-        "contentHash": "LWpMdfqhHvcUkeMCvNYJO8QlPLlYz9XPPb+ZbaXIKhdmjAV0wqTSrTiW5FLaf7RRZT50AQADDOYMOe0HxDxNgA==",
+        "resolved": "17.11.0",
+        "contentHash": "KMzJO3dm3+9W8JRQ3IDviu0v7uXP5Lgii6TuxMc5m8ynaqcGnn7Y18cMb5AsP2xp59uUHO474WZrssxBdb8ZxQ==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "17.10.0",
+          "Microsoft.TestPlatform.ObjectModel": "17.11.0",
           "Newtonsoft.Json": "13.0.1"
         }
       },
@@ -2041,8 +2041,8 @@
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
+          "Microsoft.Azure.Functions.Worker": "[1.23.0, )",
+          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.4.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.0, )",
@@ -2059,8 +2059,8 @@
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
+          "Microsoft.Azure.Functions.Worker": "[1.23.0, )",
+          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.4.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.0, )",
@@ -2075,8 +2075,8 @@
           "AspNetCore.HealthChecks.SqlServer": "[8.0.2, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
-          "Microsoft.Azure.Functions.Worker": "[1.22.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.2.0, )",
+          "Microsoft.Azure.Functions.Worker": "[1.23.0, )",
+          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[1.4.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.0, )",
@@ -2091,7 +2091,7 @@
           "FluentValidation": "[11.9.2, )",
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
-          "Microsoft.Azure.Functions.Worker.Core": "[1.18.0, )",
+          "Microsoft.Azure.Functions.Worker.Core": "[1.19.0, )",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.5.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
@@ -2110,7 +2110,7 @@
           "Azure.Search.Documents": "[11.6.0, )",
           "Dapper": "[2.1.35, )",
           "FluentValidation": "[11.9.2, )",
-          "Microsoft.Data.SqlClient": "[5.2.1, )",
+          "Microsoft.Data.SqlClient": "[5.2.2, )",
           "Microsoft.Extensions.Options": "[8.0.2, )",
           "System.Linq.Async": "[6.0.1, )"
         }
@@ -2203,35 +2203,36 @@
       },
       "Microsoft.Azure.Functions.Worker": {
         "type": "CentralTransitive",
-        "requested": "[1.22.0, )",
-        "resolved": "1.22.0",
-        "contentHash": "NyzBLZ2exCe4Crx6P5NRqnqMFt9i1VfGDRemeIkwZ8r9pRGksZuW1cArklOox2gLxCVX5rrzQBNfTJbF4lzAxw==",
+        "requested": "[1.23.0, )",
+        "resolved": "1.23.0",
+        "contentHash": "9vae0oi6vr0D8A+uwD9znfLF5F/Zmrv3vvXS/l0BvreVZ6ozeAfQM0w70g4VYIyshS7L6w87X3p1cC4f/nbHCA==",
         "dependencies": {
-          "Azure.Core": "1.37.0",
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
-          "Microsoft.Azure.Functions.Worker.Grpc": "1.16.0",
+          "Azure.Core": "1.41.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
+          "Microsoft.Azure.Functions.Worker.Grpc": "1.17.0",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "5.0.0"
         }
       },
       "Microsoft.Azure.Functions.Worker.ApplicationInsights": {
         "type": "CentralTransitive",
-        "requested": "[1.2.0, )",
-        "resolved": "1.2.0",
-        "contentHash": "Dr2lFg1pl65cDn+rLzteUIHCWNkbBnWGIRQUDFffvCAgwVN+ZcVAShIr9uCmhRvJznxC2wZFTwfSwxC7/nEkFw==",
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "pO5SapJonK9/AxKClmHatFteIp4AJW4KINDq2uHwtBKV0dcgO1ey7IKu27jRbEceIAeso1zfLvlfL5JIdDgtAQ==",
         "dependencies": {
+          "Azure.Identity": "1.12.0",
           "Microsoft.ApplicationInsights.PerfCounterCollector": "2.22.0",
-          "Microsoft.Azure.Functions.Worker.Core": "1.17.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Bcl.AsyncInterfaces": "5.0.0"
         }
       },
       "Microsoft.Azure.Functions.Worker.Core": {
         "type": "CentralTransitive",
-        "requested": "[1.18.0, )",
-        "resolved": "1.18.0",
-        "contentHash": "AFHJMjPB7JhwnWnGFbroSGMRa5ertGrG6j9DcCzpto3YmjrM29BasD9zLekAniRjZHqBMF0sSsTm1aq/cKdVKQ==",
+        "requested": "[1.19.0, )",
+        "resolved": "1.19.0",
+        "contentHash": "srGJHtJNJRI/cxBkKSZd9+mA8V8nBbsCx3mwFBZKY2M6/EF3mP8EoUosd4W8AjrKOAEXjgXVEp3K0fQyPXcquA==",
         "dependencies": {
-          "Azure.Core": "1.37.0",
+          "Azure.Core": "1.41.0",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "5.0.0",
           "System.Collections.Immutable": "5.0.0",
@@ -2315,13 +2316,13 @@
       },
       "Microsoft.Data.SqlClient": {
         "type": "CentralTransitive",
-        "requested": "[5.2.1, )",
-        "resolved": "5.2.1",
-        "contentHash": "ojg2XWmih4ubPPtrhRqqXk0SM6wC2ZSTkNNEAlYBhMo4IsRHjLazFc0abzcZCNfw1JyWcqY7vGutWTv8ZaFD9g==",
+        "requested": "[5.2.2, )",
+        "resolved": "5.2.2",
+        "contentHash": "mtoeRMh7F/OA536c/Cnh8L4H0uLSKB5kSmoi54oN7Fp0hNJDy22IqyMhaMH4PkDCqI7xL//Fvg9ldtuPHG0h5g==",
         "dependencies": {
-          "Azure.Identity": "1.11.3",
+          "Azure.Identity": "1.11.4",
           "Microsoft.Data.SqlClient.SNI.runtime": "5.2.0",
-          "Microsoft.Identity.Client": "4.60.3",
+          "Microsoft.Identity.Client": "4.61.3",
           "Microsoft.IdentityModel.JsonWebTokens": "6.35.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.35.0",
           "Microsoft.SqlServer.Server": "1.0.0",
