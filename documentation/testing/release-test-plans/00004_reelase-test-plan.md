@@ -1,7 +1,6 @@
 ﻿# Release Test Plan - 02/09/2024
 
 ## Introduction
-
 **Objective:**
 
 The purpose of this test plan is to outline the approach and scope for testing the updates made as part of this release.
@@ -17,7 +16,6 @@ This test plan covers the functional and sanity testing to validate all features
 02/09/2024
 
 ## Test Strategy
-
 **Types of Testing:**
 
 - Manual Functional Testing
@@ -29,7 +27,6 @@ This test plan covers the functional and sanity testing to validate all features
 - Sanity testing will be carried out in pre-prod to ensure all functionalities are working as expected.
 
 ## Test Scope
-
 **Issues/Updates to be Tested:**
 
 1. [Custom event tracking for "Save as image" button](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223210) -
@@ -59,8 +56,8 @@ This test plan covers the functional and sanity testing to validate all features
    this update is linked with how secrets are read in pipeline. The pipelines are green so no further testing is
    required.
 2. [BfR Figures Incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/217947) - The issue with BFR figures has been corrected and tested in test. This is behind login so no further testing will be done in pre production. 
-## Test Deliverables
 
+## Test Deliverables
 **Documents:**
 
 - Release test plan
@@ -70,7 +67,6 @@ This test plan covers the functional and sanity testing to validate all features
 - Summary of testing performed and outcomes
 
 ## Entry and Exit Criteria
-
 **Entry Criteria:**
 
 - All Fixes and updates have successfully passed lower quality gates
@@ -84,7 +80,6 @@ This test plan covers the functional and sanity testing to validate all features
     - Any new major/minor issues found during release test will be scheduled for next release
 
 ## Risk Management
-
 **Risk Identification:**
 
 Pre-production and production has existing data, which will require updating/modifying as the fixes included in this
@@ -96,7 +91,6 @@ release requires pipeline rerun.
 - Ran in test environment which has identical data to pre-prod and production to confirm fixes
 
 ## Review and Approval
-
 **Review Process:**
 
 The release plan will be shared with the Product Owner for review and approval. Following their review, the updates will
@@ -106,3 +100,4 @@ proceed to pre-production for final sanity checks.
 
 Product Owner
 
+\newpage
