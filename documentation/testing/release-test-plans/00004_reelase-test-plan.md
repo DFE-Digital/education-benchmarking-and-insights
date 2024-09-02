@@ -32,7 +32,7 @@ This test plan covers the functional and sanity testing to validate all features
 - [Misleading autocomplete results](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223871) - This was identified in accessibility audit to show which part of the input criteria is matched. Tested in test environment and will be verified again in pre production. 
 - [A02: Hover over information for horizontal bar charts needs to be available for keyboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225478) - Also identified in accessibility audit and now the hover over information is available to keyboard users. Validated in test environment and will be checked again pre production.
 - [Update mailbox details on service pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225527) - This is a copy update for email address shown on service. Validated in test and will be checked again in pre production. 
-
+- [Package Management](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/226361) - This is an update on the packages raised by the Dependant Bot. A full regression will be conducted in the test environment, and sanity checks will be performed in pre-production to cover this.
 
 **Updates Not to be Tested:**
 
