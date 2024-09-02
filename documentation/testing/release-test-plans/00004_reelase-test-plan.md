@@ -11,7 +11,7 @@ This test plan covers the functional and sanity testing to validate all features
 
 **Release date:** 
 
-30/08/2024
+02/09/2024
 
 ## Test Strategy
 **Types of Testing:**
