@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 29/08/2024
+﻿# Release Test Plan - 02/09/2024
 
 ## Introduction
 **Objective:**
@@ -79,4 +79,3 @@ The release plan will be shared with the Product Owner for review and approval. 
 
 Product Owner
 
-\newpage
