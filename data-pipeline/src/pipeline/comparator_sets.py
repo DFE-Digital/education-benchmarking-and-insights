@@ -219,62 +219,6 @@ def compute_pupils_comparator(arg) -> np.ndarray:
     return pupils_calc(pupils, fsm, sen)
 
 
-# def select_top_set_urns(
-#     urns: np.array,
-#     pfi: np.array,
-#     boarding: np.array,
-#     regions: np.array,
-#     distances: np.ndarray,
-#     base_set_size=60,
-#     final_set_size=30,
-# ) -> np.ndarray:
-#     """
-#     Determine the URNs of the closest orgs.
-#
-#     1. take the top (by default) 60 orgs. closest by distance metrics,
-#        with the same PFI and Boarding status.
-#     2. reduce this to those in the same region.
-#     3. if fewer than (by default) 30 results, supplement this with the
-#        closest by distance metrics from the original set.
-#
-#     :param urns: URN of each org. in this grouping.
-#     :param pfi: PFI status of each org. in this grouping.
-#     :param boarding: boarding status of each org. in this grouping.
-#     :param regions: regional location of each org. in this grouping.
-#     :param distances: computed distances of each org. from the first.
-#     :return: URNs of "top" orgs. meeting criteria, orderd by distance.
-#     """
-#     index_by_distance = np.argsort(distances, axis=0, kind="stable")
-#     urns_by_distance = urns[index_by_distance]
-#
-#     pfi_by_distance = pfi[index_by_distance]
-#     boarding_by_distance = boarding[index_by_distance]
-#     same_pfi = pfi_by_distance == pfi_by_distance[0]
-#     same_boarding = boarding_by_distance == boarding_by_distance[0]
-#     same_criteria = np.logical_and(
-#         same_pfi,
-#         same_boarding,
-#     )
-#     top_criteria_index = np.argwhere(same_criteria).flatten()[:base_set_size]
-#
-#     same_region_index = np.argwhere(regions == regions[0]).flatten()
-#     top_regions_index = np.intersect1d(
-#         top_criteria_index,
-#         same_region_index,
-#     )
-#     same_region_urns = urns_by_distance[top_regions_index][:final_set_size]
-#
-#     urns = np.append(
-#         same_region_urns,
-#         np.delete(
-#             urns_by_distance,
-#             same_region_index,
-#         )[: final_set_size - len(same_region_urns)],
-#     )
-#
-#     return urns
-
-
 def select_top_set_urns(
     index: int,
     urns: np.array,
