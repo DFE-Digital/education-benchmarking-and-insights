@@ -50,16 +50,16 @@ period of 5 minutes.
 
 **APIs & Endpoints Under Test:**
 
-| API           | Endpoint                                   | Target Throughput (requests per second) |
-|---------------|--------------------------------------------|-----------------------------------------|
-| Establishment | `POST /school/suggest`                     | 113                                     |
-| Establishment | `GET /school/{identifier}`                 | 113                                     |
-| Benchmark     | `GET /user-data`                           | 113                                     |
-| Benchmark     | `POST /comparators/schools`                | 113                                     |
-| Benchmark     | `GET /comparator-set/school/{urn}/default` | 113                                     |
-| Insights      | `GET /school/{urn}/characteristics`        | 158                                     |
-| Insights      | `GET /expenditure/school/{urn}`            | 158                                     |
-| Insights      | `GET /metric-rag/default`                  | 158                                     |
+| API           | Endpoint                                   | Target Throughput</br>(requests per second) |
+|---------------|--------------------------------------------|---------------------------------------------|
+| Establishment | `POST /school/suggest`                     | 113                                         |
+| Establishment | `GET /school/{identifier}`                 | 113                                         |
+| Benchmark     | `GET /user-data`                           | 113                                         |
+| Benchmark     | `POST /comparators/schools`                | 113                                         |
+| Benchmark     | `GET /comparator-set/school/{urn}/default` | 113                                         |
+| Insights      | `GET /school/{urn}/characteristics`        | 158                                         |
+| Insights      | `GET /expenditure/school/{urn}`            | 158                                         |
+| Insights      | `GET /metric-rag/default`                  | 158                                         |
 
 ## Performance Success Criteria
 
