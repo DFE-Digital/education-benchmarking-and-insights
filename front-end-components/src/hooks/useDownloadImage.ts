@@ -14,7 +14,9 @@ export function useDownloadPngImage({
   });
 
   useEffect(() => {
-    onImageLoading && onImageLoading(isLoading);
+    if (onImageLoading) {
+      onImageLoading(isLoading);
+    }
   }, [isLoading, onImageLoading]);
 
   const downloadPng = useCallback(async () => {
