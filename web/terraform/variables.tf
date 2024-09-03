@@ -120,7 +120,7 @@ variable "configuration" {
         LocalAuthorities              = true
         UserDefinedComparators        = true
         DisableOrganisationClaimCheck = false
-        ForecastRisk                  = false
+        ForecastRisk                  = true
         TrustComparison               = true
       }
     }
