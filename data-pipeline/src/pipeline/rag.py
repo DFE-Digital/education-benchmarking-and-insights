@@ -183,10 +183,24 @@ def compute_rag(
     comparators,
     target_urn: str | None = None,
 ):
+    """
+    Perform RAG calculations for a given dataset.
+
+    Note: RAG will not be calculated for part-year data.
+
+    :param data: dataset for which to calculate RAG
+    :param comparators: supplementary comparator-set data
+    :param target_urn: if generating RAG for a single org., defaults to None
+    :yield: RAG info. for a single (sub-)category
+    """
     keys = rag_category_settings.keys()
 
     # reduce to only used columns so that extraction routines are more efficient
-    cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
+    cols = (
+        data.columns.isin(base_cols)
+        | data.columns.str.endswith("_Per Unit")
+        | (data.columns == "Partial Years Present")
+    )
     df = data[data.columns[cols]].fillna(0.0)
 
     # Pre-computes the column accessors for each cost category
@@ -203,6 +217,11 @@ def compute_rag(
                 target = df.iloc[indx]
                 urn = target.name
                 if target_urn and urn != target_urn:
+                    continue
+
+                # TODO: `target["Partial Years Present"]` when the column is guaranteed.
+                # if part-year data, skip…
+                if target.get("Partial Years Present"):
                     continue
 
                 try:
