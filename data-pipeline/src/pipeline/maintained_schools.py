@@ -105,7 +105,7 @@ def map_school_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 def map_school_type_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Finance Type"] = "Maintained"
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
-        lambda df: mappings.map_school_phase_type(
+        lambda df: mappings.map_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
         axis=1,

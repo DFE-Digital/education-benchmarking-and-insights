@@ -775,7 +775,7 @@ def build_academy_data(
     ].fillna(academies["Total Internal Floor Area"].median())
 
     academies["Overall Phase"] = academies.apply(
-        lambda df: mappings.map_academy_phase_type(
+        lambda df: mappings.map_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
         ),
         axis=1,
