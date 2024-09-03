@@ -806,7 +806,7 @@ def build_academy_data(
     )
 
     academies["SchoolPhaseType"] = academies.apply(
-        lambda df: mappings.map_school_phase_type(
+        lambda df: mappings.map_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
         ),
         axis=1,
