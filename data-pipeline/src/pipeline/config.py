@@ -181,6 +181,14 @@ cost_category_map = {
     },
 }
 
+census_column_map = {
+    "headcount of pupils": "Number of pupils (headcount)",
+    "fte pupils": "Number of pupils",
+    "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "NonClassroomSupportStaffFTE",
+    "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "NonClassroomSupportStaffHeadcount",
+    "% of pupils known to be eligible for free school meals": "Percentage Free school meals",
+}
+
 rag_category_settings = {
     "Teaching and Teaching support staff": {
         "type": "Pupil",
@@ -644,3 +652,29 @@ rag_category_settings = {
         ],
     },
 }
+
+cdc_generated_columns = [
+    "Total Internal Floor Area",
+    "Age Average Score",
+    "Building Age",
+]
+
+sen_generated_columns = [
+    "EHC plan",
+    "SEN support",
+    "Percentage SEN",
+    "Percentage with EHC",
+    "Percentage without EHC",
+    "Percentage Primary Need SPLD",
+    "Percentage Primary Need MLD",
+    "Percentage Primary Need SLD",
+    "Percentage Primary Need PMLD",
+    "Percentage Primary Need SEMH",
+    "Percentage Primary Need SLCN",
+    "Percentage Primary Need HI",
+    "Percentage Primary Need VI",
+    "Percentage Primary Need MSI",
+    "Percentage Primary Need PD",
+    "Percentage Primary Need ASD",
+    "Percentage Primary Need OTH",
+]

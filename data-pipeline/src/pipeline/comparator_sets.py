@@ -219,62 +219,6 @@ def compute_pupils_comparator(arg) -> np.ndarray:
     return pupils_calc(pupils, fsm, sen)
 
 
-# def select_top_set_urns(
-#     urns: np.array,
-#     pfi: np.array,
-#     boarding: np.array,
-#     regions: np.array,
-#     distances: np.ndarray,
-#     base_set_size=60,
-#     final_set_size=30,
-# ) -> np.ndarray:
-#     """
-#     Determine the URNs of the closest orgs.
-#
-#     1. take the top (by default) 60 orgs. closest by distance metrics,
-#        with the same PFI and Boarding status.
-#     2. reduce this to those in the same region.
-#     3. if fewer than (by default) 30 results, supplement this with the
-#        closest by distance metrics from the original set.
-#
-#     :param urns: URN of each org. in this grouping.
-#     :param pfi: PFI status of each org. in this grouping.
-#     :param boarding: boarding status of each org. in this grouping.
-#     :param regions: regional location of each org. in this grouping.
-#     :param distances: computed distances of each org. from the first.
-#     :return: URNs of "top" orgs. meeting criteria, orderd by distance.
-#     """
-#     index_by_distance = np.argsort(distances, axis=0, kind="stable")
-#     urns_by_distance = urns[index_by_distance]
-#
-#     pfi_by_distance = pfi[index_by_distance]
-#     boarding_by_distance = boarding[index_by_distance]
-#     same_pfi = pfi_by_distance == pfi_by_distance[0]
-#     same_boarding = boarding_by_distance == boarding_by_distance[0]
-#     same_criteria = np.logical_and(
-#         same_pfi,
-#         same_boarding,
-#     )
-#     top_criteria_index = np.argwhere(same_criteria).flatten()[:base_set_size]
-#
-#     same_region_index = np.argwhere(regions == regions[0]).flatten()
-#     top_regions_index = np.intersect1d(
-#         top_criteria_index,
-#         same_region_index,
-#     )
-#     same_region_urns = urns_by_distance[top_regions_index][:final_set_size]
-#
-#     urns = np.append(
-#         same_region_urns,
-#         np.delete(
-#             urns_by_distance,
-#             same_region_index,
-#         )[: final_set_size - len(same_region_urns)],
-#     )
-#
-#     return urns
-
-
 def select_top_set_urns(
     index: int,
     urns: np.array,
@@ -282,6 +226,7 @@ def select_top_set_urns(
     boarding: np.array,
     regions: np.array,
     distances: np.ndarray,
+    include: np.array,
     base_set_size=60,
     final_set_size=30,
 ) -> np.ndarray:
@@ -300,6 +245,7 @@ def select_top_set_urns(
     :param boarding: boarding status of each org. in this grouping.
     :param regions: regional location of each org. in this grouping.
     :param distances: computed distances of each org. from the first.
+    :param include: whether entry should be considered
     :param base_set_size: The size of the initial sorted set for filtering.
     :param final_set_size: The final desired size of the comparator set.
     :return: URNs of "top" orgs. meeting criteria, ordered by distance.
@@ -308,11 +254,14 @@ def select_top_set_urns(
     target_pfi = pfi[index]
     target_boarding = boarding[index]
 
-    distance_without_urn = np.delete(distances, index)
-    urns_without_urn = np.delete(urns, index)
-    regions_without_urn = np.delete(regions, index)
-    pfi_without_urn = np.delete(pfi, index)
-    boarding_without_urn = np.delete(boarding, index)
+    # skip `index` and any not in `include`…
+    valid_mask = include & (np.arange(len(urns)) != index)
+
+    distance_without_urn = distances[valid_mask]
+    urns_without_urn = urns[valid_mask]
+    regions_without_urn = regions[valid_mask]
+    pfi_without_urn = pfi[valid_mask]
+    boarding_without_urn = boarding[valid_mask]
 
     index_by_distance = np.argsort(distance_without_urn, axis=0, kind="stable")[
         :base_set_size
@@ -349,13 +298,87 @@ def select_top_set_urns(
     return urns
 
 
+def _map_pupil_comparator_set(row: pd.Series) -> bool:
+    """
+    Whether to generate a pupil comparator set for the row in question.
+
+    For partial-year data, financial and pupil data must be present.
+
+    For full-year data, pupil comparator sets are always generated.
+
+    :param row: grouped data
+    :return: whether to generate pupil comparator set
+    """
+    if not row.get("Partial Years Present"):
+        return True
+
+    # TODO: accommodate academy data, which won't have these columns…
+    if "Financial Data Present" not in row.keys():
+        return True
+
+    return all(
+        (
+            row["Financial Data Present"],
+            row["Partial Years Present"],
+            row["Pupil Comparator Data Present"],
+        )
+    )
+
+
+def _map_building_comparator_set(row: pd.Series) -> bool:
+    """
+    Whether to generate a building comparator set for the row.
+
+    For partial-year data, financial, pupil and building data must be
+    present.
+
+    For full-year data, building comparator sets are always generated.
+
+    :param row: grouped data
+    :return: whether to generate building comparator set
+    """
+    if not row.get("Partial Years Present"):
+        return True
+
+    # TODO: accommodate academy data, which won't have these columns…
+    if "Financial Data Present" not in row.keys():
+        return True
+
+    return all(
+        (
+            row["Financial Data Present"],
+            row["Partial Years Present"],
+            row["Pupil Comparator Data Present"],
+            row["Building Comparator Data Present"],
+        )
+    )
+
+
 # TODO: rename, this does more than distances.
 def compute_distances(
     orig_data: pd.DataFrame,
     grouped_data: pd.DataFrame,
     target_urn: int | None = None,
-):
-    # TODO: docstring needed to explain this.
+) -> pd.DataFrame | None:
+    """
+    Derive the comparator sets for each organisation.
+
+    - comparators are restricted within each phase (e.g. "Nursery")
+    - initially, the similarity "distance" is calculated for every org.
+      relative to every other, for both pupil and building.
+    - for each org. the "top" matches are found, derived from those
+      distance calculations.
+        - this may be skipped if an org. has only submitted
+          partial-year data.
+
+    If `target_urn` is populated, only the org. in question is
+    processed.
+
+    :param orig_data: info. required for comparator-set generation
+    :param grouped_data: info. grouped by school "phase"
+    :param target_urn: optional URN of a specific school, defaults to None
+    :return: updated data
+    """
     pupils = pd.Series(index=orig_data.index, dtype=object)
     buildings = pd.Series(index=orig_data.index, dtype=object)
 
@@ -370,6 +393,8 @@ def compute_distances(
         phase_pfi = np.array(row["Is PFI"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
+        include_pupils = np.array(row["_GeneratePupilComparatorSet"])
+        include_buildings = np.array(row["_GenerateBuildingComparatorSet"])
 
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
@@ -378,14 +403,23 @@ def compute_distances(
                 continue
 
             try:
+                if not row["_GeneratePupilComparatorSet"][idx]:
+                    continue
+
                 top_pupil_set_urns = select_top_set_urns(
                     idx,
                     phase_urns,
                     phase_pfi,
                     phase_boarding,
                     phase_regions,
-                    pupil_distances[idx],
+                    distances=pupil_distances[idx],
+                    include=include_pupils,
                 )
+                pupils.loc[urn] = top_pupil_set_urns
+
+                if not row["_GenerateBuildingComparatorSet"][idx]:
+                    continue
+
                 top_building_set_urns = select_top_set_urns(
                     idx,
                     phase_urns,
@@ -393,9 +427,8 @@ def compute_distances(
                     phase_boarding,
                     phase_regions,
                     building_distances[idx],
+                    include=include_buildings,
                 )
-
-                pupils.loc[urn] = top_pupil_set_urns
                 buildings.loc[urn] = top_building_set_urns
             except Exception as error:
                 logger.exception(
@@ -420,9 +453,9 @@ def compute_comparator_set(
     """
     Determine the comparator-sets for the input data.
 
-    TODO: explain the below columns.
-
-    Perform comparator-set derivation, restricted by "phase".
+    Perform comparator-set derivation, restricted by "phase". Data are
+    restricted to the minimal set of columns required to derive each
+    comparator set.
 
     If `data` is "custom" data, the resulting output will be restricted
     to just the `target_urn`. Equally, if the target is not present, an
@@ -433,8 +466,10 @@ def compute_comparator_set(
     :param target_urn: optional identifier for custom data
     :return: data, updated with comparator-sets
     """
-    copy = data[~data.index.isna()][
-        [
+    # TODO: inline when partial-year columns are guaranteed to be present.
+    copy_columns = [
+        column
+        for column in [
             "OfstedRating (name)",
             "Percentage SEN",
             "Percentage Free school meals",
@@ -455,12 +490,26 @@ def compute_comparator_set(
             "Percentage Primary Need PD",
             "Percentage Primary Need ASD",
             "Percentage Primary Need OTH",
+            "Partial Years Present",
+            "Financial Data Present",
+            "Pupil Comparator Data Present",
+            "Building Comparator Data Present",
         ]
-    ].copy()
+        if column in data.columns
+    ]
+    copy = data[~data.index.isna()][copy_columns].copy()
 
     if target_urn and target_urn not in copy.index:
         return copy.iloc[0:0]
 
+    copy["_GeneratePupilComparatorSet"] = copy.apply(_map_pupil_comparator_set, axis=1)
+    copy["_GenerateBuildingComparatorSet"] = copy.apply(
+        _map_building_comparator_set, axis=1
+    )
+
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
 
-    return compute_distances(copy, classes, target_urn=target_urn)
+    # TODO: handle error case more gracefully.
+    return compute_distances(copy, classes, target_urn=target_urn).drop(
+        columns=["_GeneratePupilComparatorSet", "_GenerateBuildingComparatorSet"],
+    )
