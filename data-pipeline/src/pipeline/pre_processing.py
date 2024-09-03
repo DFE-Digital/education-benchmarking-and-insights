@@ -667,8 +667,7 @@ def prepare_schools_data(base_data_path, links_data_path):
     ).sort_values(by="URN")
 
     return schools[
-        schools["CloseDate"].isna()
-        & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
+        (schools["Rank"] == 1) | (schools["Rank"].isna())
     ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
