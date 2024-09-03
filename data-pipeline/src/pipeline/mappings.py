@@ -34,7 +34,7 @@ def map_phase_type(code: int, provision: str):
         elif provision.lower() == 'nursery' or code == 1:
             return 'Nursery'
         else:
-            return 'Unspecified'
+            return 'Other'
 
 def map_block_age(block_age: str):
     if block_age == "":
