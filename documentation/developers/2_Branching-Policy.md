@@ -28,3 +28,5 @@ Branches should be named using the following pattern `category/<reference>/descr
 
 Reference should be the user story and/or bug id, avoid using task, feature or epic id. If you have no ticket then leave off the reference.
 
+<!-- Leave the rest of this page blank -->
+\newpage

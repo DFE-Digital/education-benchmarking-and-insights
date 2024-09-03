@@ -209,3 +209,6 @@ Endpoint: `api/schools/expenditure`
 - Without JavaScript this enabled the spending and costs page will not display any charts. This is not unique to this feature but happens throughout the service.
 - Does not display expenditure as % of total which is something SFB currently shows. `totalExpenditure` is available from the API response so this could be added to the feature.
 - Rating bands do not take into account ofsted rating or whether the comparator set contains >=10 "close range schools".
+
+<!-- Leave the rest of this page blank -->
+\newpage

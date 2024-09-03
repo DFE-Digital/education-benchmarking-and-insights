@@ -90,3 +90,6 @@ The React component is used in the following views in the MVC web app
 - [SchoolSpending view](../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
 - [SchoolCensus view](../../web/src/Web.App/Views/SchoolCensus/Index.cshtml)
 - [SchoolComparison view](../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)
+
+<!-- Leave the rest of this page blank -->
+\newpage

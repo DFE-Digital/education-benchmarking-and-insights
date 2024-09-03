@@ -1,41 +1,36 @@
-# Load Test Plan
+# Performance Test Plan - XXXX - [Name of testing]
 
-## Introduction
-### Purpose
-### Scope
+**Test run date:**
 
-## Objectives
+DD/MM/YYYY
 
-## Test Environment
+## Goal
 
-## Test Scenarios
-### Scenario 1 
-[name]
-#### Objective
-[objective]
-#### Steps
-[steps]
-#### Expected Result
-[expected result]
 
-## Load Profile
-### User Distribution
-### Ramp-Up Period
-### Peak Load Duration
-## Performance Metrics
+## Objective
+
+
+## Procedure
+
+**Determine Capacity:**
+
+
+**Average Load Phase:**
+
+
+
+**Monitoring Performance:**
+
+
+## Performance Success Criteria
+
 
 ## Test Execution
-### Preparation
-### Execution Steps
-### Monitoring
 
-## Analysis and Reporting
-### Data Collection
-### Data Analysis
-### Reporting
 
-## Risks and Mitigation
+## Test Output
 
-## Conclusion
-### Summary
-### Recommendations
+**Findings and Recommendations:**
+
+<!-- Leave the rest of this page blank -->
+\newpage

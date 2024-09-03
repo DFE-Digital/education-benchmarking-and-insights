@@ -20,3 +20,5 @@ Authorization is handled by the standard [ASP.NET Core claims model](https://doc
 - Curriculum planning
 - Custom data
 
+<!-- Leave the rest of this page blank -->
+\newpage

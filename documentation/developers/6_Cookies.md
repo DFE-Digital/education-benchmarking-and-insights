@@ -42,3 +42,5 @@ The `ai_user` cookie is utilized by Application Insights to identify unique user
 
 More details about the `ai_user` cookie and Application Insights can be found [here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-8.0#session-options).
 
+<!-- Leave the rest of this page blank -->
+\newpage

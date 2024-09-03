@@ -28,3 +28,5 @@ The options considered were:
 
 The major difference between using the SFB & VMFI data was the way comparator sets were calculated (VMFI method is preferred), and that VMFI held building data that SFB didn't. However, the other factors, especially confidence in the accuracy of the data and its structure, meant that SFB data held in CosmosDB is to be used as that data repository for the new service. Additional data from VMFI will be imported as needed.
 
+<!-- Leave the rest of this page blank -->
+\newpage

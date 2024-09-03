@@ -52,16 +52,16 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 
 **APIs & Endpoints Under Test:**
 
-| API           | Endpoint                                   | Target Throughput<br/>(requests per second) |
-|---------------|--------------------------------------------|---------------------------------------------|
-| Establishment | `POST /school/suggest`                     | 75                                          |
-| Establishment | `GET /school/{identifier}`                 | 75                                          |
-| Benchmark     | `GET /user-data`                           | 75                                          |
-| Benchmark     | `POST /comparators/schools`                | 75                                          |
-| Benchmark     | `GET /comparator-set/school/{urn}/default` | 75                                          |
-| Insights      | `GET /school/{urn}/characteristics`        | 105                                         |
-| Insights      | `GET /expenditure/school/{urn}`            | 105                                         |
-| Insights      | `GET /metric-rag/default`                  | 105                                         |
+| API           | Endpoint                                   | Target Throughput |
+|---------------|--------------------------------------------|-------------------|
+| Establishment | `POST /school/suggest`                     | 75 /s             |
+| Establishment | `GET /school/{identifier}`                 | 75 /s             |
+| Benchmark     | `GET /user-data`                           | 75 /s             |
+| Benchmark     | `POST /comparators/schools`                | 75 /s             |
+| Benchmark     | `GET /comparator-set/school/{urn}/default` | 75 /s             |
+| Insights      | `GET /school/{urn}/characteristics`        | 105 /s            |
+| Insights      | `GET /expenditure/school/{urn}`            | 105 /s            |
+| Insights      | `GET /metric-rag/default`                  | 105 /s            |
 
 ## Performance Success Criteria
 

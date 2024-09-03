@@ -133,3 +133,6 @@ If the user does not have JavaScript enabled in their web browser they will see 
 ![No JavaScript](./images/find-organisation-ui-4.png)
 
 This is also a problem in SFB and VMFI, but first occurs later on in the user journey.
+
+<!-- Leave the rest of this page blank -->
+\newpage

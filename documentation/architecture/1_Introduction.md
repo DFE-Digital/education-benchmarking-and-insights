@@ -21,3 +21,5 @@ The FBIT service consists of two high level components
 
 * **FBIT Data Pipeline** - A backend service that processes the raw data collected around from data sources around the DfE. The pipeline cleans and transforms the raw data, then computes the comparator set (top 30 most similar schools for the same type of school) for each school.
 
+<!-- Leave the rest of this page blank -->
+\newpage

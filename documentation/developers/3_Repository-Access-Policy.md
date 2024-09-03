@@ -35,3 +35,5 @@ Care should be taken not to include any credentials, API keys, or other sensitiv
 ### Reporting Security Issues
 Collaborators who discover security vulnerabilities or other issues should report them promptly to the repository owner(s) or designated security contacts.
 
+<!-- Leave the rest of this page blank -->
+\newpage

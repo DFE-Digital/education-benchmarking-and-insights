@@ -23,3 +23,5 @@ For the new financial benchmarking system, there are several different framework
 
 Based on the analysis above, a front-end consisting of a .NET Core MVC Web application, hosting a React application, will be used. This gives the best combination of user experience, ease of deployment and security that is needed.
 
+<!-- Leave the rest of this page blank -->
+\newpage
