@@ -8,3 +8,5 @@ The "standards" hard constraint includes typical implementations with the wider 
 
 We also record architectural decision records using [ADR's](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 
+<!-- Leave the rest of this page blank -->
+\newpage

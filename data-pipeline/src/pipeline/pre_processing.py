@@ -37,7 +37,7 @@ def prepare_cdc_data(cdc_file_path, current_year):
     cdc["Building Age"] = (
         cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
     )
-    result = cdc[["Total Internal Floor Area", "Age Average Score", "Building Age"]]
+    result = cdc[config.cdc_generated_columns]
 
     return result[~result.index.duplicated(keep="first")]
 
@@ -85,15 +85,7 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         how="inner",
         rsuffix="_pupil",
         lsuffix="_workforce",
-    ).rename(
-        columns={
-            "headcount of pupils": "Number of pupils (headcount)",
-            "fte pupils": "Number of pupils",
-            "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "NonClassroomSupportStaffFTE",
-            "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "NonClassroomSupportStaffHeadcount",
-            "% of pupils known to be eligible for free school meals": "Percentage Free school meals",
-        }
-    )
+    ).rename(columns=config.census_column_map)
 
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
@@ -188,27 +180,7 @@ def prepare_sen_data(sen_path):
         (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
 
-    return sen[
-        [
-            "EHC plan",
-            "SEN support",
-            "Percentage SEN",
-            "Percentage with EHC",
-            "Percentage without EHC",
-            "Percentage Primary Need SPLD",
-            "Percentage Primary Need MLD",
-            "Percentage Primary Need SLD",
-            "Percentage Primary Need PMLD",
-            "Percentage Primary Need SEMH",
-            "Percentage Primary Need SLCN",
-            "Percentage Primary Need HI",
-            "Percentage Primary Need VI",
-            "Percentage Primary Need MSI",
-            "Percentage Primary Need PD",
-            "Percentage Primary Need ASD",
-            "Percentage Primary Need OTH",
-        ]
-    ]
+    return sen[config.sen_generated_columns]
 
 
 def prepare_ks2_data(ks2_path):
@@ -667,8 +639,7 @@ def prepare_schools_data(base_data_path, links_data_path):
     ).sort_values(by="URN")
 
     return schools[
-        schools["CloseDate"].isna()
-        & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
+        (schools["Rank"] == 1) | (schools["Rank"].isna())
     ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
@@ -1088,6 +1059,11 @@ def build_maintained_school_data(
     (hard_federations, soft_federations) = build_federations_data(
         links_data_path, maintained_schools
     )
+
+    # partial-year checks…
+    maintained_schools = maintained_pipeline.map_has_financial_data(maintained_schools)
+    maintained_schools = maintained_pipeline.map_has_pupil_comparator_data(maintained_schools)
+    maintained_schools = maintained_pipeline.map_has_building_comparator_data(maintained_schools)
 
     # Applying federation mappings
     maintained_schools = maintained_pipeline.apply_federation_mapping(

@@ -32,3 +32,5 @@ Based on the analysis above, we have chosen CosmosDB as the data storage medium 
 
 During development, the CosmosDB will be provisioned using Provisioned Throughput (Autoscale) capacity mode. As the system evolves, this will be re-evaluated to determine if Serverless will provide a better combination of performance and cost-effectiveness.
 
+<!-- Leave the rest of this page blank -->
+\newpage

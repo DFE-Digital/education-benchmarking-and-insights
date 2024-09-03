@@ -4,14 +4,14 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | 1.14.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | 1.15.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.14.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.15.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 
@@ -30,7 +30,7 @@ No modules.
 | [azurerm_service_plan.func-asp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
 | [azurerm_windows_function_app.func-app](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app) | resource |
 | [mssql_user.app-service-user](https://registry.terraform.io/providers/betr-io/mssql/0.3.1/docs/resources/user) | resource |
-| [azapi_resource.app-service-identity](https://registry.terraform.io/providers/azure/azapi/1.14.0/docs/data-sources/resource) | data source |
+| [azapi_resource.app-service-identity](https://registry.terraform.io/providers/azure/azapi/1.15.0/docs/data-sources/resource) | data source |
 
 ## Inputs
 
@@ -56,7 +56,7 @@ No modules.
 | <a name="input_storage-account-id"></a> [storage-account-id](#input\_storage-account-id) | n/a | `string` | n/a | yes |
 | <a name="input_storage-account-key"></a> [storage-account-key](#input\_storage-account-key) | n/a | `string` | `null` | no |
 | <a name="input_storage-account-name"></a> [storage-account-name](#input\_storage-account-name) | n/a | `string` | n/a | yes |
-| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | n/a | `string` | n/a | yes |
+| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_use-32-bit-worker"></a> [use-32-bit-worker](#input\_use-32-bit-worker) | n/a | `bool` | `false` | no |
 | <a name="input_use-isolated-runtime"></a> [use-isolated-runtime](#input\_use-isolated-runtime) | n/a | `bool` | `true` | no |
 | <a name="input_worker-runtime"></a> [worker-runtime](#input\_worker-runtime) | n/a | `string` | `"dotnet-isolated"` | no |

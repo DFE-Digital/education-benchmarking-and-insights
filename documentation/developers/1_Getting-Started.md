@@ -151,3 +151,6 @@ hooks can be set up by running:
 ```sh
 pre-commit install
 ```
+
+<!-- Leave the rest of this page blank -->
+\newpage

@@ -36,3 +36,5 @@ To ensure Rider writes to this log, the following setting should also be configu
 
 ![Rider Test Runner config](./images/rider-test-runner-diagnostics.png)
 
+<!-- Leave the rest of this page blank -->
+\newpage

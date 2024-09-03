@@ -340,4 +340,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - undefined | N/A  |    N/A    | EventName  |    |
 |     N/A - undefined | N/A  |    N/A    | AcademicYear  |    |
 |     N/A - undefined | N/A  |    N/A    | SchoolURN  |    |
-|     N/A - undefined | N/A  |    N/A    | SchoolName  |    |u
+|     N/A - undefined | N/A  |    N/A    | SchoolName  |    |
+
+<!-- Leave the rest of this page blank -->
+\newpage

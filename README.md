@@ -10,11 +10,12 @@ The Financial Benchmarking and Insights Tool (FBIT) is to provide a single servi
 ## Documentation
 
 1. [Architecture](./documentation/architecture)
-2. [Developers](./documentation/developers)
-3. [Prototype](./documentation/prototype)
-4. [Features](./documentation/features)
-5. [Testing](./documentation/testing)
-6. [Glossary](./documentation/glossary.md)
+2. [Data](./documentation/data)
+3. [Developers](./documentation/developers)
+4. [Prototype](./documentation/prototype)
+5. [Features](./documentation/features)
+6. [Testing](./documentation/testing)
+7. [Glossary](./documentation/glossary.md)
 
 ## Build status
 

@@ -40,3 +40,6 @@ team.
 | Analysis      | [Azure Portal](https://learn.microsoft.com/en-gb/azure/load-testing/how-to-compare-multiple-test-runs) | [Dashboard](https://grafana.com/docs/k6/latest/results-output/web-dashboard/) |
 
 \* This also includes the ability to author the tests in Azure Portal and then download the resources for inclusion in VSC
+
+<!-- Leave the rest of this page blank -->
+\newpage
