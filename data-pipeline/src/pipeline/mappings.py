@@ -36,66 +36,6 @@ def map_phase_type(code: int, provision: str):
         else:
             return 'Unspecified'
 
-
-
-def map_academy_phase_type(code: int, provision: str):
-    if not (pd.isna(code) or pd.isna(provision)):
-        if provision.lower() == "special" or code == 33 or code == 36 or code == 44:
-            return "Special"
-
-        if provision.lower() == "all through":
-            return "All-through"
-
-        if code == 38 or code == 42 or code == 43:
-            return "Alternative Provision"
-
-        if code == 40:
-            return "University technical college"
-
-        if code == 39 or code == 45 or code == 46:
-            return "Post-16"
-
-        return provision
-    else:
-        return None
-
-def map_school_phase_type(establishment_code: int, phase_type: str):
-    if pd.isnull(phase_type):
-        return None
-
-    if phase_type.lower() == "primary":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case _:
-                return phase_type
-    elif phase_type.lower() == "secondary":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case 40:
-                return "UTC"
-            case _:
-                return phase_type
-    elif phase_type.lower() == "all-through" or phase_type.lower() == "all through":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case 40:
-                return "UTC"
-            case _:
-                return "All-through"
-    elif phase_type.lower() == "16 plus":
-        return "Secondary"
-    else:
-        return phase_type
-
 def map_block_age(block_age: str):
     if block_age == "":
         return None

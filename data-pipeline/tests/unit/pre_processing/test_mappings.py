@@ -31,7 +31,7 @@ def test_ofsted_rating(rating, expected):
         (38, "Primary", "Alternative Provision"),
         (42, "Primary", "Alternative Provision"),
         (43, "Primary", "Alternative Provision"),
-        (40, "Secondary", "University technical college"),
+        (40, "Secondary", "University Technical College"),
         (39, "Secondary", "Post-16"),
         (45, "Secondary", "Post-16"),
         (46, "Secondary", "Post-16"),
@@ -39,7 +39,7 @@ def test_ofsted_rating(rating, expected):
     ],
 )
 def test_map_academy_phase_type(code, provision, expected):
-    assert mappings.map_academy_phase_type(code, provision) == expected
+    assert mappings.map_phase_type(code, provision) == expected
 
 
 @pytest.mark.parametrize(
@@ -332,7 +332,7 @@ def test_map_is_surplus_deficit(value, expected):
         (38, "Secondary", "Alternative Provision"),
         (42, "Secondary", "Alternative Provision"),
         (43, "Secondary", "Alternative Provision"),
-        (40, "Secondary", "UTC"),
+        (40, "Secondary", "University Technical College"),
         (0, "Secondary", "Secondary"),
         (33, "All-through", "Special"),
         (36, "All-through", "Special"),
@@ -340,7 +340,7 @@ def test_map_is_surplus_deficit(value, expected):
         (38, "All-through", "Alternative Provision"),
         (42, "All-through", "Alternative Provision"),
         (43, "All-through", "Alternative Provision"),
-        (40, "All-through", "UTC"),
+        (40, "All-through", "University Technical College"),
         (0, "All-through", "All-through"),
         (33, "All through", "Special"),
         (36, "All through", "Special"),
@@ -348,14 +348,14 @@ def test_map_is_surplus_deficit(value, expected):
         (38, "All through", "Alternative Provision"),
         (42, "All through", "Alternative Provision"),
         (43, "All through", "Alternative Provision"),
-        (40, "All through", "UTC"),
+        (40, "All through", "University Technical College"),
         (0, "All through", "All-through"),
-        (0, "16 Plus", "Secondary"),
+        (0, "16 Plus", "Post-16"),
         (0, "Other", "Other"),
     ],
 )
 def test_map_school_phase_type(establishment_code, phase_type: str, expected):
-    assert mappings.map_school_phase_type(establishment_code, phase_type) == expected
+    assert mappings.map_phase_type(establishment_code, phase_type) == expected
 
 
 @pytest.mark.parametrize(
