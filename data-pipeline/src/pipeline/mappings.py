@@ -22,7 +22,7 @@ def map_phase_type(code: int, provision: str):
         elif code == 38 or code == 42 or code == 43:
             return 'Alternative Provision'
         elif code == 40:
-            return 'Univeristy Technical College'
+            return 'University Technical College'
         elif provision.lower() == 'post-16' or provision.lower() == '16 plus' or code == 39 or code == 45 or code == 46 or code == 6:
             return 'Post-16'
         elif provision.lower() =='primary' or code == 2 or code == 3:
