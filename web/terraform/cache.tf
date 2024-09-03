@@ -41,7 +41,7 @@ resource "azurerm_cosmosdb_sql_container" "session-cache-container" {
   resource_group_name   = azurerm_resource_group.resource-group.name
   account_name          = azurerm_cosmosdb_account.session-cache-account.name
   database_name         = azurerm_cosmosdb_sql_database.session-cache-database.name
-  partition_key_paths   = ["/id"]
+  partition_key_path    = "/id"
   partition_key_version = 1
 }
 
