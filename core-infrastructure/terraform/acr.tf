@@ -18,14 +18,14 @@ resource "azurerm_container_registry" "acr" {
   public_network_access_enabled = true
 
   #TODO: Review as premium is required for reention policy
-  retention_policy {}
+  retention_policy_in_days = 0
 
   identity {
     type = "SystemAssigned"
   }
 
   #TODO: Review as premium is required for trust policy  
-  trust_policy {}
+  trust_policy_enabled = false
 
   tags = local.common-tags
 }
