@@ -309,7 +309,11 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate pupil comparator set
     """
-    if not row["Partial Years Present"]:
+    if not row.get("Partial Years Present"):
+        return True
+
+    # TODO: accommodate academy data, which won't have these columns…
+    if "Financial Data Present" not in row.keys():
         return True
 
     return all(
@@ -333,7 +337,11 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate building comparator set
     """
-    if not row["Partial Years Present"]:
+    if not row.get("Partial Years Present"):
+        return True
+
+    # TODO: accommodate academy data, which won't have these columns…
+    if "Financial Data Present" not in row.keys():
         return True
 
     return all(
@@ -351,7 +359,7 @@ def compute_distances(
     orig_data: pd.DataFrame,
     grouped_data: pd.DataFrame,
     target_urn: int | None = None,
-):
+) -> pd.DataFrame | None:
     """
     Derive the comparator sets for each organisation.
 
@@ -458,8 +466,10 @@ def compute_comparator_set(
     :param target_urn: optional identifier for custom data
     :return: data, updated with comparator-sets
     """
-    copy = data[~data.index.isna()][
-        [
+    # TODO: inline when partial-year columns are guaranteed to be present.
+    copy_columns = [
+        column
+        for column in [
             "OfstedRating (name)",
             "Percentage SEN",
             "Percentage Free school meals",
@@ -485,7 +495,9 @@ def compute_comparator_set(
             "Pupil Comparator Data Present",
             "Building Comparator Data Present",
         ]
-    ].copy()
+        if column in data.columns
+    ]
+    copy = data[~data.index.isna()][copy_columns].copy()
 
     if target_urn and target_urn not in copy.index:
         return copy.iloc[0:0]
@@ -497,6 +509,7 @@ def compute_comparator_set(
 
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
 
+    # TODO: handle error case more gracefully.
     return compute_distances(copy, classes, target_urn=target_urn).drop(
         columns=["_GeneratePupilComparatorSet", "_GenerateBuildingComparatorSet"],
     )

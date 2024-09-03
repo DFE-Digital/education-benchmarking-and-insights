@@ -220,14 +220,16 @@ def map_has_financial_data(
     least _some_ financial data—the data are considered to contain
     financial information.
 
+    Note: colums must be derive as per `map_cost_income_categories()`.
+
     :param maintained_schools: maintained schools data
     :return: updated DataFrame
     """
     financial_columns = list(
-        set(
-            list(config.income_category_map["maintained_schools"].values())
-            + list(config.cost_category_map["maintained_schools"].values())
-        )
+        (
+            config.cost_category_map["maintained_schools"]
+            | config.income_category_map["maintained_schools"]
+        ).values()
     )
 
     maintained_schools["Financial Data Present"] = (
