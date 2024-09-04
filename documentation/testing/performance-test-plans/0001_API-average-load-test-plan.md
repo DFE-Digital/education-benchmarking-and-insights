@@ -6,7 +6,7 @@ September 2024
 
 ## Goal
 
-The goal of this test is to measure how well an APIs perform under typical load conditions. Focus will be on verifying the high demand and critical endpoints.
+The goal of this test is to measure how well the APIs perform under typical load conditions. Focus will be on verifying the high demand and critical endpoints.
 
 ## Objective
 

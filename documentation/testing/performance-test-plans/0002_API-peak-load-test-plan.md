@@ -2,11 +2,10 @@
 
 ## Goal
 
-The goal of this test is to measure how well an APIs perform under peak load conditions. Focus will be on verifying the
+The goal of this test is to measure how well the APIs perform under peak load conditions. Focus will be on verifying the
 high demand and critical endpoints.
 
 ## Objective
-Tests system behavior during expected high-traffic periods, allowing us to validate capacity and maintain performance during peak demand.
 
 - Ensure that the APIs remains stable without crashes or timeouts during peak usage.
 - Confirm that the APIs do not degrade significantly, and maintain performance, during expected high-traffic periods.
