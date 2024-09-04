@@ -1,5 +1,9 @@
 ﻿# Performance Test Plan - 0002 - API Peak Load
 
+**Test run date:**
+
+TBC
+
 ## Goal
 
 The goal of this test is to measure how well the APIs perform under peak load conditions. Focus will be on verifying the

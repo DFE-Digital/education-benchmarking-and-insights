@@ -1,5 +1,9 @@
 ﻿# Performance Test Plan - 0003 - API Spike Load
 
+**Test run date:**
+
+TBC
+
 ## Goal
 
 The goal of this test is to measure how the APIs perform under sudden surges in activity. Focus will be on verifying the
