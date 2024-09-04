@@ -405,6 +405,7 @@ def compute_distances(
             try:
                 if not row["_GeneratePupilComparatorSet"][idx]:
                     pupils.loc[urn] = np.array([])
+                    buildings.loc[urn] = np.array([])
                     continue
 
                 top_pupil_set_urns = select_top_set_urns(
