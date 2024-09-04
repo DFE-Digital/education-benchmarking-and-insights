@@ -116,23 +116,21 @@ resource "azurerm_mssql_database" "sql-db" {
   sku_name    = var.configuration[var.environment].sql_db_sku_name
   max_size_gb = var.configuration[var.environment].sql_db_max_size_gb
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.sql-db-admin.id]
-  }
-
   threat_detection_policy {
-    state            = "Enabled"
-    storage_endpoint = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
-    retention_days   = 120
+    state                      = "Enabled"
+    storage_endpoint           = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
+    storage_account_access_key = azurerm_storage_account.sql-log-storage.primary_access_key
+    retention_days             = 120
   }
 }
 
 resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
-  database_id            = azurerm_mssql_database.sql-db.id
-  storage_endpoint       = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
-  retention_in_days      = 120
-  log_monitoring_enabled = true
+  database_id                             = azurerm_mssql_database.sql-db.id
+  storage_endpoint                        = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
+  storage_account_access_key              = azurerm_storage_account.sql-log-storage.primary_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days                       = 120
+  log_monitoring_enabled                  = true
 }
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
@@ -163,6 +161,7 @@ resource "azurerm_mssql_server_vulnerability_assessment" "sql-server-vulnerabili
   #checkov:skip=CKV2_AZURE_5:See ADO backlog AB#206493
   server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.sql-security-alert-policy.id
   storage_container_path          = "${azurerm_storage_account.sql-log-storage.primary_blob_endpoint}${azurerm_storage_container.sql-vulnerability-container.name}/"
+  storage_account_access_key      = azurerm_storage_account.sql-log-storage.primary_access_key
 
   recurring_scans {
     enabled = true
@@ -189,6 +188,7 @@ resource "azurerm_storage_account" "sql-log-storage" {
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#222562:Managed identity is not supported by `threat_detection_policy`, so SAS must be used instead
   name                            = "${var.environment-prefix}sqllog"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -197,7 +197,7 @@ resource "azurerm_storage_account" "sql-log-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  shared_access_key_enabled       = false
+  shared_access_key_enabled       = true
 
   blob_properties {
     delete_retention_policy {
@@ -214,8 +214,12 @@ resource "azurerm_storage_account" "sql-log-storage" {
       retention_policy_days = 10
     }
   }
-}
 
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "30.00:00:00"
+  }
+}
 
 resource "azurerm_storage_container" "sql-vulnerability-container" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
