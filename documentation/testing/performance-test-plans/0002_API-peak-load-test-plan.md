@@ -6,34 +6,23 @@ The goal of this test is to measure how well an APIs perform under peak load con
 high demand and critical endpoints.
 
 ## Objective
+Tests system behavior during expected high-traffic periods, allowing us to validate capacity and maintain performance during peak demand.
 
 - Ensure that the APIs remains stable without crashes or timeouts during peak usage.
-- Ensure that the APIs do not degrade significantly under peak load usage.
-- Ensure that the API can handle the maximum anticipated load without failure, confirming its ability to scale
-  appropriately under peak conditions.
+- Confirm that the APIs do not degrade significantly, and maintain performance, during expected high-traffic periods.
+- Validate capacity during anticipated peak load.
 
 ## Procedure
 
 **Determine Capacity:**
 
-To calculate the number of `Virtual Users` required for Azure Load Testing based on a target throughput, use the
-following formula:
+Calculate the number of `Virtual Users` required for Azure Load Testing based on a target throughput.
 
-Number of Virtual Users = Target Throughput (requests per second) / Requests per User per Second
-
-- `Target Throughput` is the desired number of requests per second (RPS) you want the system to handle.
-- `Requests per User per Second` is the number of requests that each virtual user can make per second.
-
-To calculate the `Requests per User per Second`, use the following formula:
-
-Requests per User per Second = 1 / (Response Time + Think Time)
-
-- `Response Time` is average response time in seconds
-- `Think Time` is the user wait time in second between requests
+_NB: see previous test plans for calculation._
 
 **Average Load Phase:**
 
-For each endpoint, simulate the typical number of concurrent virtual users to mimic average load conditions over a
+For each endpoint, simulate the typical number of concurrent virtual users to mimic peak load conditions over a
 period of 5 minutes.
 
 **Monitoring Performance:**
@@ -50,16 +39,16 @@ period of 5 minutes.
 
 **APIs & Endpoints Under Test:**
 
-| API           | Endpoint                                   | Target Throughput</br>(requests per second) |
-|---------------|--------------------------------------------|---------------------------------------------|
-| Establishment | `POST /school/suggest`                     | 113                                         |
-| Establishment | `GET /school/{identifier}`                 | 113                                         |
-| Benchmark     | `GET /user-data`                           | 113                                         |
-| Benchmark     | `POST /comparators/schools`                | 113                                         |
-| Benchmark     | `GET /comparator-set/school/{urn}/default` | 113                                         |
-| Insights      | `GET /school/{urn}/characteristics`        | 158                                         |
-| Insights      | `GET /expenditure/school/{urn}`            | 158                                         |
-| Insights      | `GET /metric-rag/default`                  | 158                                         |
+| API           | Endpoint                                   | Target Throughput |
+|---------------|--------------------------------------------|-------------------|
+| Establishment | `POST /school/suggest`                     | 113 /s            |
+| Establishment | `GET /school/{identifier}`                 | 113 /s            |
+| Benchmark     | `GET /user-data`                           | 113 /s            |
+| Benchmark     | `POST /comparators/schools`                | 113 /s            |
+| Benchmark     | `GET /comparator-set/school/{urn}/default` | 113 /s            |
+| Insights      | `GET /school/{urn}/characteristics`        | 158 /s            |
+| Insights      | `GET /expenditure/school/{urn}`            | 158 /s            |
+| Insights      | `GET /metric-rag/default`                  | 158 /s            |
 
 ## Performance Success Criteria
 
@@ -72,7 +61,7 @@ period of 5 minutes.
 ## Test Execution
 
 - Load pattern: Linear
-- Test duration (minutes): 2
+- Test duration (minutes): 5
 - Ramp-up time (minutes): 1
 
 ## Test Output
