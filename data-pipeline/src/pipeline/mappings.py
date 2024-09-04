@@ -15,24 +15,24 @@ def map_ofsted_rating(rating: str):
 
 def map_phase_type(code: int, provision: str):
     if not (pd.isna(code) or pd.isna(provision)):
-        if provision.lower() == "special" or code == 33 or code == 36 or code == 44:
+        if provision.lower() =='primary' or code == 2 or code == 3:
+            return 'Primary'
+        elif provision.lower() == 'nursery' or code == 1:
+            return 'Nursery'
+        elif provision.lower() == 'secondary' or code == 4 or code == 5:
+            return 'Secondary'
+        elif (provision.lower() == 'all through' or provision.lower() == 'all-through' or code == 7) and code != 40:
+            return 'All-through'
+        elif provision.lower() == 'post-16' or provision.lower() == '16 plus' or code == 39 or code == 45 or code == 46 or code == 6:
+            return 'Post-16'
+        elif provision.lower() == "special" or code == 33 or code == 36 or code == 44:
             return 'Special'
         elif code == 38 or code == 42 or code == 43:
             return 'Alternative Provision'
-        elif (provision.lower() == 'all through' or provision.lower() == 'all-through' or code == 7) and code != 40:
-            return 'All-through'
         elif code == 40:
             return 'University Technical College'
-        elif provision.lower() == 'post-16' or provision.lower() == '16 plus' or code == 39 or code == 45 or code == 46 or code == 6:
-            return 'Post-16'
-        elif provision.lower() =='primary' or code == 2 or code == 3:
-            return 'Primary'
-        elif provision.lower() == 'secondary' or code == 4 or code == 5:
-            return 'Secondary'
         elif provision.lower() == 'pupil referral unit':
             return 'Pupil Referral Unit'
-        elif provision.lower() == 'nursery' or code == 1:
-            return 'Nursery'
         else:
             return 'Other'
 
