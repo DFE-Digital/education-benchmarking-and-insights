@@ -13,28 +13,40 @@ def map_ofsted_rating(rating: str):
         case _:
             return rating
 
-
-def map_academy_phase_type(code: int, provision: str):
+def map_phase_type(code: int, provision: str):
     if not (pd.isna(code) or pd.isna(provision)):
-        if provision.lower() == "special" or code == 33 or code == 36 or code == 44:
-            return "Special"
-
-        if provision.lower() == "all through":
-            return "All-through"
-
-        if code == 38 or code == 42 or code == 43:
-            return "Alternative Provision"
-
-        if code == 40:
-            return "University technical college"
-
-        if code == 39 or code == 45 or code == 46:
-            return "Post-16"
-
-        return provision
-    else:
-        return None
-
+        if code == 2 or code == 3:
+            return 'Primary'
+        elif code == 1:
+            return 'Nursery'
+        elif code == 4 or code == 5:
+            return 'Secondary'
+        elif code == 7 and code != 40:
+            return 'All-through'
+        elif code == 39 or code == 45 or code == 46 or code == 6:
+            return 'Post-16'
+        elif code == 33 or code == 36 or code == 44:
+            return 'Special'
+        elif code == 38 or code == 42 or code == 43:
+            return 'Alternative Provision'
+        elif code == 40:
+            return 'University Technical College'
+        elif provision.lower() =='primary':
+            return 'Primary'
+        elif provision.lower() == 'nursery':
+            return 'Nursery'
+        elif provision.lower() == 'secondary':
+            return 'Secondary'
+        elif provision.lower() == 'all through' or provision.lower() == 'all-through':
+            return 'All-through'
+        elif provision.lower() == 'post-16' or provision.lower() == '16 plus':
+            return 'Post-16'
+        elif provision.lower() == "special":
+            return 'Special'
+        elif provision.lower() == 'pupil referral unit':
+            return 'Pupil Referral Unit'
+        else:
+            return 'Other'
 
 def map_block_age(block_age: str):
     if block_age == "":
@@ -182,44 +194,6 @@ def map_is_surplus_deficit(closing_balance: float):
         return "Surplus"
     else:
         return "Deficit"
-
-
-def map_school_phase_type(establishment_code: int, phase_type: str):
-    if pd.isnull(phase_type):
-        return None
-
-    if phase_type.lower() == "primary":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case _:
-                return phase_type
-    elif phase_type.lower() == "secondary":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case 40:
-                return "UTC"
-            case _:
-                return phase_type
-    elif phase_type.lower() == "all-through" or phase_type.lower() == "all through":
-        match establishment_code:
-            case 33 | 36 | 44:
-                return "Special"
-            case 38 | 42 | 43:
-                return "Alternative Provision"
-            case 40:
-                return "UTC"
-            case _:
-                return "All-through"
-    elif phase_type.lower() == "16 plus":
-        return "Secondary"
-    else:
-        return phase_type
 
 
 def _diff_month(d1, d2):
