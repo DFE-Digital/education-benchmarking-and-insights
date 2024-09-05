@@ -1,6 +1,6 @@
 # Disaster recovery
 
-List technical risks to the service and the mitigations we have in place.
+List service conditions and the mitigations we have in place.
 
 ## Bug in code
 
