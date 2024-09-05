@@ -1,4 +1,0 @@
-GetMessagesByQueueName
-| where QueueName == "data-pipeline-dlq"
-| summarize MessageCount = count() by QueueName, bin(TimeGenerated, 1h)
-| order by TimeGenerated desc, QueueName asc

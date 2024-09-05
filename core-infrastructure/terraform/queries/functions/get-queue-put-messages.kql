@@ -1,0 +1,9 @@
+StorageQueueLogs
+| extend 
+    QueueName = tostring(split(parseurl(Uri).Path, "/")[1])
+| where 
+    AccountName == "${storageAccountName}"
+| where
+    OperationName == "PutMessage" 
+// `PutMessage` is the API operation when a new message is added to the queue, 
+// rather than cumulative total of current number of messages in the queue.

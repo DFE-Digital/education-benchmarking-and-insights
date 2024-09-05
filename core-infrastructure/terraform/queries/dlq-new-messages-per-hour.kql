@@ -1,0 +1,11 @@
+GetQueuePutMessages
+| where
+    OperationName == "PutMessage" 
+| where 
+    QueueName == "data-pipeline-job-dlq"
+| summarize 
+    NewMessageCount = count()
+    by QueueName, bin(TimeGenerated, 1h)
+| order by 
+    TimeGenerated desc,
+    QueueName asc

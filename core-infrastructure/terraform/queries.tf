@@ -417,26 +417,28 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-save-charts" {
   query = file("${path.module}/queries/functions/get-tracked-save-charts.kql")
 }
 
-resource "azurerm_log_analytics_saved_search" "get-message-count-by-queue-name" {
-  name                       = "GetMessagesByQueueName"
+resource "azurerm_log_analytics_saved_search" "get-queue-put-messages" {
+  name                       = "GetQueuePutMessages"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
-  display_name               = "GetMessagesByQueueName"
-  function_alias             = "GetMessagesByQueueName"
+  display_name               = "GetQueuePutMessages"
+  function_alias             = "GetQueuePutMessages"
   tags                       = local.query-tags
 
-  query = file("${path.module}/queries/functions/get-messages-by-queue-name.kql")
+  query = templatefile("${path.module}/queries/functions/get-queue-put-messages.kql", {
+    storageAccountName = azurerm_storage_account.data.name
+  })
 }
 
-resource "random_uuid" "get-dlq-message-count-id" {}
+resource "random_uuid" "dlq-new-messages-per-hour-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "get-dlq-message-count" {
-  name          = random_uuid.get-dlq-message-count-id.result
+resource "azurerm_log_analytics_query_pack_query" "dlq-new-messages-per-hour" {
+  name          = random_uuid.dlq-new-messages-per-hour-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "DLQ message count"
-  description   = "Count of messages on the dead-letter queue."
+  display_name  = "DLQ new messages"
+  description   = "New messages added to the dead-letter queue."
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = file("${path.module}/queries/dlq-message-count.kql")
+  body = file("${path.module}/queries/dlq-new-messages-per-hour.kql")
 }
