@@ -1,4 +1,4 @@
-# Disaster recovery
+# Service conditions
 
 List service conditions and the mitigations we have in place.
 
@@ -32,7 +32,7 @@ List service conditions and the mitigations we have in place.
 
 ## Accidental resource deletion
 
-- **Impact:** Applications may be unavailable. Data may be lost.
+- **Impact:** Service may be unavailable. Data may be lost.
 - **Prevention:** Approved PIM request required for production Azure access. Pull Requests require at least 1 approval. Soft delete and versioning enabled for key vaults and storage accounts.
 - **Detection:** Endpoint monitoring may point to a health checks. Smoke tests running in production.
 - **Remediation:** Recovery dependent on the resource deleted, either restore correct version or redeploy and restore data from backup.
@@ -62,7 +62,7 @@ _**TODO**_
 ## Unauthorised access
 
 - **Impact:** They may break the service, read or change confidential data.
-- **Prevention:** Separate production environment and tighten security. Non production environments should only hold test or anonymised data. Use Azure PIM to give users temporary access. Use single-sign-on and 2FA when possible.
+- **Prevention:** Separate production environment and tighten security. Use Azure PIM to give users temporary access. Use single-sign-on and 2FA when possible.
 - **Detection:** Azure audit logs.
 - **Remediation:** Revoke access of the suspicious user, investigate their actions. Rotate secrets they may know.
 
@@ -80,13 +80,13 @@ _**TODO**_
 ## Traffic spike
 
 - **Impact:**	The system is slow or unresponsive.
-- **Prevention:**	Set up response time monitoring. Run load testing to determine bottlenecks and know how to scale up.
+- **Prevention:**	Set up response time monitoring. Run load testing to determine performance and know how to scale up.
 - **Detection:** Alert from response time monitoring, high CPU or memory usage.
 - **Remediation:** Scale resources horizontally and vertically.
 
 ## DfE Sign-In failure
 
-- **Impact:** Users cannot access.
+- **Impact:** Users cannot access parts of the service.
 - **Detection:** Smoke test failure. DfE Sign-in status page.
 
 <!-- Leave the rest of this page blank -->
