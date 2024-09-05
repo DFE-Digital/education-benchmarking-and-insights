@@ -37,18 +37,18 @@ List service conditions and the mitigations we have in place.
 - **Detection:** Endpoint monitoring may point to a health checks. Smoke tests running in production.
 - **Remediation:** Recovery dependent on the resource deleted, either restore correct version or redeploy and restore data from backup.
 
-## Loss of Azure/AWS availability zone
+## Loss of Azure availability zone
 
 _**TODO**_
 
-## Loss of Azure/AWS region
+## Loss of Azure region
 
 _**TODO**_
 
 ## Azure/GitHub issues impacting delivery
 
 - **Impact:** Users are not impacted, but we would not be able to deploy via automation
-- **Prevention:**	Plan to be able to deploy manually. Have DockerHub or Azure container registry ready as backup registry.
+- **Prevention:**	Plan to be able to deploy manually.
 - **Detection:** The pipelines or deployments may fail. GitHub status page.
 - **Remediation:** Build and deploy manually.
 
@@ -69,7 +69,7 @@ _**TODO**_
 ## Disclosure of secrets
 
 - **Impact:** A malicious actor may gain access to the system, break the service, read or change confidential data, deploy extra resources.
-- **Prevention:**	Secrets should be stored in Azure Key Vault, Azure DevOps variables. They should not be stored in a local file. Use Terraform remote state backend in a secure Azure Storage account.
+- **Prevention:**	Secrets should be stored in Azure Key Vault and Azure DevOps variables. They should not be stored in a local file. Use Terraform remote state backend in a secure Azure Storage account.
 - **Remediation:**	Remove the secrets from the public place. Rotate all the exposed secrets. Investigate if they were used.
 
 ## SSL certificate expiry
