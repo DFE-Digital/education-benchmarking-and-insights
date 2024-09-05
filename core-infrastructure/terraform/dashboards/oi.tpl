@@ -498,7 +498,7 @@
                     "position": {
                         "x": 3,
                         "y": 3,
-                        "colSpan": 6,
+                        "colSpan": 5,
                         "rowSpan": 4
                     },
                     "metadata": {
@@ -602,7 +602,7 @@
                 },
                 "7": {
                     "position": {
-                        "x": 9,
+                        "x": 8,
                         "y": 3,
                         "colSpan": 6,
                         "rowSpan": 4
@@ -664,6 +664,124 @@
                 },
                 "8": {
                     "position": {
+                        "x": 14,
+                        "y": 3,
+                        "colSpan": 5,
+                        "rowSpan": 4
+                    },
+                    "metadata": {
+                        "inputs": [
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${dlq_new_messages_per_hour_id}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "value": "P1D",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${dlq_new_messages_per_hour_query}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "UnstackedColumn",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "xAxis": {
+                                        "name": "TimeGenerated",
+                                        "type": "datetime"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "NewMessageCount",
+                                            "type": "long"
+                                        }
+                                    ],
+                                    "splitBy": [
+                                        {
+                                            "name": "QueueName",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "aggregation": "Sum"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": false,
+                                    "position": "Bottom"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "value": false,
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "settings": {
+                            "content": {
+                                "PartTitle": "${dlq_new_messages_per_hour_title}",
+                                "PartSubTitle": "${environment}"
+                            }
+                        }
+                    }
+                },
+                "9": {
+                    "position": {
                         "x": 0,
                         "y": 7,
                         "colSpan": 3,
@@ -683,7 +801,7 @@
                         }
                     }
                 },
-                "9": {
+                "10": {
                     "position": {
                         "x": 3,
                         "y": 7,
@@ -828,7 +946,7 @@
                         }
                     }
                 },
-                "10": {
+                "11": {
                     "position": {
                         "x": 9,
                         "y": 7,
@@ -944,7 +1062,7 @@
                         }
                     }
                 },
-                "11": {
+                "12": {
                     "position": {
                         "x": 0,
                         "y": 11,
@@ -965,7 +1083,7 @@
                         }
                     }
                 },
-                "12": {
+                "13": {
                     "position": {
                         "x": 3,
                         "y": 11,
@@ -1076,7 +1194,7 @@
                         }
                     }
                 },
-                "13": {
+                "14": {
                     "position": {
                         "x": 9,
                         "y": 11,
@@ -1192,7 +1310,7 @@
                         }
                     }
                 },
-                "14": {
+                "15": {
                     "position": {
                         "x": 0,
                         "y": 15,
@@ -1215,7 +1333,7 @@
                         }
                     }
                 },
-                "15": {
+                "16": {
                     "position": {
                         "x": 3,
                         "y": 15,
@@ -1319,14 +1437,17 @@
                             "value": "Past 24 hours"
                         },
                         "filteredPartIds": [
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991a8",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991aa",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ac",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ae",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991b2",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991ba",
-                            "StartboardPart-MonitorChartPart-601c0e92-821c-4e93-945d-13a0211991be",
-                            "StartboardPart-ApplicationMapPart-601c0e92-821c-4e93-945d-13a0211991c2"
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d8410b",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d84119",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d8411b",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d8411d",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d84121",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d84127",
+                            "StartboardPart-MonitorChartPart-793f5af7-5688-4761-b16d-bd4985d8410d",
+                            "StartboardPart-LogsDashboardPart-793f5af7-5688-4761-b16d-bd4985d84111",
+                            "StartboardPart-LogsDashboardPart-793f5af7-5688-4761-b16d-bd4985d84113",
+                            "StartboardPart-ApplicationMapPart-793f5af7-5688-4761-b16d-bd4985d84117",
+                            "StartboardPart-LogsDashboardPart-793f5af7-5688-4761-b16d-bd4985d84129"
                         ]
                     }
                 }

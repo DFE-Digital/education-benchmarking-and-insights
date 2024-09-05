@@ -72,3 +72,18 @@ resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   content_type = "connection-string"
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
+
+resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
+  name                       = "${azurerm_storage_account.data.name}-queue-logs"
+  target_resource_id         = "${azurerm_storage_account.data.id}/queueServices/default/"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  metric {
+    category = "Transaction"
+    enabled  = true
+  }
+
+  enabled_log {
+    category = "StorageWrite"
+  }
+}

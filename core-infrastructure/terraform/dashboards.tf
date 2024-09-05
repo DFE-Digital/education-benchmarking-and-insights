@@ -70,7 +70,7 @@ locals {
   failures-query-prefix               = replace(replace(file("${path.module}/queries/failures-query-prefix.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   waf-requests-query                  = replace(replace(file("${path.module}/queries/waf-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   waf-blocked-requests-per-hour-query = replace(replace(file("${path.module}/queries/waf-blocked-requests-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
-  dlq-message-count                   = replace(replace(file("${path.module}/queries/dlq-message-count.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  dlq-new-messages-per-hour-query     = replace(replace(file("${path.module}/queries/dlq-new-messages-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "oi-dashboard" {
@@ -102,5 +102,9 @@ resource "azurerm_portal_dashboard" "oi-dashboard" {
       waf_blocked_requests_per_hour_id    = azurerm_log_analytics_query_pack_query.waf-blocked-requests-per-hour.name,
       waf_blocked_requests_per_hour_query = local.waf-blocked-requests-per-hour-query,
       waf_blocked_requests_per_hour_title = azurerm_log_analytics_query_pack_query.waf-blocked-requests-per-hour.description
+
+      dlq_new_messages_per_hour_id    = azurerm_log_analytics_query_pack_query.dlq-new-messages-per-hour.name,
+      dlq_new_messages_per_hour_query = local.dlq-new-messages-per-hour-query,
+      dlq_new_messages_per_hour_title = azurerm_log_analytics_query_pack_query.dlq-new-messages-per-hour.description
   })
 }
