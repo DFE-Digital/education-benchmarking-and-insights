@@ -9,7 +9,7 @@ run-pipeline-dev-mode:
     poetry run python -m src.pipeline.main
 
 build: 
-	docker build $(tags) --file docker/pipeline-worker/Dockerfile .
+	docker build $(tags) --file docker/pipeline-worker/Dockerfile . --platform="linux/amd64"
 
 unit-test:
 	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/unit;\
