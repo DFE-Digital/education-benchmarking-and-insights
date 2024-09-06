@@ -1,24 +1,22 @@
-displayName: Insight API - Get Default Metric RAG
+displayName: Average_API_Establishment - School
 testPlan: url-test.json
-description: ''
+description: Average load test for GET /school/{identifier}
 engineInstances: 1
-testId: 4b81ce6f-94bc-4476-b0b3-4d6246943037
+testId: d7f8fc2f-870c-4166-8958-3633a07e4007
 testType: URL
 subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
 publicIPDisabled: true
 splitAllCSVs: False
 configurationFiles:
-- categories.csv
 - schools.csv
-- statuses.csv
 failureCriteria:
 - p50(response_time_ms) > 100
 - p95(response_time_ms) > 150
 - p99(response_time_ms) > 500
 - percentage(error) > 0.1
 secrets:
-- name: insight-host-key
-  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/insight-host-key
+- name: establishment-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/establishment-host-key
 autoStop:
   errorPercentage: 90
   timeWindow: 60

@@ -1,22 +1,24 @@
-displayName: Benchmark API - Get Default Comparator Set
+displayName: Average_API_Insight - Default Metric RAG
 testPlan: url-test.json
-description: ''
+description: Average load test for GET /metric-rag/default
 engineInstances: 1
-testId: 49627d01-559a-4e73-9313-649e2602906e
+testId: 4b81ce6f-94bc-4476-b0b3-4d6246943037
 testType: URL
 subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
 publicIPDisabled: true
 splitAllCSVs: False
 configurationFiles:
+- categories.csv
 - schools.csv
+- statuses.csv
 failureCriteria:
 - p50(response_time_ms) > 100
 - p95(response_time_ms) > 150
 - p99(response_time_ms) > 500
 - percentage(error) > 0.1
 secrets:
-- name: benchmark-host-key
-  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/benchmark-host-key
+- name: insight-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/insight-host-key
 autoStop:
   errorPercentage: 90
   timeWindow: 60
