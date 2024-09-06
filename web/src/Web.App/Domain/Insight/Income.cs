@@ -64,6 +64,7 @@ public record SchoolIncome : IncomeBase
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
     public decimal? TotalPupils { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
 }
 
 public record TrustIncome : IncomeBase

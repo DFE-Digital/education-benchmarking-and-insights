@@ -37,6 +37,7 @@ public record SchoolCharacteristic
     public string? SchoolPosition { get; set; }
 
     public string? Address { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
 }
 
 public record SchoolCharacteristicPupil

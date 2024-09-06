@@ -3,6 +3,11 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
 }
 
+@if (Model is { PeriodCoveredByReturn: < 12 })
+{
+@await Html.PartialAsync("_IncompleteFinances")
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title], 

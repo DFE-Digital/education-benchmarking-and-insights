@@ -92,6 +92,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
             .SetupMetricRagRating()
             .SetupInsights()
             .SetupBalance()
+            .SetupExpenditure(school)
             .SetupUserData()
             .Navigate(Paths.SchoolFinancialPlanning(school.URN));
 

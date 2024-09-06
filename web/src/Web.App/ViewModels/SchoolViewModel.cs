@@ -17,6 +17,7 @@ public class SchoolViewModel(School school)
         CustomDataId = customDataId;
         InYearBalance = balance?.InYearBalance;
         RevenueReserve = balance?.RevenueReserve;
+        PeriodCoveredByReturn = balance?.PeriodCoveredByReturn;
         ComparatorGenerated = comparatorGenerated;
         ComparatorReverted = comparatorReverted;
 
@@ -64,6 +65,8 @@ public class SchoolViewModel(School school)
     public string? LocalAuthorityName => school.LAName;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
+
+    public int? PeriodCoveredByReturn { get; }
 
     public string Website
     {

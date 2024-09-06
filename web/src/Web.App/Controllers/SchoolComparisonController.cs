@@ -6,6 +6,7 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
@@ -16,6 +17,7 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/comparison")]
 public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
+    IExpenditureApi expenditureApi,
     ILogger<SchoolComparisonController> logger,
     IUserDataService userDataService)
     : Controller
@@ -34,8 +36,9 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData);
+                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData, expenditure);
 
                 return View(viewModel);
             }

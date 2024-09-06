@@ -115,11 +115,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var balance = Fixture.Build<SchoolBalance>()
             .With(x => x.SchoolName, school.SchoolName)
             .With(x => x.URN, school.URN)
+            .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
         var page = await Client.SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
+            .SetupExpenditure(school)
             .SetupBalance(balance)
             .SetupUserData()
             .Navigate(Paths.SchoolHome(school.URN));

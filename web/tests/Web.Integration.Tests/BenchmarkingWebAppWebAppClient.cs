@@ -290,7 +290,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         BalanceApi.Reset();
 
-        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance()));
+        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance { PeriodCoveredByReturn = 12 }));
 
         return this;
     }
@@ -326,7 +326,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ExpenditureApi.Reset();
         ExpenditureApi
             .Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure()));
+            .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure { PeriodCoveredByReturn = 12 }));
         return this;
     }
 

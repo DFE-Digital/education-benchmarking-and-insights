@@ -15,6 +15,12 @@
   max-width: 100%;
 }
 
+.app-finance-warn {
+  border-left: 10px solid #f47738;
+  border-color: #f47738;
+  background-color: bisque;
+  padding: 20px;
+}
 .app-tag-login {
   @include govuk-font($size: 19);
   display: block;

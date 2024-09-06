@@ -143,7 +143,7 @@ public record SchoolExpenditure : ExpenditureBase
     public string? LAName { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? TotalInternalFloorArea { get; set; }
-
+    public int? PeriodCoveredByReturn { get; set; }
     public bool HasIncompleteData { get; set; }
 }
 

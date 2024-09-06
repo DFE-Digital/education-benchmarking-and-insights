@@ -100,6 +100,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         var page = await Client.SetupEstablishment(school)
             .SetupInsights()
+            .SetupExpenditure(school)
             .SetupUserData()
             .Navigate(Paths.SchoolComparison(school.URN));
 
