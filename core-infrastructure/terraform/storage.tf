@@ -81,6 +81,24 @@ resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
   metric {
     category = "Transaction"
     enabled  = true
+
+    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
+    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
+    // The 'deprecated' warning here and below may therefore be ignored.
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  metric {
+    category = "Capacity"
+    enabled  = false
+
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
   }
 
   enabled_log {
