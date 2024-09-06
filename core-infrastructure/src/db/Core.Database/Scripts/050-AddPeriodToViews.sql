@@ -94,6 +94,7 @@ alter view SchoolExpenditure as
            f.WaterSewerageCosts,
            f.AdministrativeSuppliesNonEducationalCosts,
            f.TotalGrossCateringCosts,
+           f.TotalNetCateringCostsCosts   AS TotalNetCateringCosts,
            f.CateringStaffCosts,
            f.CateringSuppliesCosts,
            f.TotalOtherCosts,
@@ -137,6 +138,7 @@ alter view SchoolExpenditure as
            f.WaterSewerageCostsCS,
            f.AdministrativeSuppliesNonEducationalCostsCS,
            f.TotalGrossCateringCostsCS,
+           f.TotalNetCateringCostsCostsCS AS TotalNetCateringCostsCS,
            f.CateringStaffCostsCS,
            f.CateringSuppliesCostsCS,
            f.TotalOtherCostsCS,
@@ -152,7 +154,7 @@ alter view SchoolExpenditure as
            f.StaffRelatedInsuranceCostsCS,
            f.SupplyTeacherInsurableCostsCS
     FROM School s
-             LEFT JOIN CurrentDefaultFinancial f on f.URN = s.URN
+             LEFT JOIN CurrentDefaultFinancial f ON f.URN = s.URN
 go
 
 alter view SchoolIncome as
