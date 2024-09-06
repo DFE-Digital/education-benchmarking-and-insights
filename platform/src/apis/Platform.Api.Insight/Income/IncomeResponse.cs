@@ -7,6 +7,7 @@ public static class IncomeResponseFactory
     {
         var response = CreateResponse<SchoolIncomeResponse>(model, parameters);
 
+        response.PeriodCoveredByReturn = model.PeriodCoveredByReturn;
         response.URN = model.URN;
         response.SchoolName = model.SchoolName;
         response.SchoolType = model.SchoolType;
@@ -178,6 +179,8 @@ public static class IncomeResponseFactory
 [ExcludeFromCodeCoverage]
 public abstract record IncomeBaseResponse
 {
+    public int? PeriodCoveredByReturn { get; set; }
+
     public decimal? TotalIncome { get; set; }
     public decimal? TotalGrantFunding { get; set; }
     public decimal? TotalSelfGeneratedFunding { get; set; }

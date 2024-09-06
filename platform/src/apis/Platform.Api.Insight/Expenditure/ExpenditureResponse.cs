@@ -7,6 +7,7 @@ public static class ExpenditureResponseFactory
     {
         var response = CreateResponse<SchoolExpenditureResponse>(model, parameters);
 
+        response.PeriodCoveredByReturn = model.PeriodCoveredByReturn;
         response.URN = model.URN;
         response.SchoolName = model.SchoolName;
         response.SchoolType = model.SchoolType;
@@ -340,6 +341,8 @@ public static class ExpenditureResponseFactory
 [ExcludeFromCodeCoverage]
 public abstract record ExpenditureBaseResponse
 {
+    public int? PeriodCoveredByReturn { get; set; }
+
     public decimal? SchoolTotalExpenditure { get; set; }
     public decimal? SchoolTotalTeachingSupportStaffCosts { get; set; }
     public decimal? SchoolTeachingStaffCosts { get; set; }

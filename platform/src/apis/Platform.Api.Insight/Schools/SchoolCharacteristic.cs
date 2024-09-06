@@ -39,6 +39,7 @@ public record SchoolCharacteristic
     public decimal? PercentWithASD { get; set; }
 
     public string? SchoolPosition { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
 
     public string Address => string.Join(", ", new List<string?>
     {

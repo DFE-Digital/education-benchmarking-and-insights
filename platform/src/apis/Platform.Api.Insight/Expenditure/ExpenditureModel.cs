@@ -4,6 +4,7 @@ namespace Platform.Api.Insight.Expenditure;
 [ExcludeFromCodeCoverage]
 public abstract record ExpenditureBaseModel
 {
+    public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? TotalInternalFloorArea { get; set; }
     public decimal? TotalIncome { get; set; }

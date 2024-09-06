@@ -4,6 +4,7 @@ namespace Platform.Api.Insight.Income;
 [ExcludeFromCodeCoverage]
 public abstract record IncomeBaseModel
 {
+    public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }

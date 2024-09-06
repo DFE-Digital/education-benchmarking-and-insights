@@ -4,6 +4,7 @@ namespace Platform.Api.Insight.Balance;
 [ExcludeFromCodeCoverage]
 public abstract record BalanceBaseModel
 {
+    public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }

@@ -7,6 +7,7 @@ public static class BalanceResponseFactory
     {
         var response = CreateResponse<SchoolBalanceResponse>(model, parameters);
 
+        response.PeriodCoveredByReturn = model.PeriodCoveredByReturn;
         response.URN = model.URN;
         response.SchoolName = model.SchoolName;
         response.SchoolType = model.SchoolType;
@@ -96,6 +97,8 @@ public static class BalanceResponseFactory
 [ExcludeFromCodeCoverage]
 public abstract record BalanceBaseResponse
 {
+    public int? PeriodCoveredByReturn { get; set; }
+
     public decimal? SchoolInYearBalance { get; set; }
     public decimal? CentralInYearBalance { get; set; }
     public decimal? SchoolRevenueReserve { get; set; }
