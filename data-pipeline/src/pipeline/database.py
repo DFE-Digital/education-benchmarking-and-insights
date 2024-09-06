@@ -38,9 +38,16 @@ def receive_before_cursor_execute(
         cursor.fast_executemany = True
 
 
-def upsert(df, table_name, keys: list[str], dtype: dict[str, any] = None):
+def upsert(
+    df: pd.DataFrame,
+    table_name: str,
+    keys: list[str],
+    dtype: dict[str, any] = None,
+    drop_duplicates: bool = True,
+):
     logger.info(f"Connecting to database {engine.url}")
-    df.drop_duplicates(inplace=True)
+    if drop_duplicates:
+        df.drop_duplicates(inplace=True)
 
     update_cols = []
     insert_cols = [*keys]
@@ -71,7 +78,12 @@ def insert_comparator_set(run_type: str, set_type: str, run_id: str, df: pd.Data
         lambda x: json.dumps(x.tolist())
     )
 
-    upsert(write_frame, "ComparatorSet", keys=["RunType", "RunId", "URN", "SetType"])
+    upsert(
+        write_frame,
+        "ComparatorSet",
+        keys=["RunType", "RunId", "URN", "SetType"],
+        drop_duplicates=False,
+    )
     logger.info(
         f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {run_id}"
     )
