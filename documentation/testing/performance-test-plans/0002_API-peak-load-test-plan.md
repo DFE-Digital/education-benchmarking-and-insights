@@ -72,11 +72,14 @@ period of 5 minutes.
 **Summary Report:**
 
 <!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
-| Load Test Name                      | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
-|-------------------------------------|----------------------|---------|----------|---------------|--------|------------|-------------|
-| Establishment API - Suggest Schools | 06/09/2024, 17:07:13 | 6       | 5m 59s   | 73 ms         | 1.34 % | 104.11 /s  | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/d7105d2c-2fa8-4376-ae25-04b6ed54b0b3) 1️⃣ |
-| Establishment API - Suggest Schools | 09/09/2024, 08:39:37 | 7       | 5m XXs   | 81 ms         | 0 %    | 108.69 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/2b3d5e5f-5af0-424a-a5c0-acc5250763af) |
-| Establishment API - Get Schools     | 06/09/2024, 12:52:58 | 3       | 5m 48s   | 21 ms         | 1.34 % | 132.35 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce12d/testRunId/0dc8462e-6609-4fe9-aea4-eeb1a40ce14a) |
+| Load Test Name                             | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
+|--------------------------------------------|----------------------|---------|----------|---------------|--------|------------|-------------|
+| Establishment API - Suggest Schools        | 06/09/2024, 17:07:13 | 6       | 5m 59s   | 73 ms         | 1.34 % | 104.11 /s  | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/d7105d2c-2fa8-4376-ae25-04b6ed54b0b3) 1️⃣ |
+| Establishment API - Suggest Schools        | 09/09/2024, 08:39:37 | 7       | 5m XXs   | 81 ms         | 0 %    | 108.69 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/2b3d5e5f-5af0-424a-a5c0-acc5250763af)     |
+| Establishment API - Get Schools            | 06/09/2024, 12:52:58 | 3       | 5m 48s   | 21 ms         | 0 %    | 132.35 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce12d/testRunId/0dc8462e-6609-4fe9-aea4-eeb1a40ce14a)     |
+| Benchmark API - Get User Data              | 09/09/2024, 10:56:38 | 3       | 5m 46s   | 29 ms         | 0 %    | 117.58 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed36246a/testRunId/b2169cfc-f186-4452-8717-d64aed3624c5)     |
+| Benchmark API - Post Comparators           | 09/09/2024, 11:56:21 | 15      | 6m 1s    | 288 ms        | 0 %    | 63.48 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed362261/testRunId/8106563a-e2c5-4122-b99f-8ad3f847223c) 2️⃣ |
+| Benchmark API - Get Default Comparator Set | 09/09/2024, 10:24:13 | 3       | 5m 43s   | 30 ms         | 0 %    | 112.40 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed36202c/testRunId/b2169cfc-f186-4452-8717-d64aed36204d)     |
 
 **Findings and Recommendations:**
 
@@ -92,3 +95,21 @@ System.ArgumentNullException:
 ```
 
 To attempt to debug which queries were failing, the tokenised values were appended to the query string and identified from the test run results file. This identified the `partialName` variables as the cause of all 500s because of Azure Load Testing incorrectly parsing double-quoted CSV input file entries (possibly due to badly defined source columns), which had an incidental consequence of including additional whitespace in the query value. A work item has been be created to resolve the whitespace issue but the source column issue has been resolved here.
+
+2️⃣ _Benchmark API - Post Comparators_ failed on multiple runs due to poor performance against the test criteria. e.g.:
+
+| Metric        | Aggregate function | Condition    | Threshold | Request name | Actual value |
+|---------------|--------------------|--------------|-----------|--------------|--------------|
+| Response time | 75th percentile    | Greater than | 200       |              | 219 ❌        |
+| Response time | 95th percentile    | Greater than | 300       |              | 375 ❌        |
+| Response time | 99th percentile    | Greater than | 500       |              | 1209 ❌       |
+| Error         | Percentage         | Greater than | 1         |              | 0 ✅          |
+
+![Distribution of durations for Benchmark API - Post Comparators](../images/peak-api-benchmark-comparators-001.png)
+
+The source of this issue appears to be Azure Search, e.g.:
+
+![Distribution of durations for Benchmark API - Sample Transaction](../images/peak-api-benchmark-comparators-002.png)
+
+<!-- Leave the rest of this page blank -->
+\newpage

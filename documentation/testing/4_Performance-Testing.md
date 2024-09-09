@@ -16,11 +16,11 @@ This document is designed to outline the current approach to performance testing
 | Average_API_Insight - School Expenditure     | 3   | 6               | 1           |
 | Average_API_Insight - School Characteristics | 3   | 6               | 1           |
 | Average_API_Insight - Default Metric RAG     | 3   | 6               | 1           |
-| Peak_API_Establishment - Suggest Schools     |     | 6               | 1           |
-| Peak_API_Establishment - School              |     | 6               | 1           |
-| Peak_API_Benchmark - User Data               |     | 6               | 1           |
-| Peak_API_Benchmark - Comparators             |     | 6               | 1           |
-| Peak_API_Benchmark - Comparator Set          |     | 6               | 1           |
+| Peak_API_Establishment - Suggest Schools     | 7   | 6               | 1           |
+| Peak_API_Establishment - School              | 3   | 6               | 1           |
+| Peak_API_Benchmark - User Data               | 3   | 6               | 1           |
+| Peak_API_Benchmark - Comparators             | 15  | 6               | 1           |
+| Peak_API_Benchmark - Comparator Set          | 3   | 6               | 1           |
 | Peak_API_Insight - School Expenditure        |     | 6               | 1           |
 | Peak_API_Insight - School Characteristics    |     | 6               | 1           |
 | Peak_API_Insight - Default Metric RAG        |     | 6               | 1           |
@@ -61,7 +61,7 @@ The items below are not exhaustive, nor terminal. They are just some things to b
 - **Sometimes parameters are cleared:** When editing an existing Load Test, ensure that the Parameters page of the settings does not get cleared unexpectedly.
 
 - **CSV files:** Apostrophes in source CSV files sometimes cause POST-ed JSON to be malformed, possibly leading to `400` or `500` responses from the API.
-Additionally, hyphens do not seem to be supported when defining CSV column names.
+Additionally, hyphens do not seem to be supported when defining CSV column names. Furthermore, badly defined CSV variables may break row parsing without any warning, leading to unexpected results (especially where entries are double-quoted).
 
 - **Editing tests takes time:** It takes a short period of time for Azure Portal to process changes to tests.
 Errors will be raised when making additional changes while previous ones are being processed.
@@ -81,7 +81,6 @@ However, the logs do not include POST-ed data, but do include Secret parameters.
 - **Traffic source:** It is possible to configure requests to be sourced from different locations, but due to the relative low numbers of requests for average load testing only a single engine is required, and locations are set per-engine. The location `West Europe` has therefore been configured everywhere.
 
 - **Buggy UI:** Azure Portal is a little clunky when trying to navigate between tests and test runs, often erroneously taking you right back to the Portal landing page.
-
 
 <!-- Leave the rest of this page blank -->
 \newpage

@@ -1,0 +1,38 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Post Comparators",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-benchmark-fa.azurewebsites.net/api/comparators/schools",
+                    "headers": {
+                        "x-functions-key": "${benchmark-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": "{\r\n    \"target\": \"${identifier}\",\r\n    \"financeType\": {\r\n        \"values\": [\r\n            \"${financeType}\"\r\n        ]\r\n    },\r\n    \"overallPhase\": {\r\n        \"values\": [\r\n            \"${overallPhase}\"\r\n        ]\r\n    },\r\n    \"laName\": {\r\n        \"values\": [\r\n            \"${laName}\"\r\n        ]\r\n    }\r\n}",
+                    "method": "POST",
+                    "requestBodyFormat": "JSON"
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "characteristics.csv",
+                    "variableNames": "identifier,financeType,overallPhase,laName"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 15,
+            "durationInSeconds": 360,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}

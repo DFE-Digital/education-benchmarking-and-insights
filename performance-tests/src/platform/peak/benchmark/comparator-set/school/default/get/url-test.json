@@ -1,0 +1,38 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get Comparator Set",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-benchmark-fa.azurewebsites.net/api/comparator-set/school/${identifier}/default",
+                    "headers": {
+                        "x-functions-key": "${benchmark-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "schools.csv",
+                    "variableNames": "identifier,name"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 3,
+            "durationInSeconds": 360,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}
