@@ -21,9 +21,9 @@ This document is designed to outline the current approach to performance testing
 | Peak_API_Benchmark - User Data               | 3   | 6               | 1           |
 | Peak_API_Benchmark - Comparators             | 15  | 6               | 1           |
 | Peak_API_Benchmark - Comparator Set          | 3   | 6               | 1           |
-| Peak_API_Insight - School Expenditure        |     | 6               | 1           |
-| Peak_API_Insight - School Characteristics    |     | 6               | 1           |
-| Peak_API_Insight - Default Metric RAG        |     | 6               | 1           |
+| Peak_API_Insight - School Characteristics    | 4   | 6               | 1           |
+| Peak_API_Insight - School Expenditure        | 4   | 6               | 1           |
+| Peak_API_Insight - Default Metric RAG        | 4   | 6               | 1           |
 | Average_Web - School home                    |     | 6               | 1           |
 | Average_Web - School spending priorities     |     | 6               | 1           |
 | Average_Web - School comparators             |     | 6               | 1           |

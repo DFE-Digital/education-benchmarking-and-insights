@@ -1,0 +1,22 @@
+displayName: Peak_API_Insight - School Characteristics
+testPlan: url-test.json
+description: Peak load test for GET /school/{identifier}/characteristics
+engineInstances: 1
+testId: 8106563a-e2c5-4122-b99f-8ad3f8472038
+testType: URL
+subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
+publicIPDisabled: true
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria:
+- p75(response_time_ms) > 200
+- p95(response_time_ms) > 300
+- p99(response_time_ms) > 500
+- percentage(error) > 1
+secrets:
+- name: insight-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/insight-host-key
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
