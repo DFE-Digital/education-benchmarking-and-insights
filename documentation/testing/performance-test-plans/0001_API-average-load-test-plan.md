@@ -74,7 +74,7 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 ## Test Execution
 
 - Load pattern: Linear
-- Test duration (minutes): 5
+- Test duration (minutes): 6
 - Ramp-up time (minutes): 1
 
 ## Test Output
