@@ -2,7 +2,7 @@
 
 **Test run date:**
 
-TBC
+September 2024
 
 ## Goal
 
@@ -31,14 +31,14 @@ period of 5 minutes.
 **Monitoring Performance:**
 
 - Response Time
-    - Definition: The duration between sending a request to the API and receiving a response.
-    - Measurement: This will be produced as an output of the test run.
+  - Definition: The duration between sending a request to the API and receiving a response.
+  - Measurement: This will be produced as an output of the test run.
 - Error Percentage
-    - Definition: The percentage of API requests that result in an error response (5xx).
-    - Measurement: This will be produced as an output of the test run.
+  - Definition: The percentage of API requests that result in an error response (5xx).
+  - Measurement: This will be produced as an output of the test run.
 - Throughput
-    - Definition: The number of API requests processed per second.
-    - Measurement: This will be produced as an output of the test run.
+  - Definition: The number of API requests processed per second.
+  - Measurement: This will be produced as an output of the test run.
 
 **APIs & Endpoints Under Test:**
 
@@ -56,23 +56,39 @@ period of 5 minutes.
 ## Performance Success Criteria
 
 - Response Time:
-    - P75 below 200ms
-    - P95 below 300ms
-    - P99 below 500ms
+  - P75 below 200ms
+  - P95 below 300ms
+  - P99 below 500ms
 - Error Rate:  below 1%
 
 ## Test Execution
 
 - Load pattern: Linear
-- Test duration (minutes): 5
+- Test duration (minutes): 6
 - Ramp-up time (minutes): 1
 
 ## Test Output
 
 **Summary Report:**
 
-//TODO: Add summary post test run
+<!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
+| Load Test Name                      | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
+|-------------------------------------|----------------------|---------|----------|---------------|--------|------------|-------------|
+| Establishment API - Suggest Schools | 06/09/2024, 17:07:13 | 6       | 5m 59s   | 73 ms         | 1.34 % | 104.11 /s  | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/d7105d2c-2fa8-4376-ae25-04b6ed54b0b3) 1️⃣ |
+| Establishment API - Suggest Schools | 09/09/2024, 08:39:37 | 7       | 5m XXs   | 81 ms         | 0 %    | 108.69 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce1bc/testRunId/2b3d5e5f-5af0-424a-a5c0-acc5250763af) |
+| Establishment API - Get Schools     | 06/09/2024, 12:52:58 | 3       | 5m 48s   | 21 ms         | 1.34 % | 132.35 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/0dc8462e-6609-4fe9-aea4-eeb1a40ce12d/testRunId/0dc8462e-6609-4fe9-aea4-eeb1a40ce14a) |
 
 **Findings and Recommendations:**
 
-//TODO: Add finding and recommendation post test run
+1️⃣ _Establishment API - Suggest Schools_ failed on its initial run, e.g. `HTTP 500`:
+
+```text
+System.ArgumentNullException:
+   at Platform.Functions.Extensions.HttpRequestDataExtensions+<ReadAsJsonAsync>d__1`1.MoveNext (Platform.Functions, Version=1.0.121.0, Culture=neutral, PublicKeyToken=null: /home/vsts/work/1/s/platform/src/abstractions/Platform.Functions/Extensions/HttpRequestDataExtensions.cs:35)
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw (System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e)
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess (System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification (System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e)
+   at Platform.Api.Establishment.Schools.SchoolsFunctions+<SuggestSchoolsAsync>d__6.MoveNext (Platform.Api.Establishment, Version=1.0.121.0, Culture=neutral, PublicKeyToken=null: /home/vsts/work/1/s/platform/src/apis/Platform.Api.Establishment/Schools/SchoolsFunctions.cs:131)
+```
+
+To attempt to debug which queries were failing, the tokenised values were appended to the query string and identified from the test run results file. This identified the `partialName` variables as the cause of all 500s because of Azure Load Testing incorrectly parsing double-quoted CSV input file entries (possibly due to badly defined source columns), which had an incidental consequence of including additional whitespace in the query value. A work item has been be created to resolve the whitespace issue but the source column issue has been resolved here.
