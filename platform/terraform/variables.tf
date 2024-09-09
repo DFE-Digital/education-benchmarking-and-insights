@@ -30,8 +30,8 @@ variable "configuration" {
       search_replica_count = 1
     }
     production = {
-      search_sku           = "standard"
-      search_replica_count = 2
+      search_sku           = "basic"
+      search_replica_count = 3
     }
   }
 }
