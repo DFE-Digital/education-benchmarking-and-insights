@@ -1,4 +1,4 @@
-# Incident Root Cause Analysis Template
+# Incident Root Cause Analysis
 
 This template provides a comprehensive structure for documenting and analysing a service incident. 
 It covers the key elements needed to understand what happened, why it happened, how it was resolved, and what can be done to prevent similar issues in the future. 
