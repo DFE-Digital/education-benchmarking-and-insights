@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.0.1 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.1.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | 2.3.3 |
 
 ## Modules
@@ -50,7 +50,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    search_sku           = string<br>    search_replica_count = number<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "development": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "feature": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "pre-production": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "production": {<br>    "search_replica_count": 2,<br>    "search_sku": "standard"<br>  },<br>  "test": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    search_sku           = string<br>    search_replica_count = number<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "development": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "feature": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "pre-production": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  },<br>  "production": {<br>    "search_replica_count": 3,<br>    "search_sku": "basic"<br>  },<br>  "test": {<br>    "search_replica_count": 1,<br>    "search_sku": "basic"<br>  }<br>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
