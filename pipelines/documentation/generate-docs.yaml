@@ -1,0 +1,11 @@
+parameters:
+  folder: ''
+
+steps:
+  - bash: ./tools/build-docs.sh ${{ parameters.folder }} ${{ parameters.folder }}.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+    displayName: 'Generate ${{ parameters.folder }} docs'
+    workingDirectory: $(WorkingDir)
+
+  - bash: cp -a build/. pub
+    displayName: 'Copy ${{ parameters.folder }} output'
+    workingDirectory: $(WorkingDir)
