@@ -52,3 +52,6 @@ Financial Impact: [Estimate of financial cost, if applicable]
 ## Appendix
 [Any additional relevant information, graphs, logs, etc.]
 ````
+
+<!-- Leave the rest of this page blank -->
+\newpage

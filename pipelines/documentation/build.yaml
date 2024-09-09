@@ -33,45 +33,25 @@ steps:
       command: 'custom'
       customCommand: 'install -g @mermaid-js/mermaid-cli'
 
-  - bash: ./tools/build-docs.sh architecture architecture.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
-    displayName: 'Generate architecture docs'
-    workingDirectory: $(WorkingDir)
+  - template: generate-docs.yaml
+    parameters:
+      folder: 'architecture'
 
-  - bash: cp -a build/. pub
-    displayName: 'Copy architecture output'
-    workingDirectory: $(WorkingDir)
+  - template: generate-docs.yaml
+    parameters:
+      folder: 'developers'
 
-  - bash: ./tools/build-docs.sh developers developers.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
-    displayName: 'Generate developer docs'
-    workingDirectory: $(WorkingDir)
+  - template: generate-docs.yaml
+    parameters:
+      folder: 'feature'
 
-  - bash: cp -a build/. pub
-    displayName: 'Copy developer output'
-    workingDirectory: $(WorkingDir)
+  - template: generate-docs.yaml
+    parameters:
+      folder: 'testing'
 
-  - bash: ./tools/build-docs.sh features features.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
-    displayName: 'Generate feature docs'
-    workingDirectory: $(WorkingDir)
-
-  - bash: cp -a build/. pub
-    displayName: 'Copy feature output'
-    workingDirectory: $(WorkingDir)
-
-  - bash: ./tools/build-docs.sh testing testing.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
-    displayName: 'Generate testing docs'
-    workingDirectory: $(WorkingDir)
-
-  - bash: cp -a build/. pub
-    displayName: 'Copy testing output'
-    workingDirectory: $(WorkingDir)
-
-  - bash: ./tools/build-docs.sh prototype prototype.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
-    displayName: 'Generate prototype docs'
-    workingDirectory: $(WorkingDir)
-
-  - bash: cp -a build/. pub
-    displayName: 'Copy prototype output'
-    workingDirectory: $(WorkingDir)
+  - template: generate-docs.yaml
+    parameters:
+      folder: 'prototype'
 
   - template: generate-docs.yaml
     parameters:
