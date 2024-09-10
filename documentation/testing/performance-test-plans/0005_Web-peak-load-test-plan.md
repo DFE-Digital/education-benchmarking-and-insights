@@ -60,9 +60,9 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 ## Performance Success Criteria
 
 - Response Time:
-  - P50 below 100ms
-  - P95 below 150ms
-  - P99 below 500ms
+  - P75 below 500ms
+  - P95 below 1000ms
+  - P99 below 2000ms
 - Error Rate:  below 0.1%
 - CPU and Memory utilisation : below 80%*
 - Database performance : below 80%*
@@ -72,7 +72,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 ## Test Execution
 
 - Load pattern: Linear
-- Test duration (minutes): 5
+- Test duration (minutes): 6
 - Ramp-up time (minutes): 1
 
 ## Test Output

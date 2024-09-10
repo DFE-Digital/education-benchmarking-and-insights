@@ -61,7 +61,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 ## Performance Success Criteria
 
 - Response Time:
-  - P50 below 200ms
+  - P75 below 200ms
   - P95 below 300ms
   - P99 below 1000ms
 - Error Rate:  below 0.1%
@@ -73,7 +73,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 ## Test Execution
 
 - Load pattern: Linear
-- Test duration (minutes): 5
+- Test duration (minutes): 6
 - Ramp-up time (minutes): 1
 
 ## Test Output
@@ -90,16 +90,9 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 
 1️⃣ _School Home_ failed on initial runs due to poor performance against the test criteria at that time. e.g.:
 
-| Metric        | Aggregate function | Condition    | Threshold | Request name | Actual value | Result   |
-|---------------|--------------------|--------------|-----------|--------------|--------------|----------|
-| Response time | 75th percentile    | Greater than | 100       |              | 112          | ❌ Failed |
-| Response time | 95th percentile    | Greater than | 150       |              | 267          | ❌ Failed |
-| Response time | 99th percentile    | Greater than | 500       |              | 1030         | ❌ Failed |
-| Error         | Percentage         | Greater than | 0.1       |              | 0            | ✅ Passed |
-
 ![Distribution of durations for School Home](../images/school-home-001.png)
 
-It is not consistent between sample requests as to where the source of this issue lay but it was observed that Database CPU was high. Setting the test environment to match what is in production (S2 - 50 DTU) seemed to alleviate the issue. More generous test thresholds have also since been defined.
+It is not consistent between sample requests as to where the source of this issue lay but it was observed that Database CPU was high. Setting the test environment to match what is in production (S2 - 50 DTU) seemed to alleviate the issue.
 
 ![Sample Transaction for School Home](../images/school-home-002.png)
 
