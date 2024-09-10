@@ -44,6 +44,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
     private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
+    private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -256,6 +257,10 @@ public class CompareYourCostsPage(IPage page)
         await ChartTooltip.ShouldBeVisible();
     }
 
+    public async Task PartYearBannerDisplayed()
+    {
+        await IncompleteFinancialBanner.ShouldBeVisible();
+    }
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
     {
         var contentLocator = chartName switch
@@ -324,4 +329,5 @@ public class CompareYourCostsPage(IPage page)
         {
             Has = page.Locator($"span{sectionId}")
         });
+    
 }
