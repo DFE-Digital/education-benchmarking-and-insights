@@ -1,0 +1,17 @@
+displayName: Average_Web - School Home
+testPlan: url-test.json
+description: Average load test for GET /school/{identifier}
+engineInstances: 1
+testId: 32e87f8f-e0a2-4393-ad0e-13559aead029
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria:
+- p50(response_time_ms) > 200
+- p95(response_time_ms) > 300
+- p99(response_time_ms) > 1000
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60

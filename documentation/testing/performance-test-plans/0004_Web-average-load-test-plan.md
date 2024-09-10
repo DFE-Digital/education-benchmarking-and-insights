@@ -2,7 +2,7 @@
 
 **Test run date:**
 
-TBC
+September 2024
 
 ## Goal
 
@@ -61,14 +61,14 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 ## Performance Success Criteria
 
 - Response Time:
-  - P50 below 100ms
-  - P95 below 150ms
-  - P99 below 500ms
+  - P50 below 200ms
+  - P95 below 300ms
+  - P99 below 1000ms
 - Error Rate:  below 0.1%
 - CPU and Memory utilisation : below 50%*
 - Database performance : below 50%*
 
-*based on production tiers P1v3 for app service & S1 (50DTU) for database. 
+*based on production tiers P1v3 for app service & S2 (50DTU) for database.
 
 ## Test Execution
 
@@ -80,10 +80,28 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 
 **Summary Report:**
 
-//TODO: Add summary post test run
+<!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
+| Load Test Name | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
+|----------------|----------------------|---------|----------|---------------|--------|------------|-------------|
+| School Home    | 09/09/2024, 15:24:10 | 6       | 5m 53s   | 177 ms        | 0%     | 37.51 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/32e87f8f-e0a2-4393-ad0e-13559aead029/testRunId/ad67a760-d021-47b6-9a84-d9747f649163) 1️⃣ |
+| School Home    | 09/09/2024, 16:36:54 | 10      | 5m 57s   | 200 ms        | 0%     | 54.30 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/32e87f8f-e0a2-4393-ad0e-13559aead029/testRunId/a1eaae12-8343-4460-a3ab-88364b8be04c)     |
 
 **Findings and Recommendations:**
 
-//TODO: Add finding and recommendation post test run
+1️⃣ _School Home_ failed on initial runs due to poor performance against the test criteria at that time. e.g.:
+
+| Metric        | Aggregate function | Condition    | Threshold | Request name | Actual value | Result   |
+|---------------|--------------------|--------------|-----------|--------------|--------------|----------|
+| Response time | 75th percentile    | Greater than | 100       |              | 112          | ❌ Failed |
+| Response time | 95th percentile    | Greater than | 150       |              | 267          | ❌ Failed |
+| Response time | 99th percentile    | Greater than | 500       |              | 1030         | ❌ Failed |
+| Error         | Percentage         | Greater than | 0.1       |              | 0            | ✅ Passed |
+
+![Distribution of durations for School Home](../images/school-home-001.png)
+
+It is not consistent between sample requests as to where the source of this issue lay but it was observed that Database CPU was high. Setting the test environment to match what is in production (S2 - 50 DTU) seemed to alleviate the issue. More generous test thresholds have also since been defined.
+
+![Sample Transaction for School Home](../images/school-home-002.png)
+
 <!-- Leave the rest of this page blank -->
 \newpage
