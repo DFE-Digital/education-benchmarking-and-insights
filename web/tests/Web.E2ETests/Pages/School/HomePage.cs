@@ -33,14 +33,14 @@ public class HomePage(IPage page)
         //await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
         var expectedH2Texts = isPartYear
-            ? new[] {  "Benchmarking and planning tools", "Resources" }
+            ? new[] { "Benchmarking and planning tools", "Resources" }
             : new[] { "Spending priorities for this school", "Benchmarking and planning tools", "Resources" };
 
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)
         {
             await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);
         }
-        
+
         await CompareYourCostsLink.ShouldBeVisible();
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
         await BenchmarkCensusDataLink.ShouldBeVisible();
@@ -50,7 +50,7 @@ public class HomePage(IPage page)
         await FindWaysToSpendLessLink.ShouldBeVisible();
         if (!isPartYear)
         {
-            
+
             await SpendingPrioritiesLink.ShouldBeVisible();
         }
         else

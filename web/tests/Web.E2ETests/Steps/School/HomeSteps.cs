@@ -28,7 +28,7 @@ public class HomeSteps(PageDriver driver)
         _schoolHomePage = new HomePage(page);
         await _schoolHomePage.IsDisplayed();
     }
-    
+
     [Given("I am on part year school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnPartYearSchoolHomepageForSchoolWithUrn(string urn)
     {

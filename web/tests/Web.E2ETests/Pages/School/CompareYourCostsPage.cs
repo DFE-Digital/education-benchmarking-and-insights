@@ -340,5 +340,5 @@ public class CompareYourCostsPage(IPage page)
         {
             Has = page.Locator($"span{sectionId}")
         });
-    
+
 }
