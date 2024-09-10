@@ -28,6 +28,17 @@ public class HomeSteps(PageDriver driver)
         _schoolHomePage = new HomePage(page);
         await _schoolHomePage.IsDisplayed();
     }
+    
+    [Given("I am on part year school homepage for school with urn '(.*)'")]
+    public async Task GivenIAmOnPartYearSchoolHomepageForSchoolWithUrn(string urn)
+    {
+        var url = SchoolHomeUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _schoolHomePage = new HomePage(page);
+        await _schoolHomePage.IsDisplayed(true);
+    }
 
     [When("I click on school details")]
     public async Task WhenIClickOnSchoolDetails()
@@ -150,4 +161,6 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.IsDisplayed();
     }
+
+   
 }
