@@ -139,4 +139,6 @@ public static class Selectors
     public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
 
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
+    public const string RunningCostCategoriesTab = "#tab_running";
+    public const string BuildingCostCategoriesTab = "#tab_building";
 }

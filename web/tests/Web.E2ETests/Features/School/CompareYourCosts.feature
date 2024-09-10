@@ -172,3 +172,16 @@ Feature: School compare your costs
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £41,903  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £41,903  |
           | Test academy school 466 | Haringey                | Academy 16-19 converter            | 232              | £41,903  |
+
+    Scenario Outline: View comparators for part year school
+        Given I am on compare your costs page for part year school with URN '<URN>'
+        When I click on sets of similar school link
+        Then I am taken to comparators page
+        And pupil cost comparators are <PupilComparators>
+        And building cost comparators are <BuildingComparators>
+
+        Examples:
+          | URN    | PupilComparators | BuildingComparators |
+          | 777043 | not null         | not null            |
+          | 777044 | null             | null                |
+          | 777045 | not null         | null                |
