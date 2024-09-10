@@ -168,7 +168,4 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.IsDisplayed();
     }
-
-
-
 }
