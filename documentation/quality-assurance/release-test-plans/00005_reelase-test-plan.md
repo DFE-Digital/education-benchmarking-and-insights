@@ -31,12 +31,13 @@ This test plan covers the testing in pre production and production to validate a
 
 1. [224500 Part year Data: Maintained Schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/224500) -We have successfully managed the part-year maintained schools, and the logic for creating comparator sets and RAG ratings has been updated. A banner now appears for part-year maintained schools. This functionality has been thoroughly tested in both the development environment (D01) and the test environment (T01). We will validate that the banner for part-year schools is appearing as expected in the pre-production and production environments.
 2. [223941 Review/update overall phase mappings](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223941) - WIP
-3. [223831 Add DLQ monitor to dashboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223831) - Added a monitor for dead letter queue so that we have a visibility of any pipeline failures. This has been validated in test and the visibility of the dashboard will be checked again in pre production. 
- 
+3. [223831 Add DLQ monitor to dashboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/223831) - Added a monitor for dead letter queue so that we have a visibility of any pipeline failures. This has been validated in test and the visibility of the dashboard will be checked again in pre production.
+4. [222562 Threat Detection Policy settings reverting](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222562) - Thread deduction policy is now updated and validated against test environment. We will check the auditing storage account again in pre production to ensure changes are populated as expected. 
+
 
 **Updates Not to be Tested:**
 
-1. 4. [222562 Threat Detection Policy settings reverting](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222562) - Thread deduction policy is now updated and validated test environment.
+n/a
 
 ## Test Deliverables
 **Documents:**
