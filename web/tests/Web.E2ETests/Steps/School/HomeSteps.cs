@@ -67,12 +67,12 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsDisplayed();
     }
-    
-    [Then("the part year warning banner is displayed")]
-    public async Task ThenThePartYearWarningBannerIsDisplayed()
+
+    [Then("the compare your costs page is displayed for part year")]
+    public async Task ThenTheCompareYourCostsPageIsDisplayedForPartYear()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.PartYearBannerDisplayed();
+        await _compareYourCostsPage.IsDisplayed(true);
     }
 
     [When("I click on curriculum and financial planning")]
@@ -169,5 +169,6 @@ public class HomeSteps(PageDriver driver)
         await _historicDataPage.IsDisplayed();
     }
 
-   
+
+
 }

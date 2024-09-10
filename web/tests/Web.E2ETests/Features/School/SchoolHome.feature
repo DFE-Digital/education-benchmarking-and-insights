@@ -38,5 +38,4 @@
     Scenario: Goto compare your costs page for part year school
         Given I am on part year school homepage for school with urn '777043'
         When I click on compare your costs
-        Then the compare your costs page is displayed
-        And the part year warning banner is displayed 
+        Then the compare your costs page is displayed for part year
