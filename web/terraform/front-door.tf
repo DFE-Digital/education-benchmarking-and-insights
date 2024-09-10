@@ -78,7 +78,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   custom_rule {
     name     = "blockrequestmethod"
     action   = "Block"
-    priority = 1
+    priority = 100
     type     = "MatchRule"
 
     match_condition {
@@ -92,7 +92,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   custom_rule {
     name     = "blockgeolocation"
     action   = "Block"
-    priority = 2
+    priority = 200
     type     = "MatchRule"
 
     match_condition {
@@ -100,6 +100,25 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
       operator           = "GeoMatch"
       negation_condition = true
       match_values       = ["GB"]
+    }
+  }
+
+  dynamic "custom_rule" {
+    for_each = var.environment == "test" ? ["apply"] : []
+
+    content {
+      name     = "allowsynthetictraffic"
+      action   = "Allow"
+      priority = 50
+      type     = "MatchRule"
+
+      match_condition {
+        match_variable     = "RequestHeader"
+        selector           = "x-synthetic-source"
+        operator           = "Equal"
+        negation_condition = false
+        match_values       = ["load-tests"]
+      }
     }
   }
 
