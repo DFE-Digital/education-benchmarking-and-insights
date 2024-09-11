@@ -44,6 +44,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
     private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
+    private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -82,13 +83,23 @@ public class CompareYourCostsPage(IPage page)
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
 
-    public async Task IsDisplayed()
+    public async Task IsDisplayed(bool isPartYear = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
         await SaveImageTotalExpenditure.ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
-        await TotalExpenditureChart.ShouldBeVisible();
+        if (!isPartYear)
+        {
+            await TotalExpenditureChart.ShouldBeVisible();
+        }
+        else
+        {
+            await IncompleteFinancialBanner.First.ShouldBeVisible();
+            await IncompleteFinancialBanner.First.ShouldContainText(
+                "This school doesn't have a complete set of financial data for this period.");
+        }
+
         await ShowHideAllSectionsLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
@@ -256,6 +267,11 @@ public class CompareYourCostsPage(IPage page)
         await ChartTooltip.ShouldBeVisible();
     }
 
+    public async Task<ComparatorsPage> ClickComparatorSetDetails()
+    {
+        await ComparatorSetDetails.Click();
+        return new ComparatorsPage(page);
+    }
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
     {
         var contentLocator = chartName switch
@@ -324,4 +340,5 @@ public class CompareYourCostsPage(IPage page)
         {
             Has = page.Locator($"span{sectionId}")
         });
+
 }

@@ -29,6 +29,17 @@ public class HomeSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed();
     }
 
+    [Given("I am on part year school homepage for school with urn '(.*)'")]
+    public async Task GivenIAmOnPartYearSchoolHomepageForSchoolWithUrn(string urn)
+    {
+        var url = SchoolHomeUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _schoolHomePage = new HomePage(page);
+        await _schoolHomePage.IsDisplayed(true);
+    }
+
     [When("I click on school details")]
     public async Task WhenIClickOnSchoolDetails()
     {
@@ -55,6 +66,13 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsDisplayed();
+    }
+
+    [Then("the compare your costs page is displayed for part year")]
+    public async Task ThenTheCompareYourCostsPageIsDisplayedForPartYear()
+    {
+        Assert.NotNull(_compareYourCostsPage);
+        await _compareYourCostsPage.IsDisplayed(true);
     }
 
     [When("I click on curriculum and financial planning")]

@@ -17,6 +17,7 @@ public static class Selectors
     public const string GovRadios = ".govuk-radios";
     public const string GovTable = ".govuk-table";
     public const string GovHeadingM = ".govuk-heading-m";
+    public const string GovWarning = ".govuk-warning-text";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -138,4 +139,6 @@ public static class Selectors
     public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
 
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
+    public const string RunningCostCategoriesTab = "#tab_running";
+    public const string BuildingCostCategoriesTab = "#tab_building";
 }

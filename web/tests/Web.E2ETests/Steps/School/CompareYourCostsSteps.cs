@@ -11,6 +11,7 @@ public class CompareYourCostsSteps(PageDriver driver)
     private CompareYourCostsPage? _comparisonPage;
     private IDownload? _download;
     private HomePage? _schoolHomePage;
+    private ComparatorsPage? _comparatorsPage;
 
     [Given("I am on compare your costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
@@ -21,6 +22,17 @@ public class CompareYourCostsSteps(PageDriver driver)
 
         _comparisonPage = new CompareYourCostsPage(page);
         await _comparisonPage.IsDisplayed();
+    }
+
+    [Given("I am on compare your costs page for part year school with URN '(.*)'")]
+    public async Task GivenIAmOnCompareYourCostsPageForPartYearSchoolWithURN(string urn)
+    {
+        var url = CompareYourCostsUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _comparisonPage = new CompareYourCostsPage(page);
+        await _comparisonPage.IsDisplayed(true);
     }
 
     [When("I click on save as image for '(.*)'")]
@@ -212,6 +224,35 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.TooltipIsDisplayed();
+    }
+
+    [When("I click on sets of similar school link")]
+    public async Task WhenIClickOnSetsOfSimilarSchoolLink()
+    {
+        Assert.NotNull(_comparisonPage);
+        _comparatorsPage = await _comparisonPage.ClickComparatorSetDetails();
+    }
+
+    [Then("I am taken to comparators page")]
+    public async Task ThenIAmTakenToComparatorsPage()
+    {
+        Assert.NotNull(_comparatorsPage);
+        await _comparatorsPage.IsDisplayed();
+
+    }
+
+    [Then("pupil cost comparators are (.*)")]
+    public async Task ThenPupilCostComparatorsAreNotNull(string pupilComparators)
+    {
+        Assert.NotNull(_comparatorsPage);
+        await _comparatorsPage.CheckRunningCostComparators(pupilComparators == "not null");
+    }
+
+    [Then("building cost comparators are (.*)")]
+    public async Task ThenBuildingCostComparatorsAreNotNull(string buildingComparators)
+    {
+        Assert.NotNull(_comparatorsPage);
+        await _comparatorsPage.CheckBuildingCostComparators(buildingComparators == "not null");
     }
 
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
