@@ -3,6 +3,9 @@
   "logging": {
     "logLevel": {
       "default": "Warning",
+      "Host.Aggregator": "Trace",
+      "Host.Results": "Information",
+      "Function": "Warning",
       "Microsoft": "Warning"
     },
     "applicationInsights": {
