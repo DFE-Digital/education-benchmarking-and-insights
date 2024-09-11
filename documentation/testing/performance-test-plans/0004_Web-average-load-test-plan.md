@@ -88,6 +88,8 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 | School Spending Priorities | 10/09/2024, 08:14:37 | 12      | 5m 55s   | 292 ms        | 1.06 % | 37.90 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/0b704fe3-18d0-45c6-b99b-cb54f42ba05b) 2️⃣ |
 | School Spending Priorities | 10/09/2024, 10:16:06 | 12      | 5m 59s   | 313 ms        | 0.04 % | 34.76 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/7acae41b-b17b-43ff-9dff-017d60431280) 3️⃣ |
 | School Spending Priorities | 11/09/2024, 11:31:08 | 15      | 6m 1s    | 404 ms        | 0 %    | 48.52 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/0328b51c-286b-4fdc-aee4-c48afa5cd030)     |
+| School Comparators         | 11/09/2024, 15:02:47 | 10      | 5m 42s   | 218 ms        | 0 %    | 45.84 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/f23b0c7c-217a-4976-80a5-996db09a5008/testRunId/f23b0c7c-217a-4976-80a5-996db09a5083)     |
+| School Resources           | 11/09/2024, 15:12:12 | 10      | 6m 0s    | 192 ms        | 0 %    | 55.56 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/f23b0c7c-217a-4976-80a5-996db09a504e/testRunId/5ca1e91f-6e08-4cbc-b759-a3f7220980e3)     |
 
 **Findings and Recommendations:**
 
@@ -139,7 +141,7 @@ Extended durations were also reported from APIs when resolving the managed ident
 
 1. Logging configuration
 
-    - log level currently set to `Information` leading to large amount of noise (changed to `Warning` in [41e986b](https://github.com/DFE-Digital/education-benchmarking-and-insights/commit/41e986be22c67bae1d7e9b7ba6d8258bf1ce1958))
+    - log level currently set to `Information` leading to large amount of noise (see [#1348](https://github.com/DFE-Digital/education-benchmarking-and-insights/pull/1348))
     - legacy Serilog configuration (removed in [41e986b](https://github.com/DFE-Digital/education-benchmarking-and-insights/commit/41e986be22c67bae1d7e9b7ba6d8258bf1ce1958))
     - Code Optimizations† (under `Application Insights` > `Performance`) also has three entries for:
 

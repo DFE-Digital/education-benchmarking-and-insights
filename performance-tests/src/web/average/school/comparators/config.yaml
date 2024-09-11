@@ -1,8 +1,8 @@
-displayName: Average_Web - School Spending Priorities
+displayName: Average_Web - School Comparators
 testPlan: url-test.json
-description: Average load test for GET /school/{identifier}/spending-and-costs
+description: Average load test for GET /school/{identifier}/comparators
 engineInstances: 1
-testId: 64328db8-47e9-4214-9182-b5b7505ff027
+testId: f23b0c7c-217a-4976-80a5-996db09a5008
 testType: URL
 splitAllCSVs: False
 configurationFiles:
