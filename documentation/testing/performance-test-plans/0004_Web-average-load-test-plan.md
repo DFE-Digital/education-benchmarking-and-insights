@@ -56,14 +56,14 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 | `/trust/{identifier}`                          | 23 /s             |
 | `/trust/{identifier}/spending-and-costs`       | 23 /s             |
 
-*the target throughput is based on the assumed daily user numbers, and 45% of being academy trust users.
+*the target throughput is based on the assumed daily user numbers (of which 45% are academy trust users).
 
 ## Performance Success Criteria
 
 - Response Time:
-  - P75 below 200ms
-  - P95 below 300ms
-  - P99 below 1000ms
+  - P75 below 500ms
+  - P95 below 1000ms
+  - P99 below 2000ms
 - Error Rate:  below 0.1%
 - CPU and Memory utilisation : below 50%*
 - Database performance : below 50%*

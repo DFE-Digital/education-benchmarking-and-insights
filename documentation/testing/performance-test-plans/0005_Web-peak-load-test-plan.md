@@ -55,7 +55,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 | `/trust/{identifier}`                          | 37 /s             |
 | `/trust/{identifier}/spending-and-costs`       | 37 /s             |
 
-*the target throughput is based on the assumed daily user numbers, and 45% of being academy trust users.
+*the target throughput is based on the assumed daily user numbers (of which 45% are academy trust users).
 
 ## Performance Success Criteria
 
