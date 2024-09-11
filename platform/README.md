@@ -29,7 +29,9 @@ Add configuration in `local.settings.json` for `Platform.Api.Establishment`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Search__Name" : "s198d01-ebis-search",
     "Search__Key" : "[INSERT KEY VALUE]",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
   },
   "Host": {
     "CORS": "*",
@@ -51,7 +53,9 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
     "Search__Key" : "[INSERT KEY VALUE]",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
-    "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending"
+    "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
   },
   "Host": {
     "CORS": "*",
@@ -70,7 +74,9 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
   },
   "Host": {
     "CORS": "*",
@@ -97,7 +103,9 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
         "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start",
         "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
-        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+        "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+        "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
     },
     "Host": {
         "CORS": "*",
@@ -120,7 +128,9 @@ Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+        "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+        "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
     },
     "Host": {
         "CORS": "*",
