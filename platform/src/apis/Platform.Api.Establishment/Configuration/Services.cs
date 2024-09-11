@@ -21,9 +21,6 @@ internal static class Services
         ArgumentNullException.ThrowIfNull(sql);
 
         serviceCollection
-            .AddSerilogLoggerProvider(Constants.ApplicationName);
-
-        serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sql);
 
@@ -46,6 +43,7 @@ internal static class Services
         serviceCollection
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
 
+        //TODO: Add serilog configuration AB#227696
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights();

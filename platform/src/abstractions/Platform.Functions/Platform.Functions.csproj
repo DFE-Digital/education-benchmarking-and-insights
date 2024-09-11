@@ -8,6 +8,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="JsonSubTypes" />
     <PackageReference Include="Microsoft.Azure.Core.NewtonsoftJson">
@@ -31,11 +32,6 @@
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
-    <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Serilog.Enrichers.CorrelationId" />
-    <PackageReference Include="Serilog.Sinks.ApplicationInsights">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
   </ItemGroup>

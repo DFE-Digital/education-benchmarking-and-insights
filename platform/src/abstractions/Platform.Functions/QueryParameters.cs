@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+
 namespace Platform.Functions;
 
 public abstract record QueryParameters

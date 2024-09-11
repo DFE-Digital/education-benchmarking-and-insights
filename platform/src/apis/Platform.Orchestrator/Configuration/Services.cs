@@ -16,17 +16,14 @@ internal static class Services
         ArgumentNullException.ThrowIfNull(sql);
 
         serviceCollection
-            .AddSerilogLoggerProvider(Constants.ApplicationName);
-
-        serviceCollection
             .AddOptions<SqlDatabaseOptions>()
-            .BindConfiguration("Sql")
-            .ValidateDataAnnotations();
+            .BindConfiguration("Sql");
 
         serviceCollection
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
             .AddSingleton<IPipelineDb, PipelineDb>();
 
+        //TODO: Add serilog configuration AB#227696
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights();
