@@ -1,0 +1,17 @@
+displayName: Average_Web - Trust Home
+testPlan: url-test.json
+description: Average load test for GET /trust/{identifier}
+engineInstances: 1
+testId: 8243bda5-fcb4-4b45-8602-f02b7522e1fc
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- trusts.csv
+failureCriteria:
+- p75(response_time_ms) > 500
+- p95(response_time_ms) > 1000
+- p95(response_time_ms) > 2000
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
