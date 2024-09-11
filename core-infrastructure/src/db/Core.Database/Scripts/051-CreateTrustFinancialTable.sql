@@ -131,6 +131,6 @@ IF NOT EXISTS(SELECT *
             StaffRelatedInsuranceCostsCS                             decimal(16, 2)      NULL,
             SupplyTeacherInsurableCostsCS                            decimal(16, 2)      NULL,
 
-            CONSTRAINT PK_TrustFinancial PRIMARY KEY (CompanyNumber, RunId)
+            CONSTRAINT PK_TrustFinancial PRIMARY KEY (RunType, RunId, CompanyNumber)
         );
     END;
