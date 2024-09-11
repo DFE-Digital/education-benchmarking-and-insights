@@ -64,14 +64,14 @@ n/a
 ## Risk Management
 **Risk Identification:**
 
-Pre-production and production has existing data, which will require updating/modifying as the fixes included in this
-release requires pipeline rerun.
+Pre-production and production has existing data, which will require updating/modifying as the updates/fixes included in this
+release requires pipeline rerun. Additionally, there are legacy Metric RAG records from 2021 and 2022, which, due to updated logic, no longer apply but still exist in the database.
 
 **Risk Mitigation:**
 
 - Ran in isolated clean environment prior to release to confirm the fixes
 - Ran in test environment which has identical data to pre-prod and production to confirm fixes
-
+- Since Metric RAG is only displayed for the latest year (2023), the legacy records from 2021 and 2022 will not impact the end user or be visible. These records will be removed as part of a future task added in backlog, which will replace the outdated database records. Until then, they remain in the system.
 ## Review and Approval
 **Review Process:**
 
