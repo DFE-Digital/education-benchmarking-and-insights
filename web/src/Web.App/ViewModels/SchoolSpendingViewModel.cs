@@ -1,5 +1,4 @@
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolSpendingViewModel(
@@ -39,15 +38,17 @@ public class SchoolSpendingViewModel(
 
     public bool HasIncompleteData => pupilExpenditure.Concat(areaExpenditure).Any(x => x.HasIncompleteData);
 
-    public static ChartStatsViewModel Stats(RagRating rating)
+    public static ChartStatsViewModel Stats(RagRating rating) => new()
     {
-        return new ChartStatsViewModel
+        Average = rating.Mean,
+        Difference = rating.DiffMean,
+        PercentDifference = rating.Mean switch
         {
-            Average = rating.Mean,
-            Difference = rating.DiffMean,
-            PercentDifference = rating.DiffMean / rating.Mean * 100
-        };
-    }
+            null => null,
+            0 => 0,
+            _ => rating.DiffMean / rating.Mean * 100
+        }
+    };
 }
 
 public class ChartStatsViewModel
@@ -55,7 +56,6 @@ public class ChartStatsViewModel
     public decimal? Average { get; set; }
     public decimal? Difference { get; set; }
     public decimal? PercentDifference { get; set; }
-
 }
 
 public class CostsViewModel

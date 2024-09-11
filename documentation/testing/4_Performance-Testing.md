@@ -24,8 +24,8 @@ This document is designed to outline the current approach to performance testing
 | Peak_API_Insight - School Characteristics    | 4   | 6               | 1           |
 | Peak_API_Insight - School Expenditure        | 4   | 6               | 1           |
 | Peak_API_Insight - Default Metric RAG        | 4   | 6               | 1           |
-| Average_Web - School home                    | 10  | 6               | 1           |
-| Average_Web - School spending priorities     |     | 6               | 1           |
+| Average_Web - School Home                    | 10  | 6               | 1           |
+| Average_Web - School Spending Priorities     | 15  | 6               | 1           |
 | Average_Web - School comparators             |     | 6               | 1           |
 | Average_Web - School resources               |     | 6               | 1           |
 | Average_Web - Trust home                     |     | 6               | 1           |
