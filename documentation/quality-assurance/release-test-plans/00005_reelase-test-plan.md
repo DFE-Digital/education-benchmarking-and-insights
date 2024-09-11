@@ -37,7 +37,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Updates Not to be Tested:**
 
-n/a
+1. [226388 Terraform provider updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/226388) - These are terraform provider updates and doesn't require any further testing.
 
 ## Test Deliverables
 **Documents:**
