@@ -9,7 +9,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Docker.docker: Compose Deployment" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Insight" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -24,7 +24,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure Functions host.Platform.Api.Benchmark" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Benchmark" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -39,7 +39,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure Functions host.Platform.Api.Establishment" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Establishment" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -54,19 +54,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure Functions host.Platform.Orchestrator" />
-          </ExecutableSnapshot>
-        </option>
-      </ExecutableRowSnapshot>
-      <ExecutableRowSnapshot>
-        <option name="condition">
-          <ConditionSnapshot>
-            <option name="type" value="immediately" />
-          </ConditionSnapshot>
-        </option>
-        <option name="executable">
-          <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure Functions host.Platform.Api.Insight" />
+            <option name="id" value="runConfig:Docker.docker: Compose Deployment" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>

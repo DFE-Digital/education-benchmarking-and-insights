@@ -1,15 +1,15 @@
-displayName: Average_Web - School Home
+displayName: Average_Web - School Spending Priorities
 testPlan: url-test.json
-description: Average load test for GET /school/{identifier}
+description: Average load test for GET /school/{identifier}/spending-and-costs
 engineInstances: 1
-testId: 32e87f8f-e0a2-4393-ad0e-13559aead029
+testId: 64328db8-47e9-4214-9182-b5b7505ff027
 testType: URL
 splitAllCSVs: False
 configurationFiles:
 - schools.csv
 failureCriteria:
 - p75(response_time_ms) > 500
-- p95(response_time_ms) > 1000
+- p95(response_time_ms) > 100
 - p99(response_time_ms) > 2000
 - percentage(error) > 0.1
 autoStop:
