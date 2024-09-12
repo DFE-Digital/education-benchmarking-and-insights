@@ -1,4 +1,5 @@
 import datetime
+import io
 import logging
 import struct
 from warnings import simplefilter
@@ -386,7 +387,10 @@ def prepare_central_services_data(cs_path, current_year: int):
     )
 
     central_services_financial.rename(
-        columns={"Lead_UPIN": "Trust UPIN"}
+        columns={
+            "Lead_UPIN": "Trust UPIN",
+            "Company_Number": "Company Registration Number",
+        }
         | config.cost_category_map["central_services"]
         | config.income_category_map["central_services"],
         inplace=True,
@@ -399,7 +403,11 @@ def prepare_central_services_data(cs_path, current_year: int):
     return central_services_financial.set_index("Trust UPIN")
 
 
-def prepare_aar_data(aar_path, current_year: int):
+def prepare_aar_data(
+    aar_path,
+    current_year: int,
+    remove_transitioning: bool = True,
+):
     aar = pd.read_csv(
         aar_path,
         encoding="utf-8",
@@ -414,13 +422,13 @@ def prepare_aar_data(aar_path, current_year: int):
     ):
         aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
 
-    # removing pre-transition academies
-    transitioned_academy_urns = aar["URN"][aar["URN"].duplicated(keep=False)].values
-    mask = ~(
-        aar["URN"].isin(transitioned_academy_urns)
-        & aar["Date joined or opened if in period:"].isna()
-    )
-    aar = aar[mask]
+    if remove_transitioning:
+        transitioned_academy_urns = aar["URN"][aar["URN"].duplicated(keep=False)].values
+        mask = ~(
+            aar["URN"].isin(transitioned_academy_urns)
+            & aar["Date joined or opened if in period:"].isna()
+        )
+        aar = aar[mask]
 
     aar["In year balance"] = (
         aar["BNCH11000T (Revenue Income)"] - aar["BNCH20000T (Total Costs)"]
@@ -551,6 +559,31 @@ def prepare_aar_data(aar_path, current_year: int):
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
     return aar.set_index("URN")
+
+
+def prepare_trust_aar_data(aar_path: io.StringIO, current_year: int) -> pd.DataFrame:
+    """
+    As per `prepare_aar_data()` save that we retain all transitioning
+    academy data.
+
+    TODO: Trust-related columns derived for Academies are removed—those
+    derivations will likely be removed in the future.
+
+    Any empty `Company Registration Number` rows are removed as this is
+    key to Trust financial info.
+
+    :param aar_path: CSV input
+    :param current_year: year in question
+    """
+    aar = prepare_aar_data(
+        aar_path,
+        current_year,
+        remove_transitioning=False,
+    )
+
+    return aar.drop(columns=["Trust Balance", "Trust Financial Position"]).dropna(
+        subset=["Company Registration Number"]
+    )
 
 
 def prepare_schools_data(base_data_path, links_data_path):
@@ -990,6 +1023,67 @@ def build_academy_data(
     ].map(mappings.map_company_number)
 
     return academies.set_index("URN")
+
+
+def build_trust_data(
+    year,
+    schools,
+    census,
+    sen,
+    cdc,
+    trust_aar,
+    ks2,
+    ks4,
+    cfo,
+    central_services,
+) -> pd.DataFrame:
+    """
+    Build Trust financial information.
+
+    As per `build_academy_data()` save rolled up to Trust level.
+
+    :param year: year in question
+    :param schools: …
+    :param census: …
+    :param sen: …
+    :param cdc: …
+    :param trust_aar: Academy Account Return data
+    :param ks2: …
+    :param ks4: …
+    :param cfo: …
+    :param central_services: Central Services data
+    :return: Trust-level financial information
+    """
+    df = build_academy_data(
+        year,
+        schools,
+        census,
+        sen,
+        cdc,
+        trust_aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
+    )
+
+    df = (
+        df.reset_index()[
+            [
+                c
+                for c in config.trust_db_projections.keys()
+                if c != "Trust Financial Position"
+            ]
+        ]
+        .groupby("Company Registration Number")
+        .sum()
+    )
+
+    df["Trust Financial Position"] = df["In year balance"].map(
+        mappings.map_is_surplus_deficit
+    )
+
+    return df
 
 
 def build_maintained_school_data(

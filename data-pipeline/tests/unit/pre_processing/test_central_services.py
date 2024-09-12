@@ -5,7 +5,7 @@ def test_central_services_data_has_correct_output_columns(
     prepared_central_services_data: pd.DataFrame,
 ):
     assert list(prepared_central_services_data.columns) == [
-        "Company_Number",
+        "Company Registration Number",
         "BNCH11110T (EFA Revenue Grants)",
         "BNCH11131 (DfE Family Revenue Grants)",
         "Income_Targeted grants",
