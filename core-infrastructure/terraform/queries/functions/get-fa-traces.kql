@@ -1,0 +1,3 @@
+AppTraces
+| where 
+    AppRoleName matches regex "${environmentPrefix}\\-ebis\\-(\\w+)\\-fa"
