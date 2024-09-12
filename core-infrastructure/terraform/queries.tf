@@ -436,9 +436,36 @@ resource "azurerm_log_analytics_query_pack_query" "dlq-new-messages-per-hour" {
   name          = random_uuid.dlq-new-messages-per-hour-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
   display_name  = "DLQ new messages"
-  description   = "New messages added to the dead-letter queue."
+  description   = "New messages added to the dead-letter queue"
   categories    = ["applications"]
   tags          = local.query-tags
 
   body = file("${path.module}/queries/dlq-new-messages-per-hour.kql")
+}
+
+resource "azurerm_log_analytics_saved_search" "get-fa-traces" {
+  name                       = "GetFunctionAppTraces"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetFunctionAppTraces"
+  function_alias             = "GetFunctionAppTraces"
+  tags                       = local.query-tags
+
+  query = templatefile("${path.module}/queries/functions/get-fa-traces.kql", {
+    environmentPrefix = var.environment-prefix
+  })
+}
+
+resource "random_uuid" "function-app-role-instance-count-id" {}
+
+// this query works from the dashboard but rendering the chart breaks, possibly due to large amount of data
+resource "azurerm_log_analytics_query_pack_query" "function-app-role-instance-count" {
+  name          = random_uuid.function-app-role-instance-count-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Role instance count"
+  description   = "Function app role instance count"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/function-app-role-instance-count.kql")
 }

@@ -67,10 +67,11 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
 }
 
 locals {
-  failures-query-prefix               = replace(replace(file("${path.module}/queries/failures-query-prefix.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
-  waf-requests-query                  = replace(replace(file("${path.module}/queries/waf-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
-  waf-blocked-requests-per-hour-query = replace(replace(file("${path.module}/queries/waf-blocked-requests-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
-  dlq-new-messages-per-hour-query     = replace(replace(file("${path.module}/queries/dlq-new-messages-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  failures-query-prefix                  = replace(replace(file("${path.module}/queries/failures-query-prefix.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  waf-requests-query                     = replace(replace(file("${path.module}/queries/waf-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  waf-blocked-requests-per-hour-query    = replace(replace(file("${path.module}/queries/waf-blocked-requests-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  dlq-new-messages-per-hour-query        = replace(replace(file("${path.module}/queries/dlq-new-messages-per-hour.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  function-app-role-instance-count-query = replace(replace(file("${path.module}/queries/function-app-role-instance-count.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "oi-dashboard" {
@@ -106,5 +107,9 @@ resource "azurerm_portal_dashboard" "oi-dashboard" {
       dlq_new_messages_per_hour_id    = azurerm_log_analytics_query_pack_query.dlq-new-messages-per-hour.name,
       dlq_new_messages_per_hour_query = local.dlq-new-messages-per-hour-query,
       dlq_new_messages_per_hour_title = azurerm_log_analytics_query_pack_query.dlq-new-messages-per-hour.description
+
+      function_app_role_instance_count_id    = azurerm_log_analytics_query_pack_query.function-app-role-instance-count.name,
+      function_app_role_instance_count_query = local.function-app-role-instance-count-query,
+      function_app_role_instance_count_title = azurerm_log_analytics_query_pack_query.function-app-role-instance-count.description
   })
 }

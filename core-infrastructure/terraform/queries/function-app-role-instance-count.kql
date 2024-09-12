@@ -1,0 +1,5 @@
+let grainTime = 30sec;
+GetFunctionAppTraces
+| summarize 
+    ["InstanceCount"] = dcount(AppRoleInstance)
+    by bin(TimeGenerated, grainTime), AppRoleName

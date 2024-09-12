@@ -1064,6 +1064,123 @@
                 },
                 "12": {
                     "position": {
+                        "x": 15,
+                        "y": 7,
+                        "colSpan": 6,
+                        "rowSpan": 4
+                    },
+                    "metadata": {
+                        "inputs": [
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${function_app_role_instance_count_id}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${function_app_role_instance_count_query}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "UnstackedColumn",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "xAxis": {
+                                        "name": "TimeGenerated",
+                                        "type": "datetime"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "InstanceCount",
+                                            "type": "long"
+                                        }
+                                    ],
+                                    "splitBy": [
+                                        {
+                                            "name": "AppRoleName",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "aggregation": "Sum"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": true,
+                                    "position": "Bottom"
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "value": false,
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "settings": {
+                            "content": {
+                                "PartTitle": "${function_app_role_instance_count_title}",
+                                "PartSubTitle": "${environment}"
+                            }
+                        }
+                    }
+                },
+                "13": {
+                    "position": {
                         "x": 0,
                         "y": 11,
                         "colSpan": 3,
@@ -1083,7 +1200,7 @@
                         }
                     }
                 },
-                "13": {
+                "14": {
                     "position": {
                         "x": 3,
                         "y": 11,
@@ -1194,7 +1311,7 @@
                         }
                     }
                 },
-                "14": {
+                "15": {
                     "position": {
                         "x": 9,
                         "y": 11,
@@ -1310,7 +1427,7 @@
                         }
                     }
                 },
-                "15": {
+                "16": {
                     "position": {
                         "x": 0,
                         "y": 15,
@@ -1333,7 +1450,7 @@
                         }
                     }
                 },
-                "16": {
+                "17": {
                     "position": {
                         "x": 3,
                         "y": 15,
