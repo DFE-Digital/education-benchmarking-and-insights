@@ -326,6 +326,7 @@ aar_academies = {
 aar_central_services_index_col = "Lead_UPIN"
 aar_central_services = {
     "Lead_UPIN": "Int64",
+    "Company_Number": "string",
     "BNCH11110T (EFA Revenue Grants)": "float",
     "BNCH11131 (DfE Family Revenue Grants)": "float",
     "BNCH11141 (SEN)": "float",

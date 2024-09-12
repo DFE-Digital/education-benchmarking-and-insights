@@ -9,6 +9,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "LA",
         "Estab",
         "Academy UPIN",
+        "Company Registration Number",
         "Date joined or opened if in period",
         "Date left or closed if in period",
         "BNCH11110T (EFA Revenue Grants)",
@@ -95,3 +96,19 @@ def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert prepared_aar_data["Financial Position"].loc[100153] == "Deficit"
+
+
+def test_aar_transitioned_academies_removed(
+    aar_data: pd.DataFrame,
+    prepared_aar_data: pd.DataFrame,
+):
+    assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
+    assert sorted(prepared_aar_data.index) == [100150, 100152, 100153]
+
+
+def test_trust_aar_transitioned_academies_not_removed(
+    aar_data: pd.DataFrame,
+    prepared_trust_aar_data: pd.DataFrame,
+):
+    assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
+    assert sorted(prepared_trust_aar_data.index) == [100150, 100152, 100152, 100153]
