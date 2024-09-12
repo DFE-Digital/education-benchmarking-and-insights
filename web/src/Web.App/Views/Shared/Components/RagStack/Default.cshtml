@@ -9,7 +9,7 @@
 }
 else
 {
-    <svg style="height:@(Model.Height)px;" class="rag-stack" role="img" aria-labelledby="@id-rag">
+    <svg class="rag-stack @(Model.ClassName)" role="img" aria-labelledby="@id-rag">
         <title id="@id-rag">@Model.Red high, @Model.Amber medium and @Model.Green low priorities for @Model.Identifier</title>
         @if (Model.RedPercentage > 0)
         {

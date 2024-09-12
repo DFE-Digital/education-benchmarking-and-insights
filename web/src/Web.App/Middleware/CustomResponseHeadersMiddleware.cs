@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-
 namespace Web.App.Middleware;
 
 public class CustomResponseHeadersMiddleware(RequestDelegate next)
@@ -15,7 +14,7 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
         var csp = new StringBuilder();
         csp.Append("default-src 'self';");
         csp.Append("img-src 'self' data:;");
-        csp.Append("style-src 'self' 'unsafe-inline';");
+        csp.Append("style-src 'self';");
         csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js;");
         csp.Append("object-src 'none';");
         csp.Append("worker-src 'none';");

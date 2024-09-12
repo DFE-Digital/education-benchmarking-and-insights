@@ -21,6 +21,7 @@
   background-color: bisque;
   padding: 20px;
 }
+
 .app-tag-login {
   @include govuk-font($size: 19);
   display: block;
@@ -162,6 +163,7 @@ p.priority .govuk-tag {
 
 svg.rag-stack {
   width: 100%;
+  height: 30px;
 
   // colours taken from node_modules/govuk-frontend/dist/govuk/components/tag/_tag.scss
   rect.rag-stack-red {
@@ -193,6 +195,10 @@ svg.rag-stack {
   a:hover rect.rag-stack-green,
   a:active rect.rag-stack-green {
     fill: govuk-tint($rag-green-colour, 20%);
+  }
+
+  &.rag-stack-small {
+    height: 15px;
   }
 }
 
