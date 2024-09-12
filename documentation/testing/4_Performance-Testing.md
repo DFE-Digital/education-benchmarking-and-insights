@@ -30,12 +30,12 @@ This document is designed to outline the current approach to performance testing
 | Average_Web - School Resources               | 10  | 6               | 1           |
 | Average_Web - Trust Home                     | 4   | 6               | 1           |
 | Average_Web - Trust Spending Priorities      | 4   | 6               | 1           |
-| Peak_Web - School home                       |     | 6               | 1           |
-| Peak_Web - School spending priorities        |     | 6               | 1           |
-| Peak_Web - School comparators                |     | 6               | 1           |
-| Peak_Web - School resources                  |     | 6               | 1           |
-| Peak_Web - Trust home                        |     | 6               | 1           |
-| Peak_Web - Trust spending priorities         |     | 6               | 1           |
+| Peak_Web - School Home                       | 20  | 6               | 1           |
+| Peak_Web - School Spending Priorities        | 30  | 6               | 1           |
+| Peak_Web - School Comparators                | 17  | 6               | 1           |
+| Peak_Web - School Resources                  | 15  | 6               | 1           |
+| Peak_Web - Trust Home                        | 10  | 6               | 1           |
+| Peak_Web - Trust Spending Priorities         | 8   | 6               | 1           |
 
 ## Spike Load Tests
 

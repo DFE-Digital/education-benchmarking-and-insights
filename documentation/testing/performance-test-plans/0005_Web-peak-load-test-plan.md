@@ -2,7 +2,7 @@
 
 **Test run date:**
 
-TBC
+September 2024
 
 ## Goal
 
@@ -63,11 +63,11 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
   - P75 below 500ms
   - P95 below 1000ms
   - P99 below 2000ms
-- Error Rate:  below 0.1%
-- CPU and Memory utilisation : below 80%*
-- Database performance : below 80%*
+- Error Rate: below 0.1%
+- CPU and Memory utilisation: below 80%*
+- Database performance: below 80%*
 
-*based on production tiers P1v3 for app service & S1 (50DTU) for database. 
+*based on production tiers P1v3 for app service & S1 (50DTU) for database.
 
 ## Test Execution
 
@@ -79,10 +79,19 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 
 **Summary Report:**
 
-//TODO: Add summary post test run
+<!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
+| Load Test Name             | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
+|----------------------------|----------------------|---------|----------|---------------|--------|------------|-------------|
+| School Home                | 11/09/2024, 17:10:12 | 20      | 6m 0s    | 371 ms        | 0 %    | 60.85 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca16e/testRunId/c661f194-eb06-4513-82fc-a3234deca5ad)     |
+| School Spending Priorities | 12/09/2024, 08:43:28 | 30      | 6m 1s    | 550 ms        | 0 %    | 66.03 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca4ae/testRunId/b96b13a1-fc89-4134-be13-f9ae4011361c)     |
+| School Comparators         | 12/09/2024, 09:47:09 | 17      | 6m 6s    | 205 ms        | 0 %    | 89.17 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca344/testRunId/d550e583-5f7a-442c-a078-fc75f69be637)     |
+| School Resources           | 12/09/2024, 10:28:27 | 15      | 6m 4s    | 151 ms        | 0.02 % | 97.71 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca3fe/testRunId/e815efe0-0aa3-4d21-b65b-c1d9fe79d060)     |
+| Trust Home                 | 12/09/2024, 11:11:33 | 10      | 5m 55s   | 320 ms        | 0 %    | 44.47 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca6d0/testRunId/e815efe0-0aa3-4d21-b65b-c1d9fe79d4a9)     |
+| Trust Spending Priorities  | 12/09/2024, 11:50:05 | 8       | 5m 55s   | 205 ms        | 0 %    | 44.68 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca6fd/testRunId/e815efe0-0aa3-4d21-b65b-c1d9fe79dddf)     |
 
 **Findings and Recommendations:**
 
-//TODO: Add finding and recommendation post test run
+All test runs passed 💯
+
 <!-- Leave the rest of this page blank -->
 \newpage

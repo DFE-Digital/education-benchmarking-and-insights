@@ -1,0 +1,17 @@
+displayName: Peak_Web - School Comparators
+testPlan: url-test.json
+description: Peak load test for GET /school/{identifier}/comparators
+engineInstances: 1
+testId: c661f194-eb06-4513-82fc-a3234deca344
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria:
+- p75(response_time_ms) > 500
+- p95(response_time_ms) > 1000
+- p99(response_time_ms) > 2000
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
