@@ -7,6 +7,8 @@ import pandas as pd
 import sqlalchemy
 from sqlalchemy import URL, create_engine, event
 
+from src.pipeline import config
+
 logger = logging.getLogger("fbit-data-pipeline")
 
 db_args = os.getenv("DB_ARGS")
@@ -407,6 +409,32 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
 
     upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"])
     logger.info(f"Wrote {len(write_frame)} rows to financial data {run_type} - {year}")
+
+
+def insert_trust_financial_data(run_type: str, year: str, df: pd.DataFrame):
+    """
+    Write Trust financial info. to the TrustFinancial table.
+
+    - DataFrame columns will be aligned with DB columns
+    - erroneous numeric values will be replaced with NULL
+
+    :param run_type: should only be "default"
+    :param year: year in question
+    :param df: Trust financial info.
+    """
+    write_frame = (
+        df.reset_index()[config.trust_db_projections.keys()]
+        .rename(columns=config.trust_db_projections)
+        .replace({np.inf: np.nan, -np.inf: np.nan})
+    )
+
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(year)
+
+    upsert(write_frame, "TrustFinancial", keys=["RunType", "RunId", "CompanyNumber"])
+    logger.info(
+        f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {year}"
+    )
 
 
 def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):

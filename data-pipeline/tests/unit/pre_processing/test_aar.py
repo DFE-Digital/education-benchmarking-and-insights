@@ -107,7 +107,24 @@ def test_empty_lines_stripped(aar_data: pd.DataFrame):
     result = pre_processing.prepare_aar_data(
         aar_path=io.StringIO(csv_with_empty_lines),
         current_year=2022,
+        remove_transitioning=False,
     )
 
     assert len(csv_with_empty_lines.splitlines()) > len(aar_data.index)
     assert len(result.index) == len(aar_data.index)
+
+
+def test_aar_transitioned_academies_removed(
+    aar_data: pd.DataFrame,
+    prepared_aar_data: pd.DataFrame,
+):
+    assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
+    assert sorted(prepared_aar_data.index) == [100150, 100152, 100153]
+
+
+def test_trust_aar_transitioned_academies_not_removed(
+    aar_data: pd.DataFrame,
+    prepared_trust_aar_data: pd.DataFrame,
+):
+    assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
+    assert sorted(prepared_trust_aar_data.index) == [100150, 100152, 100152, 100153]
