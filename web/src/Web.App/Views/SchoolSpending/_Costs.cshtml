@@ -33,9 +33,9 @@
                 urn = Model.Urn
             });
 
-        <div class="govuk-grid-row govuk-!-margin-bottom-4"
+        <div class="govuk-grid-row govuk-!-margin-bottom-2"
              @(i == 0 ? $"id={Model.Id}" : "")>
-            <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-full">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
                     @await Component.InvokeAsync("Tag", new
@@ -47,6 +47,10 @@
                         Rating = category.Rating
                     })
                 </p>
+            </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+            <div class="govuk-grid-column-two-thirds">
                 <div class="govuk-!-margin-bottom-2 composed-container"
                      data-spending-and-costs-composed
                      data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
@@ -59,6 +63,17 @@
                 <p class="govuk-body">
                     <a href="@categoryUri#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
                 </p>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                @if (category.Rating.RAG != "green")
+                {
+                    <div class="govuk-!-margin-top-6" id="commercial-resources-@category.Rating.CostCategoryAnchorId">
+                        <h4 class="govuk-heading-s">
+                            Find ways to spend less
+                        </h4>
+                        @await Html.PartialAsync(category.Rating.ResourcePartial, new ResourceViewModel(false))
+                    </div>
+                }
             </div>
         </div>
     }
