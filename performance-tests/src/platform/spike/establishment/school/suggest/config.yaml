@@ -1,0 +1,22 @@
+displayName: Spike_API_Establishment - Suggest Schools
+testPlan: url-test.json
+description: Spike load test for POST /schools/suggest
+engineInstances: 1
+testId: d8fa9b6b-7f26-4ca0-8f80-7e8eccf6a008
+testType: URL
+subnetId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Network/virtualNetworks/s198t01-app-service-network/subnets/s198t01-load-test-subnet
+publicIPDisabled: true
+splitAllCSVs: False
+configurationFiles:
+- suggest.csv
+failureCriteria:
+- p75(response_time_ms) > 200
+- p95(response_time_ms) > 300
+- p99(response_time_ms) > 500
+- percentage(error) > 1
+secrets:
+- name: establishment-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/establishment-host-key
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60

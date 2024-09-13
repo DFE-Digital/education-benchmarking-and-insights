@@ -41,7 +41,7 @@ This document is designed to outline the current approach to performance testing
 
 | Test                                       | VUs | Spike multiplier | Duration (mins) | Spike hold (mins) |
 |--------------------------------------------|-----|------------------|-----------------|-------------------|
-| Spike_API_Establishment - Suggest Schools  | 2   | 10               | 6               | 1                 |
+| Spike_API_Establishment - Suggest Schools  | 2   | 10               | 6               | 2                 |
 | Spike_API_Establishment - Schools          | 2   | 10               | 6               | 1                 |
 | Spike_API_Benchmark - User Data            | 2   | 10               | 6               | 1                 |
 | Spike_API_Benchmark - Comparators          | 6   | 10               | 6               | 1                 |
@@ -58,10 +58,10 @@ This document is designed to outline the current approach to performance testing
 
 The items below are not exhaustive, nor terminal. They are just some things to be aware of when authoring and executing the load tests.
 
-- **Sometimes parameters are cleared:** When editing an existing Load Test, ensure that the Parameters page of the settings does not get cleared unexpectedly.
+- **Sometimes parameters are cleared:** When editing an existing Load Test, ensure that the Parameters page of the settings does not get cleared unexpectedly. A symptom of this happening is an entire test run failing with `401 Unauthorized` because some secret parameters have been dropped.
 
 - **CSV files:** Apostrophes in source CSV files sometimes cause POST-ed JSON to be malformed, possibly leading to `400` or `500` responses from the API.
-Additionally, hyphens do not seem to be supported when defining CSV column names. Furthermore, badly defined CSV variables may break row parsing without any warning, leading to unexpected results (especially where entries are double-quoted).
+Additionally, hyphens do not seem to be supported when defining CSV column names. Furthermore, valid double quoted CSV entries seem to no longer be supported. Remove commas and double quotes before submitting source files for load testing.
 
 - **Editing tests takes time:** It takes a short period of time for Azure Portal to process changes to tests.
 Errors will be raised when making additional changes while previous ones are being processed.
