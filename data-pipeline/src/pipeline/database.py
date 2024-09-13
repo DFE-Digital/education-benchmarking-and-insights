@@ -43,11 +43,12 @@ def upsert(
     table_name: str,
     keys: list[str],
     dtype: dict[str, any] = None,
-    drop_duplicates: bool = True,
 ):
     logger.info(f"Connecting to database {engine.url}")
-    if drop_duplicates:
-        df.drop_duplicates(inplace=True)
+    _index = df.index.name
+    df.reset_index(inplace=True)
+    df.drop_duplicates(inplace=True)
+    df.set_index(_index, inplace=True)
 
     update_cols = []
     insert_cols = [*keys]
@@ -82,7 +83,6 @@ def insert_comparator_set(run_type: str, set_type: str, run_id: str, df: pd.Data
         write_frame,
         "ComparatorSet",
         keys=["RunType", "RunId", "URN", "SetType"],
-        drop_duplicates=False,
     )
     logger.info(
         f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {run_id}"
