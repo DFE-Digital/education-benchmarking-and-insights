@@ -65,4 +65,30 @@ public class CostsViewModel
     public string? Urn { get; init; }
     public bool HasIncompleteData { get; init; }
     public bool IsCustomData { get; set; }
+    
+    public Dictionary<string, string> Lookup1 => new()
+    {
+        { "Administrative supplies", "_AdministrativeSupplies" },
+        { "Catering staff and supplies", "_CateringStaffServices" },
+        { "Educational ICT", "_EducationalICT" },
+        { "Educational supplies", "_EducationalSupplies" },
+        { "Non-educational support staff and services", "_NonEducationalSupportStaff" },
+        { "Other costs", "_OtherCosts" },
+        { "Premises staff and services", "_PremisesStaffServices" },
+        { "Teaching and Teaching support staff", "_TeachingStaff" },
+        { "Utilities", "_Utilities" }
+    };
+    
+    public Dictionary<string, bool> Lookup2 => new()
+    {
+        { "Administrative supplies", false },
+        { "Catering staff and supplies", false },
+        { "Educational ICT", false },
+        { "Educational supplies", false },
+        { "Non-educational support staff", false },
+        { "Other costs", true },
+        { "Premises staff and services", true },
+        { "Teaching and Teaching support staff", true },
+        { "Utilities", true }
+    };
 }

@@ -93,7 +93,18 @@
                                 })
                                 Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — Spending is higher than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
+                            <details class="govuk-details govuk-!-margin-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text">
+                                      Find ways to spend less
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    @await Html.PartialAsync($"CommercialResource/{Model.Lookup1[rating.Category]}", new ResourceViewModel(false))
+                                </div>
+                            </details>
                         </div>
+                        
                     }
                 </div>
             }

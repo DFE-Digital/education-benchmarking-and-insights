@@ -92,4 +92,32 @@ public class SchoolViewModel(School school)
     public bool? ComparatorGenerated { get; }
     public bool? ComparatorReverted { get; }
     public bool? CustomDataGenerated { get; }
-}
+
+    public Dictionary<string, string> Lookup1 => new()
+    {
+        { "Administrative supplies", "_AdministrativeSupplies" },
+        { "Catering staff and supplies", "_CateringStaffServices" },
+        { "Educational ICT", "_EducationalICT" },
+        { "Educational supplies", "_EducationalSupplies" },
+        { "Non-educational support staff", "_NonEducationalSupportStaff" },
+        { "Other costs", "_OtherCosts" },
+        { "Premises staff and services", "_PremisesStaffServices" },
+        { "Teaching and Teaching support staff", "_TeachingStaff" },
+        { "Utilities", "_Utilities" }
+    };
+    
+    public Dictionary<string, bool> Lookup2 => new()
+    {
+        { "Administrative supplies", false },
+        { "Catering staff and supplies", false },
+        { "Educational ICT", false },
+        { "Educational supplies", false },
+        { "Non-educational support staff", false },
+        { "Other costs", true },
+        { "Premises staff and services", true },
+        { "Teaching and Teaching support staff", true },
+        { "Utilities", true }
+    };
+
+    
+};
