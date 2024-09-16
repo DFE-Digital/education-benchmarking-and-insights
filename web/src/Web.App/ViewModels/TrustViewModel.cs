@@ -1,5 +1,4 @@
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class TrustViewModel(Trust trust)
@@ -16,12 +15,14 @@ public class TrustViewModel(Trust trust)
         Trust trust,
         TrustBalance balance,
         IReadOnlyCollection<School> schools,
-        IEnumerable<RagRating> ratings)
+        IEnumerable<RagRating> ratings,
+        bool? comparatorReverted = false)
         : this(trust)
     {
         NumberSchools = schools.Count;
         RevenueReserve = balance.RevenueReserve;
         InYearBalance = balance.InYearBalance;
+        ComparatorReverted = comparatorReverted;
 
         var ratingsArray = ratings.ToArray();
 
@@ -58,7 +59,7 @@ public class TrustViewModel(Trust trust)
                     .OrderByDescending(o => o.RedRatio)
                     .ThenByDescending(o => o.AmberRatio)
                     .ThenBy(o => o.Name)
-            ));
+                ));
     }
 
     public string? CompanyNumber => trust.CompanyNumber;
@@ -102,7 +103,7 @@ public class TrustViewModel(Trust trust)
         .Where(s => s.OverallPhase == OverallPhaseTypes.PostSixteen)
         .SelectMany(s => s.Schools);
 
-
+    public bool? ComparatorReverted { get; }
 
     private IEnumerable<(string? OverallPhase, IOrderedEnumerable<RagSchoolViewModel> Schools)> GroupedSchools { get; } = [];
 
