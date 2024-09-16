@@ -16,6 +16,7 @@ import {
   ChartHandler,
   ChartSeriesConfigItem,
   SpecialItemFlag,
+  ValueFormatterValue,
 } from "src/components/charts";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartModeChart, ChartModeTable } from "src/components";
@@ -39,7 +40,15 @@ import { SchoolExpenditure } from "src/services";
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartName, children, data, sort, trust, valueUnit } = props;
+  const {
+    chartName,
+    children,
+    data,
+    showEstimatedValues,
+    sort,
+    trust,
+    valueUnit,
+  } = props;
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -48,13 +57,21 @@ export function HorizontalBarChartWrapper<
   const [imageLoading, setImageLoading] = useState<boolean>();
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
   const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
+  const resolvedFormatter = (v: ValueFormatterValue) =>
+    shortValueFormatter(v, {
+      valueUnit: valueUnit ?? dimension.unit,
+    });
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
-      valueFormatter: (v) =>
-        shortValueFormatter(v, {
-          valueUnit: valueUnit ?? dimension.unit,
-        }),
+      valueFormatter: resolvedFormatter,
+      stackId: 1,
+    },
+    estimatedValueDifference: {
+      visible: showEstimatedValues === true,
+      valueFormatter: resolvedFormatter,
+      stackId: 1,
+      className: "chart-cell-estimated",
     },
   };
 
@@ -66,23 +83,31 @@ export function HorizontalBarChartWrapper<
     }
 
     return data.dataPoints
-      .map((d) =>
-        isFinite((d as never)[dataPoint] as number) &&
-        !isNaN((d as never)[dataPoint] as number)
-          ? d
-          : { ...d, [dataPoint]: 0 }
-      )
-      .sort((a, b) =>
+      .map((d) => {
+        let value = (d as never)[dataPoint] as number;
+        if (showEstimatedValues) {
+          const estimatedValue = (d as never)["estimatedValue"] as number;
+          if (estimatedValue) {
+            value = estimatedValue;
+          }
+        }
+
+        return {
+          ...d,
+          sort: isFinite(value) && !isNaN(value) ? value : 0,
+        };
+      })
+      .sort((a: TData & { sort: number }, b: TData & { sort: number }) =>
         chartSeriesComparer(
-          a as TData,
-          b as TData,
+          a,
+          b,
           sort ?? {
             direction: "desc",
-            dataPoint: dataPoint as keyof TData,
+            dataPoint: "sort",
           }
         )
       ) as TData[];
-  }, [data.dataPoints, sort, trust]);
+  }, [data.dataPoints, sort, trust, showEstimatedValues]);
 
   const partYearKeys = useMemo(() => {
     if (trust) {
@@ -139,7 +164,11 @@ export function HorizontalBarChartWrapper<
         valueUnit={valueUnit ?? dimension.unit}
       />
     ) : (
-      <SchoolDataTooltip {...props} {...payloadProps} />
+      <SchoolDataTooltip
+        {...props}
+        {...payloadProps}
+        valueFormatter={resolvedFormatter}
+      />
     );
   };
 

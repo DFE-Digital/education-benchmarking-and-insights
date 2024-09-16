@@ -9,16 +9,26 @@ import { PartYearDataWarning } from "../part-year-data-warning";
 export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->({ active, payload }: SchoolTooltipProps<TValue, TName>) {
+>({ active, payload, valueFormatter }: SchoolTooltipProps<TValue, TName>) {
   if (!active || !payload || !payload.length) {
     return null;
   }
 
-  const { laName, periodCoveredByReturn, schoolName, schoolType, totalPupils } =
-    payload[0].payload as SchoolChartData;
+  const {
+    estimatedValue,
+    laName,
+    periodCoveredByReturn,
+    schoolName,
+    schoolType,
+    totalPupils,
+    value,
+  } = payload[0].payload as SchoolChartData;
+  const isPartYear =
+    periodCoveredByReturn !== undefined && periodCoveredByReturn < 12;
+
   return (
     <>
-      {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
+      {isPartYear && (
         <div className="tooltip-part-year-warning">
           <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
         </div>
@@ -56,6 +66,31 @@ export function SchoolDataTooltip<
             </th>
             <td className="govuk-table__cell">{String(totalPupils)}</td>
           </tr>
+          {isPartYear && (
+            <>
+              <tr className="govuk-table__row">
+                <th scope="row" className="govuk-table__header">
+                  Amount
+                </th>
+                <td className="govuk-table__cell">
+                  {valueFormatter ? valueFormatter(value) : String(value)} over{" "}
+                  {periodCoveredByReturn}{" "}
+                  {periodCoveredByReturn === 1 ? "month" : "months"}
+                </td>
+              </tr>
+              <tr className="govuk-table__row">
+                <th scope="row" className="govuk-table__header">
+                  Estimated Amount
+                </th>
+                <td className="govuk-table__cell">
+                  {valueFormatter
+                    ? valueFormatter(estimatedValue)
+                    : String(estimatedValue)}{" "}
+                  over 12 months
+                </td>
+              </tr>
+            </>
+          )}
         </tbody>
       </table>
     </>

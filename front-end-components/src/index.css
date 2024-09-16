@@ -117,6 +117,15 @@
   stroke-width: 3px;
 }
 
+.recharts-wrapper .chart-cell.chart-cell-estimated {
+  stroke-dasharray: 10 5;
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-estimated {
+  stroke: var(--stack-0-colour);
+}
+
 .recharts-wrapper
   .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-active {
   fill: var(--stack-1-active-colour);
@@ -128,9 +137,10 @@
   fill: var(--stack-1-highlight-colour);
 }
 
-.recharts-wrapper .chart-cell.chart-cell-part-year {
-  stroke: var(--warning-colour);
-  fill: var(--warning-colour);
+.recharts-wrapper
+  .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-highlight.chart-cell-estimated {
+  stroke: var(--series-highlight-colour);
+  fill: var(--stack-1-highlight-colour);
 }
 
 .recharts-wrapper

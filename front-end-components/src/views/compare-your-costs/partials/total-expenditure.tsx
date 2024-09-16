@@ -28,6 +28,7 @@ import { CompareYourCostsProps } from "./accordion-sections/types";
 export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   type,
   id,
+  showEstimatedValues,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
@@ -64,14 +65,28 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
       return {
         dataPoints:
           data?.map((school) => {
+            const value = school.totalExpenditure;
+            let estimatedValue: number | undefined = undefined;
+            if (showEstimatedValues && school.periodCoveredByReturn < 12) {
+              estimatedValue = (value / school.periodCoveredByReturn) * 12;
+            }
+
+            if (estimatedValue !== undefined && isNaN(estimatedValue)) {
+              estimatedValue = 0;
+            }
+
             return {
               ...school,
-              value: school.totalExpenditure,
+              value,
+              estimatedValue,
+              estimatedValueDifference: estimatedValue
+                ? estimatedValue - value
+                : undefined,
             };
           }) ?? [],
         tableHeadings,
       };
-    }, [dimension, data]);
+    }, [dimension, data, showEstimatedValues]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -90,6 +105,7 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
         <HorizontalBarChartWrapper
           data={chartData}
           chartName="total expenditure"
+          showEstimatedValues={showEstimatedValues}
         >
           <h2 className="govuk-heading-m">Total expenditure</h2>
           <ChartDimensions

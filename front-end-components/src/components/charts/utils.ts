@@ -5,7 +5,9 @@ import {
   ValueFormatterValue,
 } from ".";
 
-export function chartSeriesComparer<TData extends ChartDataSeries>(
+export type SortedChartDataSeries = ChartDataSeries & { sort?: number };
+
+export function chartSeriesComparer<TData extends SortedChartDataSeries>(
   a: TData,
   b: TData,
   { dataPoint, direction }: ChartDataSeriesSortMode<TData>

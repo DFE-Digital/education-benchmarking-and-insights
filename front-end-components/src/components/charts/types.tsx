@@ -5,6 +5,7 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 import { ContentType } from "recharts/types/component/Tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
+import { SortedChartDataSeries } from "./utils";
 
 export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
@@ -63,7 +64,7 @@ export type ChartHandler = {
 
 export type ChartSortDirection = "asc" | "desc";
 
-export type ChartDataSeriesSortMode<TData extends ChartDataSeries> = {
+export type ChartDataSeriesSortMode<TData extends SortedChartDataSeries> = {
   dataPoint: keyof TData;
   direction: ChartSortDirection;
 };

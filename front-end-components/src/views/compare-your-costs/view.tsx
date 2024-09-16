@@ -37,7 +37,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
             {/*<HasIncompleteDataContext.Provider*/}
             {/*  value={{ hasNoData }}*/}
             {/*>*/}
-            <TotalExpenditure id={id} type={type} />
+            <TotalExpenditure id={id} type={type} showEstimatedValues />
             <ExpenditureAccordion id={id} type={type} />
             {/*</HasIncompleteDataContext.Provider>*/}
           </ChartModeProvider>

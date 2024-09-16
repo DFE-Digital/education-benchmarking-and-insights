@@ -115,4 +115,5 @@ export type OtherCostsData = {
 export type CompareYourCostsProps = {
   type: "school" | "trust";
   id: string;
+  showEstimatedValues?: boolean;
 };

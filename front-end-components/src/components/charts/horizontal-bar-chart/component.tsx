@@ -176,10 +176,12 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   };
 
-  function renderLabelList(
-    { height, value, width, x, y }: LabelListContentProps,
+  const renderLabelList = (
+    props: LabelListContentProps,
     valueFormatter?: ValueFormatterType
-  ) {
+  ) => {
+    const { className, height, index, width, x, y } = props;
+    let value = props.value as number;
     let dx =
       (x as number) +
       ((width as number) > 0 ? (width as number) : 0) +
@@ -187,6 +189,17 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     const parsedValue = parseInt(value?.toString() || "");
     if (!isNaN(parsedValue) && parsedValue < 0) {
       dx += (width as number) - (height as number) * 3;
+    }
+
+    const item = index != undefined && data[index];
+    if (item) {
+      value = 0;
+      visibleSeriesNames.forEach((n) => {
+        const nextValue = item[n] as number;
+        if (nextValue) {
+          value += nextValue;
+        }
+      });
     }
 
     return (
@@ -197,13 +210,16 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           textAnchor="start"
           dominantBaseline="middle"
         >
-          {valueFormatter
+          {(valueFormatter
             ? valueFormatter(value as ChartSeriesValue)
-            : String(value)}
+            : String(value)) +
+            (props.value && className && className?.indexOf("estimated") > 0
+              ? " (estimated)"
+              : "")}
         </Text>
       </g>
     );
-  }
+  };
 
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
@@ -219,7 +235,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           layout="vertical"
           margin={{
             top: margin,
-            right: margin + (labels ? 25 : 5),
+            right: margin + (labels ? 35 : 5),
             bottom: margin,
             left: hasSomeNegativeValues ? margin + 48 : margin,
           }}

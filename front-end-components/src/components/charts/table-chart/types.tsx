@@ -16,6 +16,8 @@ export type SchoolChartData = {
   laName: string;
   value?: number;
   periodCoveredByReturn?: number;
+  estimatedValue?: number;
+  estimatedValueDifference?: number;
 };
 
 export type TrustChartData = {
