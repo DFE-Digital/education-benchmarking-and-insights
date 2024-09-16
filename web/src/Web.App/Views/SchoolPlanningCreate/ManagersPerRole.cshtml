@@ -4,24 +4,32 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningManagersPerRole;
 }
 
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.School.SchoolName,
+    id = Model.School.URN,
+    kind = OrganisationTypes.School
+})
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
-        @using (Html.BeginForm("ManagersPerRole", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("ManagersPerRole", "SchoolPlanningCreate", new
+                {
+                    urn = Model.School.URN,
+                    year = Model.PlanInput?.Year
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
         {
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <span class="govuk-caption-l">@Model.School.SchoolName</span>
-                        <h1 class="govuk-fieldset__heading">
-                            @ViewData[ViewDataKeys.Title]
-                        </h1>
-                    </legend>
-                    
                     @if (Model.PlanInput?.ManagementRoleHeadteacher is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadteacher)" value="@Model.PlanInput.ManagementRoleHeadteacher.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberHeadteacher)">
                                 Total number of headteachers
@@ -40,11 +48,11 @@
                                    value="@Model.PlanInput.NumberHeadteacher">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleDeputyHeadteacher is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleDeputyHeadteacher)" value="@Model.PlanInput.ManagementRoleDeputyHeadteacher.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberDeputyHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberDeputyHeadteacher)">
                                 Total number of deputy headteachers
@@ -63,11 +71,11 @@
                                    value="@Model.PlanInput.NumberDeputyHeadteacher">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleNumeracyLead is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleNumeracyLead)" value="@Model.PlanInput.ManagementRoleNumeracyLead.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberNumeracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberNumeracyLead)">
                                 Total number of numeracy leads
@@ -86,11 +94,11 @@
                                    value="@Model.PlanInput.NumberNumeracyLead">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleLiteracyLead is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleLiteracyLead)" value="@Model.PlanInput.ManagementRoleLiteracyLead.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberLiteracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberLiteracyLead)">
                                 Total number of literacy leads
@@ -109,11 +117,11 @@
                                    value="@Model.PlanInput.NumberLiteracyLead">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleHeadSmallCurriculum is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadSmallCurriculum)" value="@Model.PlanInput.ManagementRoleHeadSmallCurriculum.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberHeadSmallCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberHeadSmallCurriculum)">
                                 Total number of head of small curriculum areas
@@ -136,7 +144,7 @@
                     @if (Model.PlanInput?.ManagementRoleHeadKs1 is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadKs1)" value="@Model.PlanInput.ManagementRoleHeadKs1.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberHeadKs1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberHeadKs1)">
                                 Total number of heads of KS1
@@ -159,7 +167,7 @@
                     @if (Model.PlanInput?.ManagementRoleHeadKs2 is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadKs2)" value="@Model.PlanInput.ManagementRoleHeadKs2.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberHeadKs2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberHeadKs2)">
                                 Total number of heads of KS2
@@ -183,7 +191,7 @@
                     @if (Model.PlanInput?.ManagementRoleSenco is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleSenco)" value="@Model.PlanInput.ManagementRoleSenco.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberSenco)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberSenco)">
                                 Total number of special education needs coordinators (SENCO)
@@ -202,11 +210,11 @@
                                    value="@Model.PlanInput.NumberSenco">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleAssistantHeadteacher is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleAssistantHeadteacher)" value="@Model.PlanInput.ManagementRoleAssistantHeadteacher.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberAssistantHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberAssistantHeadteacher)">
                                 Total number of assistant headteachers
@@ -229,7 +237,7 @@
                     @if (Model.PlanInput?.ManagementRoleHeadLargeCurriculum is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadLargeCurriculum)" value="@Model.PlanInput.ManagementRoleHeadLargeCurriculum.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberHeadLargeCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberHeadLargeCurriculum)">
                                 Total number of head of large curriculum areas
@@ -248,11 +256,11 @@
                                    value="@Model.PlanInput.NumberHeadLargeCurriculum">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRolePastoralLeader is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRolePastoralLeader)" value="@Model.PlanInput.ManagementRolePastoralLeader.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberPastoralLeader)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberPastoralLeader)">
                                 Total number of pastoral leaders
@@ -271,11 +279,11 @@
                                    value="@Model.PlanInput.NumberPastoralLeader">
                         </div>
                     }
-                    
+
                     @if (Model.PlanInput?.ManagementRoleOtherMembers is true)
                     {
                         <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleOtherMembers)" value="@Model.PlanInput.ManagementRoleOtherMembers.ToString().ToLower()"/>
-                        
+
                         <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.NumberOtherMembers)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                             <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.NumberOtherMembers)">
                                 Total number of other members of management or leadership staff

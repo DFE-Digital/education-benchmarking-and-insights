@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Xunit;
@@ -113,7 +114,7 @@ public static class DocumentAssert
         {
             var element = doc.GetElementById($"{field}-error");
             Assert.NotNull(element);
-            TextEqual(element, $"Error: {message}");
+            TextMatches(element, new Regex($@"Error:\s+{message}"));
         }
     }
 
@@ -216,6 +217,11 @@ public static class DocumentAssert
     public static void TextEqual(IElement element, string expected)
     {
         Assert.Equal(expected, element.TextContent.Trim());
+    }
+
+    public static void TextMatches(IElement element, Regex pattern)
+    {
+        Assert.Matches(pattern, element.TextContent.Trim());
     }
 
     private static void AssertNodeText(INode? node, string text)

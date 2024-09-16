@@ -3,12 +3,17 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningOtherTeachingPeriodsReview;
 }
 
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.School.SchoolName,
+    id = Model.School.URN,
+    kind = OrganisationTypes.School
+})
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
-        <span class="govuk-caption-l">@Model.School.SchoolName</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
-
         <table class="govuk-table">
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">

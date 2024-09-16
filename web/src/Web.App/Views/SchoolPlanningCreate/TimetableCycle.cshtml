@@ -5,12 +5,17 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTimetableCycle;
 }
 
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.School.SchoolName,
+    id = Model.School.URN,
+    kind = OrganisationTypes.School
+})
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
-        
-        <span class="govuk-caption-l">@Model.School.SchoolName</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
                 The length of your timetable cycle is the number of periods before it repeats itself.
@@ -22,7 +27,14 @@
                 Enter an average if your school has a different timetable length for different years
             </p>
         </div>
-        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningCreate", new
+                {
+                    urn = Model.School.URN,
+                    year = Model.PlanInput?.Year
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
         {
             <input type="hidden" name="@nameof(Model.Referrer)" value="@Model.Referrer"/>
             <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
