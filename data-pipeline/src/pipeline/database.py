@@ -45,10 +45,13 @@ def upsert(
     dtype: dict[str, any] = None,
 ):
     logger.info(f"Connecting to database {engine.url}")
-    _index = df.index.name
-    df.reset_index(inplace=True)
+
+    # Drop duplicates, including the index if specifically set.
+    if _index := df.index.name:
+        df.reset_index(inplace=True)
     df.drop_duplicates(inplace=True)
-    df.set_index(_index, inplace=True)
+    if _index:
+        df.set_index(_index, inplace=True)
 
     update_cols = []
     insert_cols = [*keys]
