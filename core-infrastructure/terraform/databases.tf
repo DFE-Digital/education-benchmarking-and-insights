@@ -198,6 +198,7 @@ resource "azurerm_storage_account" "sql-log-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   shared_access_key_enabled       = true
+  local_user_enabled              = false
 
   blob_properties {
     delete_retention_policy {

@@ -16,6 +16,7 @@ resource "azurerm_storage_account" "platform-storage" {
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
   shared_access_key_enabled       = true
+  local_user_enabled              = false
 
   blob_properties {
     delete_retention_policy {
@@ -57,6 +58,7 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
   shared_access_key_enabled       = true
+  local_user_enabled              = false
 
   blob_properties {
     delete_retention_policy {
