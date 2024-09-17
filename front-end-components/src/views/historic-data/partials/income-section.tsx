@@ -123,26 +123,28 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
             </p>
           </div>
         </div>
-        <div className="govuk-accordion__section">
-          <div className="govuk-accordion__section-header">
-            <h2 className="govuk-accordion__section-heading">
-              <span
-                className="govuk-accordion__section-button"
-                id="accordion-income-heading-3"
-              >
-                Direct revenue financing
-              </span>
-            </h2>
+        {type === "school" && (
+          <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+              <h2 className="govuk-accordion__section-heading">
+                <span
+                  className="govuk-accordion__section-button"
+                  id="accordion-income-heading-3"
+                >
+                  Direct revenue financing
+                </span>
+              </h2>
+            </div>
+            <div
+              id="accordion-income-content-3"
+              className="govuk-accordion__section-content"
+            >
+              <p className="govuk-body">
+                <IncomeSectionDirectRevenue data={data} />
+              </p>
+            </div>
           </div>
-          <div
-            id="accordion-income-content-3"
-            className="govuk-accordion__section-content"
-          >
-            <p className="govuk-body">
-              <IncomeSectionDirectRevenue data={data} />
-            </p>
-          </div>
-        </div>
+        )}
       </div>
     </ChartDimensionContext.Provider>
   );

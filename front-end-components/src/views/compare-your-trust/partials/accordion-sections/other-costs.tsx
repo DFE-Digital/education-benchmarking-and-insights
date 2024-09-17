@@ -280,42 +280,6 @@ export const OtherCosts: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const communityFocusedSchoolStaffBarData: HorizontalBarChartWrapperData<OtherCostsData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data && Array.isArray(data)
-            ? data.map((trust) => {
-                return {
-                  ...trust,
-                  totalValue: trust.communityFocusedSchoolStaff ?? 0,
-                  schoolValue: trust.schoolCommunityFocusedSchoolStaff ?? 0,
-                  centralValue: trust.centralCommunityFocusedSchoolStaff ?? 0,
-                };
-              })
-            : [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
-  const communityFocusedSchoolCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data && Array.isArray(data)
-            ? data.map((trust) => {
-                return {
-                  ...trust,
-                  totalValue: trust.communityFocusedSchoolCosts ?? 0,
-                  schoolValue: trust.schoolCommunityFocusedSchoolCosts ?? 0,
-                  centralValue: trust.centralCommunityFocusedSchoolCosts ?? 0,
-                };
-              })
-            : [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
   const elementId = "other-costs";
   const [hash] = useHash();
 
@@ -436,24 +400,6 @@ export const OtherCosts: React.FC<{
             trust
           >
             <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={communityFocusedSchoolStaffBarData}
-            chartName="community focused school staff (maintained schools only)"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Community focused school staff (maintained schools only)
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={communityFocusedSchoolCostsBarData}
-            chartName="community focused school costs (maintained schools only)"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Community focused school costs (maintained schools only)
-            </h3>
           </HorizontalBarChartWrapper>
         </div>
       </div>
