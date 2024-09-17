@@ -24,7 +24,7 @@ import {
   shortValueFormatter,
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
-import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip";
+import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
@@ -140,7 +140,11 @@ export function HorizontalBarChartWrapper<
         valueUnit={valueUnit ?? dimension.unit}
       />
     ) : (
-      <SchoolCensusTooltip {...props} {...payloadProps} />
+      <SchoolDataTooltip
+        {...props}
+        {...payloadProps}
+        specialItemFlags={getSpecialItemFlags}
+      />
     );
   };
 

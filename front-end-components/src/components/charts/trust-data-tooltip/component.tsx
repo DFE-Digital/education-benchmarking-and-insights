@@ -17,59 +17,59 @@ export function TrustDataTooltip<
     value === undefined ? "" : shortValueFormatter(value, { valueUnit });
   const { breakdown } = useCentralServicesBreakdownContext(true);
 
-  if (active && payload && payload.length) {
-    const { trustName, totalValue, schoolValue, centralValue, type } =
-      payload[0].payload as TrustChartData;
-    const label = type === "balance" ? type : "spend";
-    return (
-      <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
-        <caption className="govuk-table__caption govuk-table__caption--s">
-          {trustName}
-        </caption>
-        <thead className="govuk-table__head govuk-visually-hidden">
-          <tr className="govuk-table__row">
-            <th scope="col" className="govuk-table__header">
-              Item
-            </th>
-            <th scope="col" className="govuk-table__header">
-              Value
-            </th>
-          </tr>
-        </thead>
-        <tbody className="govuk-table__body">
-          {breakdown === BreakdownInclude ? (
-            <>
-              <tr className="govuk-table__row">
-                <th scope="row" className="govuk-table__header">
-                  Overall {label}
-                </th>
-                <td className="govuk-table__cell">{format(totalValue)}</td>
-              </tr>
-              <tr className="govuk-table__row">
-                <th scope="row" className="govuk-table__header">
-                  School {label}
-                </th>
-                <td className="govuk-table__cell">{format(schoolValue)}</td>
-              </tr>
-              <tr className="govuk-table__row">
-                <th scope="row" className="govuk-table__header">
-                  Central {label}
-                </th>
-                <td className="govuk-table__cell">{format(centralValue)}</td>
-              </tr>
-            </>
-          ) : (
+  if (!active || !payload || !payload.length) {
+    return null;
+  }
+
+  const { trustName, totalValue, schoolValue, centralValue, type } = payload[0]
+    .payload as TrustChartData;
+  const label = type === "balance" ? type : "spend";
+  return (
+    <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
+      <caption className="govuk-table__caption govuk-table__caption--s">
+        {trustName}
+      </caption>
+      <thead className="govuk-table__head govuk-visually-hidden">
+        <tr className="govuk-table__row">
+          <th scope="col" className="govuk-table__header">
+            Item
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Value
+          </th>
+        </tr>
+      </thead>
+      <tbody className="govuk-table__body">
+        {breakdown === BreakdownInclude ? (
+          <>
             <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
-                Total {label}
+                Overall {label}
               </th>
               <td className="govuk-table__cell">{format(totalValue)}</td>
             </tr>
-          )}
-        </tbody>
-      </table>
-    );
-  }
-
-  return null;
+            <tr className="govuk-table__row">
+              <th scope="row" className="govuk-table__header">
+                School {label}
+              </th>
+              <td className="govuk-table__cell">{format(schoolValue)}</td>
+            </tr>
+            <tr className="govuk-table__row">
+              <th scope="row" className="govuk-table__header">
+                Central {label}
+              </th>
+              <td className="govuk-table__cell">{format(centralValue)}</td>
+            </tr>
+          </>
+        ) : (
+          <tr className="govuk-table__row">
+            <th scope="row" className="govuk-table__header">
+              Total {label}
+            </th>
+            <td className="govuk-table__cell">{format(totalValue)}</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
 }
