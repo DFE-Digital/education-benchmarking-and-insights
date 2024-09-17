@@ -16,6 +16,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   hideYAxis?: boolean;
   highlightActive?: boolean;
   highlightedItemKeys?: ChartSeriesValue[];
+  specialItemKeys?: Record<SpecialItemFlag, ChartSeriesValue[]>;
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
@@ -78,8 +79,12 @@ export interface ValueFormatterOptions {
 }
 
 export interface ValueFormatterProps {
-  valueFormatter?: (
-    value: ValueFormatterValue,
-    options?: Partial<ValueFormatterOptions>
-  ) => string;
+  valueFormatter?: ValueFormatterType;
 }
+
+export type ValueFormatterType = (
+  value: ValueFormatterValue,
+  options?: Partial<ValueFormatterOptions>
+) => string;
+
+export type SpecialItemFlag = "partYear";

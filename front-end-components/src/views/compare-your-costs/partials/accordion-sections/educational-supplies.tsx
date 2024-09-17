@@ -5,7 +5,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { EducationalSuppliesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import {
+  CompareYourCostsProps,
+  EducationalSuppliesData,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -25,10 +28,10 @@ import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import { ExpenditureApi, EducationalSuppliesExpenditure } from "src/services";
 
-export const EducationalSupplies: React.FC<{
-  type: string;
-  id: string;
-}> = ({ type, id }) => {
+export const EducationalSupplies: React.FC<CompareYourCostsProps> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);

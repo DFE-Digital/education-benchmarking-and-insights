@@ -12,7 +12,11 @@ import {
   useChartModeContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
-import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
+import {
+  ChartHandler,
+  ChartSeriesConfigItem,
+  SpecialItemFlag,
+} from "src/components/charts";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartModeChart, ChartModeTable } from "src/components";
 import {
@@ -31,6 +35,7 @@ import {
   Payload,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
+import { SchoolExpenditure } from "src/services";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -80,6 +85,20 @@ export function HorizontalBarChartWrapper<
       ) as TData[];
   }, [data.dataPoints, sort, trust]);
 
+  const partYearKeys = useMemo(() => {
+    if (trust) {
+      return [];
+    }
+
+    return data.dataPoints
+      .filter(
+        (d) =>
+          (d as SchoolExpenditure).periodCoveredByReturn !== undefined &&
+          (d as SchoolExpenditure).periodCoveredByReturn < 12
+      )
+      .map((d) => (d as SchoolChartData).urn);
+  }, [data.dataPoints, trust]);
+
   const getEstablishmentKey = (name: string) => {
     if (trust) {
       return (data.dataPoints as TrustChartData[]).find(
@@ -125,6 +144,15 @@ export function HorizontalBarChartWrapper<
     );
   };
 
+  const getSpecialItemFlags = (key: string) => {
+    const flags: SpecialItemFlag[] = [];
+    if (partYearKeys.indexOf(key) > -1) {
+      flags.push("partYear");
+    }
+
+    return flags;
+  };
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -162,13 +190,14 @@ export function HorizontalBarChartWrapper<
               {chartMode == ChartModeChart && (
                 <div style={{ height: 22 * data.dataPoints.length + 75 }}>
                   <HorizontalBarChart
-                    barCategoryGap={2}
+                    barCategoryGap={3}
                     chartName={chartName}
                     data={sortedDataPoints}
                     highlightActive
                     highlightedItemKeys={
                       selectedEstabishment ? [selectedEstabishment] : undefined
                     }
+                    specialItemKeys={{ partYear: partYearKeys }}
                     keyField={keyField}
                     onImageLoading={setImageLoading}
                     labels
@@ -186,6 +215,7 @@ export function HorizontalBarChartWrapper<
                           href={(id) => `/${trust ? "trust" : "school"}/${id}`}
                           establishmentKeyResolver={getEstablishmentKey}
                           tooltip={(p) => renderTooltip(p, t)}
+                          specialItemFlags={getSpecialItemFlags}
                         />
                       );
                     }}

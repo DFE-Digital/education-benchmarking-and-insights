@@ -2,27 +2,38 @@
 import { Text } from "recharts";
 import { EstablishmentTickProps } from "src/components/charts/establishment-tick";
 import { ChartLink } from "../chart-link";
-import { createElement, useState } from "react";
+import { createElement, useMemo, useState } from "react";
 
 export function EstablishmentTick(props: EstablishmentTickProps) {
   const {
     className,
-    highlightedItemKey,
-    linkToEstablishment,
-    href,
-    payload: { value },
     establishmentKeyResolver,
+    highlightedItemKey,
+    href,
+    linkToEstablishment,
+    payload: { value },
+    specialItemFlags,
     tickFormatter,
+    tooltip,
     verticalAnchor,
     visibleTicksCount,
-    tooltip,
     ...rest
   } = props;
   const [focused, setFocused] = useState<boolean>();
-  const key =
-    linkToEstablishment &&
-    establishmentKeyResolver &&
-    establishmentKeyResolver(value);
+  const key = useMemo(() => {
+    return (
+      linkToEstablishment &&
+      establishmentKeyResolver &&
+      establishmentKeyResolver(value)
+    );
+  }, [establishmentKeyResolver, linkToEstablishment, value]);
+
+  const partYear = useMemo(() => {
+    return (
+      key && specialItemFlags && specialItemFlags(key).includes("partYear")
+    );
+  }, [key, specialItemFlags]);
+
   if (!key) {
     return <Text>{value}</Text>;
   }
@@ -30,7 +41,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
   const name = String(value);
   const truncateAt = (rest.width as number)
     ? Math.floor((rest.width as number) / 7)
-    : 50;
+    : 45;
   return (
     <>
       <line
@@ -41,6 +52,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
         height={rest.height}
         className="establishment-tick-focus"
       ></line>
+      {partYear && <Exclamation offset={rest.y} />}
       <text
         fontWeight={key === highlightedItemKey ? "bold" : "normal"}
         className="recharts-text establishment-tick"
@@ -72,3 +84,16 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     </>
   );
 }
+
+const Exclamation = ({ offset }: { offset?: string | number }) => {
+  return (
+    <>
+      <circle cx={18} cy={offset} r={8} fill="#fff"></circle>
+      <path
+        transform={`translate(5,${parseInt((offset ?? 0).toString()) - 12}),scale(0.75,0.75)`}
+        fill="#000"
+        d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"
+      ></path>
+    </>
+  );
+};

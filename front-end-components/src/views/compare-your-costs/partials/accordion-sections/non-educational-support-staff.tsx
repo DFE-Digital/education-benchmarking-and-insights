@@ -5,7 +5,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { NonEducationalSupportStaffData } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import {
+  CompareYourCostsProps,
+  NonEducationalSupportStaffData,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -28,10 +31,10 @@ import {
   NonEducationalSupportStaffExpenditure,
 } from "src/services";
 
-export const NonEducationalSupportStaff: React.FC<{
-  type: string;
-  id: string;
-}> = ({ type, id }) => {
+export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);

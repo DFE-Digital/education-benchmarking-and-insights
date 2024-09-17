@@ -111,3 +111,8 @@ export type OtherCostsData = {
   schoolName: string;
   laName: string;
 };
+
+export type CompareYourCostsProps = {
+  type: "school" | "trust";
+  id: string;
+};

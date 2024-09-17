@@ -11,8 +11,9 @@ import {
   TeachingSupportStaff,
   Utilities,
 } from "src/views/compare-your-costs/partials/accordion-sections";
+import { CompareYourCostsProps } from "./accordion-sections/types";
 
-export const ExpenditureAccordion: React.FC<{ type: string; id: string }> = ({
+export const ExpenditureAccordion: React.FC<CompareYourCostsProps> = ({
   type,
   id,
 }) => {
