@@ -140,11 +140,7 @@ export function HorizontalBarChartWrapper<
         valueUnit={valueUnit ?? dimension.unit}
       />
     ) : (
-      <SchoolDataTooltip
-        {...props}
-        {...payloadProps}
-        specialItemFlags={getSpecialItemFlags}
-      />
+      <SchoolDataTooltip {...props} {...payloadProps} />
     );
   };
 

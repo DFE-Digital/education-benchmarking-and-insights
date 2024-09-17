@@ -4,46 +4,23 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 import { SchoolTooltipProps } from "src/components/charts/school-data-tooltip";
 import { SchoolChartData } from "../table-chart";
-import { useMemo } from "react";
+import { PartYearDataWarning } from "../part-year-data-warning";
 
 export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->({ active, payload, specialItemFlags }: SchoolTooltipProps<TValue, TName>) {
-  const key = useMemo(() => {
-    if (!payload || !payload.length) {
-      return null;
-    }
-
-    return (payload[0].payload as SchoolChartData).urn;
-  }, [payload]);
-
-  const partYear = useMemo(() => {
-    return (
-      key && specialItemFlags && specialItemFlags(key).includes("partYear")
-    );
-  }, [key, specialItemFlags]);
-
+>({ active, payload }: SchoolTooltipProps<TValue, TName>) {
   if (!active || !payload || !payload.length) {
     return null;
   }
 
-  const { laName, schoolName, schoolType, totalPupils } = payload[0]
-    .payload as SchoolChartData;
+  const { laName, periodCoveredByReturn, schoolName, schoolType, totalPupils } =
+    payload[0].payload as SchoolChartData;
   return (
     <>
-      {partYear && (
+      {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
         <div className="tooltip-part-year-warning">
-          <div className="govuk-warning-text govuk-!-margin-0">
-            <span className="govuk-warning-text__icon" aria-hidden="true">
-              !
-            </span>
-            <strong className="govuk-warning-text__text">
-              <span className="govuk-visually-hidden">Warning</span>
-              This school doesn't have a complete set of financial data for this
-              period.
-            </strong>
-          </div>
+          <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
         </div>
       )}
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
