@@ -15,6 +15,7 @@ export type SchoolChartData = {
   schoolType: string;
   laName: string;
   value?: number;
+  periodCoveredByReturn?: number;
 };
 
 export type TrustChartData = {

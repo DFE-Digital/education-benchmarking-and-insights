@@ -10,6 +10,8 @@ import {
 } from "src/contexts";
 import { fullValueFormatter } from "../utils";
 import { BreakdownInclude } from "src/components/central-services-breakdown";
+import { PartYearDataWarning } from "../part-year-data-warning/component";
+import classNames from "classnames";
 
 export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData>
@@ -56,7 +58,14 @@ export const TableChart: React.FC<
           data.map((row) => {
             const schoolRow = row as SchoolChartData;
             const trustRow = row as TrustChartData;
-            const { laName, schoolType, totalPupils, urn, value } = schoolRow;
+            const {
+              laName,
+              periodCoveredByReturn,
+              schoolType,
+              totalPupils,
+              urn,
+              value,
+            } = schoolRow;
             const { totalValue, schoolValue, centralValue, companyNumber } =
               trustRow;
             const additionalData = schoolRow.urn
@@ -78,12 +87,24 @@ export const TableChart: React.FC<
                     )}
                   </td>
                 ) : (
-                  <td className="govuk-table__cell">
+                  <td
+                    className={classNames("govuk-table__cell", {
+                      "table-cell-warning":
+                        periodCoveredByReturn !== undefined &&
+                        periodCoveredByReturn < 12,
+                    })}
+                  >
                     {selectedSchool == urn ? (
                       <strong>{renderSchoolAnchor(schoolRow)}</strong>
                     ) : (
                       renderSchoolAnchor(schoolRow)
                     )}
+                    {periodCoveredByReturn !== undefined &&
+                      periodCoveredByReturn < 12 && (
+                        <PartYearDataWarning
+                          periodCoveredByReturn={periodCoveredByReturn}
+                        />
+                      )}
                   </td>
                 )}
                 {additionalData &&

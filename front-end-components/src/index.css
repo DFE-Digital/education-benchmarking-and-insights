@@ -29,6 +29,10 @@
   --warning-colour: #f47738;
 }
 
+.govuk-table {
+  --warning-colour: #f47738;
+}
+
 .recharts-wrapper .chart-cell,
 .recharts-wrapper .chart-cell.chart-cell-series-0,
 .recharts-wrapper .recharts-legend-item.legend-item-0 path {
@@ -440,6 +444,11 @@ ul.autocomplete__menu {
   font-family: "GDS Transport";
 }
 
-.govuk-table__cell.table-cell-value {
+.govuk-table .govuk-table__cell.table-cell-value {
   white-space: nowrap;
+}
+
+.govuk-table .govuk-table__cell.table-cell-warning {
+  border-left: 10px solid var(--warning-colour);
+  padding-left: 12px;
 }
