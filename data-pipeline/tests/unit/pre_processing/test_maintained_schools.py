@@ -214,7 +214,7 @@ def test_calc_catering_net_costs():
 
     actual = maintained_schools.calc_catering_net_costs(df).iloc[0]
 
-    assert actual["Catering staff and supplies_Net Costs"] == 500
+    assert actual["Catering staff and supplies_Net Costs"] == -500
 
 
 # Waiting on actual confirmation of federation logic.

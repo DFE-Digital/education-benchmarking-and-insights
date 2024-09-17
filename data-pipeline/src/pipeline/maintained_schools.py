@@ -169,11 +169,11 @@ def calc_rag_cost_series(
 
     return maintained_schools
 
-
+# net catering cost, not net catering income
 def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Catering staff and supplies_Net Costs"] = (
-        maintained_schools["Income_Catering services"]
-        - maintained_schools["Catering staff and supplies_Total"]
+        maintained_schools["Catering staff and supplies_Total"]
+        - maintained_schools["Income_Catering services"]
     )
 
     return maintained_schools
