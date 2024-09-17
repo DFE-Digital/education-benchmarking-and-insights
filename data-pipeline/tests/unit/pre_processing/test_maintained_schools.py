@@ -108,6 +108,7 @@ def test_school_type_attrs():
         {
             "Overall Phase": ["Primary", "Secondary"],
             "TypeOfEstablishment (code)": [38, 33],
+            "PhaseOfEducation (code)": [0, 0]
         }
     )
 
