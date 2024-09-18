@@ -302,6 +302,9 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a pupil comparator set for the row in question.
 
+    For Academies, "1 day return" and "early transfer" should generated
+    comparator sets.
+
     For partial-year data, financial and pupil data must be present.
 
     For full-year data, pupil comparator sets are always generated.
@@ -309,11 +312,10 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate pupil comparator set
     """
-    if not row.get("Partial Years Present"):
+    if row.get("Is Day One Return") or row.get("Is Early Transfer"):
         return True
 
-    # TODO: accommodate academy data, which won't have these columns…
-    if "Financial Data Present" not in row.keys():
+    if not row["Partial Years Present"]:
         return True
 
     return all(
@@ -329,6 +331,9 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a building comparator set for the row.
 
+    For Academies, "1 day return" and "early transfer" should generated
+    comparator sets.
+
     For partial-year data, financial, pupil and building data must be
     present.
 
@@ -337,11 +342,10 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate building comparator set
     """
-    if not row.get("Partial Years Present"):
+    if row.get("Is Day One Return") or row.get("Is Early Transfer"):
         return True
 
-    # TODO: accommodate academy data, which won't have these columns…
-    if "Financial Data Present" not in row.keys():
+    if not row["Partial Years Present"]:
         return True
 
     return all(
@@ -483,10 +487,8 @@ def compute_comparator_set(
     :param target_urn: optional identifier for custom data
     :return: data, updated with comparator-sets
     """
-    # TODO: inline when partial-year columns are guaranteed to be present.
-    copy_columns = [
-        column
-        for column in [
+    copy = data[~data.index.isna()][
+        [
             "OfstedRating (name)",
             "Percentage SEN",
             "Percentage Free school meals",
@@ -512,9 +514,7 @@ def compute_comparator_set(
             "Pupil Comparator Data Present",
             "Building Comparator Data Present",
         ]
-        if column in data.columns
-    ]
-    copy = data[~data.index.isna()][copy_columns].copy()
+    ].copy()
 
     if target_urn and target_urn not in copy.index:
         return copy.iloc[0:0]
