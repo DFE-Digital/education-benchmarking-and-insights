@@ -34,6 +34,7 @@ from src.pipeline.pre_processing import (
     build_federations_data,
     build_maintained_school_data,
     build_trust_data,
+    map_academy_data,
     prepare_aar_data,
     prepare_cdc_data,
     prepare_census_data,
@@ -226,6 +227,9 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
         cfo,
         central_services,
     )
+
+    academies = map_academy_data(academies)
+
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/academies.parquet",
