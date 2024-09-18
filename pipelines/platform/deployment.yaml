@@ -1,5 +1,6 @@
 parameters:
   subscription: ''
+  subscriptionId: ''
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
@@ -21,6 +22,16 @@ jobs:
             - checkout: none
 
             - download: current
+
+            - task: AzureCLI@2
+              displayName: Get SQL Server resource ID
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  ID=$(az resource show -g "${{ parameters.environmentPrefix }}-ebis-core" -n "${{ parameters.environmentPrefix }}-sql" --resource-type "Microsoft.Sql/servers" --output tsv --query id)
+                  echo "##vso[task.setvariable variable=sqlServerResourceId]${ID}"
 
             - template: ..\common\run-terraform.yaml
               parameters:
@@ -44,7 +55,7 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
 
-            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(core-sql-connection-string)'
+            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c 'ResourceId=$(sqlServerResourceId);Database=data;Connection Timeout=30;'
               condition: and(succeeded(), ${{ parameters.runSearchApp }})
               displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'

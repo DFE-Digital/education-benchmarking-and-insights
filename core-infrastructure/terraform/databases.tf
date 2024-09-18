@@ -85,8 +85,8 @@ resource "azurerm_mssql_server" "sql-server" {
   minimum_tls_version          = "1.2"
 
   azuread_administrator {
-    login_username = "michael.fielding@education.gov.uk"
-    object_id      = "42665fd4-ab1f-4192-9033-bfc059c6ea9a"
+    login_username = "s198d.azdo-deployment"
+    object_id      = "0b4058d1-543d-4d49-81f4-f3ffb7871d04"
   }
 
   identity {
