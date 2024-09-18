@@ -12,6 +12,7 @@ import src.pipeline.config as config
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.maintained_schools as maintained_pipeline
 import src.pipeline.mappings as mappings
+from src.pipeline import part_year
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -1043,6 +1044,25 @@ def build_trust_data(academies: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def map_academy_data(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Derive additional columns from academy data.
+
+    Currently, this largely pertains to part-year information.
+
+    :param df: academy data
+    :return: updated data
+    """
+    df = part_year.academies.map_is_day_one_return(df)
+    df = part_year.academies.map_is_early_transfer(df)
+    df = part_year.academies.map_has_financial_data(df)
+    df = part_year.academies.map_partial_year_present(df)
+    df = part_year.common.map_has_pupil_comparator_data(df)
+    df = part_year.common.map_has_building_comparator_data(df)
+
+    return df
+
+
 def build_maintained_school_data(
     maintained_schools_data_path,
     links_data_path,
@@ -1088,11 +1108,13 @@ def build_maintained_school_data(
     )
 
     # partial-year checks…
-    maintained_schools = maintained_pipeline.map_has_financial_data(maintained_schools)
-    maintained_schools = maintained_pipeline.map_has_pupil_comparator_data(
+    maintained_schools = part_year.maintained_schools.map_has_financial_data(
         maintained_schools
     )
-    maintained_schools = maintained_pipeline.map_has_building_comparator_data(
+    maintained_schools = part_year.common.map_has_pupil_comparator_data(
+        maintained_schools
+    )
+    maintained_schools = part_year.common.map_has_building_comparator_data(
         maintained_schools
     )
 
