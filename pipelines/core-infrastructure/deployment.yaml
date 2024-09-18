@@ -37,7 +37,7 @@ jobs:
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
                 module: 'core'
 
-            - task: AzureKeyVault@1
+            - task: AzureKeyVault@2
               displayName: 'Import key vault vars'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}

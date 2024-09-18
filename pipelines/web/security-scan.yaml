@@ -49,7 +49,7 @@ jobs:
     dependsOn: [ Setup ]
     timeoutInMinutes: 0
     steps:
-      - task: AzureKeyVault@1
+      - task: AzureKeyVault@2
         inputs:
           azureSubscription: 's198d.azdo-deployment'
           KeyVaultName: 's198d01-ebis-keyvault'

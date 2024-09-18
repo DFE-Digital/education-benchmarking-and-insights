@@ -30,7 +30,7 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'platform'    
 
-            - task: AzureKeyVault@1
+            - task: AzureKeyVault@2
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
