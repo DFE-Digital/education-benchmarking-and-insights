@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 02/10/2024
+﻿# Release Test Plan - 18/09/2024
 
 ## Introduction
 **Objective:**
@@ -13,7 +13,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Release date:**
 
-02/10/2024
+18/09/2024
 
 ## Test Strategy
 **Types of Testing:**
@@ -35,6 +35,8 @@ This test plan covers the testing in pre production and production to validate a
 4. [222562 Threat Detection Policy settings reverting](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/222562) - Thread deduction policy is now updated and validated against test environment. We will check the auditing storage account again in pre production to ensure changes are populated as expected. 
 5. [215810 Misconfigured HTTP Security Header](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/215819) - To comply with ITHC report HTTP security header has been updated accordingly. This has been tested in our testing environment and will be checked again in preproduction. 
 6. [227113 Utilities cost not showing all schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/227113) - This is linked with the missing RAG rating category of few schools. [add details when testing is completed in test environment.] We will validate the same in preproduction.  
+7. [228233 Missing Educational ICT Costs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/228233) This has also been fixed as part of 227113. 
+
 
 **Updates Not to be Tested:**
 
