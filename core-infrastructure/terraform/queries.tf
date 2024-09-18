@@ -109,9 +109,7 @@ resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = templatefile("${path.module}/queries/pipeline-runs.kql", {
-    name = "${var.environment-prefix}-ebis-data-pipeline"
-  })
+  body = file("${path.module}/queries/pipeline-runs.kql")
 }
 
 resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
