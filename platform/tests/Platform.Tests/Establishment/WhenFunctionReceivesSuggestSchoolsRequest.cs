@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Schools;
 using Platform.Functions;
-using Platform.Infrastructure.Search;
+using Platform.Search;
 using Platform.Tests.Extensions;
 using Xunit;
 namespace Platform.Tests.Establishment;

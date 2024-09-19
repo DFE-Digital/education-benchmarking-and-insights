@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 namespace Platform.Api.Insight.BudgetForecast;
 
 public interface IBudgetForecastService

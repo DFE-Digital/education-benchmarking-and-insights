@@ -3,9 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Microsoft.Extensions.Options;
-using Platform.Infrastructure.Search;
-using Platform.Infrastructure.Sql;
+using Platform.Search;
+using Platform.Sql;
 
 namespace Platform.Api.Establishment.Schools;
 
@@ -17,21 +16,14 @@ public interface ISchoolsService
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolsService : SearchService, ISchoolsService
+public class SchoolsService(ISearchConnection<School> searchConnection, IDatabaseFactory dbFactory) : ISchoolsService
 {
-    private const string IndexName = SearchResourceNames.Indexes.School;
-    private readonly IDatabaseFactory _dbFactory;
-    public SchoolsService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
-    {
-        _dbFactory = dbFactory;
-    }
-
     public async Task<School?> GetAsync(string urn)
     {
         const string sql = "SELECT * from School where URN = @URN";
         var parameters = new { URN = urn };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<School>(sql, parameters);
     }
 
@@ -56,7 +48,7 @@ public class SchoolsService : SearchService, ISchoolsService
             builder.Where("OverallPhase = @phase", new { phase });
         }
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<School>(template.RawSql, template.Parameters);
     }
 
@@ -74,7 +66,7 @@ public class SchoolsService : SearchService, ISchoolsService
             nameof(School.AddressPostcode)
         };
 
-        return SuggestAsync<School>(request, CreateFilterExpression, selectFields: fields);
+        return searchConnection.SuggestAsync(request, CreateFilterExpression, selectFields: fields);
 
         string? CreateFilterExpression()
         {

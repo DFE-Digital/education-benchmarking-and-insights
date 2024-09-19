@@ -566,8 +566,8 @@
       },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
+        "resolved": "5.0.0",
+        "contentHash": "W8DPQjkMScOMTtJbPwmPyj9c3zYSFGawDW3jwlBOOsnY+EzZFLgNQ/UMkK35JmkNOVPdCyPr2Tw7Vv9N+KA3ZQ=="
       },
       "Microsoft.CSharp": {
         "type": "Transitive",
@@ -2011,14 +2011,21 @@
         }
       },
       "platform.infrastructure": {
+        "type": "Project"
+      },
+      "platform.search": {
         "type": "Project",
         "dependencies": {
           "Azure.Search.Documents": "[11.6.0, )",
+          "FluentValidation": "[11.9.2, )"
+        }
+      },
+      "platform.sql": {
+        "type": "Project",
+        "dependencies": {
           "Dapper": "[2.1.35, )",
-          "FluentValidation": "[11.9.2, )",
           "Microsoft.Data.SqlClient": "[5.2.2, )",
-          "Microsoft.Extensions.Options": "[8.0.2, )",
-          "System.Linq.Async": "[6.0.1, )"
+          "Microsoft.Extensions.Options": "[8.0.2, )"
         }
       },
       "Azure.Search.Documents": {
@@ -2218,15 +2225,6 @@
         "requested": "[13.0.3, )",
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
-      "System.Linq.Async": {
-        "type": "CentralTransitive",
-        "requested": "[6.0.1, )",
-        "resolved": "6.0.1",
-        "contentHash": "0YhHcaroWpQ9UCot3Pizah7ryAzQhNvobLMSxeDIGmnXfkQn8u5owvpOH0K6EVB+z9L7u6Cc4W17Br/+jyttEQ==",
-        "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
-        }
       },
       "System.Text.Json": {
         "type": "CentralTransitive",

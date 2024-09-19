@@ -6,7 +6,7 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 
 namespace Platform.Api.Benchmark.FinancialPlans;
 

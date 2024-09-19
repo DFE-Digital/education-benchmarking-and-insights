@@ -5,28 +5,22 @@ using Platform.Api.Establishment.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Search;
+using Platform.Search;
 using TechTalk.SpecFlow.Assist;
 
 namespace Platform.ApiTests.Steps;
 
 [Binding]
-public class EstablishmentSchoolsSteps
+public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-school";
     private const string SuggestRequestKey = "suggest-school";
     private const string QueryRequestKey = "query-school";
-    private readonly EstablishmentApiDriver _api;
-
-    public EstablishmentSchoolsSteps(EstablishmentApiDriver api)
-    {
-        _api = api;
-    }
 
     [Given("a valid school request with id '(.*)'")]
     private void GivenAValidSchoolRequestWithId(string id)
     {
-        _api.CreateRequest(RequestKey, new HttpRequestMessage
+        api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/school/{id}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -36,7 +30,7 @@ public class EstablishmentSchoolsSteps
     [Given("an invalid school request with id '(.*)'")]
     private void GivenAnInvalidValidSchoolRequestWithId(string id)
     {
-        _api.CreateRequest(RequestKey, new HttpRequestMessage
+        api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/school/{id}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -48,7 +42,7 @@ public class EstablishmentSchoolsSteps
     {
         var content = new { SearchText = searchText, Size = 5, SuggesterName = "school-suggester" };
 
-        _api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
+        api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -61,7 +55,7 @@ public class EstablishmentSchoolsSteps
     {
         var content = new { Size = 0 };
 
-        _api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
+        api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -100,7 +94,7 @@ public class EstablishmentSchoolsSteps
 
         var apiQuery = baseApiUrl + "?" + queryString;
 
-        _api.CreateRequest(QueryRequestKey, new HttpRequestMessage
+        api.CreateRequest(QueryRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri(apiQuery, UriKind.Relative),
             Method = HttpMethod.Get
@@ -110,13 +104,13 @@ public class EstablishmentSchoolsSteps
     [When("I submit the schools request")]
     private async Task WhenISubmitTheSchoolsRequest()
     {
-        await _api.Send();
+        await api.Send();
     }
 
     [Then("the school result should be ok and have the following values:")]
     private async Task ThenTheSchoolResultShouldHaveValues(Table table)
     {
-        var response = _api[RequestKey].Response;
+        var response = api[RequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -130,7 +124,7 @@ public class EstablishmentSchoolsSteps
     [Then("the school result should be not found")]
     private void ThenTheSchoolResultShouldBeNotFound()
     {
-        var result = _api[RequestKey].Response;
+        var result = api[RequestKey].Response;
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -139,7 +133,7 @@ public class EstablishmentSchoolsSteps
     [Then("the school suggest result should be ok and have the following values:")]
     private async Task ThenTheSchoolsSuggestResultShouldShouldHaveValues(Table table)
     {
-        var response = _api[SuggestRequestKey].Response;
+        var response = api[SuggestRequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -162,7 +156,7 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should be ok and have the following multiple values:")]
     private async Task ThenTheSchoolsSuggestResultShouldShouldHaveMultipleValues(Table table)
     {
-        var response = _api[SuggestRequestKey].Response;
+        var response = api[SuggestRequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -183,7 +177,7 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should be empty")]
     private async Task ThenTheSchoolsSuggestResultShouldBeEmpty()
     {
-        var response = _api[SuggestRequestKey].Response;
+        var response = api[SuggestRequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -197,7 +191,7 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowingValidationErrors(Table table)
     {
-        var response = _api[SuggestRequestKey].Response;
+        var response = api[SuggestRequestKey].Response;
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -210,7 +204,7 @@ public class EstablishmentSchoolsSteps
     [Then("the schools query result should be ok and have the following values:")]
     private async Task ThenTheSchoolsQueryResultShouldHaveValues(Table table)
     {
-        var response = _api[QueryRequestKey].Response;
+        var response = api[QueryRequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -224,7 +218,7 @@ public class EstablishmentSchoolsSteps
     [Then("the schools query result should be empty")]
     private async Task ThenTheSchoolsQueryResultShouldBeEmpty()
     {
-        var response = _api[QueryRequestKey].Response;
+        var response = api[QueryRequestKey].Response;
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);

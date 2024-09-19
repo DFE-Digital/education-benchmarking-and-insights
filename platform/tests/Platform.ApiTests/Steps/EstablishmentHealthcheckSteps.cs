@@ -5,20 +5,14 @@ using Platform.ApiTests.Drivers;
 namespace Platform.ApiTests.Steps;
 
 [Binding, Scope(Feature = "Establishment healthcheck endpoint")]
-public class EstablishmentHealthcheckSteps
+public class EstablishmentHealthcheckSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "health-check";
-    private readonly EstablishmentApiDriver _api;
-
-    public EstablishmentHealthcheckSteps(EstablishmentApiDriver api)
-    {
-        _api = api;
-    }
 
     [Given("a valid establishment health check request")]
     private void GivenAValidEstablishmentHealthCheckRequest()
     {
-        _api.CreateRequest(RequestKey, new HttpRequestMessage
+        api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/health", UriKind.Relative),
             Method = HttpMethod.Get
@@ -28,13 +22,13 @@ public class EstablishmentHealthcheckSteps
     [When("I submit the establishment health check request")]
     private async Task WhenISubmitTheEstablishmentHealthCheckRequest()
     {
-        await _api.Send();
+        await api.Send();
     }
 
     [Then("the establishment health check result should be healthy")]
     private async Task ThenTheEstablishmentHealthCheckResultShouldBeHealthy()
     {
-        var result = _api[RequestKey].Response;
+        var result = api[RequestKey].Response;
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);

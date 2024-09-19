@@ -18,13 +18,13 @@
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
-        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
         <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" />
+        <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />

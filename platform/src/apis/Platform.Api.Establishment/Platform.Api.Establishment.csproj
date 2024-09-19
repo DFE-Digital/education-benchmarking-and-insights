@@ -20,7 +20,6 @@
         <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="Dapper.SqlBuilder" />
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
-        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" />
@@ -29,5 +28,8 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker" />
+        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Search\Platform.Search.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj" />
     </ItemGroup>
 </Project>
