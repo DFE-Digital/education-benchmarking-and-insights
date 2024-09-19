@@ -46,12 +46,11 @@ public class StaticContentController : Controller
         return View();
     }
 
-    // TODO: review for public beta
-    //[HttpGet]
-    //[Route("accessibility")]
-    //public IActionResult Accessibility()
-    //{
-    //    ViewData[ViewDataKeys.UseJsBackLink] = true;
-    //    return View();
-    //}
+    [HttpGet]
+    [Route("accessibility")]
+    public IActionResult Accessibility()
+    {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+        return View();
+    }
 }

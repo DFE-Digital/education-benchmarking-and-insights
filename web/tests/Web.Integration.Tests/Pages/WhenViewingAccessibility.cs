@@ -1,17 +1,16 @@
-// TODO: review for public beta
-//using Xunit;
+using Xunit;
 
-//namespace Web.Integration.Tests.Pages;
+namespace Web.Integration.Tests.Pages;
 
-//public class WhenViewingAccessibility(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
-//{
-//    [Fact]
-//    public async Task CanDisplay()
-//    {
-//        var page = await Client.Navigate(Paths.Accessibility);
+public class WhenViewingAccessibility(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+{
+    [Fact]
+    public async Task CanDisplay()
+    {
+        var page = await Client.Navigate(Paths.Accessibility);
 
-//        DocumentAssert.AssertPageUrl(page, Paths.Accessibility.ToAbsolute());
-//        DocumentAssert.BackLink(page, "Back", $"{Paths.Accessibility.ToAbsolute()}#");
-//        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Tool - GOV.UK", "Accessibility");
-//    }
-//}
+        DocumentAssert.AssertPageUrl(page, Paths.Accessibility.ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", $"{Paths.Accessibility.ToAbsolute()}#");
+        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Tool - GOV.UK", "Accessibility statement for Schools financial benchmarking");
+    }
+}
