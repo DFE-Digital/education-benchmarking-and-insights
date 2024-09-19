@@ -48,7 +48,7 @@ steps:
 
   - template: generate-docs.yaml
     parameters:
-      folder: 'testing'
+      folder: 'quality-assurance'
 
   - template: generate-docs.yaml
     parameters:
