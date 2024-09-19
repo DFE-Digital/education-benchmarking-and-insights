@@ -51,6 +51,8 @@ This test plan covers the testing in pre production and production to validate a
 
 - Summary of testing performed and outcomes
 
+we have identified a regression issue during testing in production. Specifically, schools with an overall phase of UTC are missing from the Trust homepage. This affects 49 out of 2571 Trusts. After consulting with PO, we’ve decided to address this issue in the upcoming release, and it has been added to the current sprint board [here](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229260).
+
 ## Entry and Exit Criteria
 **Entry Criteria:**
 
