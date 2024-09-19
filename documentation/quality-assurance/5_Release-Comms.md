@@ -41,3 +41,6 @@ Note there may be more than one release per sprint.
 **Tickets included in release:** list tickets included
 
 **Release outcome:** user/service outcome
+
+<!-- Leave the rest of this page blank -->
+\newpage

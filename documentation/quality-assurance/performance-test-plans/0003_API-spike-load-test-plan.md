@@ -68,3 +68,6 @@ period of 5 minutes, with a spike held for 1 minute.
 **Findings and Recommendations:**
 
 //TODO: Add finding and recommendation post test run
+
+<!-- Leave the rest of this page blank -->
+\newpage
