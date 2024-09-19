@@ -14,6 +14,7 @@ resource "azurerm_storage_account" "supporting-data" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
+  local_user_enabled              = false
 
   blob_properties {
     delete_retention_policy {

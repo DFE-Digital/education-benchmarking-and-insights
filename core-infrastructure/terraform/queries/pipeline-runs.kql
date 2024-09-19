@@ -1,6 +1,6 @@
 ContainerAppConsoleLogs_CL
 | where 
-    RevisionName_s startswith "${name}"
+    RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-data-pipeline"
 | where 
     TimeGenerated between (ago(1d)..now())
 | project 
@@ -8,4 +8,5 @@ ContainerAppConsoleLogs_CL
     ContainerId_s, 
     Log_s
 | order by 
-    TimeGenerated desc 
+    TimeGenerated desc,
+    Log_s desc
