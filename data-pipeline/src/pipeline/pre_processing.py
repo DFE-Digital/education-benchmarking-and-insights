@@ -986,14 +986,15 @@ def build_academy_data(
         academies["Total Expenditure"] + academies["Total Expenditure_CS"]
     )
 
+    # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
-        academies["Income_Catering services"]
-        - academies["Catering staff and supplies_Total"]
+        academies["Catering staff and supplies_Total"]
+        - academies["Income_Catering services"]
     )
 
     academies["Catering staff and supplies_Net Costs_CS"] = (
-        academies["Income_Catering services_CS"]
-        + academies["Catering staff and supplies_Total_CS"]
+        academies["Catering staff and supplies_Total_CS"]
+        - academies["Income_Catering services_CS"]
     )
 
     trust_revenue_reserve = (
