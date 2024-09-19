@@ -25,9 +25,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Options">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>

@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 namespace Platform.Api.Insight;
 
 public class CommonFunctions(IDatabaseFactory dbFactory, ILogger<CommonFunctions> logger)

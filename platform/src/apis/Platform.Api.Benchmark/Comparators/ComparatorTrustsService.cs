@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Infrastructure.Search;
+using Platform.Search;
 
 namespace Platform.Api.Benchmark.Comparators;
 
@@ -13,22 +13,15 @@ public interface IComparatorTrustsService
 }
 
 [ExcludeFromCodeCoverage]
-public class ComparatorTrustsService : SearchService, IComparatorTrustsService
+public class ComparatorTrustsService(ISearchConnection<ComparatorTrust> connection) : IComparatorTrustsService
 {
-    private const string IndexName = SearchResourceNames.Indexes.TrustComparators;
-
-    public ComparatorTrustsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
-        options.Value.Credential)
-    {
-    }
-
     public async Task<ComparatorTrusts> ComparatorsAsync(ComparatorTrustsRequest request)
     {
-        var trust = await LookUpAsync<ComparatorTrust>(request.Target);
+        //var trust = await connection.LookUpAsync(request.Target);
 
         var filter = request.FilterExpression();
         var search = request.SearchExpression();
-        var result = await SearchAsync<ComparatorTrust>(search, filter, 100000);
+        var result = await connection.SearchAsync(search, filter, 100000);
 
         return new ComparatorTrusts
         {

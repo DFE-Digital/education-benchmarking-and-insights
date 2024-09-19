@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
@@ -38,7 +38,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstAsync<string>(sql);
     }
 
-    public async Task<ComparatorSetSchool> DefaultSchoolAsync(string urn, string setType)
+    public async Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn, string setType)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         const string setSql = "SELECT * from ComparatorSet where RunType = 'default' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
@@ -49,7 +49,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters);
     }
 
-    public async Task<ComparatorSetSchool> CustomSchoolAsync(string runId, string urn, string setType)
+    public async Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn, string setType)
     {
         const string setSql = "SELECT * from ComparatorSet where RunType = 'custom' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
 

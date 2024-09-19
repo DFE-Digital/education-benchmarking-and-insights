@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.UserDataCleanUp;

@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" />
-    <ProjectReference Include="..\Platform.Search\Platform.Search.csproj" />
+    <ProjectReference Include="..\Platform.Search.Resources\Platform.Search.Resources.csproj" />
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />

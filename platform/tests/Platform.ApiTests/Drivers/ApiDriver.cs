@@ -46,18 +46,12 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
         }
     }
 
-    public class ApiMessage
+    public class ApiMessage(HttpRequestMessage request)
     {
         private HttpResponseMessage? _response;
 
-        public ApiMessage(HttpRequestMessage request)
-        {
-            Request = request;
-            Pending = true;
-        }
-
-        public HttpRequestMessage Request { get; }
-        public bool Pending { get; set; }
+        public HttpRequestMessage Request { get; } = request;
+        public bool Pending { get; set; } = true;
 
         public HttpResponseMessage Response
         {

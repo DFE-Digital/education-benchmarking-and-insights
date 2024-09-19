@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 namespace Platform.Api.Insight.Balance;
 
 public interface IBalanceService

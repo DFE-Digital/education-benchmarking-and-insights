@@ -1,6 +1,6 @@
 ﻿using Moq;
 using Platform.Api.Insight.Schools;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 using Xunit;
 namespace Platform.Tests.Insight.Schools;
 

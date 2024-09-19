@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Extensions.Options;
-using Platform.Infrastructure.Search;
-using Platform.Infrastructure.Sql;
+using Platform.Search;
+using Platform.Sql;
 
 namespace Platform.Api.Establishment.LocalAuthorities;
 
@@ -17,22 +15,15 @@ public interface ILocalAuthoritiesService
 
 
 [ExcludeFromCodeCoverage]
-public class LocalAuthoritiesService : SearchService, ILocalAuthoritiesService
+public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchConnection, IDatabaseFactory dbFactory) : ILocalAuthoritiesService
 {
-    private const string IndexName = SearchResourceNames.Indexes.LocalAuthority;
-    private readonly IDatabaseFactory _dbFactory;
-
-    public LocalAuthoritiesService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
-    {
-        _dbFactory = dbFactory;
-    }
 
     public async Task<LocalAuthority?> GetAsync(string code)
     {
         const string sql = "SELECT * from LocalAuthority where Code = @Code";
         var parameters = new { Code = code };
 
-        using var conn = await _dbFactory.GetConnection();
+        using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<LocalAuthority>(sql, parameters);
     }
 
@@ -44,7 +35,7 @@ public class LocalAuthoritiesService : SearchService, ILocalAuthoritiesService
             nameof(LocalAuthority.Name)
         };
 
-        return SuggestAsync<LocalAuthority>(request, CreateFilterExpression, selectFields: fields);
+        return searchConnection.SuggestAsync(request, CreateFilterExpression, selectFields: fields);
 
         string? CreateFilterExpression()
         {

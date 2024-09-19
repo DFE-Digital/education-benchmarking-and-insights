@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 namespace Platform.Api.Insight.MetricRagRatings;
 
 public interface IMetricRagRatingsService

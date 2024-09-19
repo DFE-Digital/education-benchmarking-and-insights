@@ -1,5 +1,6 @@
 ﻿using Platform.Api.Benchmark.Comparators;
 using Xunit;
+
 namespace Platform.Tests.Benchmark;
 
 public class WhenExpressionBuilderAddsFilterToList

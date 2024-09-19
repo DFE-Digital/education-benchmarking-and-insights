@@ -12,7 +12,7 @@ using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 namespace Platform.Api.Insight.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -20,20 +20,15 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
-        ArgumentNullException.ThrowIfNull(sql);
+        var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        ArgumentNullException.ThrowIfNull(sqlConnString);
 
         serviceCollection
             .AddHealthChecks()
-            .AddSqlServer(sql);
+            .AddSqlServer(sqlConnString);
 
         serviceCollection
-            .AddOptions<SqlDatabaseOptions>()
-            .BindConfiguration("Sql")
-            .ValidateDataAnnotations();
-
-        serviceCollection
-            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
             .AddSingleton<ICensusService, CensusService>()
             .AddSingleton<IBalanceService, BalanceService>()

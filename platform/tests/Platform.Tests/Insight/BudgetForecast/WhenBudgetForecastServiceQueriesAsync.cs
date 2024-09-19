@@ -1,6 +1,6 @@
 ﻿using Moq;
 using Platform.Api.Insight.BudgetForecast;
-using Platform.Infrastructure.Sql;
+using Platform.Sql;
 using Xunit;
 namespace Platform.Tests.Insight.BudgetForecast;
 
@@ -24,7 +24,6 @@ public class WhenBudgetForecastServiceQueriesAsync
     public async Task ShouldQueryAsyncWhenGetBudgetForecastReturns(string companyNumber, string runType, string category, string? runId, string expectedSql)
     {
         // arrange
-        const string urn = "urn";
         var results = new List<BudgetForecastReturnModel>
         {
             new()
@@ -60,10 +59,8 @@ public class WhenBudgetForecastServiceQueriesAsync
                 "Category", category
             }
         };
-        if (runId != null)
-        {
-            expectedParam.Add("RunId", runId);
-        }
+
+        expectedParam.Add("RunId", runId);
 
         Assert.Equal(expectedParam, actualParam);
     }

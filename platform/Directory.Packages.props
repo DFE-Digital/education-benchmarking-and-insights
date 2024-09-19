@@ -16,8 +16,8 @@
     <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
     <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
     <PackageVersion Include="dbup-sqlserver" Version="5.0.40" />
-    <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="FluentValidation" Version="11.9.2" />
+    <PackageVersion Include="FluentAssertions" Version="6.12.1" />
+    <PackageVersion Include="FluentValidation" Version="11.10.0" />
     <PackageVersion Include="JsonSubTypes" Version="2.0.1" />
     <PackageVersion Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
     <PackageVersion Include="Microsoft.Azure.Core.NewtonsoftJson" Version="2.0.0" />
@@ -41,11 +41,11 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageVersion Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-    <PackageVersion Include="Moq" Version="4.20.70" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="SpecFlow" Version="3.9.74" />
     <PackageVersion Include="SpecFlow.Assist.Dynamic" Version="1.4.2" />

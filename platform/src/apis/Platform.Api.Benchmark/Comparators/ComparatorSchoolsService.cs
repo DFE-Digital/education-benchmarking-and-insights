@@ -2,8 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Platform.Infrastructure.Search;
+using Platform.Search;
 
 namespace Platform.Api.Benchmark.Comparators;
 
@@ -13,22 +12,15 @@ public interface IComparatorSchoolsService
 }
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSchoolsService : SearchService, IComparatorSchoolsService
+public class ComparatorSchoolsService(ISearchConnection<ComparatorSchool> connection) : IComparatorSchoolsService
 {
-    private const string IndexName = SearchResourceNames.Indexes.SchoolComparators;
-
-    public ComparatorSchoolsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
-        options.Value.Credential)
-    {
-    }
-
     public async Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request)
     {
-        var school = await LookUpAsync<ComparatorSchool>(request.Target);
+        var school = await connection.LookUpAsync(request.Target);
 
         var filter = request.FilterExpression();
         var search = request.SearchExpression();
-        var result = await SearchAsync<ComparatorSchool>(search, filter, 100000);
+        var result = await connection.SearchAsync(search, filter, 100000);
 
         return new ComparatorSchools
         {

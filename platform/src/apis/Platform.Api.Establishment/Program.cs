@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Hosting;
 using Platform.Api.Establishment.Configuration;
+
 var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(Worker.Configure, Worker.Options)
     .ConfigureServices(Services.Configure)
@@ -10,6 +11,9 @@ var hostBuilder = new HostBuilder()
 
 hostBuilder.Build().Run();
 
-[ExcludeFromCodeCoverage]
-// ReSharper disable once UnusedType.Global
-public partial class Program;
+namespace Platform.Api.Establishment
+{
+    [ExcludeFromCodeCoverage]
+    // ReSharper disable once UnusedType.Global
+    public partial class Program;
+}

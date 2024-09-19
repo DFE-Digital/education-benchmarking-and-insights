@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Infrastructure.Search;
+using Platform.Search;
 namespace Platform.Api.Establishment.Schools;
 
 public class SchoolsFunctions(ILogger<SchoolsFunctions> logger,

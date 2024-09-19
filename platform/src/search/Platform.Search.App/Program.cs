@@ -1,9 +1,9 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using Platform.Search;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Platform.Search.App;
+using Platform.Search.Resources;
 
 var result = Parser.Default.ParseArguments<ProgramOptions>(args);
 
