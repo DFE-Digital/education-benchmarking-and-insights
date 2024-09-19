@@ -5,10 +5,17 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolDeploymentPlan;
 }
 
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
         <h2 class="govuk-heading-m">@Model.Year.ToFinanceYear()</h2>
         <p class="govuk-body">
             This is your deployment plan. It provides curriculum and financial analysis based on the figures you have provided.
