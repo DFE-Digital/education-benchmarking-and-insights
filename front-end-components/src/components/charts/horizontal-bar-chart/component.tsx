@@ -35,6 +35,7 @@ import {
   ChartHandler,
   ChartSeriesConfigItem,
   ChartSeriesValue,
+  ValueFormatterType,
 } from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { Props } from "recharts/types/component/Label";
@@ -61,6 +62,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     onImageLoading,
     seriesConfig,
     seriesLabelField,
+    specialItemKeys,
     tick,
     tickWidth,
     tooltip,
@@ -127,6 +129,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         "chart-cell-highlight": (highlightedItemKeys || []).includes(
           entry[keyField]
         ),
+        "chart-cell-part-year": (specialItemKeys?.partYear || []).includes(
+          entry[keyField]
+        ),
         "chart-cell-active": highlightActive && dataIndex === activeItemIndex,
         "chart-cell-stack": !!config?.stackId,
         [`chart-cell-stack-${config?.stackId}`]: !!config?.stackId,
@@ -171,6 +176,35 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   };
 
+  function renderLabelList(
+    { height, value, width, x, y }: LabelListContentProps,
+    valueFormatter?: ValueFormatterType
+  ) {
+    let dx =
+      (x as number) +
+      ((width as number) > 0 ? (width as number) : 0) +
+      (height as number) / 2;
+    const parsedValue = parseInt(value?.toString() || "");
+    if (!isNaN(parsedValue) && parsedValue < 0) {
+      dx += (width as number) - (height as number) * 3;
+    }
+
+    return (
+      <g>
+        <Text
+          x={dx}
+          y={(y as number) + (height as number) / 2}
+          textAnchor="start"
+          dominantBaseline="middle"
+        >
+          {valueFormatter
+            ? valueFormatter(value as ChartSeriesValue)
+            : String(value)}
+        </Text>
+      </g>
+    );
+  }
+
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
@@ -211,12 +245,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                     seriesIndex === visibleSeriesNames.length - 1) && (
                     <LabelList
                       dataKey={(labelListSeriesName ?? seriesName) as string}
-                      content={(c) => (
-                        <LabelListContent
-                          {...c}
-                          valueFormatter={config?.valueFormatter}
-                        />
-                      )}
+                      content={(c) =>
+                        renderLabelList(c, config?.valueFormatter)
+                      }
                     />
                   )}
               </Bar>
@@ -235,6 +266,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 ? valueFormatter(value, { valueUnit })
                 : String(value)
             }
+            padding={{ left: 3 }}
           >
             {valueLabel && (
               <Label value={valueLabel} offset={0} position="bottom" />
@@ -269,33 +301,6 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         </BarChart>
       </ResponsiveContainer>
     </div>
-  );
-}
-
-function LabelListContent(props: LabelListContentProps) {
-  const { valueFormatter, height, value, width, x, y } = props;
-  let dx =
-    (x as number) +
-    ((width as number) > 0 ? (width as number) : 0) +
-    (height as number) / 2;
-  const parsedValue = parseInt(value?.toString() || "");
-  if (!isNaN(parsedValue) && parsedValue < 0) {
-    dx += (width as number) - (height as number) * 3;
-  }
-
-  return (
-    <g>
-      <Text
-        x={dx}
-        y={(y as number) + (height as number) / 2}
-        textAnchor="start"
-        dominantBaseline="middle"
-      >
-        {valueFormatter
-          ? valueFormatter(value as ChartSeriesValue)
-          : String(value)}
-      </Text>
-    </g>
   );
 }
 

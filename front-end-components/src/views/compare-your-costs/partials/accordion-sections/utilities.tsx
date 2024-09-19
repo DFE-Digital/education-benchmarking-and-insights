@@ -5,7 +5,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { UtilitiesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import {
+  CompareYourCostsProps,
+  UtilitiesData,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   PoundsPerMetreSq,
   PremisesCategories,
@@ -25,10 +28,7 @@ import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import { ExpenditureApi, UtilitiesExpenditure } from "src/services";
 
-export const Utilities: React.FC<{
-  type: string;
-  id: string;
-}> = ({ type, id }) => {
+export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);

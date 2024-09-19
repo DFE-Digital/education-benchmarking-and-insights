@@ -105,7 +105,7 @@ if (compareCostsElement) {
     root.render(
       <React.StrictMode>
         <CompareYourCosts
-          type={type}
+          type={type as "school" | "trust"}
           id={id}
           phases={phasesParsed}
           customDataId={customDataId}

@@ -5,6 +5,7 @@ export type SchoolExpenditure = {
   laName: string;
   totalPupils: bigint;
   totalInternalFloorArea: number;
+  periodCoveredByReturn: number;
 };
 
 type AdministrativeSuppliesExpenditureBase = {

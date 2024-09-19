@@ -23,8 +23,9 @@ import {
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, TotalExpenditureExpenditure } from "src/services";
+import { CompareYourCostsProps } from "./accordion-sections/types";
 
-export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
+export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   type,
   id,
 }) => {

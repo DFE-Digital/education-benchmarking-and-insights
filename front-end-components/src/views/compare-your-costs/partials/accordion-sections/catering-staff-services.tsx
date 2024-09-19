@@ -5,7 +5,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { CateringStaffServicesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import {
+  CateringStaffServicesData,
+  CompareYourCostsProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -30,10 +33,10 @@ import {
 } from "src/services";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
-export const CateringStaffServices: React.FC<{
-  type: string;
-  id: string;
-}> = ({ type, id }) => {
+export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);

@@ -21,10 +21,12 @@
   --stack-1-colour: #e6e6e6;
   --stack-1-active-colour: #d1d1d1;
   --series-highlight-colour: #12436d;
+  --stack-1-highlight-colour: #94c4ed;
   --link-colour: #1d70b8;
   --link-hover-colour: #003078;
   --table-grid-colour: #b1b4b6;
   --focus-colour: #fd0;
+  --warning-colour: #f47738;
 }
 
 .recharts-wrapper .chart-cell,
@@ -33,8 +35,18 @@
   fill: var(--series-0-colour);
 }
 
+.recharts-wrapper .chart-cell {
+  stroke: var(--series-0-colour);
+  stroke-width: 3px;
+}
+
+.recharts-wrapper .chart-cell.chart-cell-active {
+  stroke: var(--series-0-active-colour);
+}
+
 .recharts-wrapper .chart-cell.chart-cell-highlight {
   fill: var(--series-highlight-colour);
+  stroke: var(--series-highlight-colour);
 }
 
 .recharts-wrapper .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
@@ -92,11 +104,24 @@
 
 .recharts-wrapper .chart-cell.chart-cell-series-1.chart-cell-stack-1 {
   fill: var(--stack-1-colour);
+  stroke: var(--stack-1-colour);
+  stroke-width: 3px;
 }
 
 .recharts-wrapper
   .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-active {
   fill: var(--stack-1-active-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-highlight {
+  stroke: var(--stack-1-highlight-colour);
+  fill: var(--stack-1-highlight-colour);
+}
+
+.recharts-wrapper .chart-cell.chart-cell-part-year {
+  stroke: var(--warning-colour);
+  fill: var(--warning-colour);
 }
 
 .recharts-wrapper
