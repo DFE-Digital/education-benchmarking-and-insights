@@ -11,10 +11,28 @@
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
             @Html.TrackedAnchor(
-            TrackedLinks.ChangeOrganisation,
-            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust }) ?? "",
-            "Change trust")
+                TrackedLinks.ChangeOrganisation,
+                Url.Action("Index", "FindOrganisation", new
+                {
+                    method = OrganisationTypes.Trust
+                }) ?? "",
+                "Change trust")
         </p>
+    </div>
+    <div class="govuk-grid-column-full">
+        @if (Model.ComparatorReverted == true)
+        {
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Success
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading">Your set of trusts has been removed</h3>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
@@ -97,7 +115,9 @@
     </tbody>
 </table>
 
-<p class="govuk-body"><a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })" class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a></p>
+<p class="govuk-body">
+    <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })" class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a>
+</p>
 
 <h2 class="govuk-heading-m">Schools in this trust</h2>
 
@@ -121,8 +141,8 @@
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-Heading = "Alternative provision",
-Schools = Model.AlternativeProvision
+    Heading = "Alternative provision",
+    Schools = Model.AlternativeProvision
 })
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
@@ -133,14 +153,14 @@ Schools = Model.AlternativeProvision
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-Heading = "Post 16",
-Schools = Model.PostSixteen
+    Heading = "Post 16",
+    Schools = Model.PostSixteen
 })
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-Heading = "University technical colleges",
-Schools = Model.UniversityTechnicalColleges
+    Heading = "University technical colleges",
+    Schools = Model.UniversityTechnicalColleges
 })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

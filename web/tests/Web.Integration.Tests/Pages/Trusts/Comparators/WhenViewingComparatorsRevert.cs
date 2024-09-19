@@ -25,7 +25,7 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
-        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute() + "?comparator-reverted=true");
     }
 
     private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool setupUserData = false)

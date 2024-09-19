@@ -11,7 +11,6 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -146,9 +145,14 @@ public class TrustComparatorsController(
 
                 trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
                 trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
-                return RedirectToAction("Index", "Trust", new
+                return RedirectToAction("Index", "Trust", new Dictionary<string, string>
                 {
-                    companyNumber
+                    {
+                        "companyNumber", companyNumber
+                    },
+                    {
+                        "comparator-reverted", "true"
+                    }
                 });
             }
             catch (Exception e)

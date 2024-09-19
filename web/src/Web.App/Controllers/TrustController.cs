@@ -23,7 +23,8 @@ public class TrustController(
 {
     [HttpGet]
     [TrustRequestTelemetry(TrackedRequestFeature.Home)]
-    public async Task<IActionResult> Index(string companyNumber)
+    public async Task<IActionResult> Index(string companyNumber,
+        [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
         using (logger.BeginScope(new
         {
@@ -39,7 +40,7 @@ public class TrustController(
                 var schools = await TrustSchools(companyNumber);
                 var ratings = await RagRatings(schools);
 
-                var viewModel = new TrustViewModel(trust, balance, schools, ratings);
+                var viewModel = new TrustViewModel(trust, balance, schools, ratings, comparatorReverted);
                 return View(viewModel);
             }
             catch (Exception e)
