@@ -2,20 +2,30 @@ import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
-import { SchoolTooltipProps } from "src/components/charts/school-census-tooltip";
-import { Census } from "src/services";
+import { SchoolTooltipProps } from "src/components/charts/school-data-tooltip";
+import { SchoolChartData } from "../table-chart";
+import { PartYearDataWarning } from "../part-year-data-warning";
 
-export function SchoolCensusTooltip<
+export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->(props: SchoolTooltipProps<TValue, TName>) {
-  const { active, payload } = props;
-  if (active && payload && payload.length) {
-    const census = payload[0].payload as Census;
-    return (
+>({ active, payload }: SchoolTooltipProps<TValue, TName>) {
+  if (!active || !payload || !payload.length) {
+    return null;
+  }
+
+  const { laName, periodCoveredByReturn, schoolName, schoolType, totalPupils } =
+    payload[0].payload as SchoolChartData;
+  return (
+    <>
+      {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
+        <div className="tooltip-part-year-warning">
+          <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
+        </div>
+      )}
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
         <caption className="govuk-table__caption govuk-table__caption--s">
-          {census.schoolName}
+          {schoolName}
         </caption>
         <thead className="govuk-table__head govuk-visually-hidden">
           <tr className="govuk-table__row">
@@ -32,24 +42,22 @@ export function SchoolCensusTooltip<
             <th scope="row" className="govuk-table__header">
               Local authority
             </th>
-            <td className="govuk-table__cell">{census.laName}</td>
+            <td className="govuk-table__cell">{laName}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
               School type
             </th>
-            <td className="govuk-table__cell">{census.schoolType}</td>
+            <td className="govuk-table__cell">{schoolType}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
               Number of pupils
             </th>
-            <td className="govuk-table__cell">{String(census.totalPupils)}</td>
+            <td className="govuk-table__cell">{String(totalPupils)}</td>
           </tr>
         </tbody>
       </table>
-    );
-  }
-
-  return null;
+    </>
+  );
 }

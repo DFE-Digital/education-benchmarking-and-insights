@@ -27,6 +27,7 @@
   --table-grid-colour: #b1b4b6;
   --focus-colour: #fd0;
   --warning-colour: #f47738;
+  --warning-colour-bg: #ffe4c4;
 }
 
 .govuk-table {
@@ -385,6 +386,17 @@
 
 .recharts-wrapper.recharts-wrapper-horizontal-bar-chart > .recharts-surface {
   overflow: visible;
+}
+
+.recharts-wrapper .tooltip-part-year-warning {
+  border-left: 10px solid var(--warning-colour);
+  border-color: var(--warning-colour);
+  background-color: var(--warning-colour-bg);
+  padding: 6px 12px;
+}
+
+.recharts-wrapper .tooltip-part-year-warning .govuk-warning-text {
+  font-size: 16px;
 }
 
 /* end recharts */

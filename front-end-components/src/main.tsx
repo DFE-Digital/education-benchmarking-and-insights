@@ -46,7 +46,7 @@ import {
   shortValueFormatter,
 } from "./components/charts/utils";
 import { EstablishmentTick } from "./components/charts/establishment-tick";
-import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
+import { SchoolDataTooltip } from "./components/charts/school-data-tooltip";
 import { Census, SchoolExpenditure } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
@@ -240,7 +240,7 @@ const HorizontalChart1Series = ({
               }
             />
           )}
-          tooltip={(t) => <SchoolCensusTooltip {...t} />}
+          tooltip={(t) => <SchoolDataTooltip {...t} />}
           valueFormatter={shortValueFormatter}
           valueLabel="Total"
           valueUnit={valueUnit}
