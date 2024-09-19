@@ -61,7 +61,7 @@ jobs:
           url: https://s198d01-ebis-insight-fa.azurewebsites.net/api/swagger/json
           key: insight
     steps:
-      - task: AzureKeyVault@1
+      - task: AzureKeyVault@2
         inputs:
           azureSubscription: 's198d.azdo-deployment'
           KeyVaultName: 's198d01-ebis-keyvault'
