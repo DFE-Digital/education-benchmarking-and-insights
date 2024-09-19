@@ -12,7 +12,7 @@ public interface IComparatorSchoolsService
 }
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSchoolsService(ISearchConnection<ComparatorSchool> connection)  : IComparatorSchoolsService
+public class ComparatorSchoolsService(ISearchConnection<ComparatorSchool> connection) : IComparatorSchoolsService
 {
     public async Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request)
     {

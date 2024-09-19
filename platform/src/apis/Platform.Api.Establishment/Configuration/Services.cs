@@ -23,11 +23,11 @@ internal static class Services
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         var searchName = Environment.GetEnvironmentVariable("Search__Name");
         var searchKey = Environment.GetEnvironmentVariable("Search__Key");
-        
+
         ArgumentNullException.ThrowIfNull(sqlConnString);
         ArgumentNullException.ThrowIfNull(searchName);
         ArgumentNullException.ThrowIfNull(searchKey);
-        
+
         var searchEndpoint = new Uri($"https://{searchName}.search.windows.net/");
         var searchCredential = new AzureKeyCredential(searchKey);
 

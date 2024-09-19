@@ -14,7 +14,7 @@ internal static class Services
     {
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         ArgumentNullException.ThrowIfNull(sqlConnString);
-        
+
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IPlatformDb, PlatformDb>();

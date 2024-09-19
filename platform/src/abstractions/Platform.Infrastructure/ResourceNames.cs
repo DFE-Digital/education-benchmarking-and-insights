@@ -41,5 +41,5 @@ public static class ResourceNames
             public const string LocalAuthority = "local-authority-suggester";
         }
     }
-    
+
 }

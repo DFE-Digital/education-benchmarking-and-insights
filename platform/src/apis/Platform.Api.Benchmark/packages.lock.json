@@ -1997,7 +1997,7 @@
       "platform.functions": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.9.2, )",
+          "FluentValidation": "[11.10.0, )",
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[1.19.0, )",
@@ -2017,7 +2017,7 @@
         "type": "Project",
         "dependencies": {
           "Azure.Search.Documents": "[11.6.0, )",
-          "FluentValidation": "[11.9.2, )"
+          "FluentValidation": "[11.10.0, )"
         }
       },
       "platform.sql": {
@@ -2047,9 +2047,9 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[11.9.2, )",
-        "resolved": "11.9.2",
-        "contentHash": "XeHp9LvFvu1fsQ/NvDCymV02GOCB1nz7ZUhfpI3uMhCcHTkV1K5bMkv+Nc/kuNYyAsX5+5bcmUanIEMd5QN+Eg=="
+        "requested": "[11.10.0, )",
+        "resolved": "11.10.0",
+        "contentHash": "qsJGSJDdZ8qiG+lVJ70PZfJHcEdq8UQZ/tZDXoj78/iHKG6lVKtMJsD11zyyv/IPc7rwqGqnFoFLTNzpo3IPYg=="
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",

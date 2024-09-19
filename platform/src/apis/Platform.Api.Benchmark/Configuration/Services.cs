@@ -29,14 +29,14 @@ internal static class Services
         ArgumentNullException.ThrowIfNull(sqlConnString);
         ArgumentNullException.ThrowIfNull(searchName);
         ArgumentNullException.ThrowIfNull(searchKey);
-        
+
         serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sqlConnString);
 
         var searchEndpoint = new Uri($"https://{searchName}.search.windows.net/");
         var searchCredential = new AzureKeyCredential(searchKey);
-        
+
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<ISearchConnection<ComparatorSchool>>(new SearchConnection<ComparatorSchool>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.SchoolComparators))

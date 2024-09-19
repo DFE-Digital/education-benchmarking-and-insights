@@ -59,7 +59,7 @@ public class WhenBudgetForecastServiceQueriesAsync
                 "Category", category
             }
         };
-        
+
         expectedParam.Add("RunId", runId);
 
         Assert.Equal(expectedParam, actualParam);

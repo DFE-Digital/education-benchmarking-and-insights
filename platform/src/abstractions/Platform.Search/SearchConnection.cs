@@ -10,7 +10,7 @@ public interface ISearchConnection<T>
     Task<(long? Total, IEnumerable<ScoreResponse<T>> Response)> SearchAsync(string? search, string? filters, int? size = null);
     Task<T> LookUpAsync(string? key);
     Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null);
-    Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null,string[]? selectFields = null);
+    Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null);
 }
 
 [ExcludeFromCodeCoverage]
@@ -107,7 +107,7 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
             Results = results
         };
     }
-    
+
     private static Dictionary<string, IList<FacetValueResponseModel>> BuildFacetOutput(IDictionary<string, IList<FacetResult>> facetResults)
     {
         var facetOutput = new Dictionary<string, IList<FacetValueResponseModel>>();
