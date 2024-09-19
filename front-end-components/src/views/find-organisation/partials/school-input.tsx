@@ -6,6 +6,7 @@ import {
   SuggestResult,
 } from "src/views/find-organisation";
 import { v4 as uuidv4 } from "uuid";
+import { suggestionFormatter } from "../utils";
 
 const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
   const { input, urn, exclude } = props;
@@ -64,9 +65,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
         minLength={3}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
-        suggestionFormatter={(item) =>
-          item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
-        }
+        suggestionFormatter={suggestionFormatter}
         valueFormatter={(item) => item?.document?.schoolName ?? ""}
       />
       <input value={selectedUrn} name="urn" type="hidden" />

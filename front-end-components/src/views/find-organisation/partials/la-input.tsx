@@ -6,6 +6,7 @@ import {
   SuggestResult,
 } from "src/views/find-organisation";
 import { v4 as uuidv4 } from "uuid";
+import { suggestionFormatter } from "../utils";
 
 const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
   const { input, code, exclude } = props;
@@ -64,9 +65,7 @@ const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
         minLength={3}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
-        suggestionFormatter={(item) =>
-          item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
-        }
+        suggestionFormatter={suggestionFormatter}
         valueFormatter={(item) => item?.document?.name ?? ""}
       />
       <input value={selectedCode} name="code" type="hidden" />

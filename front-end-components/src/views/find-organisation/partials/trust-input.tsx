@@ -6,6 +6,7 @@ import {
   TrustInputProps,
 } from "src/views/find-organisation";
 import { v4 as uuidv4 } from "uuid";
+import { suggestionFormatter } from "../utils";
 
 const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
   const { input, companyNumber, exclude } = props;
@@ -65,9 +66,7 @@ const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
         minLength={3}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
-        suggestionFormatter={(item) =>
-          item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
-        }
+        suggestionFormatter={suggestionFormatter}
         valueFormatter={(item) => item?.document?.trustName ?? ""}
       />
       <input value={selectedCompanyNumber} name="companyNumber" type="hidden" />
