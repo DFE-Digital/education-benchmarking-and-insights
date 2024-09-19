@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 18/09/2024
+﻿# Release Test Plan - 19/09/2024
 
 ## Introduction
 **Objective:**
@@ -13,7 +13,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Release date:**
 
-18/09/2024
+19/09/2024
 
 ## Test Strategy
 **Types of Testing:**
