@@ -120,7 +120,7 @@ public class GivenAPostSchoolComparatorsRequest
         "University technical college"
     }, new[]
     {
-        "University technical college"
+        "University Technical College"
     })]
     [InlineData(new[]
     {
