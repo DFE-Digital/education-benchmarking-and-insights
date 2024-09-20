@@ -83,6 +83,7 @@ public static class Selectors
     public const string AdditionalDetailsPopUps = ".recharts-wrapper .recharts-tooltip-wrapper";
     public const string SchoolNamesLinksInCharts = ".recharts-text .govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
+    public const string ChartYTicks = ".recharts-surface .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-ticks .recharts-cartesian-axis-tick";
 
     public const string SchoolSuggestDropdown = "#school-input__listbox";
     public const string MainContent = "#main-content";

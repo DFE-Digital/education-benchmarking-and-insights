@@ -8,10 +8,10 @@ namespace Web.E2ETests.Steps.School;
 [Scope(Feature = "School compare your costs")]
 public class CompareYourCostsSteps(PageDriver driver)
 {
+    private ComparatorsPage? _comparatorsPage;
     private CompareYourCostsPage? _comparisonPage;
     private IDownload? _download;
     private HomePage? _schoolHomePage;
-    private ComparatorsPage? _comparatorsPage;
 
     [Given("I am on compare your costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
@@ -143,31 +143,6 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), false, "Show", "chart");
     }
 
-    private void ChartDownloaded(string chartName)
-    {
-        Assert.NotNull(_download);
-        var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
-        {
-            ComparisonChartNames.TotalExpenditure => "total expenditure",
-            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
-        };
-
-        var downloadedFilePath = _download.SuggestedFilename;
-        Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
-    }
-
-    private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
-    {
-        return chartName switch
-        {
-            "total expenditure" => ComparisonChartNames.TotalExpenditure,
-            "total number of teachers" => ComparisonChartNames.Premises,
-            "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
-            "catering staff" => ComparisonChartNames.CateringStaffAndServices,
-            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
-        };
-    }
-
     [Then(@"additional information is displayed")]
     public async Task ThenAdditionalInformationIsDisplayed()
     {
@@ -176,11 +151,17 @@ public class CompareYourCostsSteps(PageDriver driver)
     }
 
     [When("I hover over a chart bar")]
-    public async Task WhenIHoverOverChartBar()
+    public async Task WhenIHoverOverAChartBar()
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.HoverOnGraphBar();
+    }
 
+    [When("I hover over the nth chart bar (.*)")]
+    public async Task WhenIHoverOverTheNthChartBar(int nth)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.HoverOnGraphBar(nth);
     }
 
     [When("I select the school name on the chart")]
@@ -242,17 +223,78 @@ public class CompareYourCostsSteps(PageDriver driver)
     }
 
     [Then("pupil cost comparators are (.*)")]
-    public async Task ThenPupilCostComparatorsAreNotNull(string pupilComparators)
+    public async Task ThenPupilCostComparatorsAre(string pupilComparators)
     {
         Assert.NotNull(_comparatorsPage);
         await _comparatorsPage.CheckRunningCostComparators(pupilComparators == "not null");
     }
 
     [Then("building cost comparators are (.*)")]
-    public async Task ThenBuildingCostComparatorsAreNotNull(string buildingComparators)
+    public async Task ThenBuildingCostComparatorsAre(string buildingComparators)
     {
         Assert.NotNull(_comparatorsPage);
         await _comparatorsPage.CheckBuildingCostComparators(buildingComparators == "not null");
+    }
+
+    [Then("additional information contains")]
+    public async Task ThenAdditionalInformationContains(Table table)
+    {
+        var expected = new List<List<string>>();
+        {
+            var headers = table.Header.ToList();
+
+            expected.Add(headers);
+            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+        }
+
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsTableDataForTooltipDisplayed(expected);
+    }
+
+    [Then("additional information shows part year warning for (.*) months")]
+    public async Task ThenAdditionalInformationShowsPartYearWarningForMonths(int months)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsPartYearWarningInTooltipDisplayed(months);
+    }
+
+    [Then("the nth chart bar (.*) displays the establishment name '(.*)'")]
+    public async Task ThenTheNthChartBarDisplaysTheEstablishmentName(int nth, string name)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsGraphTickTextEqual(nth, name);
+    }
+
+    [Then("the nth chart bar (.*) displays the warning icon")]
+    public async Task ThenTheNthChartBarDisplaysTheWarningIcon(int nth)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsWarningIconDisplayedOnGraphTick(nth);
+    }
+
+    private void ChartDownloaded(string chartName)
+    {
+        Assert.NotNull(_download);
+        var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
+        {
+            ComparisonChartNames.TotalExpenditure => "total expenditure",
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+
+        var downloadedFilePath = _download.SuggestedFilename;
+        Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
+    }
+
+    private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
+    {
+        return chartName switch
+        {
+            "total expenditure" => ComparisonChartNames.TotalExpenditure,
+            "total number of teachers" => ComparisonChartNames.Premises,
+            "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
+            "catering staff" => ComparisonChartNames.CateringStaffAndServices,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
     }
 
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";

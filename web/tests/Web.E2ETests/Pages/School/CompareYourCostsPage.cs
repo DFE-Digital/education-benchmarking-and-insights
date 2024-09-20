@@ -80,6 +80,7 @@ public class CompareYourCostsPage(IPage page)
         });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
+    private ILocator ChartTicks => page.Locator(Selectors.ChartYTicks);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
 
@@ -228,9 +229,9 @@ public class CompareYourCostsPage(IPage page)
         await AdditionalDetailsPopUps.First.ShouldBeVisible();
     }
 
-    public async Task HoverOnGraphBar()
+    public async Task HoverOnGraphBar(int nth = 0)
     {
-        await ChartBars.First.HoverAsync();
+        await ChartBars.Nth(nth).HoverAsync();
     }
 
     public async Task<HomePage> ClickSchoolName()
@@ -272,6 +273,30 @@ public class CompareYourCostsPage(IPage page)
         await ComparatorSetDetails.Click();
         return new ComparatorsPage(page);
     }
+
+    public async Task IsTableDataForTooltipDisplayed(List<List<string>> expectedData)
+    {
+        await TooltipIsDisplayed();
+        await ChartTooltip.Locator("table").ShouldHaveTableContent(expectedData, true);
+    }
+
+    public async Task IsPartYearWarningInTooltipDisplayed(int months)
+    {
+        await TooltipIsDisplayed();
+        await ChartTooltip.Locator(".tooltip-part-year-warning").ShouldHaveText($"!\nWarning\nThis school only has {months} months of data available.");
+    }
+
+    public async Task IsGraphTickTextEqual(int nth, string text)
+    {
+        var actual = await ChartTicks.Nth(nth).Locator("text").TextContentAsync();
+        Assert.Equal(text, actual);
+    }
+
+    public async Task IsWarningIconDisplayedOnGraphTick(int nth)
+    {
+        await ChartTicks.Nth(nth).Locator("circle").ShouldBeVisible();
+    }
+
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
     {
         var contentLocator = chartName switch
@@ -340,5 +365,4 @@ public class CompareYourCostsPage(IPage page)
         {
             Has = page.Locator($"span{sectionId}")
         });
-
 }
