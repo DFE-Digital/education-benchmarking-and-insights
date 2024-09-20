@@ -24,11 +24,11 @@ variables:
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   - name: 'ShouldDeploy'
-    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+    value: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
   - name: 'Version'
     value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
   - name: 'Version.Revision'
-    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
+    ${{ if eq(variables['ShouldDeploy'],'true') }}:
       value: $[counter(variables['Version'], 0)]
     ${{ else }}:
       value: 'XX'
