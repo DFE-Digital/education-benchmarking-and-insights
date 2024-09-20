@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Playwright;
 using Xunit;
-
 namespace Web.E2ETests;
 
 public static class LocatorExtensions
@@ -86,7 +85,7 @@ public static class LocatorExtensions
 
         if (includeHeaderRow)
         {
-            var headerCells = await locator.Locator("th").AllAsync();
+            var headerCells = await locator.Locator("thead").Locator("th").AllAsync();
             var headerData = new List<string>();
             foreach (var cell in headerCells)
             {
@@ -100,7 +99,7 @@ public static class LocatorExtensions
 
         foreach (var row in rows)
         {
-            var cells = await row.Locator("td").AllAsync();
+            var cells = await row.Locator("th, td").AllAsync();
 
             var rowData = new List<string>();
             foreach (var cell in cells)
@@ -119,7 +118,7 @@ public static class LocatorExtensions
             for (var j = 0; j < expectedTableCell.Count; j++)
             {
                 actualTableCell[j].Should()
-                    .Be(expectedTableCell[j], "actual table cells should have the expected data");
+                    .Be(expectedTableCell[j], $"actual table cell (row {i}, column {j}) should have the expected data");
             }
         }
 
@@ -166,7 +165,10 @@ public static class LocatorExtensions
 
     public static async Task<ILocator> PressSequentially(this ILocator locator, string inputValue)
     {
-        await locator.PressSequentiallyAsync(inputValue, new() { Delay = 100 });
+        await locator.PressSequentiallyAsync(inputValue, new LocatorPressSequentiallyOptions
+        {
+            Delay = 100
+        });
         return locator;
     }
 
@@ -182,10 +184,7 @@ public static class LocatorExtensions
         return locator;
     }
 
-    public static async Task<int> Count(this ILocator locator)
-    {
-        return await locator.CountAsync();
-    }
+    public static async Task<int> Count(this ILocator locator) => await locator.CountAsync();
 
     public static async Task<ILocator> Fill(this ILocator locator, string inputValue)
     {
@@ -193,8 +192,5 @@ public static class LocatorExtensions
         return locator;
     }
 
-    public static async Task<bool> CheckVisible(this ILocator locator)
-    {
-        return await locator.IsVisibleAsync();
-    }
+    public static async Task<bool> CheckVisible(this ILocator locator) => await locator.IsVisibleAsync();
 }

@@ -55,6 +55,43 @@ Feature: School compare your costs
 
         But save as image buttons are hidden
 
+    Scenario: Table view for total expenditure for school(s) with part-year data
+        Given I am on compare your costs page for school with URN '777045'
+        And table view is selected
+        And the 'total expenditure' dimension is '£ per pupil'
+        Then the following is shown for 'total expenditure'
+          | School name                                                                                                               | Local Authority                   | School type                    | Number of pupils | Amount  |
+          | Test academy school 273                                                                                                   | Kensington and Chelsea            | Academy converter              | 114              | £13,051 |
+          | Test school 88                                                                                                            | Slough                            | Community school               | 134              | £9,916  |
+          | Test part year with pupil and without building comparator\n!\nWarning\nThis school only has 3 months of data available.   | Bromley                           | Pupil referral unit            | 260              | £9,068  |
+          | Test school 197                                                                                                           | Windsor and Maidenhead            | Community school               | 167              | £9,050  |
+          | Test academy school 470                                                                                                   | Waltham Forest                    | Academy 16-19 converter        | 167              | £9,050  |
+          | Test academy school 77                                                                                                    | Hartlepool                        | Academy converter              | 1040             | £9,023  |
+          | Test academy school 469                                                                                                   | Hillingdon                        | Free school 16 to 19           | 235              | £8,981  |
+          | Test school 198                                                                                                           | West Berkshire                    | Community school               | 174              | £8,882  |
+          | Test academy school 255                                                                                                   | Stockton-on-Tees                  | Academy converter              | 174              | £8,882  |
+          | Test school 181                                                                                                           | Dorset                            | Voluntary aided school         | 399              | £8,584  |
+          | Test school 87                                                                                                            | Reading                           | Foundation school              | 206              | £8,224  |
+          | Test school 124                                                                                                           | Newham                            | Voluntary aided school         | 769              | £8,089  |
+          | Test academy school 82                                                                                                    | Bournemouth, Christchurch & Poole | Academy converter              | 991              | £8,088  |
+          | Test academy school 53                                                                                                    | Salford                           | Free school                    | 407              | £8,028  |
+          | Test school 260                                                                                                           | Kingston upon Thames              | Community school               | 853              | £7,880  |
+          | Test academy school 450                                                                                                   | Surrey                            | Academy 16-19 converter        | 367              | £7,703  |
+          | Test Part year school with pupil and builiding comparators\n!\nWarning\nThis school only has 10 months of data available. | Bracknell Forest                  | Foundation school              | 214              | £7,470  |
+          | Test school 205                                                                                                           | Plymouth                          | Community school               | 196              | £7,385  |
+          | Test academy school 20                                                                                                    | Waltham Forest                    | Academy converter              | 449              | £7,356  |
+          | Test academy school 98                                                                                                    | Southwark                         | Academy converter              | 449              | £7,356  |
+          | Test academy school 244                                                                                                   | Islington                         | Academy converter              | 446              | £7,342  |
+          | Test school 68                                                                                                            | Derbyshire                        | Local authority nursery school | 339              | £7,318  |
+          | Test academy school 37                                                                                                    | North Lincolnshire                | Academy converter              | 339              | £7,318  |
+          | Test school 270                                                                                                           | Solihull                          | Voluntary aided school         | 230              | £7,281  |
+          | Test school 237                                                                                                           | City of London                    | Voluntary aided school         | 231              | £6,918  |
+          | Test academy school 465                                                                                                   | Enfield                           | Academy 16-19 converter        | 231              | £6,918  |
+          | Test academy school 375                                                                                                   | Reading                           | Academy special sponsor led    | 232              | £6,814  |
+          | Test school 132                                                                                                           | Solihull                          | Community school               | 418              | £6,676  |
+          | Test academy school 32                                                                                                    | Stockton-on-Tees                  | Academy converter              | 418              | £6,676  |
+          | Test academy school 160                                                                                                   | West Sussex                       | Academy special converter      | 190              | £6,208  |
+
     Scenario: Show all should expand all sections
         Given I am on compare your costs page for school with URN '777042'
         When I click on show all sections
@@ -79,18 +116,41 @@ Feature: School compare your costs
         Given I am on compare your costs page for school with URN '777042'
         When I hover over a chart bar
         Then additional information is displayed
+        And additional information contains
+          | Item             | Value            |
+          | Local authority  | Redbridge        |
+          | School type      | Community school |
+          | Number of pupils | 114              |
+
+    Scenario: View additional details upon hover for part-year school
+        Given I am on compare your costs page for school with URN '777045'
+        And the 'total expenditure' dimension is '£ per pupil'
+        When I hover over the nth chart bar 2
+        Then additional information is displayed
+        And additional information contains
+          | Item             | Value               |
+          | Local authority  | Bromley             |
+          | School type      | Pupil referral unit |
+          | Number of pupils | 260                 |
+        And additional information shows part year warning for 3 months
+
+    Scenario: Warning icon displayed in chart for part-year school
+        Given I am on compare your costs page for school with URN '777045'
+        And the 'total expenditure' dimension is '£ per pupil'
+        Then the nth chart bar 2 displays the establishment name 'Test part year with pupil and without building comparator'
+        And the nth chart bar 2 displays the warning icon
 
     Scenario: Clicking school name in chart directs to homepage
         Given I am on compare your costs page for school with URN '777042'
         When I select the school name on the chart
         Then I am navigated to selected school home page
-        
+
     Scenario: Tabbing to and selecting school name in chart directs to homepage
         Given I am on compare your costs page for school with URN '777042'
         When I tab to the school name on the chart
         And I press the Enter key when focused on the school name
         Then I am navigated to selected school home page
-        
+
     Scenario: Tabbing to school name in chart displays tooltip
         Given I am on compare your costs page for school with URN '777042'
         When I tab to the school name on the chart
