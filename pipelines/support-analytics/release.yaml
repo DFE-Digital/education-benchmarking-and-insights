@@ -19,16 +19,34 @@ pr:
 
 variables:
   - group: 'support'
-  - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'support-analytics/terraform'
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  - name: 'ShouldDeploy'
+    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - name: 'Version'
+    value: '$(Date:yyyy).$(Date:MM)'
+  - name: 'Version.Revision'
+    ${{ if eq(variables['ShouldDeploy'],'true') }}:
+      value: $[counter(variables['Version'], 0)]
+    ${{ else }}:
+      value: 'XX'
+  - name: 'Version.BuildNumber'
+    value: $(Version).$(Version.Revision)
 
 stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
+      - bash: |
+          echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
+          echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+          echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+          echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+        displayName: 'Set release number'
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
