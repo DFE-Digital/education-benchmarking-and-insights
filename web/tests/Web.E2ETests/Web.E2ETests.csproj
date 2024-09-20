@@ -27,7 +27,15 @@
         </None>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <None Update="appsettings.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Features\Trust\TrustHome.feature.cs">
+            <DependentUpon>SchoolHome.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
     </ItemGroup>
 </Project>
