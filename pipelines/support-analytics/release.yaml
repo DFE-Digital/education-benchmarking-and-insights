@@ -28,7 +28,7 @@ variables:
   - name: 'Version'
     value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
   - name: 'Version.Revision'
-    ${{ if eq(variables['ShouldDeploy'],'true') }}:
+    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: $[counter(variables['Version'], 0)]
     ${{ else }}:
       value: 'XX'
