@@ -29,3 +29,13 @@ data "azurerm_windows_function_app" "insight-api" {
   name                = "${var.environment-prefix}-ebis-insight-fa"
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
+
+data "azurerm_log_analytics_workspace" "application-insights-workspace" {
+  name                = "${var.environment-prefix}-ebis-aiw"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}
+
+data "azurerm_storage_account" "data" {
+  name                = "${var.environment-prefix}data"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}

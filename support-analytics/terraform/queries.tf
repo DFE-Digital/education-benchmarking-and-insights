@@ -9,7 +9,7 @@ resource "random_uuid" "popular-school-requests-id" {}
 
 resource "azurerm_log_analytics_saved_search" "get-establishment-requests" {
   name                       = "GetEstablishmentRequests"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetEstablishmentRequests"
   function_alias             = "GetEstablishmentRequests"
@@ -57,7 +57,7 @@ resource "azurerm_log_analytics_query_pack_query" "popular-local-authority-reque
 
 resource "azurerm_log_analytics_saved_search" "get-tracked-links" {
   name                       = "GetTrackedLinks"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetTrackedLinks"
   function_alias             = "GetTrackedLinks"
@@ -114,7 +114,7 @@ resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
 
 resource "azurerm_log_analytics_saved_search" "get-feature-requests" {
   name                       = "GetFeatureRequests"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetFeatureRequests"
   function_alias             = "GetFeatureRequests"
@@ -138,7 +138,7 @@ resource "azurerm_log_analytics_query_pack_query" "feature-requests-by-auth" {
 
 resource "azurerm_log_analytics_saved_search" "get-sessions" {
   name                       = "GetSessions"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetSessions"
   function_alias             = "GetSessions"
@@ -162,7 +162,7 @@ resource "azurerm_log_analytics_query_pack_query" "session-count-per-day" {
 
 resource "azurerm_log_analytics_saved_search" "get-session-length" {
   name                       = "GetSessionLength"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetSessionLength"
   function_alias             = "GetSessionLength"
@@ -186,7 +186,7 @@ resource "azurerm_log_analytics_query_pack_query" "session-length-per-day" {
 
 resource "azurerm_log_analytics_saved_search" "get-users" {
   name                       = "GetUsers"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetUsers"
   function_alias             = "GetUsers"
@@ -210,7 +210,7 @@ resource "azurerm_log_analytics_query_pack_query" "user-count-per-day" {
 
 resource "azurerm_log_analytics_saved_search" "get-auth-users" {
   name                       = "GetAuthUsers"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetAuthUsers"
   function_alias             = "GetAuthUsers"
@@ -234,7 +234,7 @@ resource "azurerm_log_analytics_query_pack_query" "user-auth-count-per-day" {
 
 resource "azurerm_log_analytics_saved_search" "get-new-users" {
   name                       = "GetNewUsers"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetNewUsers"
   function_alias             = "GetNewUsers"
@@ -297,7 +297,7 @@ resource "azurerm_log_analytics_query_pack_query" "custom-data-funnel" {
 
 resource "azurerm_log_analytics_saved_search" "get-commercial-resources" {
   name                       = "GetCommercialResources"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetCommercialResources"
   function_alias             = "GetCommercialResources"
@@ -347,7 +347,7 @@ resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
 
 resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
   name                       = "GetAnonymousRequests"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetAnonymousRequests"
   function_alias             = "GetAnonymousRequests"
@@ -358,7 +358,7 @@ resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
 
 resource "azurerm_log_analytics_saved_search" "get-waf-logs" {
   name                       = "GetWafLogs"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetWafLogs"
   function_alias             = "GetWafLogs"
@@ -382,7 +382,7 @@ resource "azurerm_log_analytics_query_pack_query" "waf-requests" {
 
 resource "azurerm_log_analytics_saved_search" "get-waf-blocked-requests" {
   name                       = "GetWafBlockedRequests"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetWafBlockedRequests"
   function_alias             = "GetWafBlockedRequests"
@@ -406,7 +406,7 @@ resource "azurerm_log_analytics_query_pack_query" "waf-blocked-requests-per-hour
 
 resource "azurerm_log_analytics_saved_search" "get-tracked-save-charts" {
   name                       = "GetTrackedSaveCharts"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetTrackedSaveCharts"
   function_alias             = "GetTrackedSaveCharts"
@@ -417,14 +417,14 @@ resource "azurerm_log_analytics_saved_search" "get-tracked-save-charts" {
 
 resource "azurerm_log_analytics_saved_search" "get-queue-put-messages" {
   name                       = "GetQueuePutMessages"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetQueuePutMessages"
   function_alias             = "GetQueuePutMessages"
   tags                       = local.query-tags
 
   query = templatefile("${path.module}/queries/functions/get-queue-put-messages.kql", {
-    storageAccountName = azurerm_storage_account.data.name
+    storageAccountName = data.azurerm_storage_account.data.name
   })
 }
 
@@ -443,7 +443,7 @@ resource "azurerm_log_analytics_query_pack_query" "dlq-new-messages-per-hour" {
 
 resource "azurerm_log_analytics_saved_search" "get-fa-traces" {
   name                       = "GetFunctionAppTraces"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
   display_name               = "GetFunctionAppTraces"
   function_alias             = "GetFunctionAppTraces"

@@ -8,6 +8,8 @@ locals {
   }
 }
 
+data "azurerm_subscription" "current" {}
+
 resource "azurerm_resource_group" "resource-group" {
   name     = "${var.environment-prefix}-ebis-support"
   location = var.location
