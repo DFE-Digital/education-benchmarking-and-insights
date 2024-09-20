@@ -14,9 +14,9 @@
 |------|---------|
 | <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.15.0 |
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.53.1 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.1.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.3.0 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.2 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
 
 ## Modules
 
@@ -44,6 +44,7 @@ No modules.
 | [azurerm_log_analytics_query_pack_query.dlq-new-messages-per-hour](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.feature-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.feature-requests-by-auth](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.function-app-role-instance-count](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.pipeline-runs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.popular-commercial-resources](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.popular-local-authority-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
@@ -64,6 +65,7 @@ No modules.
 | [azurerm_log_analytics_saved_search.get-auth-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-commercial-resources](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-establishment-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
+| [azurerm_log_analytics_saved_search.get-fa-traces](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-feature-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-new-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-queue-put-messages](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
@@ -114,6 +116,7 @@ No modules.
 | [random_uuid.dlq-new-messages-per-hour-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.feature-requests-by-auth-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.feature-requests-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
+| [random_uuid.function-app-role-instance-count-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.pipeline-runs-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.popular-commercial-resources-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.popular-local-authority-requests-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |

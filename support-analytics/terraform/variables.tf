@@ -16,7 +16,7 @@ variable "configuration" {
   }))
   default = {
     development = {
-      alerts_enabled = true
+      alerts_enabled = false
       thresholds = {
         availability = 90
         cpu          = 95
@@ -52,7 +52,7 @@ variable "configuration" {
       }
     }
     pre-production = {
-      alerts_enabled = false
+      alerts_enabled = true
       thresholds = {
         availability = 99.9
         cpu          = 85

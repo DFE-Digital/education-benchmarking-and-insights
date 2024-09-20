@@ -77,7 +77,7 @@ resource "azurerm_monitor_metric_alert" "web_app_error_alert" {
   description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
-  window_size         = "PT5M"
+  window_size         = "PT30M"
   enabled             = var.configuration[var.environment].alerts_enabled
   tags                = local.common-tags
 
@@ -101,7 +101,7 @@ resource "azurerm_monitor_metric_alert" "benchmark_api_error_alert" {
   description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
-  window_size         = "PT5M"
+  window_size         = "PT30M"
   enabled             = var.configuration[var.environment].alerts_enabled
   tags                = local.common-tags
 
@@ -125,7 +125,7 @@ resource "azurerm_monitor_metric_alert" "establishment_api_error_alert" {
   description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
-  window_size         = "PT5M"
+  window_size         = "PT30M"
   enabled             = var.configuration[var.environment].alerts_enabled
   tags                = local.common-tags
 
@@ -149,7 +149,7 @@ resource "azurerm_monitor_metric_alert" "insight_api_error_alert" {
   description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
   severity            = 0
   frequency           = "PT1M"
-  window_size         = "PT5M"
+  window_size         = "PT30M"
   enabled             = var.configuration[var.environment].alerts_enabled
   tags                = local.common-tags
 
