@@ -38,7 +38,7 @@
     Scenario: Sending a valid comparator trusts request
         Given a valid comparator trusts request for company number '10192252'
         When I submit the comparator trusts request
-        Then the comparator trusts should total '24' and contain:
+        Then the comparator trusts should total '25' and contain:
           | CompanyNumber |
           | 7185046       |
           | 7694547       |
@@ -48,4 +48,4 @@
           | 7747126       |
           | 7695504       |
           | 7388635       |
-          | 7348231       |
+          | 7703941       |
