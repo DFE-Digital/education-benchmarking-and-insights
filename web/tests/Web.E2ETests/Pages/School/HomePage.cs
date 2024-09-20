@@ -1,5 +1,4 @@
 ﻿using Microsoft.Playwright;
-
 namespace Web.E2ETests.Pages.School;
 
 public class HomePage(IPage page)
@@ -8,33 +7,65 @@ public class HomePage(IPage page)
     private ILocator PageH2Headings => page.Locator($"main {Selectors.H2}{Selectors.GovHeadingM}");
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
-    private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark spending" });
-    private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
-    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark pupil and workforce data" });
-    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School contact details" });
+    private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Benchmark spending"
+    });
+    private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Curriculum and financial planning"
+    });
+    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Benchmark pupil and workforce data"
+    });
+    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "School contact details"
+    });
     private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
     private ILocator DataSourcesAndInterpretation => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Data sources and interpretation" });
+        new PageLocatorOptions
+        {
+            HasText = "Data sources and interpretation"
+        });
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all spending priorities for this school" });
+        new PageLocatorOptions
+        {
+            HasText = "View all spending priorities for this school"
+        });
 
     private ILocator FindWaysToSpendLessLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Find ways to spend less" });
+        new PageLocatorOptions
+        {
+            HasText = "Find ways to spend less"
+        });
 
     private ILocator ViewHistoricDataLink =>
-        page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "View historic data" });
+        page.Locator(Selectors.GovLink, new PageLocatorOptions
+        {
+            HasText = "View historic data"
+        });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
-    public async Task IsDisplayed(bool isPartYear = false)
+    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
-        var expectedH2Texts = isPartYear
-            ? new[] { "Benchmarking and planning tools", "Resources" }
-            : new[] { "Spending priorities for this school", "Benchmarking and planning tools", "Resources" };
+
+        List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
+        if (!isPartYear)
+        {
+            expectedH2Texts.Insert(0, "Spending priorities for this school");
+        }
+
+        if (!string.IsNullOrWhiteSpace(trustName))
+        {
+            expectedH2Texts.Insert(0, $"Part of {trustName}");
+        }
 
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)
         {
