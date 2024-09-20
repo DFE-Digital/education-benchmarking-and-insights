@@ -24,8 +24,8 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
 
   dashboard_properties = templatefile("${path.module}/dashboards/mi.tpl",
     {
-      workspace_id    = azurerm_log_analytics_workspace.application-insights-workspace.id
-      app_insights_id = azurerm_application_insights.application-insights.id
+      workspace_id    = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+      app_insights_id = data.azurerm_application_insights.application-insights.id
       environment     = local.dashboard-suffix
 
       popular_school_requests_id    = azurerm_log_analytics_query_pack_query.popular-school-requests.name
@@ -89,9 +89,9 @@ resource "azurerm_portal_dashboard" "oi-dashboard" {
       subscription_id     = data.azurerm_subscription.current.subscription_id
       resource_group_name = azurerm_resource_group.resource-group.name
 
-      workspace_id      = azurerm_log_analytics_workspace.application-insights-workspace.id,
-      app_insights_id   = azurerm_application_insights.application-insights.id,
-      app_insights_name = azurerm_application_insights.application-insights.name,
+      workspace_id      = data.azurerm_log_analytics_workspace.application-insights-workspace.id,
+      app_insights_id   = data.azurerm_application_insights.application-insights.id,
+      app_insights_name = data.azurerm_application_insights.application-insights.name,
       environment       = local.dashboard-suffix
 
       failures_query_prefix = local.failures-query-prefix,
