@@ -12,7 +12,7 @@ public static class OverallPhaseTypes
     public const string Nursery = "Nursery";
     public const string PostSixteen = "Post-16";
     public const string AlternativeProvision = "Alternative Provision";
-    public const string UniversityTechnicalCollege = "University technical college";
+    public const string UniversityTechnicalCollege = "University Technical College";
 
     public static string[] All =>
     [
