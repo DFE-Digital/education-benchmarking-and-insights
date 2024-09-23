@@ -206,6 +206,19 @@ def map_is_surplus_deficit(closing_balance: float):
 
 
 def _diff_month(d1, d2):
+    """
+    The number of months between two dates (exclusive).
+
+    Note: where d2 is up to the 10th September, this is considered a
+    full month.
+
+    :param d1: end date
+    :param d2: start date
+    :return: number of months between start and end dates
+    """
+    if d2.month == 9 and d2.day <= 10:
+        return 12
+
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
 
