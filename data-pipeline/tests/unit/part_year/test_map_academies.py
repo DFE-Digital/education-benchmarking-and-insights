@@ -72,7 +72,7 @@ def test_map_has_financial_data():
 def test_map_partial_year_present():
     df = pd.DataFrame(
         {
-            "Academy Status": [
+            "ACADEMYSTATUS": [
                 "Member for whole period",
                 "Member for whole period",
                 "in period transfer",

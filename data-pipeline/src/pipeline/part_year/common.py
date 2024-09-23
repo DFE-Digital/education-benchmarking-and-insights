@@ -33,10 +33,16 @@ def map_has_building_comparator_data(
 
     Specifically, this is the CDC data.
 
+    Note: "Total Internal Floor Area" is specifically excluded as this
+    value is previously set to the _median_ if absent.
+
     :param maintained_schools: maintained schools data
     :return: updated DataFrame
     """
-    building_comparator_columns = config.cdc_generated_columns
+    building_comparator_columns = [
+        column for column in config.cdc_generated_columns
+        if column != "Total Internal Floor Area"
+    ]
 
     maintained_schools["Building Comparator Data Present"] = (
         ~maintained_schools[building_comparator_columns].isna().all(axis=1)
