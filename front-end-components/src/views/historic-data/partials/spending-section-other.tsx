@@ -185,22 +185,40 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           {type === "school" && (
-            <HistoricChart
-              chartName="Community focused school staff (maintained schools only)"
-              data={data}
-              seriesConfig={{
-                communityFocusedSchoolStaff: {
-                  label:
-                    "Community focused school staff (maintained schools only)",
-                  visible: true,
-                },
-              }}
-              valueField="communityFocusedSchoolStaff"
-            >
-              <h3 className="govuk-heading-s">
-                Community focused school staff (maintained schools only)
-              </h3>
-            </HistoricChart>
+            <>
+              <HistoricChart
+                chartName="Community focused school staff (maintained schools only)"
+                data={data}
+                seriesConfig={{
+                  communityFocusedSchoolStaff: {
+                    label:
+                      "Community focused school staff (maintained schools only)",
+                    visible: true,
+                  },
+                }}
+                valueField="communityFocusedSchoolStaff"
+              >
+                <h3 className="govuk-heading-s">
+                  Community focused school staff (maintained schools only)
+                </h3>
+              </HistoricChart>
+              <HistoricChart
+                chartName="Community focused school staff (maintained schools only)"
+                data={data}
+                seriesConfig={{
+                  communityFocusedSchoolCosts: {
+                    label:
+                      "Community focused school costs (maintained schools only)",
+                    visible: true,
+                  },
+                }}
+                valueField="communityFocusedSchoolCosts"
+              >
+                <h3 className="govuk-heading-s">
+                  Community focused school costs (maintained schools only)
+                </h3>
+              </HistoricChart>
+            </>
           )}
         </>
       ) : (
