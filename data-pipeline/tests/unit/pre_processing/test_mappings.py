@@ -1,4 +1,4 @@
-import datetime
+from datetime import date
 
 import pandas as pd
 import pytest
@@ -47,7 +47,9 @@ def test_ofsted_rating(rating, expected):
     ],
 )
 def test_map_academy_phase_type(establishment_code, phase_code, provision, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, provision) == expected
+    assert (
+        mappings.map_phase_type(establishment_code, phase_code, provision) == expected
+    )
 
 
 @pytest.mark.parametrize(
@@ -362,8 +364,12 @@ def test_map_is_surplus_deficit(value, expected):
         (0, 0, "Other", "Other"),
     ],
 )
-def test_map_school_phase_type(establishment_code, phase_code, phase_type: str, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, phase_type) == expected
+def test_map_school_phase_type(
+    establishment_code, phase_code, phase_type: str, expected
+):
+    assert (
+        mappings.map_phase_type(establishment_code, phase_code, phase_type) == expected
+    )
 
 
 @pytest.mark.parametrize(
@@ -372,3 +378,45 @@ def test_map_school_phase_type(establishment_code, phase_code, phase_type: str, 
 )
 def test_map_company_number(company_number: str, expected: str):
     assert mappings.map_company_number(company_number) == expected
+
+
+@pytest.mark.parametrize(
+    "day",
+    range(1, 11),  # 1—10
+)
+def test_map_academy_period_return_early_september(
+    day: int,
+    academy_year_start_date: date,
+    academy_year_end_date: date,
+):
+    start_date = date(2023, 9, day)
+
+    result = mappings.map_academy_period_return(
+        opened_in_period=start_date,
+        closed_in_period=None,
+        year_start_date=academy_year_start_date,
+        year_end_date=academy_year_end_date,
+    )
+
+    assert result == 12
+
+
+@pytest.mark.parametrize(
+    "day",
+    range(11, 31),  # 11—30
+)
+def test_map_academy_period_return_after_early_september(
+    day: int,
+    academy_year_start_date: date,
+    academy_year_end_date: date,
+):
+    start_date = date(2023, 9, day)
+
+    result = mappings.map_academy_period_return(
+        opened_in_period=start_date,
+        closed_in_period=None,
+        year_start_date=academy_year_start_date,
+        year_end_date=academy_year_end_date,
+    )
+
+    assert result == 11
