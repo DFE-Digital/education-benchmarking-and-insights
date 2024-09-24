@@ -37,6 +37,7 @@ variables:
   Pipeline.Environment: 'feature'
   Subscription: 's198d.azdo-deployment'
   WorkingDir.Core: 'core-infrastructure'
+  WorkingDir.SupportAnalytics: 'support-analytics'
   WorkingDir.FrontEnd: 'front-end-components'
   WorkingDir.Platform: 'platform'
   WorkingDir.Web: 'web'
@@ -251,6 +252,30 @@ stages:
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           dependsOn: [ ZipStaticWebArtifacts, BuildWeb ]
+
+  - stage: DeploySupportAnalytics
+    dependsOn: [ BuildNumber, DeployCore, BuildPlatform, BuildWeb ]
+    displayName: 'Support Analytics : Deploy'
+    variables:
+      - group: 'support'
+      - name: environmentPrefix
+        value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+    jobs:
+      - job: ZipStaticSupportAnalyticsArtifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.SupportAnalytics)/terraform'
+              Module: 'support-analytics'
+
+      - template: ../support-analytics/deployment.yaml
+        parameters:
+          subscription: $(Subscription)
+          environmentPrefix: $(environmentPrefix)
+          environment: $(Pipeline.Environment)
+          cipEnvironment: 'Dev'
+          dependsOn: [ ZipStaticSupportAnalyticsArtifacts ]
 
 
 

@@ -1,32 +1,31 @@
 parameters:
   subscription: ''
   environmentPrefix: ''
-  environment: 'feature'
+  environment: ''
+  pipelineEnvironment: ''
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
   dependsOn: []
 
 jobs:
-  - deployment: Deployment
-    displayName: 'Deployment to ${{ parameters.environment }}'
+  - deployment: SupportAnalyticsSync
+    displayName: 'Support Analytics : Sync'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
-    environment: ${{ parameters.environment }}
+    environment: ${{ parameters.pipelineEnvironment }}
     strategy:
       runOnce:
         deploy:
           steps:
-            - checkout: none
+            - checkout: self
 
-            - download: current
-              displayName: 'Download terraform artifacts'
-              artifact: support-analytics-terraform
-
-            - template: ..\common\run-terraform.yaml
+            - template: ..\common\sync-terraform.yaml
               parameters:
+                workspaceDir: '$(System.DefaultWorkingDirectory)/support-analytics/terraform'
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'support-analytics'
+                resourceGroupSuffix: 'support'

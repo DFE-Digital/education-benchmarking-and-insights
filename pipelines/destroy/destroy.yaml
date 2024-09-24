@@ -45,9 +45,27 @@ jobs:
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
 
-  - template: ../web/destroy.yaml
+  - template: ../support-analytics/sync.yaml
     parameters:
       dependsOn: [ WebSync ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../support-analytics/destroy.yaml
+    parameters:
+      dependsOn: [ SupportAnalyticsSync ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../web/destroy.yaml
+    parameters:
+      dependsOn: [ SupportAnalyticsDestroy ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
