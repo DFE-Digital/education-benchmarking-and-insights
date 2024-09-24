@@ -75,14 +75,18 @@ stages:
     dependsOn: [ BuildNumber ]
     displayName: 'Destroy Environment'
     variables: 
-      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
-      environmentName: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Name'] ]
+    - group: 'dsi pre-prod'
+    - group: 'support'
+    - name: environmentPrefix
+      value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+    - name: environmentName 
+      value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Name'] ]
     jobs:
       - template: destroy.yaml
         parameters:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
-          environment: $(environmentName)
+          environment: 'feature'
           pipelineEnvironment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           buildNumber: $(Version.BuildNumber)
