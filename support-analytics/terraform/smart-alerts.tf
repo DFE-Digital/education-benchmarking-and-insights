@@ -1,6 +1,6 @@
 locals {
   smart_alert = {
-    frequency = "PT1M"
+    frequency = "PT24H"
     severity  = "Sev3"
   }
 }
