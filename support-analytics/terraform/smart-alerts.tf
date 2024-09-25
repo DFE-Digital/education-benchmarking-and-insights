@@ -1,6 +1,7 @@
 locals {
   smart_alert = {
-    frequency = "PT24H"
+    frequency_minute = "PT1M"
+    frequency_daily = "PT24H"
     severity  = "Sev3"
   }
 }
@@ -11,7 +12,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "failure-anomalies-detector
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_minute
   detector_type       = "FailureAnomaliesDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
@@ -26,7 +27,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "request-performance-degrad
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_daily
   detector_type       = "RequestPerformanceDegradationDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
@@ -41,7 +42,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "dependency-performance-deg
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_daily
   detector_type       = "DependencyPerformanceDegradationDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
@@ -56,7 +57,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "exception-volume-changed-d
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_daily
   detector_type       = "ExceptionVolumeChangedDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
@@ -71,7 +72,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "trace-severity-detector" {
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_daily
   detector_type       = "TraceSeverityDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
@@ -86,7 +87,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "memory-leak-detector" {
   resource_group_name = azurerm_resource_group.resource-group.name
   severity            = local.smart_alert.severity
   scope_resource_ids  = [data.azurerm_application_insights.application-insights.id]
-  frequency           = local.smart_alert.frequency
+  frequency           = local.smart_alert.frequency_daily
   detector_type       = "MemoryLeakDetector"
   tags                = local.common-tags
   enabled             = var.configuration[var.environment].smart_alerts_enabled
