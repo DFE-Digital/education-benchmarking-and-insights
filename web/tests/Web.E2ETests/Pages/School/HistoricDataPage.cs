@@ -207,7 +207,7 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
-                Assert.Equal(41, await AllSpendingCharts.Count());
+                Assert.Equal(42, await AllSpendingCharts.Count());
 
                 break;
             case HistoryTabs.Income:
