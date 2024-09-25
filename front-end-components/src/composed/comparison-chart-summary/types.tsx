@@ -13,7 +13,6 @@ export type ComparisonChartSummaryComposedProps<TData extends ChartDataSeries> =
     sortDirection: ChartSortDirection;
     chartStats: ComparisonChartStats;
     valueField: keyof TData;
-    hasIncompleteData: boolean;
   };
 
 export type ComparisonChartStats = {

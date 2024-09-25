@@ -66,11 +66,10 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
       };
     }, [data]);
 
-  const hasIncompleteData = false;
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
       <ChartDimensionContext.Provider value={Percent}>
         <HorizontalBarChartWrapper
           data={chartData}

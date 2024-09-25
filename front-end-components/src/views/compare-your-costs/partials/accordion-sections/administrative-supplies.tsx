@@ -93,11 +93,10 @@ export const AdministrativeSupplies: React.FC<CompareYourCostsProps> = ({
   const elementId = "administrative-supplies";
   const [hash] = useHash();
 
-  const hasIncompleteData = false;
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
       <ChartDimensionContext.Provider value={dimension}>
         <div
           className={classNames("govuk-accordion__section", {

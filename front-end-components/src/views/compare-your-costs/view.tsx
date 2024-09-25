@@ -35,7 +35,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
               handlePhaseChange={setPhase}
             />
             {/*<HasIncompleteDataContext.Provider*/}
-            {/*  value={{ hasIncompleteData, hasNoData }}*/}
+            {/*  value={{ hasNoData }}*/}
             {/*>*/}
             <TotalExpenditure id={id} type={type} />
             <ExpenditureAccordion id={id} type={type} />
