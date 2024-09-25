@@ -41,7 +41,9 @@ export function shortValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       options?.valueUnit === "currency"
-        ? undefined
+        ? value % 1 && Math.abs(value) < 1000 // decimal less than 1000 and greater than -1000
+          ? 2
+          : undefined
         : options?.valueUnit === "%"
           ? 1
           : 2,

@@ -1,3 +1,4 @@
+import theoretically from "jest-theories";
 import {
   ChartDataSeriesSortMode,
   ValueFormatterOptions,
@@ -75,229 +76,294 @@ describe("Chart utils", () => {
     });
   });
 
-  const values: ValueFormatterValue[] = [
-    -987.65,
-    0,
-    1,
-    2.3456789,
-    12345.67,
-    890123456,
-    "not-a-number",
-  ];
-
   describe("shortValueFormatter()", () => {
     describe("with default options", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-987.65" },
+        { input: 0, expected: "0" },
+        { input: 1, expected: "1" },
+        { input: 2.3456789, expected: "2.35" },
+        { input: 12345.67, expected: "12.35k" },
+        { input: 890123456, expected: "890.12m" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = {};
 
-      it("formats the values using compact notation", () => {
-        const result = values.map((v) => shortValueFormatter(v, options));
-        expect(result).toEqual([
-          "-987.65",
-          "0",
-          "1",
-          "2.35",
-          "12.35k",
-          "890.12m",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted using compact notation as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = shortValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with currency option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: 987.65, expected: "£987.65" },
+        { input: -987.65, expected: "-£987.65" },
+        { input: 0, expected: "£0" },
+        { input: 1, expected: "£1" },
+        { input: 2.3456789, expected: "£2.35" },
+        { input: 12345.67, expected: "£12k" },
+        { input: 890123456, expected: "£890m" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
 
-      it("formats the values using compact notation as GBP", () => {
-        const result = values.map((v) => shortValueFormatter(v, options));
-        expect(result).toEqual([
-          "-£988",
-          "£0",
-          "£1",
-          "£2.3",
-          "£12k",
-          "£890m",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted using compact notation (currency) as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = shortValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with percent option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-987.7%" },
+        { input: 0, expected: "0%" },
+        { input: 1, expected: "1%" },
+        { input: 2.3456789, expected: "2.3%" },
+        { input: 12345.67, expected: "12,345.7%" },
+        { input: 890123456, expected: "890,123,456%" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
 
-      it("formats the values using compact notation as percent", () => {
-        const result = values.map((v) => shortValueFormatter(v, options));
-        expect(result).toEqual([
-          "-987.7%",
-          "0%",
-          "1%",
-          "2.3%",
-          "12,345.7%",
-          "890,123,456%",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted using compact notation (percent) as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = shortValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
   });
 
   describe("statValueFormatter()", () => {
     describe("with default options", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-988" },
+        { input: 0, expected: "0" },
+        { input: 1, expected: "1" },
+        { input: 2.3456789, expected: "2" },
+        { input: 12345.67, expected: "12,346" },
+        { input: 890123456, expected: "890,123,456" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = {};
 
-      it("formats the values using number separators only", () => {
-        const result = values.map((v) => statValueFormatter(v, options));
-        expect(result).toEqual([
-          "-988",
-          "0",
-          "1",
-          "2",
-          "12,346",
-          "890,123,456",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted using compact notation as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with compact option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-988" },
+        { input: 0, expected: "0" },
+        { input: 1, expected: "1" },
+        { input: 2.3456789, expected: "2.3" },
+        { input: 12345.67, expected: "12k" },
+        { input: 890123456, expected: "890m" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = { compact: true };
 
-      it("formats the values using compact notation", () => {
-        const result = values.map((v) => statValueFormatter(v, options));
-        expect(result).toEqual([
-          "-988",
-          "0",
-          "1",
-          "2.3",
-          "12k",
-          "890m",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted using compact notation as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with currency option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-£988" },
+        { input: 0, expected: "£0" },
+        { input: 1, expected: "£1" },
+        { input: 2.3456789, expected: "£2" },
+        { input: 12345.67, expected: "£12,346" },
+        { input: 890123456, expected: "£890,123,456" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
 
-      it("formats the values as GBP", () => {
-        const result = values.map((v) => statValueFormatter(v, options));
-        expect(result).toEqual([
-          "-£988",
-          "£0",
-          "£1",
-          "£2",
-          "£12,346",
-          "£890,123,456",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted as currency as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with percent option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-988%" },
+        { input: 0, expected: "0%" },
+        { input: 1, expected: "1%" },
+        { input: 2.3456789, expected: "2%" },
+        { input: 12345.67, expected: "12,346%" },
+        { input: 890123456, expected: "890,123,456%" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
 
-      it("formats the values as percent", () => {
-        const result = values.map((v) => statValueFormatter(v, options));
-        expect(result).toEqual([
-          "-988%",
-          "0%",
-          "1%",
-          "2%",
-          "12,346%",
-          "890,123,456%",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted as percent as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("with currency as name option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-988 british pounds" },
+        { input: 0, expected: "0 british pounds" },
+        { input: 1, expected: "1 british pound" },
+        { input: 2.3456789, expected: "2 british pounds" },
+        { input: 12345.67, expected: "12,346 british pounds" },
+        { input: 890123456, expected: "890,123,456 british pounds" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = {
         valueUnit: "currency",
         currencyAsName: true,
       };
 
-      it("formats the values as GBP in words", () => {
-        const result = values.map((v) => statValueFormatter(v, options));
-        expect(result).toEqual([
-          "-988 british pounds",
-          "0 british pounds",
-          "1 british pound",
-          "2 british pounds",
-          "12,346 british pounds",
-          "890,123,456 british pounds",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted as currency in words as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
   });
 
   describe("fullValueFormatter()", () => {
     describe("with default options", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-987.65" },
+        { input: 0, expected: "0" },
+        { input: 1, expected: "1" },
+        { input: 2.3456789, expected: "2.35" },
+        { input: 12345.67, expected: "12,345.67" },
+        { input: 890123456, expected: "890,123,456" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
       const options: Partial<ValueFormatterOptions> = {};
 
-      it("formats the values to two decimal places with number separators only", () => {
-        const result = values.map((v) => fullValueFormatter(v, options));
-        expect(result).toEqual([
-          "-987.65",
-          "0",
-          "1",
-          "2.35",
-          "12,345.67",
-          "890,123,456",
-          "not-a-number",
-        ]);
-      });
+      theoretically(
+        "the value {input} is formatted to two decimal places with number separators only as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = fullValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
     });
 
     describe("fullValueFormatter()", () => {
       describe("with amount options", () => {
+        const theories: { input: ValueFormatterValue; expected: string }[] = [
+          { input: -987.65, expected: "-987.65" },
+          { input: 0, expected: "0" },
+          { input: 1, expected: "1" },
+          { input: 2.3456789, expected: "2.35" },
+          { input: 12345.67, expected: "12,345.67" },
+          { input: 890123456, expected: "890,123,456" },
+          { input: "not-a-number", expected: "not-a-number" },
+        ];
+
         const options: Partial<ValueFormatterOptions> = { valueUnit: "amount" };
 
-        it("formats the values to two decimal places with number separators only", () => {
-          const result = values.map((v) => fullValueFormatter(v, options));
-          expect(result).toEqual([
-            "-987.65",
-            "0",
-            "1",
-            "2.35",
-            "12,345.67",
-            "890,123,456",
-            "not-a-number",
-          ]);
-        });
+        theoretically(
+          "the value {input} is formatted to two decimal places with number separators only as {expected}",
+          theories,
+          ({ input, expected }) => {
+            const result = fullValueFormatter(input, options);
+            expect(result).toBe(expected);
+          }
+        );
       });
 
       describe("with currency option", () => {
+        const theories: { input: ValueFormatterValue; expected: string }[] = [
+          { input: -987.65, expected: "-£988" },
+          { input: 0, expected: "£0" },
+          { input: 1, expected: "£1" },
+          { input: 2.3456789, expected: "£2" },
+          { input: 12345.67, expected: "£12,346" },
+          { input: 890123456, expected: "£890,123,456" },
+          { input: "not-a-number", expected: "not-a-number" },
+        ];
+
         const options: Partial<ValueFormatterOptions> = {
           valueUnit: "currency",
         };
 
-        it("formats the values to zero decimal places as GBP", () => {
-          const result = values.map((v) => fullValueFormatter(v, options));
-          expect(result).toEqual([
-            "-£988",
-            "£0",
-            "£1",
-            "£2",
-            "£12,346",
-            "£890,123,456",
-            "not-a-number",
-          ]);
-        });
+        theoretically(
+          "the value {input} is formatted to zero decimal places as currency as {expected}",
+          theories,
+          ({ input, expected }) => {
+            const result = fullValueFormatter(input, options);
+            expect(result).toBe(expected);
+          }
+        );
       });
 
       describe("with percent option", () => {
-        const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
+        const theories: { input: ValueFormatterValue; expected: string }[] = [
+          { input: -987.65, expected: "-987.7%" },
+          { input: 0, expected: "0%" },
+          { input: 1, expected: "1%" },
+          { input: 2.3456789, expected: "2.3%" },
+          { input: 12345.67, expected: "12,345.7%" },
+          { input: 890123456, expected: "890,123,456%" },
+          { input: "not-a-number", expected: "not-a-number" },
+        ];
 
-        it("formats the values to one decimal place as percent", () => {
-          const result = values.map((v) => fullValueFormatter(v, options));
-          expect(result).toEqual([
-            "-987.7%",
-            "0%",
-            "1%",
-            "2.3%",
-            "12,345.7%",
-            "890,123,456%",
-            "not-a-number",
-          ]);
-        });
+        const options: Partial<ValueFormatterOptions> = {
+          valueUnit: "%",
+        };
+
+        theoretically(
+          "the value {input} is formatted to zero decimal places as percent as {expected}",
+          theories,
+          ({ input, expected }) => {
+            const result = fullValueFormatter(input, options);
+            expect(result).toBe(expected);
+          }
+        );
       });
     });
   });
