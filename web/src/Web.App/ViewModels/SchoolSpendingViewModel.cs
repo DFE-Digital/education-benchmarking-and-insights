@@ -36,8 +36,6 @@ public class SchoolSpendingViewModel(
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 
-    public bool HasIncompleteData => pupilExpenditure.Concat(areaExpenditure).Any(x => x.HasIncompleteData);
-
     public static ChartStatsViewModel Stats(RagRating rating) => new()
     {
         Average = rating.Mean,
