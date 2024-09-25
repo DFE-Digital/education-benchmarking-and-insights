@@ -2,7 +2,13 @@
 import { Text } from "recharts";
 import { EstablishmentTickProps } from "src/components/charts/establishment-tick";
 import { ChartLink } from "../chart-link";
-import { createElement, useMemo, useState } from "react";
+import {
+  createElement,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 export function EstablishmentTick(props: EstablishmentTickProps) {
   const {
@@ -19,6 +25,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     visibleTicksCount,
     ...rest
   } = props;
+  const textRef = useRef<SVGTextElement>(null);
   const [focused, setFocused] = useState<boolean>();
   const key = useMemo(() => {
     return (
@@ -33,6 +40,15 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
       key && specialItemFlags && specialItemFlags(key).includes("partYear")
     );
   }, [key, specialItemFlags]);
+
+  const [textBoundingBox, setTextBoundingBox] = useState<{
+    x?: number;
+    y?: number;
+  }>();
+  useLayoutEffect(() => {
+    const bbox = textRef.current?.getBBox();
+    setTextBoundingBox({ x: bbox?.x, y: bbox?.y });
+  }, []);
 
   if (!key) {
     return <Text>{value}</Text>;
@@ -52,10 +68,13 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
         height={rest.height}
         className="establishment-tick-focus"
       ></line>
-      {partYear && <Exclamation offset={rest.y} />}
+      {partYear && (
+        <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
+      )}
       <text
         fontWeight={key === highlightedItemKey ? "bold" : "normal"}
         className="recharts-text establishment-tick"
+        ref={textRef}
         {...rest}
       >
         <ChartLink
@@ -85,15 +104,24 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
   );
 }
 
-const Exclamation = ({ offset }: { offset?: string | number }) => {
+const Exclamation = ({
+  x,
+  y,
+}: {
+  x?: string | number;
+  y?: string | number;
+}) => {
+  const parsedX = parseInt((x ?? 0).toString());
+  const parsedY = parseInt((y ?? 0).toString());
+
   return (
-    <>
-      <circle cx={18} cy={offset} r={8} fill="#fff"></circle>
+    <g>
+      <circle cx={parsedX - 16} cy={parsedY + 12} r={8} fill="#fff"></circle>
       <path
-        transform={`translate(5,${parseInt((offset ?? 0).toString()) - 12}),scale(0.75,0.75)`}
+        transform={`translate(${parsedX - 30},${parsedY}),scale(0.75,0.75)`}
         fill="#000"
         d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"
       ></path>
-    </>
+    </g>
   );
 };
