@@ -54,7 +54,11 @@
   stroke: var(--series-highlight-colour);
 }
 
-.recharts-wrapper .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
+.recharts-wrapper
+  .chart-cell.chart-cell-active:not(
+    .chart-cell-highlight,
+    .chart-cell.chart-cell-part-year
+  ) {
   fill: var(--series-0-active-colour);
 }
 

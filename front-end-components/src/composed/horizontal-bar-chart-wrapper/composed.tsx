@@ -25,7 +25,6 @@ import {
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
-import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
@@ -44,7 +43,7 @@ export function HorizontalBarChartWrapper<
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
-  const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
+  const { hasNoData } = useContext(HasIncompleteDataContext);
   const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
@@ -175,10 +174,6 @@ export function HorizontalBarChartWrapper<
           </div>
         )}
       </div>
-      <WarningBanner
-        isRendered={hasIncompleteData}
-        message="Some schools are missing data for this financial year"
-      />
       <ErrorBanner
         isRendered={hasNoData}
         message="No financial return data available"

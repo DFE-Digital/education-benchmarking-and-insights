@@ -18,7 +18,6 @@ export const ChartDimensionContext = createContext<Dimension>({
 export const SelectedEstablishmentContext = createContext("");
 
 interface HasIncompleteData {
-  hasIncompleteData?: boolean;
   hasNoData?: boolean;
 }
 export const HasIncompleteDataContext = createContext<HasIncompleteData>({});

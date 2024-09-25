@@ -80,11 +80,10 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasIncompleteData = false;
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
+    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
       <ChartDimensionContext.Provider value={dimension}>
         <HorizontalBarChartWrapper
           data={chartData}

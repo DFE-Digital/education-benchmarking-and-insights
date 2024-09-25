@@ -8,7 +8,6 @@ import {
 } from "src/components/charts/utils";
 import { Stat } from "src/components/charts/stat";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
-import { WarningBanner } from "src/components/warning-banner";
 
 export function ComparisonChartSummary<TData extends ChartDataSeries>(
   props: ComparisonChartSummaryComposedProps<TData>
@@ -21,7 +20,6 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
     valueField,
     suffix,
     chartStats,
-    hasIncompleteData,
     ...rest
   } = props;
 
@@ -52,10 +50,6 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
 
   return (
     <>
-      <WarningBanner
-        isRendered={hasIncompleteData}
-        message="Some schools are missing data for this financial year"
-      />
       <div className="composed-chart-wrapper">
         <div className="composed-chart">
           <VerticalBarChart
