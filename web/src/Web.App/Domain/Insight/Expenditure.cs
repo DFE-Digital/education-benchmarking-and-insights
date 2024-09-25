@@ -144,7 +144,6 @@ public record SchoolExpenditure : ExpenditureBase
     public decimal? TotalPupils { get; set; }
     public decimal? TotalInternalFloorArea { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
-    public bool HasIncompleteData { get; set; }
 }
 
 public record TrustExpenditure : ExpenditureBase
