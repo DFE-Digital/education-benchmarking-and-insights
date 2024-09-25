@@ -122,6 +122,7 @@ def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
     academy_ar_data = get_blob(
         raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8"
     )
+
     aar = prepare_aar_data(academy_ar_data, year)
 
     write_blob(
@@ -187,17 +188,12 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Academy Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
-    academies_data = get_blob(
-        raw_container, f"{run_type}/{year}/academy_master_list.csv", encoding="utf-8"
-    )
-
-    links_data = get_blob(
+    gias_all_links = get_blob(
         raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     academies = build_academy_data(
-        academies_data,
-        links_data,
+        gias_all_links,
         year,
         schools,
         census,
@@ -209,6 +205,7 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
         cfo,
         central_services,
     )
+
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/academies.parquet",

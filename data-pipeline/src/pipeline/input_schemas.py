@@ -57,27 +57,6 @@ gias_links = {
     "LinkEstablishedDate": "string",
 }
 
-academy_master_list_index_col = "LA Establishment Number"
-academy_master_list = {
-    "Company Registration Number": "string",
-    "Incorporation Date": "string",
-    "Academy Trust UPIN": "Int64",
-    "Academy Trust Name": "string",
-    "Academy Name": "string",
-    "Academy UPIN": "Int64",
-    "Trust Type": "string",
-    "LA Establishment Number": "string",
-    "Date Opened": "string",
-    "Type of Provision - Phase": "string",
-    "Regional School Commissioner": "string",
-    "Valid From": "string",
-    "Valid to": "string",
-    "Territory": "string",
-    "Academy Status": "string",
-    "Academy Trust Status": "string",
-    "Number of Academies in Trust": "Int64",
-}
-
 maintained_schools_master_list_index_col = "URN"
 maintained_schools_master_list = {
     "URN": "Int64",
@@ -321,11 +300,14 @@ aar_academies = {
     "BNCH21606 (Agency supply teaching staff)": "float",
     "BNCH21403 (Energy)": "float",
     "BNCH21402 (Water and sewerage)": "float",
+    "Valid To": "string",
 }
 
 aar_central_services_index_col = "Lead_UPIN"
 aar_central_services = {
     "Lead_UPIN": "Int64",
+    "Company_Number": "string",
+    "Company_Name": "string",
     "BNCH11110T (EFA Revenue Grants)": "float",
     "BNCH11131 (DfE Family Revenue Grants)": "float",
     "BNCH11141 (SEN)": "float",

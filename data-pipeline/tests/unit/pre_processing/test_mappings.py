@@ -23,6 +23,7 @@ def test_ofsted_rating(rating, expected):
     "establishment_code,phase_code,provision,expected",
     [
         (pd.NA, pd.NA, pd.NA, None),
+        (pd.NA, pd.NA, None, None),
         (38, pd.NA, pd.NA, None),
         (pd.NA, 7, pd.NA, None),
         (pd.NA, 7, "16 plus", None),
@@ -47,7 +48,9 @@ def test_ofsted_rating(rating, expected):
     ],
 )
 def test_map_academy_phase_type(establishment_code, phase_code, provision, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, provision) == expected
+    assert (
+        mappings.map_phase_type(establishment_code, phase_code, provision) == expected
+    )
 
 
 @pytest.mark.parametrize(
@@ -362,8 +365,12 @@ def test_map_is_surplus_deficit(value, expected):
         (0, 0, "Other", "Other"),
     ],
 )
-def test_map_school_phase_type(establishment_code, phase_code, phase_type: str, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, phase_type) == expected
+def test_map_school_phase_type(
+    establishment_code, phase_code, phase_type: str, expected
+):
+    assert (
+        mappings.map_phase_type(establishment_code, phase_code, phase_type) == expected
+    )
 
 
 @pytest.mark.parametrize(

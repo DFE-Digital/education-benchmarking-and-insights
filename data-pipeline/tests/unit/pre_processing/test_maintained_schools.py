@@ -1,11 +1,9 @@
 import datetime
-from io import StringIO
 
 import pandas as pd
 import pytest
 
 import src.pipeline.maintained_schools as maintained_schools
-import src.pipeline.pre_processing as pre_processing
 
 
 def test_create_master_list(
@@ -108,7 +106,7 @@ def test_school_type_attrs():
         {
             "Overall Phase": ["Primary", "Secondary"],
             "TypeOfEstablishment (code)": [38, 33],
-            "PhaseOfEducation (code)": [0, 0]
+            "PhaseOfEducation (code)": [0, 0],
         }
     )
 

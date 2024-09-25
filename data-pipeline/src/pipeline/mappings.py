@@ -14,11 +14,14 @@ def map_ofsted_rating(rating: str):
             return rating
 
 
-def map_phase_type(establishment_code: int, phase_code: int, provision: str):
-
-    if (pd.isna(establishment_code) or pd.isna(phase_code) or pd.isna(provision)):
+def map_phase_type(
+    establishment_code: int,
+    phase_code: int,
+    provision: str | None = None,
+):
+    if pd.isna(establishment_code) or pd.isna(phase_code) or pd.isna(provision):
         return
-    
+
     match establishment_code:
         case 33 | 36 | 44:
             return "Special"
@@ -236,8 +239,8 @@ def map_cost_series(category_name, df, basis):
 
     for sub_category in sub_categories:
         df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis
-        df[sub_category + "_Per Unit"].replace(
-            [np.inf, -np.inf, np.nan], 0, inplace=True
+        df[sub_category + "_Per Unit"] = df[sub_category + "_Per Unit"].replace(
+            [np.inf, -np.inf, np.nan], 0
         )
 
     return df
