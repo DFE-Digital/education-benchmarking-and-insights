@@ -6,7 +6,8 @@ variable "support-alert-email" {}
 
 variable "configuration" {
   type = map(object({
-    alerts_enabled = bool
+    alerts_enabled       = bool
+    smart_alerts_enabled = bool
     thresholds = object({
       availability = number
       cpu          = number
@@ -16,7 +17,8 @@ variable "configuration" {
   }))
   default = {
     development = {
-      alerts_enabled = false
+      alerts_enabled       = false
+      smart_alerts_enabled = true
       thresholds = {
         availability = 90
         cpu          = 95
@@ -25,7 +27,8 @@ variable "configuration" {
       }
     }
     automated-test = {
-      alerts_enabled = false
+      alerts_enabled       = false
+      smart_alerts_enabled = false
       thresholds = {
         availability = 90
         cpu          = 95
@@ -34,7 +37,8 @@ variable "configuration" {
       }
     }
     test = {
-      alerts_enabled = false
+      alerts_enabled       = false
+      smart_alerts_enabled = false
       thresholds = {
         availability = 90
         cpu          = 95
@@ -43,7 +47,8 @@ variable "configuration" {
       }
     }
     feature = {
-      alerts_enabled = false
+      alerts_enabled       = false
+      smart_alerts_enabled = false
       thresholds = {
         availability = 90
         cpu          = 95
@@ -52,7 +57,8 @@ variable "configuration" {
       }
     }
     pre-production = {
-      alerts_enabled = true
+      alerts_enabled       = true
+      smart_alerts_enabled = true
       thresholds = {
         availability = 99.9
         cpu          = 85
@@ -61,7 +67,8 @@ variable "configuration" {
       }
     }
     production = {
-      alerts_enabled = true
+      alerts_enabled       = true
+      smart_alerts_enabled = true
       thresholds = {
         availability = 99.9
         cpu          = 85
