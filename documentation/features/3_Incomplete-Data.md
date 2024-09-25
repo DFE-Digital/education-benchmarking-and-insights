@@ -1,5 +1,9 @@
 # Incomplete Data
 
+## Status
+
+**This feature has been deprecated in favour of consuming `PeriodCoveredByReturn` directly to determine part-year (incomplete data) status.**
+
 ## Introduction
 
 This document provides detailed information for developers about the implementation, usage, and integration of the Incomplete Data feature within the system.
