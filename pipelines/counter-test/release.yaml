@@ -1,0 +1,75 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+pr: none
+
+parameters:
+  - name: BumpCounterInput
+    type: string
+    default: yes
+    values:
+      - yes
+      - no
+  - name: SetVersionInput
+    type: string
+    default: yes
+    values:
+      - yes
+      - no
+
+variables:
+  - name: 'DependentVariableForParameter'
+    value: $[format('{0:yyyy}.{0:MM}-parameter', pipeline.startTime)]
+  - name: 'DependentVariableForBuild'
+    value: $[format('{0:yyyy}.{0:MM}-build', pipeline.startTime)]
+  - name: 'RunCounter'
+    value: $[counter('Run', 0)]
+  - name: 'ConditionalCounterFromParameter'
+    ${{ if eq(parameters.BumpCounterInput, 'yes') }}:
+      value: $[counter(variables['DependentVariableForParameter'], 0)]
+    ${{ else }}:
+      value: 'skipped'
+  - name: 'ConditionalCounterFromBuild'
+    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/chore/230056/pipeline-versioning'), ne(variables['Build.Reason'], 'PullRequest')) }}:
+      value: $[counter(variables['DependentVariableForBuild'], 0)]
+    ${{ else }}:
+      value: 'skipped'
+  - name: 'Version'
+    value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
+  - name: 'ConditionalCounterFromVersion'
+    ${{ if eq(parameters.SetVersionInput, 'yes') }}:
+      value: $[counter(variables['Version'], 0)]
+    ${{ else }}:
+      value: 'skipped'
+
+# set the unique build run number
+name: $(Version)-$(SourceBranchName)-$(Build.Reason).$(Rev:r)
+
+stages:
+  - stage: Test
+    jobs:
+      - job: WriteVariables
+        steps:
+          - checkout: none
+          - bash: |
+              echo "Build.SourceBranch = $(Build.SourceBranch)"
+              echo "Build.Reason = $(Build.Reason)"
+              echo "BumpCounterInput = ${{ parameters.BumpCounterInput }}"
+              echo "SetVersionInput = ${{ parameters.SetVersionInput }}"
+              echo "RunCounter = $(RunCounter)"
+              echo "DependentVariableForParameter = $(DependentVariableForParameter)"
+              echo "ConditionalCounterFromParameter = $(ConditionalCounterFromParameter)"
+              echo "DependentVariableForBuild = $(DependentVariableForBuild)"
+              echo "ConditionalCounterFromBuild = $(ConditionalCounterFromBuild)"
+              echo "Version = $(Version)"
+              echo "ConditionalCounterFromVersion = $(ConditionalCounterFromVersion)"
+
+      - job: SetBuildNumber
+        steps:
+          - checkout: none
+          - bash: |
+              echo "##vso[build.updatebuildnumber]$(Version).$(ConditionalCounterFromVersion)"
+            displayName: 'Set release number'
+            condition: and(succeeded(), eq('${{ parameters.SetVersionInput }}', 'yes'))
