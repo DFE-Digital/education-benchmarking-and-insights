@@ -2,6 +2,16 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "AspNetCore.HealthChecks.AzureSearch": {
+        "type": "Direct",
+        "requested": "[8.0.1, )",
+        "resolved": "8.0.1",
+        "contentHash": "rEpoQN11MnaAXuWIL4N0z0cCxYmRg6u5vy1/tsxlMgnLwoQBJ5hun9noL5sxlGu21PXD/RsEEpd+j8PIRZg/QQ==",
+        "dependencies": {
+          "Azure.Search.Documents": "11.5.0",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0"
+        }
+      },
       "AspNetCore.HealthChecks.SqlServer": {
         "type": "Direct",
         "requested": "[8.0.2, )",

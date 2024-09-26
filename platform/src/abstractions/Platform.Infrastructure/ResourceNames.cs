@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-
 namespace Platform.Infrastructure;
 
 [ExcludeFromCodeCoverage]
@@ -32,6 +31,8 @@ public static class ResourceNames
             public const string LocalAuthority = "local-authority-index";
             public const string SchoolComparators = "school-comparators-index";
             public const string TrustComparators = "trust-comparators-index";
+
+            public static readonly string[] All = [School, Trust, LocalAuthority, SchoolComparators, TrustComparators];
         }
 
         public static class Suggesters
@@ -41,5 +42,4 @@ public static class ResourceNames
             public const string LocalAuthority = "local-authority-suggester";
         }
     }
-
 }

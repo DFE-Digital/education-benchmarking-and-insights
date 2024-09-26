@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Azure;
 using FluentValidation;
+using HealthChecks.AzureSearch.DependencyInjection;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Comparators;
@@ -31,9 +32,19 @@ internal static class Services
         var searchEndpoint = new Uri($"https://{searchName}.search.windows.net/");
         var searchCredential = new AzureKeyCredential(searchKey);
 
-        serviceCollection
+        var healthChecks = serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sqlConnString);
+
+        foreach (var index in ResourceNames.Search.Indexes.All)
+        {
+            healthChecks.AddAzureSearch(s =>
+                {
+                    s.Endpoint = searchEndpoint.AbsoluteUri;
+                    s.AuthKey = searchKey;
+                    s.IndexName = index;
+                }, $"azuresearch:{index}");
+        }
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
