@@ -19,14 +19,22 @@ pr:
       - support-analytics
 
 variables:
-  - template: ..\common\vars.yaml
   - group: 'support'
   - name: TerraformFolder
     value: 'support-analytics/terraform'
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-
-name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
+  - name: 'ShouldDeploy'
+    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - name: 'Version'
+    value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
+  - name: 'Version.Revision'
+    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
+      value: $[counter(variables['Version'], 0)]
+    ${{ else }}:
+      value: 'XX'
+  - name: 'Version.BuildNumber'
+    value: $(Version).$(Version.Revision)
 
 stages:
   - stage: Build
