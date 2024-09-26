@@ -1,6 +1,6 @@
 # `Version.BuildNumber` variable is set to a value dependent on the source branch and build reason:
-# - For builds on `main` that are triggered by CI or manually: `2024.09.123456`
-# - For all other build configurations:                        `2024.09-pre`
+# - For builds on `main` that are triggered by CI or manually: `1.0.123456`
+# - For all other build configurations:                        `1.0-pre`
 #
 # The resultant value should be set on the pipeline `name` with the `$(Rev:r)` suffix to ensure that
 # build numbers are always unique and not erroneously incremented, even if this value is subsequently
@@ -15,14 +15,14 @@ variables:
   - name: ShouldDeploy
     value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
   - name: Version
-    value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
+    value: 1.0
   - name: Version.Revision
-    ${{ if eq(variables['ShouldDeploy'], 'true') }}:
+    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: $[counter(variables['Version'], 0)]
     ${{ else }}:
       value: 'pre'
   - name: Version.Revision.Separator
-    ${{ if eq(variables['ShouldDeploy'], 'true') }}:
+    ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: '.'
     ${{ else }}:
       value: '-'

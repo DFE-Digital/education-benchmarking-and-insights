@@ -18,14 +18,10 @@ pr:
 
 variables:
   - template: ..\common\vars.yaml
-  - name: Version.BuildNumber 
-    value: 1.$(Version)$(Version.Revision.Separator)$(Version.Revision)
-  - name: Version.BuildVersion
-    value: $(Version.BuildNumber)
   - name: WorkingDir
     value: 'front-end-components'
 
-name: 1.$(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
+name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
 steps:
   - bash: |
