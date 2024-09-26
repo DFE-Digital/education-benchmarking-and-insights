@@ -24,6 +24,8 @@ variables:
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
+name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
+
 stages:
   - stage: Build
     displayName: 'Build artifacts'
