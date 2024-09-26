@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-namespace Platform.Api.Benchmark.Comparators;
+namespace Platform.Api.Establishment.Comparators;
 
 [ExcludeFromCodeCoverage]
 public record CharacteristicList

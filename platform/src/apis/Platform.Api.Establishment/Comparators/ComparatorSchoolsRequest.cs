@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-namespace Platform.Api.Benchmark.Comparators;
+namespace Platform.Api.Establishment.Comparators;
 
 [ExcludeFromCodeCoverage]
 public record ComparatorSchoolsRequest

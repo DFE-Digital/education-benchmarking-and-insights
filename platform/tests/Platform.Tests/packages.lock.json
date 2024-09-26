@@ -2022,7 +2022,6 @@
           "Microsoft.Azure.Functions.Worker.Sdk": "[1.17.4, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )",
-          "Platform.Search": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
         }
       },
