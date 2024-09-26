@@ -99,7 +99,7 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
                 Local authority maintained schools and single academy trusts
                 <br />
                 Reserves are legally associated with one school and appear in
-                that school’s graphs.
+                that school's graphs.
               </p>
               <p>
                 Local authority maintained schools
@@ -135,8 +135,8 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               <p>
                 Single academies in multi-academy trusts (MATs)
                 <br />
-                We estimated a value per academy by diving up and sharing out
-                the trust’s reserves on a pro-rata basis. For this we used the
+                We estimated a value per academy by dividing up and sharing out
+                the trust's reserves on a pro-rata basis. For this we used the
                 full-time equivalent (FTE) number of pupils in each academy in
                 that MAT.
               </p>

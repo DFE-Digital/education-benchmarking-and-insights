@@ -181,7 +181,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
               <ul className="govuk-list govuk-list--bullet">
                 <li>
                   contributions or donations that are not used for the benefit
-                  of students’ learning or the school
+                  of students' learning or the school
                 </li>
                 <li>
                   balances available in trust funds or other private or
