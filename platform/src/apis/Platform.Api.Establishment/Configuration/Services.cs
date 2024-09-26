@@ -5,6 +5,7 @@ using Azure;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.Establishment.Comparators;
 using Platform.Api.Establishment.LocalAuthorities;
 using Platform.Api.Establishment.Schools;
 using Platform.Api.Establishment.Trusts;
@@ -12,7 +13,6 @@ using Platform.Functions.Extensions;
 using Platform.Infrastructure;
 using Platform.Search;
 using Platform.Sql;
-
 namespace Platform.Api.Establishment.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -40,9 +40,13 @@ internal static class Services
             .AddSingleton<ISearchConnection<LocalAuthority>>(new SearchConnection<LocalAuthority>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.LocalAuthority))
             .AddSingleton<ISearchConnection<School>>(new SearchConnection<School>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.School))
             .AddSingleton<ISearchConnection<Trust>>(new SearchConnection<Trust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.Trust))
+            .AddSingleton<ISearchConnection<ComparatorSchool>>(new SearchConnection<ComparatorSchool>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.SchoolComparators))
+            .AddSingleton<ISearchConnection<ComparatorTrust>>(new SearchConnection<ComparatorTrust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.TrustComparators))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
-            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>();
+            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
+            .AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>()
+            .AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
 
         serviceCollection
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();

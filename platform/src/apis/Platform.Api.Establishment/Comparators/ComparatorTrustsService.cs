@@ -1,11 +1,8 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using Platform.Search;
-
-namespace Platform.Api.Benchmark.Comparators;
+namespace Platform.Api.Establishment.Comparators;
 
 public interface IComparatorTrustsService
 {

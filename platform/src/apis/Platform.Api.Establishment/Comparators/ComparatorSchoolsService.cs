@@ -3,8 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Platform.Search;
-
-namespace Platform.Api.Benchmark.Comparators;
+namespace Platform.Api.Establishment.Comparators;
 
 public interface IComparatorSchoolsService
 {
@@ -173,8 +172,5 @@ public class ComparatorSchoolsService(ISearchConnection<ComparatorSchool> connec
         return 1 / baseScore + x.Score;
     }
 
-    private static double CalcRatio(double current, double target)
-    {
-        return Math.Abs((current - target) / target);
-    }
+    private static double CalcRatio(double current, double target) => Math.Abs((current - target) / target);
 }

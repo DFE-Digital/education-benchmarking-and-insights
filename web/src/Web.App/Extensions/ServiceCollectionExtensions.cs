@@ -45,7 +45,6 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>().Configure<FinancialPlanApi>(section);
         services.AddHttpClient<ICustomDataApi, CustomDataApi>().Configure<CustomDataApi>(section);
-        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
         services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>().Configure<ComparatorSetApi>(section);
         services.AddHttpClient<IUserDataApi, UserDataApi>().Configure<UserDataApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
@@ -59,6 +58,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure<EstablishmentApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
+        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
 
         return services;
     }

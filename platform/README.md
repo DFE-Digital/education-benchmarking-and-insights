@@ -49,8 +49,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Search__Name" : "s198d01-ebis-search",
-    "Search__Key" : "[INSERT KEY VALUE]",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
     "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
