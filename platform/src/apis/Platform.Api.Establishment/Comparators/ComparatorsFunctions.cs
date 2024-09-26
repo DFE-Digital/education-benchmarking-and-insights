@@ -15,11 +15,13 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
     [Function(nameof(SchoolComparatorsAsync))]
     [OpenApiOperation(nameof(SchoolComparatorsAsync), "Comparators")]
     [OpenApiSecurityHeader]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiRequestBody("application/json", typeof(ComparatorSchoolsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(ComparatorSchools))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolComparatorsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparators/schools")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "school/{identifier}/comparators")] HttpRequestData req,
+        string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -37,7 +39,7 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
             {
                 var body = await req.ReadAsJsonAsync<ComparatorSchoolsRequest>();
                 //TODO : Add request validation
-                var comparators = await schoolsService.ComparatorsAsync(body);
+                var comparators = await schoolsService.ComparatorsAsync(identifier, body);
                 return await req.CreateJsonResponseAsync(comparators);
             }
             catch (Exception e)
@@ -51,11 +53,13 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
     [Function(nameof(TrustComparatorsAsync))]
     [OpenApiOperation(nameof(TrustComparatorsAsync), "Comparators")]
     [OpenApiSecurityHeader]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiRequestBody("application/json", typeof(ComparatorTrustsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(ComparatorSchools))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> TrustComparatorsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparators/trusts")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trust/{identifier}/comparators")] HttpRequestData req,
+        string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -73,7 +77,7 @@ public class ComparatorsFunctions(ILogger<ComparatorsFunctions> logger, ICompara
             {
                 var body = await req.ReadAsJsonAsync<ComparatorTrustsRequest>();
                 //TODO : Add request validation
-                var comparators = await trustsService.ComparatorsAsync(body);
+                var comparators = await trustsService.ComparatorsAsync(identifier, body);
                 return await req.CreateJsonResponseAsync(comparators);
             }
             catch (Exception e)

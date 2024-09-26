@@ -346,8 +346,8 @@ public class SchoolComparatorsCreateByController(
                 }
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var request = new PostSchoolComparatorsRequest(urn, school.LAName, viewModel);
-                var results = await comparatorApi.CreateSchoolsAsync(request).GetResultOrThrow<ComparatorSchools>();
+                var request = new PostSchoolComparatorsRequest(school.LAName, viewModel);
+                var results = await comparatorApi.CreateSchoolsAsync(urn, request).GetResultOrThrow<ComparatorSchools>();
 
                 // try again if too few results returned
                 // todo: unhappy path(s) under review as part of other ticket(s)

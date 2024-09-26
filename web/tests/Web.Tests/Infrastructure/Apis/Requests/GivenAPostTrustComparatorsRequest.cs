@@ -1,33 +1,10 @@
-﻿using AutoFixture;
-using Web.App.Infrastructure.Apis;
+﻿using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Tests.Infrastructure.Apis.Requests;
 
 public class GivenAPostTrustComparatorsRequest
 {
-    private readonly string _companyName;
-    private readonly Fixture _fixture;
-
-    public GivenAPostTrustComparatorsRequest()
-    {
-        _fixture = new Fixture();
-        _companyName = _fixture.Create<string>();
-    }
-
-    [Fact]
-    public void MapsTarget()
-    {
-        // arrange
-        var viewModel = _fixture.Create<UserDefinedTrustCharacteristicViewModel>();
-
-        // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).Target;
-
-        // assert
-        Assert.Equal(_companyName, actual);
-    }
-
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -42,7 +19,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).TotalPupils;
+        var actual = new PostTrustComparatorsRequest(viewModel).TotalPupils;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -63,7 +40,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).SchoolsInTrust;
+        var actual = new PostTrustComparatorsRequest(viewModel).SchoolsInTrust;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -84,7 +61,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).TotalIncome;
+        var actual = new PostTrustComparatorsRequest(viewModel).TotalIncome;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -105,7 +82,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).TotalInternalFloorArea;
+        var actual = new PostTrustComparatorsRequest(viewModel).TotalInternalFloorArea;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -176,7 +153,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).PhasesCovered;
+        var actual = new PostTrustComparatorsRequest(viewModel).PhasesCovered;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -196,7 +173,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).PercentFreeSchoolMeals;
+        var actual = new PostTrustComparatorsRequest(viewModel).PercentFreeSchoolMeals;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -217,7 +194,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).PercentSpecialEducationNeeds;
+        var actual = new PostTrustComparatorsRequest(viewModel).PercentSpecialEducationNeeds;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -238,7 +215,7 @@ public class GivenAPostTrustComparatorsRequest
         };
 
         // act
-        var actual = new PostTrustComparatorsRequest(_companyName, viewModel).OpenDate;
+        var actual = new PostTrustComparatorsRequest(viewModel).OpenDate;
 
         // assert
         Assert.Equal(expectedFrom == null ? null : DateTime.Parse(expectedFrom), actual?.From);

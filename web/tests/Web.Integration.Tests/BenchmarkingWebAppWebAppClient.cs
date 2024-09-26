@@ -374,8 +374,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupComparatorApi(ComparatorSchools? comparatorSchools = null, ComparatorTrusts? comparatorTrusts = null)
     {
         ComparatorApi.Reset();
-        ComparatorApi.Setup(api => api.CreateSchoolsAsync(It.IsAny<PostSchoolComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorSchools));
-        ComparatorApi.Setup(api => api.CreateTrustsAsync(It.IsAny<PostTrustComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorTrusts));
+        ComparatorApi.Setup(api => api.CreateSchoolsAsync(It.IsAny<string>(), It.IsAny<PostSchoolComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorSchools));
+        ComparatorApi.Setup(api => api.CreateTrustsAsync(It.IsAny<string>(), It.IsAny<PostTrustComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorTrusts));
         return this;
     }
 

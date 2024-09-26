@@ -6,17 +6,17 @@ namespace Platform.Api.Establishment.Comparators;
 
 public interface IComparatorTrustsService
 {
-    Task<ComparatorTrusts> ComparatorsAsync(ComparatorTrustsRequest request);
+    Task<ComparatorTrusts> ComparatorsAsync(string companyNumber, ComparatorTrustsRequest request);
 }
 
 [ExcludeFromCodeCoverage]
 public class ComparatorTrustsService(ISearchConnection<ComparatorTrust> connection) : IComparatorTrustsService
 {
-    public async Task<ComparatorTrusts> ComparatorsAsync(ComparatorTrustsRequest request)
+    public async Task<ComparatorTrusts> ComparatorsAsync(string companyNumber, ComparatorTrustsRequest request)
     {
         //var trust = await connection.LookUpAsync(request.Target);
 
-        var filter = request.FilterExpression();
+        var filter = request.FilterExpression(companyNumber);
         var search = request.SearchExpression();
         var result = await connection.SearchAsync(search, filter, 100000);
 

@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using Web.App.Infrastructure.Apis;
+﻿using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Tests.Infrastructure.Apis.Requests;
@@ -7,27 +6,6 @@ namespace Web.Tests.Infrastructure.Apis.Requests;
 public class GivenAPostSchoolComparatorsRequest
 {
     private const string LAName = "LaName";
-    private readonly Fixture _fixture;
-    private readonly string _urn;
-
-    public GivenAPostSchoolComparatorsRequest()
-    {
-        _fixture = new Fixture();
-        _urn = _fixture.Create<string>();
-    }
-
-    [Fact]
-    public void MapsTarget()
-    {
-        // arrange
-        var viewModel = _fixture.Create<UserDefinedSchoolCharacteristicViewModel>();
-
-        // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).Target;
-
-        // assert
-        Assert.Equal(_urn, actual);
-    }
 
     [Theory]
     [InlineData(null, null)]
@@ -67,7 +45,7 @@ public class GivenAPostSchoolComparatorsRequest
         // act
         CharacteristicList? Action()
         {
-            return new PostSchoolComparatorsRequest(_urn, LAName, viewModel).FinanceType;
+            return new PostSchoolComparatorsRequest(LAName, viewModel).FinanceType;
         }
     }
 
@@ -163,7 +141,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).OverallPhase;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).OverallPhase;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -194,7 +172,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).LAName;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).LAName;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -214,7 +192,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).SchoolPosition;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).SchoolPosition;
 
         // assert
         Assert.Equal(expected == null ? null : [expected], actual?.Values);
@@ -234,7 +212,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).IsPFISchool;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).IsPFISchool;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -273,7 +251,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).LondonWeighting;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).LondonWeighting;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -307,7 +285,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).OfstedDescription;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).OfstedDescription;
 
         // assert
         Assert.Equal(expected, actual?.Values);
@@ -327,7 +305,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).TotalPupils;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).TotalPupils;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -348,7 +326,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).BuildingAverageAge;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).BuildingAverageAge;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -369,7 +347,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).TotalInternalFloorArea;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).TotalInternalFloorArea;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -390,7 +368,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentFreeSchoolMeals;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentFreeSchoolMeals;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -411,7 +389,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentSpecialEducationNeeds;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentSpecialEducationNeeds;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -432,7 +410,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).TotalPupilsSixthForm;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).TotalPupilsSixthForm;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -453,7 +431,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).KS2Progress;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).KS2Progress;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -474,7 +452,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).KS4Progress;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).KS4Progress;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -495,7 +473,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).SchoolsInTrust;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).SchoolsInTrust;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -516,7 +494,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithVI;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithVI;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -537,7 +515,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithSPLD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithSPLD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -558,7 +536,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithSLD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithSLD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -579,7 +557,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithSLCN;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithSLCN;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -600,7 +578,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithSEMH;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithSEMH;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -621,7 +599,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithPMLD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithPMLD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -642,7 +620,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithPD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithPD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -663,7 +641,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithOTH;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithOTH;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -684,7 +662,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithMSI;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithMSI;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -706,7 +684,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithMLD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithMLD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -727,7 +705,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithHI;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithHI;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);
@@ -748,7 +726,7 @@ public class GivenAPostSchoolComparatorsRequest
         };
 
         // act
-        var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).PercentWithASD;
+        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).PercentWithASD;
 
         // assert
         Assert.Equal(expectedFrom, actual?.From);

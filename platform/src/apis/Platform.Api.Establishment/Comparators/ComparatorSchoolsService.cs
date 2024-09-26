@@ -7,17 +7,17 @@ namespace Platform.Api.Establishment.Comparators;
 
 public interface IComparatorSchoolsService
 {
-    Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request);
+    Task<ComparatorSchools> ComparatorsAsync(string urn, ComparatorSchoolsRequest request);
 }
 
 [ExcludeFromCodeCoverage]
 public class ComparatorSchoolsService(ISearchConnection<ComparatorSchool> connection) : IComparatorSchoolsService
 {
-    public async Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request)
+    public async Task<ComparatorSchools> ComparatorsAsync(string urn, ComparatorSchoolsRequest request)
     {
-        var school = await connection.LookUpAsync(request.Target);
+        var school = await connection.LookUpAsync(urn);
 
-        var filter = request.FilterExpression();
+        var filter = request.FilterExpression(urn);
         var search = request.SearchExpression();
         var result = await connection.SearchAsync(search, filter, 100000);
 
