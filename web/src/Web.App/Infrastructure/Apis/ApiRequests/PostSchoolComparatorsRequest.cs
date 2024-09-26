@@ -6,10 +6,8 @@ using Web.App.ViewModels;
 // ReSharper disable UnusedMember.Global
 namespace Web.App.Infrastructure.Apis;
 
-public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefinedSchoolCharacteristicViewModel viewModel)
+public class PostSchoolComparatorsRequest(string? laName, UserDefinedSchoolCharacteristicViewModel viewModel)
 {
-    public string Target => urn;
-
     public CharacteristicList? FinanceType => string.IsNullOrWhiteSpace(viewModel.FinanceType)
         ? null
         : new CharacteristicList(viewModel.FinanceType switch

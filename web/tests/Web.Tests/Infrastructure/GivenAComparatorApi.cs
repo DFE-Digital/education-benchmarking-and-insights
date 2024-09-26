@@ -20,11 +20,23 @@ public class GivenAComparatorApi(ITestOutputHelper testOutputHelper) : ApiClient
     public async Task CreateSchoolsAsyncShouldCallCorrectUrl()
     {
         var api = new ComparatorApi(HttpClient);
+        var request = new PostSchoolComparatorsRequest("laName", new UserDefinedSchoolCharacteristicViewModel());
+        const string urn = "urn";
 
-        var request = new PostSchoolComparatorsRequest("urn", "laName", new UserDefinedSchoolCharacteristicViewModel());
+        await api.CreateSchoolsAsync(urn, request);
 
-        await api.CreateSchoolsAsync(request);
+        VerifyCall(HttpMethod.Post, $"api/school/{urn}/comparators", request.ToJson(Formatting.None));
+    }
 
-        VerifyCall(HttpMethod.Post, "api/comparators/schools", request.ToJson(Formatting.None));
+    [Fact]
+    public async Task CreateTrustsAsyncShouldCallCorrectUrl()
+    {
+        var api = new ComparatorApi(HttpClient);
+        var request = new PostTrustComparatorsRequest(new UserDefinedTrustCharacteristicViewModel());
+        const string companyNumber = "companyNumber";
+
+        await api.CreateTrustsAsync(companyNumber, request);
+
+        VerifyCall(HttpMethod.Post, $"api/trust/{companyNumber}/comparators", request.ToJson(Formatting.None));
     }
 }

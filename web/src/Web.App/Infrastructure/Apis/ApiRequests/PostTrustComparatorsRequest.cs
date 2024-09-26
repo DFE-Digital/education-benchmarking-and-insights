@@ -5,10 +5,8 @@
 // ReSharper disable UnusedMember.Global
 namespace Web.App.Infrastructure.Apis;
 
-public class PostTrustComparatorsRequest(string companyNumber, UserDefinedTrustCharacteristicViewModel viewModel)
+public class PostTrustComparatorsRequest(UserDefinedTrustCharacteristicViewModel viewModel)
 {
-    public string Target => companyNumber;
-
     public CharacteristicList? PhasesCovered => viewModel.OverallPhases is { Length: > 0 }
         ? new CharacteristicList(viewModel.OverallPhases!)
         : null;

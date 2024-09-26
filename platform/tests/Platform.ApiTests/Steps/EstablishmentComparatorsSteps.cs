@@ -20,7 +20,6 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     {
         var content = new ComparatorSchoolsRequest
         {
-            Target = urn,
             FinanceType = new CharacteristicList
             {
                 Values = ["Maintained"]
@@ -34,7 +33,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
 
         api.CreateRequest(ComparatorSchoolsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/comparators/schools", UriKind.Relative),
+            RequestUri = new Uri($"/api/school/{urn}/comparators", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
@@ -75,7 +74,6 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     {
         var content = new ComparatorTrustsRequest
         {
-            Target = companyNumber,
             PhasesCovered = new CharacteristicList
             {
                 Values = ["Secondary"]
@@ -89,7 +87,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
 
         api.CreateRequest(ComparatorTrustsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/comparators/trusts", UriKind.Relative),
+            RequestUri = new Uri($"/api/trust/{companyNumber}/comparators", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });

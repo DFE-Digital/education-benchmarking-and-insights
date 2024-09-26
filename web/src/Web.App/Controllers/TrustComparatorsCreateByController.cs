@@ -297,8 +297,8 @@ public class TrustComparatorsCreateByController(
                     return RedirectToAction(nameof(Characteristic));
                 }
 
-                var request = new PostTrustComparatorsRequest(companyNumber, viewModel);
-                var results = await comparatorApi.CreateTrustsAsync(request).GetResultOrThrow<ComparatorTrusts>();
+                var request = new PostTrustComparatorsRequest(viewModel);
+                var results = await comparatorApi.CreateTrustsAsync(companyNumber, request).GetResultOrThrow<ComparatorTrusts>();
 
                 // try again if too few results returned
                 // todo: unhappy path(s) under review as part of other ticket(s)

@@ -5,7 +5,6 @@ namespace Platform.Api.Establishment.Comparators;
 [ExcludeFromCodeCoverage]
 public record ComparatorSchoolsRequest
 {
-    public string? Target { get; set; }
     public CharacteristicList? FinanceType { get; set; }
     public CharacteristicList? OverallPhase { get; set; }
     public CharacteristicList? LAName { get; set; }
@@ -35,8 +34,8 @@ public record ComparatorSchoolsRequest
     public CharacteristicRange? PercentWithHI { get; set; }
     public CharacteristicRange? PercentWithASD { get; set; }
 
-    public string FilterExpression() => new List<string>()
-        .NotValueFilter("URN", Target)
+    public string FilterExpression(string urn) => new List<string>()
+        .NotValueFilter("URN", urn)
         .RangeFilter(nameof(TotalPupils), TotalPupils)
         .RangeFilter(nameof(BuildingAverageAge), BuildingAverageAge)
         .RangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)

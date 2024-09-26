@@ -5,7 +5,6 @@ namespace Platform.Api.Establishment.Comparators;
 [ExcludeFromCodeCoverage]
 public record ComparatorTrustsRequest
 {
-    public string? Target { get; set; }
     public CharacteristicList? PhasesCovered { get; set; }
     public CharacteristicRange? TotalPupils { get; set; }
     public CharacteristicRange? TotalIncome { get; set; }
@@ -15,8 +14,8 @@ public record ComparatorTrustsRequest
     public CharacteristicRange? PercentSpecialEducationNeeds { get; set; }
     public CharacteristicRange? SchoolsInTrust { get; set; }
 
-    public string FilterExpression() => new List<string>()
-        .NotValueFilter("CompanyNumber", Target)
+    public string FilterExpression(string companyNumber) => new List<string>()
+        .NotValueFilter("CompanyNumber", companyNumber)
         .RangeFilter(nameof(TotalPupils), TotalPupils)
         .RangeFilter(nameof(TotalIncome), TotalIncome)
         .RangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)
