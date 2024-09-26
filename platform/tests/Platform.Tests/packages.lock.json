@@ -2028,6 +2028,7 @@
       "platform.api.establishment": {
         "type": "Project",
         "dependencies": {
+          "AspNetCore.HealthChecks.AzureSearch": "[8.0.1, )",
           "AspNetCore.HealthChecks.SqlServer": "[8.0.2, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
@@ -2090,6 +2091,16 @@
         "dependencies": {
           "Dapper": "[2.1.35, )",
           "Microsoft.Data.SqlClient": "[5.2.2, )"
+        }
+      },
+      "AspNetCore.HealthChecks.AzureSearch": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.1, )",
+        "resolved": "8.0.1",
+        "contentHash": "rEpoQN11MnaAXuWIL4N0z0cCxYmRg6u5vy1/tsxlMgnLwoQBJ5hun9noL5sxlGu21PXD/RsEEpd+j8PIRZg/QQ==",
+        "dependencies": {
+          "Azure.Search.Documents": "11.5.0",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0"
         }
       },
       "AspNetCore.HealthChecks.SqlServer": {
