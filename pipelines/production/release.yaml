@@ -26,13 +26,29 @@ parameters:
       - s198p02
 
 variables:
-  ShouldDeployProd: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
-  IsPipelineVersionSet: $[ne('${{ parameters.pipelineVersion }}', 'latest')]
+  - name: ShouldDeployProd
+    value: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
+  - name: IsPipelineVersionSet
+    value: $[ne('${{ parameters.pipelineVersion }}', 'latest')]
+  - name: Version
+    value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
+  - name: Version.Revision
+    value: $[counter(variables['Version'], 0)]
+  - name: Version.BuildNumber 
+    value: $(Version).$(Version.Revision)
+
+name: $(Version).$(Version.Revision)
 
 stages:
   - stage: Artifacts
     displayName: 'Gather artifacts'
     jobs:
+      - job: SetBuildNumber
+        displayName: 'Set build tags'
+        steps:
+          - checkout: none
+          - bash: echo "##vso[build.addbuildtag]Release|$(Version.BuildNumber)"
+
       - job: CoreDownloadPublish
         displayName: 'Core : Download artifacts and republish'
         steps:
