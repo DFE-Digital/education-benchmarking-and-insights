@@ -107,7 +107,8 @@ def map_school_type_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Finance Type"] = "Maintained"
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
         lambda df: mappings.map_phase_type(
-            df["TypeOfEstablishment (code)"], df["PhaseOfEducation (code)"], df["Overall Phase"]
+            establishment_code=df["TypeOfEstablishment (code)"],
+            phase_code=df["PhaseOfEducation (code)"],
         ),
         axis=1,
     )
@@ -168,6 +169,7 @@ def calc_rag_cost_series(
         )
 
     return maintained_schools
+
 
 # net catering cost, not net catering income
 def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:

@@ -729,8 +729,8 @@ def build_academy_data(
 
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_phase_type(
-            df["TypeOfEstablishment (code)"],
-            df["PhaseOfEducation (code)"],
+            establishment_code=df["TypeOfEstablishment (code)"],
+            phase_code=df["PhaseOfEducation (code)"],
         ),
         axis=1,
     )
@@ -762,8 +762,8 @@ def build_academy_data(
     # TODO: remove; duplicate of `Overall Phase`, above?
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_phase_type(
-            df["TypeOfEstablishment (code)"],
-            df["PhaseOfEducation (code)"],
+            establishment_code=df["TypeOfEstablishment (code)"],
+            phase_code=df["PhaseOfEducation (code)"],
         ),
         axis=1,
     )
