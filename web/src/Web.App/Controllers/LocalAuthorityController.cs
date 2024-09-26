@@ -8,7 +8,6 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -25,20 +24,16 @@ public class LocalAuthorityController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
-                var authority = LocalAuthority(code);
-                var schools = LocalAuthoritySchools(code);
-
-                await Task.WhenAll(authority, schools);
-
-                var viewModel = new LocalAuthorityViewModel(authority.Result, schools.Result);
+                var authority = await LocalAuthority(code);
+                var viewModel = new LocalAuthorityViewModel(authority);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -55,9 +50,9 @@ public class LocalAuthorityController(
     public async Task<IActionResult> Resources(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {
