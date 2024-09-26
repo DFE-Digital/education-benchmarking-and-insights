@@ -1,6 +1,32 @@
+# `Version.BuildNumber` variable is set to a value dependent on the source branch and build reason:
+# - For builds on `main` that are triggered by CI or manually: `2024.09.123456`
+# - For all other build configurations:                        `2024.09-pre`
+#
+# The resultant value should be set on the pipeline `name` with the `$(Rev:r)` suffix to ensure that
+# build numbers are always unique and not erroneously incremented, even if this value is subsequently
+# overwritten by a `##vso[build.updatebuildnumber]` command elsewhere in the pipeline. e.g.:
+# - `name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)`
+#
+# **NOTE:** `name: $(Version.BuildNumber).$(Rev:r)` does not resolve `Version.BuildNumber` correctly.
+#
+# Additional commentary may be found at:
+# - https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number
 variables:
-  Version: 1.0
-  Version.Revision: $[counter(variables['Version'], 0)]
-  Version.BuildNumber: $(Version).$(Version.Revision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - name: ShouldDeploy
+    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - name: Version
+    value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
+  - name: Version.Revision
+    ${{ if eq(variables['ShouldDeploy'], 'true') }}:
+      value: $[counter(variables['Version'], 0)]
+    ${{ else }}:
+      value: 'pre'
+  - name: Version.Revision.Separator
+    ${{ if eq(variables['ShouldDeploy'], 'true') }}:
+      value: '.'
+    ${{ else }}:
+      value: '-'
+  - name: Version.BuildNumber 
+    value: $(Version)$(Version.Revision.Separator)$(Version.Revision)
+  - name: Version.BuildVersion
+    value: $(Version.BuildNumber)

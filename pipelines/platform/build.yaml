@@ -28,6 +28,8 @@ variables:
   - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
     value: 30
 
+name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
+
 stages:
   - stage: Build
     displayName: 'Build artifacts'
