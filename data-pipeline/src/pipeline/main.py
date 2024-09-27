@@ -188,12 +188,7 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Academy Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
-    gias_all_links = get_blob(
-        raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
-    )
-
     academies = build_academy_data(
-        gias_all_links,
         year,
         schools,
         census,

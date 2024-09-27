@@ -141,15 +141,15 @@ def insert_schools_and_trusts_and_local_authorities(
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
-        "Companies House Number": "TrustCompanyNumber",
-        "Group Name": "TrustName",
+        "Company Registration Number": "TrustCompanyNumber",
+        "Company_Name": "TrustName",
         "Federation Lead School URN": "FederationLeadURN",
         "Federation Name": "FederationLeadName",
         "LA Code": "LACode",
         "LA Name": "LAName",
         "London Weighting": "LondonWeighting",
         "Finance Type": "FinanceType",
-        "Overall Phase": "OverallPhase",
+        "SchoolPhaseType": "OverallPhase",
         "TypeOfEstablishment (name)": "SchoolType",
         "Has Sixth Form": "HasSixthForm",
         "Has Nursery": "HasNursery",
@@ -176,19 +176,18 @@ def insert_schools_and_trusts_and_local_authorities(
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
 
     trust_projections = {
-        "Group Name": "TrustName",
-        "Group UID": "UID",
+        "Company_Name": "TrustName",
         "CFO name": "CFOName",
         "CFO email": "CFOEmail",
         "OpenDate": "OpenDate",
-        "Companies House Number": "CompanyNumber",
+        "Company Registration Number": "CompanyNumber",
     }
 
     trusts = (
-        df[~df["Companies House Number"].isna()]
+        df[~df["Company Registration Number"].isna()]
         .reset_index()
-        .sort_values(by=["Companies House Number", "OpenDate"], ascending=False)
-        .groupby(["Companies House Number"])
+        .sort_values(by=["Company Registration Number", "OpenDate"], ascending=False)
+        .groupby(["Company Registration Number"])
         .first()
         .reset_index()
         .rename(columns=trust_projections)[[*trust_projections.values()]]

@@ -644,30 +644,39 @@ def prepare_schools_data(base_data_path, links_data_path):
     )
 
 
-def build_cfo_data(cfo_data_path):
+def build_cfo_data(cfo_data_path) -> pd.DataFrame:
+    """
+    Read Chief Financial Officer (CFO) details.
+
+    Note: CFO details are at Trust level.
+
+    :param cfo_data_path: from which to read data
+    :return: cfo DataFrame
+    """
     cfo_data = pd.read_excel(
         cfo_data_path,
-    )
-
-    cfo_data.rename(
+        usecols=[
+            "Companies House Number",
+            "Title",
+            "Forename 1",
+            "Surname",
+            "Direct email address",
+        ],
+        dtype=str,
+    ).rename(
         columns={
-            "URN/UID": "URN",
-            "Establishment/Multi Academy Trust Name": "Trust Name",
             "Direct email address": "CFO email",
         },
-        inplace=True,
     )
 
     cfo_data["CFO name"] = (
         cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
     )
 
-    cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
-    return cfo_data.set_index("URN")
+    return cfo_data[["Companies House Number", "CFO name", "CFO email"]]
 
 
 def build_academy_data(
-    links_data_path,
     year,
     schools,
     census,
@@ -691,30 +700,18 @@ def build_academy_data(
         inplace=True,
     )
 
-    # TODO: move this to its own function.
-    group_links = pd.read_csv(
-        links_data_path,
-        encoding="cp1252",
-        index_col=input_schemas.groups_index_col,
-        usecols=input_schemas.groups.keys(),
-        dtype=input_schemas.groups,
-    )[["Group Type", "Group UID", "Group Name", "Companies House Number"]]
-
-    group_links = group_links[
-        group_links["Group Type"].isin(
-            ["Single-academy trust", "Multi-academy trust", "Trust"]
-        )
-    ]
-
     academies = (
         aar.reset_index()
         .merge(schools, on="URN")
         .merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
-        # TODO: inner-join correct?
-        .merge(group_links, on="URN", how="inner")
-        .merge(cfo, on="URN", how="left")
+        .merge(
+            cfo,
+            left_on="Company Registration Number",
+            right_on="Companies House Number",
+            how="left",
+        )
     )
 
     if ks2 is not None:

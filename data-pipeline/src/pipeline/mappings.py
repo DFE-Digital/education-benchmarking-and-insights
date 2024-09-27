@@ -24,10 +24,12 @@ def _map_secondary_phases(establishment_code: int) -> str:
 
 def _map_not_applicable_phases(establishment_code: int) -> str:
     match establishment_code:
+        case 6:
+            return "University Technical College"
+        case 7 | 12 | 33 | 36 | 44:
+            return "Special"
         case 14:
             return "Pupil Referral Unit"
-        case 39 | 45 | 46:
-            return "Special"
         case 38 | 42 | 43:
             return "Alternative Provision"
         case _:
