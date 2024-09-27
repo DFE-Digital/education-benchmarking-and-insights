@@ -55,6 +55,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 | `/school/{identifier}/find-ways-to-spend-less` | 50 /s             |
 | `/trust/{identifier}`                          | 23 /s             |
 | `/trust/{identifier}/spending-and-costs`       | 23 /s             |
+| `/local-authority/{identifier}`                | 23 /s             |
 
 *the target throughput is based on the assumed daily user numbers (of which 45% are academy trust users).
 
@@ -92,6 +93,7 @@ For each page, simulate the typical number of concurrent virtual users to mimic 
 | School Resources           | 11/09/2024, 15:12:12 | 10      | 6m 0s    | 192 ms        | 0 %    | 55.56 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/f23b0c7c-217a-4976-80a5-996db09a504e/testRunId/5ca1e91f-6e08-4cbc-b759-a3f7220980e3)     |
 | Trust Home                 | 11/09/2024, 16:36:30 | 4       | 5m 45s   | 182 ms        | 0 %    | 25.03 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/8243bda5-fcb4-4b45-8602-f02b7522e1fc/testRunId/c661f194-eb06-4513-82fc-a3234deca04d)     |
 | Trust Spending Priorities  | 11/09/2024, 16:25:49 | 4       | 5m 52s   | 171 ms        | 0.01 % | 26.68 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/8243bda5-fcb4-4b45-8602-f02b7522e348/testRunId/d98c97e1-8b78-41e9-9787-88546c851066)     |
+| Local Authority Home       | 27/09/2024, 13:11:38 | 4       | 5m 51s   | 209 ms        | 0 %    | 21.77 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/e0723e9b-dc1a-4367-bbcf-ef5350e93008/testRunId/e0723e9b-dc1a-4367-bbcf-ef5350e93096)     |
 
 **Findings and Recommendations:**
 

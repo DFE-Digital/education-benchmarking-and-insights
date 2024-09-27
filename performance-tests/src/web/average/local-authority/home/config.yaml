@@ -1,0 +1,17 @@
+displayName: Average_Web - Local Authority Home
+testPlan: url-test.json
+description: Average load test for GET /local-authority/{identifier}
+engineInstances: 1
+testId: e0723e9b-dc1a-4367-bbcf-ef5350e93008
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- local-authorities.csv
+failureCriteria:
+- p75(response_time_ms) > 500
+- p95(response_time_ms) > 1000
+- p99(response_time_ms) > 2000
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
