@@ -9,19 +9,23 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Platform.Api.Establishment.Schools;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
 namespace Platform.Api.Establishment.LocalAuthorities;
 
-public class LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger,
-    ILocalAuthoritiesService service, IValidator<SuggestRequest> validator)
+public class LocalAuthoritiesFunctions(
+    ILogger<LocalAuthoritiesFunctions> logger,
+    ILocalAuthoritiesService localAuthoritiesService,
+    ISchoolsService schoolsService,
+    IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleLocalAuthorityAsync))]
     [OpenApiOperation(nameof(SingleLocalAuthorityAsync), "Local Authorities")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(LocalAuthority))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(LocalAuthorityResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SingleLocalAuthorityAsync(
@@ -45,11 +49,15 @@ public class LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger
         {
             try
             {
-                var response = await service.GetAsync(identifier);
+                var localAuthority = await localAuthoritiesService.GetAsync(identifier);
+                if (localAuthority == null)
+                {
+                    return req.CreateNotFoundResponse();
+                }
 
-                return response == null
-                    ? req.CreateNotFoundResponse()
-                    : await req.CreateJsonResponseAsync(response);
+                var schools = await schoolsService.QueryAsync(null, localAuthority.Code, null);
+                var response = LocalAuthorityResponseFactory.Create(localAuthority, schools);
+                return await req.CreateJsonResponseAsync(response);
             }
             catch (Exception e)
             {
@@ -93,7 +101,7 @@ public class LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger
                 }
 
                 var names = req.Query["names"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var localAuthorities = await service.SuggestAsync(body, names);
+                var localAuthorities = await localAuthoritiesService.SuggestAsync(body, names);
                 return await req.CreateJsonResponseAsync(localAuthorities);
             }
             catch (Exception e)
