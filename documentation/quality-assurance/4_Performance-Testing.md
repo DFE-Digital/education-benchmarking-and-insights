@@ -30,6 +30,7 @@ This document is designed to outline the current approach to performance testing
 | Average_Web - School Resources               | 10  | 6               | 1           |
 | Average_Web - Trust Home                     | 4   | 6               | 1           |
 | Average_Web - Trust Spending Priorities      | 4   | 6               | 1           |
+| Average_Web - Local Authority Home           | 4   | 6               | 1           |
 | Peak_Web - School Home                       | 20  | 6               | 1           |
 | Peak_Web - School Spending Priorities        | 30  | 6               | 1           |
 | Peak_Web - School Comparators                | 17  | 6               | 1           |
