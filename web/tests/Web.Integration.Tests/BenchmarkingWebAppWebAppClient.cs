@@ -160,15 +160,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, School[] schools)
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthoritySchool[] schools)
     {
         EstablishmentApi.Reset();
+        authority.Schools = schools;
         EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
-        EstablishmentApi
-            .Setup(api =>
-                api.QuerySchools(It.Is<ApiQuery>(x => x.Any(q => q.Key == "laCode" && q.Value == authority.Code))))
-            .ReturnsAsync(ApiResult.Ok(schools));
-
         return this;
     }
 
