@@ -95,24 +95,32 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               </span>
             </summary>
             <div className="govuk-details__text">
-              <p>
-                Local authority maintained schools and single academy trusts
-                <br />
-                Reserves are legally associated with one school and appear in
-                that school's graphs.
-              </p>
-              <p>
-                Local authority maintained schools
-                <br />
-                Reserves include committed and uncommitted revenue balance. They
-                also include the community-focused extended school revenue
-                balance.
-              </p>
-
-              <p>
-                Single academy trusts
-                <br />
-                This is calculated by:
+              <div>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+                  Local authority maintained schools and single academy trusts
+                </h3>
+                <p>
+                  Reserves are legally associated with one school and appear in
+                  that school's graphs.
+                </p>
+              </div>
+              <div>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+                  Local authority maintained schools
+                </h3>
+                <p>
+                  Reserves include committed and uncommitted revenue balance.
+                  They also include the community-focused extended school
+                  revenue balance.
+                </p>
+              </div>
+              <div>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+                  Single academy trusts
+                </h3>
+                <p className="govuk-!-margin-bottom-1">
+                  This is calculated by:
+                </p>
                 <ul className="govuk-list govuk-list--bullet">
                   <li>
                     carrying forward the closing balance (restricted and
@@ -125,21 +133,27 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
                   </li>
                   <li>subtracting total expenditure in the current year</li>
                 </ul>
-              </p>
-              <p>
-                Multi-academy trust
-                <br />
-                The trust is the legal entity and all revenue reserves legally
-                belong to it.
-              </p>
-              <p>
-                Single academies in multi-academy trusts (MATs)
-                <br />
-                We estimated a value per academy by dividing up and sharing out
-                the trust's reserves on a pro-rata basis. For this we used the
-                full-time equivalent (FTE) number of pupils in each academy in
-                that MAT.
-              </p>
+              </div>
+              <div>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+                  Multi-academy trust
+                </h3>
+                <p>
+                  The trust is the legal entity and all revenue reserves legally
+                  belong to it.
+                </p>
+              </div>
+              <div>
+                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+                  Single academies in multi-academy trusts (MATs)
+                </h3>
+                <p>
+                  We estimated a value per academy by dividing up and sharing
+                  out the trust's reserves on a pro-rata basis. For this we used
+                  the full-time equivalent (FTE) number of pupils in each
+                  academy in that MAT.
+                </p>
+              </div>
             </div>
           </details>
         </>
