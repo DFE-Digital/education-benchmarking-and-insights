@@ -22,9 +22,9 @@ public class LocalAuthorityCensusController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-               {
-                   code
-               }))
+        {
+            code
+        }))
         {
             try
             {

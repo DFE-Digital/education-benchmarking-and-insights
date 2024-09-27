@@ -109,13 +109,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, School[] schools)> SetupNavigateInitPage(params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
 
         Assert.NotNull(authority.Name);
-        var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(authority.Name, phaseType)).ToArray();
+        var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(phaseType)).ToArray();
 
         var page = await Client.SetupEstablishment(authority, schools)
             .SetupInsights()
@@ -124,16 +124,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, authority, schools);
     }
 
-    private School[] GenerateSchools(string localAuthorityName, string phaseType)
+    private LocalAuthoritySchool[] GenerateSchools(string phaseType)
     {
-        return Fixture.Build<School>()
-            .With(x => x.LAName, localAuthorityName)
+        return Fixture.Build<LocalAuthoritySchool>()
             .With(x => x.OverallPhase, phaseType)
             .CreateMany(10)
             .ToArray();
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, School[] schools)
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
@@ -166,11 +165,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             var contentElement = section.QuerySelector(".govuk-accordion__section-content");
             Assert.NotNull(contentElement);
 
-            AssertAccordionContent(contentElement, authority, schools, headingText);
+            AssertAccordionContent(contentElement, schools, headingText);
         }
     }
 
-    private static void AssertAccordionContent(IElement element, LocalAuthority authority, School[] schools, string expectedPhaseType)
+    private static void AssertAccordionContent(IElement element, LocalAuthoritySchool[] schools, string expectedPhaseType)
     {
         var expectedSchools = schools.Where(x => x.OverallPhase == expectedPhaseType);
 
@@ -183,7 +182,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             var schoolName = schoolElement.QuerySelector("a")?.TextContent;
             var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
             Assert.NotNull(school);
-            Assert.Equal(authority.Name, school.LAName);
             Assert.Equal(school.OverallPhase, expectedPhaseType);
         }
     }
