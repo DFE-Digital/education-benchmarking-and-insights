@@ -20,7 +20,7 @@ variables:
     ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: $[counter(variables['Version'], 0)]
     ${{ else }}:
-      value: 'pre'
+      value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
   - name: Version.Revision.Separator
     ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: '.'
