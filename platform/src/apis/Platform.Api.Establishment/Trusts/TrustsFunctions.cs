@@ -9,7 +9,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Platform.Api.Establishment.Schools;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
@@ -18,7 +17,6 @@ namespace Platform.Api.Establishment.Trusts;
 public class TrustsFunctions(
     ILogger<TrustsFunctions> logger,
     ITrustsService trustsService,
-    ISchoolsService schoolsService,
     IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleTrustAsync))]
@@ -49,14 +47,12 @@ public class TrustsFunctions(
         {
             try
             {
-                var trust = await trustsService.GetAsync(identifier);
-                if (trust == null)
+                var response = await trustsService.GetAsync(identifier);
+                if (response == null)
                 {
                     return req.CreateNotFoundResponse();
                 }
 
-                var schools = await schoolsService.QueryAsync(trust.CompanyNumber, null, null);
-                var response = TrustResponseFactory.Create(trust, schools);
                 return await req.CreateJsonResponseAsync(response);
             }
             catch (Exception e)

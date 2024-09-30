@@ -2,29 +2,38 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+using Platform.Api.Establishment.Schools;
 using Platform.Search;
 using Platform.Sql;
-
 namespace Platform.Api.Establishment.Trusts;
 
 public interface ITrustsService
 {
     Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null);
-    Task<Trust?> GetAsync(string companyNumber);
+    Task<TrustResponse?> GetAsync(string companyNumber);
 }
-
 
 [ExcludeFromCodeCoverage]
 public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseFactory dbFactory) : ITrustsService
 {
-    public async Task<Trust?> GetAsync(string companyNumber)
+    public async Task<TrustResponse?> GetAsync(string companyNumber)
     {
         const string sql = "SELECT * from Trust where CompanyNumber = @CompanyNumber";
-        var parameters = new { CompanyNumber = companyNumber };
+        var parameters = new
+        {
+            CompanyNumber = companyNumber
+        };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
+        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
+        if (trust is null)
+        {
+            return null;
+        }
+
+        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber";
+        var schools = await conn.QueryAsync<School>(schoolsSql, parameters);
+        return TrustResponseFactory.Create(trust, schools);
     }
 
     public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null)
@@ -35,7 +44,7 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
             nameof(Trust.TrustName)
         };
 
-        return searchConnection.SuggestAsync(request, CreateFilterExpression, selectFields: fields);
+        return searchConnection.SuggestAsync(request, CreateFilterExpression, fields);
 
         string? CreateFilterExpression()
         {
