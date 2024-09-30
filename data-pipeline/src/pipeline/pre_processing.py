@@ -407,6 +407,8 @@ def prepare_aar_data(aar_path, current_year: int):
         dtype=input_schemas.aar_academies,
     )
 
+    aar = aar[~aar["URN"].isna()]
+
     if (current_year < 2023) or (
         "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
     ):
@@ -514,6 +516,7 @@ def prepare_aar_data(aar_path, current_year: int):
         columns={
             "ACADEMYUPIN": "Academy UPIN",
             "Company_Number": "Company Registration Number",
+            "Company_Name": "Trust Name",
             "Date joined or opened if in period:": "Date joined or opened if in period",
             "Date left or closed if in period:": "Date left or closed if in period",
         }
@@ -546,8 +549,6 @@ def prepare_aar_data(aar_path, current_year: int):
     aar["PFI School"] = aar["Other costs_PFI charges"].map(mappings.map_is_pfi_school)
 
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
-
-    aar.drop(labels=["Company Registration Number"], axis=1, inplace=True)
 
     return aar.set_index("URN")
 
@@ -638,36 +639,44 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias_links, on="URN", how="left", rsuffix="_links", lsuffix="_school"
     ).sort_values(by="URN")
 
-    return schools[
-        (schools["Rank"] == 1) | (schools["Rank"].isna())
-    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
-
-
-def build_cfo_data(cfo_data_path):
-    cfo_data = pd.read_excel(
-        cfo_data_path,
+    return schools[(schools["Rank"] == 1) | (schools["Rank"].isna())].drop(
+        columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"]
     )
 
-    cfo_data.rename(
+
+def build_cfo_data(cfo_data_path) -> pd.DataFrame:
+    """
+    Read Chief Financial Officer (CFO) details.
+
+    Note: CFO details are at Trust level.
+
+    :param cfo_data_path: from which to read data
+    :return: cfo DataFrame
+    """
+    cfo_data = pd.read_excel(
+        cfo_data_path,
+        usecols=[
+            "Companies House Number",
+            "Title",
+            "Forename 1",
+            "Surname",
+            "Direct email address",
+        ],
+        dtype=str,
+    ).rename(
         columns={
-            "URN/UID": "URN",
-            "Establishment/Multi Academy Trust Name": "Trust Name",
             "Direct email address": "CFO email",
         },
-        inplace=True,
     )
 
     cfo_data["CFO name"] = (
         cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
     )
 
-    cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
-    return cfo_data.set_index("URN")
+    return cfo_data[["Companies House Number", "CFO name", "CFO email"]]
 
 
 def build_academy_data(
-    academy_data_path,
-    links_data_path,
     year,
     schools,
     census,
@@ -682,55 +691,27 @@ def build_academy_data(
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
     academy_year_end_date = datetime.date(year, 8, 30)
-    academies_list = pd.read_csv(
-        academy_data_path,
-        encoding="utf8",
-        index_col=input_schemas.academy_master_list_index_col,
-        dtype=input_schemas.academy_master_list,
-        usecols=input_schemas.academy_master_list.keys(),
-    )
 
-    academies_list.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
-    academies_list.rename(
+    aar.rename(
         columns={
-            "UKPRN": "Academy UKPRN",
             "Date joined or opened if in period:": "Date joined or opened if in period",
             "Date left or closed if in period:": "Date left or closed if in period",
         },
         inplace=True,
     )
 
-    group_links = pd.read_csv(
-        links_data_path,
-        encoding="cp1252",
-        index_col=input_schemas.groups_index_col,
-        usecols=input_schemas.groups.keys(),
-        dtype=input_schemas.groups,
-    )[["Group Type", "Group UID", "Group Name", "Companies House Number"]]
-
-    group_links = group_links[
-        group_links["Group Type"].isin(
-            ["Single-academy trust", "Multi-academy trust", "Trust"]
-        )
-    ]
-
-    # remove transitioned schools from academies_list
-    mask = (
-        academies_list.index.duplicated(keep=False) & ~academies_list["Valid to"].isna()
-    )
-
-    academies_list = academies_list[~mask]
-    academies_base = academies_list.merge(
-        schools.reset_index(), left_index=True, right_on="LA Establishment Number"
-    )
-
     academies = (
-        academies_base.merge(census, on="URN", how="left")
+        aar.reset_index()
+        .merge(schools, on="URN")
+        .merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
-        .merge(aar, on="URN", how="left", suffixes=("", "_aar"))
-        .merge(group_links, on="URN", how="inner")
-        .merge(cfo, on="URN", how="left")
+        .merge(
+            cfo,
+            left_on="Company Registration Number",
+            right_on="Companies House Number",
+            how="left",
+        )
     )
 
     if ks2 is not None:
@@ -739,15 +720,14 @@ def build_academy_data(
     if ks4 is not None:
         academies = academies.merge(ks4, on="URN", how="left")
 
-    academies.drop(academies.filter(regex="_aar$").columns, axis=1, inplace=True)
-
     academies["Total Internal Floor Area"] = academies[
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
 
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_phase_type(
-            df["TypeOfEstablishment (code)"], df["PhaseOfEducation (code)"], df["Type of Provision - Phase"]
+            establishment_code=df["TypeOfEstablishment (code)"],
+            phase_code=df["PhaseOfEducation (code)"],
         ),
         axis=1,
     )
@@ -756,7 +736,7 @@ def build_academy_data(
         lambda df: mappings.map_academy_status(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
             pd.to_datetime(df["Date left or closed if in period"], dayfirst=True),
-            pd.to_datetime(df["Valid to"]),
+            pd.to_datetime(df["Valid To"], dayfirst=True),
             pd.to_datetime(df["OpenDate"]),
             pd.to_datetime(df["CloseDate"]),
             pd.to_datetime(accounts_return_period_start_date),
@@ -776,29 +756,16 @@ def build_academy_data(
         axis=1,
     )
 
+    # TODO: remove; duplicate of `Overall Phase`, above?
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_phase_type(
-            df["TypeOfEstablishment (code)"], df["PhaseOfEducation (code)"], df["Type of Provision - Phase"]
+            establishment_code=df["TypeOfEstablishment (code)"],
+            phase_code=df["PhaseOfEducation (code)"],
         ),
         axis=1,
     )
 
     academies["Finance Type"] = "Academy"
-
-    academies.rename(
-        columns={
-            "URN_x": "URN",
-            "UKPRN_x": "UKPRN",
-            "LA (code)": "LA Code",
-            "LA (name)": "LA Name",
-            "Academy Trust Name": "Trust Name",
-            "Academy UKPRN": "Trust UKPRN",
-            "Academy Trust UPIN": "Trust UPIN",
-        }
-        | config.income_category_map["academies"]
-        | config.cost_category_map["academies"],
-        inplace=True,
-    )
 
     academies["OfstedLastInsp"] = pd.to_datetime(
         academies["OfstedLastInsp"], dayfirst=True
@@ -807,10 +774,17 @@ def build_academy_data(
     academies["Email"] = ""
     academies["HeadEmail"] = ""
 
+    academies = academies.merge(
+        central_services.reset_index(),
+        left_on="Company Registration Number",
+        right_on="Company_Number",
+        how="left",
+        suffixes=("", "_CS"),
+    )
+    academies.drop(columns=["Company_Number"], inplace=True)
+
     trust_basis_data = (
-        academies.sort_values(by="Trust UPIN")[
-            ["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]
-        ]
+        academies[["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]]
         .groupby(["Trust UPIN"])
         .sum()
         .rename(
@@ -822,16 +796,17 @@ def build_academy_data(
         )
     )
 
-    central_services = central_services.merge(
-        trust_basis_data, on="Trust UPIN", how="left"
-    )
+    academies = academies.merge(trust_basis_data, on="Trust UPIN", how="left")
 
-    academies = academies.merge(
-        central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
+    academies.rename(
+        columns={
+            "LA (code)": "LA Code",
+            "LA (name)": "LA Name",
+        },
+        inplace=True,
     )
 
     for category in config.rag_category_settings.keys():
-
         is_pupil_basis = (
             config.rag_category_settings[category]["type"] == "Pupil"
             if category in config.rag_category_settings
@@ -1063,8 +1038,12 @@ def build_maintained_school_data(
 
     # partial-year checks…
     maintained_schools = maintained_pipeline.map_has_financial_data(maintained_schools)
-    maintained_schools = maintained_pipeline.map_has_pupil_comparator_data(maintained_schools)
-    maintained_schools = maintained_pipeline.map_has_building_comparator_data(maintained_schools)
+    maintained_schools = maintained_pipeline.map_has_pupil_comparator_data(
+        maintained_schools
+    )
+    maintained_schools = maintained_pipeline.map_has_building_comparator_data(
+        maintained_schools
+    )
 
     # Applying federation mappings
     maintained_schools = maintained_pipeline.apply_federation_mapping(

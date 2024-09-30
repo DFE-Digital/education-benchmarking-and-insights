@@ -20,34 +20,33 @@ def test_ofsted_rating(rating, expected):
 
 
 @pytest.mark.parametrize(
-    "establishment_code,phase_code,provision,expected",
+    "phase_code,establishment_code,expected",
     [
-        (pd.NA, pd.NA, pd.NA, None),
-        (38, pd.NA, pd.NA, None),
-        (pd.NA, 7, pd.NA, None),
-        (pd.NA, 7, "16 plus", None),
-        (33, 0, "Special", "Special"),
-        (36, 0, "Primary", "Special"),
-        (44, 0, "Primary", "Special"),
-        (38, 0, "Primary", "Alternative Provision"),
-        (42, 0, "Primary", "Alternative Provision"),
-        (43, 0, "Primary", "Alternative Provision"),
-        (40, 0, "Secondary", "University Technical College"),
-        (39, 0, "Secondary", "Post-16"),
-        (45, 0, "Secondary", "Post-16"),
-        (46, 0, "Secondary", "Post-16"),
-        (47, 4, "Secondary", "Secondary"),
-        (47, 5, "Secondary", "Secondary"),
-        (47, 5, "Secondary", "Secondary"),
-        (47, 2, "Primary", "Primary"),
-        (47, 3, "Primary", "Primary"),
-        (47, 7, "All-through", "All-through"),
-        (47, 8, "16 plus", "Post-16"),
-        (47, 8, "post-16", "Post-16"),
+        (0, 6, "University Technical College"),
+        (0, 7, "Special"),
+        (0, 12, "Special"),
+        (0, 14, "Pupil Referral Unit"),
+        (0, 33, "Special"),
+        (0, 36, "Special"),
+        (0, 38, "Alternative Provision"),
+        (0, 42, "Alternative Provision"),
+        (0, 43, "Alternative Provision"),
+        (0, 44, "Special"),
+        (0, 1_000, "Unknown"),
+        (1, 1_000, "Nursery"),
+        (2, 1_000, "Primary"),
+        (3, 1_000, "Primary"),
+        (4, 40, "University Technical College"),
+        (4, 1_000, "Secondary"),
+        (5, 40, "University Technical College"),
+        (5, 1_000, "Secondary"),
+        (6, 1_000, "Post-16"),
+        (7, 1_000, "All-through"),
+        (8, 1_000, "Unknown"),
     ],
 )
-def test_map_academy_phase_type(establishment_code, phase_code, provision, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, provision) == expected
+def test_map_phase_type(phase_code, establishment_code, expected):
+    assert mappings.map_phase_type(establishment_code, phase_code) == expected
 
 
 @pytest.mark.parametrize(
@@ -321,49 +320,6 @@ def test_map_pfi(pfi, expected):
 )
 def test_map_is_surplus_deficit(value, expected):
     assert mappings.map_is_surplus_deficit(value) == expected
-
-
-@pytest.mark.parametrize(
-    "establishment_code,phase_code,phase_type,expected",
-    [
-        (33, 0, pd.NA, None),
-        (33, 0, "Primary", "Special"),
-        (36, 0, "Primary", "Special"),
-        (44, 0, "Primary", "Special"),
-        (38, 0, "Primary", "Alternative Provision"),
-        (42, 0, "Primary", "Alternative Provision"),
-        (43, 0, "Primary", "Alternative Provision"),
-        (0, 0, "Primary", "Primary"),
-        (33, 0, "Secondary", "Special"),
-        (36, 0, "Secondary", "Special"),
-        (44, 0, "Secondary", "Special"),
-        (38, 0, "Secondary", "Alternative Provision"),
-        (42, 0, "Secondary", "Alternative Provision"),
-        (43, 0, "Secondary", "Alternative Provision"),
-        (40, 0, "Secondary", "University Technical College"),
-        (0, 0, "Secondary", "Secondary"),
-        (33, 0, "All-through", "Special"),
-        (36, 0, "All-through", "Special"),
-        (44, 0, "All-through", "Special"),
-        (38, 0, "All-through", "Alternative Provision"),
-        (42, 0, "All-through", "Alternative Provision"),
-        (43, 0, "All-through", "Alternative Provision"),
-        (40, 0, "All-through", "University Technical College"),
-        (0, 0, "All-through", "All-through"),
-        (33, 0, "All through", "Special"),
-        (36, 0, "All through", "Special"),
-        (44, 0, "All through", "Special"),
-        (38, 0, "All through", "Alternative Provision"),
-        (42, 0, "All through", "Alternative Provision"),
-        (43, 0, "All through", "Alternative Provision"),
-        (40, 0, "All through", "University Technical College"),
-        (0, 0, "All through", "All-through"),
-        (0, 0, "16 Plus", "Post-16"),
-        (0, 0, "Other", "Other"),
-    ],
-)
-def test_map_school_phase_type(establishment_code, phase_code, phase_type: str, expected):
-    assert mappings.map_phase_type(establishment_code, phase_code, phase_type) == expected
 
 
 @pytest.mark.parametrize(

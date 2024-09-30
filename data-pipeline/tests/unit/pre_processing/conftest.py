@@ -233,6 +233,7 @@ def aar_data() -> pd.DataFrame:
             "BNCH21606 (Agency supply teaching staff)": [1000, 1001, 1002],
             "BNCH21403 (Energy)": [1000, 1001, 1002],
             "BNCH21402 (Water and sewerage)": [1000, 1001, 1002],
+            "Valid To": ["01/01/2022", "01/01/2022", "01/01/2022"],
         }
     )
 
@@ -242,6 +243,7 @@ def aar_central_services_data() -> pd.DataFrame:
     return pd.DataFrame(
         {
             "Lead_UPIN": [137157, 137157, 135112],
+            "Company_Number": ["1000", "10001", "1002"],
             "BNCH11110T (EFA Revenue Grants)": [1000, 1001, 1002],
             "BNCH11131 (DfE Family Revenue Grants)": [1000, 1001, 1002],
             "BNCH11141 (SEN)": [1000, 1001, 1002],

@@ -14,46 +14,47 @@ def map_ofsted_rating(rating: str):
             return rating
 
 
-def map_phase_type(establishment_code: int, phase_code: int, provision: str):
-
-    if (pd.isna(establishment_code) or pd.isna(phase_code) or pd.isna(provision)):
-        return
-    
+def _map_secondary_phases(establishment_code: int) -> str:
     match establishment_code:
-        case 33 | 36 | 44:
-            return "Special"
-        case 38 | 42 | 43:
-            return "Alternative Provision"
         case 40:
             return "University Technical College"
-        case 39 | 45 | 46:
-            return "Post-16"
+        case _:
+            return "Secondary"
 
+
+def _map_not_applicable_phases(establishment_code: int) -> str:
+    match establishment_code:
+        case 6:
+            return "University Technical College"
+        case 7 | 12 | 33 | 36 | 44:
+            return "Special"
+        case 14:
+            return "Pupil Referral Unit"
+        case 38 | 42 | 43:
+            return "Alternative Provision"
+        case _:
+            return "Unknown"
+
+
+def map_phase_type(
+    establishment_code: int,
+    phase_code: int,
+) -> str:
     match phase_code:
-        case 7:
-            return "All-through"
+        case 0:
+            return _map_not_applicable_phases(establishment_code)
+        case 1:
+            return "Nursery"
         case 2 | 3:
             return "Primary"
         case 4 | 5:
-            return "Secondary"
-
-    match provision.lower():
-        case "16 plus" | "post-16":
+            return _map_secondary_phases(establishment_code)
+        case 6:
             return "Post-16"
-        case "secondary":
-            return "Secondary"
-        case "special":
-            return "Special"
-        case "primary":
-            return "Primary"
-        case "all through" | "all-through":
+        case 7:
             return "All-through"
-        case "nursery":
-            return "Nursery"
-        case "pupil referral unit":
-            return "Pupil Referral Unit"
         case _:
-            return "Other"
+            return "Unknown"
 
 
 def map_block_age(block_age: str):
@@ -236,8 +237,8 @@ def map_cost_series(category_name, df, basis):
 
     for sub_category in sub_categories:
         df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis
-        df[sub_category + "_Per Unit"].replace(
-            [np.inf, -np.inf, np.nan], 0, inplace=True
+        df[sub_category + "_Per Unit"] = df[sub_category + "_Per Unit"].replace(
+            [np.inf, -np.inf, np.nan], 0
         )
 
     return df

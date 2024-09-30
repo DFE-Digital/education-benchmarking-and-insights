@@ -1,7 +1,8 @@
-import pandas as pd
-import pytest
+import io
 
-from src.pipeline.config import income_category_map
+import pandas as pd
+
+from src.pipeline import pre_processing
 
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
@@ -9,6 +10,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "LA",
         "Estab",
         "Academy UPIN",
+        "Company Registration Number",
         "Date joined or opened if in period",
         "Date left or closed if in period",
         "BNCH11110T (EFA Revenue Grants)",
@@ -39,8 +41,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Non-educational support staff and services_Administrative and clerical staff",
         "Non-educational support staff and services_Other staff",
         "Revenue reserve",
-        "Non-educational support staff and services_Professional services "
-        "(non-curriculum)",
+        "Non-educational support staff and services_Professional services (non-curriculum)",
         "Non-educational support staff and services_Audit cost",
         "Premises staff and services_Maintenance of premises",
         "Other costs_Grounds maintenance",
@@ -63,6 +64,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Teaching and Teaching support staff_Agency supply teaching staff",
         "Utilities_Energy",
         "Utilities_Water and sewerage",
+        "Valid To",
         "In year balance",
         "Income_Total grant funding",
         "Income_Total self generated funding",
@@ -95,3 +97,17 @@ def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert prepared_aar_data["Financial Position"].loc[100153] == "Deficit"
+
+
+def test_empty_lines_stripped(aar_data: pd.DataFrame):
+    empty_line = ",".join("" for _ in range(len(aar_data.columns)))
+    empty_lines = "\n".join(empty_line for _ in range(1_000))
+    csv_with_empty_lines = aar_data.to_csv() + empty_lines
+
+    result = pre_processing.prepare_aar_data(
+        aar_path=io.StringIO(csv_with_empty_lines),
+        current_year=2022,
+    )
+
+    assert len(csv_with_empty_lines.splitlines()) > len(aar_data.index)
+    assert len(result.index) == len(aar_data.index)
