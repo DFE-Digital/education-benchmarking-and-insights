@@ -3,12 +3,11 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
-using Web.App.Domain;
-using Xunit;
-using Web.App;
-using Web.App.Extensions;
 using Newtonsoft.Json;
-
+using Web.App;
+using Web.App.Domain;
+using Web.App.Extensions;
+using Xunit;
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -62,13 +61,11 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         var trust = Fixture.Build<Trust>()
             .Create();
 
-        var primarySchools = Fixture.Build<School>()
-            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
+        var primarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .CreateMany(9);
 
-        var secondarySchools = Fixture.Build<School>()
-            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
+        var secondarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
             .CreateMany(11);
 

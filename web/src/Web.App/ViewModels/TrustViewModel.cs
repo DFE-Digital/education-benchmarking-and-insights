@@ -5,21 +5,12 @@ public class TrustViewModel(Trust trust)
 {
     public TrustViewModel(
         Trust trust,
-        IReadOnlyCollection<School> schools)
-        : this(trust)
-    {
-        Schools = schools;
-    }
-
-    public TrustViewModel(
-        Trust trust,
         TrustBalance balance,
-        IReadOnlyCollection<School> schools,
         IEnumerable<RagRating> ratings,
         bool? comparatorReverted = false)
         : this(trust)
     {
-        NumberSchools = schools.Count;
+        NumberSchools = Schools.Count();
         RevenueReserve = balance.RevenueReserve;
         InYearBalance = balance.InYearBalance;
         ComparatorReverted = comparatorReverted;
@@ -44,7 +35,7 @@ public class TrustViewModel(Trust trust)
             .ThenByDescending(o => o.AmberRatio)
             .ThenBy(o => o.Category);
 
-        GroupedSchools = schools
+        GroupedSchools = Schools
             .GroupBy(x => x.OverallPhase)
             .Select(x => (
                 OverallPhase: x.Key,
@@ -72,7 +63,7 @@ public class TrustViewModel(Trust trust)
     public int Low { get; }
     public int Medium { get; }
     public int High { get; }
-    public IEnumerable<School> Schools { get; } = [];
+    public IEnumerable<TrustSchool> Schools => trust.Schools;
     public IEnumerable<RagCostCategoryViewModel> Ratings { get; } = [];
 
     public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchools

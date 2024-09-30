@@ -101,16 +101,15 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(page, Paths.TrustSpending(companyName, [], []).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, RagRating[] ratings, School[] schools)> SetupNavigateInitPage(string[]? categories = null, string[]? priorities = null)
+    private async Task<(IHtmlDocument page, Trust trust, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage(string[]? categories = null, string[]? priorities = null)
     {
         var random = new Random();
 
         var trust = Fixture.Build<Trust>()
             .Create();
 
-        var schools = Fixture.Build<School>()
+        var schools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
-            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .CreateMany(20).ToArray();
 
         var ratings = Fixture.Build<RagRating>()
@@ -134,7 +133,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         return (page, trust, ratings, schools);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, RagRating[] ratings, School[] schools, string[] categories, string[] priorities)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, RagRating[] ratings, TrustSchool[] schools, string[] categories, string[] priorities)
     {
         DocumentAssert.AssertPageUrl(page, Paths.TrustSpending(trust.CompanyNumber, categories, priorities).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
@@ -196,7 +195,11 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
                 var school = schools.Single(s => s.SchoolName == name);
                 var rating = ratings.Where(r => r.URN == school.URN);
                 Assert.Contains(value, rating.Select(r => r.Value));
-                Assert.Contains(units, new[] { "per pupil", "per square metre" });
+                Assert.Contains(units, new[]
+                {
+                    "per pupil",
+                    "per square metre"
+                });
 
                 rowCount++;
             }

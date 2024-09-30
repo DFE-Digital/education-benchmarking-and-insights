@@ -86,20 +86,21 @@ public class GivenATrustViewModel
         Assert.Equal(expected, actual);
     }
 
-    private (TrustViewModel, List<School> schools) BuildViewModelForOverallPhase(params string[] overallPhases)
+    private (TrustViewModel, TrustSchool[] schools) BuildViewModelForOverallPhase(params string[] overallPhases)
     {
         var random = new Random();
         var schools = _fixture
-            .Build<School>()
+            .Build<TrustSchool>()
             .With(s => s.OverallPhase, () => overallPhases.ElementAt(random.Next(overallPhases.Length)))
             .CreateMany()
-            .ToList();
+            .ToArray();
 
         var ratings = schools.Select(s => new RagRating
         {
             URN = s.URN
         });
 
-        return (new TrustViewModel(_trust, _balance, schools, ratings), schools);
+        _trust.Schools = schools;
+        return (new TrustViewModel(_trust, _balance, ratings), schools);
     }
 }
