@@ -1,4 +1,4 @@
-# Data Processing
+# Processing
 
 The data processing pipeline has the following key stages: 
 
