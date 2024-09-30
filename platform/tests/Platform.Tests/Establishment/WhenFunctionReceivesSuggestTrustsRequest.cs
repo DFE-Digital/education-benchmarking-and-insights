@@ -4,7 +4,6 @@ using Moq;
 using Platform.Api.Establishment.Trusts;
 using Platform.Functions;
 using Platform.Search;
-using Platform.Tests.Extensions;
 using Xunit;
 namespace Platform.Tests.Establishment;
 
@@ -13,7 +12,7 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Service
+        TrustsService
             .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
             .ReturnsAsync(new SuggestResponse<Trust>());
 
