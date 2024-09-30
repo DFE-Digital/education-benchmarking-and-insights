@@ -9,18 +9,23 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Platform.Api.Establishment.Schools;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
 namespace Platform.Api.Establishment.Trusts;
 
-public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service, IValidator<SuggestRequest> validator)
+public class TrustsFunctions(
+    ILogger<TrustsFunctions> logger,
+    ITrustsService trustsService,
+    ISchoolsService schoolsService,
+    IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleTrustAsync))]
     [OpenApiOperation(nameof(SingleTrustAsync), "Trusts")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Trust))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SingleTrustAsync(
@@ -44,11 +49,15 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
         {
             try
             {
-                var response = await service.GetAsync(identifier);
+                var trust = await trustsService.GetAsync(identifier);
+                if (trust == null)
+                {
+                    return req.CreateNotFoundResponse();
+                }
 
-                return response == null
-                    ? req.CreateNotFoundResponse()
-                    : await req.CreateJsonResponseAsync(response);
+                var schools = await schoolsService.QueryAsync(trust.CompanyNumber, null, null);
+                var response = TrustResponseFactory.Create(trust, schools);
+                return await req.CreateJsonResponseAsync(response);
             }
             catch (Exception e)
             {
@@ -67,8 +76,7 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SuggestTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -93,7 +101,7 @@ public class TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService ser
                 }
 
                 var numbers = req.Query["companyNumbers"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var trusts = await service.SuggestAsync(body, numbers);
+                var trusts = await trustsService.SuggestAsync(body, numbers);
                 return await req.CreateJsonResponseAsync(trusts);
             }
             catch (Exception e)

@@ -7,7 +7,6 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Search;
 using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -27,7 +26,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Given("an invalid trust request with id '(.*)'")]
-    private void GivenAnInvalidValidTrustRequestWithId(string id)
+    private void GivenAnInvalidTrustRequestWithId(string id)
     {
         api.CreateRequest(RequestKey, new HttpRequestMessage
         {
@@ -37,9 +36,14 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Given("a valid trust suggest request with searchText '(.*)")]
-    private void GivenAValidTrustsSuggestRequest(string searchText)
+    private void GivenAValidTrustSuggestRequestWithSearchText(string searchText)
     {
-        var content = new { SearchText = searchText, Size = 5, SuggesterName = "trust-suggester" };
+        var content = new
+        {
+            SearchText = searchText,
+            Size = 5,
+            SuggesterName = "trust-suggester"
+        };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
@@ -50,9 +54,12 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Given("an invalid trust suggest request")]
-    private void GivenAnInvalidTrustsSuggestRequest()
+    private void GivenAnInvalidTrustSuggestRequest()
     {
-        var content = new { Size = 0 };
+        var content = new
+        {
+            Size = 0
+        };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
@@ -63,13 +70,13 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [When("I submit the trust request")]
-    private async Task WhenISubmitTheTrustsRequest()
+    private async Task WhenISubmitTheTrustRequest()
     {
         await api.Send();
     }
 
     [Then("the trust result should be ok and have the following values:")]
-    private async Task ThenTheTrustResultShouldHaveValues(Table table)
+    private async Task ThenTheTrustResultShouldBeOkAndHaveTheFollowingValues(Table table)
     {
         var response = api[RequestKey].Response;
 
@@ -77,9 +84,29 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<Trust>();
+        var result = content.FromJson<TrustResponse>();
 
         table.CompareToInstance(result);
+    }
+
+    [Then("the trust result should contain the following schools:")]
+    private async Task ThenTheTrustResultShouldContainTheFollowingSchools(Table table)
+    {
+        var response = api[RequestKey].Response;
+
+        response.Should().NotBeNull();
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<TrustResponse>();
+
+        var set = result.Schools.Select(s => new
+        {
+            s.URN,
+            s.SchoolName,
+            s.OverallPhase
+        }).ToList();
+
+        table.CompareToSet(set);
     }
 
     [Then("the trust result should be not found")]
@@ -92,7 +119,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be ok and have the following values:")]
-    private async Task ThenTheTrustsSuggestResultShouldShouldHaveValues(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingValues(Table table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -115,7 +142,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be ok and have the following multiple values:")]
-    private async Task ThenTheTrustsSuggestResultShouldHaveMultipleValues(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(Table table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -136,7 +163,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be empty")]
-    private async Task ThenTheTrustsSuggestResultShouldBeEmpty()
+    private async Task ThenTheTrustSuggestResultShouldBeEmpty()
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -150,7 +177,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be bad request and have the following validation errors:")]
-    private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(Table table)
     {
         var response = api[SuggestRequestKey].Response;
 
