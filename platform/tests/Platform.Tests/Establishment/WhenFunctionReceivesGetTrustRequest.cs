@@ -1,7 +1,6 @@
 using System.Net;
 using AutoFixture;
 using Moq;
-using Platform.Api.Establishment.Schools;
 using Platform.Api.Establishment.Trusts;
 using Xunit;
 namespace Platform.Tests.Establishment;
@@ -9,20 +8,21 @@ namespace Platform.Tests.Establishment;
 public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
 {
     private readonly string _companyNumber;
-    private readonly IEnumerable<School> _schools;
-    private readonly Trust _trust;
+    private readonly TrustResponse _trust;
 
     public WhenFunctionReceivesGetTrustRequest()
     {
         var fixture = new Fixture();
         _companyNumber = fixture.Create<string>();
+        var schools = fixture
+            .Build<TrustSchoolModel>()
+            .CreateMany(10)
+            .ToArray();
         _trust = fixture
-            .Build<Trust>()
+            .Build<TrustResponse>()
             .With(l => l.CompanyNumber, _companyNumber)
+            .With(l => l.Schools, schools)
             .Create();
-        _schools = fixture
-            .Build<School>()
-            .CreateMany(10);
     }
 
     [Fact]
@@ -31,9 +31,6 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
         TrustsService
             .Setup(d => d.GetAsync(_companyNumber))
             .ReturnsAsync(_trust);
-        SchoolsService
-            .Setup(s => s.QueryAsync(_companyNumber, null, null))
-            .ReturnsAsync(_schools);
 
         var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), _companyNumber);
 
@@ -50,7 +47,7 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     {
         TrustsService
             .Setup(d => d.GetAsync(_companyNumber))
-            .ReturnsAsync((Trust?)null);
+            .ReturnsAsync((TrustResponse?)null);
 
         var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), _companyNumber);
 

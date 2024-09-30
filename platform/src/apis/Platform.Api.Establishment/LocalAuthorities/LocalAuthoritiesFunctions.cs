@@ -9,7 +9,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Platform.Api.Establishment.Schools;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
@@ -18,7 +17,6 @@ namespace Platform.Api.Establishment.LocalAuthorities;
 public class LocalAuthoritiesFunctions(
     ILogger<LocalAuthoritiesFunctions> logger,
     ILocalAuthoritiesService localAuthoritiesService,
-    ISchoolsService schoolsService,
     IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleLocalAuthorityAsync))]
@@ -49,14 +47,12 @@ public class LocalAuthoritiesFunctions(
         {
             try
             {
-                var localAuthority = await localAuthoritiesService.GetAsync(identifier);
-                if (localAuthority == null)
+                var response = await localAuthoritiesService.GetAsync(identifier);
+                if (response == null)
                 {
                     return req.CreateNotFoundResponse();
                 }
 
-                var schools = await schoolsService.QueryAsync(null, localAuthority.Code, null);
-                var response = LocalAuthorityResponseFactory.Create(localAuthority, schools);
                 return await req.CreateJsonResponseAsync(response);
             }
             catch (Exception e)

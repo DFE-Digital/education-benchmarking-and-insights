@@ -2,27 +2,27 @@ using System.Net;
 using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.LocalAuthorities;
-using Platform.Api.Establishment.Schools;
 using Xunit;
 namespace Platform.Tests.Establishment;
 
 public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunctionsTestBase
 {
     private readonly string _laCode;
-    private readonly LocalAuthority _localAuthority;
-    private readonly IEnumerable<School> _schools;
+    private readonly LocalAuthorityResponse _localAuthority;
 
     public WhenFunctionReceivesGetLocalAuthorityRequest()
     {
         var fixture = new Fixture();
         _laCode = fixture.Create<string>();
+        var schools = fixture
+            .Build<LocalAuthoritySchoolModel>()
+            .CreateMany(10)
+            .ToArray();
         _localAuthority = fixture
-            .Build<LocalAuthority>()
+            .Build<LocalAuthorityResponse>()
             .With(l => l.Code, _laCode)
+            .With(l => l.Schools, schools)
             .Create();
-        _schools = fixture
-            .Build<School>()
-            .CreateMany(10);
     }
 
     [Fact]
@@ -31,9 +31,6 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
         LocalAuthoritiesService
             .Setup(d => d.GetAsync(_laCode))
             .ReturnsAsync(_localAuthority);
-        SchoolsService
-            .Setup(s => s.QueryAsync(null, _laCode, null))
-            .ReturnsAsync(_schools);
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), _laCode);
 
@@ -50,7 +47,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     {
         LocalAuthoritiesService
             .Setup(d => d.GetAsync(_laCode))
-            .ReturnsAsync((LocalAuthority?)null);
+            .ReturnsAsync((LocalAuthorityResponse?)null);
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), _laCode);
 
