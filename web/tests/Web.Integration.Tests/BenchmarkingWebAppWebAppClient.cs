@@ -140,16 +140,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(Trust trust, School[] schools)
+    public BenchmarkingWebAppClient SetupEstablishment(Trust trust, TrustSchool[] schools)
     {
         EstablishmentApi.Reset();
+        trust.Schools = schools;
         EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
-        EstablishmentApi
-            .Setup(api =>
-                api.QuerySchools(It.Is<ApiQuery>(x =>
-                    x.Any(q => q.Key == "companyNumber" && q.Value == trust.CompanyNumber))))
-            .ReturnsAsync(ApiResult.Ok(schools));
-
         return this;
     }
 
@@ -286,7 +281,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         BalanceApi.Reset();
 
-        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance { PeriodCoveredByReturn = 12 }));
+        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance
+        {
+            PeriodCoveredByReturn = 12
+        }));
 
         return this;
     }
@@ -322,7 +320,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ExpenditureApi.Reset();
         ExpenditureApi
             .Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure { PeriodCoveredByReturn = 12 }));
+            .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure
+            {
+                PeriodCoveredByReturn = 12
+            }));
         return this;
     }
 

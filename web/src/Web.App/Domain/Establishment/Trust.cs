@@ -10,4 +10,6 @@ public record Trust
     public string? CFOName { get; set; }
     public string? CFOEmail { get; set; }
     public DateTime? OpenDate { get; set; }
+
+    public TrustSchool[] Schools { get; set; } = [];
 }

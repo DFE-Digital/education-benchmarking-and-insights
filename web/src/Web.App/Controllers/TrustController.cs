@@ -37,10 +37,9 @@ public class TrustController(
 
                 var trust = await Trust(companyNumber);
                 var balance = await TrustBalance(companyNumber);
-                var schools = await TrustSchools(companyNumber);
-                var ratings = await RagRatings(schools);
+                var ratings = await RagRatings(trust.Schools);
 
-                var viewModel = new TrustViewModel(trust, balance, schools, ratings, comparatorReverted);
+                var viewModel = new TrustViewModel(trust, balance, ratings, comparatorReverted);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -66,9 +65,7 @@ public class TrustController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(companyNumber);
 
                 var trust = await Trust(companyNumber);
-                var schools = await TrustSchools(companyNumber);
-
-                var viewModel = new TrustViewModel(trust, schools);
+                var viewModel = new TrustViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -133,7 +130,7 @@ public class TrustController(
         }
     }
 
-    private static ApiQuery BuildQuery(School[] schools)
+    private static ApiQuery BuildQuery(TrustSchool[] schools)
     {
         var query = new ApiQuery();
         foreach (var school in schools)
@@ -144,17 +141,13 @@ public class TrustController(
         return query;
     }
 
-    private async Task<RagRating[]> RagRatings(School[] schools) => await metricRagRatingApi
+    private async Task<RagRating[]> RagRatings(TrustSchool[] schools) => await metricRagRatingApi
         .GetDefaultAsync(BuildQuery(schools))
         .GetResultOrThrow<RagRating[]>();
 
     private async Task<TrustBalance> TrustBalance(string companyNumber) => await balanceApi
         .Trust(companyNumber)
         .GetResultOrThrow<TrustBalance>();
-
-    private async Task<School[]> TrustSchools(string companyNumber) => await establishmentApi
-        .QuerySchools(new ApiQuery().AddIfNotNull("companyNumber", companyNumber))
-        .GetResultOrDefault<School[]>() ?? [];
 
     private async Task<Trust> Trust(string companyNumber) => await establishmentApi
         .GetTrust(companyNumber)

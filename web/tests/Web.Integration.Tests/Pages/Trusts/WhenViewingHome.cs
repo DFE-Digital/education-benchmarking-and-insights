@@ -69,16 +69,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.TrustHome(companyName).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, RagRating[] ratings, School[] schools)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage()
     {
         var random = new Random();
 
         var trust = Fixture.Build<Trust>()
             .Create();
 
-        var schools = Fixture.Build<School>()
+        var schools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
-            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .CreateMany(20).ToArray();
 
         var values = AllCostCategories.Where(k => k.Key != 9).Select(c => c.Value);
@@ -114,7 +113,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, trust, ratings, schools);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, RagRating[] ratings, School[] schools)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, RagRating[] ratings, TrustSchool[] schools)
     {
         var expectedBreadcrumbs = new[]
         {

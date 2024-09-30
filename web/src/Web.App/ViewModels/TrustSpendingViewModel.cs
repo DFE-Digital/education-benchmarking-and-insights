@@ -3,14 +3,13 @@ namespace Web.App.ViewModels;
 
 public class TrustSpendingViewModel(
     Trust trust,
-    IReadOnlyCollection<School> schools,
     IEnumerable<RagRating> ratings,
     string[]? categories,
     string[]? priorities)
 {
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
-    public int NumberSchools => schools.Count;
+    public int NumberSchools => trust.Schools.Length;
 
     public string[] CostCategories => (categories ?? [])
         .Where(c => !string.IsNullOrWhiteSpace(c))
@@ -50,7 +49,7 @@ public class TrustSpendingViewModel(
 
     private IEnumerable<RagSchoolSpendingSchoolViewModel> SelectSchools(IGrouping<string?, RagRating> grouping)
     {
-        return grouping.SelectMany(g => schools
+        return grouping.SelectMany(g => trust.Schools
                 .Where(s => s.URN == g.URN)
                 .Select(s => new RagSchoolSpendingSchoolViewModel(s, g)))
             .OrderByDescending(s => s.Value);
@@ -89,7 +88,7 @@ public class RagSchoolsSpendingCategoryViewModel(string? category, IEnumerable<R
     public IEnumerable<RagSchoolSpendingSchoolViewModel> Schools => schools;
 }
 
-public class RagSchoolSpendingSchoolViewModel(School? school, RagRating? rating)
+public class RagSchoolSpendingSchoolViewModel(TrustSchool? school, RagRating? rating)
 {
     public string? Urn => school?.URN;
     public string? Name => school?.SchoolName;

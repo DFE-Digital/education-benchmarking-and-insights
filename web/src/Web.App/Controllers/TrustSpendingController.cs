@@ -39,11 +39,8 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                 }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
-                var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
-
                 var schoolsQuery = new ApiQuery();
-                foreach (var school in schools)
+                foreach (var school in trust.Schools)
                 {
                     schoolsQuery.AddIfNotNull("urns", school.URN);
                 }
@@ -80,7 +77,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                 }
 
                 var ratings = await metricRagRatingApi.GetDefaultAsync(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustSpendingViewModel(trust, schools, ratings, categories, priorities);
+                var viewModel = new TrustSpendingViewModel(trust, ratings, categories, priorities);
 
                 return View(viewModel);
             }

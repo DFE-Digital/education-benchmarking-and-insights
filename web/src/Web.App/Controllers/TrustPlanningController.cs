@@ -33,13 +33,10 @@ public class TrustPlanningController(
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustPlanning(companyNumber);
+
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
-                var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
-
-                var plans = await financialPlanService.List(schools.Select(x => x.URN).OfType<string>().ToArray());
-                var viewModel = new TrustPlanningViewModel(trust, schools, plans.ToArray());
-
+                var plans = await financialPlanService.List(trust.Schools.Select(x => x.URN).OfType<string>().ToArray());
+                var viewModel = new TrustPlanningViewModel(trust, plans.ToArray());
                 return View(viewModel);
             }
             catch (Exception e)

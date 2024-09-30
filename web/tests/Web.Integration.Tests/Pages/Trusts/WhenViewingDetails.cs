@@ -1,10 +1,8 @@
 ﻿using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -52,15 +50,13 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(companyName).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, School[] schools)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust, TrustSchool[] schools)> SetupNavigateInitPage()
     {
         var trust = Fixture.Build<Trust>()
             .Create();
 
-        var schools = Fixture.Build<School>()
-            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
+        var schools = Fixture.Build<TrustSchool>()
             .CreateMany(30).ToArray();
-
 
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupBalance(trust)
@@ -72,7 +68,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         return (page, trust, schools);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, School[] schools)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustSchool[] schools)
     {
         DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
@@ -92,7 +88,6 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
             var schoolName = schoolElement.QuerySelector("a")?.TextContent;
             var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
             Assert.NotNull(school);
-            Assert.Equal(trust.CompanyNumber, school.TrustCompanyNumber);
         }
     }
 }
