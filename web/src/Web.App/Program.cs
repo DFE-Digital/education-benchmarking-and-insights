@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
+using Web.App.Cache;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.HealthChecks;
@@ -57,6 +58,10 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
         "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
     options.ActiveLiTemplate = " ";
 });
+
+builder.Services.AddMemoryCache();
+
+builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("ReturnYearsCacheOptions"));
 
 builder.AddSessionService();
 

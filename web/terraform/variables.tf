@@ -20,6 +20,11 @@ variable "configuration" {
       ForecastRisk                  = bool
       TrustComparison               = bool
     })
+    returnYearsCacheOptions = object({
+        CacheKey                    = string
+        SlidingExpirationInSeconds  = number
+        AbsoluteExpirationInSeconds = number
+    })
   }))
   default = {
     development = {
@@ -38,6 +43,11 @@ variable "configuration" {
         ForecastRisk                  = true
         TrustComparison               = true
       }
+      returnYearsCacheOptions = {
+          CacheKey                    = "ReturnYearsCache"
+          SlidingExpirationInSeconds  = 60
+          AbsoluteExpirationInSeconds = 3600
+      }
     }
     automated-test = {
       sku_name               = "B1"
@@ -54,6 +64,11 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+      }
+      returnYearsCacheOptions = {
+        CacheKey                    = "ReturnYearsCache"
+        SlidingExpirationInSeconds  = 60
+        AbsoluteExpirationInSeconds = 3600
       }
     }
     test = {
@@ -72,6 +87,11 @@ variable "configuration" {
         ForecastRisk                  = true
         TrustComparison               = true
       }
+      returnYearsCacheOptions = {
+        CacheKey                    = "ReturnYearsCache"
+        SlidingExpirationInSeconds  = 60
+        AbsoluteExpirationInSeconds = 3600
+      }
     }
     feature = {
       sku_name               = "B1"
@@ -88,6 +108,11 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+      }
+      returnYearsCacheOptions = {
+        CacheKey                    = "ReturnYearsCache"
+        SlidingExpirationInSeconds  = 60
+        AbsoluteExpirationInSeconds = 3600
       }
     }
     pre-production = {
@@ -106,6 +131,11 @@ variable "configuration" {
         ForecastRisk                  = true
         TrustComparison               = true
       }
+      returnYearsCacheOptions = {
+        CacheKey                    = "ReturnYearsCache"
+        SlidingExpirationInSeconds  = 60
+        AbsoluteExpirationInSeconds = 3600
+      }
     }
     production = {
       sku_name               = "P1v3"
@@ -122,6 +152,11 @@ variable "configuration" {
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = true
         TrustComparison               = true
+      }
+      returnYearsCacheOptions = {
+        CacheKey                    = "ReturnYearsCache"
+        SlidingExpirationInSeconds  = 60
+        AbsoluteExpirationInSeconds = 3600
       }
     }
   }

@@ -63,39 +63,42 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
   }
 
   app_settings = {
-    "ASPNETCORE_ENVIRONMENT"                           = "Production"
-    "APPINSIGHTS_INSTRUMENTATIONKEY"                   = data.azurerm_application_insights.application-insights.instrumentation_key
-    "FeatureManagement__CurriculumFinancialPlanning"   = var.configuration[var.environment].features.CurriculumFinancialPlanning
-    "FeatureManagement__CustomData"                    = var.configuration[var.environment].features.CustomData
-    "FeatureManagement__Trusts"                        = var.configuration[var.environment].features.Trusts
-    "FeatureManagement__LocalAuthorities"              = var.configuration[var.environment].features.LocalAuthorities
-    "FeatureManagement__UserDefinedComparators"        = var.configuration[var.environment].features.UserDefinedComparators
-    "FeatureManagement__DisableOrganisationClaimCheck" = var.configuration[var.environment].features.DisableOrganisationClaimCheck
-    "FeatureManagement__ForecastRisk"                  = var.configuration[var.environment].features.ForecastRisk
-    "FeatureManagement__TrustComparison"               = var.configuration[var.environment].features.TrustComparison
-    "Apis__Insight__Url"                               = data.azurerm_key_vault_secret.insight-api-host.value
-    "Apis__Insight__Key"                               = data.azurerm_key_vault_secret.insight-api-key.value
-    "Apis__Establishment__Url"                         = data.azurerm_key_vault_secret.establishment-api-host.value
-    "Apis__Establishment__Key"                         = data.azurerm_key_vault_secret.establishment-api-key.value
-    "Apis__Benchmark__Url"                             = data.azurerm_key_vault_secret.benchmark-api-host.value
-    "Apis__Benchmark__Key"                             = data.azurerm_key_vault_secret.benchmark-api-key.value
-    "DFESignInSettings__APISecret"                     = var.dfe-signin.api-secret
-    "DFESignInSettings__APIUri"                        = var.dfe-signin.api-uri
-    "DFESignInSettings__Audience"                      = var.dfe-signin.audience
-    "DFESignInSettings__CallbackPath"                  = var.dfe-signin.callback-path
-    "DFESignInSettings__ClientID"                      = var.dfe-signin.client-id
-    "DFESignInSettings__ClientSecret"                  = var.dfe-signin.client-secret
-    "DFESignInSettings__Issuer"                        = var.dfe-signin.issuer
-    "DFESignInSettings__MetadataAddress"               = var.dfe-signin.metadata-address
-    "DFESignInSettings__SignedOutCallbackPath"         = var.dfe-signin.signed-out-callback-path
-    "DFESignInSettings__SignOutUri"                    = var.dfe-signin.sign-out-uri
-    "DFESignInSettings__SignInUri"                     = var.dfe-signin.sign-in-uri
-    "SessionData__Using"                               = "Cosmos"
-    "SessionData__Settings__ConnectionString"          = "AccountEndpoint=${azurerm_cosmosdb_account.session-cache-account.endpoint}"
-    "SessionData__Settings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name
-    "SessionData__Settings__DatabaseName"              = azurerm_cosmosdb_sql_database.session-cache-database.name
-    "Storage__ConnectionString"                        = azurerm_storage_account.data-source-storage.primary_connection_string
-    "Storage__ReturnsContainer"                        = azurerm_storage_container.return-container.name
+    "ASPNETCORE_ENVIRONMENT"                                = "Production"
+    "APPINSIGHTS_INSTRUMENTATIONKEY"                        = data.azurerm_application_insights.application-insights.instrumentation_key
+    "FeatureManagement__CurriculumFinancialPlanning"        = var.configuration[var.environment].features.CurriculumFinancialPlanning
+    "FeatureManagement__CustomData"                         = var.configuration[var.environment].features.CustomData
+    "FeatureManagement__Trusts"                             = var.configuration[var.environment].features.Trusts
+    "FeatureManagement__LocalAuthorities"                   = var.configuration[var.environment].features.LocalAuthorities
+    "FeatureManagement__UserDefinedComparators"             = var.configuration[var.environment].features.UserDefinedComparators
+    "FeatureManagement__DisableOrganisationClaimCheck"      = var.configuration[var.environment].features.DisableOrganisationClaimCheck
+    "FeatureManagement__ForecastRisk"                       = var.configuration[var.environment].features.ForecastRisk
+    "FeatureManagement__TrustComparison"                    = var.configuration[var.environment].features.TrustComparison
+    "Apis__Insight__Url"                                    = data.azurerm_key_vault_secret.insight-api-host.value
+    "Apis__Insight__Key"                                    = data.azurerm_key_vault_secret.insight-api-key.value
+    "Apis__Establishment__Url"                              = data.azurerm_key_vault_secret.establishment-api-host.value
+    "Apis__Establishment__Key"                              = data.azurerm_key_vault_secret.establishment-api-key.value
+    "Apis__Benchmark__Url"                                  = data.azurerm_key_vault_secret.benchmark-api-host.value
+    "Apis__Benchmark__Key"                                  = data.azurerm_key_vault_secret.benchmark-api-key.value
+    "DFESignInSettings__APISecret"                          = var.dfe-signin.api-secret
+    "DFESignInSettings__APIUri"                             = var.dfe-signin.api-uri
+    "DFESignInSettings__Audience"                           = var.dfe-signin.audience
+    "DFESignInSettings__CallbackPath"                       = var.dfe-signin.callback-path
+    "DFESignInSettings__ClientID"                           = var.dfe-signin.client-id
+    "DFESignInSettings__ClientSecret"                       = var.dfe-signin.client-secret
+    "DFESignInSettings__Issuer"                             = var.dfe-signin.issuer
+    "DFESignInSettings__MetadataAddress"                    = var.dfe-signin.metadata-address
+    "DFESignInSettings__SignedOutCallbackPath"              = var.dfe-signin.signed-out-callback-path
+    "DFESignInSettings__SignOutUri"                         = var.dfe-signin.sign-out-uri
+    "DFESignInSettings__SignInUri"                          = var.dfe-signin.sign-in-uri
+    "SessionData__Using"                                    = "Cosmos"
+    "SessionData__Settings__ConnectionString"               = "AccountEndpoint=${azurerm_cosmosdb_account.session-cache-account.endpoint}"
+    "SessionData__Settings__ContainerName"                  = azurerm_cosmosdb_sql_container.session-cache-container.name
+    "SessionData__Settings__DatabaseName"                   = azurerm_cosmosdb_sql_database.session-cache-database.name
+    "Storage__ConnectionString"                             = azurerm_storage_account.data-source-storage.primary_connection_string
+    "Storage__ReturnsContainer"                             = azurerm_storage_container.return-container.name
+    "ReturnYearsCacheOptions__CacheKey"                     = var.configuration[var.environment].CacheOptions.ReturnYearsCacheOptions.CacheKey
+    "ReturnYearsCacheOptions__SlidingExpirationInSeconds"   = var.configuration[var.environment].CacheOptions.ReturnYearsCacheOptions.SlidingExpirationInSeconds
+    "ReturnYearsCacheOptions__AbsoluteExpirationInSeconds"  = var.configuration[var.environment].CacheOptions.ReturnYearsCacheOptions.AbsoluteExpirationInSeconds
   }
   tags = local.common-tags
 }
