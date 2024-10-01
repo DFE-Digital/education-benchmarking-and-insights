@@ -810,12 +810,10 @@ def build_academy_data(
 
     academies = academies.merge(
         central_services.reset_index(),
-        left_on="Company Registration Number",
-        right_on="Company_Number",
+        on="Company Registration Number",
         how="left",
         suffixes=("", "_CS"),
     )
-    academies.drop(columns=["Company_Number"], inplace=True)
 
     trust_basis_data = (
         academies[["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]]
