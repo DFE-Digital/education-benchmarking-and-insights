@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.TagHelpers
 @using Web.App.ViewModels
@@ -8,7 +9,7 @@
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
-{ 
+{
     @await Html.PartialAsync("_IncompleteFinances")
 }
 
@@ -17,9 +18,12 @@
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
             @Html.TrackedAnchor(
-            TrackedLinks.ChangeOrganisation,
-            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School }) ?? "",
-            "Change school")
+                TrackedLinks.ChangeOrganisation,
+                Url.Action("Index", "FindOrganisation", new
+                {
+                    method = OrganisationTypes.School
+                }) ?? "",
+                "Change school")
         </p>
     </div>
 </div>
@@ -91,7 +95,17 @@
                                 {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
-                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — Spending is higher than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — Spending is
+                                @if (rating.RAG == "red" && Category.InvertRagValueCategories.Contains(rating.Category))
+                                {
+                                    @:lower than <strong>@((100 - rating.Percentile).ToPercent())</strong>
+                                }
+                                else
+                                {
+                                    @:higher than
+                                    <strong>@rating.Percentile.ToPercent()</strong>
+                                }
+                                of similar schools.
                             </p>
                         </div>
                     }
@@ -146,4 +160,3 @@
       initAll()
     </script>
 }
-
