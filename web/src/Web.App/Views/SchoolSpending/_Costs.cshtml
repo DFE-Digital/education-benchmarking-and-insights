@@ -42,17 +42,10 @@
                     {
                         rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText)
                     })
-                    Spending is
-                    @if (category.Rating.RAG == "red" && Category.InvertRagValueCategories.Contains(category.Rating.Category))
+                    @await Html.PartialAsync("_RagRatingCommentary", new RagRatingCommentaryViewModel
                     {
-                        @:lower than <strong>@((100 - category.Rating.Percentile).ToPercent())</strong>
-                    }
-                    else
-                    {
-                        @:higher than
-                        <strong>@category.Rating.Percentile.ToPercent()</strong>
-                    }
-                    of similar schools.
+                        Rating = category.Rating
+                    })
                 </p>
                 <div class="govuk-!-margin-bottom-2 composed-container"
                      data-spending-and-costs-composed

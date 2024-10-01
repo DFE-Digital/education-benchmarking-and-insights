@@ -64,3 +64,8 @@ public class CostsViewModel
     public bool HasIncompleteData { get; init; }
     public bool IsCustomData { get; set; }
 }
+
+public class RagRatingCommentaryViewModel
+{
+    public RagRating Rating { get; init; }
+}
