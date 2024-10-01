@@ -46,8 +46,8 @@ period of 5 minutes.
 |---------------|--------------------------------------------|-------------------|
 | Establishment | `POST /school/suggest`                     | 113 /s            |
 | Establishment | `GET /school/{identifier}`                 | 113 /s            |
+| Establishment | `POST /school/{identifier}/comparators`    | 113 /s            |
 | Benchmark     | `GET /user-data`                           | 113 /s            |
-| Benchmark     | `POST /comparators/schools`                | 113 /s            |
 | Benchmark     | `GET /comparator-set/school/{urn}/default` | 113 /s            |
 | Insights      | `GET /school/{urn}/characteristics`        | 158 /s            |
 | Insights      | `GET /expenditure/school/{urn}`            | 158 /s            |
@@ -80,6 +80,7 @@ period of 5 minutes.
 | Benchmark API - Get User Data              | 09/09/2024, 10:56:38 | 3       | 5m 46s   | 29 ms         | 0 %    | 117.58 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed36246a/testRunId/b2169cfc-f186-4452-8717-d64aed3624c5)     |
 | Benchmark API - Post Comparators           | 09/09/2024, 11:56:21 | 15      | 6m 1s    | 288 ms        | 0 %    | 63.48 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed362261/testRunId/8106563a-e2c5-4122-b99f-8ad3f847223c) 2️⃣ |
 | Benchmark API - Post Comparators           | 09/09/2024, 13:54:10 | 15      | 5m 59s   | 175 ms        | 0 %    | 113.88 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed362261/testRunId/38ee4183-2ba2-4fe8-88f4-1432024dc02f)     |
+| Establishment API - Post Comparators       | 30/09/2024, 16:11:19 | 15      | 6m 2s    | 184 ms        | 0 %    | 111.67 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed362261/testRunId/555c0673-d7f6-4d88-bff3-43ae26a8a4da) 3️⃣ |
 | Benchmark API - Get Default Comparator Set | 09/09/2024, 10:24:13 | 3       | 5m 43s   | 30 ms         | 0 %    | 112.40 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/b2169cfc-f186-4452-8717-d64aed36202c/testRunId/b2169cfc-f186-4452-8717-d64aed36204d)     |
 | Insight API - Get School Characteristics   | 09/09/2024, 13:03:41 | 4       | 5m 50s   | 40 ms         | 0 %    | 129.56 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/8106563a-e2c5-4122-b99f-8ad3f8472038/testRunId/8106563a-e2c5-4122-b99f-8ad3f8472616)     |
 | Insight API - Get School Expenditure       | 09/09/2024, 12:34:32 | 4       | 5m 45s   | 37 ms         | 0 %    | 136.90 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/8106563a-e2c5-4122-b99f-8ad3f8472165/testRunId/8106563a-e2c5-4122-b99f-8ad3f84725ec)     |
@@ -116,6 +117,8 @@ The source of this issue appears to be Azure Search, e.g.:
 ![Sample Transaction for Benchmark API - Sample Transaction](../images/peak-api-benchmark-comparators-002.png)
 
 The solution was to modify the Replicas for this resource as per [#1343](https://github.com/DFE-Digital/education-benchmarking-and-insights/pull/1343).
+
+3️⃣ Search (including comparator) endpoints were refactored before this additional run took place.
 
 <!-- Leave the rest of this page blank -->
 \newpage
