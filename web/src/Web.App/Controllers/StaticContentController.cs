@@ -53,4 +53,8 @@ public class StaticContentController : Controller
         ViewData[ViewDataKeys.UseJsBackLink] = true;
         return View();
     }
+
+    [HttpGet]
+    [Route("guidance/spending-and-costs")]
+    public IActionResult SpendingAndCosts() => View();
 }
