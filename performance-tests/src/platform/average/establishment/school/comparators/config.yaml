@@ -1,6 +1,6 @@
-displayName: Average_API_Benchmark - Comparators
+displayName: Average_API_Establishment - Comparators
 testPlan: url-test.json
-description: Average load test for POST /comparators/schools
+description: Average load test for POST /school/${identifier}/comparators
 engineInstances: 1
 testId: 8daea33b-ffae-41d5-8790-ae77a36f1033
 testType: URL
@@ -15,8 +15,8 @@ failureCriteria:
 - p99(response_time_ms) > 500
 - percentage(error) > 0.1
 secrets:
-- name: benchmark-host-key
-  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/benchmark-host-key
+- name: establishment-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/establishment-host-key
 autoStop:
   errorPercentage: 90
   timeWindow: 60

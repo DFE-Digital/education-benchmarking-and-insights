@@ -20,16 +20,16 @@ high demand and critical endpoints.
 **Average Load Phase:**
 
 For each endpoint simulate the typical number of concurrent virtual users to mimic average load conditions over a
-period of 5 minutes, with a spike held for 1 minute. 
+period of 5 minutes, with a spike held for 1 minute.
 
 **Monitoring Performance:**
 
 - Response Time
-    - Definition: The duration between sending a request to the API and receiving a response.
-    - Measurement: This will be produced as an output of the test run.
+  - Definition: The duration between sending a request to the API and receiving a response.
+  - Measurement: This will be produced as an output of the test run.
 - Error Percentage
-    - Definition: The percentage of API requests that result in an error response (5xx).
-    - Measurement: This will be produced as an output of the test run.
+  - Definition: The percentage of API requests that result in an error response (5xx).
+  - Measurement: This will be produced as an output of the test run.
 
 **APIs & Endpoints Under Test:**
 
@@ -37,8 +37,8 @@ period of 5 minutes, with a spike held for 1 minute.
 |---------------|--------------------------------------------|-----|
 | Establishment | `POST /school/suggest`                     | 2   |
 | Establishment | `GET /school/{identifier}`                 | 2   |
+| Establishment | `POST /school/{identifier}/comparators`    | 6   |
 | Benchmark     | `GET /user-data`                           | 2   |
-| Benchmark     | `POST /comparators/schools`                | 6   |
 | Benchmark     | `GET /comparator-set/school/{urn}/default` | 2   |
 | Insights      | `GET /school/{urn}/characteristics`        | 3   |
 | Insights      | `GET /expenditure/school/{urn}`            | 3   |
@@ -47,9 +47,9 @@ period of 5 minutes, with a spike held for 1 minute.
 ## Performance Success Criteria
 
 - Response Time:
-    - P75 below 200ms
-    - P95 below 300ms
-    - P99 below 500ms
+  - P75 below 200ms
+  - P95 below 300ms
+  - P99 below 500ms
 - Error Rate:  below 1%
 
 ## Test Execution

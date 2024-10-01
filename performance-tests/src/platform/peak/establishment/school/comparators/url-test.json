@@ -8,12 +8,12 @@
                     "responseVariables": [],
                     "queryParameters": [],
                     "requestType": "URL",
-                    "endpoint": "https://s198t01-ebis-benchmark-fa.azurewebsites.net/api/comparators/schools",
+                    "endpoint": "https://s198t01-ebis-establishment-fa.azurewebsites.net/api/school/${identifier}/comparators",
                     "headers": {
-                        "x-functions-key": "${benchmark-host-key}",
+                        "x-functions-key": "${establishment-host-key}",
                         "x-synthetic-source": "load-tests"
                     },
-                    "body": "{\r\n    \"target\": \"${identifier}\",\r\n    \"financeType\": {\r\n        \"values\": [\r\n            \"${financeType}\"\r\n        ]\r\n    },\r\n    \"overallPhase\": {\r\n        \"values\": [\r\n            \"${overallPhase}\"\r\n        ]\r\n    },\r\n    \"laName\": {\r\n        \"values\": [\r\n            \"${laName}\"\r\n        ]\r\n    }\r\n}",
+                    "body": "{\r\n    \"financeType\": {\r\n        \"values\": [\r\n            \"${financeType}\"\r\n        ]\r\n    },\r\n    \"overallPhase\": {\r\n        \"values\": [\r\n            \"${overallPhase}\"\r\n        ]\r\n    },\r\n    \"laName\": {\r\n        \"values\": [\r\n            \"${laName}\"\r\n        ]\r\n    }\r\n}",
                     "method": "POST",
                     "requestBodyFormat": "JSON"
                 }

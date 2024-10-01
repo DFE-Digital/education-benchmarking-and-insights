@@ -10,16 +10,16 @@ This document is designed to outline the current approach to performance testing
 |----------------------------------------------|-----|-----------------|-------------|
 | Average_API_Establishment - Suggest Schools  | 2   | 6               | 1           |
 | Average_API_Establishment - Schools          | 2   | 6               | 1           |
+| Average_API_Establishment - Comparators      | 6   | 6               | 1           |
 | Average_API_Benchmark - User Data            | 2   | 6               | 1           |
-| Average_API_Benchmark - Comparators          | 6   | 6               | 1           |
 | Average_API_Benchmark - Comparator Set       | 2   | 6               | 1           |
 | Average_API_Insight - School Expenditure     | 3   | 6               | 1           |
 | Average_API_Insight - School Characteristics | 3   | 6               | 1           |
 | Average_API_Insight - Default Metric RAG     | 3   | 6               | 1           |
 | Peak_API_Establishment - Suggest Schools     | 7   | 6               | 1           |
 | Peak_API_Establishment - School              | 3   | 6               | 1           |
+| Peak_API_Establishment - Comparators         | 15  | 6               | 1           |
 | Peak_API_Benchmark - User Data               | 3   | 6               | 1           |
-| Peak_API_Benchmark - Comparators             | 15  | 6               | 1           |
 | Peak_API_Benchmark - Comparator Set          | 3   | 6               | 1           |
 | Peak_API_Insight - School Characteristics    | 4   | 6               | 1           |
 | Peak_API_Insight - School Expenditure        | 4   | 6               | 1           |
@@ -44,8 +44,8 @@ This document is designed to outline the current approach to performance testing
 |--------------------------------------------|-----|------------------|-----------------|-------------------|
 | Spike_API_Establishment - Suggest Schools  | 2   | 10               | 6               | 1                 |
 | Spike_API_Establishment - Schools          | 2   | 10               | 6               | 1                 |
+| Spike_API_Establishment - Comparators      | 6   | 10               | 6               | 1                 |
 | Spike_API_Benchmark - User Data            | 2   | 10               | 6               | 1                 |
-| Spike_API_Benchmark - Comparators          | 6   | 10               | 6               | 1                 |
 | Spike_API_Benchmark - Comparator Set       | 2   | 10               | 6               | 1                 |
 | Spike_API_Insight - School Expenditure     | 3   | 10               | 6               | 1                 |
 | Spike_API_Insight - School Characteristics | 3   | 10               | 6               | 1                 |
