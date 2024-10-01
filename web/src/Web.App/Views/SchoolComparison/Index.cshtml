@@ -5,14 +5,19 @@
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
 {
-@await Html.PartialAsync("_IncompleteFinances")
+    @await Html.PartialAsync("_IncompleteFinances", new ViewDataDictionary(ViewData)
+    {
+        {
+            "IsComparator", true
+        }
+    })
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
-    title = ViewData[ViewDataKeys.Title], 
-    name = Model.Name, 
-    id = Model.Urn, 
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
     kind = OrganisationTypes.School
 })
 
@@ -20,27 +25,30 @@
 {
     organisationType = OrganisationTypes.School,
     sourceType = DataSourceTypes.Spending,
-    isPartOfTrust = Model.IsPartOfTrust, 
-    additionText = new[] { "Benchmark your spending against similar schools." }
+    isPartOfTrust = Model.IsPartOfTrust,
+    additionText = new[]
+    {
+        "Benchmark your spending against similar schools."
+    }
 })
 
 @await Component.InvokeAsync("ComparatorSetDetails", new
 {
-    identifier = Model.Urn, 
-    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
+    identifier = Model.Urn,
+    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId),
     hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
 })
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn">
-    
+
 </div>
 
 @await Component.InvokeAsync("SchoolFinanceTools", new
 {
-    identifier = Model.Urn, 
+    identifier = Model.Urn,
     tools = new[]
     {
-        FinanceTools.FinancialPlanning, 
+        FinanceTools.FinancialPlanning,
         FinanceTools.BenchmarkCensus
     }
 })

@@ -1,8 +1,7 @@
 import { PartYearDataWarningProps } from "./types";
 
-export function PartYearDataWarning({
-  periodCoveredByReturn,
-}: PartYearDataWarningProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function PartYearDataWarning(_props: PartYearDataWarningProps) {
   return (
     <div className="govuk-warning-text govuk-!-margin-0">
       <span className="govuk-warning-text__icon" aria-hidden="true">
@@ -10,8 +9,7 @@ export function PartYearDataWarning({
       </span>
       <strong className="govuk-warning-text__text">
         <span className="govuk-visually-hidden">Warning</span>
-        This school only has {periodCoveredByReturn}{" "}
-        {periodCoveredByReturn === 1 ? "month" : "months"} of data available.
+        Position in the comparator set is based on estimated 12 month spend
       </strong>
     </div>
   );
