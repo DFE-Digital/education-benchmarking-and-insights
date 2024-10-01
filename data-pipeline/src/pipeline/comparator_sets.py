@@ -417,7 +417,15 @@ def compute_distances(
                     distances=pupil_distances[idx],
                     include=include_pupils,
                 )
-                pupils.loc[urn] = top_pupil_set_urns
+                # note: single-element arrays are unpacked; in this
+                # case, do not produce a comparator-set.
+                if len(top_pupil_set_urns) == 1:
+                    logger.warning(
+                        f"Unable to produce pupil comparator-set for URN: {urn}."
+                    )
+                    pupils.loc[urn] = np.array([])
+                else:
+                    pupils.loc[urn] = top_pupil_set_urns
 
                 if not row["_GenerateBuildingComparatorSet"][idx]:
                     buildings.loc[urn] = np.array([])
@@ -432,7 +440,13 @@ def compute_distances(
                     building_distances[idx],
                     include=include_buildings,
                 )
-                buildings.loc[urn] = top_building_set_urns
+                if len(top_building_set_urns) == 1:
+                    logger.warning(
+                        f"Unable to produce building comparator-set for URN: {urn}."
+                    )
+                    buildings.loc[urn] = np.array([])
+                else:
+                    buildings.loc[urn] = top_building_set_urns
             except Exception as error:
                 logger.exception(
                     f"An exception occurred {type(error).__name__} processing {urn}:",
