@@ -3,9 +3,9 @@ using System.Text;
 using AutoFixture;
 using FluentAssertions;
 using Platform.Api.Benchmark.ComparatorSets;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -67,7 +67,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid user defined comparator set get request for school id '(.*)' containing:")]
-    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForSchoolIdContaining(string urn, Table table)
+    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForSchoolIdContaining(string urn, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
             .Concat(new[]
@@ -152,7 +152,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid user defined comparator set get request for company number '(.*)' containing:")]
-    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
+    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
             .Concat(new[]
@@ -171,7 +171,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid delete user defined comparator set get request for company number '(.*)' containing:")]
-    public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, Table table)
+    public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
             .Concat(new[]
@@ -221,7 +221,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Then("the default comparator set result should contain comparator buildings:")]
-    private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorBuildings(Table table)
+    private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorBuildings(DataTable table)
     {
         var response = api[DefaultComparatorSetKey].Response;
 
@@ -243,7 +243,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Then("the default comparator set result should contain comparator pupils:")]
-    private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorPupils(Table table)
+    private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorPupils(DataTable table)
     {
         var response = api[DefaultComparatorSetKey].Response;
 
@@ -265,7 +265,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Then("the user defined comparator set result should contain comparator buildings:")]
-    private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparatorBuildings(Table table)
+    private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparatorBuildings(DataTable table)
     {
         var response = api[UserDefinedComparatorSetKey].Response;
 
@@ -287,7 +287,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Then("the user defined trust comparator set result should contain comparators:")]
-    private async Task ThenTheUserDefinedTrustComparatorSetResultShouldContainComparators(Table table)
+    private async Task ThenTheUserDefinedTrustComparatorSetResultShouldContainComparators(DataTable table)
     {
         var response = api[UserDefinedTrustComparatorSetKey].Response;
 
@@ -308,7 +308,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         table.CompareToDynamicSet(set, false);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

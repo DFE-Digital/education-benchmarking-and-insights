@@ -3,8 +3,6 @@ using FluentAssertions;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -23,7 +21,7 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
     }
 
     [Given("a valid default metric rag rating with categories '(.*)' and statuses '(.*)' for urns:")]
-    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesForUrns(string categories, string statuses, Table table)
+    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesForUrns(string categories, string statuses, DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
@@ -40,7 +38,7 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the metric rag rating result should be ok and contain:")]
-    public async Task ThenTheMetricRagRatingResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheMetricRagRatingResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[MetricRagRatingsKey].Response;
 
@@ -52,7 +50,7 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

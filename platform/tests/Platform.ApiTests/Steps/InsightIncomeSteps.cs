@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.Api.Insight.Income;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -18,7 +17,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/income/dimensions", UriKind.Relative),
+            RequestUri = new Uri("/api/income/dimensions", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -28,7 +27,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/income/categories", UriKind.Relative),
+            RequestUri = new Uri("/api/income/categories", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -70,7 +69,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Given("a valid school income query request with urns:")]
-    public void GivenAValidSchoolIncomeQueryRequestWithUrns(Table table)
+    public void GivenAValidSchoolIncomeQueryRequestWithUrns(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
@@ -117,7 +116,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Given("a valid trust income query request with company numbers:")]
-    public void GivenAValidTrustIncomeQueryRequestWithCompanyNumbers(Table table)
+    public void GivenAValidTrustIncomeQueryRequestWithCompanyNumbers(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustIncomeKey, new HttpRequestMessage
@@ -134,7 +133,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the income dimensions result should be ok and contain:")]
-    public async Task ThenTheIncomeDimensionsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheIncomeDimensionsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
 
@@ -147,14 +146,17 @@ public class InsightIncomeSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Dimension = result });
+            set.Add(new
+            {
+                Dimension = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the income categories result should be ok and contain:")]
-    public async Task ThenTheIncomeCategoriesResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheIncomeCategoriesResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
 
@@ -167,14 +169,17 @@ public class InsightIncomeSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Category = result });
+            set.Add(new
+            {
+                Category = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the school income result should be ok and contain:")]
-    public async Task ThenTheSchoolIncomeResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolIncomeResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
 
@@ -196,7 +201,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the school income history result should be ok and contain:")]
-    public async Task ThenTheSchoolIncomeHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolIncomeHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
 
@@ -209,7 +214,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the school income query result should be ok and contain:")]
-    public async Task ThenTheSchoolIncomeQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolIncomeQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
 
@@ -222,7 +227,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the trust income result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustIncomeResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustIncomeKey].Response;
 
@@ -244,7 +249,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the trust income history result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustIncomeHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustIncomeKey].Response;
 
@@ -257,7 +262,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     }
 
     [Then("the trust income query result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustIncomeQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustIncomeKey].Response;
 
@@ -269,7 +274,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

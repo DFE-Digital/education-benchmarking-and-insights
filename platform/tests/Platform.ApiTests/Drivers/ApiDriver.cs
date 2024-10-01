@@ -1,12 +1,11 @@
-using TechTalk.SpecFlow.Infrastructure;
 namespace Platform.ApiTests.Drivers;
 
 public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
 {
     private readonly HttpClient _client;
-    private readonly ISpecFlowOutputHelper _output;
+    private readonly IReqnrollOutputHelper _output;
 
-    protected ApiDriver(TestConfiguration.ApiEndpoint endpoint, ISpecFlowOutputHelper output)
+    protected ApiDriver(TestConfiguration.ApiEndpoint endpoint, IReqnrollOutputHelper output)
     {
         _client = new HttpClient
         {

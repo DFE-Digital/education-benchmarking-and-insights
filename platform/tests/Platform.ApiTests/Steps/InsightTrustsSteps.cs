@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using FluentAssertions;
+using Platform.Api.Insight.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -11,7 +11,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
     private const string InsightTrustsKey = "insight-trusts";
 
     [Given("a valid trust characteristics request with company numbers:")]
-    public void GivenAValidTrustCharacteristicsRequestWithUrns(Table table)
+    public void GivenAValidTrustCharacteristicsRequestWithUrns(DataTable table)
     {
         var companyNumbers = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(InsightTrustsKey, new HttpRequestMessage
@@ -28,7 +28,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
     }
 
     [Then("the trust characteristics results should be ok and contain:")]
-    public async Task ThenTheTrustCharacteristicsResultsShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustCharacteristicsResultsShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightTrustsKey].Response;
 
@@ -41,7 +41,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
     }
 
     [Then("the phases should contain:")]
-    public async Task ThenThePhasesShouldContain(Table table)
+    public async Task ThenThePhasesShouldContain(DataTable table)
     {
         var response = api[InsightTrustsKey].Response;
         var content = await response.Content.ReadAsByteArrayAsync();
@@ -53,7 +53,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
         }));
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())
@@ -62,9 +62,9 @@ public class InsightTrustsSteps(InsightApiDriver api)
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
-    private record TrustCharacteristic : Platform.Api.Insight.Trusts.TrustCharacteristic
+    private record TrustCharacteristic : Api.Insight.Trusts.TrustCharacteristic
     {
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
-        public new Api.Insight.Trusts.TrustPhase[] Phases { get; set; } = [];
+        public new TrustPhase[] Phases { get; set; } = [];
     }
 }

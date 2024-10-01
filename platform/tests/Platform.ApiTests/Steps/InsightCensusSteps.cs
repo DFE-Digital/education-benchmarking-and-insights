@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.Api.Insight.Census;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -17,7 +16,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     {
         api.CreateRequest(CensusKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/census/dimensions", UriKind.Relative),
+            RequestUri = new Uri("/api/census/dimensions", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -27,7 +26,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     {
         api.CreateRequest(CensusKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/census/categories", UriKind.Relative),
+            RequestUri = new Uri("/api/census/categories", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -63,7 +62,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Given("a valid school census query request with urns:")]
-    public void GivenAValidSchoolCensusQueryRequestWithUrns(Table table)
+    public void GivenAValidSchoolCensusQueryRequestWithUrns(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(CensusKey, new HttpRequestMessage
@@ -80,7 +79,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Then("the census dimensions result should be ok and contain:")]
-    public async Task ThenTheCensusDimensionsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheCensusDimensionsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
 
@@ -93,14 +92,17 @@ public class InsightCensusSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Dimension = result });
+            set.Add(new
+            {
+                Dimension = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the census categories result should be ok and contain:")]
-    public async Task ThenTheCensusCategoriesResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheCensusCategoriesResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
 
@@ -113,14 +115,17 @@ public class InsightCensusSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Category = result });
+            set.Add(new
+            {
+                Category = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the census result should be ok and contain:")]
-    public async Task ThenTheCensusResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheCensusResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
 
@@ -142,7 +147,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Then("the census history result should be ok and contain:")]
-    public async Task ThenTheCensusHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheCensusHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
 
@@ -155,7 +160,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Then("the census query result should be ok and contain:")]
-    public async Task ThenTheCensusQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheCensusQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
 
@@ -167,7 +172,7 @@ public class InsightCensusSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

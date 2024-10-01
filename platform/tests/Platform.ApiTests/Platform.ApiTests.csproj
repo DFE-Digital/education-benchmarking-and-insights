@@ -10,17 +10,14 @@
         <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     </PropertyGroup>
     <ItemGroup>
-        <Using Include="TechTalk.SpecFlow"/>
+        <Using Include="Reqnroll"/>
         <PackageReference Include="AutoFixture"/>
+        <PackageReference Include="Dynamitey"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="SpecFlow">
+        <PackageReference Include="Reqnroll">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
-        <PackageReference Include="SpecFlow.Assist.Dynamic"/>
-        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin">
-            <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
-        <PackageReference Include="SpecFlow.xUnit"/>
+        <PackageReference Include="Reqnroll.xUnit"/>
         <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.runner.visualstudio">
             <PrivateAssets>all</PrivateAssets>

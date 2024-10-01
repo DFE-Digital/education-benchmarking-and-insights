@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.Api.Insight.Expenditure;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -18,7 +17,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/expenditure/dimensions", UriKind.Relative),
+            RequestUri = new Uri("/api/expenditure/dimensions", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -28,7 +27,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/expenditure/categories", UriKind.Relative),
+            RequestUri = new Uri("/api/expenditure/categories", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -70,7 +69,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given("a valid school expenditure query request with urns:")]
-    public void GivenAValidSchoolExpenditureQueryRequestWithUrns(Table table)
+    public void GivenAValidSchoolExpenditureQueryRequestWithUrns(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
@@ -117,7 +116,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given("a valid trust expenditure query request with company numbers:")]
-    public void GivenAValidTrustExpenditureQueryRequestWithCompanyNumbers(Table table)
+    public void GivenAValidTrustExpenditureQueryRequestWithCompanyNumbers(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
@@ -134,7 +133,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the expenditure dimensions result should be ok and contain:")]
-    public async Task ThenTheExpenditureDimensionsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheExpenditureDimensionsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
 
@@ -147,14 +146,17 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Dimension = result });
+            set.Add(new
+            {
+                Dimension = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the expenditure categories result should be ok and contain:")]
-    public async Task ThenTheExpenditureCategoriesResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheExpenditureCategoriesResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
 
@@ -167,14 +169,17 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Category = result });
+            set.Add(new
+            {
+                Category = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the school expenditure result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolExpenditureResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
 
@@ -196,7 +201,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the school expenditure history result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
 
@@ -209,7 +214,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the school expenditure query result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolExpenditureQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
 
@@ -222,7 +227,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the trust expenditure result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustExpenditureResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
 
@@ -244,7 +249,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the trust expenditure history result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
 
@@ -257,7 +262,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the trust expenditure query result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
 
@@ -269,7 +274,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

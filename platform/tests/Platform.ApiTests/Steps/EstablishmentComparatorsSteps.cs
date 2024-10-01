@@ -2,9 +2,9 @@
 using System.Text;
 using FluentAssertions;
 using Platform.Api.Establishment.Comparators;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
 using Xunit;
 namespace Platform.ApiTests.Steps;
 
@@ -46,7 +46,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the comparator schools should total '(.*)' and contain:")]
-    public async Task ThenTheComparatorSchoolsShouldTotalAndContain(string total, Table table)
+    public async Task ThenTheComparatorSchoolsShouldTotalAndContain(string total, DataTable table)
     {
         var response = api[ComparatorSchoolsKey].Response;
 
@@ -100,7 +100,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the comparator trusts should total '(.*)' and contain:")]
-    public async Task ThenTheComparatorTrustsShouldTotalAndContain(string total, Table table)
+    public async Task ThenTheComparatorTrustsShouldTotalAndContain(string total, DataTable table)
     {
         var response = api[ComparatorTrustsKey].Response;
 

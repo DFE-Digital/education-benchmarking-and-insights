@@ -6,7 +6,6 @@ using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Search;
-using TechTalk.SpecFlow.Assist;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -76,7 +75,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     }
 
     [Then("the local authority result should be ok and have the following values:")]
-    private async Task ThenTheLocalAuthorityResultShouldBeOkAndHaveTheFollowingValues(Table table)
+    private async Task ThenTheLocalAuthorityResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -90,7 +89,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     }
 
     [Then("the local authority result should contain the following schools:")]
-    private async Task ThenTheLocalAuthorityResultShouldContainTheFollowingSchools(Table table)
+    private async Task ThenTheLocalAuthorityResultShouldContainTheFollowingSchools(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -119,7 +118,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     }
 
     [Then("the local authorities suggest result should be ok and have the following values:")]
-    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingValues(Table table)
+    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -142,7 +141,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     }
 
     [Then("the local authorities suggest result should be ok and have the following multiple values:")]
-    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(Table table)
+    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -177,7 +176,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     }
 
     [Then("the local authorities suggest result should be bad request and have the following validation errors:")]
-    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(Table table)
+    private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 

@@ -1,11 +1,9 @@
 ﻿using Microsoft.Playwright;
-using TechTalk.SpecFlow.Infrastructure;
 using Web.E2ETests.Drivers;
-
 namespace Web.E2ETests.Hooks;
 
 [Binding]
-public class StepFailureHook(ISpecFlowOutputHelper outputHelper, ScenarioContext scenarioContext, FeatureContext featureContext)
+public class StepFailureHook(IReqnrollOutputHelper outputHelper, ScenarioContext scenarioContext, FeatureContext featureContext)
 {
     [AfterStep]
     public async Task AfterStep()
@@ -22,7 +20,10 @@ public class StepFailureHook(ISpecFlowOutputHelper outputHelper, ScenarioContext
         var path = Path.Combine("screenshots", file);
         var page = await featureContext.FeatureContainer.Resolve<PageDriver>().Current;
 
-        await page.ScreenshotAsync(new PageScreenshotOptions { Path = path });
+        await page.ScreenshotAsync(new PageScreenshotOptions
+        {
+            Path = path
+        });
 
         outputHelper.WriteLine($"Scenario '{title}' failed. Page screenshot: {file}");
     }

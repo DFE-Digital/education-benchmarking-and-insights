@@ -3,8 +3,6 @@ using FluentAssertions;
 using Platform.Api.Insight.BudgetForecast;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -39,7 +37,7 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the budget forecast result should be ok and contain:")]
-    public async Task ThenTheBudgetForecastResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheBudgetForecastResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[BudgetForecastKey].Response;
 
@@ -52,7 +50,7 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the budget forecast metrics result should be ok and contain:")]
-    public async Task ThenTheBudgetForecastMetricsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheBudgetForecastMetricsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[BudgetForecastKey].Response;
 

@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.Api.Insight.Balance;
+using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -18,7 +17,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolBalanceKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/balance/dimensions", UriKind.Relative),
+            RequestUri = new Uri("/api/balance/dimensions", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -59,7 +58,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Given("a valid school balance query request with urns:")]
-    public void GivenAValidSchoolBalanceQueryRequestWithUrns(Table table)
+    public void GivenAValidSchoolBalanceQueryRequestWithUrns(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(SchoolBalanceKey, new HttpRequestMessage
@@ -105,7 +104,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Given("a valid trust balance query request with company numbers:")]
-    public void GivenAValidTrustBalanceQueryRequestWithCompanyNumbers(Table table)
+    public void GivenAValidTrustBalanceQueryRequestWithCompanyNumbers(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustBalanceKey, new HttpRequestMessage
@@ -122,7 +121,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the balance dimensions result should be ok and contain:")]
-    public async Task ThenTheBalanceDimensionsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheBalanceDimensionsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
 
@@ -135,14 +134,17 @@ public class InsightBalanceSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Dimension = result });
+            set.Add(new
+            {
+                Dimension = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the balance categories result should be ok and contain:")]
-    public async Task ThenTheBalanceCategoriesResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheBalanceCategoriesResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
 
@@ -155,14 +157,17 @@ public class InsightBalanceSteps(InsightApiDriver api)
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { Category = result });
+            set.Add(new
+            {
+                Category = result
+            });
         }
 
         table.CompareToDynamicSet(set, false);
     }
 
     [Then("the school balance result should be ok and contain:")]
-    public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
 
@@ -184,7 +189,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the school balance history result should be ok and contain:")]
-    public async Task ThenTheSchoolBalanceHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolBalanceHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
 
@@ -197,7 +202,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the school balance query result should be ok and contain:")]
-    public async Task ThenTheSchoolBalanceQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolBalanceQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
 
@@ -210,7 +215,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the trust balance result should be ok and contain:")]
-    public async Task ThenTheTrustBalanceResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustBalanceResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
 
@@ -232,7 +237,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the trust balance history result should be ok and contain:")]
-    public async Task ThenTheTrustBalanceHistoryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustBalanceHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
 
@@ -245,7 +250,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     }
 
     [Then("the trust balance query result should be ok and contain:")]
-    public async Task ThenTheTrustBalanceQueryResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheTrustBalanceQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
 
@@ -257,7 +262,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

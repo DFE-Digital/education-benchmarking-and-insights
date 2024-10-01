@@ -1,12 +1,11 @@
 using System.Collections.Concurrent;
 using Microsoft.Playwright;
-using TechTalk.SpecFlow.Infrastructure;
 namespace Web.E2ETests.Drivers;
 
 public class PageDriver : IDisposable
 {
     private readonly Lazy<Task<IPage>> _current;
-    private readonly ISpecFlowOutputHelper _output;
+    private readonly IReqnrollOutputHelper _output;
     private readonly ConcurrentDictionary<string, byte> _pendingRequests;
 
     protected readonly BrowserNewContextOptions ContextOptions = new()
@@ -18,7 +17,7 @@ public class PageDriver : IDisposable
     private bool _isDisposed;
     private IPlaywright? _playwright;
 
-    protected PageDriver(ISpecFlowOutputHelper output)
+    protected PageDriver(IReqnrollOutputHelper output)
     {
         _current = new Lazy<Task<IPage>>(CreatePageDriver);
         _output = output;
@@ -104,7 +103,7 @@ public class PageDriver : IDisposable
 
 public class PageDriverWithJavaScriptDisabled : PageDriver
 {
-    public PageDriverWithJavaScriptDisabled(ISpecFlowOutputHelper output) : base(output)
+    public PageDriverWithJavaScriptDisabled(IReqnrollOutputHelper output) : base(output)
     {
         ContextOptions.JavaScriptEnabled = false;
     }

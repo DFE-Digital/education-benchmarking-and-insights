@@ -6,8 +6,6 @@ using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Search;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -40,7 +38,12 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     [Given("a valid schools suggest request with searchText '(.*)")]
     private void GivenAValidSchoolsSuggestRequest(string searchText)
     {
-        var content = new { SearchText = searchText, Size = 5, SuggesterName = "school-suggester" };
+        var content = new
+        {
+            SearchText = searchText,
+            Size = 5,
+            SuggesterName = "school-suggester"
+        };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
@@ -53,7 +56,10 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     [Given("an invalid schools suggest request")]
     private void GivenAnInvalidSchoolsSuggestRequest()
     {
-        var content = new { Size = 0 };
+        var content = new
+        {
+            Size = 0
+        };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
@@ -108,7 +114,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the school result should be ok and have the following values:")]
-    private async Task ThenTheSchoolResultShouldHaveValues(Table table)
+    private async Task ThenTheSchoolResultShouldHaveValues(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -131,7 +137,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the school suggest result should be ok and have the following values:")]
-    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveValues(Table table)
+    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -154,7 +160,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the schools suggest result should be ok and have the following multiple values:")]
-    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveMultipleValues(Table table)
+    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -189,7 +195,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the schools suggest result should be bad request and have the following validation errors:")]
-    private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowingValidationErrors(Table table)
+    private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -202,7 +208,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the schools query result should be ok and have the following values:")]
-    private async Task ThenTheSchoolsQueryResultShouldHaveValues(Table table)
+    private async Task ThenTheSchoolsQueryResultShouldHaveValues(DataTable table)
     {
         var response = api[QueryRequestKey].Response;
 

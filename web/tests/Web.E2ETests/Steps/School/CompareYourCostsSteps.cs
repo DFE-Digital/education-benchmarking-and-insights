@@ -237,7 +237,7 @@ public class CompareYourCostsSteps(PageDriver driver)
     }
 
     [Then("additional information contains")]
-    public async Task ThenAdditionalInformationContains(Table table)
+    public async Task ThenAdditionalInformationContains(DataTable table)
     {
         var expected = new List<List<string>>();
         {
