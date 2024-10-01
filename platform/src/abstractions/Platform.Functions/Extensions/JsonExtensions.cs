@@ -36,7 +36,7 @@ public static class JsonExtensions
 
     public static string ToJson(this object? source, Formatting formatting = Formatting.None) => JsonConvert.SerializeObject(source, formatting, Settings);
 
-    public static T FromJson<T>(this string? source) => JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
+    public static T FromJson<T>(this string source) => JsonConvert.DeserializeObject<T>(source , Settings) ?? throw new ArgumentNullException();
 
     public static T FromJson<T>(this byte[]? source, Encoding? encoding = null)
     {

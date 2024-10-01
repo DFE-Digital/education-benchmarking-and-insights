@@ -21,7 +21,7 @@ public class WhenBudgetForecastServiceQueriesAsync
 
     [Theory]
     [InlineData("companyNumber", "runType", "category", "runId", "SELECT * from BudgetForecastReturn WHERE CompanyNumber = @CompanyNumber AND RunType = @RunType AND Category = @Category AND RunId = @RunId")]
-    public async Task ShouldQueryAsyncWhenGetBudgetForecastReturns(string companyNumber, string runType, string category, string? runId, string expectedSql)
+    public async Task ShouldQueryAsyncWhenGetBudgetForecastReturns(string companyNumber, string runType, string category, string runId, string expectedSql)
     {
         // arrange
         var results = new List<BudgetForecastReturnModel>
