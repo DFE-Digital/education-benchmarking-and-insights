@@ -1027,8 +1027,6 @@ def build_academy_data(
 
 
 def build_trust_data(
-    academy_data_path,
-    links_data_path,
     year,
     schools,
     census,
@@ -1045,8 +1043,6 @@ def build_trust_data(
 
     As per `build_academy_data()` save rolled up to Trust level.
 
-    :param academy_data_path: Academy data
-    :param links_data_path: GIAS links data
     :param year: year in question
     :param schools: …
     :param census: …
@@ -1060,8 +1056,6 @@ def build_trust_data(
     :return: Trust-level financial information
     """
     df = build_academy_data(
-        academy_data_path,
-        links_data_path,
         year,
         schools,
         census,

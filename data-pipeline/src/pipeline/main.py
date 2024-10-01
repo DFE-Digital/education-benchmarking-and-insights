@@ -291,17 +291,7 @@ def pre_process_trust_data(
     """
     logger.info("Building Trust data.")
 
-    academies_data = get_blob(
-        raw_container, f"{run_type}/{year}/academy_master_list.csv", encoding="utf-8"
-    )
-
-    links_data = get_blob(
-        raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
-    )
-
     trusts = build_trust_data(
-        academies_data,
-        links_data,
         year,
         schools,
         census,
