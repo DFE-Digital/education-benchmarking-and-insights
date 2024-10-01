@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Xunit;
 namespace Web.E2ETests.Pages.School;
 
 public class HomePage(IPage page)
@@ -137,5 +138,17 @@ public class HomePage(IPage page)
     public async Task CookieBannerIsDisplayed()
     {
         await CookieBanner.ShouldBeVisible();
+    }
+
+    public async Task AssertRagCommentary(string categoryName, string commentary)
+    {
+        var categoryHeader = page.Locator("h4").And(page.GetByText(categoryName));
+        Assert.NotNull(categoryHeader);
+
+        var priority = categoryHeader.Locator("//following-sibling::p[1]");
+        Assert.NotNull(priority);
+
+        var text = await priority.InnerTextAsync();
+        Assert.Equal(commentary, text);
     }
 }

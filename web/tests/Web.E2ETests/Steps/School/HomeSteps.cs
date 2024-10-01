@@ -2,21 +2,20 @@
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School homepage")]
 public class HomeSteps(PageDriver driver)
 {
-    private HomePage? _schoolHomePage;
-    private DetailsPage? _schoolDetailsPage;
+    private BenchmarkCensusPage? _benchmarkCensusPage;
+    private CommercialResourcesPage? _commercialResourcesPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
-    private BenchmarkCensusPage? _benchmarkCensusPage;
-    private SpendingCostsPage? _spendingCostsPage;
-    private CommercialResourcesPage? _commercialResourcesPage;
     private HistoricDataPage? _historicDataPage;
+    private DetailsPage? _schoolDetailsPage;
+    private HomePage? _schoolHomePage;
+    private SpendingCostsPage? _spendingCostsPage;
 
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
@@ -98,7 +97,10 @@ public class HomeSteps(PageDriver driver)
             await page.Locator("h1:text-is('Enter your password')").CheckVisible();
             await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
             await page.Locator("button[type='submit']").Click();
-            await page.Locator("label", new PageLocatorOptions { HasTextString = "01: FBIT TEST - Community School (Open)" }).Check();
+            await page.Locator("label", new PageLocatorOptions
+            {
+                HasTextString = "01: FBIT TEST - Community School (Open)"
+            }).Check();
             await page.Locator("input[type='submit']").Click();
         }
         else
@@ -167,5 +169,15 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.IsDisplayed();
+    }
+
+    [Then("the RAG commentary for each priority category is")]
+    public async Task ThenTheRagCommentaryForEachPriorityCategoryIs(DataTable table)
+    {
+        Assert.NotNull(_schoolHomePage);
+        foreach (var row in table.Rows)
+        {
+            await _schoolHomePage.AssertRagCommentary(row["Name"], row["Commentary"]);
+        }
     }
 }

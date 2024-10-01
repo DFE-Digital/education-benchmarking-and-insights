@@ -21,8 +21,8 @@ public class SpendingCostsSteps(PageDriver driver)
         await _spendingCostsPage.IsDisplayed();
     }
 
-    [Given("the priority order of charts is")]
-    public async Task GivenThePriorityOrderOfChartsIs(DataTable table)
+    [Then("the priority order of charts is")]
+    public async Task ThenThePriorityOrderOfChartsIs(DataTable table)
     {
         Assert.NotNull(_spendingCostsPage);
         var expectedOrder = new List<string[]>();
@@ -36,7 +36,17 @@ public class SpendingCostsSteps(PageDriver driver)
             expectedOrder.Add(chartPriorityArray);
         }
 
-        await _spendingCostsPage.CheckOrderOfCharts(expectedOrder);
+        await _spendingCostsPage.AssertOrderOfCharts(expectedOrder);
+    }
+
+    [Then("the RAG commentary for each category is")]
+    public async Task ThenTheRagCommentaryForEachCategoryIs(DataTable table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        foreach (var row in table.Rows)
+        {
+            await _spendingCostsPage.AssertRagCommentary(row["Name"], row["Commentary"]);
+        }
     }
 
     [When("I click on view all '(.*)' link")]

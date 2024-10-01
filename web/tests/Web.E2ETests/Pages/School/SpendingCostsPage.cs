@@ -1,6 +1,5 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
-
 namespace Web.E2ETests.Pages.School;
 
 public enum CostCategoryNames
@@ -20,9 +19,15 @@ public class SpendingCostsPage(IPage page)
 {
     private readonly string[] _h3Names =
     {
-        "Teaching and Teaching support staff", "Administrative supplies", "Catering staff and supplies",
-        "Educational ICT", "Educational supplies", "Non-educational support staff", "Other costs",
-        "Premises staff and services", "Utilities"
+        "Teaching and Teaching support staff",
+        "Administrative supplies",
+        "Catering staff and supplies",
+        "Educational ICT",
+        "Educational supplies",
+        "Non-educational support staff",
+        "Other costs",
+        "Premises staff and services",
+        "Utilities"
     };
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
@@ -30,38 +35,68 @@ public class SpendingCostsPage(IPage page)
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
-            new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
+            new PageLocatorOptions
+            {
+                HasText = "How we choose and compare similar schools"
+            });
 
     private ILocator PageH3Headings => page.Locator(Selectors.H3);
     private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
     private ILocator AllChartsStats => page.Locator(Selectors.ReactChartStats);
 
     private ILocator TeachingAndTeachingSupplyStaffLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all teaching and teaching support staff" });
+        new PageLocatorOptions
+        {
+            HasText = "View all teaching and teaching support staff"
+        });
 
     private ILocator AdministrativeSuppliesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all administrative supplies costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all administrative supplies costs"
+        });
 
     private ILocator CateringStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all catering staff and supplies costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all catering staff and supplies costs"
+        });
 
     private ILocator EducationalIctLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all Educational ICT costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all Educational ICT costs"
+        });
 
     private ILocator EducationalSuppliesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all educational supplies costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all educational supplies costs"
+        });
 
     private ILocator NonEducationalSupportStaffLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all non-educational support staff" });
+        new PageLocatorOptions
+        {
+            HasText = "View all non-educational support staff"
+        });
 
     private ILocator OtherLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all other costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all other costs"
+        });
 
     private ILocator PremisesStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all premises staff and services costs" });
+        new PageLocatorOptions
+        {
+            HasText = "View all premises staff and services costs"
+        });
 
     private ILocator UtilitiesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all utilities" });
+        new PageLocatorOptions
+        {
+            HasText = "View all utilities"
+        });
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
 
@@ -78,18 +113,22 @@ public class SpendingCostsPage(IPage page)
     }
 
 
-    public async Task CheckOrderOfCharts(List<string[]> expectedOrder)
+    public async Task AssertOrderOfCharts(List<string[]> expectedOrder)
     {
         var actualOrder = new List<string[]>();
         var chartNames = await GetCategoryNames();
         var priorityTags = await PriorityTags.AllAsync();
-        for (int i = 0; i < chartNames.Count; i++)
+        for (var i = 0; i < chartNames.Count; i++)
         {
             if (i < priorityTags.Count)
             {
                 var chartName = chartNames[i];
                 var priorityTag = await priorityTags[i].TextContentAsync() ?? string.Empty;
-                var chartDetails = new[] { chartName, priorityTag.Trim() };
+                var chartDetails = new[]
+                {
+                    chartName,
+                    priorityTag.Trim()
+                };
                 actualOrder.Add(chartDetails);
             }
             else
@@ -99,6 +138,18 @@ public class SpendingCostsPage(IPage page)
             }
         }
         Assert.Equal(expectedOrder, actualOrder);
+    }
+
+    public async Task AssertRagCommentary(string categoryName, string commentary)
+    {
+        var categoryHeader = page.Locator("h3").And(page.GetByText(categoryName));
+        Assert.NotNull(categoryHeader);
+
+        var priority = categoryHeader.Locator("//following-sibling::p[1]");
+        Assert.NotNull(priority);
+
+        var text = await priority.InnerTextAsync();
+        Assert.EndsWith(commentary, text);
     }
 
     public async Task<CompareYourCostsPage> ClickOnLink(CostCategoryNames costCategory)
