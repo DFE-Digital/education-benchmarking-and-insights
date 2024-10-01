@@ -1,4 +1,3 @@
-@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.TagHelpers
 @using Web.App.ViewModels
@@ -95,17 +94,11 @@
                                 {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
-                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit — Spending is
-                                @if (rating.RAG == "red" && Category.InvertRagValueCategories.Contains(rating.Category))
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit —
+                                @await Html.PartialAsync("_RagRatingCommentary", new RagRatingCommentaryViewModel
                                 {
-                                    @:lower than <strong>@((100 - rating.Percentile).ToPercent())</strong>
-                                }
-                                else
-                                {
-                                    @:higher than
-                                    <strong>@rating.Percentile.ToPercent()</strong>
-                                }
-                                of similar schools.
+                                    Rating = rating
+                                })
                             </p>
                         </div>
                     }
