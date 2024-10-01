@@ -3,8 +3,6 @@ using FluentAssertions;
 using Platform.Api.Insight.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
-using TechTalk.SpecFlow.Assist;
-
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -33,7 +31,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     }
 
     [Given("a valid school characteristics request with urns:")]
-    public void GivenAValidSchoolCharacteristicsRequestWithUrns(Table table)
+    public void GivenAValidSchoolCharacteristicsRequestWithUrns(DataTable table)
     {
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(InsightSchoolsKey, new HttpRequestMessage
@@ -50,7 +48,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     }
 
     [Then("the school characteristics result should be ok and contain:")]
-    public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightSchoolsKey].Response;
 
@@ -72,7 +70,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     }
 
     [Then("the school characteristics results should be ok and contain:")]
-    public async Task ThenTheSchoolCharacteristicsResultsShouldBeOkAndContain(Table table)
+    public async Task ThenTheSchoolCharacteristicsResultsShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightSchoolsKey].Response;
 
@@ -84,7 +82,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
         table.CompareToSet(results);
     }
 
-    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(Table table)
+    private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
             .Select(r => r.Select(kvp => kvp.Value).FirstOrDefault())

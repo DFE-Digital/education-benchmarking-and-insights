@@ -6,7 +6,6 @@ using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Search;
-using TechTalk.SpecFlow.Assist;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -76,7 +75,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust result should be ok and have the following values:")]
-    private async Task ThenTheTrustResultShouldBeOkAndHaveTheFollowingValues(Table table)
+    private async Task ThenTheTrustResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -90,7 +89,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust result should contain the following schools:")]
-    private async Task ThenTheTrustResultShouldContainTheFollowingSchools(Table table)
+    private async Task ThenTheTrustResultShouldContainTheFollowingSchools(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -119,7 +118,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be ok and have the following values:")]
-    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingValues(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -142,7 +141,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be ok and have the following multiple values:")]
-    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -177,7 +176,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the trust suggest result should be bad request and have the following validation errors:")]
-    private async Task ThenTheTrustSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(Table table)
+    private async Task ThenTheTrustSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 

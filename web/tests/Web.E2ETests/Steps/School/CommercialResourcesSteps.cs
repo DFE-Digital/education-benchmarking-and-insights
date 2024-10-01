@@ -1,8 +1,8 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
+
 [Binding]
 [Scope(Feature = "School find ways to spend less")]
 public class CommercialResourcesSteps(PageDriver driver)
@@ -21,13 +21,14 @@ public class CommercialResourcesSteps(PageDriver driver)
     }
 
     [Given("the following priority categories are shown on the page")]
-    public async Task GivenTheFollowingPriorityCategoriesAreShownOnThePage(Table table)
+    public async Task GivenTheFollowingPriorityCategoriesAreShownOnThePage(DataTable table)
     {
         Assert.NotNull(_commercialResourcesPage);
         var expectedOrder = new List<string[]>();
         foreach (var row in table.Rows)
         {
-            string[] chartPriorityArray = {
+            string[] chartPriorityArray =
+            {
                 row["Name"],
                 row["Priority"]
             };
@@ -90,6 +91,4 @@ public class CommercialResourcesSteps(PageDriver driver)
     }
 
     private static string CommercialResourcesUrl(string tab, string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/find-ways-to-spend-less#{tab}";
-
-
 }

@@ -1,11 +1,7 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Drivers;
-using SpecFlow.Internal.Json;
-using Xunit;
-
+using Platform.Functions.Extensions;
 namespace Platform.ApiTests.Steps;
 
 [Binding]

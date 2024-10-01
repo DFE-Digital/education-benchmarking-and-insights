@@ -14,7 +14,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     private const string UserId = "api.test@example.com";
 
     [Given("I have a valid financial plans get request for school id '(.*)' in year '(.*)' containing:")]
-    public async Task GivenIHaveAValidFinancialPlansGetRequestForSchoolIdInYearContaining(string urn, string year, Table table)
+    public async Task GivenIHaveAValidFinancialPlansGetRequestForSchoolIdInYearContaining(string urn, string year, DataTable table)
     {
         var yearParsed = int.Parse(year);
         PutFinancialPlansRequest(urn, yearParsed, table);
@@ -23,14 +23,14 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid financial plans put request for school id '(.*)' in year '(.*)' containing:")]
-    public void GivenIHaveAValidFinancialPlansPutRequestForSchoolIdInYearContaining(string urn, string year, Table table)
+    public void GivenIHaveAValidFinancialPlansPutRequestForSchoolIdInYearContaining(string urn, string year, DataTable table)
     {
         var yearParsed = int.Parse(year);
         PutFinancialPlansRequest(urn, yearParsed, table);
     }
 
     [Given("I have a valid financial plans delete request for school id '(.*)' in year '(.*)' containing:")]
-    public async Task GivenIHaveAValidFinancialPlansDeleteRequestForSchoolIdInYearContaining(string urn, string year, Table table)
+    public async Task GivenIHaveAValidFinancialPlansDeleteRequestForSchoolIdInYearContaining(string urn, string year, DataTable table)
     {
         var yearParsed = int.Parse(year);
         PutFinancialPlansRequest(urn, yearParsed, table);
@@ -56,7 +56,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid financial plans get request including school id '(.*)' in year '(.*)' but excluding:")]
-    public async Task GivenIHaveAValidFinancialPlansGetRequestIncludingSchoolIdInYearButExcluding(string urn, string year, Table table)
+    public async Task GivenIHaveAValidFinancialPlansGetRequestIncludingSchoolIdInYearButExcluding(string urn, string year, DataTable table)
     {
         var dictionary = table.Rows
             .Select(r => new KeyValuePair<string, string>(r.Values.ElementAt(0), r.Values.ElementAt(1)))
@@ -101,7 +101,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     }
 
     [Then("the financial plans response for school id '(.*)' in year '(.*)' should contain:")]
-    private async Task ThenTheFinancialPlansResponseForSchoolIdInYearShouldContain(string urn, string year, Table table)
+    private async Task ThenTheFinancialPlansResponseForSchoolIdInYearShouldContain(string urn, string year, DataTable table)
     {
         var response = api[FinancialPlansKey].Response;
 
@@ -143,7 +143,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     }
 
     [Then("the financial plans response should contain:")]
-    private async Task ThenTheFinancialPlansResponseShouldContain(Table table)
+    private async Task ThenTheFinancialPlansResponseShouldContain(DataTable table)
     {
         var response = api[FinancialPlansKey].Response;
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -169,7 +169,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         });
     }
 
-    private void PutFinancialPlansRequest(string urn, int year, Table table)
+    private void PutFinancialPlansRequest(string urn, int year, DataTable table)
     {
         var json = GetJsonFromTable(urn, year, table);
 
@@ -190,7 +190,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         });
     }
 
-    private static string GetJsonFromTable(string urn, int year, Table table)
+    private static string GetJsonFromTable(string urn, int year, DataTable table)
     {
         var content = new Dictionary<string, object>
         {

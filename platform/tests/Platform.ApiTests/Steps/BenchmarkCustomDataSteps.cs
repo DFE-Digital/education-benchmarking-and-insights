@@ -14,7 +14,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     private readonly string _userGuid = Guid.NewGuid().ToString();
 
     [Given("I have a valid custom data get request for school id '(.*)' containing:")]
-    public async Task GivenIHaveAValidCustomDataGetRequestForSchoolIdContaining(string urn, Table table)
+    public async Task GivenIHaveAValidCustomDataGetRequestForSchoolIdContaining(string urn, DataTable table)
     {
         var identifier = PutCustomDataRequest(urn, table);
         await WhenISubmitTheCustomDataRequest();
@@ -22,13 +22,13 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid custom data put request for school id '(.*)' containing:")]
-    public void GivenIHaveAValidCustomDataPutRequestForSchoolIdContaining(string urn, Table table)
+    public void GivenIHaveAValidCustomDataPutRequestForSchoolIdContaining(string urn, DataTable table)
     {
         PutCustomDataRequest(urn, table);
     }
 
     [Given("I have a valid custom data delete request for school id '(.*)' containing:")]
-    public async Task GivenIHaveAValidCustomDataDeleteRequestForSchoolIdContaining(string urn, Table table)
+    public async Task GivenIHaveAValidCustomDataDeleteRequestForSchoolIdContaining(string urn, DataTable table)
     {
         var identifier = PutCustomDataRequest(urn, table);
         await WhenISubmitTheCustomDataRequest();
@@ -48,7 +48,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     }
 
     [Then("the custom data response should contain:")]
-    private async Task ThenTheCustomDataResponseShouldContain(Table table)
+    private async Task ThenTheCustomDataResponseShouldContain(DataTable table)
     {
         var response = api[CustomDataKey].Response;
 
@@ -90,7 +90,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         });
     }
 
-    private Guid PutCustomDataRequest(string urn, Table table)
+    private Guid PutCustomDataRequest(string urn, DataTable table)
     {
         var identifier = Guid.NewGuid();
         var json = GetJsonFromTable(table);
@@ -114,7 +114,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         });
     }
 
-    private string GetJsonFromTable(Table table)
+    private string GetJsonFromTable(DataTable table)
     {
         var content = new Dictionary<string, object>
         {

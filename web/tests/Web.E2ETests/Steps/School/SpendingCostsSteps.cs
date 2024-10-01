@@ -1,15 +1,14 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School spending and costs")]
 public class SpendingCostsSteps(PageDriver driver)
 {
-    private SpendingCostsPage? _spendingCostsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
+    private SpendingCostsPage? _spendingCostsPage;
 
     [Given(@"I am on spending and costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnSpendingAndCostsPageForSchoolWithUrn(string urn)
@@ -23,13 +22,14 @@ public class SpendingCostsSteps(PageDriver driver)
     }
 
     [Given("the priority order of charts is")]
-    public async Task GivenThePriorityOrderOfChartsIs(Table table)
+    public async Task GivenThePriorityOrderOfChartsIs(DataTable table)
     {
         Assert.NotNull(_spendingCostsPage);
         var expectedOrder = new List<string[]>();
         foreach (var row in table.Rows)
         {
-            string[] chartPriorityArray = {
+            string[] chartPriorityArray =
+            {
                 row["Name"],
                 row["Priority"]
             };

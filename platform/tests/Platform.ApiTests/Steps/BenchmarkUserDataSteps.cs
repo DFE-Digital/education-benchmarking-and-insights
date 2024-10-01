@@ -14,7 +14,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     private readonly string _userGuid = Guid.NewGuid().ToString();
 
     [Given("I have a valid user data get request for school id '(.*)' containing custom data:")]
-    public async Task GivenIHaveAValidUserDataGetRequestForSchoolIdContainingCustomData(string urn, Table table)
+    public async Task GivenIHaveAValidUserDataGetRequestForSchoolIdContainingCustomData(string urn, DataTable table)
     {
         var identifier = PutCustomDataRequest(urn, table);
         await WhenISubmitTheUserDataRequest();
@@ -55,7 +55,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
         });
     }
 
-    private Guid PutCustomDataRequest(string urn, Table table)
+    private Guid PutCustomDataRequest(string urn, DataTable table)
     {
         var identifier = Guid.NewGuid();
         var json = GetJsonFromTable(table);
@@ -70,7 +70,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
         return identifier;
     }
 
-    private string GetJsonFromTable(Table table)
+    private string GetJsonFromTable(DataTable table)
     {
         var content = new Dictionary<string, object>
         {
