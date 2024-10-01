@@ -1,18 +1,17 @@
-@using Web.App.Extensions
 @using Newtonsoft.Json
-@using Web.App.ViewModels
 @using Web.App.Domain
-
-@model CostsViewModel
+@using Web.App.Extensions
+@using Web.App.ViewModels
+@model Web.App.ViewModels.CostsViewModel
 
 @if (Model.Costs.Any())
 {
     var costs = Model.Costs.ToList();
-        
+
     @for (var i = 0; i < costs.Count; i++)
     {
         var category = costs[i];
-        
+
         var categoryToLower = category.Rating.Category switch
         {
             Category.Other => "other",
@@ -25,16 +24,35 @@
             : category.Rating.Category;
 
         var categoryUri = Model.IsCustomData
-            ? Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })
-            : Url.Action("Index", "SchoolComparison", new { urn = Model.Urn });
+            ? Url.Action("CustomData", "SchoolComparison", new
+            {
+                urn = Model.Urn
+            })
+            : Url.Action("Index", "SchoolComparison", new
+            {
+                urn = Model.Urn
+            });
 
         <div class="govuk-grid-row govuk-!-margin-bottom-4"
              @(i == 0 ? $"id={Model.Id}" : "")>
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
-                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
-                    Spending is higher than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
+                    @await Component.InvokeAsync("Tag", new
+                    {
+                        rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText)
+                    })
+                    Spending is
+                    @if (category.Rating.RAG == "red" && Category.InvertRagValueCategories.Contains(category.Rating.Category))
+                    {
+                        @:lower than <strong>@((100 - category.Rating.Percentile).ToPercent())</strong>
+                    }
+                    else
+                    {
+                        @:higher than
+                        <strong>@category.Rating.Percentile.ToPercent()</strong>
+                    }
+                    of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2 composed-container"
                      data-spending-and-costs-composed
