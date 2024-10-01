@@ -234,7 +234,7 @@ def compute_rag(
                             if rag_settings["type"] == "Pupil"
                             else building_urns
                         )
-                        if set_urns is not None:
+                        if set_urns is not None and len(set_urns) > 0:
                             comparator_set = df[df.index.isin(set_urns)]
 
                             for r in compute_category_rag(
