@@ -19,9 +19,49 @@ Once the above dependencies are installed and working correctly we can install t
 
     make install
 
-This will install the dependencies and allow the project to be run. 
+This will install the dependencies and allow the project to be run.
 
-> Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command. 
+> Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command.
+
+#### Installing dependencies on Windows
+
+These steps will avoid SSL errors due to DfE kit/VPN.
+
+1. Open PowerShell terminal as Administrator
+1. Install Chocolatey:
+
+    * `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('<https://community.chocolatey.org/install.ps1>'))`
+
+1. Install Python:
+
+    * `choco install python`
+
+1. Install OpenSSL:
+
+    * `choco install openssl`
+    * Close and re-open the terminal once complete
+
+1. [Compile](https://mattferderer.com/fix-git-self-signed-certificate-in-certificate-chain-on-windows) or locate `ca-bundle.crt`, ensuring that the following certificates are included:
+
+    * `decryption.education.gov.uk`
+    * `PKI-SUB-CA01`
+
+1. Convert `.crt` to `.pem`:
+
+    * `openssl x509 -in .\ca-bundle.crt -out .\ca-bundle.pem -outform pem`
+
+1. Install Poetry:
+
+    * `(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -`
+
+1. Configure the Poetry repository:
+
+    * `poetry config repositories.FPHO https://files.pythonhosted.org`
+    * `poetry config certificates.FPHO.cert .\ca-bundle.pem`
+
+1. From data-pipeline folder, perform the installation:
+
+    * `poetry install`
 
 ### Setting up .env file
 
@@ -29,14 +69,14 @@ In the route of the `data-pipelines` repository there is an `.env-example` folde
 
 Ensure you have created a copy of this file named `.env` and filled the parameter value placeholders with the required values. These values will be available from the azure portal.
 
-However, for local development assuming azurite, you can use the following values: 
+However, for local development assuming azurite, you can use the following values:
 
     STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
     WORKER_QUEUE_NAME=data-pipeline-job-start
     COMPLETE_QUEUE_NAME=data-pipeline-job-finished
     RAW_DATA_CONTAINER=raw
 
-### Running the pipeline   
+### Running the pipeline
 
 To running the API in Dev Mode:
 
@@ -50,6 +90,7 @@ However, this will only run the pipeline and will fail using the above environme
 > Note: `Dev mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
 
 ### Testing locally
+
 Once the environment is set up as above, and you can successfully run the pipeline it is possible to run the unit and e2e tests locally.
 To run the unit tests run
 
