@@ -72,6 +72,7 @@ public class WhenObjectIsConvertedFromJson
     [MemberData(nameof(ShouldReturnObjectFromStringTestDataItems), MemberType = typeof(WhenObjectIsConvertedFromJson))]
     public void ShouldReturnObjectFromString(ShouldReturnObjectFromStringTestData input)
     {
+
         if (input.ThrowsExceptionType != null)
         {
             Assert.Throws(input.ThrowsExceptionType, () => input.Source.FromJson<TestObjectType>());
