@@ -5,7 +5,7 @@ IF EXISTS(SELECT *
         DROP TABLE dbo.Financial
     END;
 
-GO;
+GO
 
 IF NOT EXISTS(SELECT *
               FROM INFORMATION_SCHEMA.TABLES
