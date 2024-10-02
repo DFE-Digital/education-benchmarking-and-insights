@@ -3,9 +3,9 @@
 @model Web.App.ViewModels.RagRatingCommentaryViewModel
 
 Spending is
-@if (Model.Rating.RAG == "red" && Category.InvertRagValueCategories.Contains(Model.Rating.Category))
+@if (Model.Rating.Percentile < 50 && Category.InvertRagValueCategories.Contains(Model.Rating.Category))
 {
-    @:lower than <strong>@((100 - Model.Rating.Percentile).ToPercent())</strong>
+    @:less than <strong>@((100 - Model.Rating.Percentile).ToPercent())</strong>
 }
 else
 {

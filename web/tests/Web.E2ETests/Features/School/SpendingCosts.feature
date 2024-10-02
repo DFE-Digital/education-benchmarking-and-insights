@@ -18,15 +18,15 @@
         Given I am on spending and costs page for school with URN '777042'
         Then the RAG commentary for each category is
           | Name                                | Commentary                                         |
-          | Teaching and Teaching support staff | Spending is lower than 1% of similar schools.      |
+          | Teaching and Teaching support staff | Spending is higher than 99% of similar schools.    |
           | Non-educational support staff       | Spending is higher than 95.67% of similar schools. |
           | Administrative supplies             | Spending is higher than 99% of similar schools.    |
-          | Educational supplies                | Spending is lower than 1% of similar schools.      |
+          | Educational supplies                | Spending is higher than 99% of similar schools.    |
           | Catering staff and supplies         | Spending is higher than 92.33% of similar schools. |
           | Premises staff and services         | Spending is higher than 99% of similar schools.    |
           | Other costs                         | Spending is higher than 89% of similar schools.    |
           | Utilities                           | Spending is higher than 39% of similar schools.    |
-          | Educational ICT                     | Spending is higher than 22.33% of similar schools. |
+          | Educational ICT                     | Spending is less than 77.67% of similar schools.   |
 
     Scenario Outline: Click on view all links for each chart
         Given I am on spending and costs page for school with URN '777042'
