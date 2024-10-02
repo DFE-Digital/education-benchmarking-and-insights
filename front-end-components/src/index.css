@@ -129,6 +129,11 @@
 }
 
 .recharts-wrapper .chart-cell.chart-cell-part-year {
+  stroke: var(--warning-colour-bg);
+  fill: var(--warning-colour-bg);
+}
+
+.recharts-wrapper .chart-cell.chart-cell-part-year.chart-cell-highlight {
   stroke: var(--warning-colour);
   fill: var(--warning-colour);
 }
