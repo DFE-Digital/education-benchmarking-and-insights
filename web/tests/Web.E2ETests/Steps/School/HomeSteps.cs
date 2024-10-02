@@ -89,7 +89,7 @@ public class HomeSteps(PageDriver driver)
         {
             // already logged in
         }
-        else if (await page.Locator("h1:text-is('Department for Education Sign-in')").CheckVisible())
+        else if (await page.Locator("h1:text-is('Access the DfE Sign-in service')").CheckVisible())
         {
             // Login required
             await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
@@ -105,7 +105,7 @@ public class HomeSteps(PageDriver driver)
         }
         else
         {
-            throw new Exception("Unexpected page state: Unable to determine login requirement.");
+            throw new Exception($"Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
         }
         Assert.NotNull(_curriculumAndFinancialPlanningPage);
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
