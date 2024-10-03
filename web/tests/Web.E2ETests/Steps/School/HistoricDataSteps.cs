@@ -1,4 +1,5 @@
-﻿using Web.E2ETests.Drivers;
+﻿using Reqnroll;
+using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 

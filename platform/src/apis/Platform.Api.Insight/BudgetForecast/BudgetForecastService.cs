@@ -16,10 +16,7 @@ public interface IBudgetForecastService
     Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
         string companyNumber,
         string runType);
-    Task<int?> GetBudgetForecastCurrentYearAsync(
-        string companyNumber,
-        string runType,
-        string category);
+    Task<int?> GetBudgetForecastCurrentYearAsync();
 
     Task<IEnumerable<ActualReturnModel>> GetActualReturnsAsync(
         string companyNumber,
@@ -55,35 +52,28 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
         string companyNumber,
         string runType)
     {
-        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber,
-            RunType = runType
-        };
-
+        const string paramSql = "SELECT Value FROM Parameters WHERE Name = @Name";
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters);
-    }
+        var year = await conn.QueryFirstOrDefaultAsync<int>(paramSql, new { Name = "LatestBFRYear" });
 
-    public async Task<int?> GetBudgetForecastCurrentYearAsync(string companyNumber, string runType, string category)
-    {
-        // for 'default' rows the `RunId` will be numeric and the year, but this won't necessarily always be the case
-        if (runType != "default")
-        {
-            return null;
-        }
-
-        const string sql = "select convert(int, max(RunId)) from BudgetForecastReturn where CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category";
+        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND Year >= @StartYear AND Year <= @EndYear";
         var parameters = new
         {
             CompanyNumber = companyNumber,
             RunType = runType,
-            Category = category
+            StartYear = year - 2,
+            EndYear = year
         };
 
+
+        return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters);
+    }
+
+    public async Task<int?> GetBudgetForecastCurrentYearAsync()
+    {
+        const string sql = "SELECT Value FROM Parameters WHERE Name = @Name";
         using var conn = await dbFactory.GetConnection();
-        return await conn.ExecuteScalarAsync<int?>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<int?>(sql, new { Name = "LatestBFRYear" });
     }
 
     public Task<IEnumerable<ActualReturnModel>> GetActualReturnsAsync(string companyNumber, string category, string runId)

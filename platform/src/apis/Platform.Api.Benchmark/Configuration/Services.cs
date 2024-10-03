@@ -18,12 +18,7 @@ internal static class Services
     internal static void Configure(IServiceCollection serviceCollection)
     {
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
-        var searchName = Environment.GetEnvironmentVariable("Search__Name");
-        var searchKey = Environment.GetEnvironmentVariable("Search__Key");
-
         ArgumentNullException.ThrowIfNull(sqlConnString);
-        ArgumentNullException.ThrowIfNull(searchName);
-        ArgumentNullException.ThrowIfNull(searchKey);
 
         serviceCollection
             .AddHealthChecks()

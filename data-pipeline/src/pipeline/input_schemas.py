@@ -375,7 +375,7 @@ bfr_sofa_cols = {
 bfr_3y_cols = {
     "TrustUPIN": "Int64",
     "EFALineNo": "Int64",
-    "Y2": "Int64",
-    "Y3": "Int64",
-    "Y4": "Int64",
+    "Y2": "float",
+    "Y3": "float",
+    "Y4": "float",
 }

@@ -126,10 +126,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
         {
             try
             {
-                var year = await service.GetBudgetForecastCurrentYearAsync(
-                    companyNumber,
-                    queryParams.RunType,
-                    queryParams.Category);
+                var year = await service.GetBudgetForecastCurrentYearAsync();
                 if (year == null)
                 {
                     return req.CreateNotFoundResponse();

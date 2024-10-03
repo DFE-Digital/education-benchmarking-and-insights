@@ -71,12 +71,18 @@ public class WhenBudgetForecastServiceQueriesAsync
         // arrange
         const string companyNumber = "companyNumber";
         const string runType = "runType";
+        const string startYear = "startYear";
+        const string endYear = "endYear";
         var results = new List<BudgetForecastReturnMetricModel>
         {
             new()
         };
         string? actualSql = null;
         object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryFirstOrDefaultAsync<int>(It.IsAny<string>(), It.IsAny<object>()))
+            .ReturnsAsync(2021);
 
         _connection
             .Setup(c => c.QueryAsync<BudgetForecastReturnMetricModel>(It.IsAny<string>(), It.IsAny<object>()))
@@ -92,48 +98,36 @@ public class WhenBudgetForecastServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType", actualSql);
-        Assert.Equivalent(new
-        {
-            CompanyNumber = companyNumber,
-            RunType = runType
-        }, actualParam, true);
-    }
-
-    [Theory]
-    [InlineData("companyNumber", "default", "category", 123)]
-    [InlineData("companyNumber", "NotDefault", "category", null)]
-    public async Task ShouldExecuteScalarAsyncWhenGetBudgetForecastCurrentYear(string companyNumber, string runType, string category, int? expectedResult)
-    {
-        // arrange
-        string? actualSql = null;
-        object? actualParam = null;
-
-        _connection
-            .Setup(c => c.ExecuteScalarAsync<int?>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
-            {
-                actualSql = sql;
-                actualParam = param;
-            })
-            .ReturnsAsync(expectedResult);
-
-        // act
-        var actual = await _service.GetBudgetForecastCurrentYearAsync(companyNumber, runType, category);
-
-        // assert
-        Assert.Equal(expectedResult, actual);
-        if (expectedResult == null)
-        {
-            return;
-        }
-
-        Assert.Equal("select convert(int, max(RunId)) from BudgetForecastReturn where CompanyNumber = @CompanyNumber and RunType = @RunType and Category = @Category", actualSql);
+        Assert.Equal("SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND Year >= @StartYear AND Year <= @EndYear", actualSql);
         Assert.Equivalent(new
         {
             CompanyNumber = companyNumber,
             RunType = runType,
-            Category = category
+            StartYear = 2019,
+            EndYear = 2021
+
         }, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldExecuteScalarAsyncWhenGetBudgetForecastCurrentYear()
+    {
+        // arrange
+        string? actualSql = null;
+
+        _connection
+            .Setup(c => c.QueryFirstOrDefaultAsync<int?>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? _) =>
+            {
+                actualSql = sql;
+            })
+            .ReturnsAsync(2023);
+
+        // act
+        await _service.GetBudgetForecastCurrentYearAsync();
+
+        // assert
+
+        Assert.Equal("SELECT Value FROM Parameters WHERE Name = @Name", actualSql);
     }
 }

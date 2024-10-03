@@ -1,4 +1,5 @@
-﻿using Web.E2ETests.Drivers;
+﻿using Reqnroll;
+using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
 using Xunit;
 namespace Web.E2ETests.Steps.Trust;

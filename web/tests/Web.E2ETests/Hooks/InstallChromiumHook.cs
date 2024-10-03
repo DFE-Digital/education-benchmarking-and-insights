@@ -1,3 +1,5 @@
+using Reqnroll;
+
 namespace Web.E2ETests.Hooks;
 
 [Binding]

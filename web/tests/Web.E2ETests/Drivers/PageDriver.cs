@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 using Microsoft.Playwright;
+using Reqnroll;
+
 namespace Web.E2ETests.Drivers;
 
 public class PageDriver : IDisposable
