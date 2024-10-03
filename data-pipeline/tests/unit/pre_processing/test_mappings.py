@@ -353,6 +353,27 @@ def test_map_academy_period_return_early_september(
 
 @pytest.mark.parametrize(
     "day",
+    range(1, 31),  # 1—30
+)
+def test_map_academy_period_close_early_september(
+    day: int,
+    academy_year_start_date: date,
+    academy_year_end_date: date,
+):
+    end_date = date(2023, 9, day)
+
+    result = mappings.map_academy_period_return(
+        opened_in_period=None,
+        closed_in_period=end_date,
+        year_start_date=academy_year_start_date,
+        year_end_date=academy_year_end_date,
+    )
+
+    assert result == 0
+
+
+@pytest.mark.parametrize(
+    "day",
     range(11, 31),  # 11—30
 )
 def test_map_academy_period_return_after_early_september(
