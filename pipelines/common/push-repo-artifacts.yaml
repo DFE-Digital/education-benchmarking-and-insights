@@ -1,0 +1,54 @@
+parameters:
+  AccessToken: ''
+  AppId: ''
+  ArtifactPattern: '**'
+  BranchName: ''
+  CommitMessage: ''
+  CommitTag: ''
+  InstallationId: ''
+  PostProcessScript: 'echo "Skipped"'
+  TargetPath: ''
+
+steps:
+  - script: |
+      git config --global user.email "noreply@education.gov.uk"
+      git config --global user.name "s198d.azdo-deployment"
+      cd $(Agent.BuildDirectory)/s
+      git status
+      git remote update
+      git fetch 
+      git checkout --track origin/main
+      git checkout --no-track -b ${{ parameters.BranchName }} origin/main
+    displayName: 'Set default identity and create branch'
+
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Download build artifacts'
+    inputs:
+      buildType: current
+      targetPath: $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
+      itemPattern: ${{ parameters.ArtifactPattern }}
+  
+  - script: |
+      cd $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
+      ${{ parameters.PostProcessScript }}
+      cd $(Agent.BuildDirectory)/s
+    displayName: 'Post-process artifacts'
+
+  - script: |
+      git add .
+      git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }} [skip ci]"
+      git push origin "refs/heads/${{ parameters.BranchName }}" --set-upstream --verbose
+    displayName: 'Commit changes'
+
+  - task: UseNode@1
+    inputs:
+      version: '20.x'
+
+  - script: |
+      branch=$(echo $(Build.SourceBranch) | cut -c 12-)
+      git checkout $branch
+      cd ./pipelines/common/scripts
+      npm i
+      npm run build
+      APP_ID=${{ parameters.AppId }} BRANCH=${{ parameters.BranchName }} INSTALLATION_ID=${{ parameters.InstallationId }} LOG_LEVEL=debug PRIVATE_KEY="${{ parameters.AccessToken }}" TITLE="${{ parameters.CommitMessage }}" node dist/index.js
+    displayName: 'Create Pull Request'
