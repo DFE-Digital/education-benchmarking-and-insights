@@ -6,6 +6,8 @@ variables:
     value: '$(Pipeline.Workspace)/zap'
   - name: 'cacheKey'
     value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
+  - name: 'ShouldPublish'
+    value: true #donotpush! $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 trigger: none
 
@@ -88,7 +90,7 @@ jobs:
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -c config.conf -I -m 10 -T 60 -d -t https://s198d01-education-benchmarking-fd.azurefd.net/school/135966 -r web.html
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -c config.conf -I -m 10 -T 60 -d -t https://s198d01-education-benchmarking-fd.azurefd.net/school/135966 -r web-report.html -w web-report.md
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish reports"
@@ -96,3 +98,25 @@ jobs:
           targetPath: '$(zapDir)'
           artifact: 'web'
           publishLocation: 'pipeline'
+
+  - job: GitHubPublish
+    displayName: 'Publish artifacts to GitHub'
+    dependsOn: [ RunScan ]
+    condition: and(succeeded(), eq(variables['ShouldPublish'],'true'))
+
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - template: ..\common\push-repo-artifacts.yaml
+        parameters:
+          AccessToken: $(System.AccessToken)
+          AppId: TODO
+          ArtifactPattern: '**/*.md'
+          BranchName: 'doc/$(Build.BuildNumber)/web-security-scan'
+          CommitMessage: 'Updated web security scan documentation'
+          CommitTag: 'doc'
+          InstallationId: 16531203
+          PostProcessScript: |
+            find . -type f -name "*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+          TargetPath: 'documentation/quality-assurance/security-scan-reports'

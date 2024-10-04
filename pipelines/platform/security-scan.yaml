@@ -6,6 +6,8 @@ variables:
     value: '$(Pipeline.Workspace)/zap'
   - name: 'cacheKey'
     value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
+  - name: 'ShouldPublish'
+    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 trigger: none
 
@@ -107,7 +109,7 @@ jobs:
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -c config.conf -f openapi -r $(key)-report.html -z "-configfile /zap/wrk/$(key).prop"
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -c config.conf -f openapi -r $(key)-report.html -w $(key)-report.md -z "-configfile /zap/wrk/$(key).prop"
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish reports"
@@ -115,3 +117,25 @@ jobs:
           targetPath: '$(zapDir)'
           artifact: '$(key)'
           publishLocation: 'pipeline'
+
+  - job: GitHubPublish
+    displayName: 'Publish artifacts to GitHub'
+    dependsOn: [ RunScan ]
+    condition: and(succeeded(), eq(variables['ShouldPublish'],'true'))
+
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - template: ..\common\push-repo-artifacts.yaml
+        parameters:
+          AccessToken: $(System.AccessToken)
+          AppId: TODO
+          ArtifactPattern: '**/*.md'
+          BranchName: 'doc/$(Build.BuildNumber)/platform-security-scan'
+          CommitMessage: 'Updated platform security scan documentation'
+          CommitTag: 'doc'
+          InstallationId: 16531203
+          PostProcessScript: |
+            find . -type f -name "*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+          TargetPath: 'documentation/quality-assurance/security-scan-reports'
