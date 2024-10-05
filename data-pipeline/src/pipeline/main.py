@@ -21,7 +21,8 @@ from src.pipeline.database import (
     insert_financial_data,
     insert_metric_rag,
     insert_non_financial_data,
-    insert_schools_and_trusts_and_local_authorities,
+    insert_schools_and_local_authorities,
+    insert_trusts,
     insert_trust_financial_data,
 )
 from src.pipeline.log import setup_logger
@@ -137,20 +138,6 @@ def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
     return aar
 
 
-def pre_process_trust_aar(run_type: str, year: int) -> pd.DataFrame:
-    logger.info("Processing Trust AAR data.")
-    aar_data = get_blob(raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8")
-    trust_aar = prepare_trust_aar_data(aar_data, year)
-
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{year}/trust_aar.parquet",
-        trust_aar.to_parquet(),
-    )
-
-    return trust_aar
-
-
 def pre_process_schools(run_type, year) -> pd.DataFrame:
     logger.info("Processing Schools Data")
     gias_data = get_blob(
@@ -255,51 +242,21 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
 
 
 def pre_process_trust_data(
-    run_type,
-    year,
-    schools,
-    census,
-    sen,
-    cdc,
-    trust_aar,
-    ks2,
-    ks4,
-    cfo,
-    central_services,
+    run_type: str,
+    year: int,
+    academies: pd.DataFrame,
 ) -> pd.DataFrame:
     """
     Build and store Trust financial information.
 
-    As per `pre_process_academies_data()` save that transitioning
-    academies are retained.
-
     :param run_type: "default" or "custom"
     :param year: year in question
-    :param schools: …
-    :param census: …
-    :param sen: …
-    :param cdc: …
-    :param trust_aar: Academy Account Return data
-    :param ks2: …
-    :param ks4: …
-    :param cfo: …
-    :param central_services: Central Services data
+    :param academies: Academy financial information
     :return: Trust-level financial information
     """
     logger.info("Building Trust data.")
 
-    trusts = build_trust_data(
-        year,
-        schools,
-        census,
-        sen,
-        cdc,
-        trust_aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-    )
+    trusts = build_trust_data(academies)
 
     write_blob(
         "pre-processed",
@@ -338,11 +295,34 @@ def pre_process_federations(run_type, year, data_ref):
 
 
 def pre_process_all_schools(run_type, year, data_ref):
+    """
+    Store various org. information.
+
+    - store Trust information, derived from Academy-level details
+    - remove transitioning Academies
+    - store combined Maintained-School/Academy information
+    - store Trust financial information
+
+    :param run_type: should only be "default"
+    :param year: year in question
+    :param data_ref: Academy, Maintained and Trust info.
+    """
     logger.info("Building All schools Set")
     academies, maintained_schools, trusts = data_ref
 
-    all_schools = pd.concat([academies, maintained_schools], axis=0)
+    insert_trusts(run_type, year, academies)
+    mask = (
+        academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
+    )
+    academies = academies[~mask]
+    # TODO: this overwrites the previous one inc. transitioning academies.
+    write_blob(
+        "pre-processed",
+        f"{run_type}/{year}/academies.parquet",
+        academies.to_parquet(),
+    )
 
+    all_schools = pd.concat([academies, maintained_schools], axis=0)
     # TODO: Shouldn't need to filter this out
     all_schools = all_schools[~all_schools["Financial Position"].isna()]
 
@@ -352,7 +332,7 @@ def pre_process_all_schools(run_type, year, data_ref):
         all_schools.to_parquet(),
     )
 
-    insert_schools_and_trusts_and_local_authorities(run_type, year, all_schools)
+    insert_schools_and_local_authorities(run_type, year, all_schools)
     insert_non_financial_data(run_type, year, all_schools)
     insert_financial_data(run_type, year, all_schools)
     insert_trust_financial_data(run_type, year, trusts)
@@ -504,7 +484,7 @@ def pre_process_data(worker_client, run_type, year):
     start_time = time.time()
     logger.info(f"Pre-processing data {run_type} - {year}")
 
-    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services, trust_aar = (
+    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
         worker_client.gather(
             [
                 worker_client.submit(pre_process_cdc, run_type, year),
@@ -516,7 +496,6 @@ def pre_process_data(worker_client, run_type, year):
                 worker_client.submit(pre_process_schools, run_type, year),
                 worker_client.submit(pre_process_cfo, run_type, year),
                 worker_client.submit(pre_process_central_services, run_type, year),
-                worker_client.submit(pre_process_trust_aar, run_type, year),
             ]
         )
     )
@@ -525,28 +504,15 @@ def pre_process_data(worker_client, run_type, year):
         (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
     )
 
-    academies, maintained_schools, trusts = worker_client.gather(
+    academies, maintained_schools = worker_client.gather(
         [
             worker_client.submit(pre_process_academies_data, run_type, year, data_ref),
             worker_client.submit(
                 pre_process_maintained_schools_data, run_type, year, data_ref
             ),
-            worker_client.submit(
-                pre_process_trust_data,
-                run_type,
-                year,
-                schools,
-                census,
-                sen,
-                cdc,
-                trust_aar,
-                ks2,
-                ks4,
-                cfo,
-                central_services,
-            ),
         ]
     )
+    trusts = pre_process_trust_data(run_type, year, academies)
 
     pre_process_all_schools(
         run_type,

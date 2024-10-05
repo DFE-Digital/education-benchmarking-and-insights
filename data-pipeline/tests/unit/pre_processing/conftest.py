@@ -355,11 +355,6 @@ def prepared_aar_data(aar_data: pd.DataFrame) -> pd.DataFrame:
 
 
 @pytest.fixture
-def prepared_trust_aar_data(aar_data: pd.DataFrame) -> pd.DataFrame:
-    return prepare_trust_aar_data(StringIO(aar_data.to_csv()), 2022)
-
-
-@pytest.fixture
 def workforce_census_data() -> pd.DataFrame:
     return pd.DataFrame(
         {

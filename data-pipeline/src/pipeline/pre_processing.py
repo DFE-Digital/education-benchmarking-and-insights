@@ -403,11 +403,7 @@ def prepare_central_services_data(cs_path, current_year: int):
     return central_services_financial.set_index("Trust UPIN")
 
 
-def prepare_aar_data(
-    aar_path,
-    current_year: int,
-    remove_transitioning: bool = True,
-):
+def prepare_aar_data(aar_path, current_year: int):
     aar = pd.read_csv(
         aar_path,
         encoding="utf-8",
@@ -421,14 +417,6 @@ def prepare_aar_data(
         "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
     ):
         aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
-
-    if remove_transitioning:
-        transitioned_academy_urns = aar["URN"][aar["URN"].duplicated(keep=False)].values
-        mask = ~(
-            aar["URN"].isin(transitioned_academy_urns)
-            & aar["Date joined or opened if in period:"].isna()
-        )
-        aar = aar[mask]
 
     aar["In year balance"] = (
         aar["BNCH11000T (Revenue Income)"] - aar["BNCH20000T (Total Costs)"]
@@ -557,6 +545,8 @@ def prepare_aar_data(
     aar["PFI School"] = aar["Other costs_PFI charges"].map(mappings.map_is_pfi_school)
 
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
+
+    # TODO: any processing required from `pre_process_trust_aar()` below?
 
     return aar.set_index("URN")
 
@@ -757,6 +747,11 @@ def build_academy_data(
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
 
+    # TODO: necessary for apportionment?
+    academies["Number of pupils"] = academies["Number of pupils"].fillna(
+        academies["Number of pupils"].median()
+    )
+
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_phase_type(
             establishment_code=df["TypeOfEstablishment (code)"],
@@ -779,6 +774,7 @@ def build_academy_data(
         axis=1,
     )
 
+    # TODO: should factor into apportionment.
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
@@ -809,21 +805,36 @@ def build_academy_data(
 
     academies = academies.merge(
         central_services.reset_index(),
-        left_on="Company Registration Number",
-        right_on="Company_Number",
+        on="Company Registration Number",
         how="left",
         suffixes=("", "_CS"),
     )
-    academies.drop(columns=["Company_Number"], inplace=True)
 
+    # TODO: pro-rata apportionment dividends.
+    academies["Number of pupils_pro_rata"] = academies["Number of pupils"] * (
+        academies["Period covered by return"] / 12.0
+    )
+    academies["Total Internal Floor Area_pro_rata"] = academies[
+        "Total Internal Floor Area"
+    ] * (academies["Period covered by return"] / 12.0)
     trust_basis_data = (
-        academies[["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]]
+        academies[
+            [
+                "Trust UPIN",
+                "Number of pupils",
+                "Number of pupils_pro_rata",
+                "Total Internal Floor Area",
+                "Total Internal Floor Area_pro_rata",
+            ]
+        ]
         .groupby(["Trust UPIN"])
         .sum()
         .rename(
             columns={
                 "Number of pupils": "Total pupils in trust",
+                "Number of pupils_pro_rata": "Total pupils in trust_pro_rata",
                 "Total Internal Floor Area": "Total Internal Floor Area in trust",
+                "Total Internal Floor Area_pro_rata": "Total Internal Floor Area in trust_pro_rata",
                 "In year balance": "Trust Balance",
             }
         )
@@ -839,6 +850,7 @@ def build_academy_data(
         inplace=True,
     )
 
+    # TODO: avoid recalculating pupil/building apportionment.
     for category in config.rag_category_settings.keys():
         is_pupil_basis = (
             config.rag_category_settings[category]["type"] == "Pupil"
@@ -848,21 +860,25 @@ def build_academy_data(
 
         apportionment_divisor = academies[
             (
-                "Total pupils in trust"
+                "Total pupils in trust_pro_rata"
                 if is_pupil_basis
-                else "Total Internal Floor Area in trust"
+                else "Total Internal Floor Area in trust_pro_rata"
             )
         ]
 
         apportionment_dividend = academies[
-            "Number of pupils" if is_pupil_basis else "Total Internal Floor Area"
+            (
+                "Number of pupils_pro_rata"
+                if is_pupil_basis
+                else "Total Internal Floor Area_pro_rata"
+            )
         ]
 
         basis_data = academies[
             (
-                "Number of pupils"
+                "Number of pupils_pro_rata"
                 if config.rag_category_settings[category]["type"] == "Pupil"
-                else "Total Internal Floor Area"
+                else "Total Internal Floor Area_pro_rata"
             )
         ]
 
@@ -879,6 +895,7 @@ def build_academy_data(
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
                 float
             ) * apportionment.astype(float)
+
             academies[sub_category] = (
                 academies[sub_category] + academies[sub_category + "_CS"]
             )
@@ -1025,50 +1042,17 @@ def build_academy_data(
     return academies.set_index("URN")
 
 
-def build_trust_data(
-    year,
-    schools,
-    census,
-    sen,
-    cdc,
-    trust_aar,
-    ks2,
-    ks4,
-    cfo,
-    central_services,
-) -> pd.DataFrame:
+def build_trust_data(academies: pd.DataFrame) -> pd.DataFrame:
     """
     Build Trust financial information.
 
-    As per `build_academy_data()` save rolled up to Trust level.
+    Academy financial information are rolled up to Trust level.
 
-    :param year: year in question
-    :param schools: …
-    :param census: …
-    :param sen: …
-    :param cdc: …
-    :param trust_aar: Academy Account Return data
-    :param ks2: …
-    :param ks4: …
-    :param cfo: …
-    :param central_services: Central Services data
+    :param academies: Academy financial information
     :return: Trust-level financial information
     """
-    df = build_academy_data(
-        year,
-        schools,
-        census,
-        sen,
-        cdc,
-        trust_aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-    )
-
     df = (
-        df.reset_index()[
+        academies.reset_index()[
             [
                 c
                 for c in config.trust_db_projections.keys()
