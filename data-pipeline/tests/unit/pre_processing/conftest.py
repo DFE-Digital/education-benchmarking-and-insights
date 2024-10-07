@@ -14,7 +14,6 @@ from src.pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
-    prepare_trust_aar_data,
 )
 
 

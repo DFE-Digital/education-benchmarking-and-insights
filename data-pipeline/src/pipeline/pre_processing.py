@@ -546,34 +546,7 @@ def prepare_aar_data(aar_path, current_year: int):
 
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
-    # TODO: any processing required from `pre_process_trust_aar()` below?
-
     return aar.set_index("URN")
-
-
-def prepare_trust_aar_data(aar_path: io.StringIO, current_year: int) -> pd.DataFrame:
-    """
-    As per `prepare_aar_data()` save that we retain all transitioning
-    academy data.
-
-    TODO: Trust-related columns derived for Academies are removed—those
-    derivations will likely be removed in the future.
-
-    Any empty `Company Registration Number` rows are removed as this is
-    key to Trust financial info.
-
-    :param aar_path: CSV input
-    :param current_year: year in question
-    """
-    aar = prepare_aar_data(
-        aar_path,
-        current_year,
-        remove_transitioning=False,
-    )
-
-    return aar.drop(columns=["Trust Balance", "Trust Financial Position"]).dropna(
-        subset=["Company Registration Number"]
-    )
 
 
 def prepare_schools_data(base_data_path, links_data_path):
