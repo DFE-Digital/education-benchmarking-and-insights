@@ -41,3 +41,6 @@ gantt
 | **Pupil Census**     |                             |  
 | **Workforce Census** |                             | 
 | **BFR**              |                             |  
+
+<!-- Leave the rest of this page blank -->
+\newpage
