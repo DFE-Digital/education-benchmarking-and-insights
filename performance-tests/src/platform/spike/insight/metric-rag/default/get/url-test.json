@@ -1,0 +1,47 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get RAG",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-insight-fa.azurewebsites.net/api/metric-rag/default?urns=${identifier}&categories=${category}&statuses=${status}",
+                    "headers": {
+                        "x-functions-key": "${insight-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "categories.csv",
+                    "variableNames": "category"
+                },
+                {
+                    "fileName": "schools.csv",
+                    "variableNames": "identifier,name"
+                },
+                {
+                    "fileName": "statuses.csv",
+                    "variableNames": "status"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 3,
+            "durationInSeconds": 360,
+            "loadType": "Spike",
+            "scenario": "requestGroup1",
+            "spikeMultiplier": 10,
+            "spikeHoldLoadInSeconds": 60
+        }
+    ]
+}

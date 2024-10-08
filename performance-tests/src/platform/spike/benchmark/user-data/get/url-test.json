@@ -1,0 +1,39 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get User Data",
+                    "responseVariables": [],
+                    "queryParameters": [
+                        {
+                            "key": "userId",
+                            "value": "${user-id}"
+                        }
+                    ],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-benchmark-fa.azurewebsites.net/api/user-data",
+                    "headers": {
+                        "x-functions-key": "${benchmark-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": []
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 2,
+            "durationInSeconds": 360,
+            "loadType": "Spike",
+            "scenario": "requestGroup1",
+            "spikeMultiplier": 10,
+            "spikeHoldLoadInSeconds": 60
+        }
+    ]
+}
