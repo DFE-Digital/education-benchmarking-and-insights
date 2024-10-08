@@ -84,7 +84,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
 
 
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["Trust Balance"].loc[100150] == 499.0
+    assert prepared_aar_data["Trust Balance"].loc[100150] == 498.0
 
 
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
@@ -111,3 +111,11 @@ def test_empty_lines_stripped(aar_data: pd.DataFrame):
 
     assert len(csv_with_empty_lines.splitlines()) > len(aar_data.index)
     assert len(result.index) == len(aar_data.index)
+
+
+def test_aar_transitioned_academies_not_removed(
+    aar_data: pd.DataFrame,
+    prepared_aar_data: pd.DataFrame,
+):
+    assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
+    assert sorted(prepared_aar_data.index) == [100150, 100152, 100152, 100153]

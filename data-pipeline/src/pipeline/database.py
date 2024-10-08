@@ -7,6 +7,8 @@ import pandas as pd
 import sqlalchemy
 from sqlalchemy import URL, create_engine, event
 
+from src.pipeline import config
+
 logger = logging.getLogger("fbit-data-pipeline")
 
 db_args = os.getenv("DB_ARGS")
@@ -135,9 +137,7 @@ def insert_metric_rag(run_type: str, set_type: str, run_id: str, df: pd.DataFram
     )
 
 
-def insert_schools_and_trusts_and_local_authorities(
-    run_type: str, year: str, df: pd.DataFrame
-):
+def insert_schools_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
@@ -175,6 +175,30 @@ def insert_schools_and_trusts_and_local_authorities(
     upsert(write_frame, "School", keys=["URN"])
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
 
+    la_projections = {"LA Code": "Code", "LA Name": "Name"}
+
+    las = (
+        df.reset_index()[["LA Code", "LA Name"]]
+        .rename(columns=la_projections)[[*la_projections.values()]]
+        .drop_duplicates()
+    )
+
+    las.set_index("Code", inplace=True)
+
+    upsert(las, "LocalAuthority", keys=["Code"])
+    logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {year}")
+
+
+def insert_trusts(run_type: str, year: str, df: pd.DataFrame):
+    """
+    Store Trust non-financial information.
+
+    Academy-level information is rolled up to Trust level.
+
+    :param run_type: "default" or "custom"
+    :param year: financial year in question
+    :param df: Academy financial information
+    """
     trust_projections = {
         "Company_Name": "TrustName",
         "CFO name": "CFOName",
@@ -195,19 +219,6 @@ def insert_schools_and_trusts_and_local_authorities(
 
     upsert(trusts, "Trust", keys=["CompanyNumber"])
     logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {year}")
-
-    la_projections = {"LA Code": "Code", "LA Name": "Name"}
-
-    las = (
-        df.reset_index()[["LA Code", "LA Name"]]
-        .rename(columns=la_projections)[[*la_projections.values()]]
-        .drop_duplicates()
-    )
-
-    las.set_index("Code", inplace=True)
-
-    upsert(las, "LocalAuthority", keys=["Code"])
-    logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {year}")
 
 
 def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
@@ -407,6 +418,32 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
 
     upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"])
     logger.info(f"Wrote {len(write_frame)} rows to financial data {run_type} - {year}")
+
+
+def insert_trust_financial_data(run_type: str, year: str, df: pd.DataFrame):
+    """
+    Write Trust financial info. to the TrustFinancial table.
+
+    - DataFrame columns will be aligned with DB columns
+    - erroneous numeric values will be replaced with NULL
+
+    :param run_type: should only be "default"
+    :param year: year in question
+    :param df: Trust financial info.
+    """
+    write_frame = (
+        df.reset_index()[config.trust_db_projections.keys()]
+        .rename(columns=config.trust_db_projections)
+        .replace({np.inf: np.nan, -np.inf: np.nan})
+    )
+
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(year)
+
+    upsert(write_frame, "TrustFinancial", keys=["RunType", "RunId", "CompanyNumber"])
+    logger.info(
+        f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {year}"
+    )
 
 
 def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
