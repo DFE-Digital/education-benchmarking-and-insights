@@ -1,0 +1,39 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get Expenditure",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-insight-fa.azurewebsites.net/api/expenditure/school/${identifier}",
+                    "headers": {
+                        "x-functions-key": "${insight-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "schools.csv",
+                    "variableNames": "identifier,name"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 3,
+            "durationInSeconds": 360,
+            "loadType": "Spike",
+            "scenario": "requestGroup1",
+            "spikeMultiplier": 10,
+            "spikeHoldLoadInSeconds": 60
+        }
+    ]
+}
