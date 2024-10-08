@@ -18,7 +18,7 @@ public enum CostCategoryNames
 public class SpendingCostsPage(IPage page)
 {
     private readonly string[] _h3Names =
-    {
+    [
         "Teaching and Teaching support staff",
         "Administrative supplies",
         "Catering staff and supplies",
@@ -28,7 +28,7 @@ public class SpendingCostsPage(IPage page)
         "Other costs",
         "Premises staff and services",
         "Utilities"
-    };
+    ];
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
@@ -150,6 +150,15 @@ public class SpendingCostsPage(IPage page)
 
         var text = await priority.InnerTextAsync();
         Assert.EndsWith(commentary, text);
+    }
+
+    public async Task AssertCommercialResources(string categoryName, string[] commercialResources)
+    {
+        var categorySection = page.Locator($"#spending-priorities-{categoryName.ToSlug()}");
+        await categorySection.IsVisibleAsync();
+
+        var resources = await categorySection.Locator("ul li").AllTextContentsAsync();
+        Assert.Equal(commercialResources, resources.Select(r => r.Replace("Opens in a new window", string.Empty).Trim()));
     }
 
     public async Task<CompareYourCostsPage> ClickOnLink(CostCategoryNames costCategory)

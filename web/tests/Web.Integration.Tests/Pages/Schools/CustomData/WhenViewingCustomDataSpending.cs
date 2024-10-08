@@ -31,7 +31,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     {
         var (page, school) = await SetupNavigateInitPage(true);
 
-        var categorySections = page.QuerySelectorAll(".govuk-\\!-margin-bottom-4");
+        var categorySections = page.QuerySelectorAll("section");
 
         Assert.Equal(9, categorySections.Length);
 
