@@ -205,7 +205,21 @@ def map_is_surplus_deficit(closing_balance: float):
         return "Deficit"
 
 
-def _diff_month(d1, d2):
+def _diff_month(d1, d2, opening=False):
+    """
+    The number of months between two dates (exclusive).
+
+    Note: for opening-dates, where d2 is up to the 10th September, this
+    is considered a full month.
+
+    :param d1: end date
+    :param d2: start date
+    :param opening: whether to consider this an org. "opening" date
+    :return: number of months between start and end dates
+    """
+    if opening and d2.month == 9 and d2.day <= 10:
+        return 12
+
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
 
@@ -218,7 +232,7 @@ def map_academy_period_return(
     if not pd.isnull(closed_in_period):
         return _diff_month(closed_in_period, year_start_date)
     elif not pd.isnull(opened_in_period):
-        return _diff_month(year_end_date, opened_in_period)
+        return _diff_month(year_end_date, opened_in_period, opening=True)
     else:
         return 12
 

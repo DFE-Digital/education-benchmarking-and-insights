@@ -1,3 +1,4 @@
+from datetime import date
 from io import BytesIO, StringIO
 
 import numpy as np
@@ -807,3 +808,17 @@ def maintained_schools_master_list():
             "Self Generated Funding": [1000, 1001, 1002, 1003],
         }
     )
+
+
+@pytest.fixture
+def academy_year_start_date() -> date:
+    year = date.today().year
+
+    return date(year - 1, 9, 1)
+
+
+@pytest.fixture
+def academy_year_end_date() -> date:
+    year = date.today().year
+
+    return date(year, 8, 30)
