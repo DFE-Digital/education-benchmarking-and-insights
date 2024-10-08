@@ -19,7 +19,7 @@ List service conditions and the mitigations we have in place.
 **Data corruption**
 
 - **Impact:** Some data may be lost, updated with incorrect value or may be presented to the wrong users.
-- **Prevention:** Azure SQL keeps backups of the database. (Differential backup - 24 hours,  Point in time restore - 7 days,  Retention period - 35 days)
+- **Prevention:** Azure SQL keeps backups of the database. (Differential backup - 24 hours,  Point in time restore - 7 days,  Weekly LTR Backups - 52 weeks)
 - **Detection:** Smoke tests may detect corruptions in some critical data.
 - **Remediation:** The data may be fixed manually if the change is simple. If the change is complex or if we don’t know the extent of the issue, it may be necessary to recover the database from a backup whether daily, hourly or point-in-time.
 
