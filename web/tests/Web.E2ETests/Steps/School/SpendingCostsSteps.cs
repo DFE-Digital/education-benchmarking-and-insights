@@ -1,5 +1,4 @@
-﻿using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 namespace Web.E2ETests.Steps.School;
@@ -47,6 +46,32 @@ public class SpendingCostsSteps(PageDriver driver)
         foreach (var row in table.Rows)
         {
             await _spendingCostsPage.AssertRagCommentary(row["Name"], row["Commentary"]);
+        }
+    }
+
+    [Then("the commercial resources for each category are")]
+    public async Task ThenTheCommercialResourcesForEachCategoryAre(DataTable table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+
+        var commercialResources = new Dictionary<string, List<string>>();
+        foreach (var row in table.Rows)
+        {
+            if (!commercialResources.TryGetValue(row["Name"], out var value))
+            {
+                value = [];
+                commercialResources.Add(row["Name"], value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(row["Resource"]))
+            {
+                value.Add(row["Resource"]);
+            }
+        }
+
+        foreach (var row in commercialResources)
+        {
+            await _spendingCostsPage.AssertCommercialResources(row.Key, row.Value.ToArray());
         }
     }
 
