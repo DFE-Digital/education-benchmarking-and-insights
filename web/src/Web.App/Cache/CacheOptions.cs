@@ -1,8 +1,12 @@
 namespace Web.App.Cache;
 
-public class CacheOptions
+public record CacheOptions
 {
-    public string? CacheKey { get; set; }
-    public int SlidingExpirationInSeconds { get; set; }
-    public int AbsoluteExpirationInSeconds { get; set; }
+    public CacheSettings ReturnYears { get; set; } = new();
+}
+
+public record CacheSettings
+{
+    public int? SlidingExpiration { get; set; }
+    public int? AbsoluteExpiration { get; set; }
 }

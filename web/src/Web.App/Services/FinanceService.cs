@@ -2,9 +2,9 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Web.App.Cache;
 using Web.App.Domain;
-using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
+
 namespace Web.App.Services;
 
 public interface IFinanceService
@@ -15,30 +15,28 @@ public interface IFinanceService
 public class FinanceService(
     IInsightApi insightApi,
     IMemoryCache memoryCache,
-    IOptions<CacheOptions> cacheOptions) : IFinanceService
+    IOptions<CacheOptions> options) : IFinanceService
 {
-    private readonly CacheOptions _cacheOptions = cacheOptions.Value;
-    private readonly string _cacheKey = cacheOptions.Value.CacheKey ?? throw new NullReferenceException(nameof(CacheOptions));
+    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 60;
+    private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 3600;
+    private const string CacheKey = "return-years";
 
     public async Task<FinanceYears> GetYears()
     {
-        FinanceYears data;
-        if (memoryCache.TryGetValue(_cacheKey, out var cachedData))
+        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is FinanceYears financeYears)
         {
-            data = cachedData as FinanceYears ?? throw new InvalidOperationException(nameof(FinanceYears));
-
-            return data;
+            return financeYears;
         }
 
-        data = await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
+        var data = await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
 
         MemoryCacheEntryOptions cacheEntryOptions = new()
         {
-            SlidingExpiration = TimeSpan.FromSeconds(_cacheOptions.SlidingExpirationInSeconds),
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_cacheOptions.AbsoluteExpirationInSeconds)
+            SlidingExpiration = TimeSpan.FromSeconds(_sliding),
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_absolute)
         };
 
-        memoryCache.Set(_cacheKey, data, cacheEntryOptions);
+        memoryCache.Set(CacheKey, data, cacheEntryOptions);
 
         return data;
     }

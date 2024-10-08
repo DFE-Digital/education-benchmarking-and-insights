@@ -61,7 +61,7 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 
 builder.Services.AddMemoryCache();
 
-builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("ReturnYearsCacheOptions"));
+builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
 
 builder.AddSessionService();
 

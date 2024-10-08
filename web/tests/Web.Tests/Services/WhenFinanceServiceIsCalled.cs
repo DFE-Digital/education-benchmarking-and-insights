@@ -14,60 +14,52 @@ public class WhenFinanceServiceIsCalled
 {
     private readonly Mock<IInsightApi> _api = new();
     private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023 };
-    private readonly CacheOptions _cacheOptions = new()
-    {
-        CacheKey = "ReturnYearsCache",
-        SlidingExpirationInSeconds = 60,
-        AbsoluteExpirationInSeconds = 3600
-    };
 
-    private (IMemoryCache memoryCache, IOptions<CacheOptions> mockOptions) CreateCacheAndOptions()
+    private const string CacheKey = "return-years";
+    
+    private static (IMemoryCache mockCache, IOptions<CacheOptions> options) CreateCacheAndOptions()
     {
-        var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var mockOptions = Options.Create(_cacheOptions);
-        return (memoryCache, mockOptions);
+        var mockCache = new MemoryCache(new MemoryCacheOptions());
+        var options = Options.Create(new CacheOptions
+        {
+            ReturnYears = new CacheSettings { SlidingExpiration = 60, AbsoluteExpiration = 3600 }
+        });
+        return (mockCache, options);
     }
 
     [Fact]
     public async Task GetYearsShouldReturnCachedResponseIfItExist()
     {
-        var (mockCache, mockOptions) = CreateCacheAndOptions();
+        var (mockCache, options) = CreateCacheAndOptions();
 
-        MemoryCacheEntryOptions cacheEntryOptions = new()
-        {
-            SlidingExpiration = TimeSpan.FromSeconds(60),
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(60)
-        };
-
-        mockCache.Set(_cacheOptions.CacheKey!, _financeYears, cacheEntryOptions);
+        mockCache.Set(CacheKey, _financeYears);
 
         _api.Setup(api => api.GetCurrentReturnYears())
             .ReturnsAsync(ApiResult.Ok(_financeYears));
 
-        var service = new FinanceService(_api.Object, mockCache, mockOptions);
+        var service = new FinanceService(_api.Object, mockCache, options);
 
         var actual = await service.GetYears();
 
-        _api.Verify(api => api.GetCurrentReturnYears(), Times.Exactly(0));
+        _api.Verify(api => api.GetCurrentReturnYears(), Times.Never());
         Assert.IsType<FinanceYears>(actual);
         Assert.Equal(_financeYears.Aar, actual.Aar);
         Assert.Equal(_financeYears.Cfr, actual.Cfr);
-
     }
 
     [Fact]
     public async Task GetYearsShouldSetCacheCorrectlyIfItDoesNotExist()
     {
-        var (mockCache, mockOptions) = CreateCacheAndOptions();
+        var (mockCache, options) = CreateCacheAndOptions();
 
         _api.Setup(api => api.GetCurrentReturnYears())
             .ReturnsAsync(ApiResult.Ok(_financeYears));
 
-        var service = new FinanceService(_api.Object, mockCache, mockOptions);
+        var service = new FinanceService(_api.Object, mockCache, options);
 
         await service.GetYears();
 
-        mockCache.TryGetValue(_cacheOptions.CacheKey!, out var actual);
+        mockCache.TryGetValue(CacheKey, out var actual);
 
         var cachedYears = Assert.IsType<FinanceYears>(actual);
         Assert.Equal(_financeYears.Aar, cachedYears.Aar);
@@ -77,18 +69,12 @@ public class WhenFinanceServiceIsCalled
     [Fact]
     public async Task GetYearsShouldCallApiWhenCacheDoesNotExist()
     {
-        var (mockCache, mockOptions) = CreateCacheAndOptions();
-
-        MemoryCacheEntryOptions cacheEntryOptions = new()
-        {
-            SlidingExpiration = TimeSpan.FromSeconds(60),
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(60)
-        };
+        var (mockCache, options) = CreateCacheAndOptions();
 
         _api.Setup(api => api.GetCurrentReturnYears())
             .ReturnsAsync(ApiResult.Ok(_financeYears));
 
-        var service = new FinanceService(_api.Object, mockCache, mockOptions);
+        var service = new FinanceService(_api.Object, mockCache, options);
 
         var actual = await service.GetYears();
 

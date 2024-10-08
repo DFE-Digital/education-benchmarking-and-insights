@@ -1,10 +1,7 @@
 using System.Collections.Concurrent;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
-using Web.App.Cache;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
@@ -50,20 +47,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     protected override void Configure(IServiceCollection services)
     {
-        var returnYearCacheOptions = new CacheOptions
-        {
-            CacheKey = "ReturnYearsCache",
-            SlidingExpirationInSeconds = 60,
-            AbsoluteExpirationInSeconds = 3600
-        };
-
-        services.Configure<CacheOptions>(options =>
-        {
-            options.CacheKey = returnYearCacheOptions.CacheKey;
-            options.SlidingExpirationInSeconds = returnYearCacheOptions.SlidingExpirationInSeconds;
-            options.AbsoluteExpirationInSeconds = returnYearCacheOptions.AbsoluteExpirationInSeconds;
-        });
-
         services.AddDistributedMemoryCache();
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);

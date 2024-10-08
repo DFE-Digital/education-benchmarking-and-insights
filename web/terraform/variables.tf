@@ -20,10 +20,11 @@ variable "configuration" {
       ForecastRisk                  = bool
       TrustComparison               = bool
     })
-    returnYearsCacheOptions = object({
-        CacheKey                    = string
-        SlidingExpirationInSeconds  = number
-        AbsoluteExpirationInSeconds = number
+    CacheOptions = object({
+      ReturnYears = object({
+        SlidingExpiration  = number
+        AbsoluteExpiration = number
+      })
     })
   }))
   default = {
@@ -42,11 +43,12 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
-      }
-      returnYearsCacheOptions = {
-          CacheKey                    = "ReturnYearsCache"
-          SlidingExpirationInSeconds  = 60
-          AbsoluteExpirationInSeconds = 3600
+      },
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
     automated-test = {
@@ -64,11 +66,12 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
-      }
-      returnYearsCacheOptions = {
-        CacheKey                    = "ReturnYearsCache"
-        SlidingExpirationInSeconds  = 60
-        AbsoluteExpirationInSeconds = 3600
+      },
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
     test = {
@@ -86,11 +89,12 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
-      }
-      returnYearsCacheOptions = {
-        CacheKey                    = "ReturnYearsCache"
-        SlidingExpirationInSeconds  = 60
-        AbsoluteExpirationInSeconds = 3600
+      },
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
     feature = {
@@ -108,11 +112,12 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
-      }
-      returnYearsCacheOptions = {
-        CacheKey                    = "ReturnYearsCache"
-        SlidingExpirationInSeconds  = 60
-        AbsoluteExpirationInSeconds = 3600
+      },
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
     pre-production = {
@@ -131,10 +136,11 @@ variable "configuration" {
         ForecastRisk                  = true
         TrustComparison               = true
       }
-      returnYearsCacheOptions = {
-        CacheKey                    = "ReturnYearsCache"
-        SlidingExpirationInSeconds  = 60
-        AbsoluteExpirationInSeconds = 3600
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
     production = {
@@ -152,11 +158,12 @@ variable "configuration" {
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = true
         TrustComparison               = true
-      }
-      returnYearsCacheOptions = {
-        CacheKey                    = "ReturnYearsCache"
-        SlidingExpirationInSeconds  = 60
-        AbsoluteExpirationInSeconds = 3600
+      },
+      CacheOptions = {
+        ReturnYears = {
+          SlidingExpiration  = 60
+          AbsoluteExpiration = 3600
+        }
       }
     }
   }
