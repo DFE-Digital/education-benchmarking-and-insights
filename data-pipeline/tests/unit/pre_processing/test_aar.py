@@ -65,7 +65,6 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Utilities_Energy",
         "Utilities_Water and sewerage",
         "Valid To",
-        "In year balance",
         "Income_Total grant funding",
         "Income_Total self generated funding",
         "Income_Direct grants",
@@ -74,6 +73,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Income_Facilities and services",
         "Total Expenditure",
         "Total Income",
+        "In year balance",
         "Trust Balance",
         "Financial Position",
         "Trust Financial Position",
@@ -84,15 +84,15 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
 
 
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["Trust Balance"].loc[100150] == 498.0
+    assert prepared_aar_data["Trust Balance"].loc[100150] == -48080.0
 
 
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["Financial Position"].loc[100150] == "Surplus"
+    assert prepared_aar_data["Financial Position"].loc[100150] == "Deficit"
 
 
 def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["In year balance"].loc[100153] == -1.0
+    assert prepared_aar_data["In year balance"].loc[100153] == -16032.0
 
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):

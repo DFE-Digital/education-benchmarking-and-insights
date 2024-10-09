@@ -58,7 +58,6 @@ def test_central_services_data_has_correct_output_columns(
         "Teaching and Teaching support staff_Agency supply teaching staff",
         "Utilities_Energy",
         "Utilities_Water and sewerage",
-        "In year balance",
         "Income_Total grant funding",
         "Income_Total self generated funding",
         "Income_Direct grants",
@@ -67,5 +66,6 @@ def test_central_services_data_has_correct_output_columns(
         "Income_Facilities and services",
         "Total Expenditure",
         "Total Income",
+        "In year balance",
         "Financial Position",
     ]
