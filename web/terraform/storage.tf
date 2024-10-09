@@ -52,3 +52,11 @@ resource "azurerm_storage_container" "return-container" {
   name                 = "returns"
   storage_account_name = azurerm_storage_account.data-source-storage.name
 }
+
+resource "azurerm_key_vault_secret" "data-web-storage-connection-string" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#232052
+  name         = "data-web-storage-connection-string"
+  value        = azurerm_storage_account.data-source-storage.primary_connection_string
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "connection-string"
+}

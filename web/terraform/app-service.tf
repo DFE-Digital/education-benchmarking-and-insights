@@ -73,29 +73,52 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__DisableOrganisationClaimCheck" = var.configuration[var.environment].features.DisableOrganisationClaimCheck
     "FeatureManagement__ForecastRisk"                  = var.configuration[var.environment].features.ForecastRisk
     "FeatureManagement__TrustComparison"               = var.configuration[var.environment].features.TrustComparison
-    "Apis__Insight__Url"                               = data.azurerm_key_vault_secret.insight-api-host.value
-    "Apis__Insight__Key"                               = data.azurerm_key_vault_secret.insight-api-key.value
-    "Apis__Establishment__Url"                         = data.azurerm_key_vault_secret.establishment-api-host.value
-    "Apis__Establishment__Key"                         = data.azurerm_key_vault_secret.establishment-api-key.value
-    "Apis__Benchmark__Url"                             = data.azurerm_key_vault_secret.benchmark-api-host.value
-    "Apis__Benchmark__Key"                             = data.azurerm_key_vault_secret.benchmark-api-key.value
-    "DFESignInSettings__APISecret"                     = var.dfe-signin.api-secret
+    "Apis__Insight__Url"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-host.versionless_id})"
+    "Apis__Insight__Key"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-key.versionless_id})"
+    "Apis__Establishment__Url"                         = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-host.versionless_id})"
+    "Apis__Establishment__Key"                         = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-key.versionless_id})"
+    "Apis__Benchmark__Url"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.benchmark-api-host.versionless_id})"
+    "Apis__Benchmark__Key"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.benchmark-api-key.versionless_id})"
+    "DFESignInSettings__APISecret"                     = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.dfe-signin-api-secret.versionless_id})"
     "DFESignInSettings__APIUri"                        = var.dfe-signin.api-uri
     "DFESignInSettings__Audience"                      = var.dfe-signin.audience
     "DFESignInSettings__CallbackPath"                  = var.dfe-signin.callback-path
     "DFESignInSettings__ClientID"                      = var.dfe-signin.client-id
-    "DFESignInSettings__ClientSecret"                  = var.dfe-signin.client-secret
+    "DFESignInSettings__ClientSecret"                  = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.dfe-signin-client-secret.versionless_id})"
     "DFESignInSettings__Issuer"                        = var.dfe-signin.issuer
     "DFESignInSettings__MetadataAddress"               = var.dfe-signin.metadata-address
     "DFESignInSettings__SignedOutCallbackPath"         = var.dfe-signin.signed-out-callback-path
     "DFESignInSettings__SignOutUri"                    = var.dfe-signin.sign-out-uri
     "DFESignInSettings__SignInUri"                     = var.dfe-signin.sign-in-uri
     "SessionData__Using"                               = "Cosmos"
-    "SessionData__Settings__ConnectionString"          = "AccountEndpoint=${azurerm_cosmosdb_account.session-cache-account.endpoint}"
+    "SessionData__Settings__ConnectionString"          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.session-cache-account-connection-string.versionless_id})"
     "SessionData__Settings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name
     "SessionData__Settings__DatabaseName"              = azurerm_cosmosdb_sql_database.session-cache-database.name
-    "Storage__ConnectionString"                        = azurerm_storage_account.data-source-storage.primary_connection_string
+    "Storage__ConnectionString"                        = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.data-web-storage-connection-string.versionless_id})"
     "Storage__ReturnsContainer"                        = azurerm_storage_container.return-container.name
   }
   tags = local.common-tags
+}
+
+resource "azurerm_key_vault_access_policy" "keyvault_policy" {
+  key_vault_id       = data.azurerm_key_vault.key-vault.id
+  tenant_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].tenant_id
+  object_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
+  secret_permissions = ["Get"]
+}
+
+resource "azurerm_key_vault_secret" "dfe-signin-api-secret" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#232052
+  name         = "dfe-signin-api-secret"
+  value        = var.dfe-signin.api-secret
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "key"
+}
+
+resource "azurerm_key_vault_secret" "dfe-signin-client-secret" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#232052
+  name         = "dfe-signin-client-secret"
+  value        = var.dfe-signin.client-secret
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "key"
 }
