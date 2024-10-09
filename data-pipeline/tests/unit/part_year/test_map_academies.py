@@ -4,24 +4,6 @@ import pandas as pd
 from src.pipeline import config, part_year
 
 
-def test_map_is_day_one_return():
-    df = pd.DataFrame(
-        {
-            "ACADEMYTRUSTSTATUS": [
-                "Existing",
-                "Existing",
-                "1 day",
-                "Closed",
-                "Existing",
-            ],
-        }
-    )
-
-    df = part_year.academies.map_is_day_one_return(df)
-
-    assert df["Is Day One Return"].to_list() == [False, False, True, False, False]
-
-
 def test_map_is_early_transfer():
     df = pd.DataFrame(
         {

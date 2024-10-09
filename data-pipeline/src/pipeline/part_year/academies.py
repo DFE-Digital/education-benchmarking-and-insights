@@ -3,20 +3,6 @@ import pandas as pd
 from src.pipeline import config
 
 
-def map_is_day_one_return(academies: pd.DataFrame) -> pd.DataFrame:
-    """
-    Whether an academy is a "1 day" return.
-
-    This is entirely based on the "ACADEMYTRUSTSTATUS" value.
-
-    :param academies: academy data
-    :return: updated data
-    """
-    academies["Is Day One Return"] = academies["ACADEMYTRUSTSTATUS"] == "1 day"
-
-    return academies
-
-
 def _is_early_transfer(row: pd.Series) -> bool:
     """
     Whether an row's "Date joined or opened if in period" value is

@@ -403,6 +403,21 @@ def prepare_central_services_data(cs_path, current_year: int):
 
 
 def prepare_aar_data(aar_path, current_year: int):
+    """
+    Process Academies Accounts Return (AAR) data.
+
+    This processin includes:
+
+    - removal of any rows where URN is absent (often due to extraneous
+      rows in the input file)
+    - removal of "1 day" Academies (which indicate a transitioning
+      Academy for which there will be data elsewhere)
+    - TODO
+
+    :param aar_path: source from which data are to be read
+    :param current_year: year in question
+    :return: processed AAR data
+    """
     aar = pd.read_csv(
         aar_path,
         encoding="utf-8",
@@ -411,6 +426,7 @@ def prepare_aar_data(aar_path, current_year: int):
     )
 
     aar = aar[~aar["URN"].isna()]
+    aar = aar[~(aar["ACADEMYTRUSTSTATUS"] == "1 day")]
 
     if (current_year < 2023) or (
         "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
@@ -1042,7 +1058,6 @@ def map_academy_data(df: pd.DataFrame) -> pd.DataFrame:
     :param df: academy data
     :return: updated data
     """
-    df = part_year.academies.map_is_day_one_return(df)
     df = part_year.academies.map_is_early_transfer(df)
     df = part_year.academies.map_has_financial_data(df)
     df = part_year.academies.map_partial_year_present(df)

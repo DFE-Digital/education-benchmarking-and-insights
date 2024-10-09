@@ -4,30 +4,14 @@ import pytest
 from src.pipeline import comparator_sets
 
 
-@pytest.mark.parametrize(
-    "series",
-    [
-        pd.Series({"Is Day One Return": True, "Is Early Transfer": False}),
-        pd.Series({"Is Day One Return": False, "Is Early Transfer": True}),
-        pd.Series({"Is Day One Return": True, "Is Early Transfer": True}),
-    ],
-)
-def test_academy_map_pupil_comparator_set_early(series: pd.Series):
-    result = comparator_sets._map_pupil_comparator_set(series)
+def test_academy_map_pupil_comparator_set_early():
+    result = comparator_sets._map_pupil_comparator_set({"Is Early Transfer": True})
 
     assert result is True
 
 
-@pytest.mark.parametrize(
-    "series",
-    [
-        pd.Series({"Is Day One Return": True, "Is Early Transfer": False}),
-        pd.Series({"Is Day One Return": False, "Is Early Transfer": True}),
-        pd.Series({"Is Day One Return": True, "Is Early Transfer": True}),
-    ],
-)
-def test_academy_map_building_comparator_set_early(series: pd.Series):
-    result = comparator_sets._map_building_comparator_set(series)
+def test_academy_map_building_comparator_set_early():
+    result = comparator_sets._map_building_comparator_set({"Is Early Transfer": True})
 
     assert result is True
 
@@ -38,7 +22,6 @@ def test_academy_map_building_comparator_set_early(series: pd.Series):
         pd.Series({"Partial Years Present": False}),
         pd.Series(
             {
-                "Is Day One Return": False,
                 "Is Early Transfer": False,
                 "Partial Years Present": False,
             }
@@ -57,7 +40,6 @@ def test_map_pupil_comparator_set_non_part_year(series: pd.Series):
         pd.Series({"Partial Years Present": False}),
         pd.Series(
             {
-                "Is Day One Return": False,
                 "Is Early Transfer": False,
                 "Partial Years Present": False,
             }
