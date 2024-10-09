@@ -106,3 +106,58 @@ resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
     category = "StorageWrite"
   }
 }
+
+resource "azurerm_storage_account" "backup" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
+  name                            = "${var.environment-prefix}backup"
+  location                        = azurerm_resource_group.resource-group.location
+  resource_group_name             = azurerm_resource_group.resource-group.name
+  account_tier                    = "Standard"
+  account_replication_type        = "GRS"
+  allow_nested_items_to_be_public = false
+  tags                            = local.common-tags
+  min_tls_version                 = "TLS1_2"
+  public_network_access_enabled   = true
+  local_user_enabled              = false
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
+}
+
+resource "azurerm_storage_container" "pipeline-database-backup" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
+  name                 = "database"
+  storage_account_name = azurerm_storage_account.backup.name
+}
+
+resource "azurerm_key_vault_secret" "backup-storage-connection-string" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "backup-storage-connection-string"
+  value        = azurerm_storage_account.backup.primary_connection_string
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "connection-string"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
+resource "azurerm_key_vault_secret" "backup-storage-key" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "backup-storage-key"
+  value        = azurerm_storage_account.backup.primary_access_key
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "token"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
