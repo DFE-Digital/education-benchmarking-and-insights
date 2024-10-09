@@ -372,6 +372,8 @@ def compute_distances(
       distance calculations.
         - this may be skipped if an org. has only submitted
           partial-year data.
+        - orgs. are excluded from being in any comparator set if they
+          have only submitted part-year data.
 
     If `target_urn` is populated, only the org. in question is
     processed.
@@ -395,8 +397,7 @@ def compute_distances(
         phase_pfi = np.array(row["Is PFI"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
-        include_pupils = np.array(row["_GeneratePupilComparatorSet"])
-        include_buildings = np.array(row["_GenerateBuildingComparatorSet"])
+        include = ~np.array(row["Partial Years Present"])
 
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
@@ -417,7 +418,7 @@ def compute_distances(
                     phase_boarding,
                     phase_regions,
                     distances=pupil_distances[idx],
-                    include=include_pupils,
+                    include=include,
                 )
                 # note: single-element arrays are unpacked; in this
                 # case, do not produce a comparator-set.
@@ -440,7 +441,7 @@ def compute_distances(
                     phase_boarding,
                     phase_regions,
                     building_distances[idx],
-                    include=include_buildings,
+                    include=include,
                 )
                 if len(top_building_set_urns) == 1:
                     logger.warning(

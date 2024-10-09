@@ -35,9 +35,10 @@ def select_top_set_urns_defaults() -> dict:
     return {
         "urns": np.array(list(string.ascii_uppercase)),  # ["A"…"Z"]
         "pfi": np.array([True] * 26),  # [True, True…]
-        "boarding": np.array([True] * 26),  # [True, True…]
+        "boarding": np.array(["Boarding"] * 26),  # [True, True…]
         "regions": np.array(["A"] * 26),  # ["A"…"A"]
         "distances": np.array([0.01 * i for i in range(26)]),  # [0.0, 0.01…0.25]
         "base_set_size": 6,
         "final_set_size": 3,
+        "include": np.array([True] * 26),  # [True, True…]
     }
