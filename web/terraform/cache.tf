@@ -54,3 +54,11 @@ resource "azurerm_cosmosdb_sql_role_assignment" "app-service-cache" {
   # see https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions
   role_definition_id = "${azurerm_cosmosdb_account.session-cache-account.id}/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002"
 }
+
+resource "azurerm_key_vault_secret" "session-cache-account-connection-string" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#232052
+  name         = "session-cache-account-connection-string"
+  value        = "AccountEndpoint=${azurerm_cosmosdb_account.session-cache-account.endpoint}"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "connection-string"
+}
