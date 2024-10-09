@@ -36,11 +36,11 @@ parameters:
       - No
 
 variables:
-  Version.BranchRevision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Environment.Name: ${{ parameters.environment }}
+  Version.BranchRevision: $[counter(variables['Environment.Name'], 100)]
   Version.FeatureEnvironment: ${{ parameters.featureEnvironment }}
   Version.BuildNumber: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
   Version.BuildVersion: $(Version.BuildNumber)
-  Environment.Name: ${{ parameters.environment }}
   Pipeline.Environment: 'destroy'
   Subscription: 's198d.azdo-deployment'
   ShouldDestroy: $[eq('${{ parameters.areYouSure }}', 'Yes')]

@@ -29,11 +29,11 @@ parameters:
       - 19
 
 variables:
-  Version.BranchRevision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Environment.Name: ${{ parameters.environment }}
+  Version.BranchRevision: $[counter(variables['Environment.Name'], 100)]
   Version.FeatureEnvironment: ${{ parameters.featureEnvironment }}
   Version.BuildNumber: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
   Version.BuildVersion: $(Version.BuildNumber)
-  Environment.Name: ${{ parameters.environment }}
   Pipeline.Environment: 'feature'
   Subscription: 's198d.azdo-deployment'
   WorkingDir.Core: 'core-infrastructure'
@@ -69,7 +69,7 @@ stages:
               echo "##vso[build.addbuildtag]Environment $(Version.FeatureEnvironment)"
 
               branchRevision=$(Version.BranchRevision)
-              echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]0.$(Version.FeatureEnvironment).$((branchRevision + 1))-$environmentPrefix.0"
+              echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]$(Version.BuildNumber)-$environmentPrefix.0"
             displayName: 'Set release build number'
             name: outputVars
 
@@ -173,26 +173,16 @@ stages:
     dependsOn: [ BuildNumber, BuildPlatform ]
     displayName: 'Front-end : Build and Publish'
     variables: 
-      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      frontEndVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: BuildAndRPublishFrontEnd
         displayName: 'Build and publish'
         steps:
           - task: Npm@1
             displayName: 'Update version number'
-            continueOnError: false
             inputs:
               command: 'custom'
-              customCommand: 'version $(Version.BuildNumber)'
-              workingDir: $(WorkingDir.FrontEnd)
-              verbose: false
-
-          - task: Npm@1
-            displayName: 'Update pre-release version number'
-            continueOnError: false
-            inputs:
-              command: 'custom'
-              customCommand: 'version prerelease -preid=$(environmentPrefix)'
+              customCommand: 'version $(frontEndVersion)'
               workingDir: $(WorkingDir.FrontEnd)
               verbose: false
 
