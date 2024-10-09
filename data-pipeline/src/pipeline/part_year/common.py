@@ -10,19 +10,12 @@ def map_has_pupil_comparator_data(df: pd.DataFrame) -> pd.DataFrame:
 
     Specifically, this is the FSM and SEN data.
 
-    Note: "Number of pupils" is specifically excluded as this value is
-    previously set to the _median_ if absent.
-
     :param df: academy/school data
     :return: updated DataFrame
     """
-    pupil_comparator_columns = [
-        column
-        for column in set(
-            list(config.census_column_map.values()) + config.sen_generated_columns
-        )
-        if column != "Number of pupils"
-    ]
+    pupil_comparator_columns = list(
+        set(list(config.census_column_map.values()) + config.sen_generated_columns)
+    )
 
     df["Pupil Comparator Data Present"] = (
         ~df[pupil_comparator_columns].isna().all(axis=1)
@@ -40,17 +33,10 @@ def map_has_building_comparator_data(
 
     Specifically, this is the CDC data.
 
-    Note: "Total Internal Floor Area" is specifically excluded as this
-    value is previously set to the _median_ if absent.
-
     :param maintained_schools: maintained schools data
     :return: updated DataFrame
     """
-    building_comparator_columns = [
-        column
-        for column in config.cdc_generated_columns
-        if column != "Total Internal Floor Area"
-    ]
+    building_comparator_columns = list(config.cdc_generated_columns)
 
     maintained_schools["Building Comparator Data Present"] = (
         ~maintained_schools[building_comparator_columns].isna().all(axis=1)

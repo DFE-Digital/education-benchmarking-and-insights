@@ -1,7 +1,5 @@
 import datetime
-import io
 import logging
-import struct
 from warnings import simplefilter
 
 import numpy as np
@@ -716,15 +714,6 @@ def build_academy_data(
 
     if ks4 is not None:
         academies = academies.merge(ks4, on="URN", how="left")
-
-    academies["Total Internal Floor Area"] = academies[
-        "Total Internal Floor Area"
-    ].fillna(academies["Total Internal Floor Area"].median())
-
-    # TODO: necessary for apportionment?
-    academies["Number of pupils"] = academies["Number of pupils"].fillna(
-        academies["Number of pupils"].median()
-    )
 
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_phase_type(
