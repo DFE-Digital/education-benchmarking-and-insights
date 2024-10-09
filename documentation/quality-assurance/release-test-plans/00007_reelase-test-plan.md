@@ -48,8 +48,7 @@ TBC
 3. [229046 Pipeline versioning](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229406) - updated release name to CalVer version. This was tested and no further action is needed. 
 4. [230041 Spelling error - FBIT Historic Data page - Balance revenue reserve](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/230041) - The typo has been been updated and no further testing is required. 
 5. [229318 Consolidate search dependencies](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229318) - updated search dependencies and have tested in test. No further testing is required for this. 
-6. [229325 Improve local authority & trust API responses](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229325) - The API response have been improved and tested in test. No further testing is required. 
-7. 
+6. [229325 Improve local authority & trust API responses](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229325) - The API response have been improved and tested in test. No further testing is required.
 
 ## Test Deliverables
 **Documents:**
