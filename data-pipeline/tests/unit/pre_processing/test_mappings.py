@@ -331,16 +331,42 @@ def test_map_company_number(company_number: str, expected: str):
 
 
 @pytest.mark.parametrize(
-    "day",
-    range(1, 11),  # 1—10
+    "start_date,expected",
+    [
+        (date(2023, 9, 1), 12),
+        (date(2023, 9, 10), 12),
+        (date(2023, 9, 11), 11),
+        (date(2023, 9, 30), 11),
+        (date(2023, 10, 1), 11),
+        (date(2023, 10, 31), 11),
+        (date(2023, 11, 1), 10),
+        (date(2023, 11, 30), 10),
+        (date(2023, 12, 1), 9),
+        (date(2023, 12, 31), 9),
+        (date(2024, 1, 1), 8),
+        (date(2024, 1, 31), 8),
+        (date(2024, 2, 1), 7),
+        (date(2024, 2, 28), 7),
+        (date(2024, 3, 1), 6),
+        (date(2024, 3, 31), 6),
+        (date(2024, 4, 1), 5),
+        (date(2024, 4, 30), 5),
+        (date(2024, 5, 1), 4),
+        (date(2024, 5, 31), 4),
+        (date(2024, 6, 1), 3),
+        (date(2024, 6, 30), 3),
+        (date(2024, 7, 1), 2),
+        (date(2024, 7, 31), 2),
+        (date(2024, 8, 1), 1),
+        (date(2024, 8, 31), 1)
+    ],
 )
-def test_map_academy_period_return_early_september(
-    day: int,
+def test_map_academy_period_return_opening(
+    start_date: date,
+    expected: int,
     academy_year_start_date: date,
     academy_year_end_date: date,
 ):
-    start_date = date(2023, 9, day)
-
     result = mappings.map_academy_period_return(
         opened_in_period=start_date,
         closed_in_period=None,
@@ -348,20 +374,43 @@ def test_map_academy_period_return_early_september(
         year_end_date=academy_year_end_date,
     )
 
-    assert result == 12
-
+    assert result == expected
 
 @pytest.mark.parametrize(
-    "day",
-    range(1, 31),  # 1—30
+    "end_date,expected",
+    [
+        (date(2023, 9, 1), 0),
+        (date(2023, 9, 30), 0),
+        (date(2023, 10, 1), 1),
+        (date(2023, 10, 31), 1),
+        (date(2023, 11, 1), 2),
+        (date(2023, 11, 30), 2),
+        (date(2023, 12, 1), 3),
+        (date(2023, 12, 31), 3),
+        (date(2024, 1, 1), 4),
+        (date(2024, 1, 31), 4),
+        (date(2024, 2, 1), 5),
+        (date(2024, 2, 28), 5),
+        (date(2024, 3, 1), 6),
+        (date(2024, 3, 31), 6),
+        (date(2024, 4, 1), 7),
+        (date(2024, 4, 30), 7),
+        (date(2024, 5, 1), 8),
+        (date(2024, 5, 31), 8),
+        (date(2024, 6, 1), 9),
+        (date(2024, 6, 30), 9),
+        (date(2024, 7, 1), 10),
+        (date(2024, 7, 31), 10),
+        (date(2024, 8, 1), 11),
+        (date(2024, 8, 31), 11)
+    ],
 )
-def test_map_academy_period_close_early_september(
-    day: int,
+def test_map_academy_period_return_closing(
+    end_date: date,
+    expected: int,
     academy_year_start_date: date,
     academy_year_end_date: date,
 ):
-    end_date = date(2023, 9, day)
-
     result = mappings.map_academy_period_return(
         opened_in_period=None,
         closed_in_period=end_date,
@@ -369,25 +418,4 @@ def test_map_academy_period_close_early_september(
         year_end_date=academy_year_end_date,
     )
 
-    assert result == 0
-
-
-@pytest.mark.parametrize(
-    "day",
-    range(11, 31),  # 11—30
-)
-def test_map_academy_period_return_after_early_september(
-    day: int,
-    academy_year_start_date: date,
-    academy_year_end_date: date,
-):
-    start_date = date(2023, 9, day)
-
-    result = mappings.map_academy_period_return(
-        opened_in_period=start_date,
-        closed_in_period=None,
-        year_start_date=academy_year_start_date,
-        year_end_date=academy_year_end_date,
-    )
-
-    assert result == 11
+    assert result == expected
