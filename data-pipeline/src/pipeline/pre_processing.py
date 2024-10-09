@@ -874,7 +874,7 @@ def build_academy_data(
         for sub_category in sub_categories:
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
                 float
-            ) * apportionment.astype(float)
+            ) * apportionment.astype(float).fillna(0.0)
 
             academies[sub_category] = (
                 academies[sub_category] + academies[sub_category + "_CS"]
@@ -947,9 +947,9 @@ def build_academy_data(
         # Income cols `Income_XXXX_CS` have the format.
         comps = income_col.split("_")
         academies[income_col] = academies[income_col] * (
-            academies["Number of pupils"].astype(float)
-            / academies["Total pupils in trust"].astype(float)
-        )
+            academies["Number of pupils_pro_rata"].astype(float)
+            / academies["Total pupils in trust_pro_rata"].astype(float)
+        ).fillna(0.0)
 
         # Target income category from academy base data
         target_income_col = f"{comps[0]}_{comps[1]}"
@@ -958,34 +958,34 @@ def build_academy_data(
         )
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
-        academies["Number of pupils"].astype(float)
-        / academies["Total pupils in trust"].astype(float)
-    )
+        academies["Number of pupils_pro_rata"].astype(float)
+        / academies["Total pupils in trust_pro_rata"].astype(float)
+    ).fillna(0.0)
 
     academies["In year balance"] = (
         academies["In year balance"] + academies["In year balance_CS"]
     )
 
     academies["Revenue reserve_CS"] = academies["Revenue reserve_CS"] * (
-        academies["Number of pupils"].astype(float)
-        / academies["Total pupils in trust"].astype(float)
-    )
+        academies["Number of pupils_pro_rata"].astype(float)
+        / academies["Total pupils in trust_pro_rata"].astype(float)
+    ).fillna(0.0)
 
     academies["Revenue reserve"] = (
         academies["Revenue reserve"] + academies["Revenue reserve_CS"]
     )
 
     academies["Total Income_CS"] = academies["Total Income_CS"] * (
-        academies["Number of pupils"].astype(float)
-        / academies["Total pupils in trust"].astype(float)
-    )
+        academies["Number of pupils_pro_rata"].astype(float)
+        / academies["Total pupils in trust_pro_rata"].astype(float)
+    ).fillna(0.0)
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
     academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
-        academies["Number of pupils"].astype(float)
-        / academies["Total pupils in trust"].astype(float)
-    )
+        academies["Number of pupils_pro_rata"].astype(float)
+        / academies["Total pupils in trust_pro_rata"].astype(float)
+    ).fillna(0.0)
 
     academies["Total Expenditure"] = (
         academies["Total Expenditure"] + academies["Total Expenditure_CS"]
@@ -999,7 +999,7 @@ def build_academy_data(
 
     academies["Catering staff and supplies_Net Costs_CS"] = (
         academies["Catering staff and supplies_Total_CS"]
-        - academies["Income_Catering services_CS"]
+        - academies["Income_Catering services_CS"].fillna(0.0)
     )
 
     trust_revenue_reserve = (
