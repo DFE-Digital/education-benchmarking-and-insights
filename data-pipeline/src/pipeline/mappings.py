@@ -210,15 +210,21 @@ def _diff_month(d1, d2, opening=False):
     The number of months between two dates (exclusive).
 
     Note: for opening-dates, where d2 is up to the 10th September, this
-    is considered a full month.
+    is considered a full year. Also, the opening month is considered a full
+    month whereas closing isn't (i.e. opened on 1st Oct is 11 months,
+    whereas closed on the 1 Aug is only 11 months).
+
 
     :param d1: end date
     :param d2: start date
     :param opening: whether to consider this an org. "opening" date
     :return: number of months between start and end dates
     """
-    if opening and d2.month == 9 and d2.day <= 10:
-        return 12
+    if opening:
+        if d2.month == 9:
+            return 12 if d2.day <= 10 else 11
+        else:
+            return (d1.year - d2.year) * 12 + d1.month - d2.month + 1
 
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
