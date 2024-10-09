@@ -10,6 +10,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "LA",
         "Estab",
         "Academy UPIN",
+        "ACADEMYTRUSTSTATUS",
         "Company Registration Number",
         "Date joined or opened if in period",
         "Date left or closed if in period",

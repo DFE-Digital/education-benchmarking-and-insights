@@ -302,8 +302,7 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a pupil comparator set for the row in question.
 
-    For Academies, "1 day return" and "early transfer" should generated
-    comparator sets.
+    For Academies, "early transfer" should generate comparator sets.
 
     For partial-year data, financial and pupil data must be present.
 
@@ -312,7 +311,7 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate pupil comparator set
     """
-    if row.get("Is Day One Return") or row.get("Is Early Transfer"):
+    if row.get("Is Early Transfer"):
         return True
 
     if not row["Partial Years Present"]:
@@ -331,8 +330,7 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a building comparator set for the row.
 
-    For Academies, "1 day return" and "early transfer" should generated
-    comparator sets.
+    For Academies, "early transfer" should generated comparator sets.
 
     For partial-year data, financial, pupil and building data must be
     present.
@@ -342,7 +340,7 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     :param row: grouped data
     :return: whether to generate building comparator set
     """
-    if row.get("Is Day One Return") or row.get("Is Early Transfer"):
+    if row.get("Is Early Transfer"):
         return True
 
     if not row["Partial Years Present"]:
