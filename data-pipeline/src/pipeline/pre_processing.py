@@ -271,11 +271,6 @@ def prepare_central_services_data(cs_path, current_year: int):
                 "BNCH11123-BTI011-A (MAT Central services - Income)"
             ] = central_services_financial["BNCHBAI061 (Coronavirus Govt Funding)"]
 
-    central_services_financial["In year balance"] = (
-        central_services_financial["BNCH11000T (Revenue Income)"]
-        - central_services_financial["BNCH20000T (Total Costs)"]
-    )
-
     central_services_financial["Income_Total grant funding"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
@@ -387,6 +382,11 @@ def prepare_central_services_data(cs_path, current_year: int):
         ]
     )
 
+    central_services_financial["In year balance"] = (
+        central_services_financial["Total Income"]
+        - central_services_financial["Total Expenditure"]
+    )
+
     central_services_financial.rename(
         columns={
             "Lead_UPIN": "Trust UPIN",
@@ -418,10 +418,6 @@ def prepare_aar_data(aar_path, current_year: int):
         "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
     ):
         aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
-
-    aar["In year balance"] = (
-        aar["BNCH11000T (Revenue Income)"] - aar["BNCH20000T (Total Costs)"]
-    )
 
     aar["Income_Total grant funding"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
@@ -507,6 +503,11 @@ def prepare_aar_data(aar_path, current_year: int):
         aar["Income_Total grant funding"]
         + aar["Income_Total self generated funding"]
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
+    )
+
+    aar["In year balance"] = (
+        aar["Total Income"]
+        - aar["Total Expenditure"]
     )
 
     aar.rename(
