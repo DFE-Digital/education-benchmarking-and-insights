@@ -81,6 +81,24 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `UserDefinedComparators`        | Toggles the User Defined comparators feature                                        |
 | `DisableOrganisationClaimCheck` | Disables organisation and school level claims checks against the authenticated user |
 
+#### CacheOptions
+
+In memory cache is used in the web app for `FinanceService.GetYears()`
+
+Cache options can be set in the `CacheOptions` section. Currently defaults to the below values (in seconds), these can be amended when running locally if desired by adding the following to `secrets.json` and setting the values as required.
+
+```json
+{
+  "CacheOptions": 
+  {
+    "ReturnYears": {
+      "SlidingExpiration": 60,
+      "AbsoluteExpiration": 3600
+    }
+  }
+}
+```
+
 #### DfE Sign-in (DSI) authentication
 
 Having initialised the secret storage, add the following section to `secrets.json`
