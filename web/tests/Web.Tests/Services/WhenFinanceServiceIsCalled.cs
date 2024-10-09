@@ -16,7 +16,7 @@ public class WhenFinanceServiceIsCalled
     private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023 };
 
     private const string CacheKey = "return-years";
-    
+
     private static (IMemoryCache mockCache, IOptions<CacheOptions> options) CreateCacheAndOptions()
     {
         var mockCache = new MemoryCache(new MemoryCacheOptions());
