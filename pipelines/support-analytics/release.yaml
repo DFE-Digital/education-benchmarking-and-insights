@@ -1,17 +1,16 @@
 pool:
   vmImage: 'ubuntu-latest'
 
-# Temporarily disable trigger until queries and dashboard destroyed in `core`
-trigger: none
-  # batch: true
-  # branches:
-  #   include:
-  #     - main
-  # paths:
-  #   include:
-  #     - support-analytics
-  #     - pipelines/support-analytics
-  #     - pipelines/common
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - support-analytics
+      - pipelines/support-analytics
+      - pipelines/common
 
 pr:
   paths:
