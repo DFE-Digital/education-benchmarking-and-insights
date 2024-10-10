@@ -37,9 +37,10 @@ TBC
 6. [230538 Spending priority messages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/230538) - Spending priority message has been updated according to business rules. We have tested it in test and will verify again in pre production. 
 7. [230800 Part Year school highlighting for 'other' school(s) in comparator set](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/230800) - Updated the color accordingly and tested in test. We will verify the changes again in pre production. 
 8. [231997 Removal of median values](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231997) - Schools with missing Pupil numbers and building size were updated with the median value to compute the apportionment correctly if the values are missing for a school but it was impacting the comparator sets for the schools and hence the change has bene revered. 
-9. [232000 Update month rules for period covered by return](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/232000) - Period covered by return rule is updated. - WIP
-10. [231999 Clean up "1 day" rules](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231999) - for part year academies 1 day return rule is updated. WIP
-11. [231998 Comparator sets not to include other part year schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231998)- This is to udpate comparator set generation logic to not to include the part year schools. WIP
+9. [232000 Update month rules for period covered by return](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/232000) - Period covered by return rule is updated and have been checked in our testing environment. We will verify the changes again in pre production.  
+10. [231998 Comparator sets not to include other part year schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231998)- This is to update comparator set generation logic to not to include the part year schools. We have fully tested it in our testing environment and will validate again in pre production.
+11. [229446 Incorrect academy in-year balance](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229446) - This has also been fixed and currently under test. we will validate the fix again in pre production.
+12. [216606 Post MVP - "Find ways to spend less" Feature ](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/216606) - Updated the spending and costs page according to the requirements. will validate the updates again in pre production.
 
 **Updates Not to be Tested:**
 
@@ -49,6 +50,11 @@ TBC
 4. [230041 Spelling error - FBIT Historic Data page - Balance revenue reserve](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/230041) - The typo has been been updated and no further testing is required. 
 5. [229318 Consolidate search dependencies](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229318) - updated search dependencies and have tested in test. No further testing is required for this. 
 6. [229325 Improve local authority & trust API responses](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229325) - The API response have been improved and tested in test. No further testing is required.
+7. [231999 Clean up "1 day" rules](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231999) - for part year academies 1 day return rule is updated after the clarification. This has been tested in our testing environment and no further checks are required.
+8. [230754 Replace secrets in Web app service environment variables with Key Vault references](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/230754) - This is tech debt item and have been tested. no further action is needed.
+9. [229461 Cache response for finance years response](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229461) - This is a tech debt item to cache the API response. This has been validated and no further action is needed.
+10. [228244 Remove `HasIncompleteData` from models in Web and front-end-components](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/228244) - Also an tech debt item and have been validated. No further action is needed.
+11. [229443 Move Dashboards, Query Pack and Functions from Core to Support](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229443) - Another tech debt item and is validated. no further action is needed. 
 
 ## Test Deliverables
 **Documents:**
