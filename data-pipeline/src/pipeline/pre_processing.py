@@ -519,10 +519,7 @@ def prepare_aar_data(aar_path, current_year: int):
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
     )
 
-    aar["In year balance"] = (
-        aar["Total Income"]
-        - aar["Total Expenditure"]
-    )
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
 
     aar.rename(
         columns={
@@ -688,6 +685,70 @@ def build_cfo_data(cfo_data_path) -> pd.DataFrame:
     return cfo_data[["Companies House Number", "CFO name", "CFO email"]]
 
 
+def _trust_revenue_reserve(
+    academies: pd.DataFrame,
+    central_services: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Calculate the "revenue reserve" for each Academy.
+
+    Revenue reserve is a balance that is legally "owned" by the Trust,
+    not the Academies. As such, the _total_ revenue reserve is
+    calculated for the whole Trust and then apportioned—pro rata based
+    on time spent in the period—to Academies.
+
+    Note: revenue reserve is a balance and as such, only pertains to
+    schools in the Trust at the end of the period.
+
+    :param academies: Academy data
+    :param central_services: Central Services data
+    :return: updated Academy data
+    """
+    mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
+    _academies = academies[~mask]
+
+    trust_revenue_reserve = (
+        _academies[["Trust UPIN", "Revenue reserve"]]
+        .rename(columns={"Revenue reserve": "Sum Revenue reserve"})
+        .groupby(["Trust UPIN"])
+        .sum()
+    )
+
+    trust_revenue_reserve = trust_revenue_reserve.merge(
+        central_services.reset_index()[["Trust UPIN", "Revenue reserve"]].rename(
+            columns={"Revenue reserve": "Revenue reserve_CS"}
+        ),
+        on="Trust UPIN",
+        how="inner",
+    )
+
+    trust_revenue_reserve["Trust Revenue reserve"] = (
+        trust_revenue_reserve["Sum Revenue reserve"]
+        + trust_revenue_reserve["Revenue reserve_CS"]
+    )
+
+    _academies = _academies.reset_index().merge(
+        trust_revenue_reserve[["Trust UPIN", "Trust Revenue reserve"]],
+        on="Trust UPIN",
+    )
+
+    academies = academies.merge(
+        _academies[["URN", "Trust UPIN", "Trust Revenue reserve"]],
+        on=["URN", "Trust UPIN"],
+        how="left",
+    )
+
+    academies["Revenue reserve"] = (
+        (
+            academies["Trust Revenue reserve"]
+            / academies["Total pupils in trust_pro_rata"]
+        )
+        * academies["Number of pupils_pro_rata"]
+    ).fillna(0.0)
+
+    return academies.drop(columns=["Trust Revenue reserve"])
+
+
 def build_academy_data(
     year,
     schools,
@@ -754,7 +815,6 @@ def build_academy_data(
         axis=1,
     )
 
-    # TODO: should factor into apportionment.
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
@@ -790,7 +850,6 @@ def build_academy_data(
         suffixes=("", "_CS"),
     )
 
-    # TODO: pro-rata apportionment dividends.
     academies["Number of pupils_pro_rata"] = academies["Number of pupils"] * (
         academies["Period covered by return"] / 12.0
     )
@@ -966,15 +1025,6 @@ def build_academy_data(
         academies["In year balance"] + academies["In year balance_CS"]
     )
 
-    academies["Revenue reserve_CS"] = academies["Revenue reserve_CS"] * (
-        academies["Number of pupils_pro_rata"].astype(float)
-        / academies["Total pupils in trust_pro_rata"].astype(float)
-    ).fillna(0.0)
-
-    academies["Revenue reserve"] = (
-        academies["Revenue reserve"] + academies["Revenue reserve_CS"]
-    )
-
     academies["Total Income_CS"] = academies["Total Income_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
         / academies["Total pupils in trust_pro_rata"].astype(float)
@@ -997,23 +1047,13 @@ def build_academy_data(
         - academies["Income_Catering services"]
     )
 
-    academies["Catering staff and supplies_Net Costs_CS"] = (
-        academies["Catering staff and supplies_Total_CS"]
-        - academies["Income_Catering services_CS"].fillna(0.0)
-    )
+    academies["Catering staff and supplies_Net Costs_CS"] = academies[
+        "Catering staff and supplies_Total_CS"
+    ] - academies["Income_Catering services_CS"].fillna(0.0)
 
-    trust_revenue_reserve = (
-        academies[["Trust UPIN", "Revenue reserve"]]
-        .groupby(["Trust UPIN"])
-        .sum()
-        .rename(
-            columns={
-                "Revenue reserve": "Trust Revenue reserve",
-            }
-        )
-    )
-
-    academies = academies.merge(trust_revenue_reserve, on="Trust UPIN", how="left")
+    academies = _trust_revenue_reserve(academies, central_services)
+    # TODO: `Revenue reserve_CS` to be removed.
+    academies["Revenue reserve_CS"] = 0.0
 
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
