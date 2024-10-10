@@ -77,7 +77,7 @@ public class GivenAPostSchoolComparatorsRequest
         "Pupil referral units"
     }, new[]
     {
-        "Pupil referral unit"
+        "Pupil Referral Unit"
     })]
     [InlineData(new[]
     {
