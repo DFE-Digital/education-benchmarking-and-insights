@@ -7,7 +7,7 @@ public static class OverallPhaseTypes
     public const string Primary = "Primary";
     public const string Secondary = "Secondary";
     public const string Special = "Special";
-    public const string PupilReferralUnit = "Pupil referral unit";
+    public const string PupilReferralUnit = "Pupil Referral Unit";
     public const string AllThrough = "All-through";
     public const string Nursery = "Nursery";
     public const string PostSixteen = "Post-16";
