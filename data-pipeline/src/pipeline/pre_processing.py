@@ -269,6 +269,9 @@ def prepare_central_services_data(cs_path, current_year: int):
                 "BNCH11123-BTI011-A (MAT Central services - Income)"
             ] = central_services_financial["BNCHBAI061 (Coronavirus Govt Funding)"]
 
+    central_services_financial["Income_Direct revenue finance"] = central_services_financial[
+        "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
+
     central_services_financial["Income_Total grant funding"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
@@ -432,6 +435,8 @@ def prepare_aar_data(aar_path, current_year: int):
         "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
     ):
         aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
+
+    aar["Income_Direct revenue finance"] = aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
 
     aar["Income_Total grant funding"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
