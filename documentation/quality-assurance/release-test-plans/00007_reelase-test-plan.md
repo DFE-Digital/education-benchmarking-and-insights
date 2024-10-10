@@ -54,7 +54,7 @@ TBC
 8. [230754 Replace secrets in Web app service environment variables with Key Vault references](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/230754) - This is tech debt item and have been tested. no further action is needed.
 9. [229461 Cache response for finance years response](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229461) - This is a tech debt item to cache the API response. This has been validated and no further action is needed.
 10. [228244 Remove `HasIncompleteData` from models in Web and front-end-components](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/228244) - Also an tech debt item and have been validated. No further action is needed.
-11. [229443 Move Dashboards, Query Pack and Functions from Core to Support](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229443) - Another tech debt item and is validated. no further action is needed. 
+11. [229443 Move Dashboards, Query Pack and Functions from Core to Support](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/229443) - Another tech debt item and is validated. pipeline triggers will be enabled after the deployed to production.  
 
 ## Test Deliverables
 **Documents:**
@@ -82,16 +82,16 @@ TBC
 ## Risk Management
 **Risk Identification:**
 
-WIP
+Pre-production and production environments have existing data that will need to be cleared for the changes in this release to work as expected. The primary risk is users accessing or using the system during the release process and find no data.
 
 **Risk Mitigation:**
-WIP
-
+- The release was tested in an isolated, clean environment before deployment to ensure the fixes/updates work as expected.
+- The release to production will be performed during off-hours to minimise the risk of users accessing the system while the changes are deployed.
 ## Review and Approval
 **Review Process:**
 
 The release plan will be shared with the Product Owner for review and approval. Following their review, the updates will
-proceed to pre-production for final sanity checks.
+proceed to pre-production for checks. Upon validating in pre production the changes will be deployed to production for final sanity checks. 
 
 **Sign-off:**
 
