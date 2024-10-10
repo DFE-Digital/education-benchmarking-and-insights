@@ -824,8 +824,6 @@ def build_academy_data(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
             pd.to_datetime(df["Date left or closed if in period"], dayfirst=True),
-            pd.to_datetime(academy_year_start_date),
-            pd.to_datetime(academy_year_end_date),
         ),
         axis=1,
     )

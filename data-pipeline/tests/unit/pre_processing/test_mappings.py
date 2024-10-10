@@ -363,15 +363,11 @@ def test_map_company_number(company_number: str, expected: str):
 )
 def test_map_academy_period_return_opening(
     start_date: date,
-    expected: int,
-    academy_year_start_date: date,
-    academy_year_end_date: date,
+    expected: int
 ):
     result = mappings.map_academy_period_return(
         opened_in_period=start_date,
-        closed_in_period=None,
-        year_start_date=academy_year_start_date,
-        year_end_date=academy_year_end_date,
+        closed_in_period=None
     )
 
     assert result == expected
@@ -407,15 +403,11 @@ def test_map_academy_period_return_opening(
 )
 def test_map_academy_period_return_closing(
     end_date: date,
-    expected: int,
-    academy_year_start_date: date,
-    academy_year_end_date: date,
+    expected: int
 ):
     result = mappings.map_academy_period_return(
         opened_in_period=None,
-        closed_in_period=end_date,
-        year_start_date=academy_year_start_date,
-        year_end_date=academy_year_end_date,
+        closed_in_period=end_date
     )
 
     assert result == expected
