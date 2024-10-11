@@ -751,7 +751,7 @@ def _trust_revenue_reserve(
         * academies["Number of pupils_pro_rata"]
     ).fillna(0.0)
 
-    return academies.drop(columns=["Trust Revenue reserve"])
+    return academies
 
 
 def build_academy_data(
