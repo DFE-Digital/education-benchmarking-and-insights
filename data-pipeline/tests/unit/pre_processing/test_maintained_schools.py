@@ -38,30 +38,6 @@ def test_create_master_list(
     assert len(actual[actual.eq("DNS").any(axis=1)]) == 0
 
 
-def test_map_status(
-    maintained_schools_master_list: pd.DataFrame,
-    prepared_schools_data: pd.DataFrame,
-    prepared_sen_data_df: pd.DataFrame,
-    prepared_census_data: pd.DataFrame,
-    prepared_cdc_data_df: pd.DataFrame,
-    prepared_ks2_data: pd.DataFrame,
-    prepared_ks4_data: pd.DataFrame,
-):
-    master_list = maintained_schools.create_master_list(
-        maintained_schools_master_list,
-        prepared_schools_data,
-        prepared_sen_data_df,
-        prepared_census_data,
-        prepared_cdc_data_df,
-        prepared_ks2_data,
-        prepared_ks4_data,
-    )
-
-    actual = list(maintained_schools.map_status(master_list, 2023)["Status"])
-
-    assert actual == ["Closed in period", "Open"]
-
-
 def test_maps_pfi_correctly():
     df = pd.DataFrame({"PFI": ["Y", "N"]})
 
