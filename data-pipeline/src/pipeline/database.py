@@ -365,6 +365,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Income_Receipts supply teacher insurance_CS": "ReceiptsSupplyTeacherInsuranceClaimsCS",
         "Income_Investment income_CS": "InvestmentIncomeCS",
         "Income_Other self-generated income_CS": "OtherSelfGeneratedIncomeCS",
+        "Income_Direct revenue finance_CS": "DirectRevenueFinancingCS",
         "Teaching and Teaching support staff_Total_CS": "TotalTeachingSupportStaffCostsCS",
         "Teaching and Teaching support staff_Teaching staff_CS": "TeachingStaffCostsCS",
         "Teaching and Teaching support staff_Supply teaching staff_CS": "SupplyTeachingStaffCostsCS",
