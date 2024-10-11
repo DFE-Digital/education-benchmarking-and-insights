@@ -18,23 +18,20 @@ public class SchoolSpendingViewModel(
 
     public string? CustomDataId => customDataId;
 
-    public IEnumerable<CostCategory> HighPriorityCosts => _categories
-        .Where(x => x.Rating.RAG is "red")
+    private IEnumerable<CostCategory> Costs => _categories
+        .Where(x => x.Rating.Category is not Category.Other)
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 
-    public IEnumerable<CostCategory> MediumPriorityCosts => _categories
-        .Where(x => x.Rating.RAG is "amber")
-        .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
-        .ThenByDescending(x => x.Rating.Decile)
-        .ThenByDescending(x => x.Rating.Value);
+    public IEnumerable<CostCategory> HighPriorityCosts => Costs
+        .Where(x => x.Rating.RAG is "red");
 
-    public IEnumerable<CostCategory> LowPriorityCosts => _categories
-        .Where(x => x.Rating.RAG is "green")
-        .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
-        .ThenByDescending(x => x.Rating.Decile)
-        .ThenByDescending(x => x.Rating.Value);
+    public IEnumerable<CostCategory> MediumPriorityCosts => Costs
+        .Where(x => x.Rating.RAG is "amber");
+
+    public IEnumerable<CostCategory> LowPriorityCosts => Costs
+        .Where(x => x.Rating.RAG is "green");
 
     public static ChartStatsViewModel Stats(RagRating rating) => new()
     {

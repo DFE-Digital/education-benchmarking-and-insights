@@ -12,12 +12,9 @@
     {
         var category = costs[i];
 
-        var categoryToLower = category.Rating.Category switch
-        {
-            Category.Other => "other",
-            Category.EducationalIct => "Educational ICT",
-            _ => category.Rating.Category?.ToLower()
-        };
+        var categoryToLower = category.Rating.Category == Category.EducationalIct
+            ? "Educational ICT"
+            : category.Rating.Category?.ToLower();
 
         var categoryHeading = category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
