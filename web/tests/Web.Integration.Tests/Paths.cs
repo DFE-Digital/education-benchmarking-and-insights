@@ -98,5 +98,6 @@ public static class Paths
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
+    public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
     public static string ToAbsolute(this string path) => $"https://localhost{path}";
 }
