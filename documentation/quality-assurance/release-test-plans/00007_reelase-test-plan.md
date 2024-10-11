@@ -63,7 +63,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Reports:**
 
-- We identified an issue with the the trust homepage in pre production and put a fix for that as well. 
+- We identified an issue with the LA homepage in pre production and put a fix for that as well. 
 
 
 ## Entry and Exit Criteria
