@@ -140,7 +140,7 @@ def map_is_surplus_deficit(closing_balance: float):
         return "Deficit"
 
 
-def _period_from_start(start):
+def _academy_months_in_return_from_opening(start):
     match start.month:
         case 9:
             return 12 if start.day <= 10 else 11
@@ -168,7 +168,7 @@ def _period_from_start(start):
             return 1
 
 
-def _period_to_close(close):
+def _academy_months_in_return_to_closing(close):
     match close.month:
         case 9:
             return 0
@@ -201,9 +201,9 @@ def map_academy_period_return(
     closed_in_period: datetime,
 ):
     if not pd.isnull(closed_in_period):
-        return _period_to_close(closed_in_period)
+        return _academy_months_in_return_to_closing(closed_in_period)
     elif not pd.isnull(opened_in_period):
-        return _period_from_start(opened_in_period)
+        return _academy_months_in_return_from_opening(opened_in_period)
     else:
         return 12
 
