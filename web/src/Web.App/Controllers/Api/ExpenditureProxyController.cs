@@ -157,11 +157,8 @@ public class ExpenditureProxyController(
 
     private async Task<IActionResult> LocalAuthorityExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var query = new ApiQuery()
-            .AddIfNotNull("laCode", id)
-            .AddIfNotNull("phase", phase);
-
-        var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
+        var la = await establishmentApi.GetLocalAuthority(id).GetResultOrThrow<LocalAuthority>();
+        var schools = la.Schools.Where(x => x.OverallPhase == phase);
         var result = await expenditureApi
             .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
             .GetResultOrThrow<SchoolExpenditure[]>();
@@ -170,10 +167,8 @@ public class ExpenditureProxyController(
 
     private async Task<IActionResult> TrustExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var query = new ApiQuery()
-            .AddIfNotNull("companyNumber", id)
-            .AddIfNotNull("phase", phase);
-        var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
+        var trust = await establishmentApi.GetTrust(id).GetResultOrThrow<Trust>();
+        var schools = trust.Schools.Where(x => x.OverallPhase == phase);
         var result = await expenditureApi
             .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
             .GetResultOrThrow<SchoolExpenditure[]>();

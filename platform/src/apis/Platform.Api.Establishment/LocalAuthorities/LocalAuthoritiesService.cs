@@ -31,7 +31,7 @@ public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchCon
             return null;
         }
 
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where LaCode = @Code AND FinanceType = 'Maintained'";
+        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase FROM School WHERE LaCode = @Code AND FinanceType = 'Maintained' AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
         var schools = await conn.QueryAsync<School>(schoolsSql, parameters);
         return LocalAuthorityResponseFactory.Create(localAuthority, schools);
     }

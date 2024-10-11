@@ -128,22 +128,16 @@ public class CensusProxyController(
 
     private async Task<string[]> GetTrustSet(string id, string? phase)
     {
-        var query = new ApiQuery()
-            .AddIfNotNull("companyNumber", id)
-            .AddIfNotNull("phase", phase);
-
-        var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.URN).OfType<string>().ToArray();
+        var trust = await establishmentApi.GetTrust(id).GetResultOrThrow<Trust>();
+        var schools = trust.Schools.Where(x => x.OverallPhase == phase);
+        return schools.Select(x => x.URN).OfType<string>().ToArray();
     }
 
     private async Task<string[]> GetLocalAuthoritySet(string id, string? phase)
     {
-        var query = new ApiQuery()
-            .AddIfNotNull("laCode", id)
-            .AddIfNotNull("phase", phase);
-
-        var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.URN).OfType<string>().ToArray();
+        var la = await establishmentApi.GetLocalAuthority(id).GetResultOrThrow<LocalAuthority>();
+        var schools = la.Schools.Where(x => x.OverallPhase == phase);
+        return schools.Select(x => x.URN).OfType<string>().ToArray();
     }
 
     private static ApiQuery BuildApiQuery(string? category = null, string? dimension = null, IEnumerable<string>? urns = null)
