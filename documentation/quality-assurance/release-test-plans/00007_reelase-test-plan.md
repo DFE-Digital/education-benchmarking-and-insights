@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 09/10/2024
+﻿# Release Test Plan - 10/10/2024
 
 ## Introduction
 **Objective:**
@@ -13,7 +13,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Release date:**
 
-TBC
+10/10/2024
 
 ## Test Strategy
 **Types of Testing:**
@@ -63,7 +63,7 @@ TBC
 
 **Reports:**
 
-- Summary of testing performed and outcomes
+- We identified an issue with the the trust homepage in pre production and put a fix for that as well. 
 
 
 ## Entry and Exit Criteria
