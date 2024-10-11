@@ -802,7 +802,6 @@ def build_academy_data(
         axis=1,
     )
 
-    # TODO: should factor into apportionment.
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
