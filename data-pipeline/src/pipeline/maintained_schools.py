@@ -40,24 +40,6 @@ def create_master_list(
     )
 
 
-def map_status(maintained_schools: pd.DataFrame, year: int) -> pd.DataFrame:
-    maintained_schools_year_start_date = datetime.date(year - 1, 4, 1)
-    maintained_schools_year_end_date = datetime.date(year, 3, 31)
-
-    maintained_schools["Status"] = maintained_schools.apply(
-        lambda df: mappings.map_maintained_school_status(
-            df["OpenDate"],
-            df["CloseDate"],
-            df["Period covered by return (months)"],
-            pd.to_datetime(maintained_schools_year_start_date),
-            pd.to_datetime(maintained_schools_year_end_date),
-        ),
-        axis=1,
-    )
-
-    return maintained_schools
-
-
 def map_pfi(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["PFI"] = maintained_schools["PFI"].map(
         lambda x: "PFI school" if x == "Y" else "Non-PFI school"

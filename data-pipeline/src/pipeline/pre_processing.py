@@ -766,10 +766,6 @@ def build_academy_data(
     cfo,
     central_services,
 ):
-    accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
-    academy_year_start_date = datetime.date(year - 1, 9, 1)
-    academy_year_end_date = datetime.date(year, 8, 30)
-
     aar.rename(
         columns={
             "Date joined or opened if in period:": "Date joined or opened if in period",
@@ -806,26 +802,10 @@ def build_academy_data(
         axis=1,
     )
 
-    academies["Status"] = academies.apply(
-        lambda df: mappings.map_academy_status(
-            pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
-            pd.to_datetime(df["Date left or closed if in period"], dayfirst=True),
-            pd.to_datetime(df["Valid To"], dayfirst=True),
-            pd.to_datetime(df["OpenDate"]),
-            pd.to_datetime(df["CloseDate"]),
-            pd.to_datetime(accounts_return_period_start_date),
-            pd.to_datetime(academy_year_start_date),
-            pd.to_datetime(academy_year_end_date),
-        ),
-        axis=1,
-    )
-
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"], dayfirst=True),
             pd.to_datetime(df["Date left or closed if in period"], dayfirst=True),
-            pd.to_datetime(academy_year_start_date),
-            pd.to_datetime(academy_year_end_date),
         ),
         axis=1,
     )
@@ -1135,7 +1115,6 @@ def build_maintained_school_data(
         maintained_schools_list, schools, sen, census, cdc, ks2, ks4
     )
 
-    maintained_schools = maintained_pipeline.map_status(maintained_schools, year)
     maintained_schools = maintained_pipeline.map_pfi(maintained_schools)
     maintained_schools = maintained_pipeline.map_submission_attrs(maintained_schools)
     maintained_schools = maintained_pipeline.map_school_attrs(maintained_schools)

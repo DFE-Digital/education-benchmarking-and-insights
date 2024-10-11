@@ -138,156 +138,6 @@ def test_map_admission_policy(admission_policy, expected):
 
 
 @pytest.mark.parametrize(
-    "opened_in_period,closed_in_period,valid_to,start_date,closed_date,period_start,year_start_date,year_end_date,expected",
-    [
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            None,
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "01/06/2018",
-            "01/08/2019",
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "Closed",
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "01/06/2018",
-            "30/08/2020",
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "Closed in period",
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "01/06/2018",
-            "01/11/2019",
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "Closed in period",
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "20/09/2019",
-            pd.NA,
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "(Re)opened in period",
-        ),
-        (
-            "25/09/2019",
-            pd.NA,
-            pd.NA,
-            "01/06/2018",
-            pd.NA,
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "(Re)opened in period",
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            pd.NA,
-            "01/06/2018",
-            pd.NA,
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "Open",
-        ),
-        (
-            pd.NA,
-            pd.NA,
-            "05/09/2019",
-            "01/06/2018",
-            pd.NA,
-            "10/09/2019",
-            "01/09/2019",
-            "30/08/2020",
-            "Invalid",
-        ),
-    ],
-)
-def test_map_academy_status(
-    opened_in_period,
-    closed_in_period,
-    valid_to,
-    start_date,
-    closed_date,
-    period_start,
-    year_start_date,
-    year_end_date,
-    expected,
-):
-    assert (
-        mappings.map_academy_status(
-            pd.to_datetime(opened_in_period, dayfirst=True),
-            pd.to_datetime(closed_in_period, dayfirst=True),
-            pd.to_datetime(valid_to, dayfirst=True),
-            pd.to_datetime(start_date, dayfirst=True),
-            pd.to_datetime(closed_date, dayfirst=True),
-            pd.to_datetime(period_start, dayfirst=True),
-            pd.to_datetime(year_start_date, dayfirst=True),
-            pd.to_datetime(year_end_date, dayfirst=True),
-        )
-        == expected
-    )
-
-
-@pytest.mark.parametrize(
-    "start_date,closed_date,return_period_length,year_start_date,year_end_date,expected",
-    [
-        (pd.NA, pd.NA, pd.NA, "01/04/2019", "31/03/2020", None),
-        ("01/05/2018", pd.NA, 12, "01/04/2019", "31/03/2020", "Open"),
-        ("01/05/2018", "01/11/2018", 12, "01/04/2019", "31/03/2020", "Closed"),
-        ("01/05/2018", "01/05/2019", 1, "01/04/2019", "31/03/2020", "Closed in period"),
-        ("01/05/2018", pd.NA, 1, "01/04/2019", "31/03/2020", "Closed in period"),
-        ("01/05/2019", pd.NA, 12, "01/04/2019", "31/03/2020", "Open in period"),
-    ],
-)
-def test_map_maintained_school_status(
-    start_date,
-    closed_date,
-    return_period_length: int,
-    year_start_date,
-    year_end_date,
-    expected,
-):
-    assert (
-        mappings.map_maintained_school_status(
-            pd.to_datetime(start_date),
-            pd.to_datetime(closed_date),
-            return_period_length,
-            pd.to_datetime(year_start_date),
-            pd.to_datetime(year_end_date),
-        )
-        == expected
-    )
-
-
-@pytest.mark.parametrize(
     "url,expected",
     [
         (None, None),
@@ -363,15 +213,11 @@ def test_map_company_number(company_number: str, expected: str):
 )
 def test_map_academy_period_return_opening(
     start_date: date,
-    expected: int,
-    academy_year_start_date: date,
-    academy_year_end_date: date,
+    expected: int
 ):
     result = mappings.map_academy_period_return(
         opened_in_period=start_date,
-        closed_in_period=None,
-        year_start_date=academy_year_start_date,
-        year_end_date=academy_year_end_date,
+        closed_in_period=None
     )
 
     assert result == expected
@@ -407,15 +253,11 @@ def test_map_academy_period_return_opening(
 )
 def test_map_academy_period_return_closing(
     end_date: date,
-    expected: int,
-    academy_year_start_date: date,
-    academy_year_end_date: date,
+    expected: int
 ):
     result = mappings.map_academy_period_return(
         opened_in_period=None,
-        closed_in_period=end_date,
-        year_start_date=academy_year_start_date,
-        year_end_date=academy_year_end_date,
+        closed_in_period=end_date
     )
 
     assert result == expected

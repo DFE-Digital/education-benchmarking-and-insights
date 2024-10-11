@@ -119,71 +119,6 @@ def map_admission_policy(admission_policy: str):
         case _:
             return "Unknown"
 
-
-def map_academy_status(
-    opened_in_period: datetime,
-    closed_in_period: datetime,
-    valid_to: datetime,
-    start_date: datetime,
-    closed_date: datetime,
-    period_start_date: datetime,
-    year_start_date: datetime,
-    year_end_date: datetime,
-):
-    if not (
-        pd.isnull(closed_in_period)
-        and pd.isnull(opened_in_period)
-        and pd.isnull(valid_to)
-        and pd.isnull(start_date)
-        and pd.isnull(closed_date)
-    ):
-        if closed_date < year_start_date:
-            return "Closed"
-
-        if (
-            year_start_date < closed_in_period < year_end_date
-        ) or closed_date <= year_end_date:
-            return "Closed in period"
-
-        if (
-            start_date > period_start_date
-        ) or period_start_date < opened_in_period < year_end_date:
-            return "(Re)opened in period"
-
-        if year_start_date < valid_to < year_end_date:
-            return "Invalid"
-
-        return "Open"
-    else:
-        return None
-
-
-def map_maintained_school_status(
-    start_date: datetime,
-    closed_date: datetime,
-    return_period_length: int,
-    year_start_date: datetime,
-    year_end_date: datetime,
-):
-    if not (
-        pd.isnull(return_period_length)
-        and pd.isnull(start_date)
-        and pd.isnull(closed_date)
-    ):
-        if closed_date < year_start_date:
-            return "Closed"
-
-        if closed_date < year_end_date or return_period_length < 12:
-            return "Closed in period"
-
-        if start_date > year_start_date:
-            return "Open in period"
-
-        return "Open"
-    else:
-        return None
-
-
 def map_school_website(url: str):
     if url is None or url == "":
         return None
@@ -205,40 +140,70 @@ def map_is_surplus_deficit(closing_balance: float):
         return "Deficit"
 
 
-def _diff_month(d1, d2, opening=False):
-    """
-    The number of months between two dates (exclusive).
+def _academy_months_in_return_from_opening(start):
+    match start.month:
+        case 9:
+            return 12 if start.day <= 10 else 11
+        case 10:
+            return 11
+        case 11:
+            return 10
+        case 12:
+            return 9
+        case 1:
+            return 8
+        case 2:
+            return 7
+        case 3:
+            return 6
+        case 4:
+            return 5
+        case 5:
+            return 4
+        case 6:
+            return 3
+        case 7:
+            return 2
+        case 8:
+            return 1
 
-    Note: for opening-dates, where d2 is up to the 10th September, this
-    is considered a full year. Also, the opening month is considered a full
-    month whereas closing isn't (i.e. opened on 1st Oct is 11 months,
-    whereas closed on the 1 Aug is only 11 months).
 
-
-    :param d1: end date
-    :param d2: start date
-    :param opening: whether to consider this an org. "opening" date
-    :return: number of months between start and end dates
-    """
-    if opening:
-        if d2.month == 9:
-            return 12 if d2.day <= 10 else 11
-        else:
-            return (d1.year - d2.year) * 12 + d1.month - d2.month + 1
-
-    return (d1.year - d2.year) * 12 + d1.month - d2.month
+def _academy_months_in_return_to_closing(close):
+    match close.month:
+        case 9:
+            return 0
+        case 10:
+            return 1
+        case 11:
+            return 2
+        case 12:
+            return 3
+        case 1:
+            return 4
+        case 2:
+            return 5
+        case 3:
+            return 6
+        case 4:
+            return 7
+        case 5:
+            return 8
+        case 6:
+            return 9
+        case 7:
+            return 10
+        case 8:
+            return 11
 
 
 def map_academy_period_return(
     opened_in_period: datetime,
     closed_in_period: datetime,
-    year_start_date: datetime,
-    year_end_date: datetime,
 ):
     if not pd.isnull(closed_in_period):
-        return _diff_month(closed_in_period, year_start_date)
+        return _academy_months_in_return_to_closing(closed_in_period)
     elif not pd.isnull(opened_in_period):
-        return _diff_month(year_end_date, opened_in_period, opening=True)
+        return _academy_months_in_return_from_opening(opened_in_period)
     else:
         return 12
 
