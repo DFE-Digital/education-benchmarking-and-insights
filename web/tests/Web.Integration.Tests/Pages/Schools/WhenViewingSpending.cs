@@ -28,7 +28,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var categorySections = page.QuerySelectorAll("section");
 
-        Assert.Equal(9, categorySections.Length);
+        Assert.Equal(8, categorySections.Length);
 
         var expectedUrl = Paths.SchoolComparison(school.URN);
 
@@ -116,6 +116,15 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
             "Spending priorities for this school");
+
+        var categorySections = page.QuerySelectorAll("section");
+
+        foreach (var section in categorySections)
+        {
+            var sectionHeading = section.QuerySelector("h3")?.TextContent;
+
+            Assert.NotEqual(Category.Other, sectionHeading);
+        }
     }
 
     private RagRating[] CreateRagRatings(string urn)
@@ -162,7 +171,6 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         { "Utilities", "utilities" },
         { "Administrative supplies", "administrative-supplies" },
         { "Catering staff and supplies", "catering-staff-and-supplies" },
-        { "Other costs", "other-costs" },
     };
 
 }
