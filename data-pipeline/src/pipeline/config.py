@@ -746,7 +746,6 @@ trust_db_projections = {
     "Total Income_CS": "TotalIncomeCS",
     "Total Expenditure_CS": "TotalExpenditureCS",
     "In year balance_CS": "InYearBalanceCS",
-    "Revenue reserve_CS": "RevenueReserveCS",
     "Income_Total grant funding_CS": "TotalGrantFundingCS",
     "Income_Total self generated funding_CS": "TotalSelfGeneratedFundingCS",
     "Income_Direct grants_CS": "DirectGrantsCS",
