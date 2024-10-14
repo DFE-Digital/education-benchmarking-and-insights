@@ -47,7 +47,6 @@
           | Premises staff and services         | Internal fit-out and maintenance                                    |
           | Utilities                           | Electricity                                                         |
           | Utilities                           | Water, wastewater and ancillary services 2                          |
-          | Educational ICT                     | Network connectivity and telecommunication solutions                |
           | Educational ICT                     | Print market place                                                  |
 
     Scenario Outline: Click on view all links for each chart
