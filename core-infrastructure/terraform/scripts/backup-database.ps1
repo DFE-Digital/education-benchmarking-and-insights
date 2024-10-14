@@ -66,50 +66,19 @@ Param (
 
 # Connect to Azure with system-assigned managed identity
 Connect-AzAccount -Identity
-Get-AzContext -ListAvailable | Where-Object { $_.Name -match $SubscriptionName } | Set-AzContext 
-Get-AzContext
 
 # Set context
 $bacpacFileName = "$DatabaseName-$(Get-Date -UFormat "%Y-%m-%d_%H-%m-%S").bacpac"
 $databaseUsername = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $DatabaseUsernameSecret -AsPlainText
-$databasePassword = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $DatabasePasswordSecret
-$storageUri = "https://$StorageAccountName.blob.core.windows.net/$ContainerName/$bacpacFileName"
-$storageKeyType = "StorageAccessKey"
+$databasePassword = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $DatabasePasswordSecret -AsPlainText
 $storageKey = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $StorageKeySecret -AsPlainText
 
 # Export database to BACPAC
-# https://learn.microsoft.com/en-us/azure/azure-sql/database/database-export?view=azuresql#powershell
-$exportRequest = New-AzSqlDatabaseExport -ResourceGroupName $ResourceGroup -ServerName $ServerName -DatabaseName $DatabaseName -StorageKeyType $storageKeyType -StorageKey $storageKey -StorageUri $storageUri -AdministratorLogin $databaseUsername -AdministratorLoginPassword $databasePassword.SecretValue
-if ($null -ne $exportRequest) {
-    $operationStatusLink = $exportRequest.OperationStatusLink
-    $operationStatusLink
-    $exportStatus = Get-AzSqlDatabaseImportExportStatus -OperationStatusLink $operationStatusLink
-    [Console]::Write("Exporting.")
-    $lastStatusMessage = ""
-    while ($exportStatus.Status -eq "InProgress") {
-        Start-Sleep -s 10
-        $exportStatus = Get-AzSqlDatabaseImportExportStatus -OperationStatusLink $operationStatusLink
-        if ($lastStatusMessage -ne $exportStatus.StatusMessage) {
-            $lastStatusMessage = $exportStatus.StatusMessage
-            $progress = $lastStatusMessage.Replace("Running, Progress = ", "")
-            [Console]::Write($progress)
-        }
-        [Console]::Write(".")
-    }
+dotnet new tool-manifest
+dotnet tool install microsoft.sqlpackage --version 161.8089.0 # targets a version of .NET 6 that is installed on the automation container
+dotnet tool run sqlpackage /Action:Export /TargetFile:"$env:temp\$bacpacFileName" /SourceConnectionString:"Server=tcp:$ServerName.database.windows.net,1433;Initial Catalog=$DatabaseName;Persist Security Info=False;User ID=$databaseUsername;Password=$databasePassword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
-    [Console]::WriteLine("")
-    $exportStatus
-    Write-Host "Database '$DatabaseName' is backed up. '$storageUri'"
-
-    # Get a reference to the blob
-    $context = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey
-    $blob = Get-AzStorageBlob -Context $context -Container $ContainerName -Blob $bacpacFileName
-
-    # Set the CacheControl property to expiry period and save
-    $blob.ICloudBlob.Properties.CacheControl = "max-age=$ExpirySeconds"
-    $blob.ICloudBlob.SetProperties()
-}
-else {
-    Write-Error "Could not start backup of $DatabaseName"
-    exit
-}
+# Push to blob storage
+$storageContext = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $storageKey -Protocol Https
+$properties = @{ "CacheControl" = "max-age=$ExpirySeconds" }
+Set-AzStorageBlobContent -File "$env:temp\$bacpacFileName" -Container $ContainerName -Blob $bacpacFileName -Properties $properties -Context $storageContext
