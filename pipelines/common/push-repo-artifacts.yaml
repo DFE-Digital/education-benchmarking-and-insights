@@ -1,11 +1,8 @@
 parameters:
-  AccessToken: ''
-  AppId: ''
   ArtifactPattern: '**'
   BranchName: ''
   CommitMessage: ''
   CommitTag: ''
-  InstallationId: ''
   PostProcessScript: 'echo "Skipped"'
   TargetPath: ''
 
@@ -37,18 +34,7 @@ steps:
   - script: |
       git add .
       git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }} [skip ci]"
-      git push origin "refs/heads/${{ parameters.BranchName }}" --set-upstream --verbose
+      git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
+      git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
     displayName: 'Commit changes'
 
-  - task: UseNode@1
-    inputs:
-      version: '20.x'
-
-  - script: |
-      branch=$(echo $(Build.SourceBranch) | cut -c 12-)
-      git checkout $branch
-      cd ./pipelines/common/scripts
-      npm i
-      npm run build
-      APP_ID=${{ parameters.AppId }} BRANCH=${{ parameters.BranchName }} INSTALLATION_ID=${{ parameters.InstallationId }} LOG_LEVEL=debug PRIVATE_KEY="${{ parameters.AccessToken }}" TITLE="${{ parameters.CommitMessage }}" node dist/index.js
-    displayName: 'Create Pull Request'

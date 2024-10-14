@@ -432,6 +432,3 @@ web/src/Web.App/appsettings.Test.json
 
 # Azure Portal authored jMeter configuration files
 performance-tests/**/*.jmx
-
-# Compiled scripts
-**/scripts/dist

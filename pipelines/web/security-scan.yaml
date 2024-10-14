@@ -110,13 +110,10 @@ jobs:
 
       - template: ..\common\push-repo-artifacts.yaml
         parameters:
-          AccessToken: $(System.AccessToken)
-          AppId: TODO
           ArtifactPattern: '**/*.md'
           BranchName: 'doc/$(Build.BuildNumber)/web-security-scan'
           CommitMessage: 'Updated web security scan documentation'
           CommitTag: 'doc'
-          InstallationId: 16531203
           PostProcessScript: |
             find . -type f -name "*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
           TargetPath: 'documentation/quality-assurance/security-scan-reports'

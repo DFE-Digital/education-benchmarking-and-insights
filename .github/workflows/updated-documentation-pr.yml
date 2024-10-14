@@ -1,0 +1,16 @@
+
+name: Pull Request on documentation tag
+on:
+  push:
+    tags:        
+      - 'doc/**'
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Create Pull Request
+        run: gh pr create -B main -H ${{ github.ref_name }} --title 'Updated documentation' --draft
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
