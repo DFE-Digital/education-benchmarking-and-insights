@@ -3,14 +3,28 @@ name: Pull Request on documentation tag
 on:
   push:
     tags:        
-      - 'doc/**'
+      - "doc/**"
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=$(echo $raw | cut -c 8-)
+          echo "BRANCH=$branch" >> $GITHUB_ENV
+          echo "Branch is $branch"
+
       - name: Create Pull Request
-        run: gh pr create -B main -H ${{ github.ref_name }} --title 'Updated documentation' --draft
+        run: |
+          buildId=$(echo "${{ github.ref }}" | cut -c 5-)
+          gh pr create -B main -H ${{ env.BRANCH }} --title "Updated documentation" --body "Includes artifacts from [build $buildId](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/results?buildId=$buildId)" --draft
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
