@@ -33,7 +33,7 @@ steps:
 
   - script: |
       git add .
-      git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }} [skip ci]"
+      git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }}"
       git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
       git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
     displayName: 'Commit changes'
