@@ -67,12 +67,3 @@ resource "azurerm_key_vault_access_policy" "automation-access-policy" {
   object_id          = azurerm_automation_account.automation.identity[0].principal_id
   secret_permissions = ["Get"]
 }
-
-# will fail with 403
-# https://learn.microsoft.com/en-us/azure/automation/enable-managed-identity-for-automation#assign-role-to-a-system-assigned-managed-identity
-# resource "azurerm_role_assignment" "automation-subscription-reader" {
-#   scope                = data.azurerm_subscription.current.id
-#   role_definition_name = "Reader"
-#   principal_id         = azurerm_automation_account.automation.identity[0].principal_id
-#   principal_type       = "ServicePrincipal"
-# }
