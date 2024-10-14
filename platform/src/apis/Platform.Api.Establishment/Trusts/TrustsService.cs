@@ -31,7 +31,7 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
             return null;
         }
 
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber";
+        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
         var schools = await conn.QueryAsync<School>(schoolsSql, parameters);
         return TrustResponseFactory.Create(trust, schools);
     }
