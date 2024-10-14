@@ -132,6 +132,16 @@ resource "azurerm_storage_account" "backup" {
     }
   }
 
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
+  }
+
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"

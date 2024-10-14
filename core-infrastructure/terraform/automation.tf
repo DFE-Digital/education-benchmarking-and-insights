@@ -8,6 +8,8 @@ resource "azurerm_automation_account" "automation" {
   identity {
     type = "SystemAssigned"
   }
+
+  public_network_access_enabled = var.environment == "development" ? true : false
 }
 
 data "local_file" "backup-database-script" {
