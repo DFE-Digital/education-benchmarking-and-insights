@@ -8,7 +8,7 @@
     .PARAMETER SubscriptionName
         The Azure Subscription name where the databases exists to backup.
  
-    .PARAMETER SourceResourceGroupName
+    .PARAMETER ResourceGroup
         The resource group name where the source database exists to backup.
  
     .PARAMETER KeyVaultName
@@ -68,7 +68,7 @@ Param (
 Connect-AzAccount -Identity
 
 # Set context
-$bacpacFileName = "$DatabaseName-$(Get-Date -UFormat "%Y-%m-%d_%H-%m-%S").bacpac"
+$bacpacFileName = "$DatabaseName-$(Get-Date -UFormat "%Y-%m-%d_%H-%M-%S").bacpac"
 $databaseUsername = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $DatabaseUsernameSecret -AsPlainText
 $databasePassword = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $DatabasePasswordSecret -AsPlainText
 $storageKey = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $StorageKeySecret -AsPlainText
