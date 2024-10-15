@@ -74,6 +74,15 @@ resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
+resource "azurerm_key_vault_secret" "data-storage-key" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "data-storage-key"
+  value        = azurerm_storage_account.data.primary_access_key
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "token"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
 resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
   name                       = "${azurerm_storage_account.data.name}-queue-logs"
   target_resource_id         = "${azurerm_storage_account.data.id}/queueServices/default/"
@@ -151,6 +160,12 @@ resource "azurerm_storage_account" "backup" {
 resource "azurerm_storage_container" "pipeline-database-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "database"
+  storage_account_name = azurerm_storage_account.backup.name
+}
+
+resource "azurerm_storage_container" "pipeline-raw-data-backup" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
+  name                 = "raw"
   storage_account_name = azurerm_storage_account.backup.name
 }
 
