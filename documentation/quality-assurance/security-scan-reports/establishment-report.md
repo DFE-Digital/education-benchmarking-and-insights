@@ -162,7 +162,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/8721256088835954326
+* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/8638577003649186789
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -222,7 +222,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/api/6281332052196142134
+* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/api/5589243290875860127
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -252,7 +252,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/api/swagger/1312791001982961272
+* URL: https://s198d01-ebis-establishment-fa.azurewebsites.net/api/swagger/1228812262873263743
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
