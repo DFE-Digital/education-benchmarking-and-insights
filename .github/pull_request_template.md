@@ -13,4 +13,5 @@ Include any useful information needed to review this change. Include any depende
 - [ ] You have run all unit/integration tests and they pass
 - [ ] Your branch has been rebased onto main
 - [ ] You have tested by running locally
+- [ ] You have reviewed with UX/Design
 
