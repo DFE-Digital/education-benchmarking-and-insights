@@ -162,7 +162,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/3058562395054074059
+* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/2581749649871953788
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -222,7 +222,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/6382755982354513715
+* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/2581843028804086101
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -252,7 +252,7 @@ Raised by the 'Alert on HTTP Response Code Error' script
   * Attack: ``
   * Evidence: `HTTP/1.1 404`
   * Other Info: ``
-* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/swagger/123205724258891758
+* URL: https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/swagger/3092090953478260284
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
