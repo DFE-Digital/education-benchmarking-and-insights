@@ -14,8 +14,6 @@ public static class Assertions
     internal static void AssertRevenueReserve(BalanceBaseResponse expected, BalanceBaseResponse response)
     {
         AssertEqual(nameof(BalanceBaseResponse.RevenueReserve), expected.RevenueReserve, response.RevenueReserve);
-        AssertEqual(nameof(BalanceBaseResponse.SchoolRevenueReserve), expected.SchoolRevenueReserve, response.SchoolRevenueReserve);
-        AssertEqual(nameof(BalanceBaseResponse.CentralRevenueReserve), expected.CentralRevenueReserve, response.CentralRevenueReserve);
     }
 
     private static void AssertEqual(string field, decimal? expected, decimal? actual) =>

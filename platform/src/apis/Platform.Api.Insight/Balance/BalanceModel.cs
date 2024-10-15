@@ -13,7 +13,6 @@ public abstract record BalanceBaseModel
     public decimal? TotalIncomeCS { get; set; }
     public decimal? TotalExpenditureCS { get; set; }
     public decimal? InYearBalanceCS { get; set; }
-    public decimal? RevenueReserveCS { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
