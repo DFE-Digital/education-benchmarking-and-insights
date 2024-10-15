@@ -12,8 +12,9 @@ public abstract partial class AuthPageBase(ITestOutputHelper testOutputHelper, W
         // Sign in using credentials set in config
         var page = await webDriver.GetPage($"{ServiceUrl}/sign-in", HttpStatusCode.OK);
         await page.Locator("#username").FillAsync(TestConfiguration.Authentication.Username);
+        await page.Locator("button").GetByText("Next").ClickAsync();
         await page.Locator("#password").FillAsync(TestConfiguration.Authentication.Password);
-        await page.GetByText("Sign in").ClickAsync();
+        await page.Locator("button").GetByText("Sign in").ClickAsync();
         await page.WaitForURLAsync(SelectOrganisation());
         await page.Locator("#organisation").Locator("input[type='radio']").First.ClickAsync();
         await page.GetByText("Continue").ClickAsync();

@@ -16,7 +16,7 @@ public class WhenViewingComparatorsRevert(ITestOutputHelper testOutputHelper, We
         await Page.Locator("#school-input__listbox.autocomplete__menu--visible").WaitForAsync();
         await Page.Keyboard.DownAsync("ArrowDown");
         await Page.Keyboard.DownAsync("Enter");
-        await Page.Locator("button[type='submit']").ClickAsync();
+        await Page.Locator("main button[type='submit']").ClickAsync();
         await Page.Locator("#create-set").WaitForAsync();
         await Page.Locator("#create-set").ClickAsync();
         await Page.WaitForURLAsync("**/submit");
