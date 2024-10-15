@@ -7,7 +7,7 @@ variables:
   - name: 'cacheKey'
     value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
   - name: 'ShouldPublish'
-    value: true #donotpush! $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+    value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 trigger: none
 
@@ -115,5 +115,7 @@ jobs:
           CommitMessage: 'Updated web security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |
-            find . -type f -name "*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            find . -type f -wholename "./web/*.md" -exec sh -c 'sed -i -E "s/Other Info: \`[^\`]+\`/Other Info: \`\`/g" "$1"' _ {} \;
+            find . -type f -wholename "./web/*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            mv -f web/*.md .
           TargetPath: 'documentation/quality-assurance/security-scan-reports'

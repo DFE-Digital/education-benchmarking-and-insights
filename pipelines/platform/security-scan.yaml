@@ -134,5 +134,6 @@ jobs:
           CommitMessage: 'Updated platform security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |
-            find . -type f -name "*.md" -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" \) -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" \) -exec mv '{}' . \;
           TargetPath: 'documentation/quality-assurance/security-scan-reports'
