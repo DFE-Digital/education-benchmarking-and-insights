@@ -51,10 +51,8 @@ public static class BalanceResponseFactory
     {
         SchoolInYearBalance = CalcAmount(model.InYearBalance - model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
         CentralInYearBalance = CalcAmount(model.InYearBalanceCS, model, parameters),
-        SchoolRevenueReserve = CalcAmount(model.RevenueReserve - model.RevenueReserveCS.GetValueOrDefault(), model, parameters),
-        CentralRevenueReserve = CalcAmount(model.RevenueReserveCS, model, parameters),
         InYearBalance = CalcTotal(model.InYearBalance, model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
-        RevenueReserve = CalcTotal(model.RevenueReserve, model.RevenueReserveCS.GetValueOrDefault(), model, parameters)
+        RevenueReserve = CalcTotal(model.RevenueReserve, 0, model, parameters)
     };
 
     private static decimal? CalcTotal(decimal? value, decimal valueCentral, BalanceBaseModel model, BalanceParameters parameters)
@@ -101,8 +99,6 @@ public abstract record BalanceBaseResponse
 
     public decimal? SchoolInYearBalance { get; set; }
     public decimal? CentralInYearBalance { get; set; }
-    public decimal? SchoolRevenueReserve { get; set; }
-    public decimal? CentralRevenueReserve { get; set; }
     public decimal? InYearBalance { get; set; }
     public decimal? RevenueReserve { get; set; }
 }
