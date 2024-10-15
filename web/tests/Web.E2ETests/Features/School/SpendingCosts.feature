@@ -10,7 +10,6 @@
           | Educational supplies                | High priority   |
           | Catering staff and supplies         | High priority   |
           | Premises staff and services         | High priority   |
-          | Other costs                         | High priority   |
           | Utilities                           | Medium priority |
           | Educational ICT                     | Medium priority |
 
@@ -24,7 +23,6 @@
           | Educational supplies                | Spending is higher than 99% of similar schools.    |
           | Catering staff and supplies         | Spending is higher than 92.33% of similar schools. |
           | Premises staff and services         | Spending is higher than 99% of similar schools.    |
-          | Other costs                         | Spending is higher than 89% of similar schools.    |
           | Utilities                           | Spending is higher than 39% of similar schools.    |
           | Educational ICT                     | Spending is less than 77.67% of similar schools.   |
 
@@ -47,9 +45,6 @@
           | Premises staff and services         | Building in use - support services                                  |
           | Premises staff and services         | Good estate management for schools                                  |
           | Premises staff and services         | Internal fit-out and maintenance                                    |
-          | Other costs                         | National professional qualification (NPQ) framework                 |
-          | Other costs                         | Staff absence protection and reimbursement                          |
-          | Other costs                         | Risk protection arrangement                                         |
           | Utilities                           | Electricity                                                         |
           | Utilities                           | Water, wastewater and ancillary services 2                          |
           | Educational ICT                     | Network connectivity and telecommunication solutions                |
@@ -69,6 +64,5 @@
           | Educational supplies                |
           | Catering staff and supplies         |
           | Premises staff and services         |
-          | Other costs                         |
           | Utilities                           |
           | Educational ICT                     |
