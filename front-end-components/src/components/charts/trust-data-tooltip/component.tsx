@@ -40,7 +40,9 @@ export function TrustDataTooltip<
         </tr>
       </thead>
       <tbody className="govuk-table__body">
-        {breakdown === BreakdownInclude ? (
+        {breakdown === BreakdownInclude &&
+        schoolValue !== undefined &&
+        centralValue !== undefined ? (
           <>
             <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
