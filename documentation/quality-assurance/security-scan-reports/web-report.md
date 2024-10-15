@@ -150,7 +150,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/UxFxStableCssWesternEuropean_6724ABFCA058F28804A76FD40AD14C9D7A6031D9.css"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -160,7 +160,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/favicon.ico"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -170,7 +170,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/favicon.ico"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -181,7 +181,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360.css"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -192,7 +192,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/UxFxStableCssWesternEuropean_6724ABFCA058F28804A76FD40AD14C9D7A6031D9.css"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -202,7 +202,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/favicon.ico"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -212,7 +212,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/favicon.ico"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -223,7 +223,7 @@ The integrity attribute is missing on a script or link tag served by an external
       href="https://azurefrontdoorpages.azureedge.net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360.css"
     />`
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -385,25 +385,25 @@ Base64 encoded data was disclosed by the application/web server. Note: in the in
   * Parameter: ``
   * Attack: ``
   * Evidence: `net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360`
-  * Other Info: `������ځ�h�Z.��ߊW��LE�J뢰���4���w�;�}<�נ�סּ?|�~��`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360`
-  * Other Info: `������ځ�h�Z.��ߊW��LE�J뢰���4���w�;�}<�נ�סּ?|�~��`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360`
-  * Other Info: `������ځ�h�Z.��ߊW��LE�J뢰���4���w�;�}<�נ�סּ?|�~��`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `net/pages/PageNotFound_files/UxFxErrorCss_8097D4DBB3B4874308CB3816C1762BED98637360`
-  * Other Info: `������ځ�h�Z.��ߊW��LE�J뢰���4���w�;�}<�נ�סּ?|�~��`
+  * Other Info: ``
 
 Instances: 4
 
@@ -439,25 +439,25 @@ The response appears to contain suspicious comments which may help an attacker. 
   * Parameter: ``
   * Attack: ``
   * Evidence: `from`
-  * Other Info: `The following pattern was used: \bFROM\b and was detected in the element starting with: "<!-- saved from url=(0058)https://df.onecloud.azure-test.net/Error/UE_404?shown=true -->", see evidence field for the suspicious comment/snippet.`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `from`
-  * Other Info: `The following pattern was used: \bFROM\b and was detected in the element starting with: "<!-- saved from url=(0058)https://df.onecloud.azure-test.net/Error/UE_404?shown=true -->", see evidence field for the suspicious comment/snippet.`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `from`
-  * Other Info: `The following pattern was used: \bFROM\b and was detected in the element starting with: "<!-- saved from url=(0058)https://df.onecloud.azure-test.net/Error/UE_404?shown=true -->", see evidence field for the suspicious comment/snippet.`
+  * Other Info: ``
 * URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: `from`
-  * Other Info: `The following pattern was used: \bFROM\b and was detected in the element starting with: "<!-- saved from url=(0058)https://df.onecloud.azure-test.net/Error/UE_404?shown=true -->", see evidence field for the suspicious comment/snippet.`
+  * Other Info: ``
 
 Instances: 4
 
@@ -559,13 +559,13 @@ Specifies how and where the data would be used. For instance, if the value is au
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: `Sec-Fetch-Dest`
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: `Sec-Fetch-Dest`
   * Attack: ``
@@ -607,13 +607,13 @@ Allows to differentiate between requests for navigating between HTML pages and r
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: `Sec-Fetch-Mode`
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: `Sec-Fetch-Mode`
   * Attack: ``
@@ -655,13 +655,13 @@ Specifies the relationship between request initiator's origin and target's origi
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: `Sec-Fetch-Site`
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: `Sec-Fetch-Site`
   * Attack: ``
@@ -703,13 +703,13 @@ Specifies if a navigation request was initiated by a user.
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/robots.txt
   * Method: `GET`
   * Parameter: `Sec-Fetch-User`
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://s198d01-education-benchmarking-fd.azurefd.net/sitemap.xml
+* URL: https://s198d01-education-benchmarking-fd.azurefd.net/school/135966
   * Method: `GET`
   * Parameter: `Sec-Fetch-User`
   * Attack: ``
