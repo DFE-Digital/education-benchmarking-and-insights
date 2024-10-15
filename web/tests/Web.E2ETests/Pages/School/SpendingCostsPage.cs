@@ -25,7 +25,6 @@ public class SpendingCostsPage(IPage page)
         "Educational ICT",
         "Educational supplies",
         "Non-educational support staff",
-        "Other costs",
         "Premises staff and services",
         "Utilities"
     ];
@@ -106,8 +105,8 @@ public class SpendingCostsPage(IPage page)
         //await Breadcrumbs.ShouldBeVisible();
         Assert.Equal(await PageH3Headings.Count(), _h3Names.Length);
         await AssertChartNames(_h3Names);
-        Assert.Equal(9, await AllCharts.Count());
-        Assert.Equal(9, await AllChartsStats.Count());
+        Assert.Equal(8, await AllCharts.Count());
+        Assert.Equal(8, await AllChartsStats.Count());
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
     }
