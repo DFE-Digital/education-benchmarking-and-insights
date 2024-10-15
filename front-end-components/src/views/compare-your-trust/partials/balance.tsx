@@ -56,12 +56,7 @@ export const Balance: React.FC<{
 
   const revenueReserveChartData: HorizontalBarChartWrapperData<BalanceData> =
     useMemo(() => {
-      const tableHeadings = [
-        "Trust name",
-        `Total ${dimension.heading}`,
-        `School ${dimension.heading}`,
-        `Central ${dimension.heading}`,
-      ];
+      const tableHeadings = ["Trust name", `Total ${dimension.heading}`];
 
       return {
         dataPoints:
@@ -70,8 +65,8 @@ export const Balance: React.FC<{
                 return {
                   ...trust,
                   totalValue: trust.revenueReserve ?? 0,
-                  schoolValue: trust.schoolRevenueReserve ?? 0,
-                  centralValue: trust.centralRevenueReserve ?? 0,
+                  schoolValue: undefined,
+                  centralValue: undefined,
                   type: "balance",
                 };
               })

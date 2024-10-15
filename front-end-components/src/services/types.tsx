@@ -295,10 +295,7 @@ type BalanceBase = {
 
 type TrustBalanceBase = BalanceBase & {
   schoolInYearBalance: number;
-  schoolRevenueReserve: number;
-
   centralInYearBalance: number;
-  centralRevenueReserve: number;
 };
 
 export type SchoolBalance = BalanceBase & {

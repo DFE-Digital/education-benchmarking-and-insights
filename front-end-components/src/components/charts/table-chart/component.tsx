@@ -122,20 +122,22 @@ export const TableChart: React.FC<
                         valueUnit,
                       })}
                     </td>
-                    {breakdown === BreakdownInclude && (
-                      <>
-                        <td className="govuk-table__cell table-cell-value">
-                          {fullValueFormatter(schoolValue, {
-                            valueUnit,
-                          })}
-                        </td>
-                        <td className="govuk-table__cell table-cell-value">
-                          {fullValueFormatter(centralValue, {
-                            valueUnit,
-                          })}
-                        </td>
-                      </>
-                    )}
+                    {breakdown === BreakdownInclude &&
+                      schoolValue !== undefined &&
+                      centralValue !== undefined && (
+                        <>
+                          <td className="govuk-table__cell table-cell-value">
+                            {fullValueFormatter(schoolValue, {
+                              valueUnit,
+                            })}
+                          </td>
+                          <td className="govuk-table__cell table-cell-value">
+                            {fullValueFormatter(centralValue, {
+                              valueUnit,
+                            })}
+                          </td>
+                        </>
+                      )}
                   </>
                 ) : (
                   <td className="govuk-table__cell table-cell-value">

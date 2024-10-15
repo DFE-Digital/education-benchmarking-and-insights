@@ -29,6 +29,10 @@ export type HorizontalBarChartWrapperData<
   dataPoints: (TData &
     (
       | { value: number }
-      | { totalValue: number; schoolValue: number; centralValue: number }
+      | {
+          totalValue: number;
+          schoolValue: number | undefined;
+          centralValue: number | undefined;
+        }
     ))[];
 };
