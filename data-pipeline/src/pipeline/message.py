@@ -19,9 +19,24 @@ def get_message_type(message: dict) -> MessageType:
     """
     Determine the type of an incoming message.
 
-    TODO: `default` message format?
+    `default` messages will be of the form (including varying sources
+    for each data type):
 
-    User-defined comparator set message will be of the form:
+    ```json
+    {
+        "jobId": "24463424-9642-4314-bb55-45424af6e812",
+        "type": "default",
+        "runId": 2023,
+        "year": {
+            "aar": 2022,
+            "cfr": 2023,
+            "bfr": 2022
+        }
+    }
+    ```
+
+    User-defined comparator set message will be of the form (including
+    only a single source from which to retrieve data):
 
     ```json
     {
@@ -47,9 +62,9 @@ def get_message_type(message: dict) -> MessageType:
         "jobId": "79ca4d18-d065-4180-9e0d-10c9b3fdd1a8",
         "type": "custom-data",
         "runType": "custom",
-        "runId": "123",
-        "year": 2023,
-        "urn": "123",
+        "runId": "c321ef6a-3b1c-4ce2-8e32-0d0167bf2fa7",
+        "year": 2022,
+        "urn": "142875",
         "payload": {
             "kind": "CustomDataPayload",
             "administrativeSuppliesNonEducationalCosts": 0.0,
