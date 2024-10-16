@@ -122,6 +122,15 @@ resource "azurerm_mssql_database" "sql-db" {
     storage_account_access_key = azurerm_storage_account.sql-log-storage.primary_access_key
     retention_days             = 120
   }
+
+  short_term_retention_policy {
+    backup_interval_in_hours = 24
+    retention_days           = 7
+  }
+
+  long_term_retention_policy {
+    weekly_retention = "P52W"
+  }
 }
 
 resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
