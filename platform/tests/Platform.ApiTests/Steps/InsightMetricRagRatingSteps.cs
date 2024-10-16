@@ -10,12 +10,12 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
 {
     private const string MetricRagRatingsKey = "metric-rag-ratings";
 
-    [Given("a valid user defined metric rag rating with runId '(.*)', useCustomData '(.*)' and setType '(.*)'")]
-    public void GivenAValidUserDefinedMetricRagRatingWithRunIdUseCustomDataAndSetType(string runId, string useCustomData, string setType)
+    [Given("a valid user defined metric rag rating with runId '(.*)', useCustomData '(.*)'")]
+    public void GivenAValidUserDefinedMetricRagRatingWithRunIdUseCustomData(string runId, string useCustomData)
     {
         api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/metric-rag/{runId}?useCustomData={useCustomData}&setType={setType}", UriKind.Relative),
+            RequestUri = new Uri($"/api/metric-rag/{runId}?useCustomData={useCustomData}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

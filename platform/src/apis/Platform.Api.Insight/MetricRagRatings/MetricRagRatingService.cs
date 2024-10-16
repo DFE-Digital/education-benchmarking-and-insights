@@ -8,15 +8,15 @@ namespace Platform.Api.Insight.MetricRagRatings;
 public interface IMetricRagRatingsService
 {
     Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
-        string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
+        string runType = "default", bool includeSubCategories = false);
 
-    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
+    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", bool includeSubCategories = false);
 }
 
 public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRatingsService
 {
     public async Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
-        string runType = "default", string setType = "unmixed", bool includeSubCategories = false)
+        string runType = "default", bool includeSubCategories = false)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
 
@@ -25,12 +25,11 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
 
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId AND SetType = @SetType AND URN IN @URNS",
+        builder.Where("RunType = @RunType AND RunId = @RunId AND URN IN @URNS",
             new
             {
                 RunType = runType,
                 RunId = year,
-                SetType = setType,
                 URNS = urns
             });
 
@@ -59,18 +58,17 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
     }
 
     public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default",
-        string setType = "unmixed", bool includeSubCategories = false)
+        bool includeSubCategories = false)
     {
         using var conn = await dbFactory.GetConnection();
 
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId AND SetType = @SetType",
+        builder.Where("RunType = @RunType AND RunId = @RunId",
             new
             {
                 RunType = runType,
-                RunId = identifier,
-                SetType = setType
+                RunId = identifier
             });
 
         if (!includeSubCategories)

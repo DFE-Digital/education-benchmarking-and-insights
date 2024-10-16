@@ -1,11 +1,11 @@
 ﻿Feature: Insights metric rag ratings endpoints
-    
+
     Scenario: Sending a valid user defined metric rag rating request with default options
-        Given a valid user defined metric rag rating with runId 'some-user-defined-id', useCustomData '' and setType ''
+        Given a valid user defined metric rag rating with runId 'some-user-defined-id', useCustomData ''
         When I submit the metric rag rating request
         Then the metric rag rating result should be ok and contain:
           | URN | Category | SubCategory | Value | Mean | DiffMean | PercentDiff | Percentile | Decile | RAG |
-          
+
     Scenario: Sending a valid default metric rag rating request with default options
         Given a valid default metric rag rating with categories '' and statuses '' for urns:
           | Urn    |
@@ -34,7 +34,7 @@
           | URN    | Category                    | SubCategory | Value  | Mean   | DiffMean | PercentDiff | Percentile | Decile | RAG |
           | 777042 | Administrative supplies     | Total       | 429.07 | 47.78  | 381.28   | 88.86       | 99.00      | 9.00   | red |
           | 777042 | Catering staff and supplies | Total       | 362.59 | 173.19 | 189.40   | 52.23       | 92.33      | 9.00   | red |
-          
+
     Scenario: Sending a valid default metric rag rating request with status
         Given a valid default metric rag rating with categories '' and statuses 'amber' for urns:
           | Urn    |
