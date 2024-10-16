@@ -188,6 +188,13 @@ public class SpendingCostsPage(IPage page)
         return new CompareYourCostsPage(page);
     }
 
+    public async Task<CostCategoriesGuidancePage> ClickOnCostCategoriesGuidanceLink()
+    {
+        await page.Locator("#cost-categories-guidance").ClickAsync();
+        await page.BringToFrontAsync();
+        return new CostCategoriesGuidancePage(page);
+    }
+
     private async Task<List<string>> GetCategoryNames()
     {
         var h3Elements = await PageH3Headings.AllAsync();
