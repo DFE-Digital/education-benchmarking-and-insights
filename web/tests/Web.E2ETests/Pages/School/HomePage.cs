@@ -50,6 +50,7 @@ public class HomePage(IPage page)
         });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
+    private ILocator RagGuidance => page.Locator("#rag-guidance");
 
     public async Task IsDisplayed(bool isPartYear = false, string? trustName = null)
     {
@@ -150,5 +151,10 @@ public class HomePage(IPage page)
 
         var text = await priority.InnerTextAsync();
         Assert.Equal(commentary, text);
+    }
+
+    public async Task AssertRagGuidance()
+    {
+        await RagGuidance.ShouldBeVisible();
     }
 }

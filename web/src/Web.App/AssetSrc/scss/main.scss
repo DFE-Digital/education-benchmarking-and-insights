@@ -28,10 +28,7 @@
   background-color: govuk-tint(govuk-colour("dark-grey"), 85%);
   margin-top: -2px;
   margin-bottom: -3px;
-  padding-top: 2px;
-  padding-right: 8px;
-  padding-bottom: 3px;
-  padding-left: 8px;
+  padding: 2px 8px 3px;
   text-decoration: none;
   overflow-wrap: break-word;
 }
@@ -48,28 +45,39 @@
 .priority {
   margin-bottom: 14px;
   border-left: none;
+
+  &.high {
+    border: 1px solid $rag-red-colour;
+
+    .govuk-tag {
+      border-color: $rag-red-colour;
+    }
+  }
+
+  &.medium, &.low {
+    border: 1px solid $govuk-border-colour;
+  }
+
+  &.medium {
+    .govuk-tag {
+      border-color: $govuk-border-colour;
+    }
+  }
+
+  &.low {
+    .govuk-tag {
+      border-color: $govuk-border-colour;
+    }
+  }
 }
 
-.priority.high {
-  border: 1px solid $rag-red-colour;
-}
+.priority-wrapper {
+  border: 2px solid $govuk-border-colour;
 
-.priority.high .govuk-tag {
-  border-color: $rag-red-colour;
+  &.high {
+    border-color: $rag-red-colour;
+  }
 }
-
-.priority.medium, .priority.low {
-  border: 1px solid $govuk-border-colour;
-}
-
-.priority.medium .govuk-tag {
-  border-color: $govuk-border-colour;
-}
-
-.priority.low .govuk-tag {
-  border-color: $govuk-border-colour;
-}
-
 
 .app-tag--red {
   background-color: $rag-red-colour;
@@ -92,14 +100,27 @@ p.priority .govuk-tag {
   margin: 0 10px 0 0;
 }
 
-.top-categories div {
-  background-color: #EEEFEF;
-  padding: 20px;
-  margin-bottom: 20px;
-}
+.top-categories {
+  div {
+    background-color: #EEEFEF;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
 
-.top-categories .priority {
-  margin-bottom: 0;
+  .priority {
+    margin-bottom: 0;
+  }
+
+  &.school-home-priorities {
+    .priority {
+      border: 0;
+
+      .govuk-tag {
+        border: 0;
+        margin-bottom: 4px;
+      }
+    }
+  }
 }
 
 .priority-guidance {
