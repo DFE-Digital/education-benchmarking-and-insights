@@ -115,6 +115,22 @@ public static partial class StringExtensions
         return "a";
     }
 
+    public static string ToLower(this string source, bool persistInitials)
+    {
+        if (!persistInitials)
+        {
+            return source.ToLower();
+        }
+
+        var matches = NonInitialsWords().Matches(source);
+        foreach (Match match in matches)
+        {
+            source = source.Replace(match.Value, match.Value.ToLower());
+        }
+
+        return source;
+    }
+
     public static string ToSlug(this string source)
     {
         if (string.IsNullOrWhiteSpace(source))
@@ -129,7 +145,7 @@ public static partial class StringExtensions
             .ToLower();
     }
 
-    public static string Replace(this string source, Regex regex, string replacement)
+    private static string Replace(this string source, Regex regex, string replacement)
         => string.IsNullOrWhiteSpace(source) ? source : regex.Replace(source, replacement);
 
     [GeneratedRegex("[^a-z0-9\\-]", RegexOptions.IgnoreCase, "en-GB")]
@@ -137,4 +153,7 @@ public static partial class StringExtensions
 
     [GeneratedRegex("\\s+")]
     private static partial Regex WhitespaceRegex();
+
+    [GeneratedRegex(@"\w+\b(?<!\b[A-Z]{2,})")]
+    private static partial Regex NonInitialsWords();
 }

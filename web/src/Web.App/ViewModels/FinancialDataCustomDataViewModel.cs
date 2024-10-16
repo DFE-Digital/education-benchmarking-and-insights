@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
+using Web.App.Domain;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
@@ -48,139 +49,139 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
 {
     // Administrative supplies
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.AdministrativeSuppliesCosts)]
+    [Display(Name = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesCosts)]
     public decimal? AdministrativeSuppliesCosts { get; init; }
 
     // Catering
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.CateringStaffCosts)]
+    [Display(Name = SubCostCategories.CateringStaffServices.CateringStaffCosts)]
     public decimal? CateringStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.CateringSuppliesCosts)]
+    [Display(Name = SubCostCategories.CateringStaffServices.CateringSuppliesCosts)]
     public decimal? CateringSuppliesCosts { get; init; }
 
     // Educational supplies
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.ExaminationFeesCosts)]
+    [Display(Name = SubCostCategories.EducationalSupplies.ExaminationFeesCosts)]
     public decimal? ExaminationFeesCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts)]
+    [Display(Name = SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts)]
     public decimal? LearningResourcesNonIctCosts { get; init; }
 
     // IT
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts)]
+    [Display(Name = SubCostCategories.EducationalIct.LearningResourcesIctCosts)]
     public decimal? LearningResourcesIctCosts { get; init; }
 
     // Non-educational support staff
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.AdministrativeClericalStaffCosts)]
+    [Display(Name = SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts)]
     public decimal? AdministrativeClericalStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.AuditorsCosts)]
+    [Display(Name = SubCostCategories.NonEducationalSupportStaff.AuditorsCosts)]
     public decimal? AuditorsCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.OtherStaffCosts)]
+    [Display(Name = SubCostCategories.NonEducationalSupportStaff.OtherStaffCosts)]
     public decimal? OtherStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.ProfessionalServicesNonCurriculumCosts)]
+    [Display(Name = SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts)]
     public decimal? ProfessionalServicesNonCurriculumCosts { get; init; }
 
     // Premises and services
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.CleaningCaretakingCosts)]
+    [Display(Name = SubCostCategories.PremisesStaffServices.CleaningCaretakingCosts)]
     public decimal? CleaningCaretakingCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.MaintenancePremisesCosts)]
+    [Display(Name = SubCostCategories.PremisesStaffServices.MaintenancePremisesCosts)]
     public decimal? MaintenancePremisesCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.OtherOccupationCosts)]
+    [Display(Name = SubCostCategories.PremisesStaffServices.OtherOccupationCosts)]
     public decimal? OtherOccupationCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.PremisesStaffCosts)]
+    [Display(Name = SubCostCategories.PremisesStaffServices.PremisesStaffCosts)]
     public decimal? PremisesStaffCosts { get; init; }
 
     // Teaching and teaching support
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.AgencySupplyTeachingStaffCosts)]
+    [Display(Name = SubCostCategories.TeachingStaff.AgencySupplyTeachingStaffCosts)]
     public decimal? AgencySupplyTeachingStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.EducationSupportStaffCosts)]
+    [Display(Name = SubCostCategories.TeachingStaff.EducationSupportStaffCosts)]
     public decimal? EducationSupportStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.EducationalConsultancyCosts)]
+    [Display(Name = SubCostCategories.TeachingStaff.EducationalConsultancyCosts)]
     public decimal? EducationalConsultancyCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.SupplyTeachingStaffCosts)]
+    [Display(Name = SubCostCategories.TeachingStaff.SupplyTeachingStaffCosts)]
     public decimal? SupplyTeachingStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.TeachingStaffCosts)]
+    [Display(Name = SubCostCategories.TeachingStaff.TeachingStaffCosts)]
     public decimal? TeachingStaffCosts { get; init; }
 
     // Utilities
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.EnergyCosts)]
+    [Display(Name = SubCostCategories.Utilities.EnergyCosts)]
     public decimal? EnergyCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.WaterSewerageCosts)]
+    [Display(Name = SubCostCategories.Utilities.WaterSewerageCosts)]
     public decimal? WaterSewerageCosts { get; init; }
 
     // Other costs
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts)]
+    [Display(Name = SubCostCategories.Other.DirectRevenueFinancingCosts)]
     public decimal? DirectRevenueFinancingCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts)]
+    [Display(Name = SubCostCategories.Other.GroundsMaintenanceCosts)]
     public decimal? GroundsMaintenanceCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.IndirectEmployeeExpenses)]
+    [Display(Name = SubCostCategories.Other.IndirectEmployeeExpenses)]
     public decimal? IndirectEmployeeExpenses { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.InterestChargesLoanBank)]
+    [Display(Name = SubCostCategories.Other.InterestChargesLoanBank)]
     public decimal? InterestChargesLoanBank { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.OtherInsurancePremiumsCosts)]
+    [Display(Name = SubCostCategories.Other.OtherInsurancePremiumsCosts)]
     public decimal? OtherInsurancePremiumsCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.PrivateFinanceInitiativeCharges)]
+    [Display(Name = SubCostCategories.Other.PrivateFinanceInitiativeCharges)]
     public decimal? PrivateFinanceInitiativeCharges { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.RentRatesCosts)]
+    [Display(Name = SubCostCategories.Other.RentRatesCosts)]
     public decimal? RentRatesCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.SpecialFacilitiesCosts)]
+    [Display(Name = SubCostCategories.Other.SpecialFacilitiesCosts)]
     public decimal? SpecialFacilitiesCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.StaffDevelopmentTrainingCosts)]
+    [Display(Name = SubCostCategories.Other.StaffDevelopmentTrainingCosts)]
     public decimal? StaffDevelopmentTrainingCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.StaffRelatedInsuranceCosts)]
+    [Display(Name = SubCostCategories.Other.StaffRelatedInsuranceCosts)]
     public decimal? StaffRelatedInsuranceCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.SupplyTeacherInsurableCosts)]
+    [Display(Name = SubCostCategories.Other.SupplyTeacherInsurableCosts)]
     public decimal? SupplyTeacherInsurableCosts { get; init; }
 
     // Totals

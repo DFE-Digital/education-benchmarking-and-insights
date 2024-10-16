@@ -81,11 +81,15 @@ public abstract class CostCategory(RagRating rating)
     public RagRating Rating => rating;
 
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
+
+    public abstract string[] SubCategories { get; }
     public abstract void Add(string urn, SchoolExpenditure expenditure);
 }
 
 public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.AdministrativeSupplies.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.AdministrativeSuppliesCosts ?? 0);
@@ -94,6 +98,8 @@ public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 
 public class CateringStaffServices(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.CateringStaffServices.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalGrossCateringCosts ?? 0);
@@ -102,6 +108,8 @@ public class CateringStaffServices(RagRating rating) : CostCategory(rating)
 
 public class EducationalIct(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.EducationalIct.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.LearningResourcesIctCosts ?? 0);
@@ -110,6 +118,8 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
 
 public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.EducationalSupplies.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalEducationalSuppliesCosts ?? 0);
@@ -118,6 +128,8 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 
 public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.NonEducationalSupportStaff.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalNonEducationalSupportStaffCosts ?? 0);
@@ -126,6 +138,8 @@ public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
 
 public class TeachingStaff(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.TeachingStaff.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalTeachingSupportStaffCosts ?? 0);
@@ -134,6 +148,8 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
 
 public class Other(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.Other.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalOtherCosts ?? 0);
@@ -142,6 +158,8 @@ public class Other(RagRating rating) : CostCategory(rating)
 
 public class PremisesStaffServices(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.PremisesStaffServices.SubCategories;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalPremisesStaffServiceCosts ?? 0);
@@ -150,6 +168,7 @@ public class PremisesStaffServices(RagRating rating) : CostCategory(rating)
 
 public class Utilities(RagRating rating) : CostCategory(rating)
 {
+    public override string[] SubCategories => SubCostCategories.Utilities.SubCategories;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -238,5 +257,107 @@ public static class CategoryBuilder
         }
 
         return categories.Pupil.Concat(categories.Area);
+    }
+}
+
+public static class SubCostCategories
+{
+    public static class TeachingStaff
+    {
+        public const string TeachingStaffCosts = "Teaching staff";
+        public const string SupplyTeachingStaffCosts = "Supply teaching staff";
+        public const string AgencySupplyTeachingStaffCosts = "Agency supply teaching staff";
+        public const string EducationSupportStaffCosts = "Education support staff";
+        public const string EducationalConsultancyCosts = "Educational consultancy";
+
+        public static string[] SubCategories { get; } = [TeachingStaffCosts, SupplyTeachingStaffCosts, AgencySupplyTeachingStaffCosts, EducationSupportStaffCosts, EducationalConsultancyCosts];
+    }
+
+    public static class NonEducationalSupportStaff
+    {
+        public const string AdministrativeClericalStaffCosts = "Administrative and clerical staff";
+        public const string AuditorsCosts = "Auditor costs";
+        public const string OtherStaffCosts = "Other staff";
+        public const string ProfessionalServicesNonCurriculumCosts = "Professional services (non-curriculum)";
+
+        public static string[] SubCategories { get; } = [AdministrativeClericalStaffCosts, AuditorsCosts, OtherStaffCosts, ProfessionalServicesNonCurriculumCosts];
+    }
+
+    public static class EducationalSupplies
+    {
+        public const string ExaminationFeesCosts = "Examination fees";
+        public const string LearningResourcesNonIctCosts = "Learning resources (not ICT equipment)";
+
+        public static string[] SubCategories { get; } = [ExaminationFeesCosts, LearningResourcesNonIctCosts];
+    }
+
+    public static class EducationalIct
+    {
+        public const string LearningResourcesIctCosts = "ICT learning resources";
+
+        public static string[] SubCategories { get; } = [LearningResourcesIctCosts];
+    }
+
+    public static class PremisesStaffServices
+    {
+        public const string CleaningCaretakingCosts = "Cleaning and caretaking";
+        public const string MaintenancePremisesCosts = "Maintenance of premises";
+        public const string OtherOccupationCosts = "Other occupation costs";
+        public const string PremisesStaffCosts = "Premises staff";
+
+        public static string[] SubCategories { get; } = [CleaningCaretakingCosts, MaintenancePremisesCosts, OtherOccupationCosts, PremisesStaffCosts];
+    }
+
+    public static class Utilities
+    {
+        public const string EnergyCosts = "Energy";
+        public const string WaterSewerageCosts = "Water and sewerage";
+
+        public static string[] SubCategories { get; } = [EnergyCosts, WaterSewerageCosts];
+    }
+
+    public static class AdministrativeSupplies
+    {
+        public const string AdministrativeSuppliesCosts = "Administrative supplies (non-educational)";
+
+        public static string[] SubCategories { get; } = [AdministrativeSuppliesCosts];
+    }
+
+    public static class CateringStaffServices
+    {
+        public const string CateringStaffCosts = "Catering staff";
+        public const string CateringSuppliesCosts = "Catering supplies";
+
+        public static string[] SubCategories { get; } = [CateringStaffCosts, CateringSuppliesCosts];
+    }
+
+    public static class Other
+    {
+        public const string DirectRevenueFinancingCosts = "Direct revenue financing";
+        public const string GroundsMaintenanceCosts = "Grounds maintenance";
+        public const string IndirectEmployeeExpenses = "Indirect employee expenses";
+        public const string InterestChargesLoanBank = "Interest charges for loan and bank";
+        public const string OtherInsurancePremiumsCosts = "Other insurance premiums";
+        public const string PrivateFinanceInitiativeCharges = "Private Finance Initiative (PFI) charges";
+        public const string RentRatesCosts = "Rent and rates";
+        public const string SpecialFacilitiesCosts = "Special facilities";
+        public const string StaffDevelopmentTrainingCosts = "Staff development and training";
+        public const string StaffRelatedInsuranceCosts = "Staff-related insurance";
+        public const string SupplyTeacherInsurableCosts = "Supply teacher insurance";
+
+        public static string[] SubCategories { get; } =
+        [
+            DirectRevenueFinancingCosts,
+            GroundsMaintenanceCosts,
+            IndirectEmployeeExpenses,
+            InterestChargesLoanBank,
+            OtherInsurancePremiumsCosts,
+            PrivateFinanceInitiativeCharges,
+            RentRatesCosts,
+            SpecialFacilitiesCosts,
+            StaffDevelopmentTrainingCosts,
+            StaffRelatedInsuranceCosts,
+            SupplyTeacherInsurableCosts
+        ];
     }
 }
