@@ -1,0 +1,107 @@
+﻿@using Web.App.Domain
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.CostCategories;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-l">Cost category breakdown</h1>
+
+        <p class="govuk-body">
+            The table details what is included within each cost category:
+        </p>
+
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">What is included within each cost category</caption>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Cost category</th>
+                <th scope="col" class="govuk-table__header">Categories included</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.TeachingStaff
+                },
+                {
+                    "SubCostCategories", SubCostCategories.TeachingStaff.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.NonEducationalSupportStaff
+                },
+                {
+                    "SubCostCategories", SubCostCategories.NonEducationalSupportStaff.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.EducationalSupplies
+                },
+                {
+                    "SubCostCategories", SubCostCategories.EducationalSupplies.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.EducationalIct
+                },
+                {
+                    "SubCostCategories", SubCostCategories.EducationalIct.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.PremisesStaffServices
+                },
+                {
+                    "SubCostCategories", SubCostCategories.PremisesStaffServices.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.Utilities
+                },
+                {
+                    "SubCostCategories", SubCostCategories.Utilities.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.AdministrativeSupplies
+                },
+                {
+                    "SubCostCategories", SubCostCategories.AdministrativeSupplies.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.CateringStaffServices
+                },
+                {
+                    "SubCostCategories", SubCostCategories.CateringStaffServices.SubCategories
+                }
+            })
+            @await Html.PartialAsync("_CategoryAndSubCategoryRow", new ViewDataDictionary(ViewData)
+            {
+                {
+                    "Category", Category.Other
+                },
+                {
+                    "SubCostCategories", SubCostCategories.Other.SubCategories
+                }
+            })
+            </tbody>
+        </table>
+    </div>
+</div>

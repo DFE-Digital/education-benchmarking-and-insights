@@ -1,0 +1,16 @@
+@using Web.App.Extensions
+@{
+    var category = ViewData["Category"] as string ?? string.Empty;
+    var subCostCategories = ViewData["SubCostCategories"] as string[] ?? [];
+}
+<tr class="govuk-table__row" id="sub-categories-@category.ToSlug()">
+    <td class="govuk-table__cell">@category</td>
+    <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--bullet">
+            @foreach (var subCostCategory in subCostCategories)
+            {
+                <li>@subCostCategory.ToLower(true)</li>
+            }
+        </ul>
+    </td>
+</tr>

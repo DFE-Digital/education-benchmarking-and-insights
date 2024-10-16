@@ -1,4 +1,5 @@
 ﻿using Web.E2ETests.Drivers;
+using Web.E2ETests.Pages;
 using Web.E2ETests.Pages.School;
 using Xunit;
 namespace Web.E2ETests.Steps.School;
@@ -8,6 +9,7 @@ namespace Web.E2ETests.Steps.School;
 public class SpendingCostsSteps(PageDriver driver)
 {
     private CompareYourCostsPage? _compareYourCostsPage;
+    private CostCategoriesGuidancePage? _costCategoriesGuidancePage;
     private SpendingCostsPage? _spendingCostsPage;
 
     [Given(@"I am on spending and costs page for school with URN '(.*)'")]
@@ -92,6 +94,13 @@ public class SpendingCostsSteps(PageDriver driver)
         _compareYourCostsPage = await _spendingCostsPage.ClickOnLink(CostCategoryFromFriendlyName(linkToClick));
     }
 
+    [When("I click on View more details on cost categories link")]
+    public async Task WhenIClickOnViewMoreDetailsOnCostCategoriesLink()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        _costCategoriesGuidancePage = await _spendingCostsPage.ClickOnCostCategoriesGuidanceLink();
+    }
+
     [Then("I am directed to compare your costs page")]
     public async Task ThenIAmDirectedToCompareYourCostsPage()
     {
@@ -105,6 +114,14 @@ public class SpendingCostsSteps(PageDriver driver)
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), true, "Hide", "chart");
     }
+
+    [Then("I am directed to cost categories guidance page")]
+    public async Task ThenIAmDirectedToCostCategoriesGuidancePage()
+    {
+        Assert.NotNull(_costCategoriesGuidancePage);
+        await _costCategoriesGuidancePage.IsDisplayed();
+    }
+
     private static string SpendingCostsUrl(string urn) =>
         $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
 

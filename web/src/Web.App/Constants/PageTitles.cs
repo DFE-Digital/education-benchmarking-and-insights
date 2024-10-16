@@ -73,4 +73,5 @@ public static class PageTitles
     public const string TrustComparatorsRevert = "Remove all your trusts?";
     public const string TrustToTrustHome = "Benchmark spending for this trust";
     public const string ForecastAndRisks = "Forecast and risks";
+    public const string CostCategories = "Cost category breakdown";
 }

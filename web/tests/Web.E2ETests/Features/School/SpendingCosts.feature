@@ -78,3 +78,8 @@
           | Premises staff and services         |
           | Utilities                           |
           | Educational ICT                     |
+
+    Scenario Outline: Click on View more details on cost categories link
+        Given I am on spending and costs page for school with URN '777042'
+        When I click on View more details on cost categories link
+        Then I am directed to cost categories guidance page
