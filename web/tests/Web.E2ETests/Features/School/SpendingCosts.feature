@@ -49,6 +49,19 @@
           | Utilities                           | Water, wastewater and ancillary services 2                          |
           | Educational ICT                     | Print market place                                                  |
 
+    Scenario: Categories have the correct category commentary
+        Given I am on spending and costs page for school with URN '777042'
+        Then the category commentary is
+          | Name                                | Commentary                                                                                                                                                                                  |
+          | Teaching and Teaching support staff | View all teaching and teaching support staff costs. This includes teaching staff, supply teaching staff, agency supply teaching staff, education support staff and educational consultancy. |
+          | Non-educational support staff       | View all non-educational support staff and services costs. This includes administrative and clerical staff, auditor costs, other staff and professional services (non-curriculum).          |
+          | Administrative supplies             | View all administrative supplies costs. This includes administrative supplies (non-educational).                                                                                            |
+          | Educational supplies                | View all educational supplies costs. This includes examination fees and learning resources (not ICT equipment).                                                                             |
+          | Catering staff and supplies         | View all catering staff and supplies costs. This includes catering staff and catering supplies.                                                                                             |
+          | Premises staff and services         | View all premises staff and services costs. This includes cleaning and caretaking, maintenance of premises, other occupation costs and premises staff.                                      |
+          | Utilities                           | View all utilities costs. This includes energy and water and sewerage.                                                                                                                      |
+          | Educational ICT                     | View all educational ICT costs. This includes ICT learning resources.                                                                                                                       |
+
     Scenario Outline: Click on view all links for each chart
         Given I am on spending and costs page for school with URN '777042'
         When I click on view all '<CostCategory>' link

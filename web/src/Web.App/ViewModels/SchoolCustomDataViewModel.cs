@@ -152,38 +152,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
 
 public static class SchoolCustomDataViewModelTitles
 {
-    public const string AdministrativeSuppliesCosts = "Administrative supplies (non-educational)";
-    public const string CateringStaffCosts = "Catering staff";
-    public const string CateringSuppliesCosts = "Catering supplies";
-    public const string ExaminationFeesCosts = "Examination fees";
-    public const string LearningResourcesNonIctCosts = "Learning resources (not ICT equipment)";
-    public const string LearningResourcesIctCosts = "ICT learning resources";
-    public const string AdministrativeClericalStaffCosts = "Administrative and clerical staff";
-    public const string AuditorsCosts = "Auditor costs";
-    public const string OtherStaffCosts = "Other staff";
-    public const string ProfessionalServicesNonCurriculumCosts = "Professional services (non-curriculum)";
-    public const string CleaningCaretakingCosts = "Cleaning and caretaking";
-    public const string MaintenancePremisesCosts = "Maintenance of premises";
-    public const string OtherOccupationCosts = "Other occupation costs";
-    public const string PremisesStaffCosts = "Premises staff";
-    public const string AgencySupplyTeachingStaffCosts = "Agency supply teaching staff";
-    public const string EducationSupportStaffCosts = "Education support staff";
-    public const string EducationalConsultancyCosts = "Educational consultancy";
-    public const string SupplyTeachingStaffCosts = "Supply teaching staff";
-    public const string TeachingStaffCosts = "Teaching staff";
-    public const string EnergyCosts = "Energy";
-    public const string WaterSewerageCosts = "Water and sewerage";
-    public const string DirectRevenueFinancingCosts = "Direct revenue financing";
-    public const string GroundsMaintenanceCosts = "Grounds maintenance";
-    public const string IndirectEmployeeExpenses = "Indirect employee expenses";
-    public const string InterestChargesLoanBank = "Interest charges for loan and bank";
-    public const string OtherInsurancePremiumsCosts = "Other insurance premiums";
-    public const string PrivateFinanceInitiativeCharges = "Private Finance Initiative (PFI) charges";
-    public const string RentRatesCosts = "Rent and rates";
-    public const string SpecialFacilitiesCosts = "Special facilities";
-    public const string StaffDevelopmentTrainingCosts = "Staff development and training";
-    public const string StaffRelatedInsuranceCosts = "Staff-related insurance";
-    public const string SupplyTeacherInsurableCosts = "Supply teacher insurance";
     public const string TotalIncome = "Total income";
     public const string TotalExpenditure = "Total spending";
     public const string RevenueReserve = "Revenue reserve";

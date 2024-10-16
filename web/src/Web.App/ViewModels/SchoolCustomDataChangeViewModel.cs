@@ -16,7 +16,7 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.AdministrativeSuppliesCosts,
+            Title = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesCosts,
             Name = nameof(SchoolCustomDataViewModel.AdministrativeSuppliesCosts),
             Current = CurrentValues.AdministrativeSuppliesCosts,
             Custom = CustomInput.AdministrativeSuppliesCosts
@@ -28,14 +28,14 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.CateringStaffCosts,
+            Title = SubCostCategories.CateringStaffServices.CateringStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.CateringStaffCosts),
             Current = CurrentValues.CateringStaffCosts,
             Custom = CustomInput.CateringStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.CateringSuppliesCosts,
+            Title = SubCostCategories.CateringStaffServices.CateringSuppliesCosts,
             Name = nameof(SchoolCustomDataViewModel.CateringSuppliesCosts),
             Current = CurrentValues.CateringSuppliesCosts,
             Custom = CustomInput.CateringSuppliesCosts
@@ -47,14 +47,14 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.ExaminationFeesCosts,
+            Title = SubCostCategories.EducationalSupplies.ExaminationFeesCosts,
             Name = nameof(SchoolCustomDataViewModel.ExaminationFeesCosts),
             Current = CurrentValues.ExaminationFeesCosts,
             Custom = CustomInput.ExaminationFeesCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts,
+            Title = SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts,
             Name = nameof(SchoolCustomDataViewModel.LearningResourcesNonIctCosts),
             Current = CurrentValues.LearningResourcesNonIctCosts,
             Custom = CustomInput.LearningResourcesNonIctCosts
@@ -66,7 +66,7 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts,
+            Title = SubCostCategories.EducationalIct.LearningResourcesIctCosts,
             Name = nameof(SchoolCustomDataViewModel.LearningResourcesIctCosts),
             Current = CurrentValues.LearningResourcesIctCosts,
             Custom = CustomInput.LearningResourcesIctCosts
@@ -78,28 +78,28 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.AdministrativeClericalStaffCosts,
+            Title = SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.AdministrativeClericalStaffCosts),
             Current = CurrentValues.AdministrativeClericalStaffCosts,
             Custom = CustomInput.AdministrativeClericalStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.AuditorsCosts,
+            Title = SubCostCategories.NonEducationalSupportStaff.AuditorsCosts,
             Name = nameof(SchoolCustomDataViewModel.AuditorsCosts),
             Current = CurrentValues.AuditorsCosts,
             Custom = CustomInput.AuditorsCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.OtherStaffCosts,
+            Title = SubCostCategories.NonEducationalSupportStaff.OtherStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.OtherStaffCosts),
             Current = CurrentValues.OtherStaffCosts,
             Custom = CustomInput.OtherStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.ProfessionalServicesNonCurriculumCosts,
+            Title = SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts,
             Name = nameof(SchoolCustomDataViewModel.ProfessionalServicesNonCurriculumCosts),
             Current = CurrentValues.ProfessionalServicesNonCurriculumCosts,
             Custom = CustomInput.ProfessionalServicesNonCurriculumCosts
@@ -111,28 +111,28 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.CleaningCaretakingCosts,
+            Title = SubCostCategories.PremisesStaffServices.CleaningCaretakingCosts,
             Name = nameof(SchoolCustomDataViewModel.CleaningCaretakingCosts),
             Current = CurrentValues.CleaningCaretakingCosts,
             Custom = CustomInput.CleaningCaretakingCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.MaintenancePremisesCosts,
+            Title = SubCostCategories.PremisesStaffServices.MaintenancePremisesCosts,
             Name = nameof(SchoolCustomDataViewModel.MaintenancePremisesCosts),
             Current = CurrentValues.MaintenancePremisesCosts,
             Custom = CustomInput.MaintenancePremisesCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.OtherOccupationCosts,
+            Title = SubCostCategories.PremisesStaffServices.OtherOccupationCosts,
             Name = nameof(SchoolCustomDataViewModel.OtherOccupationCosts),
             Current = CurrentValues.OtherOccupationCosts,
             Custom = CustomInput.OtherOccupationCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.PremisesStaffCosts,
+            Title = SubCostCategories.PremisesStaffServices.PremisesStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.PremisesStaffCosts),
             Current = CurrentValues.PremisesStaffCosts,
             Custom = CustomInput.PremisesStaffCosts
@@ -144,35 +144,35 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.AgencySupplyTeachingStaffCosts,
+            Title = SubCostCategories.TeachingStaff.AgencySupplyTeachingStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.AgencySupplyTeachingStaffCosts),
             Current = CurrentValues.AgencySupplyTeachingStaffCosts,
             Custom = CustomInput.AgencySupplyTeachingStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.EducationSupportStaffCosts,
+            Title = SubCostCategories.TeachingStaff.EducationSupportStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.EducationSupportStaffCosts),
             Current = CurrentValues.EducationSupportStaffCosts,
             Custom = CustomInput.EducationSupportStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.EducationalConsultancyCosts,
+            Title = SubCostCategories.TeachingStaff.EducationalConsultancyCosts,
             Name = nameof(SchoolCustomDataViewModel.EducationalConsultancyCosts),
             Current = CurrentValues.EducationalConsultancyCosts,
             Custom = CustomInput.EducationalConsultancyCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.SupplyTeachingStaffCosts,
+            Title = SubCostCategories.TeachingStaff.SupplyTeachingStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.SupplyTeachingStaffCosts),
             Current = CurrentValues.SupplyTeachingStaffCosts,
             Custom = CustomInput.SupplyTeachingStaffCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.TeachingStaffCosts,
+            Title = SubCostCategories.TeachingStaff.TeachingStaffCosts,
             Name = nameof(SchoolCustomDataViewModel.TeachingStaffCosts),
             Current = CurrentValues.TeachingStaffCosts,
             Custom = CustomInput.TeachingStaffCosts
@@ -183,14 +183,14 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.EnergyCosts,
+            Title = SubCostCategories.Utilities.EnergyCosts,
             Name = nameof(SchoolCustomDataViewModel.EnergyCosts),
             Current = CurrentValues.EnergyCosts,
             Custom = CustomInput.EnergyCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.WaterSewerageCosts,
+            Title = SubCostCategories.Utilities.WaterSewerageCosts,
             Name = nameof(SchoolCustomDataViewModel.WaterSewerageCosts),
             Current = CurrentValues.WaterSewerageCosts,
             Custom = CustomInput.WaterSewerageCosts
@@ -201,77 +201,77 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts,
+            Title = SubCostCategories.Other.DirectRevenueFinancingCosts,
             Name = nameof(SchoolCustomDataViewModel.DirectRevenueFinancingCosts),
             Current = CurrentValues.DirectRevenueFinancingCosts,
             Custom = CustomInput.DirectRevenueFinancingCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts,
+            Title = SubCostCategories.Other.GroundsMaintenanceCosts,
             Name = nameof(SchoolCustomDataViewModel.GroundsMaintenanceCosts),
             Current = CurrentValues.GroundsMaintenanceCosts,
             Custom = CustomInput.GroundsMaintenanceCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.IndirectEmployeeExpenses,
+            Title = SubCostCategories.Other.IndirectEmployeeExpenses,
             Name = nameof(SchoolCustomDataViewModel.IndirectEmployeeExpenses),
             Current = CurrentValues.IndirectEmployeeExpenses,
             Custom = CustomInput.IndirectEmployeeExpenses
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.InterestChargesLoanBank,
+            Title = SubCostCategories.Other.InterestChargesLoanBank,
             Name = nameof(SchoolCustomDataViewModel.InterestChargesLoanBank),
             Current = CurrentValues.InterestChargesLoanBank,
             Custom = CustomInput.InterestChargesLoanBank
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.OtherInsurancePremiumsCosts,
+            Title = SubCostCategories.Other.OtherInsurancePremiumsCosts,
             Name = nameof(SchoolCustomDataViewModel.OtherInsurancePremiumsCosts),
             Current = CurrentValues.OtherInsurancePremiumsCosts,
             Custom = CustomInput.OtherInsurancePremiumsCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.PrivateFinanceInitiativeCharges,
+            Title = SubCostCategories.Other.PrivateFinanceInitiativeCharges,
             Name = nameof(SchoolCustomDataViewModel.PrivateFinanceInitiativeCharges),
             Current = CurrentValues.PrivateFinanceInitiativeCharges,
             Custom = CustomInput.PrivateFinanceInitiativeCharges
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.RentRatesCosts,
+            Title = SubCostCategories.Other.RentRatesCosts,
             Name = nameof(SchoolCustomDataViewModel.RentRatesCosts),
             Current = CurrentValues.RentRatesCosts,
             Custom = CustomInput.RentRatesCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.SpecialFacilitiesCosts,
+            Title = SubCostCategories.Other.SpecialFacilitiesCosts,
             Name = nameof(SchoolCustomDataViewModel.SpecialFacilitiesCosts),
             Current = CurrentValues.SpecialFacilitiesCosts,
             Custom = CustomInput.SpecialFacilitiesCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.StaffDevelopmentTrainingCosts,
+            Title = SubCostCategories.Other.StaffDevelopmentTrainingCosts,
             Name = nameof(SchoolCustomDataViewModel.StaffDevelopmentTrainingCosts),
             Current = CurrentValues.StaffDevelopmentTrainingCosts,
             Custom = CustomInput.StaffDevelopmentTrainingCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.StaffRelatedInsuranceCosts,
+            Title = SubCostCategories.Other.StaffRelatedInsuranceCosts,
             Name = nameof(SchoolCustomDataViewModel.StaffRelatedInsuranceCosts),
             Current = CurrentValues.StaffRelatedInsuranceCosts,
             Custom = CustomInput.StaffRelatedInsuranceCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.SupplyTeacherInsurableCosts,
+            Title = SubCostCategories.Other.SupplyTeacherInsurableCosts,
             Name = nameof(SchoolCustomDataViewModel.SupplyTeacherInsurableCosts),
             Current = CurrentValues.SupplyTeacherInsurableCosts,
             Custom = CustomInput.SupplyTeacherInsurableCosts

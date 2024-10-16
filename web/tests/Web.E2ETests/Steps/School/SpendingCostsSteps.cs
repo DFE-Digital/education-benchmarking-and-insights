@@ -75,6 +75,16 @@ public class SpendingCostsSteps(PageDriver driver)
         }
     }
 
+    [Then("the category commentary is")]
+    public async Task ThenTheCategoryCommentaryIs(DataTable table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        foreach (var row in table.Rows)
+        {
+            await _spendingCostsPage.AssertCategoryCommentary(row["Name"], row["Commentary"]);
+        }
+    }
+
     [When("I click on view all '(.*)' link")]
     public async Task WhenIClickOnViewAllLink(string linkToClick)
     {

@@ -12,10 +12,6 @@
     {
         var category = costs[i];
 
-        var categoryToLower = category.Rating.Category == Category.EducationalIct
-            ? "Educational ICT"
-            : category.Rating.Category?.ToLower();
-
         var categoryHeading = category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
             : category.Rating.Category;
@@ -58,8 +54,25 @@
                          data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
                          data-has-incomplete-data="@Model.HasIncompleteData">
                     </div>
-                    <p class="govuk-body">
-                        <a href="@categoryUri#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @categoryToLower costs</a>
+                    <p class="govuk-body category-commentary">
+                        <a href="@categoryUri#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower(true) costs</a>@(category.SubCategories.Any() ? ". " : string.Empty)
+                        @if (category.SubCategories.Any())
+                        {
+                            @:This includes
+                            for (var j = 0; j < category.SubCategories.Length; j++)
+                            {
+                                var subCategory = category.SubCategories.ElementAt(j).ToLower(true);
+                                if (j < category.SubCategories.Length - 2)
+                                {
+                                    subCategory = $"{subCategory}, ";
+                                }
+                                else if (j == category.SubCategories.Length - 1)
+                                {
+                                    subCategory = $"{(category.SubCategories.Length > 1 ? "and " : string.Empty)} {subCategory}.";
+                                }
+                                <span>@subCategory</span>
+                            }
+                        }
                     </p>
                 </div>
                 <div class="govuk-grid-column-one-third">

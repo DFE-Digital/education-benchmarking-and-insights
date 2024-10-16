@@ -153,11 +153,20 @@ public class SpendingCostsPage(IPage page)
 
     public async Task AssertCommercialResources(string categoryName, string[] commercialResources)
     {
-        var categorySection = page.Locator($"#spending-priorities-{categoryName.ToSlug()}");
+        var categorySection = page.Locator($"[id^=spending-priorities-{categoryName.ToSlug()}]");
         await categorySection.IsVisibleAsync();
 
         var resources = await categorySection.Locator("ul li").AllTextContentsAsync();
         Assert.Equal(commercialResources, resources.Select(r => r.Replace("Opens in a new window", string.Empty).Trim()));
+    }
+
+    public async Task AssertCategoryCommentary(string categoryName, string commentary)
+    {
+        var categorySection = page.Locator($"[id^=spending-priorities-{categoryName.ToSlug()}]");
+        await categorySection.IsVisibleAsync();
+
+        var categoryCommentary = await categorySection.Locator(".category-commentary").InnerTextAsync();
+        Assert.Equal(commentary, categoryCommentary);
     }
 
     public async Task<CompareYourCostsPage> ClickOnLink(CostCategoryNames costCategory)
