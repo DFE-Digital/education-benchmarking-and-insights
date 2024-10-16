@@ -74,10 +74,13 @@ def upsert(
         cnx.execute(sqlalchemy.text(f"DROP TABLE IF EXISTS {temp_table}"))
 
 
-def insert_comparator_set(run_type: str, set_type: str, run_id: str, df: pd.DataFrame):
+def insert_comparator_set(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+):
     write_frame = df[["Pupil", "Building"]].copy()
     write_frame["RunType"] = run_type
-    write_frame["SetType"] = set_type
     write_frame["RunId"] = str(run_id)
     write_frame["Pupil"] = write_frame["Pupil"].map(lambda x: json.dumps(x.tolist()))
     write_frame["Building"] = write_frame["Building"].map(
@@ -87,14 +90,14 @@ def insert_comparator_set(run_type: str, set_type: str, run_id: str, df: pd.Data
     upsert(
         write_frame,
         "ComparatorSet",
-        keys=["RunType", "RunId", "URN", "SetType"],
+        keys=["RunType", "RunId", "URN"],
     )
     logger.info(
-        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {run_id}"
+        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {run_id}"
     )
 
 
-def insert_metric_rag(run_type: str, set_type: str, run_id: str, df: pd.DataFrame):
+def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
     write_frame = df[
         [
             "Category",
@@ -110,19 +113,17 @@ def insert_metric_rag(run_type: str, set_type: str, run_id: str, df: pd.DataFram
     ].copy()
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(run_id)
-    write_frame["SetType"] = set_type
 
     upsert(
         write_frame,
         "MetricRAG",
-        keys=["RunType", "RunId", "SetType", "URN", "Category", "SubCategory"],
+        keys=["RunType", "RunId", "URN", "Category", "SubCategory"],
         dtype={
             "RunType": sqlalchemy.types.VARCHAR(length=50),
             "RunId": sqlalchemy.types.VARCHAR(length=50),
             "URN": sqlalchemy.types.VARCHAR(length=6),
             "Category": sqlalchemy.types.VARCHAR(length=50),
             "SubCategory": sqlalchemy.types.VARCHAR(length=50),
-            "SetType": sqlalchemy.types.VARCHAR(length=50),
             "Value": sqlalchemy.types.Numeric(16, 2),
             "Mean": sqlalchemy.types.Numeric(16, 2),
             "DiffMean": sqlalchemy.types.Numeric(16, 2),
@@ -132,9 +133,7 @@ def insert_metric_rag(run_type: str, set_type: str, run_id: str, df: pd.DataFram
             "RAG": sqlalchemy.types.VARCHAR(length=10),
         },
     )
-    logger.info(
-        f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {run_id}"
-    )
+    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {run_id}")
 
 
 def insert_schools_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):

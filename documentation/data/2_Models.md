@@ -261,7 +261,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     gias| URN  |     URN    |URN  |    |
 |     N/A - defined in pipeline run |   |   Category     | Category  |    |
 |     N/A - defined in pipeline run |   |    Subcategory    | Subcategory  |    |
-|     N/A - defined in pipeline run |   |        | SetType  |  SetType may take values such as: unmixed or mixed  |
 |     N/A - computed |   |    Value    | Value  | The numerical value for the specific Category, for a given URN  |
 |     N/A - computed |   |    Mean    | Mean  | Computed from the mean of a series of Category values for a comparator set  |
 |     N/A - computed |   |    DiffMean    | DiffMean  | Computed as the difference between the Value for a given URN and the Mean for the entire comparator set, for a given Catagory |
@@ -279,7 +278,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - defined in pipeline run |   |        | RunType  |    |
 |     N/A - defined in pipeline run |   |        | RunId  |    |
 |     gias| URN  |     URN    |URN  |    |
-|     N/A - defined in pipeline run |   |        | SetType  |  SetType may take values such as: unmixed or mixed  |
 |     N/A - computed |   |    Pupil    | Pupil  | A comparator set list of URNs for the top 30 schools determined by the pupil characteristic euclidean distance caluclation outlined in `3_Data-Processing` |
 |     N/A - computed |   |    Building    | Building  | A comparator set list of URNs for the top 30 schools determined by the building characteristic euclidean distance caluclation outlined in `3_Data-Processing`   |
 
