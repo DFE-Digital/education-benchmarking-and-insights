@@ -181,4 +181,11 @@ public class HomeSteps(PageDriver driver)
             await _schoolHomePage.AssertRagCommentary(row["Name"], row["Commentary"]);
         }
     }
+
+    [Then("the RAG guidance is visible")]
+    public async Task ThenTheRagGuidanceIsVisible()
+    {
+        Assert.NotNull(_schoolHomePage);
+        await _schoolHomePage.AssertRagGuidance();
+    }
 }

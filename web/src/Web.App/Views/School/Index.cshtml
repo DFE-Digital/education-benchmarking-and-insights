@@ -84,10 +84,15 @@
             @if (Model.Ratings.Any())
             {
                 <h3 class="govuk-heading-s">Top spending priorities</h3>
-                <div class="top-categories">
+            }
+        </div>
+        @if (Model.Ratings.Any())
+        {
+            <div class="govuk-grid-column-one-half">
+                <div class="top-categories school-home-priorities">
                     @foreach (var rating in Model.Ratings)
                     {
-                        <div>
+                        <div class="priority-wrapper @rating.PriorityTag?.Class">
                             <h4 class="govuk-heading-s">@rating.Category</h4>
                             <p class="priority @rating.PriorityTag?.Class govuk-body">
                                 @await Component.InvokeAsync("Tag", new
@@ -103,13 +108,29 @@
                         </div>
                     }
                 </div>
-            }
-
-            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
-                <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
-                    View all spending priorities for this school
-                </a>
-            </h3>
+            </div>
+        }
+        <div class="govuk-grid-column-one-half govuk-body" id="rag-guidance">
+            <p>
+                Red, amber and green (RAG) priority ratings are shown to give an indication of the spending compared to
+                similar schools.
+            </p>
+            <p>
+                The rating is not an indication of performance. It is used to display if spending is significantly
+                more or less than similar schools. This does not consider any individual spending strategies which might
+                apply.
+            </p>
+            <p>
+                The ratings are intended for schools and trusts to identify potential areas to help them make
+                informed spending decisions.
+            </p>
+            <p>
+                <strong>
+                    <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
+                        View all spending priorities for this school
+                    </a>
+                </strong>
+            </p>
         </div>
     </div>
 }
