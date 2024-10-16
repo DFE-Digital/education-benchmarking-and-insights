@@ -267,7 +267,7 @@ def pre_process_trust_data(
     return trusts
 
 
-def pre_process_all_schools(run_type, year, data_ref):
+def pre_process_all_schools(run_type, run_id, data_ref):
     """
     Store various org. information.
 
@@ -277,19 +277,19 @@ def pre_process_all_schools(run_type, year, data_ref):
     - store Trust financial information
 
     :param run_type: should only be "default"
-    :param year: year in question
+    :param run_id: unique identifer for data-writes
     :param data_ref: Academy, Maintained and Trust info.
     """
     logger.info("Building All schools Set")
     academies, maintained_schools, trusts = data_ref
 
-    insert_trusts(run_type, year, academies)
+    insert_trusts(run_type, run_id, academies)
     mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
     # TODO: this overwrites the previous one inc. transitioning academies.
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/academies.parquet",
+        f"{run_type}/{run_id}/academies.parquet",
         academies.to_parquet(),
     )
 
@@ -299,17 +299,17 @@ def pre_process_all_schools(run_type, year, data_ref):
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/all_schools.parquet",
+        f"{run_type}/{run_id}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
-    insert_schools_and_local_authorities(run_type, year, all_schools)
-    insert_non_financial_data(run_type, year, all_schools)
-    insert_financial_data(run_type, year, all_schools)
-    insert_trust_financial_data(run_type, year, trusts)
+    insert_schools_and_local_authorities(run_type, run_id, all_schools)
+    insert_non_financial_data(run_type, run_id, all_schools)
+    insert_financial_data(run_type, run_id, all_schools)
+    insert_trust_financial_data(run_type, run_id, trusts)
 
 
-def pre_process_bfr(run_type, year):
+def pre_process_bfr(run_id: str, year: int):
     """
     Aggregate academies budget forecast return (BFR) from
     statement of financial returns (SOFA) and three-year forecast
@@ -319,22 +319,22 @@ def pre_process_bfr(run_type, year):
     SOFA data; forecast data for future years are derived from BFR 3Y
     data.
 
-    :param run_type: "default" or "custom"
+    :param run_id: unique identifier for processing
     :param year: financial year in question
     """
-    logger.info("Processing BFR data.")
+    logger.info(f"Processing BFR data - {run_id} - {year}.")
 
     bfr_sofa = get_blob(
-        raw_container, f"{run_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
+        raw_container, f"default/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
     )
 
     bfr_3y = get_blob(
-        raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
+        raw_container, f"default/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
     # TODO: handle condition where this doesn't exist.
     academies = pd.read_parquet(
-        get_blob("pre-processed", f"{run_type}/{year}/academies.parquet"),
+        get_blob("pre-processed", f"default/{year}/academies.parquet"),
         columns=[
             "Trust UPIN",
             "Company Registration Number",
@@ -349,7 +349,7 @@ def pre_process_bfr(run_type, year):
     academies_y2 = None
     bfr_sofa_year_minus_two = None
     if academies_y2_file := try_get_blob(
-        "pre-processed", f"{run_type}/{year - 2}/academies.parquet"
+        "pre-processed", f"default/{year - 2}/academies.parquet"
     ):
         academies_y2 = pd.read_parquet(
             academies_y2_file,
@@ -363,7 +363,7 @@ def pre_process_bfr(run_type, year):
 
         if bfr_sofa_year_minus_two_file := try_get_blob(
             raw_container,
-            f"{run_type}/{year - 2}/BFR_SOFA_raw.csv",
+            f"default/{year - 2}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
             bfr_sofa_year_minus_two = (
@@ -386,7 +386,7 @@ def pre_process_bfr(run_type, year):
     academies_y1 = None
     bfr_sofa_year_minus_one = None
     if academies_y1_file := try_get_blob(
-        "pre-processed", f"{run_type}/{year - 1}/academies.parquet"
+        "pre-processed", f"default/{year - 1}/academies.parquet"
     ):
         academies_y1 = pd.read_parquet(
             academies_y1_file,
@@ -400,7 +400,7 @@ def pre_process_bfr(run_type, year):
 
         if bfr_sofa_year_minus_one_file := try_get_blob(
             raw_container,
-            f"{run_type}/{year - 1}/BFR_SOFA_raw.csv",
+            f"default/{year - 1}/BFR_SOFA_raw.csv",
             encoding="unicode-escape",
         ):
             bfr_sofa_year_minus_one = (
@@ -437,23 +437,34 @@ def pre_process_bfr(run_type, year):
     # Store results…
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/bfr_metrics.parquet",
+        f"default/{run_id}/bfr_metrics.parquet",
         bfr_metrics.to_parquet(),
     )
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/bfr.parquet",
+        f"default/{run_id}/bfr.parquet",
         bfr.to_parquet(),
     )
 
-    insert_bfr(run_type, year, bfr)
-    insert_bfr_metrics(run_type, year, bfr_metrics)
+    insert_bfr(run_id, bfr)
+    insert_bfr_metrics(run_id, year, bfr_metrics)
 
 
-def pre_process_data(worker_client, run_type, year):
-    start_time = time.time()
-    logger.info(f"Pre-processing data {run_type} - {year}")
+def _get_ancillary_data(
+    worker_client: Client,
+    year: int,
+) -> tuple[pd.DataFrame]:
+    """
+    Retrieve and process supporting data files.
+
+    Note: `run_type` is _always_ "default".
+
+    :param worker_client: Dask client
+    :param year: financial year in question
+    :return: tuple of supporting datasets
+    """
+    run_type = "default"
 
     cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
         worker_client.gather(
@@ -471,27 +482,63 @@ def pre_process_data(worker_client, run_type, year):
         )
     )
 
-    data_ref = worker_client.scatter(
+    return worker_client.scatter(
         (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
     )
 
+
+def pre_process_data(
+    worker_client: Client,
+    run_id: str,
+    aar_year: int,
+    cfr_year: int,
+    bfr_year: int,
+):
+    """
+    Process data necessary for Academies, Maintained Schools BFR and Trusts.
+
+    Note: `run_type` is _always_ "default".
+
+    :param worker_client: Dask client
+    :param run_id: unique identifier (used for write target)
+    :param aar_year: Academy financial year/source
+    :param cfr_year: Maintained School financial year/source
+    :param bfr_year: BFR year/source
+    :return: duration of processing
+    """
+    run_type = "default"
+
+    start_time = time.time()
+    logger.info(f"Pre-processing data {run_type} - {run_id}")
+
+    academy_data_ref = maintained_data_ref = _get_ancillary_data(
+        worker_client, aar_year
+    )
+    if cfr_year != aar_year:
+        maintained_data_ref = _get_ancillary_data(worker_client, cfr_year)
+
     academies, maintained_schools = worker_client.gather(
         [
-            worker_client.submit(pre_process_academies_data, run_type, year, data_ref),
             worker_client.submit(
-                pre_process_maintained_schools_data, run_type, year, data_ref
+                pre_process_academies_data, run_type, aar_year, academy_data_ref
+            ),
+            worker_client.submit(
+                pre_process_maintained_schools_data,
+                run_type,
+                cfr_year,
+                maintained_data_ref,
             ),
         ]
     )
-    trusts = pre_process_trust_data(run_type, year, academies)
+    trusts = pre_process_trust_data(run_type, aar_year, academies)
 
     pre_process_all_schools(
         run_type,
-        year,
+        run_id,
         (academies, maintained_schools, trusts),
     )
 
-    pre_process_bfr(run_type, year)
+    pre_process_bfr(run_id, bfr_year)
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken:,.2f} seconds")
@@ -872,15 +919,19 @@ def handle_msg(
 
             case MessageType.Default:
                 msg_payload["pre_process_duration"] = pre_process_data(
-                    worker_client, run_type, msg_payload["year"]
+                    worker_client=worker_client,
+                    run_id=str(msg_payload["runId"]),
+                    aar_year=msg_payload["year"]["aar"],
+                    cfr_year=msg_payload["year"]["cfr"],
+                    bfr_year=msg_payload["year"]["bfr"],
                 )
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                    run_type,
-                    msg_payload["year"],
+                    run_type=run_type,
+                    run_id=str(msg_payload["runId"]),
                 )
                 msg_payload["rag_duration"] = run_compute_rag(
                     run_type=run_type,
-                    run_id=str(msg_payload["year"]),
+                    run_id=str(msg_payload["runId"]),
                 )
 
             case MessageType.DefaultUserDefined:
