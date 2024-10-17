@@ -32,7 +32,6 @@ from src.pipeline.pre_processing import (
     build_bfr_historical_data,
     build_bfr_data,
     build_cfo_data,
-    build_federations_data,
     build_maintained_school_data,
     build_trust_data,
     map_academy_data,
@@ -231,7 +230,7 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
     )
 
     maintained_schools = build_maintained_school_data(
-        maintained_schools_data, links_data, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data, schools, census, sen, cdc, ks2, ks4
     )
 
     write_blob(
@@ -269,33 +268,6 @@ def pre_process_trust_data(
     return trusts
 
 
-def pre_process_federations(run_type, year, data_ref):
-    logger.info("Building Federations Set")
-    academies, maintained_schools = data_ref
-
-    gias_all_links_data = get_blob(
-        raw_container,
-        f"{run_type}/{year}/gias_all_links.csv",
-        encoding="unicode-escape",
-    )
-
-    (hard_federations, soft_federations) = build_federations_data(
-        gias_all_links_data, maintained_schools
-    )
-
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{year}/hard_federations.parquet",
-        hard_federations.to_parquet(),
-    )
-
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{year}/soft_federations.parquet",
-        soft_federations.to_parquet(),
-    )
-
-
 def pre_process_all_schools(run_type, year, data_ref):
     """
     Store various org. information.
@@ -313,9 +285,7 @@ def pre_process_all_schools(run_type, year, data_ref):
     academies, maintained_schools, trusts = data_ref
 
     insert_trusts(run_type, year, academies)
-    mask = (
-        academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
-    )
+    mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
     # TODO: this overwrites the previous one inc. transitioning academies.
     write_blob(

@@ -60,6 +60,7 @@ gias_links = {
 maintained_schools_master_list_index_col = "URN"
 maintained_schools_master_list = {
     "URN": "Int64",
+    "School Name": "string",
     "LAEstab": "string",
     "Phase": "string",
     "Overall Phase": "string",

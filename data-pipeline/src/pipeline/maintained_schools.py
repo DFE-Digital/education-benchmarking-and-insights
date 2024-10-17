@@ -162,32 +162,32 @@ def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     return maintained_schools
 
 
-def apply_federation_mapping(
-    maintained_schools: pd.DataFrame,
-    hard_federations: pd.DataFrame,
-    soft_federations: pd.DataFrame,
-) -> pd.DataFrame:
-    list_of_laestabs = maintained_schools["LAEstab"][
-        maintained_schools["Lead school in federation"] != "0"
-    ]
-    list_of_urns = maintained_schools.index[
-        maintained_schools["Lead school in federation"] != "0"
-    ]
-    lae_ukprn = dict(zip(list_of_laestabs, list_of_urns))
+def join_federations(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Set Federation-related values.
 
-    maintained_schools["Federation Lead School URN"] = maintained_schools[
-        "Lead school in federation"
-    ].map(lae_ukprn)
+    Each school in a Federation will have the `LAEstab` of the lead
+    school in the `Lead school in federation` column.
 
-    maintained_schools = pd.merge(
-        maintained_schools,
-        hard_federations[["FederationName"]],
+    Note: lead schools will have their own `LAEstab` value in said
+    column.
+
+    :param df: Maintained School data
+    :return: data updated with Federation data
+    """
+    lead_schools = df[df["Lead school in federation"] == df["LAEstab"]][
+        ["URN", "School Name", "LAEstab"]
+    ].rename(
+        columns={
+            "URN": "Federation Lead School URN",
+            "School Name": "Federation Name",
+            "LAEstab": "Federation LAEstab",
+        }
+    )
+
+    return df.merge(
+        lead_schools,
+        left_on="Lead school in federation",
+        right_on="Federation LAEstab",
         how="left",
-        left_index=True,
-        right_index=True,
     )
-    maintained_schools.rename(
-        columns={"FederationName": "Federation Name"}, inplace=True
-    )
-
-    return maintained_schools[~maintained_schools.index.duplicated()]
