@@ -8,8 +8,16 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
 
-public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
 {
+    private readonly Census _census;
+
+    public WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : base(client)
+    {
+        _census = Fixture.Build<Census>()
+            .Create();
+    }
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -107,6 +115,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupUserData()
+            .SetupCensus(school, _census)
             .Navigate(Paths.SchoolCensus(school.URN));
 
         return (page, school);
