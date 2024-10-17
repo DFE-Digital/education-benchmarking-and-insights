@@ -45,12 +45,24 @@ public class SchoolController(
 
                 await Task.WhenAll(school, balance, userData);
 
-                var ratings = string.IsNullOrEmpty(userData.Result.ComparatorSet)
-                    ? await RagRatingsDefault(urn)
-                    : await RagRatingsUserDefined(userData.Result.ComparatorSet);
+                var isNonLeadFederation = !string.IsNullOrEmpty(school.Result.FederationLeadURN) && school.Result.FederationLeadURN != urn;
 
-                var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, comparatorReverted, userData.Result.ComparatorSet, userData.Result.CustomData);
-                return View(viewModel);
+                if (isNonLeadFederation)
+                {
+                    var viewModel = new SchoolViewModel(school.Result, balance.Result);
+
+                    return View("NonLeadFederation", viewModel);
+                }
+                else
+                {
+                    var ratings = string.IsNullOrEmpty(userData.Result.ComparatorSet)
+                        ? await RagRatingsDefault(urn)
+                        : await RagRatingsUserDefined(userData.Result.ComparatorSet);
+
+                    var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, comparatorReverted, userData.Result.ComparatorSet, userData.Result.CustomData);
+
+                    return View(viewModel);
+                }
             }
             catch (Exception e)
             {

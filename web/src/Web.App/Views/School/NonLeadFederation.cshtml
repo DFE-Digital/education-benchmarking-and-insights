@@ -1,0 +1,149 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
+        <p class="govuk-body">
+            @Html.TrackedAnchor(
+                TrackedLinks.ChangeOrganisation,
+                Url.Action("Index", "FindOrganisation", new
+                {
+                    method = OrganisationTypes.School
+                }) ?? "",
+                "Change school")
+        </p>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            This school’s finance data is not displayed, as it’s part of a federated budget. The full federated data is shown on the <a href="@Url.Action("Index", "School", new { urn = Model.FederationLeadUrn })" class="govuk-link govuk-link--no-visited-state">federation page</a>.
+        </p>
+
+        <p class="govuk-body">
+            @Html.TrackedAnchor(
+                TrackedLinks.SchoolDetails,
+                Constants.GiasSchoolUrl(Model.Urn),
+                "Get more information about this school",
+                "Opens in a new window",
+                "_blank",
+                ["noopener", "noreferrer", "external"])
+        </p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    URN
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.Urn
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Address
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       rel="external noopener noreferrer"
+                       target="_blank"
+                       href="https://www.google.co.uk/maps?q=@Model.Address">
+                        @Model.Address
+                        <span class="govuk-visually-hidden">
+                            GoogleMaps link opens in a new window
+                        </span>
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Telephone number
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="tel:@Model.Telephone"
+                       aria-label="Call telephone number @Model.Telephone">
+                        @Model.Telephone
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Local Authority
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.LocalAuthorityName
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    School type
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.SchoolType
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    School overall phase
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.OverallPhase
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Number of pupils
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.NumberOfPupils.ToSimpleDisplay()
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Ofsted rating
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.OfstedRating
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Has sixth form
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(Model.HasSixthForm ? "Yes" : "No")
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Has nursery
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @(Model.HasNursery ? "Yes" : "No")
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    School website
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @if (!string.IsNullOrEmpty(Model.Website))
+                    {
+                        <a rel="external noopener noreferrer"
+                           class="govuk-link govuk-link--no-visited-state"
+                           target="_blank"
+                           href="@Model.Website">
+                            <span>@Model.Website</span>
+                            <span class="govuk-visually-hidden">Opens in a new window</span>
+                        </a>
+                    }
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
