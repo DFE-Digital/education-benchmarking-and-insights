@@ -83,7 +83,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthorityResponse>();
+        var result = content.FromJson<LocalAuthority>();
 
         table.CompareToInstance(result);
     }
@@ -96,7 +96,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         response.Should().NotBeNull();
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthorityResponse>();
+        var result = content.FromJson<LocalAuthority>();
 
         var set = result.Schools.Select(s => new
         {

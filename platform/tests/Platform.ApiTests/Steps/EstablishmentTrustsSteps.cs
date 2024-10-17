@@ -83,7 +83,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustResponse>();
+        var result = content.FromJson<Trust>();
 
         table.CompareToInstance(result);
     }
@@ -96,7 +96,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         response.Should().NotBeNull();
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustResponse>();
+        var result = content.FromJson<Trust>();
 
         var set = result.Schools.Select(s => new
         {

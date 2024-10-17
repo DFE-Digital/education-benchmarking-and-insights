@@ -23,7 +23,7 @@ public class LocalAuthoritiesFunctions(
     [OpenApiOperation(nameof(SingleLocalAuthorityAsync), "Local Authorities")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(LocalAuthorityResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(LocalAuthority))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SingleLocalAuthorityAsync(
