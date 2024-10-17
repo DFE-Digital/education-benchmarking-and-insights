@@ -55,6 +55,7 @@ public static class Selectors
     public const string Table = "table";
     public const string Button = "button";
 
+    public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";
 
     public const string TotalExpenditureSaveAsImage = "xpath=//*[@id='compare-your-costs']/div[2]/div[2]/button";
@@ -142,4 +143,7 @@ public static class Selectors
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
     public const string RunningCostCategoriesTab = "#tab_running";
     public const string BuildingCostCategoriesTab = "#tab_building";
+
+    public const string SignInLink = "header a.app-signin:text-is('Sign in')";
+    public const string SignOutLink = "header a.app-signin:text-is('Sign out')";
 }

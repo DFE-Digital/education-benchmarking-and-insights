@@ -1,6 +1,5 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
-
 namespace Web.E2ETests.Pages.School;
 
 public enum CensusChartNames
@@ -33,17 +32,29 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
 
     private ILocator SaveAsImageButtons =>
-        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save" });
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save"
+        });
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
-            new PageLocatorOptions { HasText = "We've chosen this set of similar schools" });
+            new PageLocatorOptions
+            {
+                HasText = "We've chosen this set of similar schools"
+            });
 
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
+        new PageLocatorOptions
+        {
+            HasText = "Create or save your own set of schools to benchmark against"
+        });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Change the data for this school" });
+        new PageLocatorOptions
+        {
+            HasText = "Change the data for this school"
+        });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
@@ -173,6 +184,19 @@ public class BenchmarkCensusPage(IPage page)
     {
         await SchoolLinksInCharts.First.Click();
         return new HomePage(page);
+    }
+
+    public async Task AreComparisonChartsAndTablesDisplayed(bool displayed = true)
+    {
+        var locator = page.Locator(Selectors.ComparisonChartsAndTables);
+        if (displayed)
+        {
+            await locator.ShouldBeVisible();
+        }
+        else
+        {
+            await locator.ShouldNotBeVisible();
+        }
     }
 
     private ILocator ChartDimensionDropdown(CensusChartNames chartName)
