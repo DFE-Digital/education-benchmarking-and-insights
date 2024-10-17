@@ -2,7 +2,6 @@ using System.Net;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
 using Xunit;
-
 namespace Platform.Tests.Benchmark;
 
 public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctionsTestBase
@@ -11,7 +10,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task DefaultShouldBeOkOnValidRequest()
     {
         Service
-            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetSchool());
 
         var response =
@@ -25,7 +24,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task DefaultShouldBe500OnError()
     {
         Service
-            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var response = await Functions
@@ -39,7 +38,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task CustomShouldBeOkOnValidRequest()
     {
         Service
-            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetSchool());
 
         var response =
@@ -53,7 +52,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task CustomShouldBe500OnError()
     {
         Service
-            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var response = await Functions

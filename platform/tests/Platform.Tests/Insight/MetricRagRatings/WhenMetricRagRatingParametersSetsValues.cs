@@ -7,18 +7,14 @@ namespace Platform.Tests.Insight.MetricRagRatings;
 public class WhenMetricRagRatingParametersSetsValues
 {
     [Theory]
-    [InlineData("mixed", "true", "mixed", "custom")]
-    [InlineData("unmixed", "true", "unmixed", "custom")]
-    [InlineData("mixed", "false", "mixed", "default")]
-    [InlineData(null, null, "unmixed", "default")]
-    public void ShouldSetValuesFromIQueryCollection(string? setType, string? useCustomData, string expectedSetType, string expectedDataContext)
+    [InlineData("true", "custom")]
+    [InlineData("false", "default")]
+    [InlineData(null, "default")]
+    public void ShouldSetValuesFromIQueryCollection(string? useCustomData, string expectedDataContext)
     {
         var parameters = new MetricRagRatingParameters();
         var query = new QueryCollection(new Dictionary<string, StringValues>
         {
-            {
-                "setType", setType
-            },
             {
                 "useCustomData", useCustomData
             }
@@ -26,7 +22,6 @@ public class WhenMetricRagRatingParametersSetsValues
 
         parameters.SetValues(query);
 
-        Assert.Equal(expectedSetType, parameters.SetType);
         Assert.Equal(expectedDataContext, parameters.DataContext);
     }
 }

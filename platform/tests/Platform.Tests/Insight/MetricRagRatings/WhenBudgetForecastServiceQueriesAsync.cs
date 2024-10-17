@@ -35,14 +35,13 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData("1,2,3", "4,5,6", "7,8,9", "runType", "setType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SetType = @SetType AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
-    [InlineData("1,2,3", null, null, "runType", "setType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SetType = @SetType AND URN IN @URNS")]
+    [InlineData("1,2,3", "4,5,6", "7,8,9", "runType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
+    [InlineData("1,2,3", null, null, "runType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
     public async Task ShouldQueryAsyncWhenQueryAsync(
         string urns,
         string? categories,
         string? statuses,
         string runType,
-        string setType,
         bool includeSubCategories,
         string expectedSql)
     {
@@ -64,7 +63,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
-                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "SetType", "URNS", "categories", "statuses");
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "URNS", "categories", "statuses");
             })
             .ReturnsAsync(results);
 
@@ -74,7 +73,6 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             categories?.Split(",") ?? [],
             statuses?.Split(",") ?? [],
             runType,
-            setType,
             includeSubCategories);
 
         // assert
@@ -88,9 +86,6 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             },
             {
                 "RunId", year
-            },
-            {
-                "SetType", setType
             },
             {
                 "URNS", urns.Split(",")
@@ -109,9 +104,9 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData("identifier", "runType", "setType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SetType = @SetType AND SubCategory = 'Total'")]
-    [InlineData("identifier", "runType", "setType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SetType = @SetType")]
-    public async Task ShouldQueryAsyncWhenUserDefinedAsync(string identifier, string runType, string setType, bool includeSubCategories, string expectedSql)
+    [InlineData("identifier", "runType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SubCategory = 'Total'")]
+    [InlineData("identifier", "runType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId")]
+    public async Task ShouldQueryAsyncWhenUserDefinedAsync(string identifier, string runType, bool includeSubCategories, string expectedSql)
     {
         // arrange
         var results = new List<MetricRagRating>
@@ -126,12 +121,12 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
-                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "SetType");
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId");
             })
             .ReturnsAsync(results);
 
         // act
-        var actual = await _service.UserDefinedAsync(identifier, runType, setType, includeSubCategories);
+        var actual = await _service.UserDefinedAsync(identifier, runType, includeSubCategories);
 
         // assert
         Assert.Equal(results, actual);
@@ -144,9 +139,6 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             },
             {
                 "RunId", identifier
-            },
-            {
-                "SetType", setType
             }
         };
 

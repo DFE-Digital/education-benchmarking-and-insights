@@ -17,7 +17,6 @@ public class MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger
     [OpenApiOperation(nameof(UserDefinedAsync), "Metric RAG Ratings")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("useCustomData", In = ParameterLocation.Query, Description = "Sets whether or not to use custom data context", Type = typeof(bool))]
-    [OpenApiParameter("setType", In = ParameterLocation.Query, Description = "Comparator set type", Type = typeof(string))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(MetricRagRating[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -43,7 +42,7 @@ public class MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger
         {
             try
             {
-                var result = await service.UserDefinedAsync(identifier, queryParams.DataContext, queryParams.SetType);
+                var result = await service.UserDefinedAsync(identifier, queryParams.DataContext);
                 return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)

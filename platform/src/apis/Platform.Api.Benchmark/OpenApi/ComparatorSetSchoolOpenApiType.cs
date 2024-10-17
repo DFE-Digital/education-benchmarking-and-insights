@@ -6,18 +6,17 @@
 namespace Platform.Api.Benchmark.OpenApi;
 
 /// <summary>
-/// <see cref="ComparatorSets.ComparatorSetSchool" />
+///     <see cref="ComparatorSets.ComparatorSetSchool" />
 /// </summary>
 internal interface IComparatorSetSchool
 {
     string? URN { get; }
-    string? SetType { get; }
     List<string>? Pupil { get; }
     List<string>? Building { get; }
 }
 
 /// <summary>
-/// <see cref="ComparatorSets.ComparatorSetUserDefinedSchool" />
+///     <see cref="ComparatorSets.ComparatorSetUserDefinedSchool" />
 /// </summary>
 internal interface IComparatorSetUserDefinedSchool
 {
@@ -28,7 +27,7 @@ internal interface IComparatorSetUserDefinedSchool
 }
 
 /// <summary>
-/// <see cref="ComparatorSets.ComparatorSetUserDefinedTrust" />
+///     <see cref="ComparatorSets.ComparatorSetUserDefinedTrust" />
 /// </summary>
 internal interface IComparatorSetUserDefinedTrust
 {
