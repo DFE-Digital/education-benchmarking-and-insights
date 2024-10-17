@@ -1,5 +1,6 @@
 import datetime
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -192,12 +193,9 @@ def test_calc_catering_net_costs():
     assert actual["Catering staff and supplies_Net Costs"] == -500
 
 
-# Waiting on actual confirmation of federation logic.
-# def test_federation_mapping(maintained_schools_master_list: pd.DataFrame, gias_group_links_csv: StringIO):
-#     (hard_federations, soft_federations) = pre_processing.build_federations_data(gias_group_links_csv, maintained_schools_master_list)
-#
-#     actual = maintained_schools.apply_federation_mapping(maintained_schools_master_list, hard_federations, soft_federations)
-#
-#     print(hard_federations)
-#     print(soft_federations)
-#     assert actual.columns.isin(["Federation Name"]).any()
+def test_federation_mapping(maintained_schools_master_list: pd.DataFrame):
+    actual = maintained_schools.join_federations(maintained_schools_master_list)
+
+    # Beware: `nan != nan`
+    assert list(actual["Federation Name"].fillna(0)) == ["A", 0, 0, "A"]
+    assert list(actual["Federation Lead School URN"].fillna(0)) == [100150.0, 0, 0, 100150.0]

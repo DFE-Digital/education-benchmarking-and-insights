@@ -1098,8 +1098,6 @@ def map_academy_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def build_maintained_school_data(
     maintained_schools_data_path,
-    links_data_path,
-    year,
     schools,
     census,
     sen,
@@ -1135,10 +1133,6 @@ def build_maintained_school_data(
     maintained_schools = maintained_pipeline.calc_catering_net_costs(maintained_schools)
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
 
-    (hard_federations, soft_federations) = build_federations_data(
-        links_data_path, maintained_schools
-    )
-
     # partial-year checks…
     maintained_schools = part_year.maintained_schools.map_has_financial_data(
         maintained_schools
@@ -1150,73 +1144,9 @@ def build_maintained_school_data(
         maintained_schools
     )
 
-    # Applying federation mappings
-    maintained_schools = maintained_pipeline.apply_federation_mapping(
-        maintained_schools, hard_federations, soft_federations
-    )
+    maintained_schools = maintained_pipeline.join_federations(maintained_schools)
 
     return maintained_schools.set_index("URN")
-
-
-def build_federations_data(links_data_path, maintained_schools):
-    group_links = pd.read_csv(
-        links_data_path,
-        encoding="unicode-escape",
-        index_col=input_schemas.groups_index_col,
-        usecols=input_schemas.groups.keys(),
-        dtype=input_schemas.groups,
-    )
-
-    federations = maintained_schools[["URN", "LAEstab"]].copy()
-
-    # join
-    federations = federations.join(
-        group_links[["Group Name", "Group UID", "Closed Date"]], on="URN"
-    )
-
-    # remove federations with an associated closed date
-    federations = federations.loc[federations["Closed Date"].isna()]
-
-    # federations with a UID listed in the GIAS groups data are referred to as "Hard" federations
-    # while federations not listed in GIAS are referred to as "Soft" federations.
-    # Soft federation UIDs are a combination of their URN and LAEstab codes.
-
-    # create mask for soft federations
-    mask = federations["Group UID"].isna()
-
-    hard_federations = federations.loc[~mask].copy()
-    soft_federations = federations.loc[mask].copy()
-
-    # define members list for hard federations
-    group_links["Members"] = group_links.index
-    hard_members = group_links[["Members", "Group UID"]].groupby("Group UID").agg(list)
-
-    hard_federations = hard_federations.join(hard_members, on="Group UID")
-
-    # Rename columns
-    hard_federations.rename(
-        columns={
-            "Group Name": "FederationName",
-            "Group UID": "FederationUid",
-        },
-        inplace=True,
-    )
-
-    # for the soft federations
-    soft_federations["Group UID"] = soft_federations.index.astype(
-        str
-    ) + soft_federations["LAEstab"].astype(str)
-
-    # Rename columns
-    soft_federations.rename(
-        columns={
-            "Group Name": "FederationName",
-            "Group UID": "FederationUid",
-        },
-        inplace=True,
-    )
-
-    return hard_federations, soft_federations
 
 
 def build_bfr_historical_data(
