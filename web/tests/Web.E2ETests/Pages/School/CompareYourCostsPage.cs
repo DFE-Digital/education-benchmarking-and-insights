@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+using Web.E2ETests.Pages.School.Comparators;
 using Xunit;
 namespace Web.E2ETests.Pages.School;
 
@@ -65,7 +66,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "Choose a new or saved set of your own schools"
+            HasText = "Create or save your own set of schools to benchmark against"
         });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
@@ -88,28 +89,28 @@ public class CompareYourCostsPage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
-        await SaveImageTotalExpenditure.ShouldBeVisible();
-        await TotalExpenditureDimension.ShouldBeVisible();
+
         if (!isPartYear)
         {
+            await SaveImageTotalExpenditure.ShouldBeVisible();
+            await TotalExpenditureDimension.ShouldBeVisible();
             await TotalExpenditureChart.ShouldBeVisible();
-        }
-        else
-        {
-            await IncompleteFinancialBanner.First.ShouldBeVisible();
-            await IncompleteFinancialBanner.First.ShouldContainText(
-                "This school doesn't have a complete set of financial data for this period.");
+            await ShowHideAllSectionsLink.ShouldBeVisible();
+            await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
+            await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
+            await ComparatorSetDetails.ShouldBeVisible();
+            await CustomComparatorLink.ShouldBeVisible();
+            await CustomDataLink.ShouldBeVisible();
+
+            await HasDimensionValuesForChart(ComparisonChartNames.Premises,
+                ["£ per m²", "actuals", "percentage of expenditure", "percentage of income"]);
+
+            return;
         }
 
-        await ShowHideAllSectionsLink.ShouldBeVisible();
-        await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
-        await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
-        await ComparatorSetDetails.ShouldBeVisible();
-        await CustomComparatorLink.ShouldBeVisible();
-        await CustomDataLink.ShouldBeVisible();
-
-        await HasDimensionValuesForChart(ComparisonChartNames.Premises,
-            ["£ per m²", "actuals", "percentage of expenditure", "percentage of income"]);
+        await IncompleteFinancialBanner.First.ShouldBeVisible();
+        await IncompleteFinancialBanner.First.ShouldContainText(
+            "There isn't enough information available to create a set of similar schools.");
     }
 
     public async Task ClickSaveAsImage(ComparisonChartNames chartName)
@@ -198,22 +199,17 @@ public class CompareYourCostsPage(IPage page)
         await link.Locator(Selectors.ToggleSectionText).First.ClickAsync();
     }
 
-    private ILocator SectionLink(ComparisonChartNames chartName)
+    public async Task AreComparisonChartsAndTablesDisplayed(bool displayed = true)
     {
-        var link = chartName switch
+        var locator = page.Locator(Selectors.ComparisonChartsAndTables);
+        if (displayed)
         {
-            ComparisonChartNames.TeachingAndTeachingSupplyStaff => SectionLink(Selectors.SectionHeading1),
-            ComparisonChartNames.NonEducationalSupportStaff => SectionLink(Selectors.SectionHeading2),
-            ComparisonChartNames.EducationalSupplies => SectionLink(Selectors.SectionHeading3),
-            ComparisonChartNames.EducationalIct => SectionLink(Selectors.SectionHeading4),
-            ComparisonChartNames.Premises => SectionLink(Selectors.SectionHeading5),
-            ComparisonChartNames.Utilities => SectionLink(Selectors.SectionHeading6),
-            ComparisonChartNames.AdministrativeSupplies => SectionLink(Selectors.SectionHeading7),
-            ComparisonChartNames.CateringStaffAndServices => SectionLink(Selectors.SectionHeading8),
-            ComparisonChartNames.Other => SectionLink(Selectors.SectionHeading9),
-            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
-        };
-        return link;
+            await locator.ShouldBeVisible();
+        }
+        else
+        {
+            await locator.ShouldNotBeVisible();
+        }
     }
 
     public async Task IsSectionVisible(ComparisonChartNames chartName, bool visibility, string text, string chartMode)
@@ -254,7 +250,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task<HomePage> PressEnterKey()
     {
-        await page.Keyboard.PressAsync("Enter");
+        await page.Keyboard.PressAsync(Keyboard.EnterKey);
         return new HomePage(page);
     }
 
@@ -295,6 +291,35 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsWarningIconDisplayedOnGraphTick(int nth)
     {
         await ChartTicks.Nth(nth).Locator("circle").ShouldBeVisible();
+    }
+
+    public async Task SignIn(string organisation)
+    {
+        await page.SignInWithOrganisation(organisation);
+    }
+
+    public async Task<CreateComparatorsPage> ClickCreateUserDefinedComparatorSet()
+    {
+        await CustomComparatorLink.ClickAsync();
+        return new CreateComparatorsPage(page);
+    }
+
+    private ILocator SectionLink(ComparisonChartNames chartName)
+    {
+        var link = chartName switch
+        {
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => SectionLink(Selectors.SectionHeading1),
+            ComparisonChartNames.NonEducationalSupportStaff => SectionLink(Selectors.SectionHeading2),
+            ComparisonChartNames.EducationalSupplies => SectionLink(Selectors.SectionHeading3),
+            ComparisonChartNames.EducationalIct => SectionLink(Selectors.SectionHeading4),
+            ComparisonChartNames.Premises => SectionLink(Selectors.SectionHeading5),
+            ComparisonChartNames.Utilities => SectionLink(Selectors.SectionHeading6),
+            ComparisonChartNames.AdministrativeSupplies => SectionLink(Selectors.SectionHeading7),
+            ComparisonChartNames.CateringStaffAndServices => SectionLink(Selectors.SectionHeading8),
+            ComparisonChartNames.Other => SectionLink(Selectors.SectionHeading9),
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+        return link;
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)

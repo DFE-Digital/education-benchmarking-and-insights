@@ -1,6 +1,4 @@
-﻿using Microsoft.Playwright;
-using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 namespace Web.E2ETests.Steps.School;
@@ -17,6 +15,13 @@ public class HomeSteps(PageDriver driver)
     private DetailsPage? _schoolDetailsPage;
     private HomePage? _schoolHomePage;
     private SpendingCostsPage? _spendingCostsPage;
+
+    [Given("I am not logged in")]
+    public async Task GivenIAmNotLoggedIn()
+    {
+        var page = await driver.Current;
+        await page.SignOut();
+    }
 
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
@@ -82,8 +87,8 @@ public class HomeSteps(PageDriver driver)
         _curriculumAndFinancialPlanningPage = await _schoolHomePage.ClickFinancialPlanning();
     }
 
-    [Then("the curriculum and financial planning page is displayed")]
-    public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayed()
+    [Then("the curriculum and financial planning page is displayed after logging in with organisation '(.*)'")]
+    public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayedAfterLoggingInWithOrganisation(string organisation)
     {
         var page = await driver.Current;
         if (await page.Locator("h1:text-is('Curriculum and financial planning (CFP)')").CheckVisible())
@@ -92,25 +97,14 @@ public class HomeSteps(PageDriver driver)
         }
         else if (await page.Locator("h1:text-is('Access the DfE Sign-in service')").CheckVisible())
         {
-            // Login required
-            await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
-            await page.Locator("button[type='submit']").Click();
-            await page.Locator("h1:text-is('Enter your password')").CheckVisible();
-            await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
-            await page.Locator("button[type='submit']").Click();
-            await page.Locator("label", new PageLocatorOptions
-            {
-                HasTextString = "01: FBIT TEST - Community School (Open)"
-            }).Check();
-            await page.Locator("input[type='submit']").Click();
+            await page.SignInWithOrganisation(organisation, true);
         }
         else
         {
-            throw new Exception($"Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
+            throw new Exception("Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
         }
         Assert.NotNull(_curriculumAndFinancialPlanningPage);
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
-
     }
 
     [When("I click on benchmark census data")]

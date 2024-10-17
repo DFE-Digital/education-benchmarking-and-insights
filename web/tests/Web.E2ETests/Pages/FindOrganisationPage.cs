@@ -1,5 +1,4 @@
 ﻿using Microsoft.Playwright;
-
 namespace Web.E2ETests.Pages;
 
 public enum OrganisationTypes
@@ -10,14 +9,15 @@ public enum OrganisationTypes
 
 public class FindOrganisationPage(IPage page)
 {
-    private const string ArrowDownKey = "ArrowDown";
-    private const string EnterKey = "Enter";
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
 
     private ILocator ContinueButton =>
-        page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+        page.Locator(Selectors.GovButton, new PageLocatorOptions
+        {
+            HasText = "Continue"
+        });
 
     private ILocator SchoolRadioButton => page.Locator(Selectors.SchoolRadio);
     private ILocator SchoolSuggestionsDropdown => page.Locator(Selectors.SchoolSuggestDropdown);
@@ -37,8 +37,8 @@ public class FindOrganisationPage(IPage page)
 
     public async Task SelectItemFromSuggester()
     {
-        await SchoolSearchInputField.PressAsync(ArrowDownKey);
-        await page.Keyboard.PressAsync(EnterKey);
+        await SchoolSearchInputField.PressAsync(Keyboard.ArrowDownKey);
+        await page.Keyboard.PressAsync(Keyboard.EnterKey);
     }
 
     public async Task<School.HomePage> ClickContinue()

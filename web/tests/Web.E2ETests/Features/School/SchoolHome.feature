@@ -1,5 +1,8 @@
 ﻿Feature: School homepage
 
+    Background:
+        Given I am not logged in
+
     Scenario: Go to contact details page
         Given I am on school homepage for school with urn '777042'
         When I click on school details
@@ -13,7 +16,7 @@
     Scenario: Go to curriculum and financial planning page
         Given I am on school homepage for school with urn '777042'
         When I click on curriculum and financial planning
-        Then the curriculum and financial planning page is displayed
+        Then the curriculum and financial planning page is displayed after logging in with organisation '01: FBIT TEST - Community School (Open)'
 
     Scenario: Go to benchmark census data page
         Given I am on school homepage for school with urn '777042'
@@ -47,7 +50,7 @@
           | Teaching and Teaching support staff | High priority Spends £6,315 per pupil — Spending is higher than 99% of similar schools.  |
           | Non-educational support staff       | High priority Spends £845 per pupil — Spending is higher than 95.67% of similar schools. |
           | Administrative supplies             | High priority Spends £429 per pupil — Spending is higher than 99% of similar schools.    |
-          
+
     Scenario: RAG guidance is displayed
         Given I am on school homepage for school with urn '777042'
         Then the RAG guidance is visible
