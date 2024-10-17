@@ -1,0 +1,14 @@
+﻿    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body">This school is the lead school of its federation. The following schools are part of this federation:</p>
+            <ul class="govuk-list">
+                @foreach (var school in Model.FederationSchools)
+                {
+                <li>
+                    <a href="@Url.Action("Index", "School", new { urn = school.URN })" class="govuk-link govuk-link--no-visited-state">@school.SchoolName</a>
+                </li>
+                }
+            </ul>
+
+        </div>
+    </div>

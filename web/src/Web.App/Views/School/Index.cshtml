@@ -39,6 +39,11 @@
     @await Html.PartialAsync("_Banners", Model)
 </div>
 
+@if (Model.FederationSchools.Length > 0)
+{
+    @await Html.PartialAsync("_FederationSchools", Model)
+}
+
 @await Component.InvokeAsync("DataSource", new
 {
     organisationType = OrganisationTypes.School,

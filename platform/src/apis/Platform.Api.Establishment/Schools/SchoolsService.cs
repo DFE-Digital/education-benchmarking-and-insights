@@ -26,7 +26,7 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
         using var conn = await dbFactory.GetConnection();
         var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new { URN = urn });
 
-        if (school != null && string.IsNullOrEmpty(school.FederationLeadURN))
+        if (school != null && !string.IsNullOrEmpty(school.FederationLeadURN))
         {
             school.Schools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
         }
