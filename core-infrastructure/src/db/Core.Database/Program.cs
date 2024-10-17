@@ -15,6 +15,7 @@ static Task Deploy(Options options)
      .SqlDatabase(options.ConnectionString)
      .JournalToSqlTable("dbo", "SchemaVersions")
      .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.StartsWith("Core.Database.Scripts"))
+     .SetTimeout(60 * 10)
      .LogToConsole()
      .Build()
      .Execute();
