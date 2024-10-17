@@ -110,6 +110,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.TrustCompanyNumber, isPartOfTrust ? "12345678" : "")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OfstedDescription, "0")
+            .With(x => x.FederationLeadURN, string.Empty)
             .Create();
 
         var balance = Fixture.Build<SchoolBalance>()
