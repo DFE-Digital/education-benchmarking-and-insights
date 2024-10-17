@@ -1,46 +1,53 @@
 ﻿@model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
-}
-
-@if (Model is { PeriodCoveredByReturn: < 12 })
-{
-@await Html.PartialAsync("_IncompleteFinances")
+    var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
+    var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
+    var hasFinancialData = Model.PeriodCoveredByReturn == 12;
+    var hasMissingComparatorSet = !hasUserDefinedSet && !hasFinancialData;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
-    title = ViewData[ViewDataKeys.Title], 
-    name = Model.Name, 
-    id = Model.Urn, 
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
     kind = OrganisationTypes.School
 })
 
-@await Component.InvokeAsync("DataSource", new
+@if (!hasMissingComparatorSet)
 {
-    organisationType = OrganisationTypes.School,
-    sourceType = DataSourceTypes.Spending,
-    isPartOfTrust = Model.IsPartOfTrust, 
-    additionText = new[] { "Benchmark your spending against similar schools." }
-})
+    @await Component.InvokeAsync("DataSource", new
+    {
+        organisationType = OrganisationTypes.School,
+        sourceType = DataSourceTypes.Spending,
+        isPartOfTrust = Model.IsPartOfTrust,
+        additionText = new[]
+        {
+            "Benchmark your spending against similar schools."
+        }
+    })
+}
 
 @await Component.InvokeAsync("ComparatorSetDetails", new
 {
-    identifier = Model.Urn, 
-    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
-    hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
+    identifier = Model.Urn,
+    hasUserDefinedSet,
+    hasCustomData,
+    hasMissingComparatorSet
 })
 
-<div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn">
-    
-</div>
+@if (!hasMissingComparatorSet)
+{
+    <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+}
 
 @await Component.InvokeAsync("SchoolFinanceTools", new
 {
-    identifier = Model.Urn, 
+    identifier = Model.Urn,
     tools = new[]
     {
-        FinanceTools.FinancialPlanning, 
+        FinanceTools.FinancialPlanning,
         FinanceTools.BenchmarkCensus
     }
 })
