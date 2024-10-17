@@ -17,10 +17,14 @@ def create_master_list(
     ks4: pd.DataFrame,
 ) -> pd.DataFrame:
 
-    mask = (maintained_schools_list["Did Not Supply flag"] == "0").values | (
-        maintained_schools_list["Did Not Supply flag"] == 0
-    ).values
-    maintained_schools_list = maintained_schools_list[mask].copy()
+    maintained_schools_list["Did Not Supply flag"] = maintained_schools_list[
+        "Did Not Supply flag"
+    ].map(lambda x: x if x == 0 else 1)
+
+    maintained_schools_list["PFI"] = maintained_schools_list["PFI"].map(
+        lambda x: x if x != "DNS" else "N"
+    )
+
     maintained_schools_list.replace("DNS", np.nan, inplace=True)
 
     maintained_schools_list = maintained_schools_list.astype(
@@ -53,9 +57,8 @@ def map_pfi(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 
 
 def map_submission_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
-    maintained_schools["Partial Years Present"] = maintained_schools[
-        "Period covered by return (months)"
-    ].map(lambda x: x != 12)
+    maintained_schools["Partial Years Present"] = maintained_schools.apply(
+        lambda x: x["Did Not Supply flag"] != 0 | x["Period covered by return (months)"] != 12, axis=1)
 
     maintained_schools.rename(
         columns={"Period covered by return (months)": "Period covered by return"},
