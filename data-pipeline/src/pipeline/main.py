@@ -495,7 +495,7 @@ def pre_process_data(worker_client, run_type, year):
     pre_process_bfr(run_type, year)
 
     time_taken = time.time() - start_time
-    logger.info(f"Pre-processing data done in {time_taken} seconds")
+    logger.info(f"Pre-processing data done in {time_taken:,.2f} seconds")
 
     return time_taken
 
@@ -586,7 +586,7 @@ def pre_process_custom_data(
     )
 
     time_taken = time.time() - start_time
-    logger.info(f"Pre-processing data done in {time_taken} seconds")
+    logger.info(f"Pre-processing data done in {time_taken:,.2f} seconds")
 
     return time_taken
 
@@ -687,7 +687,7 @@ def compute_comparator_sets(
     )
 
     time_taken = time.time() - start_time
-    logger.info(f"Computing comparators sets done in {time_taken} seconds")
+    logger.info(f"Computing comparators sets done in {time_taken:,.2f} seconds")
 
     return time_taken
 
@@ -786,7 +786,7 @@ def run_compute_rag(
     )
 
     time_taken = time.time() - start_time
-    logger.info(f"Computing RAG done in {time_taken} seconds")
+    logger.info(f"Computing RAG done in {time_taken:,.2f} seconds")
 
     return time_taken
 
