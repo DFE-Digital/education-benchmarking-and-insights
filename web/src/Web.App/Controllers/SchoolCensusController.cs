@@ -6,16 +6,17 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/census")]
 public class SchoolCensusController(
     IEstablishmentApi establishmentApi,
+    ICensusApi censusApi,
     ILogger<SchoolCensusController> logger,
     IUserDataService userDataService)
     : Controller
@@ -33,12 +34,11 @@ public class SchoolCensusController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCensus(urn);
 
-                var school = School(urn);
-                var userData = UserData(urn);
+                var school = await School(urn);
+                var census = await Census(urn);
+                var userData = await UserData(urn);
 
-                await Task.WhenAll(school, userData);
-
-                var viewModel = new SchoolCensusViewModel(school.Result, userData.Result.ComparatorSet, userData.Result.CustomData);
+                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -102,6 +102,10 @@ public class SchoolCensusController(
     private async Task<School> School(string urn) => await establishmentApi
         .GetSchool(urn)
         .GetResultOrThrow<School>();
+
+    private async Task<Census?> Census(string urn) => await censusApi
+        .Get(urn)
+        .GetResultOrDefault<Census>();
 
     private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
         .GetSchoolDataAsync(User, urn);
