@@ -8,18 +8,18 @@ namespace Platform.Tests.Establishment;
 public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunctionsTestBase
 {
     private readonly string _laCode;
-    private readonly LocalAuthorityResponse _localAuthority;
+    private readonly LocalAuthority _localAuthority;
 
     public WhenFunctionReceivesGetLocalAuthorityRequest()
     {
         var fixture = new Fixture();
         _laCode = fixture.Create<string>();
         var schools = fixture
-            .Build<LocalAuthoritySchoolModel>()
+            .Build<LocalAuthoritySchool>()
             .CreateMany(10)
             .ToArray();
         _localAuthority = fixture
-            .Build<LocalAuthorityResponse>()
+            .Build<LocalAuthority>()
             .With(l => l.Code, _laCode)
             .With(l => l.Schools, schools)
             .Create();
@@ -37,7 +37,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-        var actual = await result.ReadAsJsonAsync<LocalAuthorityResponse>();
+        var actual = await result.ReadAsJsonAsync<LocalAuthority>();
         Assert.NotNull(actual);
         Assert.Equal(_laCode, actual.Code);
     }
@@ -47,7 +47,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     {
         LocalAuthoritiesService
             .Setup(d => d.GetAsync(_laCode))
-            .ReturnsAsync((LocalAuthorityResponse?)null);
+            .ReturnsAsync((LocalAuthority?)null);
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), _laCode);
 

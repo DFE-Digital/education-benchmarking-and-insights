@@ -23,7 +23,7 @@ public class TrustsFunctions(
     [OpenApiOperation(nameof(SingleTrustAsync), "Trusts")]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Trust))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SingleTrustAsync(

@@ -8,18 +8,18 @@ namespace Platform.Tests.Establishment;
 public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
 {
     private readonly string _companyNumber;
-    private readonly TrustResponse _trust;
+    private readonly Trust _trust;
 
     public WhenFunctionReceivesGetTrustRequest()
     {
         var fixture = new Fixture();
         _companyNumber = fixture.Create<string>();
         var schools = fixture
-            .Build<TrustSchoolModel>()
+            .Build<TrustSchool>()
             .CreateMany(10)
             .ToArray();
         _trust = fixture
-            .Build<TrustResponse>()
+            .Build<Trust>()
             .With(l => l.CompanyNumber, _companyNumber)
             .With(l => l.Schools, schools)
             .Create();
@@ -37,7 +37,7 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-        var actual = await result.ReadAsJsonAsync<TrustResponse>();
+        var actual = await result.ReadAsJsonAsync<Trust>();
         Assert.NotNull(actual);
         Assert.Equal(_companyNumber, actual.CompanyNumber);
     }
@@ -47,7 +47,7 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     {
         TrustsService
             .Setup(d => d.GetAsync(_companyNumber))
-            .ReturnsAsync((TrustResponse?)null);
+            .ReturnsAsync((Trust?)null);
 
         var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), _companyNumber);
 

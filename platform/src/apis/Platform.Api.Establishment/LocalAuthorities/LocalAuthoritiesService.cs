@@ -2,21 +2,21 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Platform.Api.Establishment.Schools;
 using Platform.Search;
 using Platform.Sql;
+
 namespace Platform.Api.Establishment.LocalAuthorities;
 
 public interface ILocalAuthoritiesService
 {
     Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null);
-    Task<LocalAuthorityResponse?> GetAsync(string code);
+    Task<LocalAuthority?> GetAsync(string code);
 }
 
 [ExcludeFromCodeCoverage]
 public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchConnection, IDatabaseFactory dbFactory) : ILocalAuthoritiesService
 {
-    public async Task<LocalAuthorityResponse?> GetAsync(string code)
+    public async Task<LocalAuthority?> GetAsync(string code)
     {
         const string trustSql = "SELECT * from LocalAuthority where Code = @Code";
         var parameters = new
@@ -32,8 +32,8 @@ public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchCon
         }
 
         const string schoolsSql = "SELECT URN, SchoolName, OverallPhase FROM School WHERE LaCode = @Code AND FinanceType = 'Maintained' AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        var schools = await conn.QueryAsync<School>(schoolsSql, parameters);
-        return LocalAuthorityResponseFactory.Create(localAuthority, schools);
+        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsSql, parameters);
+        return localAuthority;
     }
 
     public Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null)

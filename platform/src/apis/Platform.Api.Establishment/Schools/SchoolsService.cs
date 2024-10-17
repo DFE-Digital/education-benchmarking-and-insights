@@ -20,11 +20,18 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
 {
     public async Task<School?> GetAsync(string urn)
     {
-        const string sql = "SELECT * from School where URN = @URN";
-        var parameters = new { URN = urn };
+        const string schoolSql = "SELECT * FROM School WHERE URN = @URN";
+        const string childSchoolsSql = "SELECT * FROM School WHERE FederationLeadURN = @URN";
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<School>(sql, parameters);
+        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new { URN = urn });
+
+        if (school != null && string.IsNullOrEmpty(school.FederationLeadURN))
+        {
+            school.Schools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
+        }
+
+        return school;
     }
 
     public async Task<IEnumerable<School>> QueryAsync(string? companyNumber, string? laCode, string? phase)

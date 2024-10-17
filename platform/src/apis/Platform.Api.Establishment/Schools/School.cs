@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Dapper.Contrib.Extensions;
 
 namespace Platform.Api.Establishment.Schools;
 
 [ExcludeFromCodeCoverage]
-[Table("School")]
 public record School
 {
-    [ExplicitKey] public string? URN { get; set; }
+    public string? URN { get; set; }
     public string? SchoolName { get; set; }
     public string? FinanceType { get; set; }
     public string? OverallPhase { get; set; }
@@ -38,6 +36,8 @@ public record School
     public string? AddressTown { get; set; }
     public string? AddressCounty { get; set; }
     public string? AddressPostcode { get; set; }
+
+    public IEnumerable<School>? Schools { get; set; }
 
     public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
 }

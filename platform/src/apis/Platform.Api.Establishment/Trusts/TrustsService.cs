@@ -2,21 +2,21 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Platform.Api.Establishment.Schools;
 using Platform.Search;
 using Platform.Sql;
+
 namespace Platform.Api.Establishment.Trusts;
 
 public interface ITrustsService
 {
     Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null);
-    Task<TrustResponse?> GetAsync(string companyNumber);
+    Task<Trust?> GetAsync(string companyNumber);
 }
 
 [ExcludeFromCodeCoverage]
 public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseFactory dbFactory) : ITrustsService
 {
-    public async Task<TrustResponse?> GetAsync(string companyNumber)
+    public async Task<Trust?> GetAsync(string companyNumber)
     {
         const string sql = "SELECT * from Trust where CompanyNumber = @CompanyNumber";
         var parameters = new
@@ -32,8 +32,8 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
         }
 
         const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        var schools = await conn.QueryAsync<School>(schoolsSql, parameters);
-        return TrustResponseFactory.Create(trust, schools);
+        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsSql, parameters);
+        return trust;
     }
 
     public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null)
