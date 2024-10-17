@@ -55,6 +55,14 @@ public class SchoolViewModel(School school)
         CustomDataGenerated = customDataGenerated;
     }
 
+    public SchoolViewModel(
+        School school,
+        SchoolBalance? balance)
+        : this(school)
+    {
+        NumberOfPupils = balance?.TotalPupils;
+    }
+
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public string? OverallPhase => school.OverallPhase;
@@ -67,6 +75,12 @@ public class SchoolViewModel(School school)
     public string? TrustName => school.TrustName;
 
     public int? PeriodCoveredByReturn { get; }
+    public string? FederationLeadUrn => school.FederationLeadURN;
+    public bool HasNursery => school.HasNursery;
+    public string? SchoolType => school.SchoolType;
+    public bool HasSixthForm => school.HasSixthForm;
+    public decimal? NumberOfPupils { get; }
+
 
     public string Website
     {
