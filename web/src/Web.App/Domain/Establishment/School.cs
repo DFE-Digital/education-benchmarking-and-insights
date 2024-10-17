@@ -36,4 +36,5 @@ public record School
     public string? Address { get; set; }
     public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
     public bool IsPartOfTrust => !string.IsNullOrEmpty(TrustCompanyNumber);
+    public FederationSchool[] Schools { get; set; } = [];
 }
