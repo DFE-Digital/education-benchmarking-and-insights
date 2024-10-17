@@ -593,7 +593,6 @@ def pre_process_custom_data(
 
 def compute_comparator_set_for(
     data_type: str,
-    set_type: str,
     run_type: str,
     data: pd.DataFrame,
     run_id: str,
@@ -606,7 +605,6 @@ def compute_comparator_set_for(
     data to be written, the database.
 
     :param data_type: type (e.g. academy) of the data
-    :param set_type: "mixed" or "unmixed"
     :param run_type: "default" or "custom"
     :param data: used to determine comparator set
     :param run_id: job identifier for custom data
@@ -627,7 +625,6 @@ def compute_comparator_set_for(
     if len(result.index):
         insert_comparator_set(
             run_type=run_type,
-            set_type=set_type,
             run_id=run_id,
             df=result,
         )
@@ -662,15 +659,9 @@ def compute_comparator_sets(
             )
         )
     )
-    all_schools = prepare_data(
-        pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{run_id}/all_schools.parquet")
-        )
-    )
 
     compute_comparator_set_for(
         data_type="academy_comparators",
-        set_type="unmixed",
         run_type=run_type,
         data=academies,
         run_id=run_id,
@@ -678,17 +669,8 @@ def compute_comparator_sets(
     )
     compute_comparator_set_for(
         data_type="maintained_schools_comparators",
-        set_type="unmixed",
         run_type=run_type,
         data=maintained,
-        run_id=run_id,
-        target_urn=target_urn,
-    )
-    compute_comparator_set_for(
-        data_type="mixed_comparators",
-        set_type="mixed",
-        run_type=run_type,
-        data=all_schools,
         run_id=run_id,
         target_urn=target_urn,
     )
@@ -703,11 +685,6 @@ def compute_comparator_sets(
         f"{run_type}/{run_id}/maintained_schools.parquet",
         maintained.to_parquet(),
     )
-    write_blob(
-        "comparator-sets",
-        f"{run_type}/{run_id}/all_schools.parquet",
-        all_schools.to_parquet(),
-    )
 
     time_taken = time.time() - start_time
     logger.info(f"Computing comparators sets done in {time_taken} seconds")
@@ -717,7 +694,6 @@ def compute_comparator_sets(
 
 def compute_rag_for(
     data_type: str,
-    set_type: str,
     run_type: str,
     run_id: str,
     data: pd.DataFrame,
@@ -758,7 +734,7 @@ def compute_rag_for(
     )
 
     if len(df.index):
-        insert_metric_rag(run_type, set_type, run_id, df)
+        insert_metric_rag(run_type, run_id, df)
 
 
 def run_compute_rag(
@@ -787,7 +763,6 @@ def run_compute_rag(
     )
     compute_rag_for(
         "maintained_schools",
-        "unmixed",
         run_type,
         run_id,
         ms_data,
@@ -803,27 +778,10 @@ def run_compute_rag(
     )
     compute_rag_for(
         "academies",
-        "unmixed",
         run_type,
         run_id,
         academy_data,
         academy_comparators,
-        target_urn=target_urn,
-    )
-
-    mixed_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{run_id}/all_schools.parquet")
-    )
-    mixed_comparators = pd.read_parquet(
-        get_blob("comparator-sets", f"{run_type}/{run_id}/mixed_comparators.parquet")
-    )
-    compute_rag_for(
-        "mixed",
-        "mixed",
-        run_type,
-        run_id,
-        mixed_data,
-        mixed_comparators,
         target_urn=target_urn,
     )
 
@@ -845,9 +803,8 @@ def run_user_defined_rag(
     Use the pre-processed "all-schools" data to guarantee coverage of
     the user-defined comparator-set.
 
-    Note: `SetType` is _always_ "mixed" when persisted, for
-    user-defined comparator-sets; `run_type` is _always_ "default" for
-    the same.
+    Note: `run_type` is _always_ "default" for user-defined
+    comparator-sets.
 
     :param year: financial year in question
     :param run_id: unique run identifier
@@ -855,7 +812,6 @@ def run_user_defined_rag(
     :param comparator_set: user-defined comparator-set
     :return: duration of RAG calculations
     """
-    set_type = "mixed"
     run_type = "default"
 
     all_schools = prepare_data(
@@ -885,7 +841,6 @@ def run_user_defined_rag(
 
     insert_metric_rag(
         run_type=run_type,
-        set_type=set_type,
         run_id=run_id,
         df=df,
     )

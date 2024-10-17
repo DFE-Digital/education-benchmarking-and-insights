@@ -458,7 +458,7 @@ The currently configured mappings can be found [here](https://github.com/DFE-Dig
 
 Once all of the processing is complete the data is stored in the platform database so that it is available to query from reporting engines and the FBIT front end. The schema for this data consists of the following tables
 
-> Note: The RunType, RunID, SetType are metadata fields that allow the front end and other tools to identify which pipeline run that the data has been derived from. 
+> Note: The RunType, RunID are metadata fields that allow the front end and other tools to identify which pipeline run that the data has been derived from. 
 
 ```mermaid
 classDiagram
@@ -469,7 +469,6 @@ class ComparatorSet {
    nvarchar(50) RunType
    nvarchar(50) RunId
    nvarchar(6) URN
-   nvarchar(50) SetType
 }
 class FinancialPlan {
    nvarchar(max) Input
@@ -500,7 +499,6 @@ class MetricRAG {
    nvarchar(6) URN
    nvarchar(50) Category
    nvarchar(50) SubCategory
-   nvarchar(50) SetType
 }
 class School {
    nvarchar(255) SchoolName
