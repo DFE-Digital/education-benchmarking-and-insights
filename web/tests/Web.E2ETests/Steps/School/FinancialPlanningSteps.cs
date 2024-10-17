@@ -1,19 +1,16 @@
-﻿using Microsoft.Playwright;
-using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School.CurriculumFinancialPlanningSteps;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School curriculum and financial planning")]
 public class FinancialPlanningSteps(PageDriver driver)
 {
-    private StartPage? _startPage;
     private HelpPage? _helpPage;
-    private SelectYearPage? _selectYearPage;
     private PrePopulatedDataPage? _prePopulatedDataPage;
+    private SelectYearPage? _selectYearPage;
+    private StartPage? _startPage;
 
     [Given("I am on start page for school with URN '(.*)'")]
     public async Task GivenIAmOnStartPageForSchoolWithUrn(string urn)
@@ -120,7 +117,7 @@ public class FinancialPlanningSteps(PageDriver driver)
     }*/
 
     [Given("I have selected organisation '(.*)' after logging in for school with URN '(.*)'")]
-    public async Task GivenIAmLoggedInForSchoolWithUrn(string organisation, string urn)
+    public async Task GivenIHaveSelectedOrganisationAfterLoggingInForSchoolWithURN(string organisation, string urn)
     {
         var url = CfpLandingUrl(urn);
         var page = await driver.Current;
@@ -132,18 +129,11 @@ public class FinancialPlanningSteps(PageDriver driver)
         }
         else if (await page.Locator("h1:text-is('Access the DfE Sign-in service')").CheckVisible())
         {
-            // Login required
-            await page.Locator("input[id='username']").Fill(TestConfiguration.LoginEmail);
-            await page.Locator("button[type='submit']").Click();
-            await page.Locator("h1:text-is('Enter your password')").CheckVisible();
-            await page.Locator("input[id='password']").Fill(TestConfiguration.LoginPassword);
-            await page.Locator("button[type='submit']").Click();
-            await page.Locator("label", new PageLocatorOptions { HasTextString = organisation }).Check();
-            await page.Locator("input[type='submit']").Click();
+            await page.SignInWithOrganisation(organisation, true);
         }
         else
         {
-            throw new Exception($"Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
+            throw new Exception("Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
         }
     }
 
@@ -164,6 +154,4 @@ public class FinancialPlanningSteps(PageDriver driver)
     private static string HelpUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create/help";
     private static string SelectYearUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create/select-year";
     private static string CfpLandingUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning";
-
-
 }

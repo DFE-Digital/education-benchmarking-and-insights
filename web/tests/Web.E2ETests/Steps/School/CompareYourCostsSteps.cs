@@ -1,7 +1,7 @@
 using Microsoft.Playwright;
-using Reqnroll;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
+using Web.E2ETests.Pages.School.Comparators;
 using Xunit;
 namespace Web.E2ETests.Steps.School;
 
@@ -13,6 +13,13 @@ public class CompareYourCostsSteps(PageDriver driver)
     private CompareYourCostsPage? _comparisonPage;
     private IDownload? _download;
     private HomePage? _schoolHomePage;
+
+    [Given("I am not logged in")]
+    public async Task GivenIAmNotLoggedIn()
+    {
+        var page = await driver.Current;
+        await page.SignOut();
+    }
 
     [Given("I am on compare your costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
@@ -271,6 +278,42 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsWarningIconDisplayedOnGraphTick(nth);
+    }
+
+    [Then("the benchmarking charts are not displayed")]
+    public async Task ThenTheBenchmarkingChartsAreNotDisplayed()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.AreComparisonChartsAndTablesDisplayed(false);
+    }
+
+    [Given("I have selected organisation '(.*)' after logging in")]
+    public async Task GivenIHaveSelectedOrganisationAfterLoggingIn(string organisation)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.SignIn(organisation);
+    }
+
+    [Given("I have created a custom comparator set for '(.*)' containing")]
+    public async Task GivenIHaveCreatedACustomComparatorSetForContaining(string urn, DataTable table)
+    {
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(CreateComparatorsSteps.CreateComparatorsByNameUrl(urn));
+        var createComparatorsByNamePage = new CreateComparatorsByNamePage(page);
+
+        var urns = table.Rows.SelectMany(row => row.Select(cell => cell.Value));
+        foreach (var u in urns)
+        {
+            await createComparatorsByNamePage.TypeIntoSchoolSearchBox(u);
+            await createComparatorsByNamePage.SelectItemFromSuggester();
+            await createComparatorsByNamePage.ClickChooseSchoolButton();
+        }
+
+        await createComparatorsByNamePage.ClickCreateSetButton();
+
+        var url = CompareYourCostsUrl(urn);
+        await page.GotoAndWaitForLoadAsync(url);
+        _comparisonPage = new CompareYourCostsPage(page);
     }
 
     private void ChartDownloaded(string chartName)
