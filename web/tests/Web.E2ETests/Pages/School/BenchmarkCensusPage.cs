@@ -59,19 +59,28 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
+    private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
-    public async Task IsDisplayed()
+    public async Task IsDisplayed(bool isPartYear = false)
     {
         await PageH1Heading.ShouldBeVisible();
-        //await Breadcrumbs.ShouldBeVisible();
-        await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
-        await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
-        await ComparatorSetDetails.ShouldBeVisible();
-        await CustomComparatorLink.ShouldBeVisible();
-        await CustomDataLink.ShouldBeVisible();
 
-        await AreSaveAsImageButtonsDisplayed();
-        await AreChartsDisplayed();
+        if (!isPartYear)
+        {
+            await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
+            await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
+            await ComparatorSetDetails.ShouldBeVisible();
+            await CustomComparatorLink.ShouldBeVisible();
+            await CustomDataLink.ShouldBeVisible();
+
+            await AreSaveAsImageButtonsDisplayed();
+            await AreChartsDisplayed();
+            return;
+        }
+
+        await IncompleteFinancialBanner.First.ShouldBeVisible();
+        await IncompleteFinancialBanner.First.ShouldContainText(
+            "There isn't enough information available to create a set of similar schools.");
     }
 
     public async Task ClickSaveAsImage(CensusChartNames chartName)

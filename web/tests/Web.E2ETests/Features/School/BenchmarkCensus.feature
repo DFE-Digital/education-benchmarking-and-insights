@@ -1,5 +1,8 @@
 ﻿Feature: School benchmark pupil and workforce data
 
+    Background:
+        Given I am not logged in
+
     Scenario: Download school workforce chart
         Given I am on census page for school with URN '777042'
         When I click on save as image for 'school workforce'
@@ -52,13 +55,17 @@
           | non class room support staff | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | auxiliary staff              | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | school workforce headcount   | total, pupils per staff role                                             |
-        
+
     Scenario: View additional details upon hover
         Given I am on census page for school with URN '777042'
         When I hover over a chart bar
         Then additional information is displayed
-        
-     Scenario: Clicking school name in chart directs to homepage
+
+    Scenario: Clicking school name in chart directs to homepage
         Given I am on census page for school with URN '777042'
         When I select the school name on the chart
         Then I am navigated to selected school home page
+
+    Scenario: Benchmarking for school(s) with missing census data does not display comparators
+        Given I am on census page for part year school with URN '990754'
+        Then the benchmarking charts are not displayed
