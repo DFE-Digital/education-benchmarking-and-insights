@@ -1,9 +1,7 @@
 using Microsoft.Playwright;
-using Reqnroll;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -14,17 +12,25 @@ public class BenchmarkCensusSteps(PageDriver driver)
     private IDownload? _download;
     private HomePage? _schoolHomePage;
 
+    [Given("I am not logged in")]
+    public async Task GivenIAmNotLoggedIn()
+    {
+        var page = await driver.Current;
+        await page.SignOut();
+    }
+
     [Given("I am on census page for school with URN '(.*)'")]
     public async Task GivenIAmOnCensusPageForSchoolWithUrn(string urn)
     {
-        var url = BenchmarkCensusUrl(urn);
-        var page = await driver.Current;
-        await page.GotoAndWaitForLoadAsync(url);
-
-        await driver.WaitForPendingRequests(500);
-
-        _censusPage = new BenchmarkCensusPage(page);
+        _censusPage = await LoadCensusPageForSchoolWithUrn(urn);
         await _censusPage.IsDisplayed();
+    }
+
+    [Given("I am on census page for part year school with URN '(.*)'")]
+    public async Task GivenIAmOnCensusPageForPartYearSchoolWithUrn(string urn)
+    {
+        _censusPage = await LoadCensusPageForSchoolWithUrn(urn);
+        await _censusPage.IsDisplayed(true);
     }
 
     [When("I click on save as image for '(.*)'")]
@@ -125,10 +131,28 @@ public class BenchmarkCensusSteps(PageDriver driver)
         await _censusPage.HasDimensionValuesForChart(ChartNameFromFriendlyName(chartName), options);
     }
 
+    [Then("the benchmarking charts are not displayed")]
+    public async Task ThenTheBenchmarkingChartsAreNotDisplayed()
+    {
+        Assert.NotNull(_censusPage);
+        await _censusPage.AreComparisonChartsAndTablesDisplayed(false);
+    }
+
     [StepArgumentTransformation]
     public static string[] TransformTDropdownOptionsToListOfStrings(string commaSeperatedList)
     {
         return commaSeperatedList.Split(',').Select(option => option.Trim()).ToArray();
+    }
+
+    private async Task<BenchmarkCensusPage> LoadCensusPageForSchoolWithUrn(string urn)
+    {
+        var url = BenchmarkCensusUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        await driver.WaitForPendingRequests(500);
+
+        return new BenchmarkCensusPage(page);
     }
 
     private void ChartDownloaded(string chartName)
@@ -190,6 +214,4 @@ public class BenchmarkCensusSteps(PageDriver driver)
     }
 
     private static string BenchmarkCensusUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/census";
-
-
 }

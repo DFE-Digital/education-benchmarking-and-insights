@@ -1,7 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
-
-namespace Web.E2ETests.Pages.School;
+namespace Web.E2ETests.Pages.School.Comparators;
 
 public class ComparatorsPage(IPage page)
 {
@@ -15,6 +14,7 @@ public class ComparatorsPage(IPage page)
     private ILocator BuildingCostTab => page.Locator(Selectors.BuildingCostCategoriesTab);
     private ILocator RunningCostComparators => page.Locator(Selectors.Table).First.Locator("tr");
     private ILocator BuildingCostComparators => page.Locator(Selectors.Table).Nth(1).Locator("tr");
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -23,13 +23,7 @@ public class ComparatorsPage(IPage page)
         await BuildingCostTab.ShouldBeVisible();
     }
 
-    public async Task CheckRunningCostComparators(bool isPresent)
-    {
-        Assert.Equal(isPresent ? 31 : 1, await RunningCostComparators.Count());
-    }
+    public async Task CheckRunningCostComparators(bool isPresent) => Assert.Equal(isPresent ? 31 : 1, await RunningCostComparators.Count());
 
-    public async Task CheckBuildingCostComparators(bool isPresent)
-    {
-        Assert.Equal(isPresent ? 31 : 1, await BuildingCostComparators.Count());
-    }
+    public async Task CheckBuildingCostComparators(bool isPresent) => Assert.Equal(isPresent ? 31 : 1, await BuildingCostComparators.Count());
 }

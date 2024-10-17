@@ -52,14 +52,14 @@ public class HomePage(IPage page)
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator RagGuidance => page.Locator("#rag-guidance");
 
-    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null)
+    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null, bool isUserDefinedComparator = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
 
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
-        if (!isPartYear)
+        if (!isPartYear && !isUserDefinedComparator)
         {
             expectedH2Texts.Insert(0, "Spending priorities for this school");
         }
@@ -81,17 +81,20 @@ public class HomePage(IPage page)
         await SchoolDetailsLink.ShouldBeVisible();
         await DataSourcesAndInterpretation.ShouldBeVisible();
         await FindWaysToSpendLessLink.ShouldBeVisible();
-        if (!isPartYear)
-        {
 
+        if (!isPartYear && !isUserDefinedComparator)
+        {
             await SpendingPrioritiesLink.ShouldBeVisible();
         }
         else
         {
             await SpendingPrioritiesLink.ShouldNotBeVisible();
-            await IncompleteFinancialBanner.ShouldBeVisible();
-        }
 
+            if (isPartYear)
+            {
+                await IncompleteFinancialBanner.ShouldBeVisible();
+            }
+        }
     }
 
     public async Task<DetailsPage> ClickSchoolDetails()

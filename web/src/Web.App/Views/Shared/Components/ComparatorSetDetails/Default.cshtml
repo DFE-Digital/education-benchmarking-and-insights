@@ -2,61 +2,74 @@
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.ComparatorSetDetailsViewModel
 
-<div class="govuk-grid-row govuk-!-margin-bottom-3">
-    <div class="govuk-grid-column-two-thirds">
-
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    <div class="govuk-grid-column-full">
         @if (Model.HasUserDefinedSet)
         {
-        <p class="govuk-body">
-            You are now comparing with your chosen schools.
-        </p>
-
-        <feature name="@FeatureFlags.UserDefinedComparators">
-            <p class="govuk-body govuk-!-margin-bottom-0">
-                <a class="govuk-link govuk-link--no-visited-state"
-                   href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Identifier })">
-                    Change your similar schools
-                </a>
-            </p>
-        </feature>
-        }
-        else if (Model.HasCustomData){
-        <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state"
-               href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
-                We've chosen 2 sets of similar schools
-            </a> to benchmark this school's spending against.
-        </p>
-        <feature name="@FeatureFlags.CustomData">
             <p class="govuk-body">
-                The information displayed is the originally reported data, not the customised data that was provided.
+                You are now comparing with your chosen schools.
             </p>
 
-            <p class="govuk-body govuk-!-margin-bottom-0">
+            <feature name="@FeatureFlags.UserDefinedComparators">
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Identifier })">
+                        Change your similar schools
+                    </a>
+                </p>
+            </feature>
+        }
+        else if (Model.HasCustomData)
+        {
+            <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
-                   id="custom-data-link"
-                       href="@Url.Action("CustomData", "School", new { urn = Model.Identifier })">
-                    View custom data set
-                </a>
+                   href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
+                    We've chosen 2 sets of similar schools
+                </a> to benchmark this school's spending against.
             </p>
+            <feature name="@FeatureFlags.CustomData">
+                <p class="govuk-body">
+                    The information displayed is the originally reported data, not the customised data that was provided.
+                </p>
+
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       id="custom-data-link"
+                       href="@Url.Action("CustomData", "School", new { urn = Model.Identifier })">
+                        View custom data set
+                    </a>
+                </p>
             </feature>
         }
         else
         {
             if (Model.Type == ComparatorSetType.Workforce)
             {
-                <p class="govuk-body">
-                    <a class="govuk-link govuk-link--no-visited-state"
-                       href="@Url.Action("Workforce", "SchoolComparators", new { urn = Model.Identifier })">
-                        We've chosen this set of similar schools
-                    </a> to benchmark this school's pupil and workforce data against.
-                </p>
+                if (Model.HasMissingComparatorSet)
+                {
+                    <div class="govuk-warning-text">
+                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                        <strong class="govuk-warning-text__text">
+                            <span class="govuk-visually-hidden">Warning</span>
+                            There isn't enough information available to create a set of similar schools.
+                        </strong>
+                    </div>
+                }
+                else
+                {
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Workforce", "SchoolComparators", new { urn = Model.Identifier })">
+                            We've chosen this set of similar schools</a>
+                        to benchmark this school's pupil and workforce data against.
+                    </p>
+                }
 
                 <feature name="@FeatureFlags.UserDefinedComparators">
                     <p class="govuk-body">
                         <a class="govuk-link govuk-link--no-visited-state"
                            href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Identifier })">
-                            Choose a new or saved set of your own schools
+                            Create or save your own set of schools to benchmark against
                         </a>
                     </p>
                 </feature>
@@ -72,18 +85,31 @@
             }
             else
             {
-                <p class="govuk-body">
-                    <a class="govuk-link govuk-link--no-visited-state"
-                       href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
-                        We've chosen 2 sets of similar schools
-                    </a> to benchmark this school's spending against.
-                </p>
+                if (Model.HasMissingComparatorSet)
+                {
+                    <div class="govuk-warning-text">
+                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                        <strong class="govuk-warning-text__text">
+                            <span class="govuk-visually-hidden">Warning</span>
+                            There isn't enough information available to create a set of similar schools.
+                        </strong>
+                    </div>
+                }
+                else
+                {
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
+                            We've chosen 2 sets of similar schools</a>
+                        to benchmark this school's spending against.
+                    </p>
+                }
 
                 <feature name="@FeatureFlags.UserDefinedComparators">
                     <p class="govuk-body">
                         <a class="govuk-link govuk-link--no-visited-state"
                            href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Identifier })">
-                            Choose a new or saved set of your own schools
+                            Create or save your own set of schools to benchmark against
                         </a>
                     </p>
                 </feature>

@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModel(School school, string? userDefinedSetId = null, string? customDataId = null, SchoolExpenditure? expenditure = null)
@@ -9,5 +8,5 @@ public class SchoolComparisonViewModel(School school, string? userDefinedSetId =
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
-    public int? PeriodCoveredByReturn => expenditure.PeriodCoveredByReturn;
+    public int? PeriodCoveredByReturn => expenditure?.PeriodCoveredByReturn;
 }

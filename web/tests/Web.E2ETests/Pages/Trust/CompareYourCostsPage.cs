@@ -211,7 +211,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task<School.HomePage> PressEnterKey()
     {
-        await page.Keyboard.PressAsync("Enter");
+        await page.Keyboard.PressAsync(Keyboard.EnterKey);
         return new School.HomePage(page);
     }
 

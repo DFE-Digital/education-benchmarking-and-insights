@@ -1,6 +1,5 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
-
 namespace Web.E2ETests.Pages.School;
 
 public enum CensusChartNames
@@ -33,34 +32,55 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
 
     private ILocator SaveAsImageButtons =>
-        page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save" });
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save"
+        });
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
-            new PageLocatorOptions { HasText = "We've chosen this set of similar schools" });
+            new PageLocatorOptions
+            {
+                HasText = "We've chosen this set of similar schools"
+            });
 
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose a new or saved set of your own schools" });
+        new PageLocatorOptions
+        {
+            HasText = "Create or save your own set of schools to benchmark against"
+        });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Change the data for this school" });
+        new PageLocatorOptions
+        {
+            HasText = "Change the data for this school"
+        });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
+    private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
-    public async Task IsDisplayed()
+    public async Task IsDisplayed(bool isPartYear = false)
     {
         await PageH1Heading.ShouldBeVisible();
-        //await Breadcrumbs.ShouldBeVisible();
-        await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
-        await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
-        await ComparatorSetDetails.ShouldBeVisible();
-        await CustomComparatorLink.ShouldBeVisible();
-        await CustomDataLink.ShouldBeVisible();
 
-        await AreSaveAsImageButtonsDisplayed();
-        await AreChartsDisplayed();
+        if (!isPartYear)
+        {
+            await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
+            await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
+            await ComparatorSetDetails.ShouldBeVisible();
+            await CustomComparatorLink.ShouldBeVisible();
+            await CustomDataLink.ShouldBeVisible();
+
+            await AreSaveAsImageButtonsDisplayed();
+            await AreChartsDisplayed();
+            return;
+        }
+
+        await IncompleteFinancialBanner.First.ShouldBeVisible();
+        await IncompleteFinancialBanner.First.ShouldContainText(
+            "There isn't enough information available to create a set of similar schools.");
     }
 
     public async Task ClickSaveAsImage(CensusChartNames chartName)
@@ -173,6 +193,19 @@ public class BenchmarkCensusPage(IPage page)
     {
         await SchoolLinksInCharts.First.Click();
         return new HomePage(page);
+    }
+
+    public async Task AreComparisonChartsAndTablesDisplayed(bool displayed = true)
+    {
+        var locator = page.Locator(Selectors.ComparisonChartsAndTables);
+        if (displayed)
+        {
+            await locator.ShouldBeVisible();
+        }
+        else
+        {
+            await locator.ShouldNotBeVisible();
+        }
     }
 
     private ILocator ChartDimensionDropdown(CensusChartNames chartName)
