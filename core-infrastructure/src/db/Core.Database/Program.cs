@@ -3,7 +3,6 @@ using CommandLine;
 using CommandLine.Text;
 using Core.Database;
 using DbUp;
-using Platform.Database;
 
 var result = Parser.Default.ParseArguments<Options>(args);
 await result.MapResult(Deploy, _ => HandleErrors(result));

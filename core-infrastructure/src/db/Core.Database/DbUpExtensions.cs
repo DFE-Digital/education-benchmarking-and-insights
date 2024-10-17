@@ -1,14 +1,14 @@
 using DbUp.Builder;
 using DbUp.Engine;
 
-namespace Platform.Database;
+namespace Core.Database;
 
 public static class DbUpExtensions
 {
 
     public static UpgradeEngineBuilder SetTimeout(this UpgradeEngineBuilder builder, int seconds)
     {
-        builder.Configure(x => x.ScriptExecutor.ExecutionTimeoutSeconds = 60 * 60);
+        builder.Configure(x => x.ScriptExecutor.ExecutionTimeoutSeconds = seconds);
         return builder;
     }
 
