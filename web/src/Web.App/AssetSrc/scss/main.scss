@@ -100,6 +100,12 @@ p.priority .govuk-tag {
   margin: 0 10px 0 0;
 }
 
+#rag-guidance > p:first-of-type {
+  @include govuk-media-query($from: tablet) {
+    margin-top: 0;
+  }
+}
+
 .top-categories {
   div {
     background-color: #EEEFEF;
