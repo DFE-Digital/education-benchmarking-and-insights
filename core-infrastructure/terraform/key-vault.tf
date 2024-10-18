@@ -18,6 +18,10 @@ resource "azurerm_key_vault" "key-vault" {
   }
 
   tags = local.common-tags
+
+  lifecycle {
+    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "terraform_sp_access" {

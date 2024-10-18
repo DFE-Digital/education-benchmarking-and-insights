@@ -92,6 +92,10 @@ resource "azurerm_mssql_server" "sql-server" {
   identity {
     type = "SystemAssigned"
   }
+
+  lifecycle {
+    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+  }
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
@@ -130,6 +134,10 @@ resource "azurerm_mssql_database" "sql-db" {
 
   long_term_retention_policy {
     weekly_retention = "P52W"
+  }
+
+  lifecycle {
+    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
   }
 }
 
