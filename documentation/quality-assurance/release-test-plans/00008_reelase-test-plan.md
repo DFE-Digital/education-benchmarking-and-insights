@@ -47,9 +47,7 @@ This test plan covers the testing in pre production and production to validate a
 
 1. [231298 Ensure daily backup of the databases to an Azure storage account.](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231298) - Daily backup of the databases have been set up. No further action is needed. 
 2. [231790 Ensure daily backup of the raw input files on an Azure storage account](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231790) - Daily backup of raw input files have been set up. No further action is needed. 
-3. [231299 Review & ensure database backup policy is correct](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231299) - The policy for db backup is is reviewed and tested. No further action is needed. 
-4. 
-
+3. [231299 Review & ensure database backup policy is correct](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231299) - The policy for db backup is is reviewed and tested. No further action is needed.
 
 ## Test Deliverables
 **Documents:**
