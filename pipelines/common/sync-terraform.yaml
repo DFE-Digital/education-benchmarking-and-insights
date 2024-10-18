@@ -6,6 +6,7 @@ parameters:
   module: ''
   location: 'westeurope'
   disablePurgeProtection: ''
+  disablePreventDestroy: ''
   resourceGroupSuffix: ''
 
 steps:
@@ -22,6 +23,7 @@ steps:
         echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
         echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
         echo "##vso[task.setvariable variable=disablePurgeProtection]${{ parameters.disablePurgeProtection }}"
+        echo "##vso[task.setvariable variable=disablePreventDestroy]${{ parameters.disablePreventDestroy }}"
 
         resourceGroupSuffix=${{ parameters.module }}
         if [[ "${{ parameters.resourceGroupSuffix }}" != "" ]]; then

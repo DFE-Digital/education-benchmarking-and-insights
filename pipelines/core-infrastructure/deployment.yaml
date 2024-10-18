@@ -4,6 +4,7 @@ parameters:
   environment: 'feature'
   cipEnvironment: ''
   disablePurgeProtection: ''
+  disablePreventDestroy: ''
   dependsOn: []
   workspaceDir: '$(Pipeline.Workspace)'
 
@@ -35,6 +36,7 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
+                disablePreventDestroy: ${{ parameters.disablePreventDestroy }}
                 module: 'core'
 
             - task: AzureKeyVault@2

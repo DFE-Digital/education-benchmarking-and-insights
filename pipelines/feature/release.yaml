@@ -103,6 +103,7 @@ stages:
           cipEnvironment: 'Dev'
           dependsOn: [ ZipStaticCoreArtifacts, BuildCore ]
           disablePurgeProtection: 'true'
+          disablePreventDestroy: 'true'
 
   - stage: BuildDataPipeline
     dependsOn: [ BuildNumber, DeployCore ]
