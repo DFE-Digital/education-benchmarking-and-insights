@@ -28,7 +28,7 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
 
         if (school != null && !string.IsNullOrEmpty(school.FederationLeadURN))
         {
-            school.Schools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
+            school.FederationSchools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
         }
 
         return school;

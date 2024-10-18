@@ -37,7 +37,7 @@ public record School
     public string? AddressCounty { get; set; }
     public string? AddressPostcode { get; set; }
 
-    public IEnumerable<School>? Schools { get; set; }
+    public IEnumerable<School>? FederationSchools { get; set; }
 
     public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
 }
