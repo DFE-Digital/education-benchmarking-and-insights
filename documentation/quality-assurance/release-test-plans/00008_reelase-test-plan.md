@@ -40,7 +40,7 @@ This test plan covers the testing in pre production and production to validate a
 9. [230287 Update Accessibility page content - Browsers tested](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/230287) - content updated on accessibility page. we will check the updates again in pre production
 10. [232328 Other cost category should not be shown](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232328) - Other cost category is not shown anymore on recommended tab. We will verify the changes again in pre production.
 11. [232973 Remove mixed datasets (comparator sets & RAG)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232973) - We have now removed the mixed comparators and RAG. This has been validated in dev/test and will be checked again in pre production. 
-12. [232741 School part of federation (link to federation page)] (https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232741)- The schools part of federation are now linked with the federation page. This is tested in dev/test and will be checked again in pre production. 
+12. [232741 School part of federation link to federation page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232741)- The schools part of federation are now linked with the federation page. This is tested in dev/test and will be checked again in pre production. 
 13. [232745 Federation homepage](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232745) - Added federation hompeage to the service. WIP
 
 **Updates Not to be Tested:**
