@@ -1,0 +1,17 @@
+parameters:
+  TerraformDirectory: ''
+  DisablePreventDestroy: ''
+
+steps:
+  # Set `prevent_destroy` to `false` instead of `true` according to the .yaml input parameter.
+  # This cannot be achieved via Terraform variables - see https://github.com/hashicorp/terraform/issues/22544
+  - script: |
+      cd ${{ parameters.TerraformDirectory }}
+      find . -type f -name "*.tf" -print0 | while IFS= read -r -d '' file; do
+        if grep -q 'prevent_destroy = true' "$file"; then
+          sed -i 's/prevent_destroy = true/prevent_destroy = false/g' "$file"
+          echo "Updated: $file"
+        fi
+      done
+    displayName: 'Disable Terraform prevent_destroy'
+    condition: and(succeeded(), eq('${{ parameters.DisablePreventDestroy }}', 'true'))
