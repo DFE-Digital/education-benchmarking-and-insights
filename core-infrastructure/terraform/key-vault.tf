@@ -20,7 +20,7 @@ resource "azurerm_key_vault" "key-vault" {
   tags = local.common-tags
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 

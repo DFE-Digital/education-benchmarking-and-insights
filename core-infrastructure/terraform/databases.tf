@@ -94,7 +94,7 @@ resource "azurerm_mssql_server" "sql-server" {
   }
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
@@ -137,7 +137,7 @@ resource "azurerm_mssql_database" "sql-db" {
   }
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 

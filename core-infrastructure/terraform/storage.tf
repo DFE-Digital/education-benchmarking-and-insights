@@ -39,7 +39,7 @@ resource "azurerm_storage_account" "data" {
   }
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
@@ -69,7 +69,7 @@ resource "azurerm_storage_container" "pipeline-raw-data" {
   storage_account_name = azurerm_storage_account.data.name
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
@@ -165,7 +165,7 @@ resource "azurerm_storage_account" "backup" {
   }
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
@@ -175,7 +175,7 @@ resource "azurerm_storage_container" "pipeline-database-backup" {
   storage_account_name = azurerm_storage_account.backup.name
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
@@ -185,7 +185,7 @@ resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   storage_account_name = azurerm_storage_account.backup.name
 
   lifecycle {
-    prevent_destroy = var.disable-prevent-destroy == "true" ? false : true
+    prevent_destroy = true
   }
 }
 
