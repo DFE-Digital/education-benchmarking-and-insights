@@ -80,7 +80,7 @@ public class SchoolViewModel(School school)
     public string? SchoolType => school.SchoolType;
     public bool HasSixthForm => school.HasSixthForm;
     public decimal? NumberOfPupils { get; }
-    public FederationSchool[] FederationSchools => school.Schools;
+    public FederationSchool[] FederationSchools => school.FederationSchools;
 
     public string Website
     {
