@@ -1,9 +1,6 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Dapper;
 using Dapper.Contrib.Extensions;
-using Platform.Functions.Extensions;
 using Platform.Sql;
 
 namespace Platform.Api.Benchmark.CustomData;
@@ -18,24 +15,14 @@ public interface ICustomDataService
 }
 
 [ExcludeFromCodeCoverage]
-public class CustomDataService : ICustomDataService
+public class CustomDataService(IDatabaseFactory dbFactory) : ICustomDataService
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public CustomDataService(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
-
-
     public async Task UpsertCustomDataAsync(CustomDataSchool data)
     {
-        const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id ";
+        var template = Queries.GetCustomData(data.URN, data.Id); 
 
-        var parameters = new { data.URN, data.Id };
-
-        using var conn = await _dbFactory.GetConnection();
-        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);
+        using var conn = await dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(template);
 
         using var transaction = conn.BeginTransaction();
         if (existing != null)
@@ -53,21 +40,18 @@ public class CustomDataService : ICustomDataService
 
     public async Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier)
     {
-        const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id";
-        var parameters = new { URN = urn, Id = identifier };
-
-        using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);
+        var template = Queries.GetCustomData(urn, identifier); 
+        
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(template);
     }
 
     public async Task UpsertUserDataAsync(CustomDataUserData userData)
     {
-        const string sql = "SELECT * from UserData where Id = @Id";
-
-        var parameters = new { userData.Id };
-
-        using var conn = await _dbFactory.GetConnection();
-        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataUserData>(sql, parameters);
+        var template = Queries.GetUserDataById(userData.Id);
+        
+        using var conn = await dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataUserData>(template);
 
         using var transaction = conn.BeginTransaction();
         if (existing != null)
@@ -86,21 +70,19 @@ public class CustomDataService : ICustomDataService
 
     public async Task<string> CurrentYearAsync()
     {
-        const string sql = "SELECT Value from Parameters where Name = 'CurrentYear'";
-        using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstAsync<string>(sql);
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryFirstAsync<string>(Queries.GetCurrentYear);
     }
 
     public async Task DeleteSchoolAsync(CustomDataSchool data)
     {
-        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
-        var parameters = new { data.Id };
-
-        using var connection = await _dbFactory.GetConnection();
+        var template = Queries.UpdateUserDataSetStatusRemoved(data.Id);
+        
+        using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
         await connection.DeleteAsync(data, transaction);
-        await connection.ExecuteAsync(sql, parameters, transaction);
+        await connection.ExecuteAsync(template, transaction);
 
         transaction.Commit();
     }

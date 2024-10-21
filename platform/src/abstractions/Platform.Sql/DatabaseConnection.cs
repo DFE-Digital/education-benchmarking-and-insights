@@ -54,6 +54,15 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<T> QueryFirstAsync<T>(string sql, object? param = null) => connection.QueryFirstAsync<T>(sql, param);
 
     public Task OpenAsync() => connection.OpenAsync();
+
+    public Task<T?> QueryFirstOrDefaultAsync<T>(SqlBuilder.Template template) =>
+        connection.QueryFirstOrDefaultAsync<T>(template.RawSql, template.Parameters);
+    
+    public Task<IEnumerable<T>> QueryAsync<T>(SqlBuilder.Template template) =>
+        connection.QueryAsync<T>(template.RawSql, template.Parameters);
+
+    public Task<int> ExecuteAsync(SqlBuilder.Template template, IDbTransaction? transaction = null) =>
+        connection.ExecuteAsync(template.RawSql, template.Parameters, transaction);
 }
 
 public interface IDatabaseConnection : IDbConnection
@@ -71,6 +80,8 @@ public interface IDatabaseConnection : IDbConnection
     /// </returns>
     Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null);
 
+    Task<IEnumerable<T>> QueryAsync<T>(SqlBuilder.Template template);
+    
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
     /// </summary>
@@ -78,17 +89,11 @@ public interface IDatabaseConnection : IDbConnection
     /// <param name="sql">The SQL to execute for the query.</param>
     /// <param name="param">The parameters to pass, if any.</param>
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null);
-
-    /// <summary>
-    ///     Execute parameterized SQL that selects a single value.
-    /// </summary>
-    /// <typeparam name="T">The type to return.</typeparam>
-    /// <param name="sql">The SQL to execute.</param>
-    /// <param name="param">The parameters to use for this command.</param>
-    /// <returns>The first cell returned, as <typeparamref name="T" />.</returns>
-    Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null);
-
-
+    
+    Task<T?> QueryFirstOrDefaultAsync<T>(SqlBuilder.Template template);
+    
+    Task<int> ExecuteAsync(SqlBuilder.Template template, IDbTransaction? transaction = null);
+    
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
     /// </summary>

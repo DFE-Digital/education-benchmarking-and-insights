@@ -18,21 +18,16 @@ public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchCon
 {
     public async Task<LocalAuthority?> GetAsync(string code)
     {
-        const string trustSql = "SELECT * from LocalAuthority where Code = @Code";
-        var parameters = new
-        {
-            Code = code
-        };
-
+        var template = Queries.GetLocalAuthority(code);
         using var conn = await dbFactory.GetConnection();
-        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(trustSql, parameters);
+        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(template);
         if (localAuthority is null)
         {
             return null;
         }
-
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase FROM School WHERE LaCode = @Code AND FinanceType = 'Maintained' AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsSql, parameters);
+        
+        var schoolsTemplate = Queries.GetLocalAuthoritySchools(code);
+        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsTemplate);
         return localAuthority;
     }
 

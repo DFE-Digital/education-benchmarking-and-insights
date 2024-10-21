@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Search;
 using Platform.Sql;
 
@@ -20,15 +19,15 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
 {
     public async Task<School?> GetAsync(string urn)
     {
-        const string schoolSql = "SELECT * FROM School WHERE URN = @URN";
-        const string childSchoolsSql = "SELECT * FROM School WHERE FederationLeadURN = @URN";
-
+        var template = Queries.GetSchool(urn);
+        
         using var conn = await dbFactory.GetConnection();
-        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new { URN = urn });
+        var school = await conn.QueryFirstOrDefaultAsync<School>(template);
 
         if (school != null && !string.IsNullOrEmpty(school.FederationLeadURN))
         {
-            school.FederationSchools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
+            var schoolsTemplate = Queries.GetFederationSchools(urn);
+            school.FederationSchools = await conn.QueryAsync<School>(schoolsTemplate);
         }
 
         return school;
@@ -36,27 +35,9 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
 
     public async Task<IEnumerable<School>> QueryAsync(string? companyNumber, string? laCode, string? phase)
     {
-
-        var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from School /**where**/");
-
-        if (!string.IsNullOrEmpty(companyNumber))
-        {
-            builder.Where("TrustCompanyNumber = @CompanyNumber AND FinanceType = 'Academy'", new { companyNumber });
-        }
-
-        if (!string.IsNullOrEmpty(laCode))
-        {
-            builder.Where("LaCode = @LaCode AND FinanceType = 'Maintained'", new { laCode });
-        }
-
-        if (!string.IsNullOrEmpty(phase))
-        {
-            builder.Where("OverallPhase = @phase", new { phase });
-        }
-
+        var template = Queries.GetSchools(companyNumber, laCode, phase);
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<School>(template.RawSql, template.Parameters);
+        return await conn.QueryAsync<School>(template);
     }
 
     public Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request, string[]? excludeSchools = null)

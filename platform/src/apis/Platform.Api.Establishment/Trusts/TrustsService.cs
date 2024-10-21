@@ -18,21 +18,16 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
 {
     public async Task<Trust?> GetAsync(string companyNumber)
     {
-        const string sql = "SELECT * from Trust where CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
-
+        var template = Queries.GetTrust(companyNumber);
         using var conn = await dbFactory.GetConnection();
-        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
+        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(template);
         if (trust is null)
         {
             return null;
         }
-
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsSql, parameters);
+        
+        var schoolsTemplate = Queries.GetTrustSchools(companyNumber);
+        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsTemplate);
         return trust;
     }
 
