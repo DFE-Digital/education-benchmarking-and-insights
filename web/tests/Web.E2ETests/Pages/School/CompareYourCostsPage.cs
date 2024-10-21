@@ -85,12 +85,19 @@ public class CompareYourCostsPage(IPage page)
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
 
-    public async Task IsDisplayed(bool isPartYear = false)
+    public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
 
-        if (!isPartYear)
+        if (isPartYear)
+        {
+            await IncompleteFinancialBanner.First.ShouldBeVisible();
+            await IncompleteFinancialBanner.First.ShouldContainText(
+                "This school doesn't have a complete set of financial data for this period.");
+        }
+
+        if (!isMissingComparatorSet)
         {
             await SaveImageTotalExpenditure.ShouldBeVisible();
             await TotalExpenditureDimension.ShouldBeVisible();
@@ -108,9 +115,6 @@ public class CompareYourCostsPage(IPage page)
             return;
         }
 
-        await IncompleteFinancialBanner.First.ShouldBeVisible();
-        await IncompleteFinancialBanner.First.ShouldContainText(
-            "This school doesn't have a complete set of financial data for this period.");
         await IncompleteFinancialBanner.Last.ShouldContainText(
             "There isn't enough information available to create a set of similar schools.");
     }

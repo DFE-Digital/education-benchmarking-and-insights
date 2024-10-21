@@ -43,6 +43,17 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsDisplayed(true);
     }
 
+    [Given("I am on compare your costs page for missing comparator school with URN '(.*)'")]
+    public async Task GivenIAmOnCompareYourCostsPageForMissingComparatorSchoolWithURN(string urn)
+    {
+        var url = CompareYourCostsUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _comparisonPage = new CompareYourCostsPage(page);
+        await _comparisonPage.IsDisplayed(false, true);
+    }
+
     [When("I click on save as image for '(.*)'")]
     public async Task WhenIClickOnSaveAsImageFor(string chartName)
     {

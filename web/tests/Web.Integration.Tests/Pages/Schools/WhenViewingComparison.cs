@@ -98,10 +98,13 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, financeType)
             .Create();
 
+        var comparatorSet = Fixture.Create<SchoolComparatorSet>();
+
         var page = await Client.SetupEstablishment(school)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupUserData()
+            .SetupComparatorSet(school, comparatorSet)
             .Navigate(Paths.SchoolComparison(school.URN));
 
         return (page, school);

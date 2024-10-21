@@ -3,8 +3,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
-    var hasFinancialData = Model.PeriodCoveredByReturn == 12;
-    var hasMissingComparatorSet = !hasUserDefinedSet && !hasFinancialData;
+    var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })

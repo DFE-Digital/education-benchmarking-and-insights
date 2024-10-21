@@ -393,6 +393,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupComparatorSet(School school, SchoolComparatorSet? comparatorSet)
+    {
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(school.URN!)).ReturnsAsync(ApiResult.Ok(comparatorSet));
+        return this;
+    }
+
     // public BenchmarkingWebAppClient SetupBenchmarkWithNotFound()
     // {
     //     FinancialPlanApi.Reset();
