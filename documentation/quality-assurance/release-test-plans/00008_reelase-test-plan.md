@@ -29,7 +29,7 @@ This test plan covers the testing in pre production and production to validate a
 - **Sanity Testing** will be conducted in the production environment post-deployment to confirm that both the code changes and data are stable and working as intended. This includes a quick health check of critical functionalities to ensure there are no major issues after the release.
 ## Test Scope
 **Issues/Updates to be Tested:**
-1. [230685 Run CFR scripts for 2023-4 and validate new output](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/230685) - CFR 2024 data has been added and validated in various environments. We will validate the presence of CFR 2024 data in pre production but won't release to production until all checks are complete. this won't block other tickets going to production. 
+1. [230685 Run CFR scripts for 2023-4 and validate new output](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/230685) - CFR 2024 data has been added and validated in various environments. We will validate the presence of CFR 2024 data in pre production but won't release to production until data validation checks are complete. This won't block other tickets going to production. 
 2. [217196 Direct revenue financing coming undefined](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/217196) - Direct revenue financing was coming undefined which has been fixed. we will validate in pre production that it is not undefined schools anymore. 
 3. [232528 incorrect spending framework link](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232528) - The spending framework link were changed and updates were made on the service to reflect the same. We will validate it again in pre production. 
 4. [28225 Expenditure missing for converted schools](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/228225) - Previously we were showing schools on LA/Trust homepage which were part of the organisation in previous years resulting in showing 0 for schools which have closed/moved. Updated it to only show the schools which are present in the current year. Tested in dev/test and will validate again in pre production. 
@@ -56,13 +56,14 @@ This test plan covers the testing in pre production and production to validate a
 
 **Reports:**
 
-
+- Summary of testing performed and outcomes
 
 ## Entry and Exit Criteria
 **Entry Criteria:**
 
 - All Fixes and updates have successfully passed lower quality gates
 - All changes have been deployed in pre-production environment
+- pipe run completed in pre-production
 
 **Exit Criteria:**
 
@@ -88,7 +89,7 @@ Note: The CFR data load will take place in pre-production but won't be released 
 
 The release plan will be shared with the Product Owner and relevant stakeholders for review and approval. Upon receiving approval, the release will proceed with the planned testing and deployment activities. After the changes are validated in pre-production, they will be deployed to production for final sanity testing.
 
-**Note:** The CFR data will be loaded into pre-production for review by the stakeholders and will not be released to production until approval. It will be released after the code release to production.
+**Note:** The CFR data will be loaded into pre-production for review by the stakeholders and will not be released to production until approval. It will be released at the end after other remaining release to production is complete.
 
 **Sign-off:**
 
