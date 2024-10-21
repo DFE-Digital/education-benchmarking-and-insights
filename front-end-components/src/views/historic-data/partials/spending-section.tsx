@@ -69,17 +69,17 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
       <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       {data.length > 0 ? (
         <HistoricChart
-          chartName="Total spending and costs"
+          chartName="Total expenditure"
           data={data}
           seriesConfig={{
             totalExpenditure: {
-              label: "Total spending and costs",
+              label: "Total expenditure",
               visible: true,
             },
           }}
           valueField="totalExpenditure"
         >
-          <h2 className="govuk-heading-m">Total spending and costs</h2>
+          <h2 className="govuk-heading-m">Total expenditure</h2>
         </HistoricChart>
       ) : (
         <Loading />
