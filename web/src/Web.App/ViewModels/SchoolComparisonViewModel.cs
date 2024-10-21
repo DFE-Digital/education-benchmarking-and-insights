@@ -1,7 +1,12 @@
 ﻿using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class SchoolComparisonViewModel(School school, string? userDefinedSetId = null, string? customDataId = null, SchoolExpenditure? expenditure = null)
+public class SchoolComparisonViewModel(
+    School school,
+    string? userDefinedSetId = null,
+    string? customDataId = null,
+    SchoolExpenditure? expenditure = null,
+    SchoolComparatorSet? defaultComparatorSet = null)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -9,4 +14,5 @@ public class SchoolComparisonViewModel(School school, string? userDefinedSetId =
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
     public int? PeriodCoveredByReturn => expenditure?.PeriodCoveredByReturn;
+    public bool HasDefaultComparatorSet => defaultComparatorSet != null;
 }

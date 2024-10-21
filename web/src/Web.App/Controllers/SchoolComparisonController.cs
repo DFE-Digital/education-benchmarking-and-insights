@@ -5,12 +5,12 @@ using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -18,6 +18,7 @@ namespace Web.App.Controllers;
 public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
     IExpenditureApi expenditureApi,
+    IComparatorSetApi comparatorSetApi,
     ILogger<SchoolComparisonController> logger,
     IUserDataService userDataService)
     : Controller
@@ -36,9 +37,10 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
+                var expenditure = await expenditureApi.School(urn).GetResultOrDefault<SchoolExpenditure>();
+                var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData, expenditure);
+                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet);
 
                 return View(viewModel);
             }
