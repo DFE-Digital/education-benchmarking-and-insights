@@ -110,6 +110,8 @@ public class CompareYourCostsPage(IPage page)
 
         await IncompleteFinancialBanner.First.ShouldBeVisible();
         await IncompleteFinancialBanner.First.ShouldContainText(
+            "This school doesn't have a complete set of financial data for this period.");
+        await IncompleteFinancialBanner.Last.ShouldContainText(
             "There isn't enough information available to create a set of similar schools.");
     }
 
