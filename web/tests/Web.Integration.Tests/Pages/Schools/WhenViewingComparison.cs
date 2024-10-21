@@ -5,7 +5,6 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
@@ -98,7 +97,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var comparatorSet = Fixture.Create<SchoolComparatorSet>();
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(x => x.Building, ["building"])
+            .Create();
 
         var page = await Client.SetupEstablishment(school)
             .SetupInsights()

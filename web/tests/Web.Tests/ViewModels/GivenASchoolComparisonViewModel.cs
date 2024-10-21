@@ -39,7 +39,30 @@ public class GivenASchoolComparisonViewModel
                 null, false
             },
             {
-                new SchoolComparatorSet(), true
+                new SchoolComparatorSet(), false
+            },
+            {
+                new SchoolComparatorSet
+                {
+                    Building = [string.Empty],
+                    Pupil = [string.Empty]
+
+                },
+                false
+            },
+            {
+                new SchoolComparatorSet
+                {
+                    Building = ["building"]
+                },
+                true
+            },
+            {
+                new SchoolComparatorSet
+                {
+                    Pupil = ["pupil"]
+                },
+                true
             }
         };
 
