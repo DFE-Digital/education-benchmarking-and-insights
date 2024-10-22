@@ -5,6 +5,7 @@ using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
@@ -17,6 +18,7 @@ namespace Web.App.Controllers;
 public class SchoolCensusController(
     IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
+    IComparatorSetApi comparatorSetApi,
     ILogger<SchoolCensusController> logger,
     IUserDataService userDataService)
     : Controller
@@ -37,8 +39,9 @@ public class SchoolCensusController(
                 var school = await School(urn);
                 var census = await Census(urn);
                 var userData = await UserData(urn);
+                var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
 
-                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census);
+                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census, defaultComparatorSet);
                 return View(viewModel);
             }
             catch (Exception e)

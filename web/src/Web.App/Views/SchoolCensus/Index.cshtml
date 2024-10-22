@@ -4,8 +4,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
-    var hasCensusData = Model.TotalPupils.GetValueOrDefault() > 0;
-    var hasMissingComparatorSet = !hasUserDefinedSet && !hasCensusData;
+    var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
