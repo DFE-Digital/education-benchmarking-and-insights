@@ -27,26 +27,16 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
 
     public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns)
     {
-        const string sql = "SELECT * from SchoolCensus WHERE URN IN @URNS";
-        var parameters = new
-        {
-            URNS = urns
-        };
-
+        var template = Queries.GetCensus(urns);
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusModel>(sql, parameters);
+        return await conn.QueryAsync<CensusModel>(template);
     }
 
     public async Task<CensusModel?> GetAsync(string urn)
     {
-        const string sql = "SELECT * from SchoolCensus WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
-
+        var template = Queries.GetCensus(urn);
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<CensusModel>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<CensusModel>(template);
     }
 
     public async Task<CensusModel?> GetCustomAsync(string urn, string identifier)

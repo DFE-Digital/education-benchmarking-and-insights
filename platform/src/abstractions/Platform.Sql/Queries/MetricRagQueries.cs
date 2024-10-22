@@ -20,7 +20,7 @@ public static partial class Queries
             builder.Where("SubCategory = 'Total'");
         }
         
-        if (urns?.Length != 0)
+        if (urns?.Length > 0)
         {
             builder.Where("URN IN @URNS", new
             {
@@ -28,7 +28,7 @@ public static partial class Queries
             });
         }
         
-        if (categories?.Length != 0)
+        if (categories?.Length > 0)
         {
             builder.Where("Category IN @categories", new
             {
@@ -36,7 +36,7 @@ public static partial class Queries
             });
         }
 
-        if (statuses?.Length != 0)
+        if (statuses?.Length > 0)
         {
             builder.Where("RAG IN @statuses", new
             {

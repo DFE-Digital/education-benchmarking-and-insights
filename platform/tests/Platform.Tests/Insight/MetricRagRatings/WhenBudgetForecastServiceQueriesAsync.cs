@@ -2,6 +2,8 @@
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Sql;
 using Xunit;
+using SqlBuilder = Dapper.SqlBuilder;
+
 namespace Platform.Tests.Insight.MetricRagRatings;
 
 public class WhenMetricRagRatingsServiceQueriesAsync
@@ -24,7 +26,8 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     {
         // arrange
         _connection
-            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null))
+            .Setup(c => c.QueryFirstAsync<string>("SELECT Value FROM Parameters WHERE Name = 'CurrentYear'", null))
+            .ReturnsAsync("2021")
             .Verifiable();
 
         // act
@@ -35,7 +38,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData("1,2,3", "4,5,6", "7,8,9", "runType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
+    [InlineData("1,2,3", "4,5,6", "7,8,9", "runType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND SubCategory = 'Total' AND URN IN @URNS AND Category IN @categories AND RAG IN @statuses")]
     [InlineData("1,2,3", null, null, "runType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
     public async Task ShouldQueryAsyncWhenQueryAsync(
         string urns,
@@ -55,15 +58,15 @@ public class WhenMetricRagRatingsServiceQueriesAsync
 
         const string year = "year";
         _connection
-            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null))
+            .Setup(c => c.QueryFirstAsync<string>("SELECT Value FROM Parameters WHERE Name = 'CurrentYear'", null))
             .ReturnsAsync(year);
 
         _connection
-            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<SqlBuilder.Template>()))
+            .Callback((SqlBuilder.Template template) =>
             {
-                actualSql = sql;
-                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "URNS", "categories", "statuses");
+                actualSql = template.RawSql;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(template.Parameters, "RunType", "RunId", "URNS", "categories", "statuses");
             })
             .ReturnsAsync(results);
 
@@ -117,11 +120,11 @@ public class WhenMetricRagRatingsServiceQueriesAsync
         var actualParam = new Dictionary<string, object>();
 
         _connection
-            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<SqlBuilder.Template>()))
+            .Callback((SqlBuilder.Template template) =>
             {
-                actualSql = sql;
-                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId");
+                actualSql = template.RawSql;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(template.Parameters, "RunType", "RunId");
             })
             .ReturnsAsync(results);
 

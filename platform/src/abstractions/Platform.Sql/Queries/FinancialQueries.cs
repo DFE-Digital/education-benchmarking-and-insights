@@ -9,7 +9,7 @@ public static partial class Queries
         var builder = new SqlBuilder();
         var template = builder.AddTemplate(
             $"SELECT /**select**/ FROM Financial WHERE RunType = 'default' AND RunId = ({GetCurrentYear})");
-
+        
         foreach (var field in fields)
         {
             builder.Select(field);

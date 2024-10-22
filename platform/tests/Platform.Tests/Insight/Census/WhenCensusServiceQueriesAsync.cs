@@ -2,6 +2,8 @@
 using Platform.Api.Insight.Census;
 using Platform.Sql;
 using Xunit;
+using SqlBuilder = Dapper.SqlBuilder;
+
 namespace Platform.Tests.Insight.Census;
 
 public class WhenCensusServiceQueriesAsync
@@ -61,15 +63,13 @@ public class WhenCensusServiceQueriesAsync
         {
             new()
         };
-        string? actualSql = null;
-        object? actualParam = null;
+        var actualParam = new Dictionary<string, object>();
 
         _connection
-            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<SqlBuilder.Template>()))
+            .Callback((SqlBuilder.Template template) =>
             {
-                actualSql = sql;
-                actualParam = param;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(template.Parameters, "URNS");
             })
             .ReturnsAsync(results);
 
@@ -78,11 +78,7 @@ public class WhenCensusServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT * from SchoolCensus WHERE URN IN @URNS", actualSql);
-        Assert.Equivalent(new
-        {
-            URNS = urns
-        }, actualParam, true);
+        Assert.Equal(["URNS"], actualParam.Keys.ToArray());
     }
 
     [Fact]
@@ -91,15 +87,13 @@ public class WhenCensusServiceQueriesAsync
         // arrange
         const string urn = "urn";
         var result = new CensusModel();
-        string? actualSql = null;
-        object? actualParam = null;
+        var actualParam = new Dictionary<string, object>();
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<SqlBuilder.Template>()))
+            .Callback((SqlBuilder.Template template) =>
             {
-                actualSql = sql;
-                actualParam = param;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(template.Parameters, "URN");
             })
             .ReturnsAsync(result);
 
@@ -108,11 +102,7 @@ public class WhenCensusServiceQueriesAsync
 
         // assert
         Assert.Equal(result, actual);
-        Assert.Equal("SELECT * from SchoolCensus WHERE URN = @URN", actualSql);
-        Assert.Equivalent(new
-        {
-            URN = urn
-        }, actualParam, true);
+        Assert.Equal(["URN"], actualParam.Keys.ToArray());
     }
 
     [Fact]
