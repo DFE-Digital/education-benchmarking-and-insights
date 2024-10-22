@@ -43,14 +43,14 @@ This test plan covers the testing in pre production and production to validate a
 12. [232741 School part of federation link to federation page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232741)- The schools part of federation are now linked with the federation page. This is tested in dev/test and will be checked again in pre production. 
 13. [232745 Federation homepage](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232745) - Added federation homepage to the service and tested it in test environment. will review the changes again in pre production. 
 14. [233513 Historic Data - Inconsistent Wording](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233513) - Wording has been updated on the historic page to match with other pages. We have verified the changes in test and will check again in pre production.
-15. [233516 Comparator set for special schools](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233516) - content updated as expected. Checked in test and will verify again in pre production.
-
 
 **Updates Not to be Tested:**
 
 1. [231298 Ensure daily backup of the databases to an Azure storage account.](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231298) - Daily backup of the databases have been set up. No further action is needed. 
 2. [231790 Ensure daily backup of the raw input files on an Azure storage account](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231790) - Daily backup of raw input files have been set up. No further action is needed. 
 3. [231299 Review & ensure database backup policy is correct](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231299) - The policy for db backup is is reviewed and tested. No further action is needed.
+4. [233516 Comparator set for special schools](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233516) - content updated as expected. No further action is needed.
+
 ## Test Deliverables
 ### Documents:
 
