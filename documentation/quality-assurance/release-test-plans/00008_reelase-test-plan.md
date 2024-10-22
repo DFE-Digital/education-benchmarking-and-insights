@@ -11,7 +11,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Release date:**
 
-21/10/2024
+22/10/2024
 
 ## Test Strategy
 **Types of Testing:**
@@ -73,7 +73,7 @@ This test plan covers the testing in pre production and production to validate a
 
 #### Release 2024.10.3:
 
-- **Abandonment:** Release 2024.10.3 was abandoned due to the incomplete fix that only updated one of the two necessary pages. A new release, 2024.10.4, is scheduled to resolve this.
+- **Abandonment:** Release 2024.10.3 was abandoned due to the incomplete update that only updated one of the two necessary pages. A new release, 2024.10.4, is scheduled to resolve this.
 
 #### Current Release (2024.10.4):
 
