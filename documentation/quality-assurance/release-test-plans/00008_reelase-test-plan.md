@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 2024.10.3
+﻿# Release Test Plan - 2024.10.4
 
 ## Introduction
 **Objective:**
@@ -43,22 +43,42 @@ This test plan covers the testing in pre production and production to validate a
 12. [232741 School part of federation link to federation page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232741)- The schools part of federation are now linked with the federation page. This is tested in dev/test and will be checked again in pre production. 
 13. [232745 Federation homepage](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232745) - Added federation homepage to the service and tested it in test environment. will review the changes again in pre production. 
 14. [233513 Historic Data - Inconsistent Wording](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233513) - Wording has been updated on the historic page to match with other pages. We have verified the changes in test and will check again in pre production.
+15. [233516 Comparator set for special schools](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233516) - content updated as expected. Checked in test and will verify again in pre production.
+
 
 **Updates Not to be Tested:**
 
 1. [231298 Ensure daily backup of the databases to an Azure storage account.](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231298) - Daily backup of the databases have been set up. No further action is needed. 
 2. [231790 Ensure daily backup of the raw input files on an Azure storage account](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231790) - Daily backup of raw input files have been set up. No further action is needed. 
 3. [231299 Review & ensure database backup policy is correct](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231299) - The policy for db backup is is reviewed and tested. No further action is needed.
-4. [233516 Comparator set for special schools](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233516) - content updated as expected. No further action is needed.
-
 ## Test Deliverables
-**Documents:**
+### Documents:
 
 - Release test plan
 
-**Reports:**
+### Reports:
 
-- Summary of testing performed and outcomes
+#### Release Overview:
+
+- **Original Planned Release:** 2024.10.02
+- **New Release Version:** 2024.10.04
+- **Hotfixes Included:**
+  - **Hotfix:** Fix for message banner not showing on the Census page when the comparator set for the school is missing.
+  - **Additional Ticket 233516 with hotfix:** One additional ticket was added to the release as part of the hotfix.
+  - **Hotfix Update:** It was later discovered that the updates from 233516 should have been applied to two pages instead of one. An additional hotfix was made to address this.
+#### Issue Identified:
+
+- **Issue:** The message banner was not appearing on the Census page when the comparator set was missing for a school.
+  - **Resolution:** Hotfix was applied to correct this issue, which updated only one page. After further review, another hotfix was made to apply the necessary changes to a second page.
+
+#### Release 2024.10.3:
+
+- **Abandonment:** Release 2024.10.3 was abandoned due to the incomplete fix that only updated one of the two necessary pages. A new release, 2024.10.4, is scheduled to resolve this.
+
+#### Current Release (2024.10.4):
+
+- **Final Release:** The 2024.10.4 release contains all necessary hotfixes, along with one additional ticket.
+- **Testing Impact:** The release testing plan is not impacted by these changes, as the hotfixes are isolated and do not affect overall test coverage.
 
 ## Entry and Exit Criteria
 **Entry Criteria:**
