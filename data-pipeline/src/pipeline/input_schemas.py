@@ -362,7 +362,6 @@ aar_central_services = {
     "BNCH21606 (Agency supply teaching staff)": "float",
     "BNCH21403 (Energy)": "float",
     "BNCH21402 (Water and sewerage)": "float",
-    "BNCHBAI061 (Coronavirus Govt Funding)": "float",
 }
 
 bfr_sofa_cols = {
