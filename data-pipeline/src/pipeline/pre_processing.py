@@ -253,21 +253,8 @@ def prepare_central_services_data(cs_path, current_year: int):
         dtype=input_schemas.aar_central_services,
     )
 
-    if (current_year < 2023) or (
-        "BNCH11123-BTI011-A (MAT Central services - Income)"
-        not in central_services_financial.columns
-    ):
-        central_services_financial[
-            "BNCH11123-BTI011-A (MAT Central services - Income)"
-        ] = 0.0
-
-        if (current_year <= 2022) and (
-            "BNCHBAI061 (Coronavirus Govt Funding)"
-            in central_services_financial.columns
-        ):
-            central_services_financial[
-                "BNCH11123-BTI011-A (MAT Central services - Income)"
-            ] = central_services_financial["BNCHBAI061 (Coronavirus Govt Funding)"]
+    if "BNCH11123-BTI011-A (MAT Central services - Income)" not in central_services_financial.columns:
+        central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"] = 0.0
 
     central_services_financial["Income_Direct revenue finance"] = (
         central_services_financial[
@@ -313,12 +300,10 @@ def prepare_central_services_data(cs_path, current_year: int):
         ]
     )
 
-    central_services_financial["Income_Other DFE grants"] = (
+    central_services_financial["Income_Pre Post 16"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
-        + central_services_financial[
-            "BNCH11123-BTI011-A (MAT Central services - Income)"
-        ]
+        + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
     )
 
     central_services_financial["Income_Other Revenue Income"] = (
@@ -434,9 +419,7 @@ def prepare_aar_data(aar_path, current_year: int):
     aar = aar[~aar["URN"].isna()]
     aar = aar[~(aar["ACADEMYTRUSTSTATUS"] == "1 day")]
 
-    if (current_year < 2023) or (
-        "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns
-    ):
+    if "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns:
         aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
 
     aar["Income_Direct revenue finance"] = aar[
@@ -473,7 +456,7 @@ def prepare_aar_data(aar_path, current_year: int):
         + aar["BNCH11123-BAI011-A (Academies - Income)"]
     )
 
-    aar["Income_Other DFE grants"] = (
+    aar["Income_Pre Post 16"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
         + aar["BNCH11131 (DfE Family Revenue Grants)"]
         + aar["BNCH11123-BAI011-A (Academies - Income)"]

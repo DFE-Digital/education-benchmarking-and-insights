@@ -1,8 +1,8 @@
 income_category_map = {
     "academies": {
-        # "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_Other DFE grants",
+        "BNCH11142 (Other Revenue)": "Income_Other DFE grants",
         # "BNCH11141 (SEN)": "Income_SEN funding",
-        "BNCH11142 (Other Revenue)": "Income_Pre Post 16",
+        #"BNCH11142 (Other Revenue)": "Income_Pre Post 16",
         "BNCH11151 (Other Government Revenue Grants)": "Income_Other grants",
         "BNCH11162 (Academies)": "Income_Academies",
         "BNCH11163 (Non- Government)": "Income_Non government",
@@ -22,9 +22,9 @@ income_category_map = {
         "BNCH44001 (Closing Balance (Restricted and Unrestricted Funds))": "Revenue reserve",
     },
     "central_services": {
-        # "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_Other DFE grants",
+        "BNCH11142 (Other Revenue)": "Income_Other DFE grants",
         # "BNCH11141 (SEN)": "Income_SEN funding",
-        "BNCH11142 (Other Revenue)": "Income_Pre Post 16",
+        #"BNCH11142 (Other Revenue)": "Income_Pre Post 16",
         "BNCH11151 (Other Government Revenue Grants)": "Income_Other grants",
         "BNCH11162 (Academies)": "Income_Academies",
         "BNCH11163 (Non- Government)": "Income_Non government",
