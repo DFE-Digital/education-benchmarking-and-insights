@@ -1,5 +1,4 @@
-﻿using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 namespace Web.E2ETests.Steps.School;
@@ -76,19 +75,24 @@ public class CommercialResourcesSteps(PageDriver driver)
         await _commercialResourcesPage.IsShowHideAllSectionsText("Hide all sections");
     }
 
-    [Then("all resources sub categories are displayed on the page")]
-    public async Task ThenAllResourcesSubCategoriesAreDisplayedOnThePage()
+    [Then("all resource sub categories are displayed on the page")]
+    public async Task ThenAllResourceSubCategoriesAreDisplayedOnThePage(DataTable table)
     {
         Assert.NotNull(_commercialResourcesPage);
-        await _commercialResourcesPage.AreAllResourcesVisible();
-
+        var resourceNames = table.Rows
+            .Select(row => row["Name"])
+            .ToList();
+        await _commercialResourcesPage.AreAllResourcesVisible(resourceNames);
     }
 
-    [Then("all sub categories have correct link")]
-    public async Task ThenAllSubCategoriesHaveCorrectLink()
+    [Then("all sub categories have correct links")]
+    public async Task ThenAllSubCategoriesHaveCorrectLinks(DataTable table)
     {
         Assert.NotNull(_commercialResourcesPage);
-        await _commercialResourcesPage.AreCorrectLinksDisplayed();
+        var expectedLinks = table.Rows
+            .Select(row => new ValueTuple<string, string, string>(row["Text"], row["Href"], row["Target"]))
+            .ToList();
+        await _commercialResourcesPage.AreCorrectLinksDisplayed(expectedLinks);
     }
 
     private static string CommercialResourcesUrl(string tab, string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/find-ways-to-spend-less#{tab}";
