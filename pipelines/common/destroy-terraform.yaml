@@ -30,6 +30,11 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
+  - template: .\pre-process-terraform.yaml
+    parameters:
+      TerraformDirectory: ${{ parameters.workspaceDir }}
+      DisablePreventDestroy: true
+
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     displayName: 'Install terraform'
     inputs:

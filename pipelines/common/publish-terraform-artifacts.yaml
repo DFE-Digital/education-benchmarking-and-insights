@@ -1,8 +1,14 @@
 parameters:
   TerraformFolder: ''
   Module: ''
+  DisablePreventDestroy: ''
 
 steps:
+  - template: .\pre-process-terraform.yaml
+    parameters:
+      TerraformDirectory: ${{ parameters.TerraformFolder }}
+      DisablePreventDestroy: ${{ parameters.DisablePreventDestroy }}
+
   - task: ArchiveFiles@2
     displayName: 'Zip terraform files'
     inputs:
