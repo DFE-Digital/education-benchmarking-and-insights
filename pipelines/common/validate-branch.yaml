@@ -1,0 +1,34 @@
+parameters:
+  branchName: '' 
+
+# valid branch should be in the format `refs/heads/category/reference/description-in-kebab-case` as per:
+# https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/documentation/developers/2_Branching-Policy.md
+# plus the addition of `main`, e.g.:
+#  ✔️ refs/heads/main
+#  ✔️ refs/heads/feature/description-in-kebab-case
+#  ✔️ refs/heads/feature/123/description-in-kebab-case
+#  ✔️ refs/heads/bugfix/123/description-in-kebab-case
+#  ✔️ refs/heads/hotfix/123/description-in-kebab-case
+#  ✔️ refs/heads/exp/123/description-in-kebab-case
+#  ✔️ refs/heads/tech-debt/123/description-in-kebab-case
+#  ✔️ refs/heads/doc/123/description-in-kebab-case
+#  ✔️ refs/heads/prototype/123/description-in-kebab-case
+#  ❌ refs/heads/main/invalid
+#  ❌ refs/heads/category/description-in-kebab-case
+#  ❌ refs/heads/category/123/description-in-kebab-case
+#  ❌ refs/heads/feature
+#  ❌ refs/heads/feature/invalid/description-in-kebab-case
+#  ❌ feature/description-in-kebab-case
+#  ❌ feature/123/description-in-kebab-case
+steps:
+  - bash: |
+      branchName="${{ parameters.branchName }}"
+      regex="refs\/heads\/main$|refs\/heads\/(feature|bugfix|hotfix|exp|tech-debt|doc|prototype)\/(\d+\/){0,1}[a-z0-9-]+"
+      if echo "$branchName" | sed -En "/$regex/p" | grep -q .; then
+        echo "$branchName is a valid branch"
+      else
+        echo "$branchName is not a valid branch"
+        exit 1
+      fi
+    displayName: 'Validate branch name'
+    condition: and(succeeded(), ne('${{ parameters.branchName }}', ''))
