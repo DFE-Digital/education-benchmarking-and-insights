@@ -18,20 +18,22 @@ This test plan covers the testing in pre production and production to validate a
 
 - Manual Functional Testing
 - Exploratory Testing
-- Sanity Testing
+- Smoke Testing
 
 **Approach:**
 
-- Manual functional testing will be carried out to validate updates are in place in pre-prod.
-- Exploratory testing will be carried out in pre-prod to ensure all functionalities are working as expected.
-- Sanity Testing will be carried out in production to ensure its all stable. 
+- **Manual Functional Testing** will be conducted to verify that the code and pipeline changes have implemented the intended functionality, and that all updates work as expected.
+
+- **Exploratory Testing** will be carried out in the pre-production environment to detect any unexpected behavior or edge cases in both the code changes and data updates. This testing is unscripted and aims to identify issues that may not be covered by predefined test cases.
+- **Smoke Testing** will be carried out in production to ensure its all stable. 
 ## Test Scope
 **Issues/Updates to be Tested:**
-TBA
+
+[233514 Historic Income Chart - Wrong Data](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233514) - It was noticed the income fields values were interchanged which have now been fixed. we have validated it in test and will check again in pre production.
 
 **Updates Not to be Tested:**
 
-TBA  
+[234442 Trusts unable to access features](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234442) - Trusts were unable to access CFP and BFR features due to leading zero in company number being lost. We have now fixed it and tested it in test environment. We don't have access to organisation in pre production but will request someone to check it for us who has access.   
 
 ## Test Deliverables
 **Documents:**
@@ -50,18 +52,17 @@ TBA
 
 **Exit Criteria:**
 
-- All tests have been completed, with any issues found logged in the product backlog
-- Issue priority agreed with Product owner;
-    - Any new critical issues found during release test are resolved prior to release and retested
-    - Any new major/minor issues found during release test will be scheduled for next release
+- All tests have been completed, with any issues found is communicated and priority agreed with Product owner. 
 
 ## Risk Management
 **Risk Identification:**
 
 Pre-production and production has existing data, which will require updating/modifying as the updates included in this release requires pipeline rerun.
+Also for one of the fix included in the release for which we don't have access in pre production and production. 
 
 **Risk Mitigation:**
 - Ran in test environment which has identical data to pre-prod and production to confirm fixes.
+- Tested the DSI fix in test and will request someone to check the pre production who has the correct access to an organisation. 
 ## Review and Approval
 **Review Process:**
 
