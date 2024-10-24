@@ -30,3 +30,8 @@ variables:
     value: $(Version)$(Version.Revision.Separator)$(Version.Revision)
   - name: Version.BuildVersion
     value: $(Version.BuildNumber)
+  - name: SourceBranch
+    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
+      value: $(System.PullRequest.SourceBranch)
+    ${{ else }}:
+      value: $(Build.SourceBranch)

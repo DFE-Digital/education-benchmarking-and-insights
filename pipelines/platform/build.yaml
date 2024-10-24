@@ -27,11 +27,6 @@ variables:
     value: 30
   - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
     value: 30
-  - name: SourceBranch
-    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
-      value: $(System.PullRequest.SourceBranch)
-    ${{ else }}:
-      value: $(Build.SourceBranch)
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
