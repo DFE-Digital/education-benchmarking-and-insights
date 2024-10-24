@@ -21,6 +21,10 @@ resource "azurerm_storage_account" "data" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
   }
 
   queue_properties {
@@ -147,6 +151,10 @@ resource "azurerm_storage_account" "backup" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
   }
 
   queue_properties {
