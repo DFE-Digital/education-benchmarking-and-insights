@@ -23,11 +23,6 @@ variables:
     value: 'data-pipeline/terraform'
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  - name: SourceBranch
-    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
-      value: $(System.PullRequest.SourceBranch)
-    ${{ else }}:
-      value: $(Build.SourceBranch)
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
