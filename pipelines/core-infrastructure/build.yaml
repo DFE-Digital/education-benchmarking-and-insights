@@ -23,6 +23,11 @@ variables:
     value: 'core-infrastructure/terraform'
   - name: TerraformDirectory
     value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  - name: SourceBranch
+    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
+      value: $(System.PullRequest.SourceBranch)
+    ${{ else }}:
+      value: $(Build.SourceBranch)
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
@@ -30,6 +35,14 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
+      - job: BranchValidate
+        displayName: "Validate branch name"
+        steps:
+          - checkout: none
+          - template: ..\common\validate-branch.yaml
+            parameters:
+              branchName: $(SourceBranch)
+
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
@@ -80,7 +93,7 @@ stages:
               SolutionDirectory: '$(System.DefaultWorkingDirectory)/core-infrastructure'
 
       - job: BuildCore
-        dependsOn: [ SetBuildNumber ]
+        dependsOn: [ BranchValidate, SetBuildNumber ]
         displayName: 'Build core'
         steps:
           - template: steps\build.yaml

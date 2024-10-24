@@ -27,6 +27,11 @@ variables:
     value: 30
   - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
     value: 30
+  - name: SourceBranch
+    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
+      value: $(System.PullRequest.SourceBranch)
+    ${{ else }}:
+      value: $(Build.SourceBranch)
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
@@ -34,6 +39,14 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
+      - job: BranchValidate
+        displayName: "Validate branch name"
+        steps:
+          - checkout: none
+          - template: ..\common\validate-branch.yaml
+            parameters:
+              branchName: $(SourceBranch)
+
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
@@ -94,7 +107,7 @@ stages:
           - template: steps\build-tests.yaml
 
       - job: BuildWeb
-        dependsOn: [ SetBuildNumber ]
+        dependsOn: [ BranchValidate, SetBuildNumber ]
         displayName: 'Build web'
         steps:
           - template: steps\build.yaml

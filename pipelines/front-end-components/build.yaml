@@ -20,10 +20,19 @@ variables:
   - template: ..\common\vars.yaml
   - name: WorkingDir
     value: 'front-end-components'
+  - name: SourceBranch
+    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
+      value: $(System.PullRequest.SourceBranch)
+    ${{ else }}:
+      value: $(Build.SourceBranch)
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
 steps:
+  - template: ..\common\validate-branch.yaml
+    parameters:
+      branchName: $(SourceBranch)
+
   - bash: |
       echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
