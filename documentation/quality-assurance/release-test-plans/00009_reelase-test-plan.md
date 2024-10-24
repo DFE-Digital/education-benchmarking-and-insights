@@ -23,7 +23,6 @@ This test plan covers the testing in pre production and production to validate a
 **Approach:**
 
 - **Manual Functional Testing** will be conducted to verify that the code and pipeline changes have implemented the intended functionality, and that all updates work as expected.
-
 - **Exploratory Testing** will be carried out in the pre-production environment to detect any unexpected behavior or edge cases in both the code changes and data updates. This testing is unscripted and aims to identify issues that may not be covered by predefined test cases.
 - **Smoke Testing** will be carried out in production to ensure its all stable. 
 ## Test Scope
@@ -42,7 +41,7 @@ This test plan covers the testing in pre production and production to validate a
 
 **Reports:**
 
-TBA
+Smoke testing completed in production and everything is looking good. 
 
 ## Entry and Exit Criteria
 **Entry Criteria:**
