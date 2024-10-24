@@ -30,6 +30,9 @@ steps:
         az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
         echo "Storage account created"
         
+        az storage account blob-service-properties update --account-name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --enable-delete-retention true --delete-retention-days 7 --container-retention true --container-days 7 --enable-versioning true
+        echo "Storage account properties updated"
+
         az storage container create --auth-mode login --name tfstate --account-name $storageAccountName
         echo "Storage container created"
         
