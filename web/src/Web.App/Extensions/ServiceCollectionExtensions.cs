@@ -258,7 +258,7 @@ public static class ServiceCollectionExtensions
 
                                 if (organisation.Category is { Id: "013" } or { Id: "010" }) //013 - Single-Academy Trust & 010 - Multi-Academy Trust
                                 {
-                                    var companyNumber = organisation.CompanyRegistrationNumber.ToString();
+                                    var companyNumber = organisation.CompanyRegistrationNumber?.ToString("00000000");
                                     if (companyNumber != null)
                                     {
                                         var api = context.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
