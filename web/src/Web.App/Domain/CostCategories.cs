@@ -344,6 +344,9 @@ public static class SubCostCategories
         public const string StaffDevelopmentTrainingCosts = "Staff development and training";
         public const string StaffRelatedInsuranceCosts = "Staff-related insurance";
         public const string SupplyTeacherInsurableCosts = "Supply teacher insurance";
+        public const string CommunityFocusedSchoolStaff = "Community focused school staff (maintained schools only)";
+        public const string CommunityFocusedSchoolCosts = "Community focused school costs (maintained schools only)";
+
 
         public static string[] SubCategories { get; } =
         [
@@ -357,7 +360,9 @@ public static class SubCostCategories
             SpecialFacilitiesCosts,
             StaffDevelopmentTrainingCosts,
             StaffRelatedInsuranceCosts,
-            SupplyTeacherInsurableCosts
+            SupplyTeacherInsurableCosts,
+            CommunityFocusedSchoolStaff,
+            CommunityFocusedSchoolCosts
         ];
     }
 }
