@@ -17,11 +17,6 @@ export const ChartDimensionContext = createContext<Dimension>({
 });
 export const SelectedEstablishmentContext = createContext("");
 
-interface HasIncompleteData {
-  hasNoData?: boolean;
-}
-export const HasIncompleteDataContext = createContext<HasIncompleteData>({});
-
 export const PhaseContext = createContext<string | undefined>(undefined);
 
 export interface CentralServicesBreakdownContextValue {

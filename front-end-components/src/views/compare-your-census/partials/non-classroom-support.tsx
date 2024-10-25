@@ -12,7 +12,6 @@ import {
 } from "src/components";
 import {
   ChartDimensionContext,
-  HasIncompleteDataContext,
   PhaseContext,
   CustomDataContext,
 } from "src/contexts";
@@ -80,27 +79,23 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasNoData = data?.length === 0;
-
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <HorizontalBarChartWrapper
-          data={chartData}
-          chartName="non-classroom support staff - excluding auxiliary staff (full time equivalent)"
-        >
-          <h2 className="govuk-heading-m">
-            Non-classroom support staff - excluding auxiliary staff (Full Time
-            Equivalent)
-          </h2>
-          <ChartDimensions
-            dimensions={CensusCategories}
-            handleChange={handleSelectChange}
-            elementId="nonclassroom-support"
-            value={dimension.value}
-          />
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+    <ChartDimensionContext.Provider value={dimension}>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="non-classroom support staff - excluding auxiliary staff (full time equivalent)"
+      >
+        <h2 className="govuk-heading-m">
+          Non-classroom support staff - excluding auxiliary staff (Full Time
+          Equivalent)
+        </h2>
+        <ChartDimensions
+          dimensions={CensusCategories}
+          handleChange={handleSelectChange}
+          elementId="nonclassroom-support"
+          value={dimension.value}
+        />
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };

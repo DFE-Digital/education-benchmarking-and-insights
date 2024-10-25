@@ -14,7 +14,6 @@ import {
 } from "src/components";
 import {
   ChartDimensionContext,
-  HasIncompleteDataContext,
   PhaseContext,
   CustomDataContext,
 } from "src/contexts";
@@ -82,28 +81,23 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasNoData = data?.length === 0;
-
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <HorizontalBarChartWrapper
-          data={chartData}
-          chartName="school workforce (headcount)"
-        >
-          <h2 className="govuk-heading-m">School workforce (Headcount)</h2>
-          <ChartDimensions
-            dimensions={CensusCategories.filter(
-              (category) =>
-                category !== HeadcountPerFTE &&
-                category !== PercentageOfWorkforce
-            )}
-            handleChange={handleSelectChange}
-            elementId="headcount"
-            value={dimension.value}
-          />
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+    <ChartDimensionContext.Provider value={dimension}>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="school workforce (headcount)"
+      >
+        <h2 className="govuk-heading-m">School workforce (Headcount)</h2>
+        <ChartDimensions
+          dimensions={CensusCategories.filter(
+            (category) =>
+              category !== HeadcountPerFTE && category !== PercentageOfWorkforce
+          )}
+          handleChange={handleSelectChange}
+          elementId="headcount"
+          value={dimension.value}
+        />
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };

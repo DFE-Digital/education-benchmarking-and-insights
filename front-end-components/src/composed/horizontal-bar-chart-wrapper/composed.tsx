@@ -8,7 +8,6 @@ import {
 import {
   ChartDimensionContext,
   SelectedEstablishmentContext,
-  HasIncompleteDataContext,
   useChartModeContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
@@ -25,7 +24,6 @@ import {
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
-import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
 import { TooltipProps } from "recharts";
@@ -43,7 +41,6 @@ export function HorizontalBarChartWrapper<
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
-  const { hasNoData } = useContext(HasIncompleteDataContext);
   const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
@@ -174,10 +171,6 @@ export function HorizontalBarChartWrapper<
           </div>
         )}
       </div>
-      <ErrorBanner
-        isRendered={hasNoData}
-        message="No financial return data available"
-      />
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
           {sortedDataPoints.length > 0 ? (
@@ -236,7 +229,7 @@ export function HorizontalBarChartWrapper<
               </div>
             </>
           ) : (
-            !hasNoData && <Loading />
+            <Loading />
           )}
         </div>
       </div>

@@ -48,11 +48,13 @@ public class SchoolSpendingController(
                     ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
 
                     var set = await schoolComparatorSetService.ReadComparatorSet(urn);
-                    if (set is { Building.Length: > 0, Pupil.Length: > 0 })
-                    {
-                        pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
-                        areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
-                    }
+                    pupilExpenditure = set is { Pupil.Length: > 0 }
+                        ? await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>()
+                        : [];
+                    areaExpenditure = set is { Pupil.Length: > 0 }
+                        ? await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>()
+                        : [];
+
                 }
                 else
                 {

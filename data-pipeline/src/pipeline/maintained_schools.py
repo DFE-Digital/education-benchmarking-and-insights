@@ -19,7 +19,7 @@ def create_master_list(
 
     maintained_schools_list["Did Not Supply flag"] = maintained_schools_list[
         "Did Not Supply flag"
-    ].map(lambda x: x if x == 0 else 1)
+    ].map(lambda x: "N" if x != "DNS" else "Y")
 
     maintained_schools_list["PFI"] = maintained_schools_list["PFI"].map(
         lambda x: x if x != "DNS" else "N"
@@ -58,7 +58,7 @@ def map_pfi(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 
 def map_submission_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Partial Years Present"] = maintained_schools.apply(
-        lambda x: x["Did Not Supply flag"] != 0 | x["Period covered by return (months)"] != 12, axis=1)
+        lambda x: x["Period covered by return (months)"] != 12, axis=1)
 
     maintained_schools.rename(
         columns={"Period covered by return (months)": "Period covered by return"},
@@ -67,7 +67,7 @@ def map_submission_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
-    ].map(lambda x: x == 1)
+    ].map(lambda x: x == "Y")
 
     return maintained_schools
 

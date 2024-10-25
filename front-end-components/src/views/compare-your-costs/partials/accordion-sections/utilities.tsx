@@ -18,7 +18,6 @@ import {
   ChartDimensionContext,
   PhaseContext,
   CustomDataContext,
-  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -27,6 +26,7 @@ import {
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import { ExpenditureApi, UtilitiesExpenditure } from "src/services";
+import { ErrorBanner } from "src/components/error-banner";
 
 export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
@@ -119,57 +119,64 @@ export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <div
-          className={classNames("govuk-accordion__section", {
-            "govuk-accordion__section--expanded": hash === `#${elementId}`,
-          })}
-          id={elementId}
-        >
-          <div className="govuk-accordion__section-header">
-            <h2 className="govuk-accordion__section-heading">
-              <span
-                className="govuk-accordion__section-button"
-                id="accordion-heading-6"
-              >
-                Utilities
-              </span>
-            </h2>
-          </div>
-          <div
-            id="accordion-content-6"
-            className="govuk-accordion__section-content"
-            aria-labelledby="accordion-heading-6"
-            role="region"
-          >
-            <HorizontalBarChartWrapper
-              data={totalUtilitiesCostsBarData}
-              chartName="total utilities costs"
+    <ChartDimensionContext.Provider value={dimension}>
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
+        })}
+        id={elementId}
+      >
+        <div className="govuk-accordion__section-header">
+          <h2 className="govuk-accordion__section-heading">
+            <span
+              className="govuk-accordion__section-button"
+              id="accordion-heading-6"
             >
-              <h3 className="govuk-heading-s">Total utilities costs</h3>
-              <ChartDimensions
-                dimensions={PremisesCategories}
-                handleChange={handleSelectChange}
-                elementId="total-utilities-costs"
-                value={dimension.value}
-              />
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={energyBarData}
-              chartName="energy costs"
-            >
-              <h3 className="govuk-heading-s">Energy costs</h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={waterSewerageBarData}
-              chartName="water and sewerage costs"
-            >
-              <h3 className="govuk-heading-s">Water and sewerage costs</h3>
-            </HorizontalBarChartWrapper>
-          </div>
+              Utilities
+            </span>
+          </h2>
         </div>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+        <div
+          id="accordion-content-6"
+          className="govuk-accordion__section-content"
+          aria-labelledby="accordion-heading-6"
+          role="region"
+        >
+          {hasNoData ? (
+            <ErrorBanner
+              isRendered={hasNoData}
+              message="There isn't enough information available to create a set of similar schools."
+            />
+          ) : (
+            <>
+              <HorizontalBarChartWrapper
+                data={totalUtilitiesCostsBarData}
+                chartName="total utilities costs"
+              >
+                <h3 className="govuk-heading-s">Total utilities costs</h3>
+                <ChartDimensions
+                  dimensions={PremisesCategories}
+                  handleChange={handleSelectChange}
+                  elementId="total-utilities-costs"
+                  value={dimension.value}
+                />
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={energyBarData}
+                chartName="energy costs"
+              >
+                <h3 className="govuk-heading-s">Energy costs</h3>
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={waterSewerageBarData}
+                chartName="water and sewerage costs"
+              >
+                <h3 className="govuk-heading-s">Water and sewerage costs</h3>
+              </HorizontalBarChartWrapper>
+            </>
+          )}
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
   );
 };

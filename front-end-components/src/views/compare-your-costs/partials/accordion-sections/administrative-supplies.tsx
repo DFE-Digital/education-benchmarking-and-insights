@@ -18,7 +18,6 @@ import {
   ChartDimensionContext,
   PhaseContext,
   CustomDataContext,
-  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -30,6 +29,7 @@ import {
   ExpenditureApi,
   AdministrativeSuppliesExpenditure,
 } from "src/services";
+import { ErrorBanner } from "src/components/error-banner";
 
 export const AdministrativeSupplies: React.FC<CompareYourCostsProps> = ({
   type,
@@ -96,47 +96,54 @@ export const AdministrativeSupplies: React.FC<CompareYourCostsProps> = ({
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <div
-          className={classNames("govuk-accordion__section", {
-            "govuk-accordion__section--expanded": hash === `#${elementId}`,
-          })}
-          id={elementId}
-        >
-          <div className="govuk-accordion__section-header">
-            <h2 className="govuk-accordion__section-heading">
-              <span
-                className="govuk-accordion__section-button"
-                id="accordion-heading-7"
-              >
-                Administrative supplies
-              </span>
-            </h2>
-          </div>
-          <div
-            id="accordion-content-7"
-            className="govuk-accordion__section-content"
-            aria-labelledby="accordion-heading-7"
-            role="region"
-          >
-            <HorizontalBarChartWrapper
-              data={administrativeSuppliesBarData}
-              chartName="administrative supplies (non-eductional)"
+    <ChartDimensionContext.Provider value={dimension}>
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
+        })}
+        id={elementId}
+      >
+        <div className="govuk-accordion__section-header">
+          <h2 className="govuk-accordion__section-heading">
+            <span
+              className="govuk-accordion__section-button"
+              id="accordion-heading-7"
             >
-              <h3 className="govuk-heading-s">
-                Administrative supplies (Non-educational)
-              </h3>
-              <ChartDimensions
-                dimensions={CostCategories}
-                handleChange={handleSelectChange}
-                elementId="administrative-supplies-non-eductional"
-                value={dimension.value}
-              />
-            </HorizontalBarChartWrapper>
-          </div>
+              Administrative supplies
+            </span>
+          </h2>
         </div>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+        <div
+          id="accordion-content-7"
+          className="govuk-accordion__section-content"
+          aria-labelledby="accordion-heading-7"
+          role="region"
+        >
+          {hasNoData ? (
+            <ErrorBanner
+              isRendered={hasNoData}
+              message="There isn't enough information available to create a set of similar schools."
+            />
+          ) : (
+            <>
+              <HorizontalBarChartWrapper
+                data={administrativeSuppliesBarData}
+                chartName="administrative supplies (non-eductional)"
+              >
+                <h3 className="govuk-heading-s">
+                  Administrative supplies (Non-educational)
+                </h3>
+                <ChartDimensions
+                  dimensions={CostCategories}
+                  handleChange={handleSelectChange}
+                  elementId="administrative-supplies-non-eductional"
+                  value={dimension.value}
+                />
+              </HorizontalBarChartWrapper>
+            </>
+          )}
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
   );
 };

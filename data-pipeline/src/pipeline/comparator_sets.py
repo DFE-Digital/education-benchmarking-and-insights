@@ -302,25 +302,16 @@ def _map_pupil_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a pupil comparator set for the row in question.
 
-    For Academies, "early transfer" should generate comparator sets.
-
-    For partial-year data, financial and pupil data must be present.
-
-    For full-year data, pupil comparator sets are always generated.
-
     :param row: grouped data
     :return: whether to generate pupil comparator set
     """
-    if row.get("Is Early Transfer"):
-        return True
 
-    if not row["Partial Years Present"]:
-        return True
+    if row.get("Did Not Submit"):
+        return False
 
     return all(
         (
             row["Financial Data Present"],
-            row["Partial Years Present"],
             row["Pupil Comparator Data Present"],
         )
     )
@@ -330,26 +321,16 @@ def _map_building_comparator_set(row: pd.Series) -> bool:
     """
     Whether to generate a building comparator set for the row.
 
-    For Academies, "early transfer" should generated comparator sets.
-
-    For partial-year data, financial, pupil and building data must be
-    present.
-
-    For full-year data, building comparator sets are always generated.
-
     :param row: grouped data
     :return: whether to generate building comparator set
     """
-    if row.get("Is Early Transfer"):
-        return True
 
-    if not row["Partial Years Present"]:
-        return True
+    if row.get("Did Not Submit"):
+        return False
 
     return all(
         (
             row["Financial Data Present"],
-            row["Partial Years Present"],
             row["Pupil Comparator Data Present"],
             row["Building Comparator Data Present"],
         )
@@ -397,7 +378,8 @@ def compute_distances(
         phase_pfi = np.array(row["Is PFI"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
-        include = ~np.array(row["Partial Years Present"])
+        pupil_include = ~np.array(row["Partial Years Present"]) & ~np.array(row["Did Not Submit"]) & np.array(row["Pupil Comparator Data Present"])
+        building_include = ~np.array(row["Partial Years Present"]) & ~np.array(row["Did Not Submit"]) & np.array(row["Building Comparator Data Present"])
 
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
@@ -418,7 +400,7 @@ def compute_distances(
                     phase_boarding,
                     phase_regions,
                     distances=pupil_distances[idx],
-                    include=include,
+                    include=pupil_include,
                 )
                 # note: single-element arrays are unpacked; in this
                 # case, do not produce a comparator-set.
@@ -441,7 +423,7 @@ def compute_distances(
                     phase_boarding,
                     phase_regions,
                     building_distances[idx],
-                    include=include,
+                    include=building_include,
                 )
                 if len(top_building_set_urns) == 1:
                     logger.warning(
@@ -512,6 +494,7 @@ def compute_comparator_set(
             "Financial Data Present",
             "Pupil Comparator Data Present",
             "Building Comparator Data Present",
+            "Did Not Submit",
         ]
     ].copy()
 

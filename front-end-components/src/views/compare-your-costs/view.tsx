@@ -7,7 +7,6 @@ import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
 import { ChartModeChart } from "src/components";
 import {
   SelectedEstablishmentContext,
-  //HasIncompleteDataContext,
   PhaseContext,
   CustomDataContext,
   ChartModeProvider,
@@ -34,12 +33,8 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
               phases={phases}
               handlePhaseChange={setPhase}
             />
-            {/*<HasIncompleteDataContext.Provider*/}
-            {/*  value={{ hasNoData }}*/}
-            {/*>*/}
             <TotalExpenditure id={id} type={type} />
             <ExpenditureAccordion id={id} type={type} />
-            {/*</HasIncompleteDataContext.Provider>*/}
           </ChartModeProvider>
         </CustomDataContext.Provider>
       </PhaseContext.Provider>

@@ -18,7 +18,6 @@ import {
   ChartDimensionContext,
   PhaseContext,
   CustomDataContext,
-  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
@@ -27,6 +26,7 @@ import {
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import { ExpenditureApi, TeachingSupportStaffExpenditure } from "src/services";
+import { ErrorBanner } from "src/components/error-banner";
 
 export const TeachingSupportStaff: React.FC<CompareYourCostsProps> = ({
   type,
@@ -164,81 +164,90 @@ export const TeachingSupportStaff: React.FC<CompareYourCostsProps> = ({
   const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <div
-          className={classNames("govuk-accordion__section", {
-            "govuk-accordion__section--expanded": hash === `#${elementId}`,
-          })}
-          id={elementId}
-        >
-          <div className="govuk-accordion__section-header">
-            <h2 className="govuk-accordion__section-heading">
-              <span
-                className="govuk-accordion__section-button"
-                id="accordion-heading-1"
-              >
-                Teaching and teaching support staff
-              </span>
-            </h2>
-          </div>
-          <div
-            id="accordion-content-1"
-            className="govuk-accordion__section-content"
-            aria-labelledby="accordion-heading-1"
-            role="region"
-          >
-            <HorizontalBarChartWrapper
-              data={totalTeachingBarData}
-              chartName="total teaching and support staff cost"
+    <ChartDimensionContext.Provider value={dimension}>
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
+        })}
+        id={elementId}
+      >
+        <div className="govuk-accordion__section-header">
+          <h2 className="govuk-accordion__section-heading">
+            <span
+              className="govuk-accordion__section-button"
+              id="accordion-heading-1"
             >
-              <h3 className="govuk-heading-s">
-                Total teaching and teaching support staff costs
-              </h3>
-              <ChartDimensions
-                dimensions={CostCategories}
-                handleChange={handleSelectChange}
-                elementId="total-teaching-support-staff-cost"
-                value={dimension.value}
-              />
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={teachingStaffBarData}
-              chartName="teaching staff costs"
-            >
-              <h3 className="govuk-heading-s">Teaching staff costs</h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={supplyTeachingBarData}
-              chartName="supply teaching staff costs"
-            >
-              <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={educationalConsultancyBarData}
-              chartName="educational consultancy costs"
-            >
-              <h3 className="govuk-heading-s">Educational consultancy costs</h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={educationSupportStaffBarData}
-              chartName="educational support staff costs"
-            >
-              <h3 className="govuk-heading-s">
-                Educational support staff costs
-              </h3>
-            </HorizontalBarChartWrapper>
-            <HorizontalBarChartWrapper
-              data={agencySupplyBarData}
-              chartName="agency supply teaching staff costs"
-            >
-              <h3 className="govuk-heading-s">
-                Agency supply teaching staff costs
-              </h3>
-            </HorizontalBarChartWrapper>
-          </div>
+              Teaching and teaching support staff
+            </span>
+          </h2>
         </div>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+        <div
+          id="accordion-content-1"
+          className="govuk-accordion__section-content"
+          aria-labelledby="accordion-heading-1"
+          role="region"
+        >
+          {hasNoData ? (
+            <ErrorBanner
+              isRendered={hasNoData}
+              message="There isn't enough information available to create a set of similar schools."
+            />
+          ) : (
+            <>
+              <HorizontalBarChartWrapper
+                data={totalTeachingBarData}
+                chartName="total teaching and support staff cost"
+              >
+                <h3 className="govuk-heading-s">
+                  Total teaching and teaching support staff costs
+                </h3>
+                <ChartDimensions
+                  dimensions={CostCategories}
+                  handleChange={handleSelectChange}
+                  elementId="total-teaching-support-staff-cost"
+                  value={dimension.value}
+                />
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={teachingStaffBarData}
+                chartName="teaching staff costs"
+              >
+                <h3 className="govuk-heading-s">Teaching staff costs</h3>
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={supplyTeachingBarData}
+                chartName="supply teaching staff costs"
+              >
+                <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={educationalConsultancyBarData}
+                chartName="educational consultancy costs"
+              >
+                <h3 className="govuk-heading-s">
+                  Educational consultancy costs
+                </h3>
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={educationSupportStaffBarData}
+                chartName="educational support staff costs"
+              >
+                <h3 className="govuk-heading-s">
+                  Educational support staff costs
+                </h3>
+              </HorizontalBarChartWrapper>
+              <HorizontalBarChartWrapper
+                data={agencySupplyBarData}
+                chartName="agency supply teaching staff costs"
+              >
+                <h3 className="govuk-heading-s">
+                  Agency supply teaching staff costs
+                </h3>
+              </HorizontalBarChartWrapper>
+            </>
+          )}
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
   );
 };

@@ -11,7 +11,6 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ChartDimensionContext,
-  HasIncompleteDataContext,
   PhaseContext,
   CustomDataContext,
 } from "src/contexts";
@@ -66,20 +65,16 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
       };
     }, [data]);
 
-  const hasNoData = data?.length === 0;
-
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={Percent}>
-        <HorizontalBarChartWrapper
-          data={chartData}
-          chartName="teachers with qualified teacher status (%)"
-        >
-          <h2 className="govuk-heading-m">
-            Teachers with qualified teacher status (percentage)
-          </h2>
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+    <ChartDimensionContext.Provider value={Percent}>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="teachers with qualified teacher status (%)"
+      >
+        <h2 className="govuk-heading-m">
+          Teachers with qualified teacher status (percentage)
+        </h2>
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };

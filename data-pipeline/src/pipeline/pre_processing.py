@@ -808,6 +808,7 @@ def build_academy_data(
     )
 
     academies["Finance Type"] = "Academy"
+    academies["Did Not Submit"] = False
 
     academies["OfstedLastInsp"] = pd.to_datetime(
         academies["OfstedLastInsp"], dayfirst=True

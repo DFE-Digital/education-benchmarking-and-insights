@@ -10,7 +10,6 @@ import {
   ChartDimensionContext,
   CustomDataContext,
   PhaseContext,
-  HasIncompleteDataContext,
 } from "src/contexts";
 import {
   CostCategories,
@@ -24,6 +23,7 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, TotalExpenditureExpenditure } from "src/services";
 import { CompareYourCostsProps } from "./accordion-sections/types";
+import { ErrorBanner } from "src/components/error-banner";
 
 export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   type,
@@ -84,24 +84,24 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
 
   const hasNoData = data?.length === 0;
 
-  return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <HorizontalBarChartWrapper
-          data={chartData}
-          chartName="total expenditure"
-        >
-          <h2 className="govuk-heading-m">Total expenditure</h2>
-          <ChartDimensions
-            dimensions={CostCategories.filter(function (category) {
-              return category !== PercentageExpenditure;
-            })}
-            handleChange={handleSelectChange}
-            elementId="total-expenditure"
-            value={dimension.value}
-          />
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+  return hasNoData ? (
+    <ErrorBanner
+      isRendered={hasNoData}
+      message="There isn't enough information available to create a set of similar schools."
+    />
+  ) : (
+    <ChartDimensionContext.Provider value={dimension}>
+      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
+        <h2 className="govuk-heading-m">Total expenditure</h2>
+        <ChartDimensions
+          dimensions={CostCategories.filter(function (category) {
+            return category !== PercentageExpenditure;
+          })}
+          handleChange={handleSelectChange}
+          elementId="total-expenditure"
+          value={dimension.value}
+        />
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };

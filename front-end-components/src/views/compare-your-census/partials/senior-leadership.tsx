@@ -12,7 +12,6 @@ import {
 } from "src/components";
 import {
   ChartDimensionContext,
-  HasIncompleteDataContext,
   PhaseContext,
   CustomDataContext,
 } from "src/contexts";
@@ -80,26 +79,22 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasNoData = data?.length === 0;
-
   return (
-    <HasIncompleteDataContext.Provider value={{ hasNoData }}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <HorizontalBarChartWrapper
-          data={chartData}
-          chartName="senior leadership (full time equivalent)"
-        >
-          <h2 className="govuk-heading-m">
-            Senior Leadership (Full Time Equivalent)
-          </h2>
-          <ChartDimensions
-            dimensions={CensusCategories}
-            handleChange={handleSelectChange}
-            elementId="senior-leadership"
-            value={dimension.value}
-          />
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
-    </HasIncompleteDataContext.Provider>
+    <ChartDimensionContext.Provider value={dimension}>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="senior leadership (full time equivalent)"
+      >
+        <h2 className="govuk-heading-m">
+          Senior Leadership (Full Time Equivalent)
+        </h2>
+        <ChartDimensions
+          dimensions={CensusCategories}
+          handleChange={handleSelectChange}
+          elementId="senior-leadership"
+          value={dimension.value}
+        />
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };
