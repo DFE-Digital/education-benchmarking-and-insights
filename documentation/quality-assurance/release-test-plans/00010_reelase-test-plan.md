@@ -29,8 +29,8 @@ This test plan covers the testing in pre production and production to validate a
 **Issues/Updates to be Tested:**
 
 - [234656 Missing bullet points (cost category list)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234656) - The content has been updated on one of the page and tested in test environment. we will check it again in pre production.
-- [234628 RAG ratings when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628) - RAG was getting computed for some categories for schools which have missing CDC data. The logic has now been updated. WIP
-- [234612 Lead school - banner messaging](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234612) - The Lead school in federation is only showing the pupil count of the current school and not all schools in the federation. We are adding a banner message to notify this. WIP  
+- [234628 RAG ratings when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628) - RAG was getting computed for some categories for schools which have missing CDC data. The logic has now been updated and tested in test. we will check again in pre production. 
+- [234612 Lead school - banner messaging](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234612) - The Lead school in federation is only showing the pupil count of the current school and not all schools in the federation. We have added a banner message to notify this and have tested in test. we will check it again in pre production.  
 
 **Updates Not to be Tested:**
 
