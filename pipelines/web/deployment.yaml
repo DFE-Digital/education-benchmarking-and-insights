@@ -43,3 +43,12 @@ jobs:
                 packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
                 enableCustomDeployment: true
                 DeploymentType: 'zipDeploy'
+
+  - template: ../common/app-service-settings-refresh.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      resourceGroup: '${{ parameters.environmentPrefix }}-ebis-web'
+      resources: 
+        - name: '${{ parameters.environmentPrefix }}-education-benchmarking'
+          alias: 'web'
+      dependsOn: [ WebDeployment ]
