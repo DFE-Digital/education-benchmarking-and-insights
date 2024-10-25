@@ -3,6 +3,8 @@ variable "cip-environment" {}
 variable "environment-prefix" {}
 variable "location" {}
 variable "support-alert-email" {}
+variable "teams-team-id" {}
+variable "teams-channel-id" {}
 
 variable "configuration" {
   type = map(object({
