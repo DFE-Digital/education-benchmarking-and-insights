@@ -689,7 +689,7 @@ def maintained_schools_master_list():
         {
             "URN": [100150, 100152, 100153, 100154],
             "School Name": ["A", "B", "C", "D"],
-            "LAEstab": [20136154, 2026005, 2026006, 2026007],
+            "LAEstab": ["20136154", "2026005", "2026006", "2026007"],
             "Phase": [
                 "Infant and junior",
                 "Infant and junior",
@@ -705,8 +705,8 @@ def maintained_schools_master_list():
             ],
             "Period covered by return (months)": [11, 18, 4, 11],
             "Did Not Supply flag": [0, 0, 1, 0],
-            "Federation": ["No", "Lead School", "No", "Yes"],
-            "Lead school in federation": [20136154, 0, 0, 20136154],
+            "Federation": ["Lead School", "No", "Yes", "No"],
+            "Lead school in federation": ["20136154", "0", "20136154", "0"],
             "Urban  Rural": [
                 "Urban major conurbation",
                 "Urban major conurbation",

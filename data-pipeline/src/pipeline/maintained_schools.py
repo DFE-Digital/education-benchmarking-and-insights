@@ -58,7 +58,8 @@ def map_pfi(maintained_schools: pd.DataFrame) -> pd.DataFrame:
 
 def map_submission_attrs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     maintained_schools["Partial Years Present"] = maintained_schools.apply(
-        lambda x: x["Period covered by return (months)"] != 12, axis=1)
+        lambda x: x["Period covered by return (months)"] != 12, axis=1
+    )
 
     maintained_schools.rename(
         columns={"Period covered by return (months)": "Period covered by return"},
@@ -165,6 +166,69 @@ def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     return maintained_schools
 
 
+def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculate aggregated metrics for Federation lead-schools.
+
+    Financial data for lead-schools are submitted as the aggregate of
+    all schools in the Federation. Metrics (e.g. pupil numbers) are not,
+    however.
+
+    The resulting data will be index by `Federation LAEstab`, i.e. the
+    `LAEstab` of the lead-school.
+
+    :param df: Maintained School data
+    :return: aggregated lead-school data
+    """
+    df = df.copy()
+    df["_Number of pupils FSM"] = (df["Percentage Free school meals"] / 100.0) * df[
+        "Number of pupils"
+    ]
+    df["_Number of pupils SEN"] = (df["Percentage SEN"] / 100.0) * df[
+        "Number of pupils"
+    ]
+
+    lead_schools_agg = (
+        df[df["Lead school in federation"] != "0"][
+            [
+                "Lead school in federation",
+                "Number of pupils",
+                "_Number of pupils FSM",
+                "_Number of pupils SEN",
+                "Total Internal Floor Area",
+                "Building Age",
+            ]
+        ]
+        .rename(columns={"Lead school in federation": "Federation LAEstab"})
+        .groupby(["Federation LAEstab"])
+        .agg(
+            {
+                "Number of pupils": "sum",
+                "_Number of pupils FSM": "sum",
+                "_Number of pupils SEN": "sum",
+                "Total Internal Floor Area": "sum",
+                "Building Age": "mean",
+            }
+        )
+    )
+
+    lead_schools_agg["Percentage Free school meals"] = (
+        lead_schools_agg["_Number of pupils FSM"] / lead_schools_agg["Number of pupils"]
+    ) * 100.0
+    lead_schools_agg["Percentage SEN"] = (
+        lead_schools_agg["_Number of pupils SEN"] / lead_schools_agg["Number of pupils"]
+    ) * 100.0
+
+    return (
+        lead_schools_agg.drop(
+            columns=[
+                "_Number of pupils FSM",
+                "_Number of pupils SEN",
+            ]
+        )
+    )
+
+
 def join_federations(df: pd.DataFrame) -> pd.DataFrame:
     """
     Set Federation-related values.
@@ -188,9 +252,17 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
         }
     )
 
-    return df.merge(
+    df = df.merge(
         lead_schools,
         left_on="Lead school in federation",
         right_on="Federation LAEstab",
         how="left",
+    )
+
+    lead_schools_agg = _federation_lead_school_agg(df)
+
+    return (
+        lead_schools_agg.combine_first(df.set_index("Federation LAEstab"))
+        .sort_values("URN")
+        .reset_index()
     )

@@ -26,7 +26,9 @@ def test_create_master_list(
         prepared_ks4_data,
     )
 
-    assert not actual.index.isin([100153]).any()
+    assert actual["URN"].isin([100150, 100152, 100153]).all()
+    # 100154 is absent from `schools` data.
+    assert not actual["URN"].isin([100154]).any()
     # Asserting one column from each of the joined datasets
     assert {
         "Percentage SEN",
@@ -193,9 +195,120 @@ def test_calc_catering_net_costs():
     assert actual["Catering staff and supplies_Net Costs"] == -500
 
 
-def test_federation_mapping(maintained_schools_master_list: pd.DataFrame):
-    actual = maintained_schools.join_federations(maintained_schools_master_list)
+def test_federation_mapping(
+    maintained_schools_master_list: pd.DataFrame,
+    prepared_schools_data: pd.DataFrame,
+    prepared_sen_data_df: pd.DataFrame,
+    prepared_census_data: pd.DataFrame,
+    prepared_cdc_data_df: pd.DataFrame,
+    prepared_ks2_data: pd.DataFrame,
+    prepared_ks4_data: pd.DataFrame,
+):
+    master_list = maintained_schools.create_master_list(
+        maintained_schools_master_list,
+        prepared_schools_data,
+        prepared_sen_data_df,
+        prepared_census_data,
+        prepared_cdc_data_df,
+        prepared_ks2_data,
+        prepared_ks4_data,
+    )
+    actual = maintained_schools.join_federations(master_list)
 
-    # Beware: `nan != nan`
-    assert list(actual["Federation Name"].fillna(0)) == ["A", 0, 0, "A"]
-    assert list(actual["Federation Lead School URN"].fillna(0)) == [100150.0, 0, 0, 100150.0]
+    # Beware: `nan != nan`; 100154 removed as per `test_create_master_list()`.
+    assert list(actual["Federation Name"].fillna("")) == ["A", "", "A"]
+    assert list(actual["Federation Lead School URN"].fillna(0)) == [100150, 0, 100150]
+
+
+def test_federation_lead_school_agg_index():
+    df = pd.DataFrame(
+        {
+            "Percentage Free school meals": [25.0, 25.0, 25.0, 25.0],
+            "Percentage SEN": [50.0, 50.0, 50.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools._federation_lead_school_agg(df)
+
+    assert len(actual.index) == 3
+    assert actual.index.name == "Federation LAEstab"
+
+
+def test_federation_lead_school_agg_pupils():
+    df = pd.DataFrame(
+        {
+            "Percentage Free school meals": [25.0, 25.0, 25.0, 25.0],
+            "Percentage SEN": [50.0, 50.0, 50.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools._federation_lead_school_agg(df)
+
+    assert actual.loc["10000", "Number of pupils"] == 2_000
+    assert actual.loc["10001", "Number of pupils"] == 1_000
+    assert actual.loc["10002", "Number of pupils"] == 1_000
+
+
+def test_federation_lead_school_agg_fsm():
+    df = pd.DataFrame(
+        {
+            "Percentage Free school meals": [10.0, 25.0, 25.0, 50.0],
+            "Percentage SEN": [50.0, 50.0, 50.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools._federation_lead_school_agg(df)
+
+    assert actual.loc["10000", "Percentage Free school meals"] == 30.0
+    assert actual.loc["10001", "Percentage Free school meals"] == 25.0
+    assert actual.loc["10002", "Percentage Free school meals"] == 25.0
+
+
+def test_federation_lead_school_agg_sen():
+    df = pd.DataFrame(
+        {
+            "Percentage Free school meals": [25.0, 25.0, 25.0, 25.0],
+            "Percentage SEN": [10.0, 25.0, 25.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools._federation_lead_school_agg(df)
+
+    assert actual.loc["10000", "Percentage SEN"] == 30.0
+    assert actual.loc["10001", "Percentage SEN"] == 25.0
+    assert actual.loc["10002", "Percentage SEN"] == 25.0
+
+
+def test_federation_lead_school_agg_building_age():
+    df = pd.DataFrame(
+        {
+            "Percentage Free school meals": [25.0, 25.0, 25.0, 25.0],
+            "Percentage SEN": [50.0, 50.0, 50.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools._federation_lead_school_agg(df)
+
+    assert actual.loc["10000", "Building Age"] == 1995.0
+    assert actual.loc["10001", "Building Age"] == 1990.0
+    assert actual.loc["10002", "Building Age"] == 1990.0
