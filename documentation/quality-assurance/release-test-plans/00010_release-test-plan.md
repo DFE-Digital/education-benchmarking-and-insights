@@ -3,11 +3,14 @@
 ## Introduction
 **Objective:**
 
-The purpose of this test plan is to outline the approach, scope, and activities performed during the release process. It will detail the various types of testing conducted and document the key activities carried out to ensure the release is executed smoothly. This plan aims to ensure all aspects of the fixes are thoroughly tested, meet the required standards, and are validated before deployment.
+The purpose of this test plan is to outline the approach, scope, and activities performed during the `2024.10.6` release.
+
+It will detail the various types of testing required/conducted to assure for the bug fixes included in this release. 
+As well as, document the key activities carried out to ensure the release is executed successfully.
 
 **Scope:**
 
-This test plan covers the testing in pre production and production to validate all updates included in the release.
+This test plan covers the testing in pre-production and production to assure the bug fixes included in the release.
 
 **Release date:**
 
@@ -22,51 +25,60 @@ This test plan covers the testing in pre production and production to validate a
 
 **Approach:**
 
-- **Manual Functional Testing** will be conducted to verify that the code and pipeline changes have implemented the intended functionality, and that all updates work as expected.
-- **Exploratory Testing** will be carried out in the pre-production environment to detect any unexpected behavior or edge cases in both the code changes and data updates. This testing is unscripted and aims to identify issues that may not be covered by predefined test cases.
-- **Smoke Testing** will be carried out in production to ensure its all stable. 
+- **Manual Functional Testing;** will be conducted in the pre-production to verify the bug fixes.
+- **Exploratory Testing;** will be carried out in the pre-production to detect any unexpected behaviour.
+- **Smoke Testing;** will be carried out in production to ensure release is stable. 
+
 ## Test Scope
-**Issues/Updates to be Tested:**
+**Fixes to be tested:**
 
-- [234656 Missing bullet points (cost category list)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234656) - The content has been updated on one of the page and tested in test environment. we will check it again in pre production.
-- [234628 RAG ratings when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628) - RAG was getting computed for some categories for schools which have missing CDC data. The logic has now been updated and tested in test. we will check again in pre production. 
-- [234612 Lead school - banner messaging](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234612) - The Lead school in federation is only showing the pupil count of the current school and not all schools in the federation. We have added a banner message to notify this and have tested in test. we will check it again in pre production.  
+- [234656 - Updated cost category guidance](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234656)
+- [234628 - Prevent building comparator and invalid RAG ratings being created when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628)  
+- [234612 - Banner messaging for lead federation school](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234612)   
 
-**Updates Not to be Tested:**
-
-N/A
 ## Test Deliverables
 **Documents:**
 
 - Release test plan
+- Exploratory test charter - link TBC
+- Manual test scripts - link(s) TBC
 
 **Reports:**
 
 TBA
+
 ## Entry and Exit Criteria
 **Entry Criteria:**
 
-- All Fixes and updates have successfully passed lower quality gates
-- All changes have been deployed in pre-production environment
+- All fixes have been deployed to lower environments and passed lower quality gates.
 
 **Exit Criteria:**
 
-- All tests have been completed, with any issues found is communicated and priority agreed with Product owner. 
+- All tests have been completed, 
+- Issues found are communicated.
+  - Priority agreed with Product owner.
+  - Critical issues resolved prior release to production
+  - All other issues logged in backlog 
 
 ## Risk Management
 **Risk Identification:**
 
-Pre-production and production has existing data, which will require updating/modifying as the updates included in this release requires pipeline rerun.
+- Invalid data left in pre-production & production databases.
+- User error on manual removal of data. 
 
 **Risk Mitigation:**
-- Ran in test environment which has identical data to pre-prod and production to confirm fixes.
+
+- Steps for removal of data have been run in lower environment.
+- Database backups in place if restore is needed.
+
 ## Review and Approval
 **Review Process:**
 
-The release plan will be shared with the Product Owner for review and approval. Following their review, the updates will
-proceed to pre-production for checks. Upon validating in pre production the changes will be deployed to production for final sanity checks. 
+1. Release notification, including release test plan, shared with the Product Owner for review and approval. 
+2. Deployment to pre-production and quality assurance sign-off.
+3. Deployment to production and quality assurance sign-off.
 
-**Sign-off:**
+**Final Sign-off:**
 
 Product Owner
 
