@@ -48,12 +48,26 @@ As well as, document the key activities carried out to ensure the release is exe
 **Documents:**
 
 - Release test plan
-- Exploratory test charter - link TBC
-- Manual test scripts - link(s) TBC
+- [Exploratory test charter](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234822)
+- Manual test scripts
+  - [234828 - Updated cost category guidance](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234828)
+  - [234655 - Prevent building comparator and invalid RAG ratings being created when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234655)
+  - [234825 - Banner messaging for lead federation school](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234825)  
 
 **Reports:**
 
 - Test summary report
+
+| Test case Id    | Test Suite | Status |
+| -------- | ------- | ------- |
+| 234829 | 234828 | PASS  |
+| 234842 | 234828 | PASS  |
+| 234826 | 234825 | PASS  |
+| 234843 | 234825 | PASS  |
+| 234657 | 234655 | PASS  |
+| 234831 | 234655 | PASS  |
+| 234822 | 229049 | PASS  |
+
 
 ## Entry and Exit Criteria
 **Entry Criteria:**
