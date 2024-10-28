@@ -54,16 +54,36 @@ def test_map_has_financial_data():
 def test_map_partial_year_present():
     df = pd.DataFrame(
         {
-            "ACADEMYSTATUS": [
-                "Member for whole period",
-                "Member for whole period",
-                "in period transfer",
-                "Member for whole period",
-                "in period transfer",
+            "Period covered by return": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
             ]
         }
     )
 
     df = part_year.academies.map_partial_year_present(df)
 
-    assert df["Partial Years Present"].to_list() == [False, False, True, False, True]
+    assert df["Partial Years Present"].to_list() == [
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        True,
+        False,
+    ]

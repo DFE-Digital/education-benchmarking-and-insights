@@ -72,13 +72,13 @@ def map_partial_year_present(academies: pd.DataFrame) -> pd.DataFrame:
     """
     Whether the academy data contains a part-year submission.
 
-    This is entirely indicated by the "ACADEMYSTATUS" column.
+    This is based on the period covered by the return.
 
     :param academies: academy data
     :return: updated DataFrame
     """
     academies["Partial Years Present"] = (
-        academies["ACADEMYSTATUS"] != "Member for whole period"
+        academies["Period covered by return"] != 12
     )
 
     return academies
