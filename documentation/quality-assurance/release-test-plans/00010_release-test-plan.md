@@ -10,7 +10,15 @@ As well as, document the key activities carried out to ensure the release is exe
 
 **Scope:**
 
-This test plan covers the testing in pre-production and production to assure the bug fixes included in the release.
+- In scope:
+    - Spending priorities (RAG ratings)
+    - Comparator sets
+    - Benchmark spending
+    - Benchmark pupil & workforce data
+    - Lead federation schools
+    - Cost category guidance
+- Out of Scope:
+    - Any new functionality not targeted for this release
 
 **Release date:**
 
@@ -45,19 +53,21 @@ This test plan covers the testing in pre-production and production to assure the
 
 **Reports:**
 
-TBA
+- Test summary report
 
 ## Entry and Exit Criteria
 **Entry Criteria:**
 
-- All fixes have been deployed to lower environments and passed lower quality gates.
+- All development tasks are complete.
+- All fixes passed lower quality gates.
+- A stable build is deployed to pre-production.
 
 **Exit Criteria:**
 
 - All tests have been completed, 
 - Issues found are communicated.
   - Priority agreed with Product owner.
-  - Critical issues resolved prior release to production
+  - Critical issues resolved prior release to production.
   - All other issues logged in backlog 
 
 ## Risk Management
