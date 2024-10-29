@@ -30,6 +30,14 @@ stages:
   - stage: Build
     displayName: 'Build'
     jobs:
+      - job: BranchValidate
+        displayName: "Validate branch name"
+        steps:
+          - checkout: none
+          - template: ..\common\validate-branch.yaml
+            parameters:
+              branchName: $(SourceBranch)
+
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
@@ -78,7 +86,7 @@ stages:
           - template: steps\run-unit-tests.yaml
 
       - job: BuildAndPush
-        dependsOn: [ RunTests ]
+        dependsOn: [ BranchValidate, SetBuildNumber, RunTests ]
         displayName: 'Build and push image'
         condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps: 

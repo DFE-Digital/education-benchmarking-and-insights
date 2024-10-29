@@ -24,6 +24,10 @@ variables:
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
 steps:
+  - template: ..\common\validate-branch.yaml
+    parameters:
+      branchName: $(SourceBranch)
+
   - bash: |
       echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
