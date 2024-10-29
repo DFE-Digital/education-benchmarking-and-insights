@@ -253,8 +253,13 @@ def prepare_central_services_data(cs_path, current_year: int):
         dtype=input_schemas.aar_central_services,
     )
 
-    if "BNCH11123-BTI011-A (MAT Central services - Income)" not in central_services_financial.columns:
-        central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"] = 0.0
+    if (
+        "BNCH11123-BTI011-A (MAT Central services - Income)"
+        not in central_services_financial.columns
+    ):
+        central_services_financial[
+            "BNCH11123-BTI011-A (MAT Central services - Income)"
+        ] = 0.0
 
     central_services_financial["Income_Direct revenue finance"] = (
         central_services_financial[
@@ -303,7 +308,9 @@ def prepare_central_services_data(cs_path, current_year: int):
     central_services_financial["Income_Pre Post 16"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
-        + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
+        + central_services_financial[
+            "BNCH11123-BTI011-A (MAT Central services - Income)"
+        ]
     )
 
     central_services_financial["Income_Other Revenue Income"] = (
@@ -1093,6 +1100,9 @@ def build_maintained_school_data(
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
         encoding="unicode-escape",
+        # TODO: explicit schema as per below?
+        # index_col=input_schemas.maintained_schools_master_list_index_col,
+        # dtype=input_schemas.maintained_schools_master_list,
         usecols=input_schemas.maintained_schools_master_list.keys(),
     )
 

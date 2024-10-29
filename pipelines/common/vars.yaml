@@ -31,7 +31,7 @@ variables:
   - name: Version.BuildVersion
     value: $(Version.BuildNumber)
   - name: SourceBranch
-    ${{ if ne(variables['System.PullRequest.SourceBranch'], '') }}:
+    ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
       value: $(System.PullRequest.SourceBranch)
     ${{ else }}:
       value: $(Build.SourceBranch)
