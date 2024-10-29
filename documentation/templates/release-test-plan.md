@@ -1,3 +1,9 @@
+>[!IMPORTANT]
+> Remove this and any other blockquote sections from final document.
+
+>[!WARNING]
+> Do not remove new page tag at the bottom of the document.
+
 # Release Test Plan - [Insert release label]
 
 **Release Date:** [Insert date]
