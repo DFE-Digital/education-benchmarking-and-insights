@@ -1,0 +1,921 @@
+RunType,RunId,URN,Category,SubCategory,SetType,Value,Mean,DiffMean,PercentDiff,Percentile,Decile,RAG
+default,2022,777042,Administrative supplies,Administrative supplies (non educational),unmixed,429.07,47.78,381.28,88.86,99.0,9,red
+default,2022,777042,Administrative supplies,Total,unmixed,429.07,47.78,381.28,88.86,99.0,9,red
+default,2022,777042,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,89.0,8,red
+default,2022,777042,Catering staff and supplies,Catering supplies,unmixed,362.59,159.05,203.54,56.14,92.33,9,red
+default,2022,777042,Catering staff and supplies,Total,unmixed,362.59,173.19,189.4,52.23,92.33,9,red
+default,2022,777042,Educational ICT,ICT learning resources,unmixed,37.59,67.38,-29.79,-79.26,22.33,2,amber
+default,2022,777042,Educational ICT,Total,unmixed,37.59,67.38,-29.79,-79.26,22.33,2,amber
+default,2022,777042,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,777042,Educational supplies,Learning resources (not ICT equipment),unmixed,407.06,124.94,282.12,69.31,99.0,9,red
+default,2022,777042,Educational supplies,Total,unmixed,407.06,124.94,282.12,69.31,99.0,9,red
+default,2022,777042,Non-educational support staff and services,Administrative and clerical staff,unmixed,651.85,253.19,398.66,61.16,99.0,9,red
+default,2022,777042,Non-educational support staff and services,Other staff,unmixed,33.46,104.34,-70.88,-211.84,12.33,1,green
+default,2022,777042,Non-educational support staff and services,Professional services (non-curriculum),unmixed,159.24,100.97,58.27,36.59,79.0,7,amber
+default,2022,777042,Non-educational support staff and services,Total,unmixed,844.54,493.42,351.12,41.58,95.67,9,red
+default,2022,777042,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,82.33,8,red
+default,2022,777042,Other costs,Grounds maintenance,unmixed,25.01,14.15,10.87,43.44,75.67,7,amber
+default,2022,777042,Other costs,Indirect employee expenses,unmixed,11.64,17.01,-5.36,-46.04,32.33,3,amber
+default,2022,777042,Other costs,Interest charges for loan and bank,unmixed,0.0,0.0,0.0,0.0,95.67,9,red
+default,2022,777042,Other costs,Other insurance premiums,unmixed,38.83,26.17,12.66,32.6,89.0,8,red
+default,2022,777042,Other costs,PFI charges,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,777042,Other costs,Rent and rates,unmixed,25.25,75.61,-50.36,-199.44,9.0,0,green
+default,2022,777042,Other costs,School costs,unmixed,1.13,0.0,1.13,100.0,89.0,8,red
+default,2022,777042,Other costs,School staff,unmixed,133.62,0.0,133.62,100.0,89.0,8,red
+default,2022,777042,Other costs,Special facilities,unmixed,55.01,1.93,53.07,96.48,95.67,9,red
+default,2022,777042,Other costs,Staff development and training,unmixed,50.67,17.19,33.49,66.08,99.0,9,red
+default,2022,777042,Other costs,Staff-related insurance,unmixed,33.06,6.98,26.08,78.89,89.0,8,red
+default,2022,777042,Other costs,Supply teacher insurance,unmixed,0.0,36.72,-36.72,0.0,9.0,0,green
+default,2022,777042,Other costs,Total,unmixed,374.24,225.45,148.78,39.76,89.0,8,red
+default,2022,777042,Premises staff and services,Cleaning and caretaking,unmixed,10.81,13.27,-2.46,-22.79,35.67,3,amber
+default,2022,777042,Premises staff and services,Maintenance of premises,unmixed,50.07,6.89,43.18,86.24,99.0,9,red
+default,2022,777042,Premises staff and services,Other occupation costs,unmixed,13.16,3.38,9.78,74.29,95.67,9,red
+default,2022,777042,Premises staff and services,Premises staff,unmixed,18.72,15.59,3.13,16.71,62.33,6,amber
+default,2022,777042,Premises staff and services,Total,unmixed,92.75,42.42,50.33,54.26,99.0,9,red
+default,2022,777042,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,16.04,8.03,8.02,49.97,65.67,6,amber
+default,2022,777042,Teaching and Teaching support staff,Education support staff,unmixed,1894.41,965.72,928.69,49.02,99.0,9,red
+default,2022,777042,Teaching and Teaching support staff,Educational consultancy,unmixed,212.33,78.35,133.98,63.1,92.33,9,red
+default,2022,777042,Teaching and Teaching support staff,Supply teaching staff,unmixed,38.86,7.13,31.73,81.66,79.0,7,amber
+default,2022,777042,Teaching and Teaching support staff,Teaching staff,unmixed,4152.94,2473.14,1679.79,40.45,99.0,9,red
+default,2022,777042,Teaching and Teaching support staff,Total,unmixed,6314.59,3540.9,2773.68,43.93,99.0,9,red
+default,2022,777042,Utilities,Energy,unmixed,7.35,7.82,-0.47,-6.44,42.33,4,amber
+default,2022,777042,Utilities,Total,unmixed,9.08,10.45,-1.37,-15.12,39.0,3,amber
+default,2022,777042,Utilities,Water and sewerage,unmixed,1.73,1.76,-0.02,-1.41,49.0,4,amber
+default,2022,777043,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,777046,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,777049,Administrative supplies,Administrative supplies (non educational),unmixed,365.43,51.61,313.82,608.08,100.0,10,red
+default,2022,777049,Administrative supplies,Total,unmixed,365.43,51.61,313.82,608.08,100.0,10,red
+default,2022,777049,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,83.33,8,red
+default,2022,777049,Catering staff and supplies,Catering supplies,unmixed,373.66,250.58,123.09,49.12,86.67,8,red
+default,2022,777049,Catering staff and supplies,Total,unmixed,373.66,261.96,111.71,42.64,86.67,8,red
+default,2022,777049,Educational ICT,ICT learning resources,unmixed,1.05,65.67,-64.62,-98.39,10.0,1,amber
+default,2022,777049,Educational ICT,Total,unmixed,1.05,65.67,-64.62,-98.39,10.0,1,amber
+default,2022,777049,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,100.0,10,red
+default,2022,777049,Educational supplies,Learning resources (not ICT equipment),unmixed,344.54,211.04,133.5,63.26,96.67,9,red
+default,2022,777049,Educational supplies,Total,unmixed,344.54,211.04,133.5,63.26,96.67,9,red
+default,2022,777049,Non-educational support staff and services,Administrative and clerical staff,unmixed,597.66,261.9,335.76,128.2,100.0,10,red
+default,2022,777049,Non-educational support staff and services,Other staff,unmixed,49.72,127.26,-77.54,-60.93,6.67,0,green
+default,2022,777049,Non-educational support staff and services,Professional services (non-curriculum),unmixed,175.87,112.78,63.09,55.94,83.33,8,red
+default,2022,777049,Non-educational support staff and services,Total,unmixed,823.25,506.43,316.81,62.56,96.67,9,red
+default,2022,777049,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,90.0,9,red
+default,2022,777049,Other costs,Grounds maintenance,unmixed,40.58,12.46,28.13,225.76,96.67,9,red
+default,2022,777049,Other costs,Indirect employee expenses,unmixed,27.17,22.58,4.59,20.34,66.67,6,amber
+default,2022,777049,Other costs,Interest charges for loan and bank,unmixed,0.0,0.0,0.0,0.0,96.67,9,red
+default,2022,777049,Other costs,Other insurance premiums,unmixed,27.77,27.61,0.16,0.57,53.33,5,amber
+default,2022,777049,Other costs,PFI charges,unmixed,0.0,0.0,0.0,0.0,93.33,9,red
+default,2022,777049,Other costs,Rent and rates,unmixed,24.43,79.95,-55.51,-69.44,13.33,1,green
+default,2022,777049,Other costs,School costs,unmixed,13.87,0.0,13.87,0.0,100.0,10,red
+default,2022,777049,Other costs,School staff,unmixed,166.47,0.0,166.47,0.0,100.0,10,red
+default,2022,777049,Other costs,Special facilities,unmixed,0.0,2.87,-2.87,-100.0,40.0,4,amber
+default,2022,777049,Other costs,Staff development and training,unmixed,20.53,23.55,-3.02,-12.81,36.67,3,amber
+default,2022,777049,Other costs,Staff-related insurance,unmixed,37.97,0.55,37.42,6778.44,100.0,10,red
+default,2022,777049,Other costs,Supply teacher insurance,unmixed,0.0,32.3,-32.3,-100.0,6.67,0,green
+default,2022,777049,Other costs,Total,unmixed,358.8,256.77,102.03,39.74,83.33,8,red
+default,2022,777049,Premises staff and services,Cleaning and caretaking,unmixed,2.51,15.59,-13.08,-83.88,26.67,2,green
+default,2022,777049,Premises staff and services,Maintenance of premises,unmixed,25.96,8.86,17.1,192.91,90.0,9,red
+default,2022,777049,Premises staff and services,Other occupation costs,unmixed,10.78,3.25,7.54,232.05,93.33,9,red
+default,2022,777049,Premises staff and services,Premises staff,unmixed,23.54,16.91,6.63,39.2,73.33,7,amber
+default,2022,777049,Premises staff and services,Total,unmixed,62.8,43.12,19.68,45.62,83.33,8,red
+default,2022,777049,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,64.19,54.59,9.6,17.58,63.33,6,amber
+default,2022,777049,Teaching and Teaching support staff,Education support staff,unmixed,1762.09,1310.31,451.78,34.48,86.67,8,red
+default,2022,777049,Teaching and Teaching support staff,Educational consultancy,unmixed,400.74,99.25,301.5,303.78,100.0,10,red
+default,2022,777049,Teaching and Teaching support staff,Supply teaching staff,unmixed,43.4,11.47,31.93,278.38,70.0,7,amber
+default,2022,777049,Teaching and Teaching support staff,Teaching staff,unmixed,4195.36,2687.12,1508.24,56.13,93.33,9,red
+default,2022,777049,Teaching and Teaching support staff,Total,unmixed,6465.78,4075.2,2390.58,58.66,100.0,10,red
+default,2022,777049,Utilities,Energy,unmixed,10.33,9.99,0.34,3.4,53.33,5,amber
+default,2022,777049,Utilities,Total,unmixed,14.17,12.17,2.0,16.43,73.33,7,amber
+default,2022,777049,Utilities,Water and sewerage,unmixed,3.85,1.44,2.4,166.34,93.33,9,red
+default,2022,990033,Catering staff and supplies,Catering supplies,unmixed,150.53,150.41,0.12,0.08,52.33,5,amber
+default,2022,990033,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990033,Catering staff and supplies,Total,unmixed,787.61,182.65,604.96,76.81,99.0,9,red
+default,2022,990033,Educational ICT,ICT learning resources,unmixed,0.0,45.84,-45.84,0.0,5.67,0,amber
+default,2022,990033,Educational ICT,Total,unmixed,0.0,45.84,-45.84,0.0,5.67,0,amber
+default,2022,990033,Educational supplies,Learning resources (not ICT equipment),unmixed,33.93,89.48,-55.55,-163.72,15.67,1,amber
+default,2022,990033,Educational supplies,Total,unmixed,33.93,89.48,-55.55,-163.72,15.67,1,amber
+default,2022,990033,Non-educational support staff and services,Administrative and clerical staff,unmixed,722.43,773.05,-50.62,-7.01,49.0,4,amber
+default,2022,990033,Non-educational support staff and services,Other staff,unmixed,236.96,122.88,114.07,48.14,72.33,7,amber
+default,2022,990033,Non-educational support staff and services,Professional services (non-curriculum),unmixed,376.77,251.1,125.67,33.35,79.0,7,amber
+default,2022,990033,Non-educational support staff and services,Total,unmixed,1336.16,1334.68,1.48,0.11,52.33,5,amber
+default,2022,990033,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,95.67,9,red
+default,2022,990033,Other costs,Grounds maintenance,unmixed,0.0,5.69,-5.69,0.0,32.33,3,amber
+default,2022,990033,Other costs,Indirect employee expenses,unmixed,499.7,32.8,466.91,93.44,95.67,9,red
+default,2022,990033,Other costs,Interest charges for loan and bank,unmixed,0.0,0.0,0.0,0.0,92.33,9,red
+default,2022,990033,Other costs,Other insurance premiums,unmixed,8.47,18.65,-10.18,-120.11,15.67,1,green
+default,2022,990033,Other costs,PFI charges,unmixed,0.0,0.0,0.0,0.0,92.33,9,red
+default,2022,990033,Other costs,Rent and rates,unmixed,0.0,57.0,-57.0,0.0,42.33,4,amber
+default,2022,990033,Other costs,School costs,unmixed,0.0,0.0,0.0,0.0,89.0,8,red
+default,2022,990033,Other costs,School staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990033,Other costs,Special facilities,unmixed,0.0,0.0,0.0,0.0,65.67,6,amber
+default,2022,990033,Other costs,Staff development and training,unmixed,14.46,14.28,0.18,1.22,52.33,5,amber
+default,2022,990033,Other costs,Staff-related insurance,unmixed,11.11,0.0,11.11,100.0,75.67,7,amber
+default,2022,990033,Other costs,Supply teacher insurance,unmixed,0.0,0.0,0.0,0.0,69.0,6,amber
+default,2022,990033,Other costs,Total,unmixed,533.74,255.48,278.26,52.13,69.0,6,amber
+default,2022,990033,Premises staff and services,Cleaning and caretaking,unmixed,18.87,17.98,0.88,4.68,55.67,5,amber
+default,2022,990033,Premises staff and services,Maintenance of premises,unmixed,0.04,8.78,-8.74,-20603.48,5.67,0,green
+default,2022,990033,Premises staff and services,Other occupation costs,unmixed,121.96,5.94,116.02,95.13,99.0,9,red
+default,2022,990033,Premises staff and services,Premises staff,unmixed,0.0,16.72,-16.72,0.0,22.33,2,green
+default,2022,990033,Premises staff and services,Total,unmixed,140.87,49.25,91.61,65.03,95.67,9,red
+default,2022,990033,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,133.11,3.77,129.35,97.17,65.67,6,amber
+default,2022,990033,Teaching and Teaching support staff,Education support staff,unmixed,5903.9,3814.2,2089.71,35.4,79.0,7,amber
+default,2022,990033,Teaching and Teaching support staff,Educational consultancy,unmixed,22.81,64.47,-41.66,-182.67,22.33,2,amber
+default,2022,990033,Teaching and Teaching support staff,Supply teaching staff,unmixed,0.0,0.0,0.0,0.0,89.0,8,amber
+default,2022,990033,Teaching and Teaching support staff,Teaching staff,unmixed,2638.41,2664.22,-25.81,-0.98,49.0,4,green
+default,2022,990033,Teaching and Teaching support staff,Total,unmixed,8698.24,6426.01,2272.23,26.12,79.0,7,amber
+default,2022,990033,Utilities,Energy,unmixed,0.0,9.76,-9.76,0.0,5.67,0,green
+default,2022,990033,Utilities,Total,unmixed,0.0,11.29,-11.29,0.0,5.67,0,green
+default,2022,990033,Utilities,Water and sewerage,unmixed,0.0,1.55,-1.55,0.0,5.67,0,green
+default,2022,777051,Administrative supplies,Administrative supplies (non educational),unmixed,60.15,116.3,-56.16,-48.28,26.67,2,green
+default,2022,777051,Administrative supplies,Total,unmixed,60.15,116.3,-56.16,-48.28,26.67,2,green
+default,2022,777051,Catering staff and supplies,Catering staff,unmixed,775.45,0.0,775.45,0.0,100.0,10,red
+default,2022,777051,Catering staff and supplies,Catering supplies,unmixed,304.95,378.31,-73.37,-19.39,46.67,4,amber
+default,2022,777051,Catering staff and supplies,Total,unmixed,1080.4,426.62,653.78,153.24,96.67,9,red
+default,2022,777051,Educational ICT,ICT learning resources,unmixed,0.0,45.74,-45.74,-100.0,10.0,1,amber
+default,2022,777051,Educational ICT,Total,unmixed,0.0,45.74,-45.74,-100.0,10.0,1,amber
+default,2022,777051,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,100.0,10,red
+default,2022,777051,Educational supplies,Learning resources (not ICT equipment),unmixed,73.65,118.68,-45.03,-37.94,30.0,3,green
+default,2022,777051,Educational supplies,Total,unmixed,73.65,118.68,-45.03,-37.94,30.0,3,green
+default,2022,777051,Non-educational support staff and services,Administrative and clerical staff,unmixed,796.54,1055.86,-259.33,-24.56,26.67,2,green
+default,2022,777051,Non-educational support staff and services,Other staff,unmixed,386.01,186.48,199.53,107.0,80.0,8,red
+default,2022,777051,Non-educational support staff and services,Professional services (non-curriculum),unmixed,412.01,389.69,22.32,5.73,53.33,5,amber
+default,2022,777051,Non-educational support staff and services,Total,unmixed,1594.56,1585.13,9.43,0.59,53.33,5,amber
+default,2022,777051,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,93.33,9,red
+default,2022,777051,Other costs,Grounds maintenance,unmixed,0.0,7.82,-7.82,-100.0,26.67,2,green
+default,2022,777051,Other costs,Indirect employee expenses,unmixed,681.6,58.95,622.65,1056.21,93.33,9,red
+default,2022,777051,Other costs,Interest charges for loan and bank,unmixed,0.0,0.0,0.0,0.0,90.0,9,red
+default,2022,777051,Other costs,Other insurance premiums,unmixed,10.26,29.04,-18.77,-64.65,23.33,2,green
+default,2022,777051,Other costs,PFI charges,unmixed,0.0,0.0,0.0,0.0,100.0,10,red
+default,2022,777051,Other costs,Rent and rates,unmixed,0.0,115.39,-115.39,-100.0,6.67,0,green
+default,2022,777051,Other costs,School costs,unmixed,0.0,0.0,0.0,0.0,90.0,9,red
+default,2022,777051,Other costs,School staff,unmixed,0.0,0.0,0.0,0.0,83.33,8,red
+default,2022,777051,Other costs,Special facilities,unmixed,0.0,0.0,0.0,0.0,86.67,8,red
+default,2022,777051,Other costs,Staff development and training,unmixed,79.62,38.29,41.34,107.97,93.33,9,red
+default,2022,777051,Other costs,Staff-related insurance,unmixed,13.45,0.0,13.45,0.0,76.67,7,amber
+default,2022,777051,Other costs,Supply teacher insurance,unmixed,0.0,0.0,0.0,0.0,76.67,7,amber
+default,2022,777051,Other costs,Total,unmixed,784.94,437.39,347.55,79.46,86.67,8,red
+default,2022,777051,Premises staff and services,Cleaning and caretaking,unmixed,20.55,20.32,0.23,1.12,53.33,5,amber
+default,2022,777051,Premises staff and services,Maintenance of premises,unmixed,7.39,8.87,-1.47,-16.63,30.0,3,amber
+default,2022,777051,Premises staff and services,Other occupation costs,unmixed,109.53,4.64,104.88,2258.56,100.0,10,red
+default,2022,777051,Premises staff and services,Premises staff,unmixed,0.95,15.22,-14.27,-93.73,26.67,2,green
+default,2022,777051,Premises staff and services,Total,unmixed,138.42,57.88,80.54,139.13,100.0,10,red
+default,2022,777051,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,202.35,77.42,124.93,161.36,60.0,6,amber
+default,2022,777051,Teaching and Teaching support staff,Education support staff,unmixed,7801.47,5106.14,2695.33,52.79,90.0,9,red
+default,2022,777051,Teaching and Teaching support staff,Educational consultancy,unmixed,0.0,72.13,-72.13,-100.0,23.33,2,amber
+default,2022,777051,Teaching and Teaching support staff,Supply teaching staff,unmixed,0.0,0.0,0.0,0.0,86.67,8,amber
+default,2022,777051,Teaching and Teaching support staff,Teaching staff,unmixed,3195.78,2946.19,249.58,8.47,63.33,6,amber
+default,2022,777051,Teaching and Teaching support staff,Total,unmixed,11199.6,8855.38,2344.22,26.47,76.67,7,amber
+default,2022,777051,Utilities,Energy,unmixed,0.0,10.26,-10.26,-100.0,3.33,0,green
+default,2022,777051,Utilities,Total,unmixed,0.0,12.26,-12.26,-100.0,3.33,0,green
+default,2022,777051,Utilities,Water and sewerage,unmixed,0.0,1.38,-1.38,-100.0,6.67,0,green
+default,2022,990077,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990078,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990079,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990080,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990081,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990082,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990083,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990084,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990085,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990086,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990087,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990088,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990089,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990090,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990091,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990092,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990093,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990094,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990095,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990096,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990097,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990098,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,green
+default,2022,990099,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990100,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990101,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990102,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990103,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990104,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990105,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990106,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990107,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990108,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990109,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990110,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990111,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990112,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990113,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990114,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990115,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990116,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990117,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990118,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990119,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,green
+default,2022,990120,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990121,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990122,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990123,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990124,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990125,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990126,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990127,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990128,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,green
+default,2022,990129,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990130,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990131,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990132,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990133,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990134,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990135,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990136,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990137,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990138,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990139,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990140,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990141,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990142,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990143,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990144,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990145,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990146,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990147,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990148,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990149,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990150,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990151,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990152,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990153,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990154,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990155,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990156,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990157,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990158,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990159,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,green
+default,2022,990160,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990161,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990162,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990163,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990164,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990165,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990166,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990167,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990168,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990169,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990170,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990171,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990172,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990173,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990174,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990175,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990176,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990177,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990178,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990179,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990180,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,green
+default,2022,990181,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990182,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990183,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990184,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990185,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,green
+default,2022,990186,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990187,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990188,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990189,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990190,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990191,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990192,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990193,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990194,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990195,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990196,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990197,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990198,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990199,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990200,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990201,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990202,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990203,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990204,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990205,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990206,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990207,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990208,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990209,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990210,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990211,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990212,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990213,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990214,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990215,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990216,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990217,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990218,Administrative supplies,Administrative supplies (non educational),unmixed,199.68,445.71,-246.04,-123.22,9.0,0,green
+default,2022,990218,Administrative supplies,Total,unmixed,199.68,445.71,-246.04,-123.22,9.0,0,green
+default,2022,990218,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990218,Catering staff and supplies,Catering supplies,unmixed,591.81,258.0,333.81,56.4,92.33,9,red
+default,2022,990218,Catering staff and supplies,Total,unmixed,591.81,314.5,277.32,46.86,85.67,8,red
+default,2022,990218,Educational ICT,ICT learning resources,unmixed,255.08,359.5,-104.42,-40.94,39.0,3,green
+default,2022,990218,Educational ICT,Total,unmixed,255.08,359.5,-104.42,-40.94,39.0,3,green
+default,2022,990218,Educational supplies,Examination fees,unmixed,109.54,122.4,-12.86,-11.74,45.67,4,green
+default,2022,990218,Educational supplies,Learning resources (not ICT equipment),unmixed,636.22,677.03,-40.82,-6.42,45.67,4,green
+default,2022,990218,Educational supplies,Total,unmixed,745.76,850.62,-104.86,-14.06,42.33,4,green
+default,2022,990218,Non-educational support staff and services,Administrative and clerical staff,unmixed,2732.95,3098.03,-365.09,-13.36,32.33,3,amber
+default,2022,990218,Non-educational support staff and services,Other staff,unmixed,0.0,0.0,0.0,0.0,72.33,7,amber
+default,2022,990218,Non-educational support staff and services,Professional services (non-curriculum),unmixed,256.46,881.48,-625.02,-243.71,15.67,1,green
+default,2022,990218,Non-educational support staff and services,Total,unmixed,2989.41,3961.56,-972.15,-32.52,22.33,2,green
+default,2022,990218,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,85.67,8,red
+default,2022,990218,Other costs,Grounds maintenance,unmixed,0.0,30.72,-30.72,0.0,29.0,2,green
+default,2022,990218,Other costs,Indirect employee expenses,unmixed,829.35,263.45,565.9,68.23,89.0,8,red
+default,2022,990218,Other costs,Other insurance premiums,unmixed,7.24,53.5,-46.26,-638.67,9.0,0,green
+default,2022,990218,Other costs,Rent and rates,unmixed,0.0,10.42,-10.42,0.0,49.0,4,amber
+default,2022,990218,Other costs,School costs,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990218,Other costs,School staff,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990218,Other costs,Special facilities,unmixed,496.11,8.91,487.19,98.2,79.0,7,amber
+default,2022,990218,Other costs,Staff development and training,unmixed,126.59,118.79,7.81,6.17,59.0,5,amber
+default,2022,990218,Other costs,Staff-related insurance,unmixed,10.14,0.0,10.14,100.0,72.33,7,amber
+default,2022,990218,Other costs,Total,unmixed,1469.43,1216.42,253.01,17.22,62.33,6,amber
+default,2022,990218,Premises staff and services,Cleaning and caretaking,unmixed,3.12,2.93,0.19,5.98,55.67,5,amber
+default,2022,990218,Premises staff and services,Maintenance of premises,unmixed,23.73,5.4,18.33,77.26,95.67,9,red
+default,2022,990218,Premises staff and services,Other occupation costs,unmixed,5.51,2.63,2.88,52.21,65.67,6,amber
+default,2022,990218,Premises staff and services,Premises staff,unmixed,33.31,0.0,33.31,100.0,92.33,9,red
+default,2022,990218,Premises staff and services,Total,unmixed,65.67,32.48,33.2,50.55,89.0,8,red
+default,2022,990218,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,720.24,742.6,-22.35,-3.1,45.67,4,green
+default,2022,990218,Teaching and Teaching support staff,Education support staff,unmixed,10777.49,6700.28,4077.21,37.83,85.67,8,amber
+default,2022,990218,Teaching and Teaching support staff,Educational consultancy,unmixed,5205.11,1230.3,3974.81,76.36,95.67,9,red
+default,2022,990218,Teaching and Teaching support staff,Supply teaching staff,unmixed,0.0,0.0,0.0,0.0,69.0,6,amber
+default,2022,990218,Teaching and Teaching support staff,Teaching staff,unmixed,24621.22,19759.95,4861.27,19.74,62.33,6,amber
+default,2022,990218,Teaching and Teaching support staff,Total,unmixed,41324.05,30518.52,10805.54,26.15,72.33,7,amber
+default,2022,990218,Utilities,Energy,unmixed,11.84,8.69,3.14,26.55,72.33,7,amber
+default,2022,990218,Utilities,Total,unmixed,13.38,10.39,2.99,22.36,72.33,7,amber
+default,2022,990218,Utilities,Water and sewerage,unmixed,1.54,0.23,1.31,84.81,62.33,6,amber
+default,2022,990219,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990220,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990221,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,green
+default,2022,990222,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990223,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990224,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990225,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990226,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990227,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990228,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990229,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990230,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990231,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990232,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990233,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990234,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990235,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990236,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990237,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,green
+default,2022,990238,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990239,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990240,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990241,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990242,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990243,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990244,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990245,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990246,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990247,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990248,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990249,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990250,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990251,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990252,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990253,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990254,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990255,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990256,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990257,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990258,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990259,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990260,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990261,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990262,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990263,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990264,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990265,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990266,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990267,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990268,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990269,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990270,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990271,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990272,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990273,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990274,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990275,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990276,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990277,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990278,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990279,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990280,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990281,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990282,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990283,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990284,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990285,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990286,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990287,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990288,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990289,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990290,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990291,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,green
+default,2022,990292,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990293,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990294,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990295,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990296,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990297,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990298,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990299,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990300,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990301,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990302,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990303,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990304,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990305,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990306,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990307,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990308,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990309,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990310,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,green
+default,2022,990311,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990312,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990313,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990314,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990315,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990316,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,green
+default,2022,990317,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990318,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990319,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990320,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990321,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990322,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990323,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990324,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990325,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990326,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990327,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990328,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990329,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990330,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990331,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990332,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990333,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990334,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990335,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990336,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990337,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990338,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990339,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,green
+default,2022,990340,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990341,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990342,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990343,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990344,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990345,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990346,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990347,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990348,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990349,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990350,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990351,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990352,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990353,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990354,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990355,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990356,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990357,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990358,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990359,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990360,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990361,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990362,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990363,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,green
+default,2022,990364,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990365,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990366,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990367,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990368,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990369,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990370,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990371,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990372,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,green
+default,2022,990373,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990374,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990375,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990376,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990377,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990378,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990379,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990380,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990381,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990382,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990383,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990384,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990385,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990386,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990387,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990388,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990389,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990390,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990391,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990392,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990393,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990394,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,green
+default,2022,990395,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990396,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,green
+default,2022,990397,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990398,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990399,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990400,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990401,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990402,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990403,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990404,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990405,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990406,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990407,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990408,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990409,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990410,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990411,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990412,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990413,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990414,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,green
+default,2022,990415,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990416,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990417,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990418,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990419,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990420,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990421,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,green
+default,2022,990422,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990423,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990424,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990425,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990426,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990427,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990428,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990429,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990430,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990431,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990432,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990433,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990434,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990435,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990436,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990437,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990438,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990439,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990440,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990441,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990442,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990443,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990444,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990445,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990446,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990447,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990448,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990449,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990450,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990451,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,green
+default,2022,990452,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990453,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990454,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990455,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990456,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990457,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990458,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990459,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990460,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990461,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990462,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990463,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990464,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990465,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990466,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990467,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990468,Administrative supplies,Administrative supplies (non educational),unmixed,199.68,445.71,-246.04,-123.22,9.0,0,green
+default,2022,990468,Administrative supplies,Total,unmixed,199.68,445.71,-246.04,-123.22,9.0,0,green
+default,2022,990468,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990468,Catering staff and supplies,Catering supplies,unmixed,591.81,258.0,333.81,56.4,92.33,9,red
+default,2022,990468,Catering staff and supplies,Total,unmixed,591.81,314.5,277.32,46.86,85.67,8,red
+default,2022,990468,Educational ICT,ICT learning resources,unmixed,255.08,359.5,-104.42,-40.94,39.0,3,green
+default,2022,990468,Educational ICT,Total,unmixed,255.08,359.5,-104.42,-40.94,39.0,3,green
+default,2022,990468,Educational supplies,Examination fees,unmixed,109.54,122.4,-12.86,-11.74,45.67,4,green
+default,2022,990468,Educational supplies,Learning resources (not ICT equipment),unmixed,636.22,677.03,-40.82,-6.42,45.67,4,green
+default,2022,990468,Educational supplies,Total,unmixed,745.76,850.62,-104.86,-14.06,42.33,4,green
+default,2022,990468,Non-educational support staff and services,Administrative and clerical staff,unmixed,2732.95,3098.03,-365.09,-13.36,32.33,3,amber
+default,2022,990468,Non-educational support staff and services,Other staff,unmixed,0.0,0.0,0.0,0.0,72.33,7,amber
+default,2022,990468,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990468,Non-educational support staff and services,Total,unmixed,2989.41,3961.56,-972.15,-32.52,22.33,2,green
+default,2022,990468,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,85.67,8,red
+default,2022,990468,Other costs,Grounds maintenance,unmixed,0.0,30.72,-30.72,0.0,29.0,2,green
+default,2022,990468,Other costs,Indirect employee expenses,unmixed,829.35,263.45,565.9,68.23,89.0,8,red
+default,2022,990468,Other costs,Other insurance premiums,unmixed,7.24,53.5,-46.26,-638.67,9.0,0,green
+default,2022,990468,Other costs,Rent and rates,unmixed,0.0,10.42,-10.42,0.0,49.0,4,amber
+default,2022,990468,Other costs,School costs,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990468,Other costs,School staff,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990468,Other costs,Special facilities,unmixed,496.11,8.91,487.19,98.2,79.0,7,amber
+default,2022,990468,Other costs,Staff development and training,unmixed,126.59,118.79,7.81,6.17,59.0,5,amber
+default,2022,990468,Other costs,Staff-related insurance,unmixed,10.14,0.0,10.14,100.0,72.33,7,amber
+default,2022,990468,Other costs,Total,unmixed,1469.43,1216.42,253.01,17.22,62.33,6,amber
+default,2022,990468,Premises staff and services,Cleaning and caretaking,unmixed,3.12,2.93,0.19,5.98,55.67,5,amber
+default,2022,990468,Premises staff and services,Maintenance of premises,unmixed,23.73,5.4,18.33,77.26,95.67,9,red
+default,2022,990468,Premises staff and services,Other occupation costs,unmixed,5.51,2.63,2.88,52.21,65.67,6,amber
+default,2022,990468,Premises staff and services,Premises staff,unmixed,33.31,0.0,33.31,100.0,92.33,9,red
+default,2022,990468,Premises staff and services,Total,unmixed,65.67,32.48,33.2,50.55,89.0,8,red
+default,2022,990468,Teaching and Teaching support staff,Agency supply teaching staff,unmixed,720.24,742.6,-22.35,-3.1,45.67,4,green
+default,2022,990468,Teaching and Teaching support staff,Education support staff,unmixed,10777.49,6700.28,4077.21,37.83,85.67,8,amber
+default,2022,990468,Teaching and Teaching support staff,Educational consultancy,unmixed,5205.11,1230.3,3974.81,76.36,95.67,9,red
+default,2022,990468,Teaching and Teaching support staff,Supply teaching staff,unmixed,0.0,0.0,0.0,0.0,69.0,6,amber
+default,2022,990468,Teaching and Teaching support staff,Teaching staff,unmixed,24621.22,19759.95,4861.27,19.74,62.33,6,amber
+default,2022,990468,Teaching and Teaching support staff,Total,unmixed,41324.05,30518.52,10805.54,26.15,72.33,7,amber
+default,2022,990468,Utilities,Energy,unmixed,11.84,8.69,3.14,26.55,72.33,7,amber
+default,2022,990468,Utilities,Total,unmixed,13.38,10.39,2.99,22.36,72.33,7,amber
+default,2022,990468,Utilities,Water and sewerage,unmixed,1.54,0.23,1.31,84.81,62.33,6,amber
+default,2022,990469,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990470,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990471,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990472,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990473,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990474,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990475,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990476,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990477,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990478,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990479,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990480,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990481,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990482,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990483,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990484,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990485,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990486,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990487,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990488,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990489,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990490,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990491,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990492,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990493,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990494,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990495,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990496,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990497,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990498,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990499,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990500,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990501,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990502,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990503,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990504,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,green
+default,2022,990505,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990506,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990507,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990508,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990509,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990510,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,green
+default,2022,990511,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990512,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990513,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990514,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990515,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990516,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990517,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990518,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990519,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990520,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990521,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990522,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990523,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990524,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,green
+default,2022,990525,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990526,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990527,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990528,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,amber
+default,2022,990529,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990530,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990531,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990532,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990533,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990534,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990535,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990536,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990537,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990538,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990539,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990540,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990541,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990542,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990543,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990544,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990545,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990546,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990547,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990548,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,green
+default,2022,990549,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990550,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990551,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990552,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990553,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990554,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990555,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990556,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990557,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990558,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990559,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990560,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990561,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990562,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990563,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990564,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,green
+default,2022,990565,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990566,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990567,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990568,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990569,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990570,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990571,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990572,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990573,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990574,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,green
+default,2022,990575,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990576,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990577,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990578,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990579,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990580,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990581,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990582,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,green
+default,2022,990583,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990584,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990585,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990586,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990587,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990588,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990589,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990590,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990591,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990592,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990593,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990594,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990595,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990596,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990597,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990598,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990599,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990600,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990601,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990602,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990603,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990604,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990605,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,green
+default,2022,990606,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990607,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990608,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990609,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990610,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990611,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990612,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990613,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990614,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990615,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990616,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990617,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990618,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990619,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990620,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990621,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990622,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990623,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990624,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990625,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990626,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990627,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990628,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990629,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990630,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,amber
+default,2022,990631,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990632,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990633,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990634,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990635,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990636,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990637,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,green
+default,2022,990638,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990639,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990640,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990641,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990642,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990643,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990644,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990645,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990646,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,red
+default,2022,990647,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990648,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,green
+default,2022,990649,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990650,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990651,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990652,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990653,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990654,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990655,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990656,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990657,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990658,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990659,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990660,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990661,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990662,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,green
+default,2022,990663,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,green
+default,2022,990664,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990665,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990666,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990667,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,green
+default,2022,990668,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990669,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990670,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990671,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990672,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990673,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990674,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,amber
+default,2022,990675,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990676,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990677,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990678,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990679,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990680,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990681,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990682,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990683,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,green
+default,2022,990684,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,green
+default,2022,990685,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990686,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990687,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990688,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990689,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990690,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990691,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990692,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990693,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,green
+default,2022,990694,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990695,Educational supplies,Examination fees,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990696,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,amber
+default,2022,990697,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990698,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990699,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990700,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,amber
+default,2022,990701,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990702,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990703,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990704,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990705,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990706,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990707,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990708,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990709,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990710,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990711,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,amber
+default,2022,990712,Catering staff and supplies,Income from catering,unmixed,12.0,0.0,12.0,100.0,66.0,6,green
+default,2022,990713,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990714,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990715,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,amber
+default,2022,990716,Educational supplies,Learning resources (not ICT equipment),unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990717,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990718,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990719,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990720,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,amber
+default,2022,990721,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990722,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,amber
+default,2022,990723,Non-educational support staff and services,Total,unmixed,1025.0,474.0,551.0,54.0,92.0,9,red
+default,2022,990724,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990725,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,amber
+default,2022,990726,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,amber
+default,2022,990727,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990728,Non-educational support staff and services,Other staff,unmixed,40.0,121.0,-82.0,-206.0,19.0,1,red
+default,2022,990729,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990730,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990731,Other costs,Grounds maintenance,unmixed,26.0,3.0,23.0,88.0,89.0,8,red
+default,2022,990732,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,red
+default,2022,990733,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,red
+default,2022,990734,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990735,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990736,Non-educational support staff and services,Administrative and clerical staff,unmixed,718.0,273.0,445.0,62.0,99.0,9,red
+default,2022,990737,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990738,Non-educational support staff and services,Professional services (non-curriculum),unmixed,268.0,51.0,217.0,81.0,96.0,9,red
+default,2022,990739,Educational ICT,Total,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990740,Other costs,Indirect employee expenses,unmixed,14.0,8.0,6.0,43.0,62.0,6,red
+default,2022,990741,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,green
+default,2022,990742,Educational supplies,Total,unmixed,498.0,214.0,284.0,57.0,92.0,9,amber
+default,2022,990743,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,amber
+default,2022,990744,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,amber
+default,2022,990745,Administrative supplies,Total,unmixed,270.0,59.0,211.0,78.0,92.0,9,green
+default,2022,990746,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,red
+default,2022,990747,Other costs,Direct revenue financing,unmixed,0.0,0.0,0.0,0.0,72.0,7,amber
+default,2022,990748,Educational ICT,ICT learning resources,unmixed,4.0,37.0,-34.0,-880.0,16.0,1,red
+default,2022,990749,Non-educational support staff and services,Audit cost,unmixed,0.0,0.0,0.0,0.0,99.0,9,red
+default,2022,990750,Catering staff and supplies,Catering supplies,unmixed,468.0,221.0,246.0,53.0,99.0,9,red
+default,2022,990751,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,79.0,7,red
+default,2022,990752,Administrative supplies,Administrative supplies (non educational),unmixed,270.0,59.0,211.0,78.0,92.0,9,red
+default,2022,990753,Catering staff and supplies,Total,unmixed,480.0,260.0,219.0,46.0,96.0,9,green
