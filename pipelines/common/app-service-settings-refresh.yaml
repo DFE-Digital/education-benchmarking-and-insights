@@ -1,0 +1,56 @@
+parameters:
+  - name: subscription
+    type: string
+    default: ''
+  - name: resourceGroup
+    type: string
+    default: ''
+  - name: resources
+    type: object
+    default: 
+    - name: '' # Azure resource name
+      alias: '' # used for output variable and task name (alpha and underscores only permitted)
+  - name: dependsOn
+    type: object
+    default: []
+
+jobs:
+  - job: GetResourceIds
+    displayName: Get Resource Ids
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - checkout: none
+
+    - ${{ each resource in parameters.resources }}:
+      - task: AzureCLI@1
+        name: "AzureCli_${{ resource.alias }}"
+        displayName: 'Get Azure Resource Id for ${{ resource.alias }}'
+        inputs:
+          azureSubscription: ${{ parameters.subscription }}
+          scriptLocation: inlineScript
+          inlineScript: |
+            resourceId=$(az resource show --name ${{ resource.name }} --resource-group ${{ parameters.resourceGroup }} --resource-type Microsoft.Web/sites --query "id" -o tsv 2>nul)
+            echo "Resource Id '$resourceId' resolved for '${{ resource.name }}'"
+            echo "##vso[task.setvariable variable=Resource_Id;isOutput=true]$resourceId"
+
+  - job: SyncKeyVaultReferences
+    displayName: Sync Key Vault references
+    dependsOn: [ GetResourceIds ]
+    variables: 
+      - ${{ each resource in parameters.resources }}:
+        - name: "${{ resource.alias }}"
+          value: $[ replace(dependencies.GetResourceIds.outputs['AzureCli_${{ resource.alias }}.Resource_Id'], '/subscriptions/', 'subscriptions/') ]
+    pool: server
+    steps:
+    
+    - ${{ each resource in parameters.resources }}:
+      - task: InvokeRESTAPI@1
+        name: 'InvokeRestApi_${{ resource.alias }}'
+        displayName: 'Invoke REST API for ${{ resource.alias }}'
+        inputs:
+          connectionType: 'connectedServiceNameARM'
+          azureServiceConnection: ${{ parameters.subscription }}
+          method: POST
+          urlSuffix: "$(${{ resource.alias }})/config/configreferences/appsettings/refresh?api-version=2022-03-01"

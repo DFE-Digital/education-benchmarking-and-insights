@@ -114,3 +114,20 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
+
+  - template: ../common/app-service-settings-refresh.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      resourceGroup: '${{ parameters.environmentPrefix }}-ebis-platform'
+      resources: 
+        - name: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
+          alias: 'benchmark'
+        - name: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
+          alias: 'insight'
+        - name: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
+          alias: 'establishment'
+        - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
+          alias: 'orchestrator'
+        - name: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
+          alias: 'cleanup'
+      dependsOn: [ PlatformDeployment ]
