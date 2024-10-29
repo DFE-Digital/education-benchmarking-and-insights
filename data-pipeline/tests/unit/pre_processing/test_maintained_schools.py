@@ -213,6 +213,7 @@ def test_federation_mapping(
         prepared_ks2_data,
         prepared_ks4_data,
     )
+
     actual = maintained_schools.join_federations(master_list)
 
     # Beware: `nan != nan`; 100154 removed as per `test_create_master_list()`.
@@ -312,3 +313,31 @@ def test_federation_lead_school_agg_building_age():
     assert actual.loc["10000", "Building Age"] == 1995.0
     assert actual.loc["10001", "Building Age"] == 1990.0
     assert actual.loc["10002", "Building Age"] == 1990.0
+
+
+def test_join_federations_unmodified():
+    df = pd.DataFrame(
+        {
+            "URN": [100000, 100001, 100002, 100003],
+            "School Name": ["A", "B", "C", "D"],
+            "LAEstab": ["10000", "10001", "10002", "10003"],
+            "Percentage Free school meals": [25.0, 25.0, 25.0, 25.0],
+            "Percentage SEN": [50.0, 50.0, 50.0, 50.0],
+            "Number of pupils": [1_000, 1_000, 1_000, 1_000],
+            "Lead school in federation": ["10000", "10001", "10002", "10000"],
+            "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
+            "Building Age": [1990, 1990, 1990, 2000],
+        }
+    )
+
+    actual = maintained_schools.join_federations(df)
+
+    assert len(actual.index) == 4
+    # value for lead-school should be aggregated…
+    assert actual.loc[actual["URN"] == 100000, "Number of pupils"].eq(2_000).all()
+    # value for non-lead-school should NOT be aggregated…
+    assert (
+        actual.loc[actual["URN"].isin([100001, 100002, 100003]), "Number of pupils"]
+        .eq(1_000)
+        .all()
+    )
