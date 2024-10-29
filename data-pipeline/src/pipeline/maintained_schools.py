@@ -219,13 +219,11 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
         lead_schools_agg["_Number of pupils SEN"] / lead_schools_agg["Number of pupils"]
     ) * 100.0
 
-    return (
-        lead_schools_agg.drop(
-            columns=[
-                "_Number of pupils FSM",
-                "_Number of pupils SEN",
-            ]
-        )
+    return lead_schools_agg.drop(
+        columns=[
+            "_Number of pupils FSM",
+            "_Number of pupils SEN",
+        ]
     )
 
 
@@ -262,7 +260,7 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
     lead_schools_agg = _federation_lead_school_agg(df)
 
     return (
-        lead_schools_agg.combine_first(df.set_index("Federation LAEstab"))
+        lead_schools_agg.combine_first(df.set_index("LAEstab"))
         .sort_values("URN")
         .reset_index()
     )
