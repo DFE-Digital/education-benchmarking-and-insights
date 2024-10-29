@@ -6,7 +6,7 @@ This document outlines the steps for executing smoke tests in production while d
 ## Steps
 
 1. **Copy the Test Script Template**:
-    - Open the Test Plan titled **"Smoke Testing"** in DevOps.
+    - Open the Test Plan titled **"[Smoke Testing](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234919)"** in DevOps.
     - Go to the **Define** tab.
     - Click on the three dots next to the test case title 'Template' and select **Copy Test Cases**.
     - Copy the test cases to the same destination and rename the copied test plan with the current **release label**.
