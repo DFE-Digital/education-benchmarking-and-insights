@@ -37,6 +37,10 @@ resource "azurerm_storage_account" "data" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_queue" "pipeline-message-pending-queue" {
@@ -63,6 +67,10 @@ resource "azurerm_storage_container" "pipeline-raw-data" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "raw"
   storage_account_name = azurerm_storage_account.data.name
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_key_vault_secret" "data-storage-connection-string" {
@@ -155,18 +163,30 @@ resource "azurerm_storage_account" "backup" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_container" "pipeline-database-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "database"
   storage_account_name = azurerm_storage_account.backup.name
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "raw"
   storage_account_name = azurerm_storage_account.backup.name
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_key_vault_secret" "backup-storage-connection-string" {
