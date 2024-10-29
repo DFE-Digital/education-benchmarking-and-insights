@@ -23,6 +23,8 @@ parameters:
 steps:
   - bash: |
       branchName="${{ parameters.branchName }}"
+      echo "branchName : ${{ parameters.branchName }}"
+
       regex="refs\/heads\/main$|refs\/heads\/(feature|bugfix|hotfix|exp|tech-debt|doc|prototype)\/(\d+\/){0,1}[a-z0-9-]+"
       if echo "$branchName" | sed -En "/$regex/p" | grep -q .; then
         echo "$branchName is a valid branch"
