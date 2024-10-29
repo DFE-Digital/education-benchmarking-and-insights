@@ -22,6 +22,10 @@ resource "azurerm_storage_account" "data-source-storage" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
     cors_rule {
       allowed_headers    = ["*"]
       allowed_methods    = ["GET"]

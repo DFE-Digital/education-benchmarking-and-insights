@@ -221,6 +221,10 @@ resource "azurerm_storage_account" "sql-log-storage" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
   }
 
   queue_properties {

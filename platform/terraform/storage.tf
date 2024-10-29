@@ -22,6 +22,10 @@ resource "azurerm_storage_account" "platform-storage" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
   }
 
   queue_properties {
@@ -64,6 +68,10 @@ resource "azurerm_storage_account" "orchestrator-storage" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
   }
 
   queue_properties {
