@@ -63,50 +63,157 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
     * `poetry install`
 
-### Setting up .env file
-
-In the route of the `data-pipelines` repository there is an `.env-example` folder which shows the parameters that are required.
-
-Ensure you have created a copy of this file named `.env` and filled the parameter value placeholders with the required values. These values will be available from the azure portal.
-
-However, for local development assuming azurite, you can use the following values:
-
-    STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
-    WORKER_QUEUE_NAME=data-pipeline-job-start
-    COMPLETE_QUEUE_NAME=data-pipeline-job-finished
-    RAW_DATA_CONTAINER=raw
-
 ### Running the pipeline
 
-To running the API in Dev Mode:
+To run the pipeline locally, follow these steps:
 
-    make run-pipeline
+1. Set Up an Azurite instance:
 
-However, this will only run the pipeline and will fail using the above environment parameters, it is trying to connect to a local based storage. To this end there is a docker compose script that will run the following:
+    To start an Azurite instance, use the following command:
 
-* Azurite with default settings
-* FBIT data pipeline in - test mode (`make run-pipeline-dev-mode`)
+    ```sh
+    docker run \
+        --name dfe-azurite  \
+        --rm \
+        --publish 10000:10000 \
+        --publish 10001:10001 \
+        --publish 10002:10002 \
+        --detach \
+        mcr.microsoft.com/azure-storage/azurite
+    ```
 
-> Note: `Dev mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
+    For PowerShell:
+
+    ```ps1
+    docker run `
+        --name dfe-azurite `
+        --rm `
+        --publish 10000:10000 `
+        --publish 10001:10001 `
+        --publish 10002:10002 `
+        --detach `
+        mcr.microsoft.com/azure-storage/azurite
+    ```
+
+    Using Azure Storage Explorer (default settings), connect to Azurite and manually create the following resources:
+
+    * Queues
+        * `data-pipeline-job-start`
+        * `data-pipeline-job-finished`
+        * `data-pipeline-job-dlq`
+    * Containers
+        * `comparator-sets`
+        * `metric-rag`
+        * `pre-processed`
+        * `raw`
+
+    Upload files into the `raw` container, following this directory structure:
+
+    ```raw/default/<year>```
+
+2. Set Up a SQL Server Instance
+
+    To create a SQL Server instance, use the following command:
+
+    ```sh
+    docker run \
+        --name dfe-sql-server \
+        --rm \
+        --publish 1433:1433 \
+        --env SA_PASSWORD='mystrong!Pa55word' \
+        --env ACCEPT_EULA=Y \
+        --detach \
+        mcr.microsoft.com/azure-sql-edge
+    ```
+
+    For PowerShell:
+
+    ```ps1
+    docker run `
+        --name dfe-sql-server `
+        --rm `
+        --publish 1433:1433 `
+        --env SA_PASSWORD='mystrong!Pa55word' `
+        --env ACCEPT_EULA=Y `
+        --detach `
+        mcr.microsoft.com/azure-sql-edge
+    ```
+
+3. Create the database
+
+    To create the required database, use [`sqlcmd`](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-utility):
+
+    ```sh
+    sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
+    ```
+
+    Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables.
+
+    Set the following program arguments to target this instance:
+
+    `-c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;`
+
+4. Create an `.env` file:
+
+    Configure an `.env` file as follows:
+
+    ```txt
+    STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127
+    .0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
+    RAW_DATA_CONTAINER="raw"
+    DB_NAME="data"
+    DB_PORT="1433"
+    DB_ARGS="Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
+    DB_HOST="127.0.0.1"
+    DB_USER="sa"
+    DB_PWD='mystrong!Pa55word'
+    ENV="dev"
+    ```
+
+5. Install the Microsoft ODBC Driver for SQL Server
+
+    Install [Microsoft ODBC driver 18 for SQL Server](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16):
+
+6. Run the Pipeline
+
+    From data-pipeline directory run the pipeline:
+
+    ```sh
+    poetry run python -m src.pipeline.main
+    ```
+
+    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-start` queue:
+
+    ```
+    {"type":"default","year":<year>}
+    ```
+
+> Note: There is a docker compose script that will start Azurite, SQL server, and the FBIT pipeline that can be run from the `docker` directory using `docker compose up -d`. Docker compose will _not_ rebuild images on code change. So if you change any of the files in the `src` directory then the `fbit-services-pipeline:latest` image will need to be deleted and recreated. However depending on your machine and set up you may have issues running everything within Docker due to memory limitations and SSL errors. Following the steps outlined above is preferred.
 
 ### Testing locally
 
 Once the environment is set up as above, and you can successfully run the pipeline it is possible to run the unit and e2e tests locally.
 To run the unit tests run
 
-    make unit-test
+```sh
+poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/unit
+EXIT_CODE=$?
+poetry run coverage report --fail-under 65 || EXIT_CODE=$?
+poetry run coverage html
+poetry run coverage xml
+```
 
-To run the E2E tests, you first need to have the pipeline running in a docker container. The required containers can be run using `docker compose`
+Make:
 
-The docker compose file is located in the `docker` directory. Navigate to this directory and run
+```
+make unit-test
+```
 
-    docker compose up -d
+To run the E2E tests, you first need to have the pipeline running in a docker container.
 
-this will start 3 docker containers. `Azurite`, `Sql Server` and the `pipeline` containers. Once the containers are up and running the end to end tests can be run using
-
-    make e2e-test-local
-
-> Note: Docker compose will *not* rebuild images on code change. So if you change any of the files in the `src` directory then the `fbit-services-pipeline:latest` image will need to be deleted and recreated.
+```
+make e2e-test-local
+```
 
 ### Creating and running Docker images
 
