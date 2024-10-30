@@ -2,11 +2,15 @@
 
 @await Component.InvokeAsync("CommercialResource", new
 {
-    section = "Catering Staff",
-    links = new []
+    section = "Catering supplies",
+    links = new[]
     {
-        ("Building in use","https://find-dfe-approved-framework.service.gov.uk/list/fm-support-service")
+        ("Catering services", "https://find-dfe-approved-framework.service.gov.uk/list/outsourced-catering"),
+        ("Catering services", "https://find-dfe-approved-framework.service.gov.uk/list/catering-services"),
+        ("Commercial catering equipment", "https://find-dfe-approved-framework.service.gov.uk/list/catering-equipment"),
+        ("Grocery, fresh, chilled and frozen foods", "https://find-dfe-approved-framework.service.gov.uk/list/grocery-fresh-chilled-and-frozen-foods"),
+        ("Outsourced catering services", "https://find-dfe-approved-framework.service.gov.uk/list/outsourced-catering-cpc"),
+        ("Facilities management and workplace services", "https://find-dfe-approved-framework.service.gov.uk/list/fm-workplace-dps")
     },
     displayHeading = Model.DisplayHeading
 })
-
