@@ -153,7 +153,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         // assertions for lead federation schools
         else
         {
-            var message = page.QuerySelector("main > div > div:nth-child(4) > div > p"); ;
+            var message = page.QuerySelector("main > div > div:nth-child(3) > div > p"); ;
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
@@ -172,11 +172,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
                 DocumentAssert.Link(anchor, federationSchool.SchoolName, Paths.SchoolHome(federationSchool.URN).ToAbsolute());
             }
 
-            var dataSourceElement = page.QuerySelector("main > div > div:nth-child(5) > div > p");
+            var dataSourceElement = page.QuerySelector("main > div > div:nth-child(4) > div > p");
             Assert.NotNull(dataSourceElement);
             DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
 
-            var toolsSection = page.Body.SelectSingleNode("//main/div/div[7]");
+            var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
             DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
             var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
