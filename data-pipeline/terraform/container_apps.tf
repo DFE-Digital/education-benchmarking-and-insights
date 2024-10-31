@@ -14,119 +14,42 @@ resource "azurerm_container_app_environment" "main" {
   tags = local.common-tags
 }
 
-resource "azurerm_container_app" "data-pipeline" {
-  name                         = "${var.environment-prefix}-ebis-data-pipeline"
-  container_app_environment_id = azurerm_container_app_environment.main.id
-  resource_group_name          = azurerm_resource_group.resource-group.name
-  revision_mode                = "Single"
-  workload_profile_name        = "Pipeline"
+module "container_app_default" {
+  source = "./container_app"
 
-  identity {
-    type = "SystemAssigned"
-  }
+  container-app-environment-id = azurerm_container_app_environment.main.id
+  resource-group-name          = azurerm_resource_group.resource-group.name
 
-  secret {
-    name  = "queue-connection-string"
-    value = data.azurerm_storage_account.main.primary_connection_string
-  }
+  registry-name = "${var.environment-prefix}acr"
+  image-name    = var.image-name
 
-  secret {
-    name  = "db-password"
-    value = data.azurerm_key_vault_secret.core-db-password.value
-  }
+  environment        = var.environment
+  environment-prefix = var.environment-prefix
 
-  secret {
-    name  = "registry-password"
-    value = data.azurerm_container_registry.acr.admin_password
-  }
+  key-vault-name = "${var.environment-prefix}-ebis-keyvault"
 
-  registry {
-    server               = data.azurerm_container_registry.acr.login_server
-    username             = data.azurerm_container_registry.acr.admin_username
-    password_secret_name = "registry-password"
-  }
+  queue-connection-string = data.azurerm_storage_account.main.primary_connection_string
+  worker-queue-name       = "data-pipeline-job-default-start"
 
-  template {
-    min_replicas    = 0
-    max_replicas    = var.environment == "development" ? 1 : 10
-    revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
-    container {
-      name   = "edis-data-pipeline"
-      image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
-      cpu    = 4
-      memory = "16Gi"
+  common-tags = local.common-tags
+}
 
-      env {
-        name  = "WORKER_QUEUE_NAME"
-        value = "data-pipeline-job-start"
-      }
+module "container_app_custom" {
+  source = "./container_app"
 
-      env {
-        name  = "COMPLETE_QUEUE_NAME"
-        value = "data-pipeline-job-finished"
-      }
+  container-app-environment-id = azurerm_container_app_environment.main.id
+  resource-group-name          = azurerm_resource_group.resource-group.name
 
-      env {
-        name  = "DEAD_LETTER_QUEUE_NAME"
-        value = "data-pipeline-job-dlq"
-      }
+  registry-name = "${var.environment-prefix}acr"
+  image-name    = var.image-name
 
-      env {
-        name  = "DEAD_LETTER_QUEUE_DEQUEUE_MAX"
-        value = "5"
-      }
+  environment        = var.environment
+  environment-prefix = var.environment-prefix
 
-      env {
-        name  = "RAW_DATA_CONTAINER"
-        value = "raw"
-      }
+  key-vault-name = "${var.environment-prefix}-ebis-keyvault"
 
-      env {
-        name        = "STORAGE_CONNECTION_STRING"
-        secret_name = "queue-connection-string"
-      }
+  queue-connection-string = data.azurerm_storage_account.main.primary_connection_string
+  worker-queue-name       = "data-pipeline-job-custom-start"
 
-      env {
-        name        = "DB_PWD"
-        secret_name = "db-password"
-      }
-
-      env {
-        name  = "DB_HOST"
-        value = data.azurerm_key_vault_secret.core-db-domain-name.value
-      }
-
-      env {
-        name  = "DB_NAME"
-        value = data.azurerm_key_vault_secret.core-db-name.value
-      }
-
-      env {
-        name  = "DB_PORT"
-        value = "1433"
-      }
-
-      env {
-        name  = "DB_USER"
-        value = data.azurerm_key_vault_secret.core-db-user-name.value
-      }
-
-      env {
-        name  = "DB_ARGS"
-        value = "Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
-      }
-    }
-
-    azure_queue_scale_rule {
-      name         = "${var.environment-prefix}-data-pipeline-scaler"
-      queue_name   = "data-pipeline-job-start"
-      queue_length = 1
-      authentication {
-        secret_name       = "queue-connection-string"
-        trigger_parameter = "connection"
-      }
-    }
-  }
-
-  tags = local.common-tags
+  common-tags = local.common-tags
 }
