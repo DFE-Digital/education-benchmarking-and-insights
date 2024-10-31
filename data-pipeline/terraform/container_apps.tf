@@ -14,21 +14,6 @@ resource "azurerm_container_app_environment" "main" {
   tags = local.common-tags
 }
 
-# resource "azurerm_user_assigned_identity" "container-app" {
-#   location            = azurerm_resource_group.resource-group.location
-#   name                = "${var.environment-prefix}containerappmi"
-#   resource_group_name = azurerm_resource_group.resource-group.name
-# }
-#
-# resource "azurerm_role_assignment" "container-app" {
-#   scope                = data.azurerm_container_registry.acr.id
-#   role_definition_name = "acrpull"
-#   principal_id         = azurerm_user_assigned_identity.container-app.principal_id
-#   depends_on = [
-#     azurerm_user_assigned_identity.container-app
-#   ]
-# }
-
 resource "azurerm_container_app" "data-pipeline" {
   name                         = "${var.environment-prefix}-ebis-data-pipeline"
   container_app_environment_id = azurerm_container_app_environment.main.id
@@ -38,7 +23,6 @@ resource "azurerm_container_app" "data-pipeline" {
 
   identity {
     type = "SystemAssigned"
-    #     identity_ids = [azurerm_user_assigned_identity.container-app.id]
   }
 
   secret {
@@ -60,7 +44,6 @@ resource "azurerm_container_app" "data-pipeline" {
     server               = data.azurerm_container_registry.acr.login_server
     username             = data.azurerm_container_registry.acr.admin_username
     password_secret_name = "registry-password"
-    #     identity = azurerm_user_assigned_identity.container-app.id
   }
 
   template {
