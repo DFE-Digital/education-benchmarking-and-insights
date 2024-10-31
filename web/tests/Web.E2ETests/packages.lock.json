@@ -32,15 +32,14 @@
       },
       "Microsoft.Extensions.Configuration.Json": {
         "type": "Direct",
-        "requested": "[8.0.0, )",
-        "resolved": "8.0.0",
-        "contentHash": "C2wqUoh9OmRL1akaCcKSTmRU8z0kckfImG7zLNI8uyi47Lp+zd5LWAD17waPQEqCz3ioWOCrFUo+JJuoeZLOBw==",
+        "requested": "[8.0.1, )",
+        "resolved": "8.0.1",
+        "contentHash": "L89DLNuimOghjV3tLx0ArFDwVEJD6+uGB3BMCMX01kaLzXkaXHb2021xOMl2QOxUxbdePKUZsUY7n2UUkycjRg==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
-          "Microsoft.Extensions.Configuration.FileExtensions": "8.0.0",
-          "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0",
-          "System.Text.Json": "8.0.0"
+          "Microsoft.Extensions.Configuration.FileExtensions": "8.0.1",
+          "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0"
         }
       },
       "Microsoft.NET.Test.Sdk": {
@@ -55,13 +54,13 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.47.0, )",
-        "resolved": "1.47.0",
-        "contentHash": "D9verOkoSO1vqqAe36jmuQlceEHd2leoYlLOXQkMuVDFTbhvblVk7LOm9LeS50u+5xNcIcJi1+vA2rZxN5tW4A==",
+        "requested": "[1.48.0, )",
+        "resolved": "1.48.0",
+        "contentHash": "u1/zX2/YzpNjkjKurOeLgXrqtQwDVdHMl1/kppxDst3NEg4htJHPVC2xs1dmV+f6P7t/BXlP14xbJ6E5I6tTXQ==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
-          "System.Text.Json": "6.0.0"
+          "System.Text.Json": "6.0.10"
         }
       },
       "Newtonsoft.Json": {
@@ -72,9 +71,9 @@
       },
       "Reqnroll": {
         "type": "Direct",
-        "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "lkNiB+MMwNeKL8/p2TqHVmUpMB0G2vVYdhyz9XFNutxDLRD2L6eBNU3jBeCyAoWcBkXMB1lG0gTV7u8LqbEBwA==",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "RhV5B0lxVXzP+0U9OUkWf3nMGfSlWnxQdUp0mcatvuQISxB8ZPjdhJB3T4Vjo3bFMiQb/0LUXUmNZ0IqBPZldw==",
         "dependencies": {
           "Cucumber.CucumberExpressions": "17.1.0",
           "Gherkin": "29.0.0",
@@ -85,12 +84,12 @@
       },
       "Reqnroll.xUnit": {
         "type": "Direct",
-        "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "2inuLcoof4dTkAkedcedZVKiu7GI6IHVNcLAr4Xts/7VT3P+H5x4OSBVRkFCaUrdpGmQf3Ckzt9Ib93za598pA==",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "LXYWksQqiCUxwVFGbVcKV7QoJWhc0HOX9hRD0XbqdK9sWbgYijEIacBIUfCV9WzvYk2QpnA+Oeu3Oi+rZGpQmA==",
         "dependencies": {
-          "Reqnroll": "[2.1.0]",
-          "Reqnroll.Tools.MsBuild.Generation": "[2.1.0]",
+          "Reqnroll": "[2.1.1]",
+          "Reqnroll.Tools.MsBuild.Generation": "[2.1.1]",
           "Xunit.SkippableFact": "1.4.13",
           "xunit.core": "2.4.2"
         }
@@ -148,8 +147,8 @@
       },
       "Microsoft.Extensions.Configuration.FileExtensions": {
         "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "McP+Lz/EKwvtCv48z0YImw+L1gi1gy5rHhNaNIY2CrjloV+XY8gydT8DjMR6zWeL13AFK+DioVpppwAuO1Gi1w==",
+        "resolved": "8.0.1",
+        "contentHash": "EJzSNO9oaAXnTdtdNO6npPRsIIeZCBSNmdQ091VDO7fBiOtJAAeEq6dtrVXIi3ZyjC5XRSAtVvF8SzcneRHqKQ==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
@@ -224,10 +223,10 @@
       },
       "Reqnroll.Tools.MsBuild.Generation": {
         "type": "Transitive",
-        "resolved": "2.1.0",
-        "contentHash": "3RRbCQRriNbSsS1O4xI38NGMssA89sDgxG6NAPE4j4QkscmsStl+M015raIb3dGWMxkZ/1o4oYcL/HQG4sJpGQ==",
+        "resolved": "2.1.1",
+        "contentHash": "xjv2ihoRHpAAjhZX9d964/0R8mhgHiquPBjnJmhc2sYQnemDCkHIsb4d2VAMKS/HeiXLi6NAxujjgAYFBcxDKg==",
         "dependencies": {
-          "Reqnroll": "[2.1.0]"
+          "Reqnroll": "[2.1.1]"
         }
       },
       "SpecFlow.Internal.Json": {
