@@ -7,7 +7,6 @@ public class CommercialResourcesPage(IPage page)
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
     private ILocator RecommendedResourcesHeadings => page.Locator($"{Selectors.RecommendedResources} {Selectors.H2}");
-
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator AllResourcesTab => page.Locator(Selectors.AllResourcesTab);
     private ILocator AllResourcesHeadings => page.Locator($"{Selectors.AllResources} {Selectors.H2}");
@@ -18,7 +17,6 @@ public class CommercialResourcesPage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        //await BackLink.ShouldBeVisible();
         Assert.Equal("Recommended for this school", await RecommendedResourcesHeadings.First.TextContentAsync());
     }
 
