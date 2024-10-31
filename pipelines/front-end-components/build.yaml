@@ -10,6 +10,7 @@ trigger:
     include:
       - front-end-components
       - pipelines/front-end-components
+      - pipelines/common
 
 pr:
   paths:
