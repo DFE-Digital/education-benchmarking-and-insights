@@ -13,9 +13,9 @@
       },
       "AngleSharp.Css": {
         "type": "Direct",
-        "requested": "[1.0.0-beta.139, )",
-        "resolved": "1.0.0-beta.139",
-        "contentHash": "6WE6IsXtmTUe3h5dL7d0AM/WqlR3toulUcUnt9hQOZaJykjUxRE5WLAEwIjVzh1/n2vqKxjG+BCOx0ywmY0Xhg==",
+        "requested": "[1.0.0-beta.144, )",
+        "resolved": "1.0.0-beta.144",
+        "contentHash": "WfyZ1zi5o7fNPgTv0O74nmzyxt9w4tjypwpOCSoeoZDOHtgghc/JqyGHRbQh7Y9sZlJiivQhrQNtm4XAy9LHYA==",
         "dependencies": {
           "AngleSharp": "[1.0.0, 2.0.0)"
         }
@@ -2212,7 +2212,7 @@
       },
       "Microsoft.Extensions.Caching.Cosmos": {
         "type": "CentralTransitive",
-        "requested": "[1.6.2, )",
+        "requested": "[1.7.0, )",
         "resolved": "1.7.0",
         "contentHash": "3e8bwKBALCuSPnu9clUlLmZX/unVBg8UtAOpesQBNojnDOcTZL5bx31pRnSu052NqUT/IZesyG8OX1BoEoc/mw==",
         "dependencies": {
