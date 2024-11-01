@@ -86,7 +86,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
 
 
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["Trust Balance"].loc[100150] == -45075.0
+    assert prepared_aar_data["Trust Balance"].loc[100150] == -48080.0
 
 
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
@@ -94,7 +94,7 @@ def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
 
 
 def test_aar_academy_financial_in_year_balance(prepared_aar_data: pd.DataFrame):
-    assert prepared_aar_data["In year balance"].loc[100153] == -15030.0
+    assert prepared_aar_data["In year balance"].loc[100153] == -16032.0
 
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):

@@ -192,7 +192,6 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
     academies = build_academy_data(
-        year,
         schools,
         census,
         sen,
