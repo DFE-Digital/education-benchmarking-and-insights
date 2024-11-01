@@ -23,13 +23,13 @@ module "container_app_default" {
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
 
-  environment        = var.environment
   environment-prefix = var.environment-prefix
 
   key-vault-name = "${var.environment-prefix}-ebis-keyvault"
 
   queue-connection-string = data.azurerm_storage_account.main.primary_connection_string
   worker-queue-name       = "data-pipeline-job-default-start"
+  max-replicas            = 1
 
   common-tags = local.common-tags
 }
@@ -43,13 +43,13 @@ module "container_app_custom" {
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
 
-  environment        = var.environment
   environment-prefix = var.environment-prefix
 
   key-vault-name = "${var.environment-prefix}-ebis-keyvault"
 
   queue-connection-string = data.azurerm_storage_account.main.primary_connection_string
   worker-queue-name       = "data-pipeline-job-custom-start"
+  max-replicas            = var.environment == "development" ? 1 : 10
 
   common-tags = local.common-tags
 }

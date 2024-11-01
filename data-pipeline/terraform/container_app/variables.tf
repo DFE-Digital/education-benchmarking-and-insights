@@ -8,11 +8,6 @@ variable "image-name" {
   type        = string
 }
 
-variable "environment" {
-  description = "Descriptor for the current environment (e.g. 'development')."
-  type        = string
-}
-
 variable "environment-prefix" {
   description = "Prefix to be used for resources in the current environment."
   type        = string
@@ -69,4 +64,9 @@ variable "core-db-password-secret-name" {
   description = "Name of the Azure Key Vault Secret for the DB password."
   type        = string
   default     = "core-sql-password"
+}
+
+variable "max-replicas" {
+  description = "The max. number of Container App replicas to launch."
+  type        = number
 }
