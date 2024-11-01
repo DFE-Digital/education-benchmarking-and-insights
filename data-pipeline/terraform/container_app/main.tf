@@ -11,7 +11,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
   secret {
     name  = "queue-connection-string"
-    value = var.queue-connection-string
+    value = data.azurerm_storage_account.main.primary_connection_string
   }
 
   secret {

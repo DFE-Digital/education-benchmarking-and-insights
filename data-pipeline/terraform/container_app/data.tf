@@ -3,6 +3,11 @@ data "azurerm_container_registry" "acr" {
   resource_group_name = var.resource-group-name
 }
 
+data "azurerm_storage_account" "main" {
+  name                = var.storage-account-name
+  resource_group_name = var.resource-group-name
+}
+
 data "azurerm_key_vault" "key-vault" {
   name                = var.key-vault-name
   resource_group_name = var.resource-group-name

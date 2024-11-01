@@ -28,13 +28,13 @@ variable "resource-group-name" {
   type        = string
 }
 
-variable "queue-connection-string" {
-  description = "Connection string for the Azure Storage Account."
+variable "registry-name" {
+  description = "Azure Container Registry name."
   type        = string
 }
 
-variable "registry-name" {
-  description = "Azure Container Registry name."
+variable "storage-account-name" {
+  description = "Azure Storage Account name."
   type        = string
 }
 

@@ -7,8 +7,3 @@ data "azurerm_log_analytics_workspace" "application-insights-workspace" {
   name                = "${var.environment-prefix}-ebis-aiw"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
-
-data "azurerm_storage_account" "main" {
-  name                = "${var.environment-prefix}data"
-  resource_group_name = "${var.environment-prefix}-ebis-core"
-}
