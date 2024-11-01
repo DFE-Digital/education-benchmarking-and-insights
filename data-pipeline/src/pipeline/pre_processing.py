@@ -365,9 +365,6 @@ def prepare_central_services_data(cs_path, current_year: int):
         + central_services_financial["BNCH21703 (Auditor costs)"]
         + central_services_financial["BNCH21801 (Interest charges for Loan and bank)"]
         + central_services_financial["BNCH21802 (PFI Charges)"]
-        - central_services_financial[
-            "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-        ]
     )
 
     central_services_financial["Total Income"] = (
