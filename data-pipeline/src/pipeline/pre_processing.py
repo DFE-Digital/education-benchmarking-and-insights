@@ -365,9 +365,6 @@ def prepare_central_services_data(cs_path, current_year: int):
         + central_services_financial["BNCH21703 (Auditor costs)"]
         + central_services_financial["BNCH21801 (Interest charges for Loan and bank)"]
         + central_services_financial["BNCH21802 (PFI Charges)"]
-        - central_services_financial[
-            "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-        ]
     )
 
     central_services_financial["Total Income"] = (
@@ -510,7 +507,6 @@ def prepare_aar_data(aar_path, current_year: int):
         + aar["BNCH21703 (Auditor costs)"]
         + aar["BNCH21801 (Interest charges for Loan and bank)"]
         + aar["BNCH21802 (PFI Charges)"]
-        - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
     )
 
     aar["Total Income"] = (
@@ -750,7 +746,6 @@ def _trust_revenue_reserve(
 
 
 def build_academy_data(
-    year,
     schools,
     census,
     sen,
