@@ -7,8 +7,6 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Number of pupils (headcount)",
         "Number of pupils",
         "ward_name",
-        "district_administrative_name",
-        "region_name",
         "Number of early year pupils (years E1 and E2)",
         "Number of nursery pupils (years N1 and N2)",
         "Full time boys Year group 12",

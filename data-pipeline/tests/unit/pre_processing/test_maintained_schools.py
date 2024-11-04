@@ -114,7 +114,7 @@ def test_calc_base_financials(
 
 
 def test_map_cost_income_categories(maintained_schools_master_list: pd.DataFrame):
-    income_mappings = {"I03  SEN funding": "Income_SEN"}
+    income_mappings = {"I06  Other government grants": "Income_Other DFE grants",}
 
     cost_mappings = {"E06 Catering staff": "Catering staff and supplies_Catering staff"}
 
@@ -122,7 +122,7 @@ def test_map_cost_income_categories(maintained_schools_master_list: pd.DataFrame
         maintained_schools_master_list, cost_mappings, income_mappings
     )
 
-    assert actual.columns.isin(["Income_SEN"]).any()
+    assert actual.columns.isin(["Income_Other DFE grants"]).any()
     assert actual.columns.isin(["Catering staff and supplies_Catering staff"]).any()
 
 

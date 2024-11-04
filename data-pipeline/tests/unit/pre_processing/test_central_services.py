@@ -29,8 +29,6 @@ def test_central_services_data_has_correct_output_columns(
         "Educational ICT_ICT learning resources",
         "Educational supplies_Examination fees",
         "Educational supplies_Learning resources (not ICT equipment)",
-        "BNCH11000T (Revenue Income)",
-        "BNCH20000T (Total Costs)",
         "Non-educational support staff and services_Administrative and clerical staff",
         "Non-educational support staff and services_Audit cost",
         "Non-educational support staff and services_Other staff",
