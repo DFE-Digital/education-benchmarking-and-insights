@@ -178,6 +178,6 @@ resource "mssql_user" "app-service-user" {
 
   database  = "data"
   username  = azurerm_windows_function_app.func-app.name
-  object_id = jsondecode(data.azapi_resource.app-service-identity.output).properties.clientId
+  object_id = data.azapi_resource.app-service-identity.output.properties.clientId
   roles     = ["db_datareader", "db_datawriter"]
 }
