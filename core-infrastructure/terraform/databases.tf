@@ -256,7 +256,7 @@ resource "azapi_resource_action" "sql-server-auto-tuning" {
   resource_id = "${azurerm_mssql_server.sql-server.id}/automaticTuning/current"
   type        = "Microsoft.Sql/servers/automaticTuning@2021-11-01"
   method      = "PATCH"
-  body = jsonencode({
+  body = {
     properties = {
       desiredState = "Auto"
       options = {
@@ -266,7 +266,7 @@ resource "azapi_resource_action" "sql-server-auto-tuning" {
         dropIndex         = { desiredState = "On" }
       }
     }
-  })
+  }
   depends_on = [azurerm_mssql_database.sql-db]
 }
 
