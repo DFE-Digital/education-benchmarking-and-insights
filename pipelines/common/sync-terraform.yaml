@@ -44,13 +44,13 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@1
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
     displayName: 'Install terraform'
     inputs:
-      terraformVersion: 1.9.0
+      terraformVersion: 1.9.8
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@1
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
     displayName: 'Initialise terraform'
     inputs:
@@ -65,7 +65,7 @@ steps:
       backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@1
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
     displayName: 'Run terraform plan'
     inputs:
@@ -82,7 +82,7 @@ steps:
       publishPlanResults: '${{ parameters.environmentPrefix }}-${{ parameters.module }}-plan'
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@1
     condition: and(succeeded(), ne(variables['SkipSync'], 'true'))
     displayName: 'Run terraform apply'
     inputs:

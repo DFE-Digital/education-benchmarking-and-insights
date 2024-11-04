@@ -35,12 +35,12 @@ steps:
       TerraformDirectory: ${{ parameters.workspaceDir }}
       DisablePreventDestroy: true
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@1
     displayName: 'Install terraform'
     inputs:
-      terraformVersion: 1.9.0
+      terraformVersion: 1.9.8
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@1
     displayName: 'Initialise terraform'
     inputs:
       command: init
@@ -54,7 +54,7 @@ steps:
       backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@1
     displayName: 'Destroy infrastructure'
     inputs:
       command: destroy
