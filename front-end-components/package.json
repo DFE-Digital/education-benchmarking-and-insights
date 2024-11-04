@@ -19,7 +19,7 @@
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "classnames": "^2.5.1",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.6.0",
     "punycode": "^2.3.1",
@@ -29,7 +29,7 @@
     "recharts-to-png": "^2.3.1",
     "stats-lite": "^2.2.0",
     "usehooks-ts": "^3.1.0",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
