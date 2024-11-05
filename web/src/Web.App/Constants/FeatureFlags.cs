@@ -10,4 +10,5 @@ public static class FeatureFlags
     public const string LocalAuthorities = nameof(LocalAuthorities);
     public const string ForecastRisk = nameof(ForecastRisk);
     public const string DisableOrganisationClaimCheck = nameof(DisableOrganisationClaimCheck);
+    public const string BenchmarkingReportCards = nameof(BenchmarkingReportCards);
 }

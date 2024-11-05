@@ -23,6 +23,11 @@
         When I click on benchmark census data
         Then the benchmark census page is displayed
 
+    Scenario: Go to benchmarking report cards page
+        Given I am on school homepage for school with urn '777042'
+        When I click on benchmarking report cards
+        Then the benchmarking report cards page is displayed
+
     Scenario: Go to view all spending and costs page
         Given I am on school homepage for school with urn '777042'
         When I click on view all spending and costs

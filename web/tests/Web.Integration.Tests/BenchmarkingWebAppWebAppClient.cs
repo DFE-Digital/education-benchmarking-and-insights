@@ -80,7 +80,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.TrustComparison,
             FeatureFlags.Trusts,
             FeatureFlags.LocalAuthorities,
-            FeatureFlags.ForecastRisk
+            FeatureFlags.ForecastRisk,
+            FeatureFlags.BenchmarkingReportCards
         };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))

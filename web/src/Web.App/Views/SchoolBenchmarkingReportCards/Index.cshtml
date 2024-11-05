@@ -1,0 +1,17 @@
+@model Web.App.ViewModels.BenchmarkingReportCardsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolBenchmarkingReportCards;
+}
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-l">
+                Financial Insights and Benchmarking Summary
+                @* TODO: Replace with AAR/CFR date range when building out page *@
+                2023/24:
+            </span>
+            <h1 class="govuk-heading-l">@Model.Name</h1>
+        </div>
+    </div>
+</div>

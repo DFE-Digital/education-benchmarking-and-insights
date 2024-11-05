@@ -8,6 +8,7 @@ namespace Web.E2ETests.Steps.School;
 public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
+    private BenchmarkingReportCardsPage? _benchmarkingReportCardsPage;
     private CommercialResourcesPage? _commercialResourcesPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
@@ -119,6 +120,20 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_benchmarkCensusPage);
         await _benchmarkCensusPage.IsDisplayed();
+    }
+
+    [When("I click on benchmarking report cards")]
+    public async Task WhenIClickOnBenchmarkingReportCards()
+    {
+        Assert.NotNull(_schoolHomePage);
+        _benchmarkingReportCardsPage = await _schoolHomePage.ClickBenchmarkingReportCards();
+    }
+
+    [Then("the benchmarking report cards page is displayed")]
+    public async Task ThenTheBenchmarkingReportCardsPageIsDisplayed()
+    {
+        Assert.NotNull(_benchmarkingReportCardsPage);
+        await _benchmarkingReportCardsPage.IsDisplayed();
     }
 
     [When("I click on view all spending and costs")]
