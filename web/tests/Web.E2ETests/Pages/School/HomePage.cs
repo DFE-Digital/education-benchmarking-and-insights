@@ -20,6 +20,10 @@ public class HomePage(IPage page)
     {
         HasText = "Benchmark pupil and workforce data"
     });
+    private ILocator BenchmarkingReportCardsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Benchmarking report cards"
+    });
     private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "School contact details"
@@ -119,6 +123,12 @@ public class HomePage(IPage page)
     {
         await BenchmarkCensusDataLink.Click();
         return new BenchmarkCensusPage(page);
+    }
+
+    public async Task<BenchmarkingReportCardsPage> ClickBenchmarkingReportCards()
+    {
+        await BenchmarkingReportCardsLink.Click();
+        return new BenchmarkingReportCardsPage(page);
     }
 
     public async Task<SpendingCostsPage> ClickSpendingAndCosts()

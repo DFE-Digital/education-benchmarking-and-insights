@@ -19,6 +19,7 @@ variable "configuration" {
       DisableOrganisationClaimCheck = bool
       ForecastRisk                  = bool
       TrustComparison               = bool
+      BenchmarkingReportCards       = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -43,6 +44,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -66,6 +68,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -89,6 +92,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -112,6 +116,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = true
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -135,6 +140,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -158,6 +164,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck = false
         ForecastRisk                  = true
         TrustComparison               = true
+        BenchmarkingReportCards       = false
       },
       CacheOptions = {
         ReturnYears = {

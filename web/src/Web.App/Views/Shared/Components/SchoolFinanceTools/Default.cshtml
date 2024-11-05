@@ -50,6 +50,21 @@
                             </p>
                         </li>
                         break;
+                    case FinanceTools.BenchmarkingReportCards:
+                        <feature name="@FeatureFlags.BenchmarkingReportCards">
+                            <li>
+                                <a href="@Url.Action("Index", "SchoolBenchmarkingReportCards", new { urn = Model.Identifier })">
+                                <img src="/assets/images/benchmarking-report-cards.png" alt="" class="app-view-component">
+                            </a>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "SchoolBenchmarkingReportCards", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmarking report cards</a>
+                                </h3>
+                                <p class="govuk-body">
+                                    TODO
+                                </p>
+                            </li>
+                        </feature>
+                        break;
                 }
             }
         </ul>

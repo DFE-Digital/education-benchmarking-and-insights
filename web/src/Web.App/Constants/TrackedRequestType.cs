@@ -42,7 +42,9 @@ public enum TrackedRequestFeature
     [StringValue("resources")]
     Resources,
     [StringValue("spending-priorities")]
-    SpendingPriorities
+    SpendingPriorities,
+    [StringValue("benchmarking-report-cards")]
+    BenchmarkingReportCards
 }
 
 public enum TrackedRequestRouteParameters
