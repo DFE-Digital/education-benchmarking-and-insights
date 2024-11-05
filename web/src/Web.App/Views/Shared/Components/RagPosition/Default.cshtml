@@ -1,0 +1,30 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.Components.RagPositionViewModel
+@if (Model.Values.Any())
+{
+    var width = (Model.ItemWidth + Model.ItemSpacing) * (Model.Values.Count() - 1);
+    <svg
+        width="@width"
+        height="@Model.Height"
+        class="rag-position"
+        role="img"
+        aria-label="@Model.Title"
+        id="rag-position-@Model.Id?.ToSlug()">
+        <g>
+            @for (var i = 0; i < Model.Values.Count(); i++)
+            {
+                var (urn, value) = Model.Values.ElementAt(i);
+                var highlight = urn.Equals(Model.Highlight);
+                <rect
+                    role="presentation"
+                    x="@(i * Model.ItemWidth + i * Model.ItemSpacing)"
+                    y="0"
+                    width="@Model.ItemWidth"
+                    height="@Model.Height"
+                    rx="1"
+                    class="rag-position-item@(highlight ? " rag-position-item-highlight" : string.Empty)"
+                    id="@Model.Id-rag-position-@urn"/>
+            }
+        </g>
+    </svg>
+}

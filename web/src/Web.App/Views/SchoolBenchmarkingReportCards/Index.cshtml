@@ -1,6 +1,39 @@
 @model Web.App.ViewModels.BenchmarkingReportCardsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolBenchmarkingReportCards;
+    var values = new List<(string, decimal)>
+    {
+        new ValueTuple<string, decimal>("01", 1m),
+        new ValueTuple<string, decimal>("02", 2m),
+        new ValueTuple<string, decimal>("03", 3m),
+        new ValueTuple<string, decimal>("04", 4m),
+        new ValueTuple<string, decimal>("05", 5m),
+        new ValueTuple<string, decimal>("06", 6m),
+        new ValueTuple<string, decimal>("07", 7m),
+        new ValueTuple<string, decimal>("08", 8m),
+        new ValueTuple<string, decimal>("09", 9m),
+        new ValueTuple<string, decimal>("10", 10m),
+        new ValueTuple<string, decimal>("11", 1m),
+        new ValueTuple<string, decimal>("12", 2m),
+        new ValueTuple<string, decimal>("13", 3m),
+        new ValueTuple<string, decimal>("14", 4m),
+        new ValueTuple<string, decimal>("15", 5m),
+        new ValueTuple<string, decimal>("16", 6m),
+        new ValueTuple<string, decimal>("17", 7m),
+        new ValueTuple<string, decimal>("18", 8m),
+        new ValueTuple<string, decimal>("19", 9m),
+        new ValueTuple<string, decimal>("20", 10m),
+        new ValueTuple<string, decimal>("21", 1m),
+        new ValueTuple<string, decimal>("22", 2m),
+        new ValueTuple<string, decimal>("23", 3m),
+        new ValueTuple<string, decimal>("24", 4m),
+        new ValueTuple<string, decimal>("25", 5m),
+        new ValueTuple<string, decimal>("26", 6m),
+        new ValueTuple<string, decimal>("27", 7m),
+        new ValueTuple<string, decimal>("28", 8m),
+        new ValueTuple<string, decimal>("29", 9m),
+        new ValueTuple<string, decimal>("30", 10m)
+    };
 }
 
 <div class="govuk-width-container">
@@ -15,3 +48,36 @@
         </div>
     </div>
 </div>
+
+<aside>
+    @await Component.InvokeAsync("RagPosition", new
+    {
+        values,
+        itemWidth = 6,
+        height = 30,
+        itemSpacing = 1m,
+        highlight = "01",
+        id = "sample-1",
+        title = "sample 1"
+    })
+    @await Component.InvokeAsync("RagPosition", new
+    {
+        values,
+        itemWidth = 6,
+        height = 30,
+        itemSpacing = 1m,
+        highlight = "25",
+        id = "sample-2",
+        title = "sample 2"
+    })
+    @await Component.InvokeAsync("RagPosition", new
+    {
+        values,
+        itemWidth = 6,
+        height = 30,
+        itemSpacing = 1m,
+        highlight = "11",
+        id = "sample-3",
+        title = "sample 3"
+    })
+</aside>
