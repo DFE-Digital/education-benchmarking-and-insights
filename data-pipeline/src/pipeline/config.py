@@ -46,7 +46,6 @@ income_category_map = {
     "maintained_schools": {
         # "I01  Funds delegated by the LA": "",
         # "I02  Funding for 6th form students": "",
-        "I03  SEN funding": "Income_SEN funding",
         # "I04  Funding for minority ethnic pupils": "",
         # "I05  Pupil Premium": "",
         "I06  Other government grants": "Income_Other DFE grants",
