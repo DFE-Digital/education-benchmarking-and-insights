@@ -17,13 +17,15 @@ resource "azurerm_container_app_environment" "main" {
 module "container_app_default" {
   source = "./container_app"
 
-  container-app-environment-id = azurerm_container_app_environment.main.id
-  resource-group-name          = azurerm_resource_group.resource-group.name
+  container-app-environment-id      = azurerm_container_app_environment.main.id
+  container-app-resource-group-name = azurerm_resource_group.resource-group.name
+
+  resource-group-name = "${var.environment-prefix}-ebis-core"
 
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
 
-  storage-account-name = "${var.environment-prefix}-ebis-core"
+  storage-account-name = "${var.environment-prefix}data"
 
   environment-prefix = var.environment-prefix
 
@@ -38,13 +40,15 @@ module "container_app_default" {
 module "container_app_custom" {
   source = "./container_app"
 
-  container-app-environment-id = azurerm_container_app_environment.main.id
-  resource-group-name          = azurerm_resource_group.resource-group.name
+  container-app-environment-id      = azurerm_container_app_environment.main.id
+  container-app-resource-group-name = azurerm_resource_group.resource-group.name
+
+  resource-group-name = "${var.environment-prefix}-ebis-core"
 
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
 
-  storage-account-name = "${var.environment-prefix}-ebis-core"
+  storage-account-name = "${var.environment-prefix}data"
 
   environment-prefix = var.environment-prefix
 
