@@ -36,7 +36,7 @@ resource "azurerm_container_app" "data-pipeline" {
     revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
     container {
       name   = "edis-data-pipeline"
-      image  = var.image-name
+      image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
       cpu    = 4
       memory = "16Gi"
 
