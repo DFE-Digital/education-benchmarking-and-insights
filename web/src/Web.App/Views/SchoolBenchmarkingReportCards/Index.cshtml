@@ -1,83 +1,48 @@
 @model Web.App.ViewModels.BenchmarkingReportCardsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolBenchmarkingReportCards;
-    var values = new List<(string, decimal)>
-    {
-        new ValueTuple<string, decimal>("01", 1m),
-        new ValueTuple<string, decimal>("02", 2m),
-        new ValueTuple<string, decimal>("03", 3m),
-        new ValueTuple<string, decimal>("04", 4m),
-        new ValueTuple<string, decimal>("05", 5m),
-        new ValueTuple<string, decimal>("06", 6m),
-        new ValueTuple<string, decimal>("07", 7m),
-        new ValueTuple<string, decimal>("08", 8m),
-        new ValueTuple<string, decimal>("09", 9m),
-        new ValueTuple<string, decimal>("10", 10m),
-        new ValueTuple<string, decimal>("11", 1m),
-        new ValueTuple<string, decimal>("12", 2m),
-        new ValueTuple<string, decimal>("13", 3m),
-        new ValueTuple<string, decimal>("14", 4m),
-        new ValueTuple<string, decimal>("15", 5m),
-        new ValueTuple<string, decimal>("16", 6m),
-        new ValueTuple<string, decimal>("17", 7m),
-        new ValueTuple<string, decimal>("18", 8m),
-        new ValueTuple<string, decimal>("19", 9m),
-        new ValueTuple<string, decimal>("20", 10m),
-        new ValueTuple<string, decimal>("21", 1m),
-        new ValueTuple<string, decimal>("22", 2m),
-        new ValueTuple<string, decimal>("23", 3m),
-        new ValueTuple<string, decimal>("24", 4m),
-        new ValueTuple<string, decimal>("25", 5m),
-        new ValueTuple<string, decimal>("26", 6m),
-        new ValueTuple<string, decimal>("27", 7m),
-        new ValueTuple<string, decimal>("28", 8m),
-        new ValueTuple<string, decimal>("29", 9m),
-        new ValueTuple<string, decimal>("30", 10m)
-    };
 }
 
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-l">
-                Financial Insights and Benchmarking Summary
-                @* TODO: Replace with AAR/CFR date range when building out page *@
-                2023/24:
-            </span>
-            <h1 class="govuk-heading-l">@Model.Name</h1>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-l">
+            Financial Insights and Benchmarking Summary
+            @Model.Years:
+        </span>
+        <h1 class="govuk-heading-l">@Model.Name</h1>
     </div>
 </div>
 
-<aside>
-    @await Component.InvokeAsync("RagPosition", new
-    {
-        values,
-        itemWidth = 6,
-        height = 30,
-        itemSpacing = 1m,
-        highlight = "01",
-        id = "sample-1",
-        title = "sample 1"
-    })
-    @await Component.InvokeAsync("RagPosition", new
-    {
-        values,
-        itemWidth = 6,
-        height = 30,
-        itemSpacing = 1m,
-        highlight = "25",
-        id = "sample-2",
-        title = "sample 2"
-    })
-    @await Component.InvokeAsync("RagPosition", new
-    {
-        values,
-        itemWidth = 6,
-        height = 30,
-        itemSpacing = 1m,
-        highlight = "11",
-        id = "sample-3",
-        title = "sample 3"
-    })
-</aside>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            This is the financial benchmarking and insights summary for your school.
+            It captures highlights of your school's spending compared with a number of similar schools (see below).
+        </p>
+        <p class="govuk-body">
+            This summary uses financial data from the
+            @(Model.IsPartOfTrust ? "Academies Accounts Return" : "Consistent Financial Reporting return")
+            and staffing data from the School Workforce Census for @Model.Years.
+        </p>
+        <p class="govuk-body">
+            This summary is intended for school leadership and governance teams, with the intention of stimulating
+            discussion on where resources may be used more effectively.
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-0">
+            It is highly recommended that you use the
+            @Html.ActionLink(Constants.ServiceName, "Index", "School", new
+            {
+                urn = Model.Urn
+            }, new
+            {
+                @class = "govuk-link"
+            })
+            to carry out more in-depth benchmarking for your school.
+        </p>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-l">Key information about your school</h2>
+@await Html.PartialAsync("_SchoolKeyInformation", Model)
