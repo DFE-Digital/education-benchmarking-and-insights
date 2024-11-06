@@ -1,0 +1,15 @@
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
+
+<h2 class="govuk-heading-l" id="key-information">Key information about your school</h2>
+@await Html.PartialAsync("_SchoolKeyInformation", Model)
+
+<p class="govuk-body">
+    View more insights in
+    @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
+    {
+        urn = Model.Urn
+    }, new
+    {
+        @class = "govuk-link"
+    }).
+</p>

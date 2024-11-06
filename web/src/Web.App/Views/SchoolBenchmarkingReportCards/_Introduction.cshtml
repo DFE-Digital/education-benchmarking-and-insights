@@ -1,0 +1,40 @@
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-l">
+            Financial Insights and Benchmarking Summary
+            @Model.Years:
+        </span>
+        <h1 class="govuk-heading-l">@Model.Name</h1>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full" id="introduction">
+        <p class="govuk-body">
+            This is the financial benchmarking and insights summary for your school.
+            It captures highlights of your school's spending compared with a number of similar schools (see below).
+        </p>
+        <p class="govuk-body">
+            This summary uses financial data from the
+            @(Model.IsPartOfTrust ? "Academies Accounts Return" : "Consistent Financial Reporting return")
+            and staffing data from the School Workforce Census for @Model.Years.
+        </p>
+        <p class="govuk-body">
+            This summary is intended for school leadership and governance teams, with the intention of stimulating
+            discussion on where resources may be used more effectively.
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-0">
+            It is highly recommended that you use the
+            @Html.ActionLink(Constants.ServiceName, "Index", "School", new
+            {
+                urn = Model.Urn
+            }, new
+            {
+                @class = "govuk-link"
+            })
+            to carry out more in-depth benchmarking for your school.
+        </p>
+    </div>
+</div>
