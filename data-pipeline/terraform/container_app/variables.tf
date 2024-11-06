@@ -23,8 +23,13 @@ variable "container-app-environment-id" {
   type        = string
 }
 
+variable "container-app-resource-group-name" {
+  description = "Name of the Azure Resource group in which Container App resources are to be created."
+  type        = string
+}
+
 variable "resource-group-name" {
-  description = "Name of the Azure Resource group in which resources are to be created."
+  description = "Name of the Azure Resource group in which various resources are to be created."
   type        = string
 }
 
