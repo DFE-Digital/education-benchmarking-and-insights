@@ -1,7 +1,7 @@
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class SchoolViewModel(School school)
+public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
 {
     public SchoolViewModel(
         School school,

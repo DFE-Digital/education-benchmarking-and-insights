@@ -5,7 +5,9 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
@@ -15,6 +17,8 @@ namespace Web.App.Controllers;
 [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkingReportCards)]
 public class SchoolBenchmarkingReportCardsController(
     IEstablishmentApi establishmentApi,
+    IFinanceService financeService,
+    IBalanceApi balanceApi,
     ILogger<SchoolBenchmarkingReportCardsController> logger)
     : Controller
 {
@@ -29,7 +33,18 @@ public class SchoolBenchmarkingReportCardsController(
             try
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new BenchmarkingReportCardsViewModel(school);
+                var isNonLeadFederation = !string.IsNullOrEmpty(school.FederationLeadURN) && school.FederationLeadURN != urn;
+                if (isNonLeadFederation)
+                {
+                    return new NotFoundResult();
+                }
+
+                var years = await financeService.GetYears();
+                var balance = await balanceApi
+                    .School(urn)
+                    .GetResultOrDefault<SchoolBalance>();
+
+                var viewModel = new BenchmarkingReportCardsViewModel(school, years, balance);
 
                 return View(viewModel);
             }
