@@ -1,5 +1,5 @@
 resource "azurerm_container_app" "data-pipeline" {
-  name                         = "${var.environment-prefix}-ebis-data-pipeline"
+  name                         = "${var.environment-prefix}-ebis-data-pipeline-${var.container-app-name-suffix}"
   container_app_environment_id = var.container-app-environment-id
   resource_group_name          = var.resource-group-name
   revision_mode                = "Single"

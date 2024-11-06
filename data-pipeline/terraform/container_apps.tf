@@ -17,6 +17,7 @@ resource "azurerm_container_app_environment" "main" {
 module "container_app_default" {
   source = "./container_app"
 
+  container-app-name-suffix         = "default"
   container-app-environment-id      = azurerm_container_app_environment.main.id
   container-app-resource-group-name = azurerm_resource_group.resource-group.name
 
@@ -40,6 +41,7 @@ module "container_app_default" {
 module "container_app_custom" {
   source = "./container_app"
 
+  container-app-name-suffix         = "custom"
   container-app-environment-id      = azurerm_container_app_environment.main.id
   container-app-resource-group-name = azurerm_resource_group.resource-group.name
 
