@@ -57,6 +57,16 @@ resource "azurerm_storage_queue" "pipeline-message-start-queue" {
   storage_account_name = azurerm_storage_account.data.name
 }
 
+resource "azurerm_storage_queue" "pipeline-message-default-start-queue" {
+  name                 = "data-pipeline-job-default-start"
+  storage_account_name = azurerm_storage_account.data.name
+}
+
+resource "azurerm_storage_queue" "pipeline-message-custom-start-queue" {
+  name                 = "data-pipeline-job-custom-start"
+  storage_account_name = azurerm_storage_account.data.name
+}
+
 resource "azurerm_storage_queue" "pipeline-message-finished-queue" {
   name                 = "data-pipeline-job-finished"
   storage_account_name = azurerm_storage_account.data.name

@@ -124,7 +124,7 @@ module "orchestrator-fa" {
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue" = "data-pipeline-job-finished"
-    "PipelineMessageHub__JobStartQueue"    = "data-pipeline-job-start"
+    "PipelineMessageHub__JobStartQueue"    = "data-pipeline-job-custom-start"
     "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
