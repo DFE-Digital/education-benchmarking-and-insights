@@ -32,6 +32,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_common-tags"></a> [common-tags](#input\_common-tags) | Tags to be applied to all resources. | `map(string)` | n/a | yes |
 | <a name="input_container-app-environment-id"></a> [container-app-environment-id](#input\_container-app-environment-id) | Container App Environment ID | `string` | n/a | yes |
+| <a name="input_container-app-name-suffix"></a> [container-app-name-suffix](#input\_container-app-name-suffix) | Unique suffix for the Container App name. | `string` | n/a | yes |
 | <a name="input_container-app-resource-group-name"></a> [container-app-resource-group-name](#input\_container-app-resource-group-name) | Name of the Azure Resource group in which Container App resources are to be created. | `string` | n/a | yes |
 | <a name="input_core-db-domain-name-secret-name"></a> [core-db-domain-name-secret-name](#input\_core-db-domain-name-secret-name) | Name of the Azure Key Vault Secret for the DB host. | `string` | `"core-sql-domain-name"` | no |
 | <a name="input_core-db-name-secret-name"></a> [core-db-name-secret-name](#input\_core-db-name-secret-name) | Name of the Azure Key Vault Secret for the DB name. | `string` | `"core-sql-db-name"` | no |
