@@ -62,7 +62,8 @@ public class CostsViewModel
     public bool IsCustomData { get; set; }
 }
 
-public class RagRatingCommentaryViewModel
+public class RagRatingCommentaryViewModel(string prefix = "Spending is")
 {
+    public string Prefix => prefix;
     public RagRating Rating { get; init; }
 }

@@ -144,6 +144,59 @@ p.priority .govuk-tag {
   }
 }
 
+.priority-position {
+  .priority {
+    min-height: 70px;
+
+    @include govuk-media-query($from: 1020px) {
+      min-height: 40px;
+    }
+
+    &.govuk-grid-row {
+      margin: 0;
+
+      > div {
+        padding: 0;
+
+        @include govuk-media-query($from: 1020px) {
+          height: 100%;
+          align-content: space-evenly;
+        }
+
+        @include govuk-media-query($until: 1020px) {
+          width: 100%;
+          float: none;
+        }
+
+        &:last-of-type {
+          padding-right: 0;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 0;
+
+          @include govuk-media-query($until: 1020px) {
+            margin-top: 3px;
+
+            span {
+              margin: 7px 10px;
+            }
+          }
+        }
+
+        > .govuk-tag {
+          margin: 0 5px 0 0;
+
+          @include govuk-media-query($from: 1020px) {
+            align-content: space-evenly;
+            height: 35px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .govuk-caption-l a {
   color: $govuk-secondary-text-colour
 }
@@ -229,6 +282,8 @@ svg.rag-stack {
 }
 
 svg.rag-position {
+  overflow: visible;
+
   rect.rag-position-item {
     fill: $rag-position-item-colour;
 

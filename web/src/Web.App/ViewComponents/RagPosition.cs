@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
 using Web.App.ViewModels.Components;
 namespace Web.App.ViewComponents;
 
 public class RagPosition : ViewComponent
 {
     public IViewComponentResult Invoke(
-        IEnumerable<(string urn, decimal value)> values,
+        ReadOnlyDictionary<string, Category> values,
         int itemWidth,
         int height,
         decimal itemSpacing = 1m,

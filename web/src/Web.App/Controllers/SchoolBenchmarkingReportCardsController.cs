@@ -19,6 +19,9 @@ public class SchoolBenchmarkingReportCardsController(
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
     IBalanceApi balanceApi,
+    IExpenditureApi expenditureApi,
+    ISchoolComparatorSetService schoolComparatorSetService,
+    IMetricRagRatingApi metricRagRatingApi,
     ILogger<SchoolBenchmarkingReportCardsController> logger)
     : Controller
 {
@@ -43,9 +46,19 @@ public class SchoolBenchmarkingReportCardsController(
                 var balance = await balanceApi
                     .School(urn)
                     .GetResultOrDefault<SchoolBalance>();
+                var ratings = await metricRagRatingApi
+                    .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
+                    .GetResultOrDefault<RagRating[]>();
 
-                var viewModel = new BenchmarkingReportCardsViewModel(school, years, balance);
+                var set = await schoolComparatorSetService.ReadComparatorSet(urn);
+                var pupilExpenditure = set is { Pupil.Length: > 0 }
+                    ? await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrDefault<SchoolExpenditure[]>()
+                    : [];
+                var areaExpenditure = set is { Pupil.Length: > 0 }
+                    ? await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrDefault<SchoolExpenditure[]>()
+                    : [];
 
+                var viewModel = new SchoolBenchmarkingReportCardsViewModel(school, years, balance, ratings, pupilExpenditure, areaExpenditure);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -55,5 +68,16 @@ public class SchoolBenchmarkingReportCardsController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private static ApiQuery BuildQuery(IEnumerable<string> urns)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", "PerUnit");
+        foreach (var urn in urns)
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
     }
 }
