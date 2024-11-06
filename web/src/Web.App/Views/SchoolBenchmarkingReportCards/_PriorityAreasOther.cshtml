@@ -1,0 +1,40 @@
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
+
+<h2 class="govuk-heading-l" id="priority-areas-other">Other top spending priorities for your school</h2>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            Your school's top three priority areas in other spend categories, based on the variance of your school's
+            spend against similar schools.
+        </p>
+        <p class="govuk-body">
+            Find out about the schools you are compared with in
+            @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
+            {
+                urn = Model.Urn
+            }, new
+            {
+                @class = "govuk-link"
+            }).
+        </p>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Costs", new CostsViewModel
+{
+    Costs = Model.CostsOtherPriorities.Take(3),
+    Id = "costs-other-priorities",
+    Urn = Model.Urn
+})
+
+<p class="govuk-body">
+    View more insights in
+    @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
+    {
+        urn = Model.Urn
+    }, new
+    {
+        @class = "govuk-link"
+    }).
+</p>
