@@ -27,6 +27,11 @@ public class SchoolBenchmarkingReportCardsViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+    public IEnumerable<CostCategory> CostsOtherPriorities => _categories
+        .Where(x => !_allSchoolsCategories.Contains(x.Rating.Category))
+        .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
+        .ThenByDescending(x => x.Rating.Decile)
+        .ThenByDescending(x => x.Rating.Value);
     public string? OverallPhase => school.OverallPhase;
     public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance => balance?.InYearBalance;

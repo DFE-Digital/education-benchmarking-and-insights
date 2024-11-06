@@ -18,7 +18,11 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
             .Build<School>()
             .With(s => s.URN, URN)
             .Create();
-        _years = new FinanceYears { Aar = 2020, Cfr = 2024 };
+        _years = new FinanceYears
+        {
+            Aar = 2020,
+            Cfr = 2024
+        };
         _balance = fixture.Create<SchoolBalance>();
     }
 
@@ -26,6 +30,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
         IEnumerable<RagRating>,
         IEnumerable<SchoolExpenditure>,
         IEnumerable<SchoolExpenditure>,
+        IEnumerable<CostCategory>,
         IEnumerable<CostCategory>
     > WhenRagRatingsAreData
     {
@@ -61,15 +66,22 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
                 RAG = "green"
             };
 
+            var utilitiesRagRating = new RagRating
+            {
+                Category = Category.Utilities,
+                RAG = "red"
+            };
+
             return new TheoryData<
                 IEnumerable<RagRating>,
                 IEnumerable<SchoolExpenditure>,
                 IEnumerable<SchoolExpenditure>,
+                IEnumerable<CostCategory>,
                 IEnumerable<CostCategory>
             >
             {
                 {
-                    [administrativeSuppliesRagRating, teachingStaffRagRating, nonEducationalSupportStaffRagRating, educationalIctRagRating, otherRagRating], [
+                    [administrativeSuppliesRagRating, teachingStaffRagRating, nonEducationalSupportStaffRagRating, educationalIctRagRating, otherRagRating, utilitiesRagRating], [
                         new SchoolExpenditure
                         {
                             URN = URN
@@ -81,7 +93,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
                             URN = URN
                         }
                     ],
-                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)]
+                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)], [new Utilities(utilitiesRagRating), new Other(otherRagRating), new EducationalIct(educationalIctRagRating)]
                 }
             };
         }
@@ -93,10 +105,12 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
         IEnumerable<RagRating> ratings,
         IEnumerable<SchoolExpenditure> pupilExpenditure,
         IEnumerable<SchoolExpenditure> areaExpenditure,
-        IEnumerable<CostCategory> expectedCostsAllSchools)
+        IEnumerable<CostCategory> expectedCostsAllSchools,
+        IEnumerable<CostCategory> expectedCostsOtherPriorities)
     {
         var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure);
         Assert.Equal(expectedCostsAllSchools.Select(c => c.Rating), actual.CostsAllSchools.Select(c => c.Rating));
+        Assert.Equal(expectedCostsOtherPriorities.Select(c => c.Rating), actual.CostsOtherPriorities.Select(c => c.Rating));
     }
 
     [Theory]
