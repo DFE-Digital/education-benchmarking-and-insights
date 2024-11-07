@@ -30,6 +30,8 @@ public class SchoolBenchmarkingReportCardsViewModel(
         .ThenByDescending(x => x.Rating.Value);
     public IEnumerable<CostCategory> CostsOtherPriorities => _categories
         .Where(x => !_allSchoolsCategories.Contains(x.Rating.Category))
+        .Where(x => x.Rating.Category is not Category.Other)
+        .Where(x => x.Rating.RAG is not "green")
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);

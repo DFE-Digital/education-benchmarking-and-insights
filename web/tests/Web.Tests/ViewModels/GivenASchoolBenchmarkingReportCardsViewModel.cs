@@ -93,7 +93,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
                             URN = URN
                         }
                     ],
-                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)], [new Utilities(utilitiesRagRating), new Other(otherRagRating), new EducationalIct(educationalIctRagRating)]
+                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)], [new Utilities(utilitiesRagRating)]
                 }
             };
         }
