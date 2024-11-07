@@ -8,7 +8,8 @@ public class SchoolBenchmarkingReportCardsViewModel(
     SchoolBalance? balance,
     IEnumerable<RagRating>? ratings,
     IEnumerable<SchoolExpenditure>? pupilExpenditure,
-    IEnumerable<SchoolExpenditure>? areaExpenditure) : ISchoolKeyInformationViewModel
+    IEnumerable<SchoolExpenditure>? areaExpenditure,
+    IEnumerable<Census>? census) : ISchoolKeyInformationViewModel
 {
     private readonly string[] _allSchoolsCategories = [Category.TeachingStaff, Category.NonEducationalSupportStaff, Category.AdministrativeSupplies];
     private readonly CostCategory[] _categories = CategoryBuilder
@@ -32,6 +33,8 @@ public class SchoolBenchmarkingReportCardsViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+    public SchoolBenchmarkingReportCardCensusViewModel PupilsPerTeacher => new("teacher", census, school.URN, c => c.Teachers);
+    public SchoolBenchmarkingReportCardCensusViewModel PupilsPerSeniorLeadership => new("senior leadership role", census, school.URN, c => c.SeniorLeadership);
     public string? OverallPhase => school.OverallPhase;
     public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance => balance?.InYearBalance;

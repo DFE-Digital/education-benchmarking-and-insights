@@ -99,6 +99,69 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
         }
     }
 
+    public static TheoryData<
+        IEnumerable<Census>,
+        SchoolBenchmarkingReportCardCensusViewModel,
+        SchoolBenchmarkingReportCardCensusViewModel
+    > WhenCensusesAreData
+    {
+        get
+        {
+            var schoolCensus = new Census
+            {
+                URN = URN,
+                Teachers = 100,
+                SeniorLeadership = 10
+            };
+
+            var minTeachersCensus = new Census
+            {
+                Teachers = 90,
+                SeniorLeadership = 11
+            };
+
+            var minSeniorLeadershipCensus = new Census
+            {
+                Teachers = 101,
+                SeniorLeadership = 1
+            };
+
+            var maxTeachersCensus = new Census
+            {
+                Teachers = 200,
+                SeniorLeadership = 11
+            };
+
+            var maxSeniorLeadershipCensus = new Census
+            {
+                Teachers = 101,
+                SeniorLeadership = 20
+            };
+
+            return new TheoryData<
+                IEnumerable<Census>,
+                SchoolBenchmarkingReportCardCensusViewModel,
+                SchoolBenchmarkingReportCardCensusViewModel
+            >
+            {
+                {
+                    [minTeachersCensus, maxTeachersCensus, schoolCensus, minSeniorLeadershipCensus, maxSeniorLeadershipCensus], new SchoolBenchmarkingReportCardCensusViewModel("teacher")
+                    {
+                        SchoolValue = schoolCensus.Teachers,
+                        MinValue = minTeachersCensus.Teachers,
+                        MaxValue = maxTeachersCensus.Teachers
+                    },
+                    new SchoolBenchmarkingReportCardCensusViewModel("senior leadership role")
+                    {
+                        SchoolValue = schoolCensus.SeniorLeadership,
+                        MinValue = minSeniorLeadershipCensus.SeniorLeadership,
+                        MaxValue = maxSeniorLeadershipCensus.SeniorLeadership
+                    }
+                }
+            };
+        }
+    }
+
     [Theory]
     [MemberData(nameof(WhenRagRatingsAreData))]
     public void WhenRagRatingsAre(
@@ -108,7 +171,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
         IEnumerable<CostCategory> expectedCostsAllSchools,
         IEnumerable<CostCategory> expectedCostsOtherPriorities)
     {
-        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure);
+        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure, Array.Empty<Census>());
         Assert.Equal(expectedCostsAllSchools.Select(c => c.Rating), actual.CostsAllSchools.Select(c => c.Rating));
         Assert.Equal(expectedCostsOtherPriorities.Select(c => c.Rating), actual.CostsOtherPriorities.Select(c => c.Rating));
     }
@@ -119,7 +182,19 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
     public void WhenIsPartOfTrust(bool isPartOfTrust, string expected)
     {
         _school.TrustCompanyNumber = isPartOfTrust ? nameof(isPartOfTrust) : string.Empty;
-        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>());
+        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), Array.Empty<Census>());
         Assert.Equal(expected, actual.Years);
+    }
+
+    [Theory]
+    [MemberData(nameof(WhenCensusesAreData))]
+    public void WhenCensusesAre(
+        IEnumerable<Census> census,
+        SchoolBenchmarkingReportCardCensusViewModel expectedPupilsPerTeacher,
+        SchoolBenchmarkingReportCardCensusViewModel expectedPupilsPerSeniorLeadership)
+    {
+        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), census);
+        Assert.Equivalent(expectedPupilsPerTeacher, actual.PupilsPerTeacher);
+        Assert.Equivalent(expectedPupilsPerSeniorLeadership, actual.PupilsPerSeniorLeadership);
     }
 }

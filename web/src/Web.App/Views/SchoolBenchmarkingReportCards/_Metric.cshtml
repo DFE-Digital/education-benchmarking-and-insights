@@ -1,0 +1,21 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardCensusViewModel
+
+<div>
+    <h3 class="govuk-heading-m">Pupil-to-@Model.Name metric</h3>
+    <div class="app-headline-figures govuk-!-padding-top-7 govuk-!-padding-bottom-7 govuk-!-padding-left-3 govuk-!-padding-right-3 govuk-!-text-align-centre">
+        <p class="govuk-heading-l govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+            @Model.SchoolValue.ToSimpleDisplay()
+        </p>
+        <p class="govuk-body-l govuk-!-margin-0">
+            <strong>
+                Pupil@(Model.SchoolValue == 1 ? string.Empty : "s") per @Model.Name
+            </strong>
+        </p>
+    </div>
+    <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+        Similar schools range from
+        <strong>@Model.MinValue.ToSimpleDisplay()</strong> to <strong>@Model.MaxValue.ToSimpleDisplay()</strong>
+        pupil@(Model.MaxValue == 1 ? string.Empty : "s") per @Model.Name.
+    </p>
+</div>
