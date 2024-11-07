@@ -22,6 +22,7 @@ public class SchoolBenchmarkingReportCardsController(
     IExpenditureApi expenditureApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
+    ICensusApi censusApi,
     ILogger<SchoolBenchmarkingReportCardsController> logger)
     : Controller
 {
@@ -58,7 +59,11 @@ public class SchoolBenchmarkingReportCardsController(
                     ? await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrDefault<SchoolExpenditure[]>()
                     : [];
 
-                var viewModel = new SchoolBenchmarkingReportCardsViewModel(school, years, balance, ratings, pupilExpenditure, areaExpenditure);
+                var census = set is { Pupil.Length: > 0 }
+                    ? await censusApi.Query(BuildQuery(set.Pupil, "PupilsPerStaffRole")).GetResultOrDefault<Census[]>()
+                    : [];
+
+                var viewModel = new SchoolBenchmarkingReportCardsViewModel(school, years, balance, ratings, pupilExpenditure, areaExpenditure, census);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -70,9 +75,11 @@ public class SchoolBenchmarkingReportCardsController(
         }
     }
 
-    private static ApiQuery BuildQuery(IEnumerable<string> urns)
+    private static ApiQuery BuildQuery(IEnumerable<string> urns, string dimension = "PerUnit")
     {
-        var query = new ApiQuery().AddIfNotNull("dimension", "PerUnit");
+        var query = new ApiQuery()
+            .AddIfNotNull("dimension", dimension);
+
         foreach (var urn in urns)
         {
             query.AddIfNotNull("urns", urn);

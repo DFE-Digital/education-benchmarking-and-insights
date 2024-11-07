@@ -1,0 +1,22 @@
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
+
+<h2 class="govuk-heading-l" id="pupil-workforce-metrics">Pupil and workforce metrics</h2>
+<div class="census-metrics govuk-!-margin-bottom-6">
+    <div>
+        @await Html.PartialAsync("_Metric", Model.PupilsPerTeacher)
+    </div>
+    <div>
+        @await Html.PartialAsync("_Metric", Model.PupilsPerSeniorLeadership)
+    </div>
+</div>
+
+<p class="govuk-body">
+    View more insights in
+    @Html.ActionLink(Constants.ServiceName, "Index", "SchoolCensus", new
+    {
+        urn = Model.Urn
+    }, new
+    {
+        @class = "govuk-link"
+    }).
+</p>

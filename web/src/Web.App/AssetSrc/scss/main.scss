@@ -313,3 +313,38 @@ form.characteristics {
   padding: 0;
   border: none;
 }
+
+.census-metrics {
+  > div {
+    &:first-of-type {
+      margin-bottom: 1rem;
+    }
+  }
+
+  @include govuk-media-query($from: tablet) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 140px;
+
+    > div {
+      display: flex;
+      flex: 1;
+      flex-flow: column;
+      position: relative;
+
+      &:first-of-type {
+        margin-bottom: 0;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: -70px;
+          top: 1px;
+          width: 1px;
+          height: 100%;
+          background-color: $govuk-border-colour;
+        }
+      }
+    }
+  }
+}
