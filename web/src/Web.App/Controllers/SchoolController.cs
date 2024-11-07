@@ -20,7 +20,8 @@ public class SchoolController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
-    IUserDataService userDataService)
+    IUserDataService userDataService,
+    ISchoolBenchmarkingReportCardsService schoolBenchmarkingReportCardsService)
     : Controller
 {
     [HttpGet]
@@ -59,7 +60,16 @@ public class SchoolController(
                         ? await RagRatingsDefault(urn)
                         : await RagRatingsUserDefined(userData.Result.ComparatorSet);
 
-                    var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, comparatorReverted, userData.Result.ComparatorSet, userData.Result.CustomData);
+                    var canShowBrcForSchool = await schoolBenchmarkingReportCardsService.CanShowBrcForSchool(school.Result);
+                    var viewModel = new SchoolViewModel(
+                        school.Result,
+                        balance.Result,
+                        ratings,
+                        comparatorGenerated,
+                        comparatorReverted,
+                        userData.Result.ComparatorSet,
+                        userData.Result.CustomData,
+                        canShowBrcForSchool);
 
                     return View(viewModel);
                 }

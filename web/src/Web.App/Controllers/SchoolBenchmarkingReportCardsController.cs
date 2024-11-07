@@ -23,6 +23,7 @@ public class SchoolBenchmarkingReportCardsController(
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
     ICensusApi censusApi,
+    ISchoolBenchmarkingReportCardsService schoolBenchmarkingReportCardsService,
     ILogger<SchoolBenchmarkingReportCardsController> logger)
     : Controller
 {
@@ -37,8 +38,8 @@ public class SchoolBenchmarkingReportCardsController(
             try
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var isNonLeadFederation = !string.IsNullOrEmpty(school.FederationLeadURN) && school.FederationLeadURN != urn;
-                if (isNonLeadFederation)
+                var canShowBrcForSchool = await schoolBenchmarkingReportCardsService.CanShowBrcForSchool(school);
+                if (!canShowBrcForSchool)
                 {
                     return new NotFoundResult();
                 }
@@ -49,8 +50,7 @@ public class SchoolBenchmarkingReportCardsController(
                     .GetResultOrDefault<SchoolBalance>();
                 var ratings = await metricRagRatingApi
                     .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
-                    .GetResultOrDefault<RagRating[]>();
-
+                    .GetResultOrThrow<RagRating[]>();
                 var set = await schoolComparatorSetService.ReadComparatorSet(urn);
                 var pupilExpenditure = set is { Pupil.Length: > 0 }
                     ? await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrDefault<SchoolExpenditure[]>()

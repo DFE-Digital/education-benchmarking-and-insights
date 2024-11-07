@@ -120,16 +120,23 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("SchoolFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = new[]
+@{
+    var financeTools = new List<FinanceTools>
     {
         FinanceTools.CompareYourCosts,
         FinanceTools.FinancialPlanning,
-        FinanceTools.BenchmarkCensus,
-        FinanceTools.BenchmarkingReportCards
+        FinanceTools.BenchmarkCensus
+    };
+
+    if (Model.CanShowBrcForSchool is true)
+    {
+        financeTools.Add(FinanceTools.BenchmarkingReportCards);
     }
+}
+@await Component.InvokeAsync("SchoolFinanceTools", new
+{
+    identifier = Model.Urn,
+    tools = financeTools.ToArray()
 })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

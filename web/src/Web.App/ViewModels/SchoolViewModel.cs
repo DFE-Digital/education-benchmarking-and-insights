@@ -3,14 +3,14 @@ namespace Web.App.ViewModels;
 
 public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
 {
-    public SchoolViewModel(
-        School school,
+    public SchoolViewModel(School school,
         SchoolBalance? balance,
         IEnumerable<RagRating> ratings,
         bool? comparatorGenerated = false,
         bool? comparatorReverted = false,
         string? userDefinedSetId = null,
-        string? customDataId = null)
+        string? customDataId = null,
+        bool canShowBrcForSchool = false)
         : this(school)
     {
         UserDefinedSetId = userDefinedSetId;
@@ -20,6 +20,7 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         PeriodCoveredByReturn = balance?.PeriodCoveredByReturn;
         ComparatorGenerated = comparatorGenerated;
         ComparatorReverted = comparatorReverted;
+        CanShowBrcForSchool = canShowBrcForSchool;
 
         var ratingsArray = ratings.ToArray();
 
@@ -65,8 +66,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
-    public string? OverallPhase => school.OverallPhase;
-    public string? OfstedRating => school.OfstedDescription;
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? Address => school.Address;
     public string? Telephone => school.Telephone;
@@ -99,11 +98,14 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
 
     public string? UserDefinedSetId { get; }
     public string? CustomDataId { get; }
-    public decimal? InYearBalance { get; }
-    public decimal? RevenueReserve { get; }
     public bool HasMetricRag { get; }
     public IEnumerable<RagRating> Ratings { get; } = [];
     public bool? ComparatorGenerated { get; }
     public bool? ComparatorReverted { get; }
     public bool? CustomDataGenerated { get; }
+    public bool? CanShowBrcForSchool { get; }
+    public string? OverallPhase => school.OverallPhase;
+    public string? OfstedRating => school.OfstedDescription;
+    public decimal? InYearBalance { get; }
+    public decimal? RevenueReserve { get; }
 }

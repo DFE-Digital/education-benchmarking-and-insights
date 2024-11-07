@@ -69,19 +69,26 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToBenchmarkingReportCards(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false)]
+    public async Task CanNavigateToBenchmarkingReportCards(string financeType, bool hasRagRatings, bool canNavigateToBrc)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, hasRagRatings: hasRagRatings);
 
-        var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[3].QuerySelector("h3 > a");
-        Assert.NotNull(anchor);
+        var liElements = page.QuerySelectorAll("#benchmarking-planning-tools ~ ul.app-links > li");
+        var anchor = liElements.ElementAtOrDefault(3)?.QuerySelector("h3 > a");
 
-        var newPage = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        if (canNavigateToBrc)
+        {
+            Assert.NotNull(anchor);
+            var newPage = await Client.Follow(anchor);
+            DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        }
+        else
+        {
+            Assert.Null(anchor);
+        }
     }
 
     [Fact]
@@ -118,7 +125,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false, bool hasRagRatings = true)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -135,8 +142,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
+        var ratings = hasRagRatings
+            ? Fixture.Build<RagRating>()
+                .With(x => x.Category, Category.AdministrativeSupplies)
+                .With(x => x.RAG, "red")
+                .CreateMany()
+            : Array.Empty<RagRating>();
+
         var page = await Client.SetupEstablishment(school)
-            .SetupMetricRagRating()
+            .SetupMetricRagRating(ratings)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupBalance(balance)
@@ -178,7 +192,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]"); //NB: No RAG therefore section not shown
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

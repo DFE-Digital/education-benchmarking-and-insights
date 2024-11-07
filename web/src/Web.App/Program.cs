@@ -17,7 +17,6 @@ using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Web.App.Validators;
-
 [assembly: InternalsVisibleTo("Web.Tests")]
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
@@ -42,7 +41,8 @@ builder.Services
     .AddScoped<ISuggestService, SuggestService>()
     .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
     .AddScoped<ICustomDataService, CustomDataService>()
-    .AddScoped<IUserDataService, UserDataService>();
+    .AddScoped<IUserDataService, UserDataService>()
+    .AddScoped<ISchoolBenchmarkingReportCardsService, SchoolBenchmarkingReportCardsService>();
 
 builder.Services.AddHealthChecks()
     .AddCheck<ApiHealthCheck>("API Health Check");
@@ -152,7 +152,11 @@ app.MapHealthChecks(
             var result = new
             {
                 status = report.Status.ToString(),
-                details = report.Entries.Select(e => new { key = e.Key, value = e.Value.Status.ToString() })
+                details = report.Entries.Select(e => new
+                {
+                    key = e.Key,
+                    value = e.Value.Status.ToString()
+                })
             }.ToJson();
             await context.Response.WriteAsync(result);
         }

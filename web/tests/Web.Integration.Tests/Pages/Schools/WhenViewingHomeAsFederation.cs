@@ -5,7 +5,6 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -62,18 +61,26 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToBenchmarkingReportCards()
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task CanNavigateToBenchmarkingReportCards(bool isNonLeadFederation, bool canNavigateToBrc)
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school) = await SetupNavigateInitPage(isNonLeadFederation);
 
-        var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[3].QuerySelector("h3 > a");
-        Assert.NotNull(anchor);
+        var liElements = page.QuerySelectorAll("#benchmarking-planning-tools ~ ul.app-links > li");
+        var anchor = liElements.ElementAtOrDefault(3)?.QuerySelector("h3 > a");
 
-        var newPage = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        if (canNavigateToBrc)
+        {
+            Assert.NotNull(anchor);
+            var newPage = await Client.Follow(anchor);
+            DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        }
+        else
+        {
+            Assert.Null(anchor);
+        }
     }
 
     [Fact]
@@ -112,7 +119,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool isNonLeadFederation = false)
     {
-        var federationLeadSchool = new FederationSchool { URN = "12345", SchoolName = "Test School" };
+        var federationLeadSchool = new FederationSchool
+        {
+            URN = "12345",
+            SchoolName = "Test School"
+        };
         var federationSchools = Fixture.Build<FederationSchool>().CreateMany(3).Append(federationLeadSchool).ToArray();
 
         var school = Fixture.Build<School>()
@@ -131,8 +142,13 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
+        var ratings = Fixture.Build<RagRating>()
+            .With(x => x.Category, Category.AdministrativeSupplies)
+            .With(x => x.RAG, "red")
+            .CreateMany();
+
         var page = await Client.SetupEstablishment(school)
-            .SetupMetricRagRating()
+            .SetupMetricRagRating(ratings)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupBalance(balance)
@@ -155,11 +171,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         // assertions for non lead federation schools
         if (school.FederationLeadURN != school.URN)
         {
-            var message = page.QuerySelector("main > div > div:nth-of-type(2) > div > p:first-of-type"); ;
+            var message = page.QuerySelector("main > div > div:nth-of-type(2) > div > p:first-of-type");
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
-                "This school’s finance data is not displayed, as it’s part of a federated budget. The full federated data is shown on the federation page.");
+                "This school's finance data is not displayed, as it's part of a federated budget. The full federated data is shown on the federation page.");
 
             var federationLeadCta = message.QuerySelector("a");
             DocumentAssert.Link(federationLeadCta, "federation page", Paths.SchoolHome(school.FederationLeadURN).ToAbsolute());
@@ -167,13 +183,13 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         // assertions for lead federation schools
         else
         {
-            var message = page.QuerySelector("main > div > div:nth-child(3) > div > p"); ;
+            var message = page.QuerySelector("main > div > div:nth-child(3) > div > p");
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
                 "This school is the lead school of its federation. The following schools are part of this federation:");
 
-            var federationSchoolList = page.QuerySelectorAll("main > div > div:nth-child(4) > div > ul > li"); ;
+            var federationSchoolList = page.QuerySelectorAll("main > div > div:nth-child(4) > div > ul > li");
             Assert.NotNull(federationSchoolList);
 
             foreach (var federationSchoolItem in federationSchoolList)
@@ -190,7 +206,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             Assert.NotNull(dataSourceElement);
             DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
 
-            var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
+            var toolsSection = page.Body.SelectSingleNode("//main/div/div[7]");
             DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
             var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
