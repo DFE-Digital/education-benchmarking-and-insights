@@ -8,12 +8,12 @@
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
-    {
-        title = ViewData[ViewDataKeys.Title],
-        name = Model.Name,
-        id = Model.Urn,
-        kind = OrganisationTypes.School
-    })
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -38,71 +38,65 @@
         <p class="govuk-body">We've chosen @Model.PupilSchools.Count() similar schools to benchmark this school against running cost categories, which includes all staffing (excluding premises staff), ICT, consultancy and catering.</p>
         <h2 class="govuk-heading-m">How we chose these schools</h2>
         <p class="govuk-body">We chose these schools based on:</p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>school phase or type</li>
-            <li>region</li>
-            <li>number of pupils</li>
-            <li>pupils eligible for free school meals (FSM)</li>
-            <li>pupils with special educational needs (SEN), or proportion of various SEN provisions for special schools</li>
-        </ul>
+        @await Html.PartialAsync("_RunningCostCategoriesList")
         <table class="govuk-table">
             <caption class="govuk-table__caption govuk-table__caption--m">Schools we've chosen</caption>
             <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">School</th>
-                    <th scope="col" class="govuk-table__header">Type</th>
-                    <th scope="col" class="govuk-table__header">Number of pupils</th>
-                    <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
-                    <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
-                </tr>
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">School</th>
+                <th scope="col" class="govuk-table__header">Type</th>
+                <th scope="col" class="govuk-table__header">Number of pupils</th>
+                <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
+                <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
+            </tr>
             </thead>
             <tbody class="govuk-table__body">
 
-                @if (chosenSchool != null)
-                {
-                    <tr class="govuk-table__row">
-                        <td class="govuk-table__cell">
-                            <strong>@chosenSchool.SchoolName</strong>
-                            <br/>
-                            <span class="govuk-hint">(Your chosen school)</span>
-                        </td>
-                        <td class="govuk-table__cell">
-                            @chosenSchool.OverallPhase
-                        </td>
-                        <td class="govuk-table__cell">
-                            @chosenSchool.TotalPupils.GetValueOrDefault().ToNumberSeparator()
-                        </td>
-                        <td class="govuk-table__cell">
-                            @chosenSchool.PercentSpecialEducationNeeds.ToPercent()
-                        </td>
-                        <td class="govuk-table__cell">
-                            @chosenSchool.PercentFreeSchoolMeals.ToPercent()
-                        </td>
-                    </tr>
-                }
+            @if (chosenSchool != null)
+            {
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>@chosenSchool.SchoolName</strong>
+                        <br/>
+                        <span class="govuk-hint">(Your chosen school)</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        @chosenSchool.OverallPhase
+                    </td>
+                    <td class="govuk-table__cell">
+                        @chosenSchool.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                    </td>
+                    <td class="govuk-table__cell">
+                        @chosenSchool.PercentSpecialEducationNeeds.ToPercent()
+                    </td>
+                    <td class="govuk-table__cell">
+                        @chosenSchool.PercentFreeSchoolMeals.ToPercent()
+                    </td>
+                </tr>
+            }
 
-                @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
-                {
-                    <tr class="govuk-table__row">
-                        <td class="govuk-table__cell">
-                            <strong>@school.SchoolName</strong>
-                            <br/>
-                            <span class="govuk-hint">@school.Address</span>
-                        </td>
-                        <td class="govuk-table__cell">
-                            @school.OverallPhase
-                        </td>
-                        <td class="govuk-table__cell">
-                            @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
-                        </td>
-                        <td class="govuk-table__cell">
-                            @school.PercentSpecialEducationNeeds.ToPercent()
-                        </td>
-                        <td class="govuk-table__cell">
-                            @school.PercentFreeSchoolMeals.ToPercent()
-                        </td>
-                    </tr>
-                }
+            @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
+            {
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>@school.SchoolName</strong>
+                        <br/>
+                        <span class="govuk-hint">@school.Address</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.OverallPhase
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.TotalPupils.GetValueOrDefault().ToNumberSeparator()
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.PercentSpecialEducationNeeds.ToPercent()
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.PercentFreeSchoolMeals.ToPercent()
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>

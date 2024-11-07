@@ -314,7 +314,7 @@ form.characteristics {
   border: none;
 }
 
-.census-metrics {
+.two-halves-with-divider {
   > div {
     &:first-of-type {
       margin-bottom: 1rem;
@@ -344,6 +344,10 @@ form.characteristics {
           height: 100%;
           background-color: $govuk-border-colour;
         }
+      }
+
+      > ul.govuk-list {
+        margin-bottom: 0;
       }
     }
   }

@@ -1,7 +1,7 @@
 @model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
 
 <h2 class="govuk-heading-l" id="pupil-workforce-metrics">Pupil and workforce metrics</h2>
-<div class="census-metrics govuk-!-margin-bottom-6">
+<div class="two-halves-with-divider govuk-!-margin-bottom-6">
     <div>
         @await Html.PartialAsync("_Metric", Model.PupilsPerTeacher)
     </div>

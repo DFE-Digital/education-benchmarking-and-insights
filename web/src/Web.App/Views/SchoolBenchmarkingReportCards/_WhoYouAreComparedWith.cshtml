@@ -1,0 +1,30 @@
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
+
+<h2 class="govuk-heading-l" id="next-steps">Who you are compared with</h2>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            We have selected 2 sets of similar schools to benchmark your school with depending on the spend area in
+            question.
+        </p>
+    </div>
+</div>
+
+<div class="two-halves-with-divider">
+    <div>
+        <p class="govuk-body">
+            <strong>Running cost categories</strong> i.e. those that relate to the educational operations of the school
+            include staffing (excluding premises staff), ICT, consultancy and catering.
+        </p>
+        <p class="govuk-body">We choose these schools based on:</p>
+        @await Html.PartialAsync("_RunningCostCategoriesList")
+    </div>
+    <div>
+        <p class="govuk-body">
+            <strong>Building cost categories</strong> i.e. those that relate to the upkeep of the school premises, such
+            as utilities, cleaning and maintenance costs.
+        </p>
+        <p class="govuk-body">We choose these schools based on:</p>
+        @await Html.PartialAsync("_BuildingCostCategoriesList")
+    </div>
+</div>
