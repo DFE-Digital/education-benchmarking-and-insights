@@ -33,8 +33,8 @@ variable "container-app-name-suffix" {
   type        = string
 }
 
-variable "resource-group-name" {
-  description = "Name of the Azure Resource group in which various resources are to be created."
+variable "core-resource-group-name" {
+  description = "Name of the core Azure Resource group from which various data sources are referenced."
   type        = string
 }
 

@@ -38,12 +38,12 @@ No modules.
 | <a name="input_core-db-name-secret-name"></a> [core-db-name-secret-name](#input\_core-db-name-secret-name) | Name of the Azure Key Vault Secret for the DB name. | `string` | `"core-sql-db-name"` | no |
 | <a name="input_core-db-password-secret-name"></a> [core-db-password-secret-name](#input\_core-db-password-secret-name) | Name of the Azure Key Vault Secret for the DB password. | `string` | `"core-sql-password"` | no |
 | <a name="input_core-db-user-name-secret-name"></a> [core-db-user-name-secret-name](#input\_core-db-user-name-secret-name) | Name of the Azure Key Vault Secret for the DB username. | `string` | `"core-sql-user-name"` | no |
+| <a name="input_core-resource-group-name"></a> [core-resource-group-name](#input\_core-resource-group-name) | Name of the core Azure Resource group from which various data sources are referenced. | `string` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | Prefix to be used for resources in the current environment. | `string` | n/a | yes |
 | <a name="input_image-name"></a> [image-name](#input\_image-name) | Container image to be used for each worker. | `string` | n/a | yes |
 | <a name="input_key-vault-name"></a> [key-vault-name](#input\_key-vault-name) | Azure Key Vault name. | `string` | n/a | yes |
 | <a name="input_max-replicas"></a> [max-replicas](#input\_max-replicas) | The max. number of Container App replicas to launch. | `number` | n/a | yes |
 | <a name="input_registry-name"></a> [registry-name](#input\_registry-name) | Azure Container Registry name. | `string` | n/a | yes |
-| <a name="input_resource-group-name"></a> [resource-group-name](#input\_resource-group-name) | Name of the Azure Resource group in which various resources are to be created. | `string` | n/a | yes |
 | <a name="input_storage-account-name"></a> [storage-account-name](#input\_storage-account-name) | Azure Storage Account name. | `string` | n/a | yes |
 | <a name="input_worker-queue-name"></a> [worker-queue-name](#input\_worker-queue-name) | Name of the queue which will trigger the worker. | `string` | n/a | yes |
 

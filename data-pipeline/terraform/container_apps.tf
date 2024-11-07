@@ -21,7 +21,7 @@ module "container_app_default" {
   container-app-environment-id      = azurerm_container_app_environment.main.id
   container-app-resource-group-name = azurerm_resource_group.resource-group.name
 
-  resource-group-name = "${var.environment-prefix}-ebis-core"
+  core-resource-group-name = "${var.environment-prefix}-ebis-core"
 
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
@@ -45,7 +45,7 @@ module "container_app_custom" {
   container-app-environment-id      = azurerm_container_app_environment.main.id
   container-app-resource-group-name = azurerm_resource_group.resource-group.name
 
-  resource-group-name = "${var.environment-prefix}-ebis-core"
+  core-resource-group-name = "${var.environment-prefix}-ebis-core"
 
   registry-name = "${var.environment-prefix}acr"
   image-name    = var.image-name
