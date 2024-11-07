@@ -65,7 +65,7 @@ variable "configuration" {
         CustomData                    = true
         LocalAuthorities              = true
         UserDefinedComparators        = true
-        DisableOrganisationClaimCheck = true
+        DisableOrganisationClaimCheck = false
         ForecastRisk                  = true
         TrustComparison               = true
         BenchmarkingReportCards       = true
