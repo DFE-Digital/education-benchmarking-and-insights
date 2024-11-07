@@ -1,7 +1,7 @@
 resource "azurerm_container_app" "data-pipeline" {
   name                         = local.container-app-name
   container_app_environment_id = var.container-app-environment-id
-  resource_group_name          = var.resource-group-name
+  resource_group_name          = var.container-app-resource-group-name
   revision_mode                = "Single"
   workload_profile_name        = "Pipeline"
 
