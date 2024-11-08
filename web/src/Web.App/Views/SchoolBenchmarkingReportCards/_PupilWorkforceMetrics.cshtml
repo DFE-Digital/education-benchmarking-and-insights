@@ -1,22 +1,24 @@
 @model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
 
-<h2 class="govuk-heading-l" id="pupil-workforce-metrics">Pupil and workforce metrics</h2>
-<div class="two-halves-with-divider govuk-!-margin-bottom-6">
-    <div>
-        @await Html.PartialAsync("_Metric", Model.PupilsPerTeacher)
+<section id="pupil-workforce-metrics-section" aria-labelledby="pupil-workforce-metrics">
+    <h2 class="govuk-heading-l" id="pupil-workforce-metrics">Pupil and workforce metrics</h2>
+    <div class="two-halves-with-divider govuk-!-margin-bottom-6">
+        <div>
+            @await Html.PartialAsync("_Metric", Model.PupilsPerTeacher)
+        </div>
+        <div>
+            @await Html.PartialAsync("_Metric", Model.PupilsPerSeniorLeadership)
+        </div>
     </div>
-    <div>
-        @await Html.PartialAsync("_Metric", Model.PupilsPerSeniorLeadership)
-    </div>
-</div>
 
-<p class="govuk-body govuk-!-display-none-print">
-    View more insights in
-    @Html.ActionLink(Constants.ServiceName, "Index", "SchoolCensus", new
-    {
-        urn = Model.Urn
-    }, new
-    {
-        @class = "govuk-link"
-    }).
-</p>
+    <p class="govuk-body govuk-!-display-none-print">
+        View more insights in
+        @Html.ActionLink(Constants.ServiceName, "Index", "SchoolCensus", new
+        {
+            urn = Model.Urn
+        }, new
+        {
+            @class = "govuk-link"
+        }).
+    </p>
+</section>

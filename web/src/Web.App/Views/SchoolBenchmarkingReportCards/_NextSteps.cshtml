@@ -1,59 +1,61 @@
 @model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
 
-<h2 class="govuk-heading-l" id="next-steps">Next steps</h2>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <p class="govuk-body">
-            We recommend you visit the @Html.ActionLink(Constants.ServiceName, "Index", "School", new
-                                       {
-                                           urn = Model.Urn
-                                       }, new
-                                       {
-                                           @class = "govuk-link"
-                                       }) to further explore your benchmarking data.
-        </p>
-        <p class="govuk-body">
-            In @Constants.ServiceName you can:
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>
-                See more in-depth charts and tables illustrating comparisons in operating models
-            </li>
-            <li>
-                Choose and save a new set of schools to compare your school with, based on characteristics important
-                to your establishment
-            </li>
-            <li>
-                Model data within the tool* to assess the impact of anomalous spending in the reporting period
-            </li>
-            <li>
-                Access commercial frameworks from DfE to help you find a better deal
-            </li>
-            <li>
-                Create an integrated curriculum and financial plan (ICFP) to assist in creating the best curriculum for
-                pupils with available funding.
-            </li>
-        </ul>
-        <p class="govuk-body-s">
-            *you can save this data on the @Constants.ServiceName servers, but this does not alter the official data
-            held by DfE
-        </p>
-        <p class="govuk-body">
-            You can view most of the default analysis freely, but to keep your more sensitive data safe, some features
-            are secured behind a login. You can access these features by logging in with your existing DfE Sign-in (DSI)
-            credentials. If you haven't registered yet or have lost your password, please visit the
-            <a href="https://services.signin.education.gov.uk/" class="govuk-link">DfE Sign-in page on gov.uk</a> for
-            guidance.
-        </p>
-        <div class="govuk-!-margin-top-6 govuk-!-text-align-centre govuk-!-display-none-print">
-            @Html.ActionLink($"Visit the {Constants.ServiceName}", "Index", "School", new
-            {
-                urn = Model.Urn
-            }, new
-            {
-                @class = "govuk-button govuk-button--secondary ",
-                dataModule = "govuk-button"
-            })
+<section id="next-steps-section" aria-labelledby="next-steps">
+    <h2 class="govuk-heading-l" id="next-steps">Next steps</h2>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body">
+                We recommend you visit the @Html.ActionLink(Constants.ServiceName, "Index", "School", new
+                                           {
+                                               urn = Model.Urn
+                                           }, new
+                                           {
+                                               @class = "govuk-link"
+                                           }) to further explore your benchmarking data.
+            </p>
+            <p class="govuk-body">
+                In @Constants.ServiceName you can:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    See more in-depth charts and tables illustrating comparisons in operating models
+                </li>
+                <li>
+                    Choose and save a new set of schools to compare your school with, based on characteristics important
+                    to your establishment
+                </li>
+                <li>
+                    Model data within the tool* to assess the impact of anomalous spending in the reporting period
+                </li>
+                <li>
+                    Access commercial frameworks from DfE to help you find a better deal
+                </li>
+                <li>
+                    Create an integrated curriculum and financial plan (ICFP) to assist in creating the best curriculum for
+                    pupils with available funding.
+                </li>
+            </ul>
+            <p class="govuk-body-s">
+                *you can save this data on the @Constants.ServiceName servers, but this does not alter the official data
+                held by DfE
+            </p>
+            <p class="govuk-body">
+                You can view most of the default analysis freely, but to keep your more sensitive data safe, some features
+                are secured behind a login. You can access these features by logging in with your existing DfE Sign-in (DSI)
+                credentials. If you haven't registered yet or have lost your password, please visit the
+                <a href="https://services.signin.education.gov.uk/" class="govuk-link">DfE Sign-in page on gov.uk</a> for
+                guidance.
+            </p>
+            <div class="govuk-!-margin-top-6 govuk-!-text-align-centre govuk-!-display-none-print">
+                @Html.ActionLink($"Visit the {Constants.ServiceName}", "Index", "School", new
+                {
+                    urn = Model.Urn
+                }, new
+                {
+                    @class = "govuk-button govuk-button--secondary ",
+                    dataModule = "govuk-button"
+                })
+            </div>
         </div>
     </div>
-</div>
+</section>

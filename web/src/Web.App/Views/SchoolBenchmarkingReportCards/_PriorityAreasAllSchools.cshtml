@@ -1,40 +1,42 @@
 @using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
 
-<h2 class="govuk-heading-l" id="priority-areas-all-schools">Your spend in priority areas for all schools</h2>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <p class="govuk-body">
-            Your school's spend compared against similar schools in the three areas in which schools in England spend
-            the most money.
-        </p>
-        <p class="govuk-body">
-            Find out about the schools you are compared with in
-            @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
-            {
-                urn = Model.Urn
-            }, new
-            {
-                @class = "govuk-link"
-            }).
-        </p>
+<section id="priority-areas-all-schools-section" aria-labelledby="priority-areas-all-schools">
+    <h2 class="govuk-heading-l" id="priority-areas-all-schools">Your spend in priority areas for all schools</h2>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body">
+                Your school's spend compared against similar schools in the three areas in which schools in England spend
+                the most money.
+            </p>
+            <p class="govuk-body">
+                Find out about the schools you are compared with in
+                @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
+                {
+                    urn = Model.Urn
+                }, new
+                {
+                    @class = "govuk-link"
+                }).
+            </p>
+        </div>
     </div>
-</div>
 
-@await Html.PartialAsync("_Costs", new CostsViewModel
-{
-    Costs = Model.CostsAllSchools,
-    Id = "costs-all-schools",
-    Urn = Model.Urn
-})
+    @await Html.PartialAsync("_Costs", new CostsViewModel
+    {
+        Costs = Model.CostsAllSchools,
+        Id = "costs-all-schools",
+        Urn = Model.Urn
+    })
 
-<p class="govuk-body govuk-!-display-none-print">
-    View more insights in
-    @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
-    {
-        urn = Model.Urn
-    }, new
-    {
-        @class = "govuk-link"
-    }).
-</p>
+    <p class="govuk-body govuk-!-display-none-print">
+        View more insights in
+        @Html.ActionLink(Constants.ServiceName, "Index", "SchoolComparison", new
+        {
+            urn = Model.Urn
+        }, new
+        {
+            @class = "govuk-link"
+        }).
+    </p>
+</section>
