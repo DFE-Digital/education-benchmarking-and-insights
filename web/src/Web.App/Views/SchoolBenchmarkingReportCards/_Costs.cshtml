@@ -31,19 +31,21 @@
                             })
                         </span>
                     </div>
-                    <div class="govuk-grid-column-one-third govuk-body-s">
-                        <span>Least spend</span>
-                        @await Component.InvokeAsync("RagPosition", new
-                        {
-                            category.Values,
-                            itemWidth = 6,
-                            height = 30,
-                            itemSpacing = 1m,
-                            highlight = Model.Urn,
-                            id = $"rag-position-{category.Rating.CostCategoryAnchorId}",
-                            title = $"Position in comparator set for {categoryHeading}"
-                        })
-                        <span>Most spend</span>
+                    <div class="govuk-grid-column-one-third govuk-body-s position-in-set">
+                        <div>
+                            <span>Least spend</span>
+                            @await Component.InvokeAsync("RagPosition", new
+                            {
+                                category.Values,
+                                itemWidth = 6,
+                                height = 30,
+                                itemSpacing = 1m,
+                                highlight = Model.Urn,
+                                id = $"rag-position-{category.Rating.CostCategoryAnchorId}",
+                                title = $"Position in comparator set for {categoryHeading}"
+                            })
+                            <span>Most spend</span>
+                        </div>
                     </div>
                 </div>
             </div>

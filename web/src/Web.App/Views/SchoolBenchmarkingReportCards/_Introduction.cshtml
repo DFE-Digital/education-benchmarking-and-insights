@@ -1,12 +1,15 @@
 @model Web.App.ViewModels.SchoolBenchmarkingReportCardsViewModel
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-three-quarters">
         <span class="govuk-caption-l">
             Financial Insights and Benchmarking Summary
             @Model.Years:
         </span>
         <h1 class="govuk-heading-l">@Model.Name</h1>
+    </div>
+    <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
+        @await Html.PartialAsync("_PrintPageLink")
     </div>
 </div>
 

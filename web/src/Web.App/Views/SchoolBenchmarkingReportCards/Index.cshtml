@@ -5,28 +5,37 @@
 
 @await Html.PartialAsync("_Introduction", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_KeyInformation", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_PriorityAreasAllSchools", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_PriorityAreasOther", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_PupilWorkforceMetrics", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_NextSteps", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-section-break--print">
 
 @await Html.PartialAsync("_WhoYouAreComparedWith", Model)
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-9 govuk-!-margin-bottom-9">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-!-display-none-print">
+    @await Html.PartialAsync("_PrintPageLink", null, new ViewDataDictionary(ViewData)
+    {
+        {
+            "Link", true
+        }
+    })
+</div>

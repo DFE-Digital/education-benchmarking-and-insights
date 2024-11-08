@@ -2,7 +2,7 @@
 @model Web.App.ViewModels.Components.RagPositionViewModel
 @if (Model.Values.Any())
 {
-    var width = (Model.ItemWidth + Model.ItemSpacing) * (Model.Values.Count() - 1);
+    var width = (Model.ItemWidth + Model.ItemSpacing) * Model.Values.Count() - 1;
     <svg
         width="@width"
         height="@Model.Height"

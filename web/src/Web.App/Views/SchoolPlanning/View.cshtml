@@ -1,5 +1,4 @@
 @using Web.App.Extensions
-@using Web.App.TagHelpers
 @model Web.App.ViewModels.SchoolDeploymentPlanViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolDeploymentPlan;
@@ -21,7 +20,7 @@
             This is your deployment plan. It provides curriculum and financial analysis based on the figures you have provided.
             Use the dashboard to create another plan or compare between years.
         </p>
-        <a class="govuk-button govuk-button--inverse app-print-link__button" href="#">Print this page</a>
+        @await Html.PartialAsync("_PrintPageLink")
     </div>
 </div>
 
@@ -70,15 +69,3 @@
         @await Html.PartialAsync("_ScenarioPlanner", Model)
     </div>
 </div>
-
-@section scripts
-{
-    <script add-nonce="true">
-    document.querySelectorAll(".app-print-link__button").forEach((element) => {
-        element.addEventListener("click",(e) => {
-            e.preventDefault();
-            print();
-        })
-    })
-</script>
-}
