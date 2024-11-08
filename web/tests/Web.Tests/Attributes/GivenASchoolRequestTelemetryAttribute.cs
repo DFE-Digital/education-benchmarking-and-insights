@@ -72,7 +72,8 @@ public class GivenASchoolRequestTelemetryAttribute
         var filter = new RequestTelemetryFilter(
             provider.GetService<ILogger<RequestTelemetryFilter>>()!,
             attribute.Properties,
-            attribute.RoutePropertyNames);
+            attribute.RoutePropertyNames,
+            attribute.ContextProperties);
         filter.OnActionExecuted(actionExecutedContext);
 
         await (actionExecutedContext.Result?.ExecuteResultAsync(actionContext) ?? Task.CompletedTask);
