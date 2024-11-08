@@ -1,0 +1,12 @@
+@{
+    var link = ViewData["Link"] ?? false;
+}
+
+@if (link is true)
+{
+    <a class="govuk-link app-print-link govuk-visually-hidden govuk-!-display-none-print govuk-link--no-visited-state" href="#">Print this page</a>
+}
+else
+{
+    <button class="govuk-button app-print-link app-print-link__button govuk-visually-hidden govuk-!-display-none-print govuk-link--no-visited-state" href="#">Print this page</button>
+}

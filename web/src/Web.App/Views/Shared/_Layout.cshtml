@@ -63,7 +63,7 @@
             {
                 @Html.ActionLink("Sign out", "Signout", "Home", null, new
                 {
-                    @class = "govuk-header__link govuk-header__service-name app-signin"
+                    @class = "govuk-header__link govuk-header__service-name app-signin govuk-!-display-none-print"
                 })
             }
             else
@@ -73,7 +73,7 @@
                     redirectUri = ViewContext.HttpContext.Request.Path
                 }, new
                 {
-                    @class = "govuk-header__link govuk-header__service-name app-signin"
+                    @class = "govuk-header__link govuk-header__service-name app-signin govuk-!-display-none-print"
                 })
             }
         </div>
@@ -95,12 +95,12 @@
 </main>
 
 
-<footer class="govuk-footer " role="contentinfo">
+<footer class="govuk-footer" role="contentinfo">
     <div class="govuk-width-container ">
         <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
                 <h2 class="govuk-visually-hidden">Support links</h2>
-                <ul class="govuk-footer__inline-list">
+                <ul class="govuk-footer__inline-list govuk-!-display-none-print">
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-footer__link" href="@Url.Action("Index", "Cookies")">
                             Cookies
@@ -110,7 +110,7 @@
                         <a class="govuk-footer__link" href="@Url.Action("Accessibility", "StaticContent")">
                             Accessibility
                         </a>
-                    </li> 
+                    </li>
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/department-for-education/about/personal-information-charter">
                             Privacy
@@ -161,6 +161,16 @@
         ev.preventDefault();
         history.back();
     });
+    document.querySelectorAll(".app-print-link").forEach((element) => {
+        if (element.classList.contains("govuk-visually-hidden")) {
+            element.classList.remove("govuk-visually-hidden");
+        }
+
+        element.addEventListener("click", function(ev) {
+            ev.preventDefault();
+            window.print();
+        });
+    })
 </script>
 @await RenderSectionAsync("scripts", false)
 

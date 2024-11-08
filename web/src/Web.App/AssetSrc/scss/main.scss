@@ -40,6 +40,10 @@
   background: url('/assets/images/icon-print.png') no-repeat 10px 50%;
   background-size: 16px 18px;
   padding: 9px 11px 8px 37px;
+
+  &:active, &:hover {
+    color: $govuk-inverse-button-text-colour
+  }
 }
 
 .priority {
@@ -168,18 +172,22 @@ p.priority .govuk-tag {
           float: none;
         }
 
-        &:last-of-type {
+        &.position-in-set {
           padding-right: 0;
-          display: flex;
-          align-items: center;
-          text-align: center;
           margin-bottom: 0;
 
-          @include govuk-media-query($until: 1020px) {
-            margin-top: 3px;
+          > div {
+            display: flex;
+            align-items: center;
+            text-align: center;
 
-            span {
-              margin: 7px 10px;
+            @include govuk-media-query($until: 1020px) {
+              margin-top: 5px;
+              place-content: center;
+
+              span {
+                margin: 7px 10px;
+              }
             }
           }
         }
@@ -190,6 +198,12 @@ p.priority .govuk-tag {
           @include govuk-media-query($from: 1020px) {
             align-content: space-evenly;
             height: 35px;
+          }
+
+          @media print {
+            background-color: transparent;
+            color: #000;
+            font-weight: bold;
           }
         }
       }
@@ -326,6 +340,10 @@ form.characteristics {
     flex-wrap: wrap;
     gap: 140px;
 
+    @media print {
+      gap: 60px
+    }
+
     > div {
       display: flex;
       flex: 1;
@@ -343,6 +361,10 @@ form.characteristics {
           width: 1px;
           height: 100%;
           background-color: $govuk-border-colour;
+
+          @media print {
+            right: -30px
+          }
         }
       }
 
@@ -350,5 +372,21 @@ form.characteristics {
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.govuk-section-break--print {
+  @media print {
+    break-after: page;
+
+    & ~ h2 {
+      margin-top: 1em;
+    }
+  }
+}
+
+hr.govuk-section-break--print {
+  @media print {
+    opacity: 0;
   }
 }

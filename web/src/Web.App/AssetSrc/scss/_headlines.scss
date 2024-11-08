@@ -5,8 +5,15 @@
 
   p {
     color: white;
+    
+    @media print {
+      color: #000;
+    }
   }
 
+  @media print {
+    background: transparent;
+  }
 }
 
 .app-headline-high {
