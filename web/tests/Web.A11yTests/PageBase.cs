@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 namespace Web.A11yTests;
 
 public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver)
-    : IClassFixture<WebDriver>
+    : IClassFixture<WebDriver>, IDisposable
 {
 
     private IPage? _page;
@@ -68,6 +68,23 @@ public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver web
                     var node = violation.Nodes[j];
                     TestOutputHelper.WriteLine($"occurrence {j + 1}: {node.Html}");
                 }
+            }
+        }
+    }
+
+    public async void Dispose()
+    {
+        await Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private async Task Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (_page != null)
+            {
+                await _page.CloseAsync();
             }
         }
     }
