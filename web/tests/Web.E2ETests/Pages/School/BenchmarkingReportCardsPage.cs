@@ -19,7 +19,6 @@ public class BenchmarkingReportCardsPage(IPage page)
     private ILocator NonEducationalSupportStaff => page.Locator(Selectors.PriorityAreaNonEducationSupportStaff);
     private ILocator AdministrativeSupplies => page.Locator(Selectors.PriorityAreaAdministrativeSupplies);
     private ILocator Top3SpendingPriorities => page.Locator($"{Selectors.BrcOtherPriorityAreas} ~ section .priority-position");
-    // Locators within Pupil and Workforce Metrics
     private ILocator PupilToTeacherMetric => page.Locator("h3:has-text('Pupil-to-teacher metric')");
     private ILocator PupilToSeniorLeadershipRoles => page.Locator("h3:has-text('Pupil-to-senior leadership role metric')");
     public async Task IsDisplayed()
