@@ -10,7 +10,7 @@
                 {
                     case FinanceTools.CompareYourCosts:
                         <li>
-                            <a href="@Url.Action("Index", "SchoolComparison", new { urn = Model.Identifier })">
+                            <a href="@Url.Action("Index", "SchoolComparison", new { urn = Model.Identifier })" aria-label="Benchmark spending">
                                 <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
@@ -23,7 +23,7 @@
                         break;
                     case FinanceTools.FinancialPlanning:
                         <li>
-                            <a href="@Url.Action("Index", "SchoolPlanning", new { urn = Model.Identifier })">
+                            <a href="@Url.Action("Index", "SchoolPlanning", new { urn = Model.Identifier })" aria-label="Curriculum and financial planning">
                                 <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
@@ -39,7 +39,7 @@
                         break;
                     case FinanceTools.BenchmarkCensus:
                         <li>
-                            <a href="@Url.Action("Index", "SchoolCensus", new { urn = Model.Identifier })">
+                            <a href="@Url.Action("Index", "SchoolCensus", new { urn = Model.Identifier })" aria-label="Benchmark pupil and workforce data">
                                 <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
@@ -53,9 +53,9 @@
                     case FinanceTools.BenchmarkingReportCards:
                         <feature name="@FeatureFlags.BenchmarkingReportCards">
                             <li>
-                                <a href="@Url.Action("Index", "SchoolBenchmarkingReportCards", new { urn = Model.Identifier, referrer = "school-home" })">
-                                <img src="/assets/images/benchmarking-report-cards.png" alt="" class="app-view-component">
-                            </a>
+                                <a href="@Url.Action("Index", "SchoolBenchmarkingReportCards", new { urn = Model.Identifier, referrer = "school-home" })" aria-label="Benchmarking report cards">
+                                    <img src="/assets/images/benchmarking-report-cards.png" alt="" class="app-view-component">
+                                </a>
                                 <h3 class="govuk-heading-s">
                                     <a href="@Url.Action("Index", "SchoolBenchmarkingReportCards", new { urn = Model.Identifier, referrer = "school-home" })" class="govuk-link govuk-link--no-visited-state">Benchmarking report cards</a>
                                 </h3>
