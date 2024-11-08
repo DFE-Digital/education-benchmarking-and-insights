@@ -8,29 +8,23 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
     public IEnumerable<IGrouping<string?, LocalAuthoritySchool>> GroupedSchools { get; } = localAuthority.Schools
         .OrderBy(x => x.SchoolName)
         .GroupBy(x => x.OverallPhase)
-        .OrderBy(x => LaPhaseOrderMap[x.Key ?? string.Empty]);
+        .OrderBy(x => GetLaPhaseOrder(x.Key));
 
-    private static Dictionary<string, int> LaPhaseOrderMap => new()
+
+    private static int GetLaPhaseOrder(string? phase)
     {
+        return phase switch
         {
-            OverallPhaseTypes.Primary, 1
-        },
-        {
-            OverallPhaseTypes.Secondary, 2
-        },
-        {
-            OverallPhaseTypes.Special, 3
-        },
-        {
-            OverallPhaseTypes.PupilReferralUnit, 4
-        },
-        {
-            OverallPhaseTypes.Nursery, 5
-        },
-        {
-            OverallPhaseTypes.AllThrough, 6
-        }
-    };
+            OverallPhaseTypes.Primary => 1,
+            OverallPhaseTypes.Secondary => 2,
+            OverallPhaseTypes.Special => 3,
+            OverallPhaseTypes.PupilReferralUnit => 4,
+            OverallPhaseTypes.Nursery => 5,
+            OverallPhaseTypes.AllThrough => 6,
+            OverallPhaseTypes.PostSixteen => 7,
+            _ => 99
+        };
+    }
 }
 
 public class LocalAuthoritySchoolsSectionViewModel
