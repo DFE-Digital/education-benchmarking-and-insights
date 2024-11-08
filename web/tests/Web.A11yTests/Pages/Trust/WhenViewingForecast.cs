@@ -3,7 +3,7 @@ using Xunit;
 using Xunit.Abstractions;
 namespace Web.A11yTests.Pages.Trust;
 
-//Requires correct organisation assigned to trust
+//Requires correct organisation assigned to DSI account
 
 // public class WhenViewingForecast(
 //     ITestOutputHelper testOutputHelper,
