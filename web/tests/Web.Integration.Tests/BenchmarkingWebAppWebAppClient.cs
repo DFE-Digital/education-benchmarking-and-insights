@@ -192,6 +192,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupCensus(Census[] censuses)
+    {
+        CensusApi.Reset();
+        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(censuses));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupCensusWithException()
     {
         CensusApi.Reset();
