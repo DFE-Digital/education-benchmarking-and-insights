@@ -1,0 +1,24 @@
+AppRequests
+| extend
+    Urn = tostring(Properties["Urn"]),
+    Establishment = tostring(Properties["Establishment"]),
+    Feature = tostring(Properties["Feature"]),
+    Referrer = tostring(Properties["Referrer"])
+| where 
+    Establishment == "school"
+| where
+    Feature == "benchmarking-report-cards"
+| where 
+    isempty(SyntheticSource)
+| project
+    TimeGenerated,
+    Name,
+    ResultCode,
+    OperationId,
+    UserId,
+    Establishment,
+    Feature,
+    Identifier = Urn,
+    Referrer
+| order by
+    TimeGenerated asc
