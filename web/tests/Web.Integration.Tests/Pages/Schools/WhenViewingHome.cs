@@ -81,7 +81,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN, "school-home").ToAbsolute());
     }
 
     [Fact]
@@ -187,6 +187,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.Link(toolsLinks[0], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[2], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[3], "Benchmarking report cards", Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[3], "Benchmarking report cards", Paths.SchoolBenchmarkingReportCards(school.URN, "school-home").ToAbsolute());
     }
 }

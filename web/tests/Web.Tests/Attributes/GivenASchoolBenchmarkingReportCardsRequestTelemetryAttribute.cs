@@ -13,35 +13,44 @@ using Web.App.Extensions;
 using Xunit;
 namespace Web.Tests.Attributes;
 
-public class GivenALocalAuthorityRequestTelemetryAttribute
+public class GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute
 {
     private readonly IServiceCollection _services = new ServiceCollection();
 
-    public GivenALocalAuthorityRequestTelemetryAttribute()
+    public GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute()
     {
         _services.AddScoped<ILogger<RequestTelemetryFilter>, NullLogger<RequestTelemetryFilter>>();
     }
 
     [Theory]
-    [InlineData(TrackedRequestFeature.Home, "123456")]
-    [InlineData(TrackedRequestFeature.Home, null)]
-    public async Task SetsPropertiesInRequestTelemetry(TrackedRequestFeature feature, string? code)
+    [InlineData("123456", null)]
+    [InlineData(null, null)]
+    [InlineData("123456", "somewhere")]
+    public async Task SetsPropertiesInRequestTelemetry(string? urn, string? referrer)
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
             {
-                "code", code
+                "urn", urn
             }
         });
 
-        var telemetry = await GetTelemetryFromRequest(feature, routeData);
+        const TrackedRequestQueryParameters referrerKey = TrackedRequestQueryParameters.Referrer;
+        var query = new QueryString();
+        if (referrer != null)
+        {
+            query = query.Add(referrerKey.GetStringValue(), referrer);
+        }
 
-        Assert.Equal("local-authority", telemetry.Properties["Establishment"]);
-        Assert.Equal(feature.GetStringValue(), telemetry.Properties["Feature"]);
-        Assert.Equal(code, telemetry.Properties["Code"]);
+        var telemetry = await GetTelemetryFromRequest(routeData, query, referrerKey);
+
+        Assert.Equal("school", telemetry.Properties["Establishment"]);
+        Assert.Equal(TrackedRequestFeature.BenchmarkingReportCards.GetStringValue(), telemetry.Properties["Feature"]);
+        Assert.Equal(urn, telemetry.Properties["Urn"]);
+        Assert.Equal(referrer, telemetry.Properties["Referrer"]);
     }
 
-    private async Task<RequestTelemetry> GetTelemetryFromRequest(TrackedRequestFeature feature, RouteData routeData)
+    private async Task<RequestTelemetry> GetTelemetryFromRequest(RouteData routeData, QueryString query, TrackedRequestQueryParameters referrerKey)
     {
         var provider = _services.BuildServiceProvider();
         var httpContext = new DefaultHttpContext
@@ -51,6 +60,7 @@ public class GivenALocalAuthorityRequestTelemetryAttribute
 
         var telemetry = new RequestTelemetry();
         httpContext.Features.Set(telemetry);
+        httpContext.Request.QueryString = query;
 
         var actionContext = new ActionContext
         {
@@ -68,7 +78,7 @@ public class GivenALocalAuthorityRequestTelemetryAttribute
             }
         );
 
-        var attribute = new LocalAuthorityRequestTelemetryAttribute(feature);
+        var attribute = new SchoolBenchmarkingReportCardsTelemetry(referrerKey);
         var filter = new RequestTelemetryFilter(
             provider.GetService<ILogger<RequestTelemetryFilter>>()!,
             attribute.Properties,

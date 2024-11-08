@@ -14,7 +14,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.BenchmarkingReportCards)]
 [Route("school/{urn}/benchmarking-report-cards")]
-[SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkingReportCards)]
+[SchoolBenchmarkingReportCardsTelemetry(TrackedRequestQueryParameters.Referrer)]
 public class SchoolBenchmarkingReportCardsController(
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,

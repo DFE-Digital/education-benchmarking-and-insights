@@ -3,10 +3,12 @@ namespace Web.App;
 
 public enum TrackedRequestType
 {
-    [StringValue("Establishment")]
+    [StringValue(nameof(Establishment))]
     Establishment,
-    [StringValue("Feature")]
-    Feature
+    [StringValue(nameof(Feature))]
+    Feature,
+    [StringValue(nameof(Referrer))]
+    Referrer
 }
 
 public enum TrackedRequestEstablishmentType
@@ -55,4 +57,10 @@ public enum TrackedRequestRouteParameters
     CompanyNumber,
     [StringValue("urn")]
     Urn
+}
+
+public enum TrackedRequestQueryParameters
+{
+    [StringValue("referrer")]
+    Referrer
 }
