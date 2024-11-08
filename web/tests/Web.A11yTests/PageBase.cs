@@ -84,7 +84,7 @@ public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver web
         {
             if (_page != null)
             {
-                await _page.CloseAsync();    
+                await _page.CloseAsync();
             }
         }
     }
