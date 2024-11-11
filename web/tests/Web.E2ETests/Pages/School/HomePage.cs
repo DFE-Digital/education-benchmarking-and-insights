@@ -125,10 +125,10 @@ public class HomePage(IPage page)
         return new BenchmarkCensusPage(page);
     }
 
-    public async Task<BenchmarkingReportCardsPage> ClickBenchmarkingReportCards()
+    public async Task<SchoolBenchmarkingReportCardsPage> ClickBenchmarkingReportCards()
     {
         await BenchmarkingReportCardsLink.Click();
-        return new BenchmarkingReportCardsPage(page);
+        return new SchoolBenchmarkingReportCardsPage(page);
     }
 
     public async Task<SpendingCostsPage> ClickSpendingAndCosts()
