@@ -22,19 +22,15 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
     private ILocator Top3SpendingPriorities => page.Locator($"{Selectors.BrcOtherPriorityAreas} .priority-position");
     private ILocator PupilToTeacherMetric => page.Locator("h3:has-text('Pupil-to-teacher metric')");
     private ILocator PupilToSeniorLeadershipRoles => page.Locator("h3:has-text('Pupil-to-senior leadership role metric')");
+    private ILocator PupilWorkforceContent => page.Locator(Selectors.PupilWorkforceContent);
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await KeyInformationSection.ShouldBeVisible();
-        Assert.Equal(4, await KeyInformationContent.Count());
-        foreach (var item in await KeyInformationContent.AllAsync())
-        {
-            await item.ShouldBeVisible();
-        }
-        await SpendPrioritySection.ShouldBeVisible();
+        await KeyInformationShouldBeVisible();
+        await SpendPrioritySectionShouldBeVisible();
         await AssertSpendPriorityItems();
-        await OtherSpendingPrioritiesSection.ShouldBeVisible();
+        await OtherSpendingPrioritiesSectionShouldBeVisible();
         await AssertOtherTopSpendingPriorities();
         Assert.Equal(3, await Top3SpendingPriorities.Count());
         foreach (var priority in await Top3SpendingPriorities.AllAsync())
@@ -42,16 +38,46 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
             await priority.ShouldBeVisible();
         }
 
-        await PupilWorkforceMetricsSection.ShouldBeVisible();
+        await PupilWorkforceMetricsSectionShouldBeVisible();
         await AssertPupilWorkforceMetrics();
-        await PrintPageCta.ShouldBeVisible();
+        await PrintPageCtaShouldBeVisible();
         await VisitFbitButton.ShouldBeVisible();
+        await NextStepsSection.ShouldBeVisible();
     }
 
     public async Task IsNotDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
         await PageH1Heading.ShouldHaveText("Page not found");
+    }
+
+    public async Task KeyInformationShouldBeVisible()
+    {
+        await KeyInformationSection.ShouldBeVisible();
+        Assert.Equal(4, await KeyInformationContent.Count());
+        foreach (var item in await KeyInformationContent.AllAsync())
+        {
+            await item.ShouldBeVisible();
+        }
+    }
+
+    public async Task KeyInformationShouldContain(string name, string value)
+    {
+        var nameElement = KeyInformationContent.Locator($"p:has-text('{name}')");
+        await nameElement.ShouldBeVisible();
+        await nameElement.Locator("~ p").ShouldHaveText(value);
+    }
+
+    public async Task SpendPrioritySectionShouldBeVisible()
+    {
+        await SpendPrioritySection.ShouldBeVisible();
+    }
+
+    public async Task SpendPrioritySectionShouldContain(string name, string tag, string value)
+    {
+        var nameElement = SpendPrioritySection.Locator($"h3:has-text('{name}')");
+        await nameElement.ShouldBeVisible();
+        await nameElement.Locator("~ div > div").First.ShouldHaveText($"{tag} {value}");
     }
 
     private async Task AssertSpendPriorityItems()
@@ -61,16 +87,46 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
         await AdministrativeSupplies.ShouldBeVisible();
     }
 
+    public async Task OtherSpendingPrioritiesSectionShouldBeVisible()
+    {
+        await OtherSpendingPrioritiesSection.ShouldBeVisible();
+    }
+
     private async Task AssertOtherTopSpendingPriorities()
     {
         var topSpendingItems = await Top3SpendingPriorities.AllAsync();
         Assert.True(topSpendingItems.Count >= 3, "Expected at least 3 top spending priorities to be visible.");
     }
 
+    public async Task OtherTopSpendingPrioritiesSectionShouldContain(string name, string tag, string value)
+    {
+        var nameElement = OtherSpendingPrioritiesSection.Locator($"h3:has-text('{name}')");
+        await nameElement.ShouldBeVisible();
+        await nameElement.Locator("~ div > div").First.ShouldHaveText($"{tag} {value}");
+    }
+
+    public async Task PupilWorkforceMetricsSectionShouldBeVisible()
+    {
+        await PupilWorkforceMetricsSection.ShouldBeVisible();
+    }
+
     private async Task AssertPupilWorkforceMetrics()
     {
         await PupilToTeacherMetric.ShouldBeVisible();
         await PupilToSeniorLeadershipRoles.ShouldBeVisible();
+    }
+
+    public async Task PupilWorkforceMetricsSectionShouldContain(string name, string value, string comparison)
+    {
+        var nameElement = PupilWorkforceContent.Locator($"h3:has-text('{name}')");
+        await nameElement.ShouldBeVisible();
+        await nameElement.Locator("~ div").ShouldHaveText(value);
+        await nameElement.Locator("~ p").ShouldHaveText(comparison);
+    }
+
+    public async Task PrintPageCtaShouldBeVisible()
+    {
+        await PrintPageCta.ShouldBeVisible();
     }
 
     public async Task ClickPrintPageCta(string functionName)
@@ -95,5 +151,11 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
     {
         await KeyInformationSection.Locator("a").ClickAsync();
         return new CompareYourCostsPage(page);
+    }
+
+    public async Task<BenchmarkCensusPage> ClickCensusLink()
+    {
+        await PupilWorkforceMetricsSection.Locator("a").ClickAsync();
+        return new BenchmarkCensusPage(page);
     }
 }

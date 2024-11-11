@@ -157,4 +157,5 @@ public static class Selectors
     public const string PriorityAreaTeachingSupportStaff = "#spending-priorities-teaching-and-teaching-support-staff";
     public const string PriorityAreaNonEducationSupportStaff = "#spending-priorities-non-educational-support-staff-and-services";
     public const string PriorityAreaAdministrativeSupplies = "#spending-priorities-administrative-supplies";
+    public const string PupilWorkforceContent = "#pupil-workforce-metrics-section .two-halves-with-divider > div";
 }
