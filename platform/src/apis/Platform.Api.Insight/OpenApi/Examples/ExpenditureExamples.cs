@@ -2,6 +2,7 @@
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 using Newtonsoft.Json.Serialization;
+using Platform.Api.Insight.Domain;
 using Platform.Api.Insight.Expenditure;
 namespace Platform.Api.Insight.OpenApi.Examples;
 
@@ -27,6 +28,20 @@ internal class ExampleExpenditureDimension : OpenApiExample<string>
         foreach (var dimension in ExpenditureDimensions.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
+        }
+
+        return this;
+    }
+}
+
+[ExcludeFromCodeCoverage]
+internal class ExampleOverallPhase : OpenApiExample<string>
+{
+    public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+    {
+        foreach (var phase in OverallPhase.All)
+        {
+            Examples.Add(OpenApiExampleResolver.Resolve(phase, phase, namingStrategy));
         }
 
         return this;

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-
 namespace Platform.Api.Insight.Expenditure;
 
 public static class ExpenditureDimensions
@@ -10,12 +9,12 @@ public static class ExpenditureDimensions
     public const string PercentExpenditure = nameof(PercentExpenditure);
 
     public static readonly string[] All =
-    {
+    [
         Actuals,
         PerUnit,
         PercentIncome,
         PercentExpenditure
-    };
+    ];
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }
@@ -34,7 +33,7 @@ public static class ExpenditureCategories
     public const string Other = nameof(Other);
 
     public static readonly string[] All =
-    {
+    [
         TotalExpenditure,
         TeachingTeachingSupportStaff,
         NonEducationalSupportStaff,
@@ -44,8 +43,8 @@ public static class ExpenditureCategories
         Utilities,
         AdministrationSupplies,
         CateringStaffServices,
-        Other,
-    };
+        Other
+    ];
 
     public static bool IsValid(string? category) => All.Any(a => a == category);
 }
