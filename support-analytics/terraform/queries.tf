@@ -99,17 +99,30 @@ resource "azurerm_log_analytics_query_pack_query" "tracked-links" {
   })
 }
 
-resource "random_uuid" "pipeline-runs-id" {}
+resource "random_uuid" "default-pipeline-runs-id" {}
 
-resource "azurerm_log_analytics_query_pack_query" "pipeline-runs" {
-  name          = random_uuid.pipeline-runs-id.result
+resource "azurerm_log_analytics_query_pack_query" "default-pipeline-runs" {
+  name          = random_uuid.default-pipeline-runs-id.result
   query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
-  display_name  = "Recent pipeline runs"
-  description   = "Logs from the most recent data pipeline runs"
+  display_name  = "Recent default pipeline runs"
+  description   = "Logs from the most recent default pipeline runs"
   categories    = ["applications"]
   tags          = local.query-tags
 
-  body = file("${path.module}/queries/pipeline-runs.kql")
+  body = file("${path.module}/queries/pipeline-runs-default.kql")
+}
+
+resource "random_uuid" "custom-pipeline-runs-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "custom-pipeline-runs" {
+  name          = random_uuid.custom-pipeline-runs-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Recent custom pipeline runs"
+  description   = "Logs from the most recent custom pipeline runs"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/pipeline-runs-custom.kql")
 }
 
 resource "azurerm_log_analytics_saved_search" "get-feature-requests" {

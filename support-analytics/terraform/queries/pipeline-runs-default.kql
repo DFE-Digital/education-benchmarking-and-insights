@@ -1,6 +1,6 @@
 ContainerAppConsoleLogs_CL
 | where 
-    RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-data-pipeline"
+    RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-pipeline-default"
 | where 
     TimeGenerated between (ago(1d)..now())
 | project 
