@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Expenditure;
 
-public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpenditureService service)
+public class ExpenditureFunctions(
+    ILogger<ExpenditureFunctions> logger,
+    IExpenditureService service,
+    IValidator<ExpenditureParameters> expenditureParametersValidator,
+    IValidator<QuerySchoolExpenditureParameters> querySchoolExpenditureParametersValidator,
+    IValidator<QueryTrustExpenditureParameters> queryTrustExpenditureParametersValidator)
 {
     [Function(nameof(ExpenditureAllCategories))]
     [OpenApiOperation(nameof(ExpenditureAllCategories), "Expenditure")]
@@ -69,6 +76,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureAsync(
@@ -90,6 +98,12 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
                 var result = await service.GetSchoolAsync(urn);
                 return result == null
                     ? req.CreateNotFoundResponse()
@@ -112,6 +126,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CustomSchoolExpenditureAsync(
@@ -134,6 +149,12 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
                 var result = await service.GetCustomSchoolAsync(urn, identifier);
                 return result == null
                     ? req.CreateNotFoundResponse()
@@ -155,6 +176,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> TrustExpenditureAsync(
@@ -176,6 +198,12 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
                 var result = await service.GetTrustAsync(companyNumber);
                 return result == null
                     ? req.CreateNotFoundResponse()
@@ -196,6 +224,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")] HttpRequestData req,
@@ -216,7 +245,12 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
-                //TODO: Add validation for dimension
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
                 var result = await service.GetSchoolHistoryAsync(urn);
                 return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
@@ -235,6 +269,7 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> TrustExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}/history")] HttpRequestData req,
@@ -255,7 +290,12 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
-                //TODO: Add validation for dimension
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
                 var result = await service.GetTrustHistoryAsync(companyNumber);
                 return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
@@ -269,18 +309,22 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
 
     [Function(nameof(QuerySchoolsExpenditureAsync))]
     [OpenApiOperation(nameof(QuerySchoolsExpenditureAsync), "Expenditure")]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(ExampleOverallPhase))]
+    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
+    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority three digit code", Type = typeof(string))]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleExpenditureCategory))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleExpenditureDimension))]
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> QuerySchoolsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
-        var queryParams = req.GetParameters<ExpenditureParameters>();
+        var queryParams = req.GetParameters<QuerySchoolExpenditureParameters>();
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
@@ -294,8 +338,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
-                //TODO: Add validation for urns, category and dimension
-                var result = await service.QuerySchoolsAsync(queryParams.Schools);
+                var validationResult = await querySchoolExpenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.QuerySchoolsAsync(queryParams.Urns, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase);
                 return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
@@ -314,12 +363,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
     [OpenApiParameter("excludeCentralServices", In = ParameterLocation.Query, Description = "Exclude central services amounts", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(TrustExpenditureResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> QueryTrustsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
-        var queryParams = req.GetParameters<ExpenditureParameters>();
+        var queryParams = req.GetParameters<QueryTrustExpenditureParameters>();
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
@@ -333,8 +383,13 @@ public class ExpenditureFunctions(ILogger<ExpenditureFunctions> logger, IExpendi
         {
             try
             {
-                //TODO: Add validation for companyNumbers, category and dimension
-                var result = await service.QueryTrustsAsync(queryParams.Trusts);
+                var validationResult = await queryTrustExpenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.QueryTrustsAsync(queryParams.CompanyNumbers);
                 return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)

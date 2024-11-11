@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Balance;
@@ -11,6 +12,7 @@ using Platform.Api.Insight.Income;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
+using Platform.Api.Insight.Validators;
 using Platform.Functions.Extensions;
 using Platform.Sql;
 namespace Platform.Api.Insight.Configuration;
@@ -37,6 +39,11 @@ internal static class Services
             .AddSingleton<IExpenditureService, ExpenditureService>()
             .AddSingleton<IIncomeService, IncomeService>()
             .AddSingleton<IBudgetForecastService, BudgetForecastService>();
+
+        serviceCollection
+            .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
+            .AddTransient<IValidator<QuerySchoolExpenditureParameters>, QuerySchoolExpenditureParametersValidator>()
+            .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>();
 
         //TODO: Add serilog configuration AB#227696
         serviceCollection

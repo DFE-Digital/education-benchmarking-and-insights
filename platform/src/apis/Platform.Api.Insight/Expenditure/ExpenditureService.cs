@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
@@ -10,7 +11,7 @@ public interface IExpenditureService
     Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn);
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
-    Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns);
+    Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
     Task<SchoolExpenditureModel?> GetCustomSchoolAsync(string urn, string identifier);
 }
@@ -78,16 +79,40 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         return await conn.QueryAsync<TrustExpenditureHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns)
+    public async Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase)
     {
-        const string sql = "SELECT * from SchoolExpenditure where URN IN @URNS";
-        var parameters = new
+        var builder = new SqlBuilder();
+        var template = builder.AddTemplate("SELECT * from SchoolExpenditure /**where**/");
+        if (urns.Length != 0)
         {
-            URNS = urns
-        };
+            builder.Where("URN IN @URNS", new
+            {
+                URNS = urns
+            });
+        }
+        else if (!string.IsNullOrWhiteSpace(companyNumber))
+        {
+            builder.Where("TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", new
+            {
+                CompanyNumber = companyNumber,
+                Phase = phase
+            });
+        }
+        else if (!string.IsNullOrWhiteSpace(laCode))
+        {
+            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
+            {
+                LaCode = laCode,
+                Phase = phase
+            });
+        }
+        else
+        {
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+        }
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureModel>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureModel>(template.RawSql, template.Parameters);
     }
 
     public async Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers)
