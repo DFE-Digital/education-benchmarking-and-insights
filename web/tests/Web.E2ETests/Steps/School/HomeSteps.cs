@@ -8,7 +8,7 @@ namespace Web.E2ETests.Steps.School;
 public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
-    private BenchmarkingReportCardsPage? _benchmarkingReportCardsPage;
+    private SchoolBenchmarkingReportCardsPage? _benchmarkingReportCardsPage;
     private CommercialResourcesPage? _commercialResourcesPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
@@ -196,5 +196,12 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.AssertRagGuidance();
+    }
+
+    [Then("I should see a 404 error page indicating the BRC is not available for this school")]
+    public async Task ThenIShouldSeeAErrorPageIndicatingTheBrcIsNotAvailableForThisSchool()
+    {
+        Assert.NotNull(_benchmarkingReportCardsPage);
+        await _benchmarkingReportCardsPage.IsNotDisplayed();
     }
 }
