@@ -1,0 +1,12 @@
+ContainerAppConsoleLogs_CL
+| where 
+    RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-pipeline-custom"
+| where 
+    TimeGenerated between (ago(1d)..now())
+| project 
+    TimeGenerated, 
+    ContainerId_s, 
+    Log_s
+| order by 
+    TimeGenerated desc,
+    Log_s desc

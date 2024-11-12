@@ -3,16 +3,16 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | 1.15.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.0.1 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 1.13.1 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.112.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | ~> 2.0.1 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 
 ## Modules
@@ -30,7 +30,7 @@ No modules.
 | [azurerm_service_plan.func-asp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
 | [azurerm_windows_function_app.func-app](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app) | resource |
 | [mssql_user.app-service-user](https://registry.terraform.io/providers/betr-io/mssql/0.3.1/docs/resources/user) | resource |
-| [azapi_resource.app-service-identity](https://registry.terraform.io/providers/azure/azapi/1.15.0/docs/data-sources/resource) | data source |
+| [azapi_resource.app-service-identity](https://registry.terraform.io/providers/azure/azapi/latest/docs/data-sources/resource) | data source |
 
 ## Inputs
 
