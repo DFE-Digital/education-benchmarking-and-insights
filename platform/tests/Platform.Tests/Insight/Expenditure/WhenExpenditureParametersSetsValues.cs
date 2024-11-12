@@ -7,20 +7,24 @@ namespace Platform.Tests.Insight.Expenditure;
 public class WhenExpenditureParametersSetsValues
 {
     [Theory]
-    [InlineData("TotalExpenditure", "PerUnit", "true", "1,2,3", "4,5,6", "TotalExpenditure", "PerUnit", true, "1|2|3", "4|5|6")]
-    [InlineData(null, null, null, null, null, null, "Actuals", false, "", "")]
-    [InlineData("Invalid", "Invalid", null, null, null, "Invalid", "Invalid", false, "", "")]
+    [InlineData("TotalExpenditure", "PerUnit", "true", "1,2,3", "456", "phase", "laCode", "TotalExpenditure", "PerUnit", true, "1|2|3", "456", "phase", "laCode")]
+    [InlineData(null, null, null, null, null, null, null, null, "Actuals", false, "", "", "", "")]
+    [InlineData("Invalid", "Invalid", null, null, null, null, null, "Invalid", "Invalid", false, "", "", "", "")]
     public void ShouldSetValuesFromIQueryCollection(
         string? category,
         string? dimension,
         string? excludeCentralServices,
         string? urns,
-        string? companyNumbers,
+        string? companyNumber,
+        string? phase,
+        string? laCode,
         string? expectedCategory,
         string expectedDimension,
         bool expectedExcludeCentralServices,
-        string expectedSchools,
-        string expectedTrusts)
+        string expectedUrns,
+        string expectedCompanyNumber,
+        string expectedPhase,
+        string expectedLaCode)
     {
         var parameters = new QuerySchoolExpenditureParameters();
         var query = new QueryCollection(new Dictionary<string, StringValues>
@@ -38,7 +42,13 @@ public class WhenExpenditureParametersSetsValues
                 "urns", urns
             },
             {
-                "companyNumbers", companyNumbers
+                "companyNumber", companyNumber
+            },
+            {
+                "phase", phase
+            },
+            {
+                "laCode", laCode
             }
         });
 
@@ -47,7 +57,9 @@ public class WhenExpenditureParametersSetsValues
         Assert.Equal(expectedCategory, parameters.Category);
         Assert.Equal(expectedDimension, parameters.Dimension);
         Assert.Equal(expectedExcludeCentralServices, parameters.ExcludeCentralServices);
-        Assert.Equal(expectedSchools, string.Join("|", parameters.Urns));
-        Assert.Equal(expectedTrusts, string.Join("|", parameters.CompanyNumbers));
+        Assert.Equal(expectedUrns, string.Join("|", parameters.Urns));
+        Assert.Equal(expectedCompanyNumber, parameters.CompanyNumber);
+        Assert.Equal(expectedPhase, parameters.Phase);
+        Assert.Equal(expectedLaCode, parameters.LaCode);
     }
 }

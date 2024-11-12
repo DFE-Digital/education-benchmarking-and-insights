@@ -7,6 +7,7 @@ using Platform.Functions.Extensions;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
+[Scope(Feature = "Insights expenditure endpoints")]
 public class InsightExpenditureSteps(InsightApiDriver api)
 {
     private const string SchoolExpenditureKey = "school-expenditure";
@@ -80,7 +81,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given("a valid school expenditure query request with LA code '(.*)' and phase '(.*)':")]
-    public void GivenAValidSchoolExpenditureQueryRequestWithLaCoderAndPhase(string laCode, string phase)
+    public void GivenAValidSchoolExpenditureQueryRequestWithLaCodeAndPhase(string laCode, string phase)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {

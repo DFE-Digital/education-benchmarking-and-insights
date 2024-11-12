@@ -7,6 +7,7 @@ using Platform.Functions.Extensions;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
+[Scope(Feature = "Insights income endpoints")]
 public class InsightIncomeSteps(InsightApiDriver api)
 {
     private const string SchoolIncomeKey = "school-income";
@@ -48,16 +49,6 @@ public class InsightIncomeSteps(InsightApiDriver api)
         });
     }
 
-    [Given("an invalid school income request with urn '(.*)'")]
-    public void GivenAnInvalidSchoolIncomeRequestWithUrn(string urn)
-    {
-        api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/income/school/{urn}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
     [Given("a valid school income history request with urn '(.*)'")]
     public void GivenAValidSchoolIncomeHistoryRequestWithUrn(string urn)
     {
@@ -75,6 +66,26 @@ public class InsightIncomeSteps(InsightApiDriver api)
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/income/schools?urns={string.Join("&urns=", urns)}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid school income query request with company number '(.*)' and phase '(.*)':")]
+    public void GivenAValidSchoolIncomeQueryRequestWithCompanyNumberAndPhase(string companyNumber, string phase)
+    {
+        api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/income/schools?companyNumber={companyNumber}&phase={phase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid school income query request with LA code '(.*)' and phase '(.*)':")]
+    public void GivenAValidSchoolIncomeQueryRequestWithLaCodeAndPhase(string laCode, string phase)
+    {
+        api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/income/schools?laCode={laCode}&phase={phase}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -198,6 +209,15 @@ public class InsightIncomeSteps(InsightApiDriver api)
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Then("the school income result should be bad request")]
+    public void ThenTheSchoolIncomeResultShouldBeBadRequest()
+    {
+        var response = api[SchoolIncomeKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Then("the school income history result should be ok and contain:")]

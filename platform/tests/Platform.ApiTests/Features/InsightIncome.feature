@@ -127,10 +127,15 @@
           | SchoolIncomeCatering                 | 7661.00                |
           | SchoolDonationsVoluntaryFunds        | 17187.00               |
 
-    Scenario: Sending an invalid school income request
-        Given an invalid school income request with urn '000000'
+    Scenario: Sending a valid school expenditure request with bad URN
+        Given a valid school income request with urn '0000000', category '', dimension 'Actuals' and exclude central services = ''
         When I submit the insights income request
         Then the school income result should be not found
+
+    Scenario: Sending an invalid school income request
+        Given a valid school income request with urn '990000', category 'Invalid', dimension '' and exclude central services = ''
+        When I submit the insights income request
+        Then the school income result should be bad request
 
     Scenario: Sending a valid school income history request
         Given a valid school income history request with urn '990000'
@@ -143,7 +148,7 @@
           | 2021 | 2020 to 2021 | 990000 | 1453187.00  | 1435070.00        | 8707.00                   | 0.00                   | 1316142.00   | 1134288.00       | 730.00         | 181124.00         | 80102.00        | 6929.00                  | 1778.00        | 0.00                    | 0.00                                 | 1453187.00        | 1435070.00              | 8707.00                         | 0.00                         | 1316142.00         | 1134288.00             | 730.00               | 181124.00               | 80102.00              | 6929.00                        | 1778.00              | 0.00                          |
           | 2022 | 2021 to 2022 | 990000 | 2912331.00  | 2851071.00        | 26520.00                  | 3006.00                | 2420249.00   | 2397709.00       | 0.00           | 22540.00          | 57641.00        | 1673.00                  | 7661.00        | 17187.00                | 0.00                                 | 2912331.00        | 2851071.00              | 26520.00                        | 3006.00                      | 2420249.00         | 2397709.00             | 0.00                 | 22540.00                | 57641.00              | 1673.00                        | 7661.00              | 17187.00                      |
 
-    Scenario: Sending a valid school income query request
+    Scenario: Sending a valid school income query request with URNs
         Given a valid school income query request with urns:
           | Urn    |
           | 990000 |
@@ -156,6 +161,25 @@
           | 990001 | 2039283.00  | 1969878.00        | 56754.00                  | 0.00                   | 1762409.00   | 1760909.00       | 1500.00        | 0.00              | 48852.00        | 25842.00                 | 18355.00       | 4080.00                 | 8120.00                              | 2039283.00        | 1969878.00              | 56754.00                        | 0.00                         | 1762409.00         | 1760909.00             | 1500.00              | 0.00                    | 48852.00              | 25842.00                       | 18355.00             | 4080.00                       |
           | 990002 | 1674148.00  | 1599525.00        | 66873.00                  | 0.00                   | 1342622.00   | 1306852.00       | 0.00           | 35770.00          | 73936.00        | 9358.00                  | 8239.00        | 10546.00                | 37300.00                             | 1674148.00        | 1599525.00              | 66873.00                        | 0.00                         | 1342622.00         | 1306852.00             | 0.00                 | 35770.00                | 73936.00              | 9358.00                        | 8239.00              | 10546.00                      |
 
+    Scenario: Sending a valid school income query request with company number and phase
+        Given a valid school income query request with company number '8104190' and phase 'Secondary':
+        When I submit the insights income request
+        Then the school income query result should be ok and contain:
+          | URN    | TotalIncome | TotalGrantFunding | TotalSelfGeneratedFunding | DirectRevenueFinancing | DirectGrants | PrePost16Funding | OtherDfeGrants | OtherIncomeGrants | CommunityGrants | IncomeFacilitiesServices | IncomeCatering | DonationsVoluntaryFunds | ReceiptsSupplyTeacherInsuranceClaims | SchoolTotalIncome | SchoolTotalGrantFunding | SchoolTotalSelfGeneratedFunding | SchoolDirectRevenueFinancing | SchoolDirectGrants | SchoolPrePost16Funding | SchoolOtherDfeGrants | SchoolOtherIncomeGrants | SchoolCommunityGrants | SchoolIncomeFacilitiesServices | SchoolIncomeCatering | SchoolDonationsVoluntaryFunds |
+          | 777051 | 2603347.00  | 2548240.00        | 27957.00                  | 3133.00                | 2122035.00   | 2119494.00       | 1696.00        | 846.00            | 46241.00        | 14867.00                 | 12393.00       | 550.00                  | 0.00                                 | 2603347.00        | 2548240.00              | 27957.00                        | 3133.00                      | 2122035.00         | 2119494.00             | 1696.00              | 846.00                  | 46241.00              | 14867.00                       | 12393.00             | 550.00                        |
+          | 777052 | 1674148.00  | 1599525.00        | 66873.00                  | 0.00                   | 1342622.00   | 1306852.00       | 0.00           | 35770.00          | 73936.00        | 9358.00                  | 8239.00        | 10546.00                | 37300.00                             | 1674148.00        | 1599525.00              | 66873.00                        | 0.00                         | 1342622.00         | 1306852.00             | 0.00                 | 35770.00                | 73936.00              | 9358.00                        | 8239.00              | 10546.00                      |
+          | 777053 | 1650449.00  | 1598904.00        | 39687.00                  | 0.00                   | 1324514.00   | 1324514.00       | 0.00           | 0.00              | 47584.00        | 4369.00                  | 7286.00        | 23143.00                | 0.00                                 | 1650449.00        | 1598904.00              | 39687.00                        | 0.00                         | 1324514.00         | 1324514.00             | 0.00                 | 0.00                    | 47584.00              | 4369.00                        | 7286.00              | 23143.00                      |
+          | 777054 | 1705389.00  | 1625233.00        | 68588.00                  | 0.00                   | 1415355.00   | 1413855.00       | 1500.00        | 0.00              | 47240.00        | 1518.00                  | 10818.00       | 25361.00                | 5920.00                              | 1705389.00        | 1625233.00              | 68588.00                        | 0.00                         | 1415355.00         | 1413855.00             | 1500.00              | 0.00                    | 47240.00              | 1518.00                        | 10818.00             | 25361.00                      |
+          | 777055 | 3685110.00  | 3595411.00        | 68353.00                  | 0.00                   | 2741553.00   | 2736638.00       | 0.00           | 4915.00           | 46914.00        | 41001.00                 | 13600.00       | 14957.00                | 0.00                                 | 3685110.00        | 3595411.00              | 68353.00                        | 0.00                         | 2741553.00         | 2736638.00             | 0.00                 | 4915.00                 | 46914.00              | 41001.00                       | 13600.00             | 14957.00                      |
+          | 777056 | 2420915.00  | 2253162.00        | 151273.00                 | 0.00                   | 2029687.00   | 2029687.00       | 0.00           | 0.00              | 58836.00        | 36359.00                 | 14500.00       | 85114.00                | 15300.00                             | 2420915.00        | 2253162.00              | 151273.00                       | 0.00                         | 2029687.00         | 2029687.00             | 0.00                 | 0.00                    | 58836.00              | 36359.00                       | 14500.00             | 85114.00                      |
+
+    Scenario: Sending a valid school income query request with LA code and phase
+        Given a valid school income query request with LA code '205' and phase 'Secondary':
+        When I submit the insights income request
+        Then the school income query result should be ok and contain:
+          | URN    | TotalIncome | TotalGrantFunding | TotalSelfGeneratedFunding | DirectRevenueFinancing | DirectGrants | PrePost16Funding | OtherDfeGrants | OtherIncomeGrants | CommunityGrants | IncomeFacilitiesServices | IncomeCatering | DonationsVoluntaryFunds | ReceiptsSupplyTeacherInsuranceClaims | SchoolTotalIncome | SchoolTotalGrantFunding | SchoolTotalSelfGeneratedFunding | SchoolDirectRevenueFinancing | SchoolDirectGrants | SchoolPrePost16Funding | SchoolOtherDfeGrants | SchoolOtherIncomeGrants | SchoolCommunityGrants | SchoolIncomeFacilitiesServices | SchoolIncomeCatering | SchoolDonationsVoluntaryFunds |
+          | 777055 | 3685110.00  | 3595411.00        | 68353.00                  | 0.00                   | 2741553.00   | 2736638.00       | 0.00           | 4915.00           | 46914.00        | 41001.00                 | 13600.00       | 14957.00                | 0.00                                 | 3685110.00        | 3595411.00              | 68353.00                        | 0.00                         | 2741553.00         | 2736638.00             | 0.00                 | 4915.00                 | 46914.00              | 41001.00                       | 13600.00             | 14957.00                      |
+          
     Scenario: Sending a valid trust income request with category, dimension and exclude central services
         Given a valid trust income request with company number '10192252', category 'GrantFunding', dimension 'Actuals' and exclude central services = 'true'
         When I submit the insights income request

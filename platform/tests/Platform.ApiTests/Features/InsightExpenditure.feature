@@ -314,7 +314,7 @@
           | CommunityFocusedSchoolStaff                  | 0.00                   |
           | CommunityFocusedSchoolCosts                  | 0.00                   |
 
-    Scenario: Sending an valid school expenditure request with bad URN
+    Scenario: Sending a valid school expenditure request with bad URN
         Given a school expenditure request with urn '0000000', category '', dimension 'Actuals' and exclude central services = ''
         When I submit the insights expenditure request
         Then the school expenditure result should be not found

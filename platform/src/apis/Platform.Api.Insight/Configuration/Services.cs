@@ -43,7 +43,10 @@ internal static class Services
         serviceCollection
             .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
             .AddTransient<IValidator<QuerySchoolExpenditureParameters>, QuerySchoolExpenditureParametersValidator>()
-            .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>();
+            .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>()
+            .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
+            .AddTransient<IValidator<QuerySchoolIncomeParameters>, QuerySchoolIncomeParametersValidator>()
+            .AddTransient<IValidator<QueryTrustIncomeParameters>, QueryTrustIncomeParametersValidator>();
 
         //TODO: Add serilog configuration AB#227696
         serviceCollection

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Platform.Functions.Extensions;
-namespace Platform.Api.Insight.Expenditure;
+namespace Platform.Api.Insight.Income;
 
-public record QuerySchoolExpenditureParameters : ExpenditureParameters
+public record QuerySchoolIncomeParameters : IncomeParameters
 {
     public string[] Urns { get; internal set; } = [];
     public string? Phase { get; internal set; }

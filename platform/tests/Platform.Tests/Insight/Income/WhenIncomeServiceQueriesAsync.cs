@@ -53,7 +53,7 @@ public class WhenIncomeServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryAsyncWhenQuerySchoolsAsync()
+    public async Task ShouldQueryAsyncWhenQuerySchoolsAsyncWithUrns()
     {
         // arrange
         string[] urns = ["urn1", "urn2"];
@@ -69,20 +69,103 @@ public class WhenIncomeServiceQueriesAsync
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
-                actualParam = param;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "URNS");
             })
             .ReturnsAsync(results);
 
         // act
-        var actual = await _service.QuerySchoolsAsync(urns);
+        var actual = await _service.QuerySchoolsAsync(urns, null, null, null);
 
         // assert
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT * from SchoolIncome where URN IN @URNS", actualSql);
-        Assert.Equivalent(new
+        Assert.Equal("SELECT * from SchoolIncome WHERE URN IN @URNS", actualSql?.Trim());
+        var expectedParam = new Dictionary<string, object>
         {
-            URNS = urns
-        }, actualParam, true);
+            {
+                "URNS", urns
+            }
+        };
+        Assert.Equivalent(expectedParam, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldQueryAsyncWhenQuerySchoolsAsyncWithCompanyNumberAndPhase()
+    {
+        // arrange
+        const string companyNumber = nameof(companyNumber);
+        const string phase = nameof(phase);
+        var results = new List<SchoolIncomeModel>
+        {
+            new()
+        };
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? param) =>
+            {
+                actualSql = sql;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "Phase");
+            })
+            .ReturnsAsync(results);
+
+        // act
+        var actual = await _service.QuerySchoolsAsync([], companyNumber, null, phase);
+
+        // assert
+        Assert.Equal(results, actual);
+        Assert.Equal("SELECT * from SchoolIncome WHERE TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", actualSql?.Trim());
+        var expectedParam = new Dictionary<string, object>
+        {
+            {
+                "CompanyNumber", companyNumber
+            },
+            {
+                "Phase", phase
+            }
+        };
+        Assert.Equivalent(expectedParam, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldQueryAsyncWhenQuerySchoolsAsyncWithLaCodeAndPhase()
+    {
+        // arrange
+        const string laCode = nameof(laCode);
+        const string phase = nameof(phase);
+        var results = new List<SchoolIncomeModel>
+        {
+            new()
+        };
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? param) =>
+            {
+                actualSql = sql;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "LaCode", "Phase");
+            })
+            .ReturnsAsync(results);
+
+        // act
+        var actual = await _service.QuerySchoolsAsync([], null, laCode, phase);
+
+        // assert
+        Assert.Equal(results, actual);
+        Assert.Equal("SELECT * from SchoolIncome WHERE LaCode = @LaCode AND OverallPhase = @Phase", actualSql?.Trim());
+        var expectedParam = new Dictionary<string, object>
+        {
+            {
+                "LaCode", laCode
+            },
+            {
+                "Phase", phase
+            }
+        };
+        Assert.Equivalent(expectedParam, actualParam, true);
     }
 
     [Fact]
