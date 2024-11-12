@@ -36,5 +36,35 @@
             <DesignTime>true</DesignTime>
             <Visible>true</Visible>
         </Compile>
+        <Compile Update="Features\LocalAuthority\CompareYourCosts.feature.cs">
+            <DependentUpon>CompareYourCosts.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
+        <Compile Update="Features\LocalAuthority\LocalAuthorityHome.feature.cs">
+            <DependentUpon>LocalAuthorityHome.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
+        <Compile Update="Features\LocalAuthority\BenchmarkCensus.feature.cs">
+            <DependentUpon>BenchmarkCensus.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
+        <Compile Update="Features\LocalAuthority\CompareYourCosts.feature.cs">
+            <DependentUpon>CompareYourCosts.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
+        <Compile Update="Features\LocalAuthority\LocalAuthorityHome.feature.cs">
+            <DependentUpon>TrustHome.feature</DependentUpon>
+            <AutoGen>true</AutoGen>
+            <DesignTime>true</DesignTime>
+            <Visible>true</Visible>
+        </Compile>
     </ItemGroup>
 </Project>
