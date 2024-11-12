@@ -4,7 +4,7 @@ namespace Platform.Api.Insight.Expenditure;
 
 public record QueryTrustExpenditureParameters : ExpenditureParameters
 {
-    public string[] CompanyNumbers { get; private set; } = [];
+    public string[] CompanyNumbers { get; internal set; } = [];
 
     public override void SetValues(IQueryCollection query)
     {

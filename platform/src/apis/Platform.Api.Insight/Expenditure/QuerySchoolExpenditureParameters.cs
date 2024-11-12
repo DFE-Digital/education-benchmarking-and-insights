@@ -4,8 +4,8 @@ namespace Platform.Api.Insight.Expenditure;
 
 public record QuerySchoolExpenditureParameters : ExpenditureParameters
 {
-    public string[] Urns { get; private set; } = [];
-    public string[] CompanyNumbers { get; private set; } = [];
+    public string[] Urns { get; internal set; } = [];
+    public string[] CompanyNumbers { get; internal set; } = [];
     public string? Phase { get; internal set; }
     public string? CompanyNumber { get; internal set; }
     public string? LaCode { get; internal set; }

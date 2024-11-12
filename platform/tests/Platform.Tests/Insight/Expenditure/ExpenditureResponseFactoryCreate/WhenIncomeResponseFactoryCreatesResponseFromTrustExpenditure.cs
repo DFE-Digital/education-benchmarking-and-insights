@@ -15,7 +15,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(TotalExpenditureTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithTotalExpenditure(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -29,7 +29,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(TeachingTeachingSupportStaffTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithTeachingTeachingSupportStaff(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -43,7 +43,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(NonEducationalSupportStaffTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithNonEducationalSupportStaff(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -58,7 +58,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     public void ShouldBuildResponseModelWithEducationalSupplies(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
         // act
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -72,7 +72,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(EducationalIctTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithEducationalIct(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -86,7 +86,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(PremisesStaffServicesTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithPremisesStaffServices(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -100,7 +100,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(UtilitiesTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithUtilities(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -114,7 +114,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(AdministrationSuppliesTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithAdministrationSupplies(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -128,7 +128,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(CateringStaffServicesTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithCateringStaffServices(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,
@@ -142,7 +142,7 @@ public class WhenExpenditureResponseFactoryCreatesResponseFromTrustExpenditure
     [ClassData(typeof(OtherCostsTestData<TrustExpenditureResponse>))]
     public void ShouldBuildResponseModelWithOtherCosts(string? category, string dimension, bool excludeCentralServices, ExpenditureBaseResponse expected)
     {
-        var response = ExpenditureResponseFactory.Create(_model, new ExpenditureParameters
+        var response = ExpenditureResponseFactory.Create(_model, new QuerySchoolExpenditureParameters
         {
             ExcludeCentralServices = excludeCentralServices,
             Category = category,

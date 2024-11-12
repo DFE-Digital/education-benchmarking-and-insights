@@ -9,7 +9,7 @@ public class WhenExpenditureParametersSetsValues
     [Theory]
     [InlineData("TotalExpenditure", "PerUnit", "true", "1,2,3", "4,5,6", "TotalExpenditure", "PerUnit", true, "1|2|3", "4|5|6")]
     [InlineData(null, null, null, null, null, null, "Actuals", false, "", "")]
-    [InlineData("Invalid", "Invalid", null, null, null, null, "Actuals", false, "", "")]
+    [InlineData("Invalid", "Invalid", null, null, null, "Invalid", "Invalid", false, "", "")]
     public void ShouldSetValuesFromIQueryCollection(
         string? category,
         string? dimension,
@@ -22,7 +22,7 @@ public class WhenExpenditureParametersSetsValues
         string expectedSchools,
         string expectedTrusts)
     {
-        var parameters = new ExpenditureParameters();
+        var parameters = new QuerySchoolExpenditureParameters();
         var query = new QueryCollection(new Dictionary<string, StringValues>
         {
             {
@@ -47,7 +47,7 @@ public class WhenExpenditureParametersSetsValues
         Assert.Equal(expectedCategory, parameters.Category);
         Assert.Equal(expectedDimension, parameters.Dimension);
         Assert.Equal(expectedExcludeCentralServices, parameters.ExcludeCentralServices);
-        Assert.Equal(expectedSchools, string.Join("|", parameters.Schools));
-        Assert.Equal(expectedTrusts, string.Join("|", parameters.Trusts));
+        Assert.Equal(expectedSchools, string.Join("|", parameters.Urns));
+        Assert.Equal(expectedTrusts, string.Join("|", parameters.CompanyNumbers));
     }
 }
