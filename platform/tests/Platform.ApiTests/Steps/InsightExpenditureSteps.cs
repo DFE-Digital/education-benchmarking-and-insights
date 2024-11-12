@@ -32,8 +32,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school expenditure request with urn '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenAValidSchoolExpenditureRequestWithUrnCategoryDimensionAndExcludeCentralServices(
+    [Given("a school expenditure request with urn '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
+    public void GivenASchoolExpenditureRequestWithUrnCategoryDimensionAndExcludeCentralServices(
         string urn,
         string category,
         string dimension,
@@ -44,16 +44,6 @@ public class InsightExpenditureSteps(InsightApiDriver api)
             RequestUri = new Uri(
                 $"/api/expenditure/school/{urn}?category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
                 UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("an invalid school expenditure request with urn '(.*)'")]
-    public void GivenAnInvalidSchoolExpenditureRequestWithUrn(string urn)
-    {
-        api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/expenditure/school/{urn}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -79,8 +69,28 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid trust expenditure request with company number '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenAValidTrustExpenditureRequestWithCompanyNumberCategoryDimensionAndExcludeCentralServices(
+    [Given("a valid school expenditure query request with company number '(.*)' and phase '(.*)':")]
+    public void GivenAValidSchoolExpenditureQueryRequestWithCompanyNumberAndPhase(string companyNumber, string phase)
+    {
+        api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/expenditure/schools?companyNumber={companyNumber}&phase={phase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid school expenditure query request with LA code '(.*)' and phase '(.*)':")]
+    public void GivenAValidSchoolExpenditureQueryRequestWithLaCoderAndPhase(string laCode, string phase)
+    {
+        api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/expenditure/schools?laCode={laCode}&phase={phase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a trust expenditure request with company number '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
+    public void GivenATrustExpenditureRequestWithCompanyNumberCategoryDimensionAndExcludeCentralServices(
         string companyNumber,
         string category,
         string dimension,
@@ -91,16 +101,6 @@ public class InsightExpenditureSteps(InsightApiDriver api)
             RequestUri = new Uri(
                 $"/api/expenditure/trust/{companyNumber}?category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
                 UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("an invalid trust expenditure request with company number '(.*)'")]
-    public void GivenAnInvalidTrustExpenditureRequestWithCompanyNumber(string companyNumber)
-    {
-        api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/expenditure/trust/{companyNumber}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -200,6 +200,15 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
+    [Then("the school expenditure result should be bad request")]
+    public void ThenTheSchoolExpenditureResultShouldBeBadRequest()
+    {
+        var response = api[SchoolExpenditureKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
     [Then("the school expenditure history result should be ok and contain:")]
     public async Task ThenTheSchoolExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
     {
@@ -246,6 +255,15 @@ public class InsightExpenditureSteps(InsightApiDriver api)
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Then("the trust expenditure result should be bad request")]
+    public void ThenTheTrustExpenditureResultShouldBeBadRequest()
+    {
+        var response = api[TrustExpenditureKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Then("the trust expenditure history result should be ok and contain:")]

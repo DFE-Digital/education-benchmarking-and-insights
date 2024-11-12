@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+namespace Platform.Tests;
 
 public static class TestDatabase
 {

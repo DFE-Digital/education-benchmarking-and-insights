@@ -3,7 +3,7 @@ namespace Platform.Api.Insight.Domain;
 
 public static class OverallPhase
 {
-    private const string Primary = "Primary";
+    internal const string Primary = "Primary";
     private const string Secondary = "Secondary";
     private const string Special = "Special";
     private const string PupilReferralUnit = "Pupil Referral Unit";

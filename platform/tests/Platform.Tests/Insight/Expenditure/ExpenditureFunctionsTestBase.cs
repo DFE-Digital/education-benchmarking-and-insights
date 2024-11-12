@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Insight.Expenditure;
@@ -10,7 +11,10 @@ public class ExpenditureFunctionsTestBase : FunctionsTestBase
 
     protected ExpenditureFunctionsTestBase()
     {
+        InlineValidator<ExpenditureParameters> expenditureParametersValidator = new();
+        InlineValidator<QuerySchoolExpenditureParameters> querySchoolExpenditureParametersValidator = new();
+        InlineValidator<QueryTrustExpenditureParameters> queryTrustExpenditureParametersValidator = new();
         Service = new Mock<IExpenditureService>();
-        Functions = new ExpenditureFunctions(new NullLogger<ExpenditureFunctions>(), Service.Object);
+        Functions = new ExpenditureFunctions(new NullLogger<ExpenditureFunctions>(), Service.Object, expenditureParametersValidator, querySchoolExpenditureParametersValidator, queryTrustExpenditureParametersValidator);
     }
 }
