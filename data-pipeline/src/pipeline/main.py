@@ -66,62 +66,80 @@ ds_logger = logging.getLogger("distributed.utils_perf")
 ds_logger.setLevel(logging.ERROR)
 
 
-def pre_process_cdc(run_type: str, year: int) -> pd.DataFrame:
+def pre_process_cdc(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing CDC Data")
+
     cdc_data = get_blob(raw_container, f"{run_type}/{year}/cdc.csv", encoding="utf-8")
+
     cdc = prepare_cdc_data(cdc_data, year)
-    write_blob("pre-processed", f"{run_type}/{year}/cdc.parquet", cdc.to_parquet())
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/cdc.parquet", cdc.to_parquet())
 
     return cdc
 
 
-def pre_process_census(run_type, year) -> pd.DataFrame:
+def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing Census Data")
+
     workforce_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_workforce.xlsx"
     )
     pupil_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="cp1252"
     )
+
     census = prepare_census_data(workforce_census_data, pupil_census_data)
+
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/census.parquet",
+        f"{run_type}/{run_id}/census.parquet",
         census.to_parquet(),
     )
 
     return census
 
 
-def pre_process_sen(run_type, year) -> pd.DataFrame:
+def pre_process_sen(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing SEN Data")
+
     sen_data = get_blob(raw_container, f"{run_type}/{year}/sen.csv", encoding="cp1252")
+
     sen = prepare_sen_data(sen_data)
-    write_blob("pre-processed", f"{run_type}/{year}/sen.parquet", sen.to_parquet())
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/sen.parquet", sen.to_parquet())
 
     return sen
 
 
-def pre_process_ks2(run_type, year) -> pd.DataFrame:
+def pre_process_ks2(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing KS2 Data")
+
     ks2_data = try_get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
+
     ks2 = prepare_ks2_data(ks2_data)
-    write_blob("pre-processed", f"{run_type}/{year}/ks2.parquet", ks2.to_parquet())
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/ks2.parquet", ks2.to_parquet())
 
     return ks2
 
 
-def pre_process_ks4(run_type, year) -> pd.DataFrame:
+def pre_process_ks4(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing KS4 Data")
+
     ks4_data = try_get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
+
     ks4 = prepare_ks4_data(ks4_data)
-    write_blob("pre-processed", f"{run_type}/{year}/ks4.parquet", ks4.to_parquet())
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/ks4.parquet", ks4.to_parquet())
 
     return ks4
 
 
-def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
+def pre_process_academy_ar(
+    run_type: str, year: int, run_id: str
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     logger.info("Processing Academy AR Data")
+
     academy_ar_data = get_blob(
         raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8"
     )
@@ -130,46 +148,51 @@ def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/aar.parquet",
+        f"{run_type}/{run_id}/aar.parquet",
         aar.to_parquet(),
     )
 
     return aar
 
 
-def pre_process_schools(run_type, year) -> pd.DataFrame:
+def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing Schools Data")
+
     gias_data = get_blob(
         raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"
     )
     gias_links_data = get_blob(
         raw_container, f"{run_type}/{year}/gias_links.csv", encoding="cp1252"
     )
+
     schools = prepare_schools_data(gias_data, gias_links_data)
+
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/schools.parquet",
+        f"{run_type}/{run_id}/schools.parquet",
         schools.to_parquet(),
     )
 
     return schools
 
 
-def pre_process_cfo(run_type, year) -> pd.DataFrame:
+def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Processing CFO Data")
+
     cfo_data = get_blob(raw_container, f"{run_type}/{year}/cfo.xlsx")
 
     cfo = build_cfo_data(cfo_data)
+
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/cfo.parquet",
+        f"{run_type}/{run_id}/cfo.parquet",
         cfo.to_parquet(),
     )
 
     return cfo
 
 
-def pre_process_central_services(run_type, year) -> pd.DataFrame:
+def pre_process_central_services(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info("Building Central Services Data")
 
     academies_data = get_blob(
@@ -180,18 +203,23 @@ def pre_process_central_services(run_type, year) -> pd.DataFrame:
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/central_services.parquet",
+        f"{run_type}/{run_id}/central_services.parquet",
         central_services.to_parquet(),
     )
 
     return central_services
 
 
-def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
+def pre_process_academies_data(
+    run_type: str,
+    run_id: str,
+    year: int,
+    data_ref: tuple,
+) -> pd.DataFrame:
     logger.info("Building Academy Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
-    logger.info(f"Processing AAR data - {year}.")
+    logger.info(f"Processing AAR data - {run_id} - {year}.")
 
     academies = build_academy_data(
         schools,
@@ -209,18 +237,23 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/academies.parquet",
+        f"{run_type}/{run_id}/academies.parquet",
         academies.to_parquet(),
     )
 
     return academies
 
 
-def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFrame:
+def pre_process_maintained_schools_data(
+    run_type: str,
+    run_id: str,
+    year: int,
+    data_ref: tuple,
+) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
-    logger.info(f"Processing CFR data - {year}.")
+    logger.info(f"Processing CFR data - {run_id} - {year}.")
 
     maintained_schools_data = get_blob(
         raw_container,
@@ -234,7 +267,7 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/maintained_schools.parquet",
+        f"{run_type}/{run_id}/maintained_schools.parquet",
         maintained_schools.to_parquet(),
     )
 
@@ -243,14 +276,14 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
 
 def pre_process_trust_data(
     run_type: str,
-    year: int,
+    run_id: str,
     academies: pd.DataFrame,
 ) -> pd.DataFrame:
     """
     Build and store Trust financial information.
 
     :param run_type: "default" or "custom"
-    :param year: year in question
+    :param run_id: unique identifer for data-writes
     :param academies: Academy financial information
     :return: Trust-level financial information
     """
@@ -260,7 +293,7 @@ def pre_process_trust_data(
 
     write_blob(
         "pre-processed",
-        f"{run_type}/{year}/trusts.parquet",
+        f"{run_type}/{run_id}/trusts.parquet",
         trusts.to_parquet(),
     )
 
@@ -453,6 +486,7 @@ def pre_process_bfr(run_id: str, year: int):
 
 def _get_ancillary_data(
     worker_client: Client,
+    run_id: str,
     year: int,
 ) -> tuple[pd.DataFrame]:
     """
@@ -461,6 +495,7 @@ def _get_ancillary_data(
     Note: `run_type` is _always_ "default".
 
     :param worker_client: Dask client
+    :param run_id: unique identifier (used for write target)
     :param year: financial year in question
     :return: tuple of supporting datasets
     """
@@ -469,15 +504,17 @@ def _get_ancillary_data(
     cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
         worker_client.gather(
             [
-                worker_client.submit(pre_process_cdc, run_type, year),
-                worker_client.submit(pre_process_census, run_type, year),
-                worker_client.submit(pre_process_sen, run_type, year),
-                worker_client.submit(pre_process_ks2, run_type, year),
-                worker_client.submit(pre_process_ks4, run_type, year),
-                worker_client.submit(pre_process_academy_ar, run_type, year),
-                worker_client.submit(pre_process_schools, run_type, year),
-                worker_client.submit(pre_process_cfo, run_type, year),
-                worker_client.submit(pre_process_central_services, run_type, year),
+                worker_client.submit(pre_process_cdc, run_type, year, run_id),
+                worker_client.submit(pre_process_census, run_type, year, run_id),
+                worker_client.submit(pre_process_sen, run_type, year, run_id),
+                worker_client.submit(pre_process_ks2, run_type, year, run_id),
+                worker_client.submit(pre_process_ks4, run_type, year, run_id),
+                worker_client.submit(pre_process_academy_ar, run_type, year, run_id),
+                worker_client.submit(pre_process_schools, run_type, year, run_id),
+                worker_client.submit(pre_process_cfo, run_type, year, run_id),
+                worker_client.submit(
+                    pre_process_central_services, run_type, year, run_id
+                ),
             ]
         )
     )
@@ -512,25 +549,32 @@ def pre_process_data(
     logger.info(f"Pre-processing data {run_type} - {run_id}")
 
     academy_data_ref = maintained_data_ref = _get_ancillary_data(
-        worker_client, aar_year
+        worker_client,
+        run_id,
+        aar_year,
     )
     if cfr_year != aar_year:
-        maintained_data_ref = _get_ancillary_data(worker_client, cfr_year)
+        maintained_data_ref = _get_ancillary_data(worker_client, run_id, cfr_year)
 
     academies, maintained_schools = worker_client.gather(
         [
             worker_client.submit(
-                pre_process_academies_data, run_type, aar_year, academy_data_ref
+                pre_process_academies_data,
+                run_type,
+                run_id,
+                aar_year,
+                academy_data_ref,
             ),
             worker_client.submit(
                 pre_process_maintained_schools_data,
                 run_type,
+                run_id,
                 cfr_year,
                 maintained_data_ref,
             ),
         ]
     )
-    trusts = pre_process_trust_data(run_type, aar_year, academies)
+    trusts = pre_process_trust_data(run_type, run_id, academies)
 
     pre_process_all_schools(
         run_type,
