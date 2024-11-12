@@ -230,7 +230,6 @@
   .chart-stat-wrapper
   .chart-stat-value
   .chart-stat-value-suffix {
-  color: var(--label-colour);
   margin-left: 5px;
   font-size: 0.38em;
 }
