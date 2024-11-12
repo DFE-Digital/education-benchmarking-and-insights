@@ -56,14 +56,14 @@ public class HomePage(IPage page)
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator RagGuidance => page.Locator("#rag-guidance");
 
-    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null, bool isUserDefinedComparator = false)
+    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null, bool isUserDefinedComparator = false, bool isMissingRags = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
 
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
-        if (!isPartYear && !isUserDefinedComparator)
+        if (!isPartYear && !isUserDefinedComparator && !isMissingRags)
         {
             expectedH2Texts.Insert(0, "Spending priorities for this school");
         }
@@ -86,7 +86,7 @@ public class HomePage(IPage page)
         await DataSourcesAndInterpretation.ShouldBeVisible();
         await FindWaysToSpendLessLink.ShouldBeVisible();
 
-        if (!isPartYear && !isUserDefinedComparator)
+        if (!isPartYear && !isUserDefinedComparator && !isMissingRags)
         {
             await SpendingPrioritiesLink.ShouldBeVisible();
         }

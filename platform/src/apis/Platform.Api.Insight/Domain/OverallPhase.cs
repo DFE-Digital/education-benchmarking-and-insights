@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 namespace Platform.Api.Insight.Domain;
 
 public static class OverallPhase
@@ -26,5 +27,5 @@ public static class OverallPhase
         UniversityTechnicalCollege
     ];
 
-    public static bool IsValid(string? overallPhase) => All.Any(a => a == overallPhase);
+    public static bool IsValid(string? overallPhase) => All.Any(a => a.Equals(overallPhase, StringComparison.OrdinalIgnoreCase));
 }

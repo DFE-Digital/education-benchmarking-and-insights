@@ -7,7 +7,6 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -155,22 +154,24 @@ public class ExpenditureProxyController(
         }
     }
 
-    private async Task<IActionResult> LocalAuthorityExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> LocalAuthorityExpenditure(string laCode, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var la = await establishmentApi.GetLocalAuthority(id).GetResultOrThrow<LocalAuthority>();
-        var schools = la.Schools.Where(x => x.OverallPhase == phase);
+        var la = await establishmentApi.GetLocalAuthority(laCode).GetResultOrThrow<LocalAuthority>();
+        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+        query.AddIfNotNull("laCode", la.Code);
         var result = await expenditureApi
-            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
+            .QuerySchools(query)
             .GetResultOrThrow<SchoolExpenditure[]>();
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditure(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> TrustExpenditure(string companyNumber, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
-        var trust = await establishmentApi.GetTrust(id).GetResultOrThrow<Trust>();
-        var schools = trust.Schools.Where(x => x.OverallPhase == phase);
+        var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+        query.AddIfNotNull("companyNumber", trust.CompanyNumber);
         var result = await expenditureApi
-            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, excludeCentralServices))
+            .QuerySchools(query)
             .GetResultOrThrow<SchoolExpenditure[]>();
 
         return new JsonResult(result);
