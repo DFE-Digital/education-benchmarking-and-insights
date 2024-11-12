@@ -191,6 +191,8 @@ def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Academy Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
+    logger.info(f"Processing AAR data - {year}.")
+
     academies = build_academy_data(
         schools,
         census,
@@ -218,14 +220,12 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
     logger.info("Building Maintained School Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
+    logger.info(f"Processing CFR data - {year}.")
+
     maintained_schools_data = get_blob(
         raw_container,
         f"{run_type}/{year}/maintained_schools_master_list.csv",
         encoding="cp1252",
-    )
-
-    links_data = get_blob(
-        raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
