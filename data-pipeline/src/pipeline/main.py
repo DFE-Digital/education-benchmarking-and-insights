@@ -67,7 +67,7 @@ ds_logger.setLevel(logging.ERROR)
 
 
 def pre_process_cdc(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing CDC Data")
+    logger.info(f"Processing CDC Data: {run_type}/{year}/cdc.csv")
 
     cdc_data = get_blob(raw_container, f"{run_type}/{year}/cdc.csv", encoding="utf-8")
 
@@ -79,7 +79,7 @@ def pre_process_cdc(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing Census Data")
+    logger.info(f"Processing Census Data: {run_type}/{year}/census_workforce.xlsx")
 
     workforce_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_workforce.xlsx"
@@ -100,7 +100,7 @@ def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_sen(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing SEN Data")
+    logger.info(f"Processing SEN Data: {run_type}/{year}/sen.csv")
 
     sen_data = get_blob(raw_container, f"{run_type}/{year}/sen.csv", encoding="cp1252")
 
@@ -112,7 +112,7 @@ def pre_process_sen(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_ks2(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing KS2 Data")
+    logger.info(f"Processing KS2 Data: {run_type}/{year}/ks2.xlsx")
 
     ks2_data = try_get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
 
@@ -124,7 +124,7 @@ def pre_process_ks2(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_ks4(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing KS4 Data")
+    logger.info(f"Processing KS4 Data: {run_type}/{year}/ks4.xlsx")
 
     ks4_data = try_get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
 
@@ -137,30 +137,42 @@ def pre_process_ks4(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 def pre_process_academy_ar(
     run_type: str, year: int, run_id: str
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    logger.info("Processing Academy AR Data")
+) -> pd.DataFrame | None:
+    """
+    Process AAR data.
 
-    academy_ar_data = get_blob(
+    Note: depending on the timing, the AAR data may not be present for
+    the `year`.
+
+    :param run_type: "default" or "custom"
+    :param year: financial year in question
+    :param run_id: unique identifer for data-writes
+    :return: processed AAR data, if present
+    """
+    if academy_ar_data := try_get_blob(
         raw_container, f"{run_type}/{year}/aar.csv", encoding="utf-8"
-    )
+    ):
+        logger.info(f"Processing Academy AR Data: {run_type}/{year}/aar.csv")
 
-    aar = prepare_aar_data(academy_ar_data, year)
+        aar = prepare_aar_data(academy_ar_data, year)
 
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{run_id}/aar.parquet",
-        aar.to_parquet(),
-    )
+        write_blob(
+            "pre-processed",
+            f"{run_type}/{run_id}/aar.parquet",
+            aar.to_parquet(),
+        )
 
-    return aar
+        return aar
+
+    return None
 
 
 def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing Schools Data")
-
+    logger.info(f"Processing GIAS Data: {run_type}/{year}/gias.csv")
     gias_data = get_blob(
         raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"
     )
+    logger.info(f"Processing GIAS-links Data: {run_type}/{year}/gias_links.csv")
     gias_links_data = get_blob(
         raw_container, f"{run_type}/{year}/gias_links.csv", encoding="cp1252"
     )
@@ -177,7 +189,7 @@ def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Processing CFO Data")
+    logger.info(f"Processing CFO Data: {run_type}/{year}/cfo.xlsx")
 
     cfo_data = get_blob(raw_container, f"{run_type}/{year}/cfo.xlsx")
 
@@ -193,7 +205,7 @@ def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 
 def pre_process_central_services(run_type: str, year: int, run_id: str) -> pd.DataFrame:
-    logger.info("Building Central Services Data")
+    logger.info(f"Building Central Services Data: {run_type}/{year}/aar_cs.csv")
 
     academies_data = get_blob(
         raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8"
@@ -355,17 +367,17 @@ def pre_process_bfr(run_id: str, year: int):
     :param run_id: unique identifier for processing
     :param year: financial year in question
     """
-    logger.info(f"Processing BFR data - {run_id} - {year}.")
-
+    logger.info(f"Processing BFR SOFA data: default/{year}/BFR_SOFA_raw.csv")
     bfr_sofa = get_blob(
         raw_container, f"default/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
     )
-
+    logger.info(f"Processing BFR 3Y data: default/{year}/BFR_3Y_raw.csv")
     bfr_3y = get_blob(
         raw_container, f"default/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
     # TODO: handle condition where this doesn't exist.
+    logger.info(f"Processing BFR academies data: default/{year}/academies.parquet")
     academies = pd.read_parquet(
         get_blob("pre-processed", f"default/{year}/academies.parquet"),
         columns=[
@@ -488,7 +500,7 @@ def _get_ancillary_data(
     worker_client: Client,
     run_id: str,
     year: int,
-) -> tuple[pd.DataFrame]:
+) -> tuple:
     """
     Retrieve and process supporting data files.
 
@@ -533,6 +545,15 @@ def pre_process_data(
 ):
     """
     Process data necessary for Academies, Maintained Schools BFR and Trusts.
+
+    The expected "drop" of data is:
+
+    - BFR data arrive first
+    - CFR data arrive next
+    - AAR data arrive last
+
+    As a result, `cfr_year` is always expected to be the same or later
+    than `aar_year`.
 
     Note: `run_type` is _always_ "default".
 
