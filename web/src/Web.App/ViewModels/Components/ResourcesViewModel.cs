@@ -15,5 +15,6 @@ public enum Resources
     SchoolDetails,
     TrustDetails,
     LocalAuthorityResources,
-    DataSource
+    DataSource,
+    BenchmarkingReportCards
 }

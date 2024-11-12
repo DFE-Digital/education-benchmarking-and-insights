@@ -234,9 +234,10 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
             .Select(e => string.Join(" ", e.ChildNodes.Select(n => n.TextContent.Trim())).Trim());
         Assert.Equal(["Teaching and Teaching support staff", "Administrative supplies", "Non-educational support staff"], header3Texts);
 
-        var link = priorityAreasAllSchoolsSection.ChildNodes.QuerySelector("a");
-        Assert.NotNull(link);
-        Assert.Equal(Paths.SchoolComparison(school.URN), link.GetAttribute("href"));
+        var links = priorityAreasAllSchoolsSection.ChildNodes.QuerySelectorAll("a");
+        Assert.Equal(2, links.Length);
+        Assert.Equal(Paths.SchoolComparators(school.URN), links.First().GetAttribute("href"));
+        Assert.Equal(Paths.SchoolComparison(school.URN), links.Last().GetAttribute("href"));
     }
 
     private static void AssertPriorityAreasOtherSection(IHtmlDocument page, School school)
@@ -249,9 +250,10 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
             .Select(e => string.Join(" ", e.ChildNodes.Select(n => n.TextContent.Trim())).Trim());
         Assert.Equal(["Educational ICT", "Catering staff and supplies", "Premises staff and services"], header3Texts);
 
-        var link = priorityAreasOtherSection.ChildNodes.QuerySelector("a");
-        Assert.NotNull(link);
-        Assert.Equal(Paths.SchoolComparison(school.URN), link.GetAttribute("href"));
+        var links = priorityAreasOtherSection.ChildNodes.QuerySelectorAll("a");
+        Assert.Equal(2, links.Length);
+        Assert.Equal(Paths.SchoolComparators(school.URN), links.First().GetAttribute("href"));
+        Assert.Equal(Paths.SchoolComparison(school.URN), links.Last().GetAttribute("href"));
     }
 
     private static void AssertPupilWorkforceMetrics(IHtmlDocument page, School school, Census census)
