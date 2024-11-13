@@ -53,7 +53,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     {
         "1,2,3"
     }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
-    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase")]
+    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
     [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]
     public async Task ShouldQueryAsyncWhenQueryAsync(
         string[] urns,

@@ -54,10 +54,9 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         }
         else if (!string.IsNullOrWhiteSpace(companyNumber))
         {
-            builder.Where("TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", new
+            builder.Where("TrustCompanyNumber = @CompanyNumber", new
             {
-                CompanyNumber = companyNumber,
-                Phase = phase
+                CompanyNumber = companyNumber
             });
         }
         else if (!string.IsNullOrWhiteSpace(laCode))
