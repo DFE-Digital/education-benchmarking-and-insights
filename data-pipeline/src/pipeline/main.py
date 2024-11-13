@@ -204,22 +204,26 @@ def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     return cfo
 
 
-def pre_process_central_services(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+def pre_process_central_services(
+    run_type: str, year: int, run_id: str
+) -> pd.DataFrame | None:
     logger.info(f"Building Central Services Data: {run_type}/{year}/aar_cs.csv")
 
-    academies_data = get_blob(
+    if academies_data := try_get_blob(
         raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8"
-    )
+    ):
 
-    central_services = prepare_central_services_data(academies_data, year)
+        central_services = prepare_central_services_data(academies_data, year)
 
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{run_id}/central_services.parquet",
-        central_services.to_parquet(),
-    )
+        write_blob(
+            "pre-processed",
+            f"{run_type}/{run_id}/central_services.parquet",
+            central_services.to_parquet(),
+        )
 
-    return central_services
+        return central_services
+
+    return None
 
 
 def pre_process_academies_data(
