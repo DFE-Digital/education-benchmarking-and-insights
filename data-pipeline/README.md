@@ -97,15 +97,37 @@ To run the pipeline locally, follow these steps:
 
     Using Azure Storage Explorer (default settings), connect to Azurite and manually create the following resources:
 
-    * Queues
-        * `data-pipeline-job-start`
-        * `data-pipeline-job-finished`
-        * `data-pipeline-job-dlq`
-    * Containers
-        * `comparator-sets`
-        * `metric-rag`
-        * `pre-processed`
-        * `raw`
+    Containers
+
+    ```
+    comparator-sets
+    ```
+
+    ```
+    metric-rag
+    ```
+
+    ```
+    pre-processed
+    ```
+
+    ```
+    raw
+    ```
+
+    Queues
+
+    ```
+    data-pipeline-job-start
+    ```
+
+    ```
+    data-pipeline-job-finished
+    ```
+
+    ```
+    data-pipeline-job-dlq
+    ```
 
     Upload files into the `raw` container, following this directory structure:
 
@@ -151,7 +173,9 @@ To run the pipeline locally, follow these steps:
 
     Set the following program arguments to target this instance:
 
-    `-c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;`
+    ```
+    -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;
+    ```
 
 4. Create an `.env` file:
 
@@ -197,10 +221,6 @@ To run the unit tests run
 
 ```sh
 poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/unit
-EXIT_CODE=$?
-poetry run coverage report --fail-under 65 || EXIT_CODE=$?
-poetry run coverage html
-poetry run coverage xml
 ```
 
 Make:
