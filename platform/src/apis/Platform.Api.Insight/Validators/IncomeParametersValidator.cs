@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Income;
 namespace Platform.Api.Insight.Validators;
 
@@ -17,5 +16,5 @@ public class IncomeParametersValidator : AbstractValidator<IncomeParameters>
     }
 
     private static bool BeAnEmptyOrValidCategory(string? category) => string.IsNullOrWhiteSpace(category) || IncomeCategories.IsValid(category);
-    private static bool BeAValidDimension(string? dimension) => ExpenditureDimensions.IsValid(dimension);
+    private static bool BeAValidDimension(string? dimension) => IncomeDimensions.IsValid(dimension);
 }

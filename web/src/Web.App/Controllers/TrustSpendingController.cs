@@ -40,10 +40,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var schoolsQuery = new ApiQuery();
-                foreach (var school in trust.Schools)
-                {
-                    schoolsQuery.AddIfNotNull("urns", school.URN);
-                }
+                schoolsQuery.AddIfNotNull("companyNumber", companyNumber);
 
                 if (categories != null)
                 {
