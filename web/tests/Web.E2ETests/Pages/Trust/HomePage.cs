@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Xunit;
 namespace Web.E2ETests.Pages.Trust;
 
 public class HomePage(IPage page)
@@ -25,5 +26,21 @@ public class HomePage(IPage page)
     public async Task CookieBannerIsDisplayed()
     {
         await CookieBanner.ShouldBeVisible();
+    }
+
+    public async Task AssertCategoryRags(string name, string status)
+    {
+        var cell = page.Locator($".table-cost-category-rag tbody > tr > td:has-text('{name}'):first-of-type");
+        await cell.ShouldBeVisible();
+        var content = await cell.Locator("~ td").TextContentAsync();
+        Assert.Equal(status, content?.Trim());
+    }
+
+    public async Task AssertSchoolRags(string name, string status)
+    {
+        var cell = page.Locator($".table-school-rag tbody > tr > td:has-text('{name}'):first-of-type");
+        await cell.ShouldBeVisible();
+        var content = await cell.Locator("~ td").TextContentAsync();
+        Assert.Equal(status, content?.Trim());
     }
 }

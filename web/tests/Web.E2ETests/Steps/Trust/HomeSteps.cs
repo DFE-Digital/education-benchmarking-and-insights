@@ -1,5 +1,4 @@
-﻿using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
 using Xunit;
 namespace Web.E2ETests.Steps.Trust;
@@ -34,6 +33,30 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsDisplayed();
+    }
+
+    [Then("I can see the following RAG ratings for cost categories in the trust:")]
+    public async Task ThenICanSeeTheFollowingRagRatingsForSchsoolsInTheTrust(DataTable table)
+    {
+        Assert.NotNull(_trustHomePage);
+
+        var rags = table.Rows.ToDictionary(row => row["Name"], row => row["Status"]);
+        foreach (var row in rags)
+        {
+            await _trustHomePage.AssertCategoryRags(row.Key, row.Value);
+        }
+    }
+
+    [Then("I can see the following RAG ratings for schools in the trust:")]
+    public async Task ThenICanSeeTheFollowingRagRatingsForSchoolsInTheTrust(DataTable table)
+    {
+        Assert.NotNull(_trustHomePage);
+
+        var rags = table.Rows.ToDictionary(row => row["Name"], row => row["Status"]);
+        foreach (var row in rags)
+        {
+            await _trustHomePage.AssertSchoolRags(row.Key, row.Value);
+        }
     }
 
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";

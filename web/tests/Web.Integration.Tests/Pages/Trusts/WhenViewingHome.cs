@@ -80,29 +80,28 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
             .CreateMany(20).ToArray();
 
-        var values = AllCostCategories.Where(k => k.Key != 9).Select(c => c.Value);
+        var values = AllCostCategories.Select(c => c.Value);
         var queue = new Queue<string>();
-        var ratings = Fixture.Build<RagRating>()
-            .OmitAutoProperties()
-            .With(x => x.Category, () =>
-            {
-                if (queue.Count == 0)
-                {
-                    foreach (var value in values)
-                    {
-                        queue.Enqueue(value);
-                    }
-                }
-
-                return queue.Dequeue();
-            })
-            .With(x => x.RAG, () => Lookups.StatusPriorityMap.Keys.ElementAt(random.Next(0, Lookups.StatusPriorityMap.Keys.Count - 1)))
-            .CreateMany(50).ToArray();
-
-        foreach (var rating in ratings)
+        var ratings = schools.SelectMany(s =>
         {
-            rating.URN = schools.ElementAt(random.Next(0, schools.Length - 1)).URN;
-        }
+            return Fixture.Build<RagRating>()
+                .OmitAutoProperties()
+                .With(x => x.Category, () =>
+                {
+                    if (queue.Count == 0)
+                    {
+                        foreach (var value in values)
+                        {
+                            queue.Enqueue(value);
+                        }
+                    }
+
+                    return queue.Dequeue();
+                })
+                .With(x => x.RAG, () => Lookups.StatusPriorityMap.Keys.ElementAt(random.Next(0, Lookups.StatusPriorityMap.Keys.Count - 1)))
+                .With(x => x.URN, s.URN)
+                .CreateMany(values.Count());
+        }).ToArray();
 
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupInsights()
@@ -133,13 +132,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         // headlines
         var highPriorityHeadline = page.QuerySelector("li.app-headline-high") as IHtmlListItemElement;
-        Assert.Equal($"{ratings.Count(r => r.Category != "Other" && r.RAG == "red")}\n\nHigh priority costs", highPriorityHeadline.GetInnerText());
+        Assert.Equal($"{ratings.Count(r => r.Category != Category.Other && r.RAG == "red")}\n\nHigh priority costs", highPriorityHeadline.GetInnerText());
 
         var mediumPriorityHeadline = page.QuerySelector("li.app-headline-medium") as IHtmlListItemElement;
-        Assert.Equal($"{ratings.Count(r => r.Category != "Other" && r.RAG == "amber")}\n\nMedium priority costs", mediumPriorityHeadline.GetInnerText());
+        Assert.Equal($"{ratings.Count(r => r.Category != Category.Other && r.RAG == "amber")}\n\nMedium priority costs", mediumPriorityHeadline.GetInnerText());
 
         var lowPriorityHeadline = page.QuerySelector("li.app-headline-low") as IHtmlListItemElement;
-        Assert.Equal($"{ratings.Count(r => r.Category != "Other" && r.RAG == "green")}\n\nLow priority costs", lowPriorityHeadline.GetInnerText());
+        Assert.Equal($"{ratings.Count(r => r.Category != Category.Other && r.RAG == "green")}\n\nLow priority costs", lowPriorityHeadline.GetInnerText());
 
         // cost categories
         var costCategoryRag = page.QuerySelector("table.table-cost-category-rag") as IHtmlTableElement;

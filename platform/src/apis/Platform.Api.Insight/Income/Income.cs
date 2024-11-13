@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-
 namespace Platform.Api.Insight.Income;
 
 public static class IncomeCategories
@@ -9,11 +8,11 @@ public static class IncomeCategories
     public const string DirectRevenueFinancing = nameof(DirectRevenueFinancing);
 
     public static readonly string[] All =
-    {
+    [
         GrantFunding,
         SelfGenerated,
         DirectRevenueFinancing
-    };
+    ];
 
     public static bool IsValid(string? category) => All.Any(a => a == category);
 }
@@ -26,12 +25,12 @@ public static class IncomeDimensions
     public const string PercentExpenditure = nameof(PercentExpenditure);
 
     public static readonly string[] All =
-    {
+    [
         Actuals,
         PerUnit,
         PercentIncome,
         PercentExpenditure
-    };
+    ];
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }

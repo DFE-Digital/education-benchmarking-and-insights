@@ -37,7 +37,12 @@ public class TrustController(
 
                 var trust = await Trust(companyNumber);
                 var balance = await TrustBalance(companyNumber);
-                var ratings = await RagRatings(trust.Schools);
+                var phases = trust.Schools.Select(s => s.OverallPhase).OfType<string>().Distinct().ToArray();
+                IEnumerable<RagRating> ratings = [];
+                await foreach (var ragRatings in RagRatings(companyNumber, phases))
+                {
+                    ratings = ratings.UnionBy(ragRatings, r => r.URN + r.Category);
+                }
 
                 var viewModel = new TrustViewModel(trust, balance, ratings, comparatorReverted);
                 return View(viewModel);
@@ -130,20 +135,23 @@ public class TrustController(
         }
     }
 
-    private static ApiQuery BuildQuery(TrustSchool[] schools)
+    private static ApiQuery BuildQuery(string companyNumber, string phase)
     {
         var query = new ApiQuery();
-        foreach (var school in schools)
-        {
-            query.AddIfNotNull("urns", school.URN);
-        }
-
+        query.AddIfNotNull("companyNumber", companyNumber);
+        query.AddIfNotNull("phase", phase);
         return query;
     }
 
-    private async Task<RagRating[]> RagRatings(TrustSchool[] schools) => await metricRagRatingApi
-        .GetDefaultAsync(BuildQuery(schools))
-        .GetResultOrThrow<RagRating[]>();
+    private async IAsyncEnumerable<RagRating[]> RagRatings(string companyNumber, string[] phases)
+    {
+        foreach (var phase in phases)
+        {
+            yield return await metricRagRatingApi
+                .GetDefaultAsync(BuildQuery(companyNumber, phase))
+                .GetResultOrThrow<RagRating[]>();
+        }
+    }
 
     private async Task<TrustBalance> TrustBalance(string companyNumber) => await balanceApi
         .Trust(companyNumber)
