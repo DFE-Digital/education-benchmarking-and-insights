@@ -1,27 +1,861 @@
 # Models
 
-## Entity-Relationship Diagrams
+## Raw Data
 
-The Entity-Relationship Diagrams shown below can also be seen in [LucidChart](https://lucid.app/lucidchart/040c9819-bba6-40ce-a3d2-64df60f13903/edit?beaconFlowId=FF950DFA1CCD3672&invitationId=inv_118dfd2f-7f1f-4e74-8dbe-8ae8361bdf5c&page=0_0#)
+Below is a reference list of tables, showing the expected structure and data types for each input file used in the data pipeline. This table outlines the raw data format that the pipeline consumes, demonstrating the required columns and data types for each file to ensure consistent data ingestion.
 
-### Raw
+### gias
 
-![Raw Data Model](./images/fbit_raw_data_model.png)
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| UKPRN | Int64 |
+| LA (code) | Int64 |
+| LA (name) | string |
+| EstablishmentNumber | Int64 |
+| EstablishmentName | string |
+| TypeOfEstablishment (code) | Int64 |
+| TypeOfEstablishment (name) | string |
+| OpenDate | string |
+| CloseDate | string |
+| PhaseOfEducation (code) | Int64 |
+| PhaseOfEducation (name) | string |
+| Boarders (code) | Int64 |
+| Boarders (name) | string |
+| NurseryProvision (name) | string |
+| OfficialSixthForm (code) | Int64 |
+| OfficialSixthForm (name) | string |
+| AdmissionsPolicy (code) | Int64 |
+| AdmissionsPolicy (name) | string |
+| OfstedLastInsp | string |
+| Postcode | string |
+| SchoolWebsite | string |
+| TelephoneNum | string |
+| GOR (name) | string |
+| OfstedRating (name) | string |
+| MSOA (code) | string |
+| LSOA (code) | string |
+| StatutoryLowAge | Int64 |
+| StatutoryHighAge | Int64 |
+| Street | string |
+| Locality | string |
+| Address3 | string |
+| Town | string |
+| County (name) | string |
 
-### Preprocessed
+### gias_links
 
-![Preprocessed Data Model](./images/fbit_preprocessed_data_model.png)
-### SQL
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| LinkURN | Int64 |
+| LinkName | string |
+| LinkType | string |
+| LinkEstablishedDate | string |
 
-![SQL Data Model](./images/fbit_sql_data_model.png)
+### maintained_schools_master_list
 
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| School Name | string |
+| LAEstab | string |
+| Phase | string |
+| Overall Phase | string |
+| Type | string |
+| Period covered by return (months) | Int64 |
+| Did Not Supply flag | string |
+| Lead school in federation | string |
+| London Weighting | string |
+| PFI | string |
+| I01  Funds delegated by the LA | float |
+| I02  Funding for 6th form students | float |
+| I06  Other government grants | float |
+| I07  Other grants and payments | float |
+| I08  Income from facilities and services | float |
+| I09  Income from catering | float |
+| I10  Receipts from supply teacher insurance claims | float |
+| I13  Donations and or private funds | float |
+| Total Income   I01 to I18 | float |
+| CI04 Direct revenue financing | float |
+| E01  Teaching Staff | float |
+| E02  Supply teaching staff | float |
+| E03 Education support staff | float |
+| E04  Premises staff | float |
+| E05 Administrative and clerical staff | float |
+| E06 Catering staff | float |
+| E07  Cost of other staff | float |
+| E08  Indirect employee expenses | float |
+| E09  Development and training | float |
+| E10  Supply teacher insurance | float |
+| E11  Staff related insurance | float |
+| E12  Building maintenance and improvement | float |
+| E13  Grounds maintenance and improvement | float |
+| E14  Cleaning and caretaking | float |
+| E15  Water and sewerage | float |
+| E16  Energy | float |
+| E17  Rates | float |
+| E18  Other occupation costs | float |
+| E19  Learning resources (not ICT equipment) | float |
+| E20  ICT learning resources | float |
+| E21  Exam fees | float |
+| E22 Administrative supplies | float |
+| E23  Other insurance premiums | float |
+| E24  Special facilities  | float |
+| E25  Catering supplies | float |
+| E26 Agency supply teaching staff | float |
+| E27  Bought in professional services - curriculum | float |
+| E28a  Bought in professional services - other (except PFI) | float |
+| E28b Bought in professional services - other (PFI) | float |
+| E29  Loan interest | float |
+| E30 Direct revenue financing (revenue contributions to capital) | float |
+| E31  Community focused school staff | float |
+| E32 Community focused school costs | float |
+| Total Expenditure  E01 to E32 | float |
+| Revenue Reserve   B01 plus B02 plus B06 | float |
+| Direct Grant | float |
+| Targeted Grants | float |
+| Community Grants | float |
+| Self Generated Funding | float |
+
+### cdc
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| GIFA | float |
+| Block Age | string |
+
+### sen
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| Total pupils | float |
+| EHC plan | float |
+| SEN support | float |
+| EHC_Primary_need_spld | float |
+| SUP_Primary_need_spld | float |
+| EHC_Primary_need_mld | float |
+| SUP_Primary_need_mld | float |
+| EHC_Primary_need_sld | float |
+| SUP_Primary_need_sld | float |
+| EHC_Primary_need_pmld | float |
+| SUP_Primary_need_pmld | float |
+| EHC_Primary_need_semh | float |
+| SUP_Primary_need_semh | float |
+| EHC_Primary_need_slcn | float |
+| SUP_Primary_need_slcn | float |
+| EHC_Primary_need_hi | float |
+| SUP_Primary_need_hi | float |
+| EHC_Primary_need_vi | float |
+| SUP_Primary_need_vi | float |
+| EHC_Primary_need_msi | float |
+| SUP_Primary_need_msi | float |
+| EHC_Primary_need_pd | float |
+| SUP_Primary_need_pd | float |
+| EHC_Primary_need_asd | float |
+| SUP_Primary_need_asd | float |
+| EHC_Primary_need_oth | float |
+| SUP_Primary_need_oth | float |
+
+### census_workforce
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent) | float |
+| Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount) | float |
+| Teachers with Qualified Teacher Status (%) (Headcount) | float |
+| Total Number of Teaching Assistants (Full-Time Equivalent) | float |
+| Total Number of Teaching Assistants (Headcount) | float |
+| Total School Workforce (Full-Time Equivalent) | float |
+| Total Number of Teachers (Full-Time Equivalent) | float |
+| Total Number of Teachers (Headcount) | float |
+| Total Number of Teachers in the Leadership Group (Headcount) | float |
+| Total Number of Teachers in the Leadership Group (Full-time Equivalent) | float |
+| Total Number of Auxiliary Staff (Full-Time Equivalent) | float |
+| Total Number of Auxiliary Staff (Headcount) | float |
+| Total School Workforce (Headcount) | float |
+
+### census_pupils
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| % of pupils known to be eligible for free school meals | float |
+| headcount of pupils | float |
+| fte pupils | float |
+| ward_name | string |
+| Number of early year pupils (years E1 and E2) | float |
+| Number of nursery pupils (years N1 and N2) | float |
+| Full time boys Year group 12 | float |
+| Full time girls Year group 12 | float |
+| Full time boys Year group 13 | float |
+| Full time girls Year group 13 | float |
+| number_of_dual_subsidiary_registrations | float |
+
+### cfr
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+
+### ks2
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| READPROG | string |
+| WRITPROG | string |
+| MATPROG | string |
+
+### ks4
+
+| Column Name | Data Type |
+|-------------|-----------|
+| URN | Int64 |
+| ATT8SCR | float |
+| P8MEA | float |
+| P8_BANDING | string |
+
+### aar
+
+| Column Name | Data Type |
+|-------------|-----------|
+| LA | Int64 |
+| Estab | Int64 |
+| URN | Int64 |
+| ACADEMYUPIN | Int64 |
+| ACADEMYTRUSTSTATUS | string |
+| Company_Number | string |
+| Date joined or opened if in period: | string |
+| Date left or closed if in period: | string |
+| BNCH11110T (EFA Revenue Grants) | float |
+| BNCH11131 (DfE Family Revenue Grants) | float |
+| BNCH11141 (SEN) | float |
+| BNCH11142 (Other Revenue) | float |
+| BNCH11151 (Other Government Revenue Grants) | float |
+| BNCH11161 (Government source (non-grant)) | float |
+| BNCH11162 (Academies) | float |
+| BNCH11163 (Non- Government) | float |
+| BNCH11123-BAI011-A (Academies - Income) | float |
+| BNCH11201 (Income from facilities and services) | float |
+| BNCH11202 (Income from catering) | float |
+| BNCH11203 (Receipts from supply teacher insurance claims) | float |
+| BNCH11300T (Voluntary income) | float |
+| BNCH11204 (Other income - revenue) | float |
+| BNCH11205 (Other Income from facilities and services) | float |
+| BNCH11400T (Investment income) | float |
+| BNCH21706 (Administrative supplies - non educational) | float |
+| BNCH21106 (Catering staff) | float |
+| BNCH21701 (Catering supplies) | float |
+| BNCH21707 (Direct revenue financing (Revenue contributions to capital)) | float |
+| BNCH21602 (ICT learning resources) | float |
+| BNCH21603 (Examination fees) | float |
+| BNCH21601 (Learning resources (not ICT equipment)) | float |
+| BNCH21104 (Administrative and clerical staff) | float |
+| BNCH21107 (Other staff) | float |
+| BNCH44001 (Closing Balance (Restricted and Unrestricted Funds)) | float |
+| BNCH21702 (Professional Services - non-curriculum) | float |
+| BNCH21703 (Auditor costs) | float |
+| BNCH21301 (Maintenance of premises) | float |
+| BNCH21405 (Grounds maintenance) | float |
+| BNCH21201 (Indirect employee expenses) | float |
+| BNCH21801 (Interest charges for Loan and bank) | float |
+| BNCH21705 (Other insurance premiums) | float |
+| BNCH21802 (PFI Charges) | float |
+| BNCH21404 (Rent and rates) | float |
+| BNCH21501 (Special facilities) | float |
+| BNCH21202 (Staff development and training) | float |
+| BNCH21203 (Staff-related insurance) | float |
+| BNCH21204 (Supply teacher insurance) | float |
+| BNCH21401 (Cleaning and caretaking) | float |
+| BNCH21406 (Other occupation costs) | float |
+| BNCH21105 (Premises staff) | float |
+| BNCH21101 (Teaching staff) | float |
+| BNCH21102 (Supply teaching staff - extra note in guidance) | float |
+| BNCH21103 (Education support staff) | float |
+| BNCH21604 (Educational Consultancy) | float |
+| BNCH21606 (Agency supply teaching staff) | float |
+| BNCH21403 (Energy) | float |
+| BNCH21402 (Water and sewerage) | float |
+| Valid To | string |
+
+### aar_cs
+
+| Column Name | Data Type |
+|-------------|-----------|
+| Lead_UPIN | Int64 |
+| Company_Number | string |
+| Company_Name | string |
+| BNCH11110T (EFA Revenue Grants) | float |
+| BNCH11131 (DfE Family Revenue Grants) | float |
+| BNCH11141 (SEN) | float |
+| BNCH11142 (Other Revenue) | float |
+| BNCH11151 (Other Government Revenue Grants) | float |
+| BNCH11161 (Government source (non-grant)) | float |
+| BNCH11162 (Academies) | float |
+| BNCH11163 (Non- Government) | float |
+| BNCH11123-BTI011-A (MAT Central services - Income) | float |
+| BNCH11201 (Income from facilities and services) | float |
+| BNCH11202 (Income from catering) | float |
+| BNCH11203 (Receipts from supply teacher insurance claims) | float |
+| BNCH11300T (Voluntary income) | float |
+| BNCH11204 (Other income - revenue) | float |
+| BNCH11205 (Other Income from facilities and services) | float |
+| BNCH11400T (Investment income) | float |
+| BNCH21706 (Administrative supplies - non educational) | float |
+| BNCH21106 (Catering staff) | float |
+| BNCH21701 (Catering supplies) | float |
+| BNCH21707 (Direct revenue financing (Revenue contributions to capital)) | float |
+| BNCH21602 (ICT learning resources) | float |
+| BNCH21603 (Examination fees) | float |
+| BNCH21601 (Learning resources (not ICT equipment)) | float |
+| BNCH21104 (Administrative and clerical staff) | float |
+| BNCH21703 (Auditor costs) | float |
+| BNCH21107 (Other staff) | float |
+| BNCH44001CS (Closing Balance (Restricted and Unrestricted Funds)) | float |
+| BNCH21702 (Professional Services - non-curriculum) | float |
+| BNCH21301 (Maintenance of premises) | float |
+| BNCH21405 (Grounds maintenance) | float |
+| BNCH21201 (Indirect employee expenses) | float |
+| BNCH21801 (Interest charges for Loan and bank) | float |
+| BNCH21705 (Other insurance premiums) | float |
+| BNCH21802 (PFI Charges) | float |
+| BNCH21404 (Rent and rates) | float |
+| BNCH21501 (Special facilities) | float |
+| BNCH21202 (Staff development and training) | float |
+| BNCH21203 (Staff-related insurance) | float |
+| BNCH21204 (Supply teacher insurance) | float |
+| BNCH21401 (Cleaning and caretaking) | float |
+| BNCH21406 (Other occupation costs) | float |
+| BNCH21105 (Premises staff) | float |
+| BNCH21101 (Teaching staff) | float |
+| BNCH21102 (Supply teaching staff - extra note in guidance) | float |
+| BNCH21103 (Education support staff) | float |
+| BNCH21604 (Educational Consultancy) | float |
+| BNCH21606 (Agency supply teaching staff) | float |
+| BNCH21403 (Energy) | float |
+| BNCH21402 (Water and sewerage) | float |
+
+### BFR_SOFA
+
+| Column Name | Data Type |
+|-------------|-----------|
+| TrustUPIN | Int64 |
+| Title | string |
+| EFALineNo | Int64 |
+| Y1P1 | float |
+| Y1P2 | float |
+| Y2P1 | float |
+| Y2P2 | float |
+
+### BFR_3Y
+
+| Column Name | Data Type |
+|-------------|-----------|
+| TrustUPIN | Int64 |
+| EFALineNo | Int64 |
+| Y2 | float |
+| Y3 | float |
+| Y4 | float |
+
+## SQL
+
+The following Entity-Relationship Diagram (ERD) represents the core data structures and relationships within the system, specifically detailing the tables, fields, and key associations among them.
+
+```mermaid
+erDiagram
+
+    BudgetForecastReturn {
+        nvarchar RunType
+        nvarchar RunId
+        int Year
+        nvarchar CompanyNumber
+        nvarchar Category
+        decimal Value
+        decimal TotalPupils
+    }
+
+    BudgetForecastReturnMetric {
+        nvarchar RunType
+        nvarchar RunId
+        int Year
+        nvarchar CompanyNumber
+        nvarchar Metric
+        decimal Value
+    }
+
+    ComparatorSet {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar URN
+        nvarchar Pupil
+        nvarchar Building
+    }
+
+    CompletedPipelineRun {
+        int Id
+        nvarchar OrchestrationId
+        datetimeoffset CompletedAt
+        nvarchar Message
+    }
+
+    Financial {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar URN
+        smallint PeriodCoveredByReturn
+        nvarchar FinancialPosition
+        nvarchar TrustPosition
+        nvarchar EstablishmentType
+        decimal TotalPupils
+        decimal TotalInternalFloorArea
+        decimal TotalIncome
+        decimal TotalExpenditure
+        decimal InYearBalance
+        decimal RevenueReserve
+        decimal TotalGrantFunding
+        decimal TotalSelfGeneratedFunding
+        decimal DirectRevenueFinancing
+        decimal DirectGrants
+        decimal PrePost16Funding
+        decimal OtherDfeGrants
+        decimal OtherIncomeGrants
+        decimal GovernmentSource
+        decimal CommunityGrants
+        decimal Academies
+        decimal IncomeFacilitiesServices
+        decimal IncomeCateringServices
+        decimal DonationsVoluntaryFunds
+        decimal ReceiptsSupplyTeacherInsuranceClaims
+        decimal InvestmentIncome
+        decimal OtherSelfGeneratedIncome
+        decimal TotalTeachingSupportStaffCosts
+        decimal TeachingStaffCosts
+        decimal SupplyTeachingStaffCosts
+        decimal EducationalConsultancyCosts
+        decimal EducationSupportStaffCosts
+        decimal AgencySupplyTeachingStaffCosts
+        decimal TotalNonEducationalSupportStaffCosts
+        decimal AdministrativeClericalStaffCosts
+        decimal AuditorsCosts
+        decimal OtherStaffCosts
+        decimal ProfessionalServicesNonCurriculumCosts
+        decimal TotalEducationalSuppliesCosts
+        decimal ExaminationFeesCosts
+        decimal LearningResourcesNonIctCosts
+        decimal LearningResourcesIctCosts
+        decimal TotalPremisesStaffServiceCosts
+        decimal CleaningCaretakingCosts
+        decimal MaintenancePremisesCosts
+        decimal OtherOccupationCosts
+        decimal PremisesStaffCosts
+        decimal TotalUtilitiesCosts
+        decimal EnergyCosts
+        decimal WaterSewerageCosts
+        decimal AdministrativeSuppliesNonEducationalCosts
+        decimal TotalGrossCateringCosts
+        decimal TotalNetCateringCostsCosts
+        decimal CateringStaffCosts
+        decimal CateringSuppliesCosts
+        decimal TotalOtherCosts
+        decimal DirectRevenueFinancingCosts
+        decimal GroundsMaintenanceCosts
+        decimal IndirectEmployeeExpenses
+        decimal InterestChargesLoanBank
+        decimal OtherInsurancePremiumsCosts
+        decimal PrivateFinanceInitiativeCharges
+        decimal RentRatesCosts
+        decimal SpecialFacilitiesCosts
+        decimal StaffDevelopmentTrainingCosts
+        decimal StaffRelatedInsuranceCosts
+        decimal SupplyTeacherInsurableCosts
+        decimal CommunityFocusedSchoolStaff
+        decimal CommunityFocusedSchoolCosts
+        decimal TotalIncomeCS
+        decimal TotalExpenditureCS
+        decimal InYearBalanceCS
+        decimal TotalGrantFundingCS
+        decimal TotalSelfGeneratedFundingCS
+        decimal DirectRevenueFinancingCS
+        decimal DirectGrantsCS
+        decimal PrePost16FundingCS
+        decimal OtherDfeGrantsCS
+        decimal OtherIncomeGrantsCS
+        decimal GovernmentSourceCS
+        decimal CommunityGrantsCS
+        decimal AcademiesCS
+        decimal IncomeFacilitiesServicesCS
+        decimal IncomeCateringServicesCS
+        decimal DonationsVoluntaryFundsCS
+        decimal ReceiptsSupplyTeacherInsuranceClaimsCS
+        decimal InvestmentIncomeCS
+        decimal OtherSelfGeneratedIncomeCS
+        decimal TotalTeachingSupportStaffCostsCS
+        decimal TeachingStaffCostsCS
+        decimal SupplyTeachingStaffCostsCS
+        decimal EducationalConsultancyCostsCS
+        decimal EducationSupportStaffCostsCS
+        decimal AgencySupplyTeachingStaffCostsCS
+        decimal TotalNonEducationalSupportStaffCostsCS
+        decimal AdministrativeClericalStaffCostsCS
+        decimal AuditorsCostsCS
+        decimal OtherStaffCostsCS
+        decimal ProfessionalServicesNonCurriculumCostsCS
+        decimal TotalEducationalSuppliesCostsCS
+        decimal ExaminationFeesCostsCS
+        decimal LearningResourcesNonIctCostsCS
+        decimal LearningResourcesIctCostsCS
+        decimal TotalPremisesStaffServiceCostsCS
+        decimal CleaningCaretakingCostsCS
+        decimal MaintenancePremisesCostsCS
+        decimal OtherOccupationCostsCS
+        decimal PremisesStaffCostsCS
+        decimal TotalUtilitiesCostsCS
+        decimal EnergyCostsCS
+        decimal WaterSewerageCostsCS
+        decimal AdministrativeSuppliesNonEducationalCostsCS
+        decimal TotalGrossCateringCostsCS
+        decimal TotalNetCateringCostsCostsCS
+        decimal CateringStaffCostsCS
+        decimal CateringSuppliesCostsCS
+        decimal TotalOtherCostsCS
+        decimal DirectRevenueFinancingCostsCS
+        decimal GroundsMaintenanceCostsCS
+        decimal IndirectEmployeeExpensesCS
+        decimal InterestChargesLoanBankCS
+        decimal OtherInsurancePremiumsCostsCS
+        decimal PrivateFinanceInitiativeChargesCS
+        decimal RentRatesCostsCS
+        decimal SpecialFacilitiesCostsCS
+        decimal StaffDevelopmentTrainingCostsCS
+        decimal StaffRelatedInsuranceCostsCS
+        decimal SupplyTeacherInsurableCostsCS
+        decimal TargetedGrants
+    }
+
+    FinancialPlan {
+        nvarchar URN
+        smallint Year
+        nvarchar Input
+        nvarchar DeploymentPlan
+        datetimeoffset Created
+        nvarchar CreatedBy
+        datetimeoffset UpdatedAt
+        nvarchar UpdatedBy
+        bit IsComplete
+        int Version
+        decimal TeacherContactRatio
+        nvarchar ContactRatioRating
+        decimal InYearBalance
+        nvarchar InYearBalancePercentIncomeRating
+        decimal AverageClassSize
+        nvarchar AverageClassSizeRating
+    }
+
+    LocalAuthority {
+        nvarchar Code
+        nvarchar Name
+    }
+
+    MetricRAG {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar URN
+        nvarchar Category
+        nvarchar SubCategory
+        decimal Value
+        decimal Mean
+        decimal DiffMean
+        decimal PercentDiff
+        decimal Percentile
+        decimal Decile
+        nvarchar RAG
+    }
+
+    NonFinancial {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar URN
+        nvarchar EstablishmentType
+        decimal TotalInternalFloorArea
+        decimal BuildingAverageAge
+        decimal TotalPupils
+        decimal TotalPupilsSixthForm
+        decimal TotalPupilsNursery
+        decimal WorkforceHeadcount
+        decimal WorkforceFTE
+        decimal TeachersHeadcount
+        decimal TeachersFTE
+        decimal SeniorLeadershipHeadcount
+        decimal SeniorLeadershipFTE
+        decimal TeachingAssistantHeadcount
+        decimal TeachingAssistantFTE
+        decimal NonClassroomSupportStaffHeadcount
+        decimal NonClassroomSupportStaffFTE
+        decimal AuxiliaryStaffHeadcount
+        decimal AuxiliaryStaffFTE
+        decimal PercentTeacherWithQualifiedStatus
+        decimal PercentFreeSchoolMeals
+        decimal PercentSpecialEducationNeeds
+        decimal PercentWithEducationalHealthCarePlan
+        decimal PercentWithoutEducationalHealthCarePlan
+        decimal KS2Progress
+        decimal KS4Progress
+        decimal PredictedPercentChangePupils3To5Years
+        decimal PercentWithVI
+        decimal PercentWithSPLD
+        decimal PercentWithSLD
+        decimal PercentWithSLCN
+        decimal PercentWithSEMH
+        decimal PercentWithPMLD
+        decimal PercentWithPD
+        decimal PercentWithOTH
+        decimal PercentWithMSI
+        decimal PercentWithMLD
+        decimal PercentWithHI
+        decimal PercentWithASD
+    }
+
+    Parameters {
+        nvarchar Name
+        nvarchar Value
+    }
+
+    School {
+        nvarchar URN
+        nvarchar SchoolName
+        nvarchar TrustCompanyNumber
+        nvarchar TrustName
+        nvarchar FederationLeadURN
+        nvarchar FederationLeadName
+        nvarchar LACode
+        nvarchar LAName
+        nvarchar LondonWeighting
+        nvarchar FinanceType
+        nvarchar OverallPhase
+        nvarchar SchoolType
+        bit HasSixthForm
+        bit HasNursery
+        bit IsPFISchool
+        date OfstedDate
+        nvarchar OfstedDescription
+        nvarchar Telephone
+        nvarchar Website
+        nvarchar AddressStreet
+        nvarchar AddressLocality
+        nvarchar AddressLine3
+        nvarchar AddressTown
+        nvarchar AddressCounty
+        nvarchar AddressPostcode
+    }
+
+    Trust {
+        nvarchar CompanyNumber
+        nvarchar TrustName
+        nvarchar CFOName
+        nvarchar CFOEmail
+        date OpenDate
+        nvarchar UID
+        nvarchar TrustUPIN
+    }
+
+    TrustFinancial {
+        nvarchar CompanyNumber
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar TrustPosition
+        decimal TotalPupils
+        decimal TotalInternalFloorArea
+        decimal TotalIncome
+        decimal TotalExpenditure
+        decimal InYearBalance
+        decimal RevenueReserve
+        decimal TotalGrantFunding
+        decimal TotalSelfGeneratedFunding
+        decimal DirectGrants
+        decimal PrePost16Funding
+        decimal TargetedGrants
+        decimal OtherDfeGrants
+        decimal OtherIncomeGrants
+        decimal GovernmentSource
+        decimal CommunityGrants
+        decimal Academies
+        decimal IncomeFacilitiesServices
+        decimal IncomeCateringServices
+        decimal DonationsVoluntaryFunds
+        decimal ReceiptsSupplyTeacherInsuranceClaims
+        decimal InvestmentIncome
+        decimal OtherSelfGeneratedIncome
+        decimal TotalTeachingSupportStaffCosts
+        decimal TeachingStaffCosts
+        decimal SupplyTeachingStaffCosts
+        decimal EducationalConsultancyCosts
+        decimal EducationSupportStaffCosts
+        decimal AgencySupplyTeachingStaffCosts
+        decimal TotalNonEducationalSupportStaffCosts
+        decimal AdministrativeClericalStaffCosts
+        decimal AuditorsCosts
+        decimal OtherStaffCosts
+        decimal ProfessionalServicesNonCurriculumCosts
+        decimal TotalEducationalSuppliesCosts
+        decimal ExaminationFeesCosts
+        decimal LearningResourcesNonIctCosts
+        decimal LearningResourcesIctCosts
+        decimal TotalPremisesStaffServiceCosts
+        decimal CleaningCaretakingCosts
+        decimal MaintenancePremisesCosts
+        decimal OtherOccupationCosts
+        decimal PremisesStaffCosts
+        decimal TotalUtilitiesCosts
+        decimal EnergyCosts
+        decimal WaterSewerageCosts
+        decimal AdministrativeSuppliesNonEducationalCosts
+        decimal TotalGrossCateringCosts
+        decimal TotalNetCateringCostsCosts
+        decimal CateringStaffCosts
+        decimal CateringSuppliesCosts
+        decimal TotalOtherCosts
+        decimal DirectRevenueFinancingCosts
+        decimal GroundsMaintenanceCosts
+        decimal IndirectEmployeeExpenses
+        decimal InterestChargesLoanBank
+        decimal OtherInsurancePremiumsCosts
+        decimal PrivateFinanceInitiativeCharges
+        decimal RentRatesCosts
+        decimal SpecialFacilitiesCosts
+        decimal StaffDevelopmentTrainingCosts
+        decimal StaffRelatedInsuranceCosts
+        decimal SupplyTeacherInsurableCosts
+        decimal TotalIncomeCS
+        decimal TotalExpenditureCS
+        decimal InYearBalanceCS
+        decimal TotalGrantFundingCS
+        decimal TotalSelfGeneratedFundingCS
+        decimal DirectRevenueFinancingCS
+        decimal DirectGrantsCS
+        decimal PrePost16FundingCS
+        decimal OtherDfeGrantsCS
+        decimal OtherIncomeGrantsCS
+        decimal GovernmentSourceCS
+        decimal CommunityGrantsCS
+        decimal AcademiesCS
+        decimal IncomeFacilitiesServicesCS
+        decimal IncomeCateringServicesCS
+        decimal DonationsVoluntaryFundsCS
+        decimal ReceiptsSupplyTeacherInsuranceClaimsCS
+        decimal InvestmentIncomeCS
+        decimal OtherSelfGeneratedIncomeCS
+        decimal TotalTeachingSupportStaffCostsCS
+        decimal TeachingStaffCostsCS
+        decimal SupplyTeachingStaffCostsCS
+        decimal EducationalConsultancyCostsCS
+        decimal EducationSupportStaffCostsCS
+        decimal AgencySupplyTeachingStaffCostsCS
+        decimal TotalNonEducationalSupportStaffCostsCS
+        decimal AdministrativeClericalStaffCostsCS
+        decimal AuditorsCostsCS
+        decimal OtherStaffCostsCS
+        decimal ProfessionalServicesNonCurriculumCostsCS
+        decimal TotalEducationalSuppliesCostsCS
+        decimal ExaminationFeesCostsCS
+        decimal LearningResourcesNonIctCostsCS
+        decimal LearningResourcesIctCostsCS
+        decimal TotalPremisesStaffServiceCostsCS
+        decimal CleaningCaretakingCostsCS
+        decimal MaintenancePremisesCostsCS
+        decimal OtherOccupationCostsCS
+        decimal PremisesStaffCostsCS
+        decimal TotalUtilitiesCostsCS
+        decimal EnergyCostsCS
+        decimal WaterSewerageCostsCS
+        decimal AdministrativeSuppliesNonEducationalCostsCS
+        decimal TotalGrossCateringCostsCS
+        decimal TotalNetCateringCostsCostsCS
+        decimal CateringStaffCostsCS
+        decimal CateringSuppliesCostsCS
+        decimal TotalOtherCostsCS
+        decimal DirectRevenueFinancingCostsCS
+        decimal GroundsMaintenanceCostsCS
+        decimal IndirectEmployeeExpensesCS
+        decimal InterestChargesLoanBankCS
+        decimal OtherInsurancePremiumsCostsCS
+        decimal PrivateFinanceInitiativeChargesCS
+        decimal RentRatesCostsCS
+        decimal SpecialFacilitiesCostsCS
+        decimal StaffDevelopmentTrainingCostsCS
+        decimal StaffRelatedInsuranceCostsCS
+        decimal SupplyTeacherInsurableCostsCS
+    }
+
+    TrustHistory {
+        int Id
+        nvarchar CompanyNumber
+        date EventDate
+        nvarchar EventName
+        smallint AcademicYear
+        nvarchar SchoolURN
+        nvarchar SchoolName
+    }
+
+    UserData {
+        nvarchar Id
+        nvarchar Type
+        nvarchar UserId
+        nvarchar OrganisationType
+        nvarchar OrganisationId
+        nvarchar Status
+        datetimeoffset Expiry
+    }
+
+    UserDefinedSchoolComparatorSet {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar URN
+        nvarchar Set
+    }
+
+    UserDefinedTrustComparatorSet {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar CompanyNumber
+        nvarchar Set
+    }
+
+    CustomDataSchool {
+        nvarchar Id
+        nvarchar URN
+        nvarchar Data
+    }
+
+    SchemaVersions {
+        int Id
+        nvarchar ScriptName
+        datetime Applied
+    }
+
+    School |o..o{ FinancialPlan : ""
+    School |o..o| UserDefinedSchoolComparatorSet : ""
+    School |o..o{ ComparatorSet : ""
+    School |o..o{ NonFinancial : ""
+    School |o..o{ Financial : ""
+    School }o..o| Trust : ""
+    School }o..o| LocalAuthority : ""
+
+    Trust |o..o{ BudgetForecastReturn : ""
+    Trust |o..o{ BudgetForecastReturnMetric : ""
+    Trust |o..o{ TrustHistory : ""
+    Trust |o..o{ TrustFinancial : ""
+    Trust |o..o{ UserDefinedTrustComparatorSet : ""    
+```
 
 ## Element Transformative Flow
 
 This section looks at each item listed in the SQL data model which is generated as part of the data pipeline. It traces each element back through their variable names within the pre-processing pipeline, to their source in the raw data file. In cases where the value is computed, or has undergone some logical process, we highlight the computation in the `notes on transformation` column. The UserDefinedSchoolComparatorSet, Parameters, SchemaVersions, CompletedPipelineRun, UserData, CustomDataSchool and FinancialPlan tables are not detailed in this section, as they are not generated by the data pipeline itself, but through another means.
 
 It is also key to note that within the service, metrics such as "cost per pupil" are computed. However this has been ommited from this section to enable a more suscinct translation of the data schema. In cases where a "cost per pupil" or "cost per m2" unit is presented, this is simply the given metric divided by the `TotalPupils`, or the `GrossInternalFloorArea`, all of which can be found from the information below.
-
 
 ### Financial
 
@@ -142,11 +976,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     aar / aar_cs  | BNCH21703 (Auditor costs)  |    Non-educational support staff and services_Audit cost / Non-educational support staff and services_Audit cost_CS    | AuditorCosts / AuditorsCostsCS  |  Not provided for Maintained Schools   |
 |     aar / aar_cs  | BNCH20000T (Total Costs)  |        |   |  Only used in InYearBalance computation   |
 
-
-
-	
-		
-
 ### Non-financial
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
@@ -220,7 +1049,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 
 ### School
 
-
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
 |------------------|----------------|-----------------------------|-----------------------|--------------------------|
 |     gias| URN  |     URN    |URN  |    |
@@ -251,7 +1079,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     gias | OfstedLastInsp  |    OfstedLastInsp    | OfstedDate  |    |
 |     gias | OfstedRating (name)  |    OfstedRating (name)    | OfstedDescription  |    |
 
-
 ### MetricRAG
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
@@ -269,8 +1096,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     N/A - computed |   |    Decile    | Decile  | Given as the integer value of  Percentile / 10  |
 |     N/A - defined in pipeline run |   |    RAG    | RAG  | Determined by mapping the Decile to a predefined list of RAG statuses in `config.py`   |
 
-
-
 ### ComparatorSet
 
 |  raw file name |  raw column name |  pre-processing column name | sql table column name |  notes on transformation |
@@ -280,8 +1105,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     gias| URN  |     URN    |URN  |    |
 |     N/A - computed |   |    Pupil    | Pupil  | A comparator set list of URNs for the top 30 schools determined by the pupil characteristic euclidean distance caluclation outlined in `3_Data-Processing` |
 |     N/A - computed |   |    Building    | Building  | A comparator set list of URNs for the top 30 schools determined by the building characteristic euclidean distance caluclation outlined in `3_Data-Processing`   |
-
-
 
 ### Trust
 
@@ -295,7 +1118,6 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     cfo | Surname  |    Surname    | N/A - only used in computation  |    |
 |     cfo | Direct email address  |    CFO Email    | CFOEmail  |    |
 |     gias | OpenDate  |    OpenDate    | OpenDate  | Converted to Datetime in pipeline   |
-|     groups | Group UID  |    Group UID    | UID  |    |
 |     academy_master_list | Academy Trust UPIN  |    Academy Trust UPIN    | TrustUPIN  |    |
 
 ### LocalAuthority
