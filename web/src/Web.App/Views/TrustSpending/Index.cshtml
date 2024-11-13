@@ -70,21 +70,22 @@
             {
                 <div>
                     <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
-
-                    @foreach (var status in rating.Statuses)
-                    {
-                        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
-                        @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(status.PriorityTag, status.Schools.Count(), Model.NumberSchools))
-                        @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
+                    <section id="@rating.CostCategory?.ToSlug()-section">
+                        @foreach (var status in rating.Statuses)
                         {
+                            <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+                            @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(status.PriorityTag, status.Schools.Count(), Model.NumberSchools))
+                            @await Html.PartialAsync("_PriorityTable", status.Schools, new ViewDataDictionary(ViewData)
                             {
-                                "Category", rating.CostCategory
-                            },
-                            {
-                                "Status", status.Status
-                            }
-                        })
-                    }
+                                {
+                                    "Category", rating.CostCategory
+                                },
+                                {
+                                    "Status", status.Status
+                                }
+                            })
+                        }
+                    </section>
                 </div>
             }
         }
@@ -93,23 +94,24 @@
             @foreach (var rating in Model.RatingsByPriority)
             {
                 <h2 class="govuk-heading-m" id="@rating.PriorityTag?.DisplayText.ToSlug()">@rating.PriorityTag?.DisplayText</h2>
-
-                @foreach (var category in rating.Categories)
-                {
-                    <div>
-                        <h3 class="govuk-heading-s">@category.Category</h3>
-                        @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
-                        @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
-                        {
+                <section id="@rating.PriorityTag?.DisplayText.ToSlug()-section">
+                    @foreach (var category in rating.Categories)
+                    {
+                        <div>
+                            <h3 class="govuk-heading-s">@category.Category</h3>
+                            @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
+                            @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
                             {
-                                "Category", category.Category
-                            },
-                            {
-                                "Status", rating.Status
-                            }
-                        })
-                    </div>
-                }
+                                {
+                                    "Category", category.Category
+                                },
+                                {
+                                    "Status", rating.Status
+                                }
+                            })
+                        </div>
+                    }
+                </section>
             }
         }
     </div>

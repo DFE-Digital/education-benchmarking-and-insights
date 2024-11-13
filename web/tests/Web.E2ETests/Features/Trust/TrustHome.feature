@@ -5,6 +5,11 @@
         When I click on compare your costs
         Then the compare your costs page is displayed
 
+    Scenario: Go to spending and costs page
+        Given I am on trust homepage for trust with company number '8104190'
+        When I click on view all spending priorities for this trust
+        Then the spending and costs page is displayed
+
     Scenario: View RAG ratings for cost categories in trust
         Given I am on trust homepage for trust with company number '8104190'
         Then I can see the following RAG ratings for cost categories in the trust:
