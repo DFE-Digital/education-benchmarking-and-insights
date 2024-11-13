@@ -13,7 +13,7 @@ def test_central_services_data_has_correct_output_columns(
         "Income_Other grants",
         "Income_Government source",
         "Income_Academies",
-        "Income_Non government",
+        "BNCH11163 (Non- Government)",
         "BNCH11123-BTI011-A (MAT Central services - Income)",
         "BNCH11201 (Income from facilities and services)",
         "Income_Catering services",
