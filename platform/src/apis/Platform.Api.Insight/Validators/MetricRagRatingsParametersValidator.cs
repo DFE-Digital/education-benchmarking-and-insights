@@ -32,9 +32,8 @@ public class MetricRagRatingsParametersValidator : AbstractValidator<MetricRagRa
         RuleFor(x => x.Phase)
             .Must(BeAValidPhase)
             .When(x => x.Urns.Length == 0)
-            .When(x => !string.IsNullOrWhiteSpace(x.CompanyNumber) || !string.IsNullOrWhiteSpace(x.LaCode))
-            .WithMessage($"{{PropertyName}} must be be specified when {nameof(MetricRagRatingsParameters.CompanyNumber)} or {nameof(MetricRagRatingsParameters.LaCode)} is supplied and be one of the supported values: {string.Join(", ", OverallPhase.All)}");
-
+            .When(x => !string.IsNullOrWhiteSpace(x.LaCode))
+            .WithMessage($"{{PropertyName}} must be be specified when {nameof(MetricRagRatingsParameters.LaCode)} is supplied and be one of the supported values: {string.Join(", ", OverallPhase.All)}");
     }
 
     private static bool ContainValidCategories(string[] categories) => categories.All(CostCategory.IsValid);

@@ -31,12 +31,12 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid default metric rag rating with categories '(.*)' and statuses '(.*)' with company number '(.*)' and phase '(.*)'")]
-    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesWithCompanyNumberAndPhase(string categories, string statuses, string companyNumber, string phase)
+    [Given("a valid default metric rag rating with categories '(.*)' and statuses '(.*)' with company number '(.*)'")]
+    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesWithCompanyNumber(string categories, string statuses, string companyNumber)
     {
         api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/metric-rag/default/?companyNumber={companyNumber}&phase={phase}&categories={string.Join("&categories=", categories.Split(","))}&statuses={string.Join("&statuses=", statuses.Split(","))}", UriKind.Relative),
+            RequestUri = new Uri($"/api/metric-rag/default/?companyNumber={companyNumber}&categories={string.Join("&categories=", categories.Split(","))}&statuses={string.Join("&statuses=", statuses.Split(","))}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

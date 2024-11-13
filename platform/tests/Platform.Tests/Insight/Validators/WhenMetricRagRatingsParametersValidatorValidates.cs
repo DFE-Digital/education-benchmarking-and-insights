@@ -36,14 +36,7 @@ public class WhenMetricRagRatingsParametersValidatorValidates
     }, new[]
     {
         RagRating.Red
-    }, "12345678", null, OverallPhase.Primary)]
-    [InlineData(new string[0], new[]
-    {
-        CostCategory.TeachingStaff
-    }, new[]
-    {
-        RagRating.Red
-    }, null, "123", OverallPhase.Primary)]
+    }, "12345678", null, null)]
     [InlineData(new string[0], new[]
     {
         CostCategory.TeachingStaff
@@ -51,6 +44,13 @@ public class WhenMetricRagRatingsParametersValidatorValidates
     {
         RagRating.Red
     }, null, "123", "Pupil referral unit")]
+    [InlineData(new string[0], new[]
+    {
+        CostCategory.TeachingStaff
+    }, new[]
+    {
+        RagRating.Red
+    }, null, "123", OverallPhase.Primary)]
     public async Task ShouldValidateAndEvaluateGoodParametersAsValid(string[] urns, string[] categories, string[] statuses, string? companyNumber, string? laCode, string? phase)
     {
         var parameters = new MetricRagRatingsParameters
@@ -96,20 +96,6 @@ public class WhenMetricRagRatingsParametersValidatorValidates
     {
         RagRating.Red
     }, null, null, null)]
-    [InlineData(new string[0], new[]
-    {
-        CostCategory.TeachingStaff
-    }, new[]
-    {
-        RagRating.Red
-    }, "companyNumber", null, null)]
-    [InlineData(new string[0], new[]
-    {
-        CostCategory.TeachingStaff
-    }, new[]
-    {
-        RagRating.Red
-    }, "companyNumber", null, "Invalid")]
     [InlineData(new string[0], new[]
     {
         CostCategory.TeachingStaff

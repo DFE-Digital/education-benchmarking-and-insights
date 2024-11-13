@@ -25,7 +25,7 @@
           | 777042 | Utilities                                  | Total       | 9.08    | 10.45   | -1.37    | -15.12      | 39.00      | 3.00   | amber |
 
     Scenario: Sending a valid default metric rag rating with company number and phase and default options
-        Given a valid default metric rag rating with categories '' and statuses '' with company number '8104190' and phase 'Secondary'
+        Given a valid default metric rag rating with categories '' and statuses '' with company number '8104190'
         When I submit the metric rag rating request
         Then the metric rag rating result should be ok and contain:
           | URN    | Category                                   | SubCategory | Value    | Mean    | DiffMean | PercentDiff | Percentile | Decile | RAG   |
@@ -38,6 +38,15 @@
           | 777051 | Premises staff and services                | Total       | 138.42   | 57.88   | 80.54    | 139.13      | 100.00     | 10.00  | red   |
           | 777051 | Teaching and Teaching support staff        | Total       | 11199.60 | 8855.38 | 2344.22  | 26.47       | 76.67      | 7.00   | amber |
           | 777051 | Utilities                                  | Total       | 0.00     | 12.26   | -12.26   | -100.00     | 3.33       | 0.00   | green |
+          | 777049 | Administrative supplies                    | Total       | 365.43   | 51.61   | 313.82   | 608.08      | 100.00     | 10.00  | red   |
+          | 777049 | Catering staff and supplies                | Total       | 373.66   | 261.96  | 111.71   | 42.64       | 86.67      | 8.00   | red   |
+          | 777049 | Educational ICT                            | Total       | 1.05     | 65.67   | -64.62   | -98.39      | 10.00      | 1.00   | amber |
+          | 777049 | Educational supplies                       | Total       | 344.54   | 211.04  | 133.50   | 63.26       | 96.67      | 9.00   | red   |
+          | 777049 | Non-educational support staff and services | Total       | 823.25   | 506.43  | 316.81   | 62.56       | 96.67      | 9.00   | red   |
+          | 777049 | Other costs                                | Total       | 358.80   | 256.77  | 102.03   | 39.74       | 83.33      | 8.00   | red   |
+          | 777049 | Premises staff and services                | Total       | 62.80    | 43.12   | 19.68    | 45.62       | 83.33      | 8.00   | red   |
+          | 777049 | Teaching and Teaching support staff        | Total       | 6465.78  | 4075.20 | 2390.58  | 58.66       | 100.00     | 10.00  | red   |
+          | 777049 | Utilities                                  | Total       | 14.17    | 12.17   | 2.00     | 16.43       | 73.33      | 7.00   | amber |
 
     Scenario: Sending a valid default metric rag rating with LA code and phase and default options
         Given a valid default metric rag rating with categories '' and statuses '' with LA code '205' and phase 'Primary'
