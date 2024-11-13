@@ -21,7 +21,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Income_Other grants",
         "Income_Government source",
         "Income_Academies",
-        "Income_Non government",
+        "BNCH11163 (Non- Government)",
         "BNCH11123-BAI011-A (Academies - Income)",
         "BNCH11201 (Income from facilities and services)",
         "Income_Catering services",
