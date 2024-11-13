@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
@@ -7,16 +7,30 @@ namespace Platform.Api.Insight.MetricRagRatings;
 
 public interface IMetricRagRatingsService
 {
-    Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
-        string runType = "default", bool includeSubCategories = false);
+    Task<IEnumerable<MetricRagRating>> QueryAsync(
+        string[] urns,
+        string[] categories,
+        string[] statuses,
+        string? companyNumber,
+        string? laCode,
+        string? phase,
+        string runType = "default",
+        bool includeSubCategories = false);
 
     Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", bool includeSubCategories = false);
 }
 
 public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRatingsService
 {
-    public async Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
-        string runType = "default", bool includeSubCategories = false)
+    public async Task<IEnumerable<MetricRagRating>> QueryAsync(
+        string[] urns,
+        string[] categories,
+        string[] statuses,
+        string? companyNumber,
+        string? laCode,
+        string? phase,
+        string runType = "default",
+        bool includeSubCategories = false)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
 
@@ -24,21 +38,47 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         var year = await conn.QueryFirstAsync<string>(paramSql);
 
         var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId AND URN IN @URNS",
-            new
+        var template = builder.AddTemplate("SELECT * from SchoolMetricRAG /**where**/");
+        builder.Where("RunType = @RunType AND RunId = @RunId", new
+        {
+            RunType = runType,
+            RunId = year
+        });
+
+        if (urns.Length != 0)
+        {
+            builder.Where("URN IN @URNS", new
             {
-                RunType = runType,
-                RunId = year,
                 URNS = urns
             });
+        }
+        else if (!string.IsNullOrWhiteSpace(companyNumber))
+        {
+            builder.Where("TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", new
+            {
+                CompanyNumber = companyNumber,
+                Phase = phase
+            });
+        }
+        else if (!string.IsNullOrWhiteSpace(laCode))
+        {
+            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
+            {
+                LaCode = laCode,
+                Phase = phase
+            });
+        }
+        else
+        {
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+        }
 
         if (!includeSubCategories)
         {
             builder.Where("SubCategory = 'Total'");
         }
 
-        if (categories.Any())
+        if (categories.Length != 0)
         {
             builder.Where("Category IN @categories", new
             {
@@ -46,7 +86,7 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
             });
         }
 
-        if (statuses.Any())
+        if (statuses.Length != 0)
         {
             builder.Where("RAG IN @statuses", new
             {

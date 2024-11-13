@@ -20,7 +20,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryFirstAsyncWhenQueryAsync()
+    public async Task ShouldQueryCurrentYearWhenQueryAsync()
     {
         // arrange
         _connection
@@ -28,19 +28,40 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Verifiable();
 
         // act
-        var actual = await _service.QueryAsync([], [], []);
+        await _service.QueryAsync(["urn"], [], [], null, null, null);
 
         // assert
         _connection.Verify();
     }
 
     [Theory]
-    [InlineData("1,2,3", "4,5,6", "7,8,9", "runType", false, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
-    [InlineData("1,2,3", null, null, "runType", true, "SELECT * from MetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
+    [InlineData(new[]
+    {
+        "1,2,3"
+    }, new[]
+    {
+        "4",
+        "5",
+        "6"
+    }, new[]
+    {
+        "7",
+        "8",
+        "9"
+    }, null, null, null, "runType", false, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
+    [InlineData(new[]
+    {
+        "1,2,3"
+    }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
+    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase")]
+    [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]
     public async Task ShouldQueryAsyncWhenQueryAsync(
-        string urns,
-        string? categories,
-        string? statuses,
+        string[] urns,
+        string[] categories,
+        string[] statuses,
+        string? companyNumber,
+        string? laCode,
+        string? phase,
         string runType,
         bool includeSubCategories,
         string expectedSql)
@@ -63,15 +84,18 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
-                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "URNS", "categories", "statuses");
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "URNS", "CompanyNumber", "LaCode", "Phase", "categories", "statuses");
             })
             .ReturnsAsync(results);
 
         // act
         var actual = await _service.QueryAsync(
-            urns.Split(","),
-            categories?.Split(",") ?? [],
-            statuses?.Split(",") ?? [],
+            urns,
+            categories,
+            statuses,
+            companyNumber,
+            laCode,
+            phase,
             runType,
             includeSubCategories);
 
@@ -86,18 +110,37 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             },
             {
                 "RunId", year
-            },
-            {
-                "URNS", urns.Split(",")
             }
         };
-        if (!string.IsNullOrWhiteSpace(categories))
+
+        if (urns.Length != 0)
         {
-            expectedParam.Add("categories", categories.Split(","));
+            expectedParam.Add("URNS", urns);
         }
-        if (!string.IsNullOrWhiteSpace(statuses))
+
+        if (categories.Length != 0)
         {
-            expectedParam.Add("statuses", statuses.Split(","));
+            expectedParam.Add("categories", categories);
+        }
+
+        if (statuses.Length != 0)
+        {
+            expectedParam.Add("statuses", statuses);
+        }
+
+        if (!string.IsNullOrEmpty(companyNumber))
+        {
+            expectedParam.Add("CompanyNumber", companyNumber);
+        }
+
+        if (!string.IsNullOrEmpty(laCode))
+        {
+            expectedParam.Add("LaCode", laCode);
+        }
+
+        if (!string.IsNullOrEmpty(phase))
+        {
+            expectedParam.Add("Phase", phase);
         }
 
         Assert.Equal(expectedParam, actualParam);

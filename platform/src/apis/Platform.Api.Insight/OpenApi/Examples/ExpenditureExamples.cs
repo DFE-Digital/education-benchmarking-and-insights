@@ -47,3 +47,18 @@ internal class ExampleOverallPhase : OpenApiExample<string>
         return this;
     }
 }
+
+[ExcludeFromCodeCoverage]
+internal class ExampleRagStatuses : OpenApiExample<string>
+{
+    public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+    {
+        foreach (var status in RagRating.All)
+        {
+            Examples.Add(OpenApiExampleResolver.Resolve(status, status, namingStrategy));
+
+        }
+
+        return this;
+    }
+}

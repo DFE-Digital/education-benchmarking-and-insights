@@ -31,6 +31,26 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         });
     }
 
+    [Given("a valid default metric rag rating with categories '(.*)' and statuses '(.*)' with company number '(.*)' and phase '(.*)'")]
+    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesWithCompanyNumberAndPhase(string categories, string statuses, string companyNumber, string phase)
+    {
+        api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/metric-rag/default/?companyNumber={companyNumber}&phase={phase}&categories={string.Join("&categories=", categories.Split(","))}&statuses={string.Join("&statuses=", statuses.Split(","))}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid default metric rag rating with categories '(.*)' and statuses '(.*)' with LA code '(.*)' and phase '(.*)'")]
+    public void GivenAValidDefaultMetricRagRatingWithCategoriesAndStatusesWithLaCodeAndPhase(string categories, string statuses, string laCode, string phase)
+    {
+        api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/metric-rag/default/?laCode={laCode}&phase={phase}&categories={string.Join("&categories=", categories.Split(","))}&statuses={string.Join("&statuses=", statuses.Split(","))}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the metric rag rating request")]
     public async Task WhenISubmitTheMetricRagRatingRequest()
     {
@@ -48,6 +68,15 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<MetricRagRating[]>();
         table.CompareToSet(result);
+    }
+
+    [Then("the metric rag rating result should be bad request")]
+    public void ThenTheMetricRagRatingResultShouldBeBadRequest()
+    {
+        var response = api[MetricRagRatingsKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
