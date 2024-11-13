@@ -378,8 +378,16 @@ def compute_distances(
         phase_pfi = np.array(row["Is PFI"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
-        pupil_include = ~np.array(row["Partial Years Present"]) & ~np.array(row["Did Not Submit"]) & np.array(row["Pupil Comparator Data Present"])
-        building_include = ~np.array(row["Partial Years Present"]) & ~np.array(row["Did Not Submit"]) & np.array(row["Building Comparator Data Present"])
+        pupil_include = (
+            ~np.array(row["Partial Years Present"])
+            & ~np.array(row["Did Not Submit"])
+            & np.array(row["Pupil Comparator Data Present"])
+        )
+        building_include = (
+            ~np.array(row["Partial Years Present"])
+            & ~np.array(row["Did Not Submit"])
+            & np.array(row["Building Comparator Data Present"])
+        )
 
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
@@ -405,7 +413,7 @@ def compute_distances(
                 # note: single-element arrays are unpacked; in this
                 # case, do not produce a comparator-set.
                 if len(top_pupil_set_urns) == 1:
-                    logger.warning(
+                    logger.debug(
                         f"Unable to produce pupil comparator-set for URN: {urn}."
                     )
                     pupils.loc[urn] = np.array([])
@@ -426,7 +434,7 @@ def compute_distances(
                     include=building_include,
                 )
                 if len(top_building_set_urns) == 1:
-                    logger.warning(
+                    logger.debug(
                         f"Unable to produce building comparator-set for URN: {urn}."
                     )
                     buildings.loc[urn] = np.array([])

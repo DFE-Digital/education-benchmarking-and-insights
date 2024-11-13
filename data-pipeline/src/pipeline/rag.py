@@ -247,7 +247,7 @@ def compute_rag(
                             ):
                                 yield r
                         else:
-                            logger.warning(
+                            logger.debug(
                                 f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}'
                             )
                     if indx > 1 and indx % 1000 == 0:
