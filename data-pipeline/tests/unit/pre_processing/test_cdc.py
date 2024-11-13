@@ -2,7 +2,7 @@ from io import StringIO
 
 import pytest
 
-from src.pipeline.pre_processing import prepare_cdc_data
+from pipeline.pre_processing import prepare_cdc_data
 
 
 def test_prepare_cdc_data_has_correct_output_columns(cdc_data):

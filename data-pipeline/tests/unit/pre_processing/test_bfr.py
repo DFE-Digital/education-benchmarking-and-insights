@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.pipeline import bfr
-from src.pipeline import pre_processing
+from pipeline import bfr
+from pipeline import pre_processing
 
 
 def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):

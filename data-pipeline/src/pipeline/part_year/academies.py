@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.pipeline import config
+from pipeline import config
 
 
 def _is_early_transfer(row: pd.Series) -> bool:

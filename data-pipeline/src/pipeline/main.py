@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from src.pipeline.comparator_sets import compute_comparator_set, prepare_data
-from src.pipeline.database import (
+from pipeline.comparator_sets import compute_comparator_set, prepare_data
+from pipeline.database import (
     insert_bfr,
     insert_bfr_metrics,
     insert_comparator_set,
@@ -25,9 +25,9 @@ from src.pipeline.database import (
     insert_trust_financial_data,
     insert_trusts,
 )
-from src.pipeline.log import setup_logger
-from src.pipeline.message import MessageType, get_message_type
-from src.pipeline.pre_processing import (
+from pipeline.log import setup_logger
+from pipeline.message import MessageType, get_message_type
+from pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
     build_bfr_historical_data,
@@ -45,8 +45,8 @@ from src.pipeline.pre_processing import (
     prepare_sen_data,
     update_custom_data,
 )
-from src.pipeline.rag import compute_rag, compute_user_defined_rag
-from src.pipeline.storage import (
+from pipeline.rag import compute_rag, compute_user_defined_rag
+from pipeline.storage import (
     blob_service_client,
     complete_queue_name,
     connect_to_queue,

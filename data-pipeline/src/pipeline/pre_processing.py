@@ -5,12 +5,12 @@ from warnings import simplefilter
 import numpy as np
 import pandas as pd
 
-import src.pipeline.bfr as BFR
-import src.pipeline.config as config
-import src.pipeline.input_schemas as input_schemas
-import src.pipeline.maintained_schools as maintained_pipeline
-import src.pipeline.mappings as mappings
-from src.pipeline import part_year
+import pipeline.bfr as BFR
+import pipeline.config as config
+import pipeline.input_schemas as input_schemas
+import pipeline.maintained_schools as maintained_pipeline
+import pipeline.mappings as mappings
+from pipeline import part_year
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)

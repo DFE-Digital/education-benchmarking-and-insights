@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from src.pipeline import pre_processing
+from pipeline import pre_processing
 
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):

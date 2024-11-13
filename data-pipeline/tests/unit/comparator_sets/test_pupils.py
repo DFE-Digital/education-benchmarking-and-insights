@@ -3,7 +3,7 @@ from unittest import mock
 import numpy as np
 import pytest
 
-from src.pipeline.comparator_sets import (
+from pipeline.comparator_sets import (
     compute_pupils_comparator,
     pupils_calc,
     special_pupils_calc,
@@ -46,8 +46,8 @@ def test_varied_input_special():
     )
 
 
-@mock.patch("src.pipeline.comparator_sets.pupils_calc")
-@mock.patch("src.pipeline.comparator_sets.special_pupils_calc")
+@mock.patch("pipeline.comparator_sets.pupils_calc")
+@mock.patch("pipeline.comparator_sets.special_pupils_calc")
 @pytest.mark.parametrize(
     "phase,special_called,pupils_called",
     [

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.pipeline import config
+from pipeline import config
 
 
 def map_has_financial_data(

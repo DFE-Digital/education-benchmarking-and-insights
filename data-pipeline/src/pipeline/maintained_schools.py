@@ -3,8 +3,8 @@ import datetime
 import numpy as np
 import pandas as pd
 
-import src.pipeline.input_schemas as input_schemas
-import src.pipeline.mappings as mappings
+import pipeline.input_schemas as input_schemas
+import pipeline.mappings as mappings
 
 
 def create_master_list(

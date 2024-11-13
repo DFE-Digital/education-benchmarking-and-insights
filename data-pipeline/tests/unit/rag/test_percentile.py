@@ -1,7 +1,7 @@
 import pandas
 import pytest
 
-from src.pipeline.rag import find_percentile
+from pipeline.rag import find_percentile
 
 
 @pytest.mark.parametrize(
