@@ -8,6 +8,7 @@ namespace Web.E2ETests.Steps.Trust;
 public class HomeSteps(PageDriver driver)
 {
     private CompareYourCostsPage? _compareYourCostsPage;
+    private SpendingCostsPage? _spendingCostsPage;
     private HomePage? _trustHomePage;
 
     [Given("I am on trust homepage for trust with company number '(.*)'")]
@@ -35,8 +36,22 @@ public class HomeSteps(PageDriver driver)
         await _compareYourCostsPage.IsDisplayed();
     }
 
+    [When("I click on view all spending priorities for this trust")]
+    public async Task WhenIClickOnViewAllSpendingPrioritiesForThisTrust()
+    {
+        Assert.NotNull(_trustHomePage);
+        _spendingCostsPage = await _trustHomePage.ClickSpendingPriorities();
+    }
+
+    [Then("the spending and costs page is displayed")]
+    public async Task ThenTheSpendingAndCostsPageIsDisplayed()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsDisplayed();
+    }
+
     [Then("I can see the following RAG ratings for cost categories in the trust:")]
-    public async Task ThenICanSeeTheFollowingRagRatingsForSchsoolsInTheTrust(DataTable table)
+    public async Task ThenICanSeeTheFollowingRagRatingsForCostCategoriesInTheTrust(DataTable table)
     {
         Assert.NotNull(_trustHomePage);
 

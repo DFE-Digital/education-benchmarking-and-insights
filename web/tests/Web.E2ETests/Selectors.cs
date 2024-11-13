@@ -54,6 +54,7 @@ public static class Selectors
     public const string Charts = ".recharts-surface";
     public const string Table = "table";
     public const string Button = "button";
+    public const string Aside = "aside";
 
     public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";

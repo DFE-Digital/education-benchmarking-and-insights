@@ -9,6 +9,10 @@ public class HomePage(IPage page)
     {
         HasText = "View school spending"
     });
+    private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "View all spending priorities for this trust"
+    });
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
@@ -21,6 +25,12 @@ public class HomePage(IPage page)
     {
         await CompareYourCostsLink.Click();
         return new CompareYourCostsPage(page);
+    }
+
+    public async Task<SpendingCostsPage> ClickSpendingPriorities()
+    {
+        await SpendingPrioritiesLink.Click();
+        return new SpendingCostsPage(page);
     }
 
     public async Task CookieBannerIsDisplayed()
