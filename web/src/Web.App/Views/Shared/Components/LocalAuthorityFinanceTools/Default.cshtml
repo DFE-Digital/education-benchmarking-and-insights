@@ -10,7 +10,7 @@
                 {
                     case FinanceTools.CompareYourCosts:
                         <li>
-                            <a href="@Url.Action("Index", "LocalAuthorityComparison", new { code = Model.Identifier })">
+                            <a href="@Url.Action("Index", "LocalAuthorityComparison", new { code = Model.Identifier })" aria-label="View school spending">
                                 <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">
@@ -23,7 +23,7 @@
                         break;
                     case FinanceTools.BenchmarkCensus:
                         <li>
-                            <a href="@Url.Action("Index", "LocalAuthorityCensus", new { code = Model.Identifier })">
+                            <a href="@Url.Action("Index", "LocalAuthorityCensus", new { code = Model.Identifier })" aria-label="View pupil and workforce data">
                                 <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
                             </a>
                             <h3 class="govuk-heading-s">

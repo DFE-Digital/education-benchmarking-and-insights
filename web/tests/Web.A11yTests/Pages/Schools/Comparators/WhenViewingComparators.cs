@@ -14,3 +14,15 @@ public class WhenViewingComparators(ITestOutputHelper testOutputHelper, WebDrive
         await EvaluatePage();
     }
 }
+
+public class WhenViewingComparatorsWorkforce(ITestOutputHelper testOutputHelper, WebDriver webDriver) : PageBase(testOutputHelper, webDriver)
+{
+    protected override string PageUrl => $"/school/{TestConfiguration.School}/comparators/workforce";
+
+    [Fact]
+    public async Task ThenThereAreNoAccessibilityIssues()
+    {
+        await GoToPage();
+        await EvaluatePage();
+    }
+}

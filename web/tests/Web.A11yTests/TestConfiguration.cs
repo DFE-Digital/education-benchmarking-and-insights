@@ -21,6 +21,9 @@ public static class TestConfiguration
     public static string Trust => Instance.GetValue<string>("TrustCompanyNo") ??
                                   throw new InvalidOperationException("Trust company number missing from configuration");
 
+    public static string LocalAuthority => Instance.GetValue<string>("LaCode") ??
+                                           throw new InvalidOperationException("Local Authority Code missing from configuration");
+
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 
     public static AuthenticationSettings Authentication => Instance.GetSection(nameof(Authentication)).Get<AuthenticationSettings>() ??
