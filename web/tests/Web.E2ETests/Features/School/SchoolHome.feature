@@ -1,7 +1,8 @@
 ﻿Feature: School homepage
 
     Background:
-        Given I am not logged in
+        Given I am on the service home
+        And I am not logged in
 
     Scenario: Go to contact details page
         Given I am on school homepage for school with urn '777042'
@@ -15,8 +16,9 @@
 
     Scenario: Go to curriculum and financial planning page
         Given I am on school homepage for school with urn '777042'
+        And I have signed in with organisation '01: FBIT TEST - Community School (Open)'
         When I click on curriculum and financial planning
-        Then the curriculum and financial planning page is displayed after logging in with organisation '01: FBIT TEST - Community School (Open)'
+        Then the curriculum and financial planning page is displayed
 
     Scenario: Go to benchmark census data page
         Given I am on school homepage for school with urn '777042'

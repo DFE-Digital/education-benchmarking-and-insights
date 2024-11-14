@@ -300,11 +300,6 @@ public class CompareYourCostsPage(IPage page)
         await ChartTicks.Nth(nth).Locator("circle").ShouldBeVisible();
     }
 
-    public async Task SignIn(string organisation)
-    {
-        await page.SignInWithOrganisation(organisation);
-    }
-
     public async Task<CreateComparatorsPage> ClickCreateUserDefinedComparatorSet()
     {
         await CustomComparatorLink.ClickAsync();

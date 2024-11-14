@@ -20,11 +20,6 @@ public class CreateComparatorsPage(IPage page)
         await PageH1Heading.ShouldBeVisible();
     }
 
-    public async Task SignIn(string organisation)
-    {
-        await page.SignInWithOrganisation(organisation);
-    }
-
     public async Task<CreateComparatorsByPage> ClickContinue()
     {
         await ContinueButton.ClickAsync();

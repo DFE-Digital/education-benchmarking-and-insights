@@ -1,7 +1,9 @@
 ﻿Feature: School curriculum and financial planning
 
     Background:
-        Given I have selected organisation '01: FBIT TEST - Community School (Open)' after logging in for school with URN '777042'
+        Given I am on the service home
+        And I have signed in with organisation '01: FBIT TEST - Community School (Open)'
+        And I am on the CFP home page for school '777042'
 
     Scenario: Go to help page from start page
         Given I am on start page for school with URN '777042'

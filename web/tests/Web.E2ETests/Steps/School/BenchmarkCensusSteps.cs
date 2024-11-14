@@ -12,13 +12,6 @@ public class BenchmarkCensusSteps(PageDriver driver)
     private IDownload? _download;
     private HomePage? _schoolHomePage;
 
-    [Given("I am not logged in")]
-    public async Task GivenIAmNotLoggedIn()
-    {
-        var page = await driver.Current;
-        await page.SignOut();
-    }
-
     [Given("I am on census page for school with URN '(.*)'")]
     public async Task GivenIAmOnCensusPageForSchoolWithUrn(string urn)
     {

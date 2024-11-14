@@ -1,7 +1,8 @@
 ﻿Feature: School benchmark pupil and workforce data
 
     Background:
-        Given I am not logged in
+        Given I am on the service home
+        And I am not logged in
 
     Scenario: Download school workforce chart
         Given I am on census page for school with URN '777042'
