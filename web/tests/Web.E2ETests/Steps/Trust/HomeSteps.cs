@@ -7,6 +7,7 @@ namespace Web.E2ETests.Steps.Trust;
 [Scope(Feature = "Trust homepage")]
 public class HomeSteps(PageDriver driver)
 {
+    private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private SpendingCostsPage? _spendingCostsPage;
     private HomePage? _trustHomePage;
@@ -72,6 +73,20 @@ public class HomeSteps(PageDriver driver)
         {
             await _trustHomePage.AssertSchoolRags(row.Key, row.Value);
         }
+    }
+
+    [When("I click on benchmark census data")]
+    public async Task WhenIClickOnBenchmarkCensusData()
+    {
+        Assert.NotNull(_trustHomePage);
+        _benchmarkCensusPage = await _trustHomePage.ClickBenchmarkCensus();
+    }
+
+    [Then("the benchmark census page is displayed")]
+    public async Task ThenTheBenchmarkCensusPageIsDisplayed()
+    {
+        Assert.NotNull(_benchmarkCensusPage);
+        await _benchmarkCensusPage.IsDisplayed();
     }
 
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";

@@ -7,6 +7,7 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 [Scope(Feature = "Local Authority homepage")]
 public class HomeSteps(PageDriver driver)
 {
+    private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private HomePage? _localAuthorityHomePage;
 
@@ -33,6 +34,20 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsDisplayed();
+    }
+
+    [When("I click on benchmark census data")]
+    public async Task WhenIClickOnBenchmarkCensusData()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        _benchmarkCensusPage = await _localAuthorityHomePage.ClickBenchmarkCensus();
+    }
+
+    [Then("the benchmark census page is displayed")]
+    public async Task ThenTheBenchmarkCensusPageIsDisplayed()
+    {
+        Assert.NotNull(_benchmarkCensusPage);
+        await _benchmarkCensusPage.IsDisplayed();
     }
 
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";

@@ -13,6 +13,10 @@ public class HomePage(IPage page)
     {
         HasText = "View all spending priorities for this trust"
     });
+    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "View pupil and workforce data"
+    });
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
@@ -52,5 +56,11 @@ public class HomePage(IPage page)
         await cell.ShouldBeVisible();
         var content = await cell.Locator("~ td").TextContentAsync();
         Assert.Equal(status, content?.Trim());
+    }
+
+    public async Task<BenchmarkCensusPage> ClickBenchmarkCensus()
+    {
+        await BenchmarkCensusDataLink.Click();
+        return new BenchmarkCensusPage(page);
     }
 }
