@@ -70,7 +70,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school expenditure query request with company number '(.*)' and phase '(.*)':")]
+    [Given("a valid school expenditure query request with company number '(.*)' and phase '(.*)'")]
     public void GivenAValidSchoolExpenditureQueryRequestWithCompanyNumberAndPhase(string companyNumber, string phase)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
@@ -80,7 +80,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school expenditure query request with LA code '(.*)' and phase '(.*)':")]
+    [Given("a valid school expenditure query request with LA code '(.*)' and phase '(.*)'")]
     public void GivenAValidSchoolExpenditureQueryRequestWithLaCodeAndPhase(string laCode, string phase)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage

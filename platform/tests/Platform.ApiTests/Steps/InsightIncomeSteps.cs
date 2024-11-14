@@ -70,7 +70,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school income query request with company number '(.*)' and phase '(.*)':")]
+    [Given("a valid school income query request with company number '(.*)' and phase '(.*)'")]
     public void GivenAValidSchoolIncomeQueryRequestWithCompanyNumberAndPhase(string companyNumber, string phase)
     {
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage
@@ -80,7 +80,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school income query request with LA code '(.*)' and phase '(.*)':")]
+    [Given("a valid school income query request with LA code '(.*)' and phase '(.*)'")]
     public void GivenAValidSchoolIncomeQueryRequestWithLaCodeAndPhase(string laCode, string phase)
     {
         api.CreateRequest(SchoolIncomeKey, new HttpRequestMessage

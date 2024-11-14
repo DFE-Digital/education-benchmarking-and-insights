@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
 using Platform.Sql;
 namespace Platform.Api.Insight.Census;
 
 public interface ICensusService
 {
     Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn);
-    Task<IEnumerable<CensusModel>> QueryAsync(string[] urns);
+    Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<CensusModel?> GetAsync(string urn);
     Task<CensusModel?> GetCustomAsync(string urn, string identifier);
 }
@@ -25,16 +27,40 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns)
+    public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase)
     {
-        const string sql = "SELECT * from SchoolCensus WHERE URN IN @URNS";
-        var parameters = new
+        var builder = new SqlBuilder();
+        var template = builder.AddTemplate("SELECT * from SchoolCensus /**where**/");
+        if (urns.Length != 0)
         {
-            URNS = urns
-        };
+            builder.Where("URN IN @URNS", new
+            {
+                URNS = urns
+            });
+        }
+        else if (!string.IsNullOrWhiteSpace(companyNumber))
+        {
+            builder.Where("TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", new
+            {
+                CompanyNumber = companyNumber,
+                Phase = phase
+            });
+        }
+        else if (!string.IsNullOrWhiteSpace(laCode))
+        {
+            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
+            {
+                LaCode = laCode,
+                Phase = phase
+            });
+        }
+        else
+        {
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+        }
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusModel>(sql, parameters);
+        return await conn.QueryAsync<CensusModel>(template.RawSql, template.Parameters);
     }
 
     public async Task<CensusModel?> GetAsync(string urn)

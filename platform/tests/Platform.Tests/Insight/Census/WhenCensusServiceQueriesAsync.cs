@@ -53,7 +53,7 @@ public class WhenCensusServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryAsyncWhenQueryAsync()
+    public async Task ShouldQueryAsyncWhenQueryAsyncWithUrns()
     {
         // arrange
         string[] urns = ["urn1", "urn2"];
@@ -69,20 +69,63 @@ public class WhenCensusServiceQueriesAsync
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
-                actualParam = param;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "URNS");
             })
             .ReturnsAsync(results);
 
         // act
-        var actual = await _service.QueryAsync(urns);
+        var actual = await _service.QueryAsync(urns, null, null, null);
 
         // assert
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT * from SchoolCensus WHERE URN IN @URNS", actualSql);
-        Assert.Equivalent(new
+        Assert.Equal("SELECT * from SchoolCensus WHERE URN IN @URNS", actualSql?.Trim());
+        var expectedParam = new Dictionary<string, object>
         {
-            URNS = urns
-        }, actualParam, true);
+            {
+                "URNS", urns
+            }
+        };
+        Assert.Equivalent(expectedParam, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldQueryAsyncWhenQuerySchoolsAsyncWithCompanyNumberAndPhase()
+    {
+        // arrange
+        const string companyNumber = nameof(companyNumber);
+        const string phase = nameof(phase);
+        var results = new List<CensusModel>
+        {
+            new()
+        };
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? param) =>
+            {
+                actualSql = sql;
+                actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "Phase");
+            })
+            .ReturnsAsync(results);
+
+        // act
+        var actual = await _service.QueryAsync([], companyNumber, null, phase);
+
+        // assert
+        Assert.Equal(results, actual);
+        Assert.Equal("SELECT * from SchoolCensus WHERE TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", actualSql?.Trim());
+        var expectedParam = new Dictionary<string, object>
+        {
+            {
+                "CompanyNumber", companyNumber
+            },
+            {
+                "Phase", phase
+            }
+        };
+        Assert.Equivalent(expectedParam, actualParam, true);
     }
 
     [Fact]
