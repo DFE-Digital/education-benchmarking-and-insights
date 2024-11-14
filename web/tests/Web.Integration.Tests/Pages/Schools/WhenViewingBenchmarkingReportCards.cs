@@ -9,16 +9,16 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, false, false, true)]
-    [InlineData(EstablishmentTypes.Maintained, false, false, true)]
-    [InlineData(EstablishmentTypes.Maintained, true, true, true)]
+    [InlineData(EstablishmentTypes.Academies, false, false, 12)]
+    [InlineData(EstablishmentTypes.Maintained, false, false, 12)]
+    [InlineData(EstablishmentTypes.Maintained, true, true, 12)]
     public async Task CanDisplay(
         string financeType,
         bool isPartOfFederation,
         bool isLeadSchoolInFederation,
-        bool hasRagRatings)
+        int? periodCoveredByReturn)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType, isPartOfFederation, isLeadSchoolInFederation, hasRagRatings);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType, isPartOfFederation, isLeadSchoolInFederation, periodCoveredByReturn);
         AssertPageLayout(page, school);
     }
 
@@ -85,11 +85,26 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
         AssertWhoYouAreComparedWithSection(page);
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Maintained, true, false, 12, "this is a non lead school in a federation")]
+    [InlineData(EstablishmentTypes.Maintained, true, true, null, "expenditure data is not available for this school")]
+    [InlineData(EstablishmentTypes.Maintained, true, true, 9, "this school does not have data for the entire period")]
+    public async Task CanDisplayNotAvailableWarning(
+        string financeType,
+        bool isPartOfFederation,
+        bool isLeadSchoolInFederation,
+        int? periodCoveredByReturn,
+        string commentary)
+    {
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType, isPartOfFederation, isLeadSchoolInFederation, periodCoveredByReturn);
+        AssertWarning(page, school, commentary);
+    }
+
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Census)> SetupNavigateInitPage(
         string financeType,
         bool isPartOfFederation = false,
         bool isLeadSchoolInFederation = false,
-        bool hasRagRatings = true)
+        int? periodCoveredByReturn = 12)
     {
         const string urn = "12345";
         var school = Fixture.Build<School>()
@@ -102,59 +117,57 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
         var balance = Fixture.Build<SchoolBalance>()
             .With(x => x.SchoolName, school.SchoolName)
             .With(x => x.URN, school.URN)
-            .With(x => x.PeriodCoveredByReturn, 12)
+            .With(x => x.PeriodCoveredByReturn, periodCoveredByReturn)
             .Create();
 
-        var ratings = hasRagRatings
-            ?
-            [
-                new RagRating
-                {
-                    Category = Category.TeachingStaff,
-                    RAG = "red"
-                },
-                new RagRating
-                {
-                    Category = Category.NonEducationalSupportStaff,
-                    RAG = "amber"
-                },
-                new RagRating
-                {
-                    Category = Category.EducationalSupplies,
-                    RAG = "green"
-                },
-                new RagRating
-                {
-                    Category = Category.EducationalIct,
-                    RAG = "red"
-                },
-                new RagRating
-                {
-                    Category = Category.PremisesStaffServices,
-                    RAG = "amber"
-                },
-                new RagRating
-                {
-                    Category = Category.Utilities,
-                    RAG = "green"
-                },
-                new RagRating
-                {
-                    Category = Category.AdministrativeSupplies,
-                    RAG = "red"
-                },
-                new RagRating
-                {
-                    Category = Category.CateringStaffServices,
-                    RAG = "amber"
-                },
-                new RagRating
-                {
-                    Category = Category.Other,
-                    RAG = "red"
-                }
-            ]
-            : Array.Empty<RagRating>();
+        RagRating[] ratings =
+        [
+            new()
+            {
+                Category = Category.TeachingStaff,
+                RAG = "red"
+            },
+            new()
+            {
+                Category = Category.NonEducationalSupportStaff,
+                RAG = "amber"
+            },
+            new()
+            {
+                Category = Category.EducationalSupplies,
+                RAG = "green"
+            },
+            new()
+            {
+                Category = Category.EducationalIct,
+                RAG = "red"
+            },
+            new()
+            {
+                Category = Category.PremisesStaffServices,
+                RAG = "amber"
+            },
+            new()
+            {
+                Category = Category.Utilities,
+                RAG = "green"
+            },
+            new()
+            {
+                Category = Category.AdministrativeSupplies,
+                RAG = "red"
+            },
+            new()
+            {
+                Category = Category.CateringStaffServices,
+                RAG = "amber"
+            },
+            new()
+            {
+                Category = Category.Other,
+                RAG = "red"
+            }
+        ];
 
         var censuses = Fixture.Build<Census>().CreateMany().ToArray();
         censuses.First().URN = school.URN;
@@ -288,5 +301,17 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
     {
         var whoYouAreComparedWithSection = page.Body.SelectSingleNode("//main/div/section[7]");
         DocumentAssert.Heading2(whoYouAreComparedWithSection, "Who you are compared with");
+    }
+
+    private static void AssertWarning(IHtmlDocument page, School school, string commentary)
+    {
+        var body = page.Body.SelectSingleNode("//main/div");
+        var warning = body.ChildNodes.QuerySelectorAll("div").ElementAt(2).GetInnerText();
+
+        Assert.Contains(commentary, warning);
+
+        var link = body.ChildNodes.QuerySelector("a");
+        Assert.NotNull(link);
+        Assert.Equal(Paths.SchoolHome(school.URN), link.GetAttribute("href"));
     }
 }

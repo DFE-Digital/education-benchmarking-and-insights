@@ -61,10 +61,3 @@
     Scenario: RAG guidance is displayed
         Given I am on school homepage for school with urn '777042'
         Then the RAG guidance is visible
-        
-    # To be confirmed as an outcome of #236251    
-    @ignore
-    Scenario: Error message for part-year data schools
-        Given I am on part year school homepage for school with urn '777044'
-        When I click on benchmarking report cards
-        Then I should see a 404 error page indicating the BRC is not available for this school

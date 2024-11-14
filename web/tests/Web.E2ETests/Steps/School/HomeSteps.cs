@@ -177,11 +177,4 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.AssertRagGuidance();
     }
-
-    [Then("I should see a 404 error page indicating the BRC is not available for this school")]
-    public async Task ThenIShouldSeeAErrorPageIndicatingTheBrcIsNotAvailableForThisSchool()
-    {
-        Assert.NotNull(_benchmarkingReportCardsPage);
-        await _benchmarkingReportCardsPage.IsNotDisplayed();
-    }
 }

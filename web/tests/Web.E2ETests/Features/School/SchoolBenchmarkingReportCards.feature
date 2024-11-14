@@ -28,6 +28,7 @@ So that I can see how my school is performing from a financial point of view and
           | Pupil-to-teacher metric                | 2.73\n\nPupils per teacher                 | Similar schools range from 0.3 to 8.59 pupils per teacher.                  |
           | Pupil-to-senior leadership role metric | 18.42\n\nPupils per senior leadership role | Similar schools range from 4.26 to 34.33 pupils per senior leadership role. |
         And the print page cta is visible
+        And the response should be OK
 
     Scenario: Print page as PDF
         Given I am on the Benchmarking Report Card page for school with urn '777042'
@@ -48,3 +49,13 @@ So that I can see how my school is performing from a financial point of view and
         Given I am on the Benchmarking Report Card page for school with urn '777042'
         When I click on the financial benchmarking and insight tool link under pupil and workforce metrics
         Then I am directed to school census page for the school with urn '777042'
+
+    Scenario: View BRCs as a non-lead federated school
+        Given I am on the Benchmarking Report Card page for unavailable school with urn '777045'
+        Then the 'this is a non lead school in a federation' warning message should be displayed
+        And the response should be NotFound
+
+    Scenario: View BRCs as a part-year school
+        Given I am on the Benchmarking Report Card page for unavailable school with urn '777043'
+        Then the 'this school does not have data for the entire period' warning message should be displayed
+        And the response should be NotFound

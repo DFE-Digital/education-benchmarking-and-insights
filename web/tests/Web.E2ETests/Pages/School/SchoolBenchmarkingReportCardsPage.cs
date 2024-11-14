@@ -1,8 +1,9 @@
-﻿using Microsoft.Playwright;
+﻿using System.Net;
+using Microsoft.Playwright;
 using Xunit;
 namespace Web.E2ETests.Pages.School;
 
-public class SchoolBenchmarkingReportCardsPage(IPage page)
+public class SchoolBenchmarkingReportCardsPage(IPage page, IResponse? response = null)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator IntroductionSection => page.Locator(Selectors.BrcIntroduction);
@@ -23,10 +24,18 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
     private ILocator PupilToTeacherMetric => page.Locator("h3:has-text('Pupil-to-teacher metric')");
     private ILocator PupilToSeniorLeadershipRoles => page.Locator("h3:has-text('Pupil-to-senior leadership role metric')");
     private ILocator PupilWorkforceContent => page.Locator(Selectors.PupilWorkforceContent);
+    private ILocator WarningMessage => page.Locator(Selectors.GovWarning);
 
-    public async Task IsDisplayed()
+    public async Task IsDisplayed(bool unavailable = false)
     {
         await PageH1Heading.ShouldBeVisible();
+        await VisitFbitButton.ShouldBeVisible();
+
+        if (unavailable)
+        {
+            return;
+        }
+
         await KeyInformationShouldBeVisible();
         await SpendPrioritySectionShouldBeVisible();
         await AssertSpendPriorityItems();
@@ -41,14 +50,17 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
         await PupilWorkforceMetricsSectionShouldBeVisible();
         await AssertPupilWorkforceMetrics();
         await PrintPageCtaShouldBeVisible();
-        await VisitFbitButton.ShouldBeVisible();
         await NextStepsSection.ShouldBeVisible();
     }
 
-    public async Task IsNotDisplayed()
+    public void IsOk()
     {
-        await PageH1Heading.ShouldBeVisible();
-        await PageH1Heading.ShouldHaveText("Page not found");
+        Assert.Equal((int)HttpStatusCode.OK, response?.Status);
+    }
+
+    public void IsNotFound()
+    {
+        Assert.Equal((int)HttpStatusCode.NotFound, response?.Status);
     }
 
     public async Task KeyInformationShouldBeVisible()
@@ -157,5 +169,10 @@ public class SchoolBenchmarkingReportCardsPage(IPage page)
     {
         await PupilWorkforceMetricsSection.Locator("a").ClickAsync();
         return new BenchmarkCensusPage(page);
+    }
+
+    public async Task AssertWarningMessage(string commentary)
+    {
+        await WarningMessage.ShouldContainText(commentary);
     }
 }
