@@ -20,6 +20,13 @@ public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
         await _brcPage.IsDisplayed();
     }
 
+    [Given("I am on the Benchmarking Report Card page for unavailable school with urn '(.*)'")]
+    public async Task GivenIAmOnTheBenchmarkingReportCardPageForUnavailableSchoolWithUrn(string urn)
+    {
+        _brcPage = await LoadBenchmarkingReportCardsPageForSchoolWithUrn(urn);
+        await _brcPage.IsDisplayed(true);
+    }
+
     [Then("I should see the following boxes displayed under Key Information about school")]
     public async Task ThenIShouldSeeTheFollowingBoxesDisplayedUnderKeyInformationAboutSchool(DataTable table)
     {
@@ -132,15 +139,36 @@ public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
         await _censusPage.IsDisplayed();
     }
 
+    [Then("the '(.*)' warning message should be displayed")]
+    public async Task ThenTheWarningMessageShouldBeDisplayed(string commentary)
+    {
+        Assert.NotNull(_brcPage);
+        await _brcPage.AssertWarningMessage(commentary);
+    }
+
+    [Then("the response should be OK")]
+    public void ThenTheResponseShouldBeOk()
+    {
+        Assert.NotNull(_brcPage);
+        _brcPage.IsOk();
+    }
+
+    [Then("the response should be NotFound")]
+    public void ThenTheResponseShouldBeNotFound()
+    {
+        Assert.NotNull(_brcPage);
+        _brcPage.IsNotFound();
+    }
+
     private async Task<SchoolBenchmarkingReportCardsPage> LoadBenchmarkingReportCardsPageForSchoolWithUrn(string urn)
     {
         var url = SchoolBenchmarkingReportCardsUrl(urn);
         var page = await driver.Current;
-        await page.GotoAndWaitForLoadAsync(url);
+        var response = await page.GotoAndWaitForLoadAsync(url);
 
         await driver.WaitForPendingRequests(500);
 
-        return new SchoolBenchmarkingReportCardsPage(page);
+        return new SchoolBenchmarkingReportCardsPage(page, response);
     }
 
     private static string SchoolBenchmarkingReportCardsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/benchmarking-report-cards";

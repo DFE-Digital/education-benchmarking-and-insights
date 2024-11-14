@@ -8,9 +8,10 @@ public static class PageExtensions
     public static async Task<bool> IsSignedIn(this IPage page) => !await page.SignInLink().IsVisibleAsync() && await page.SignOutLink().IsVisibleAsync();
 
 
-    public static async Task GotoAndWaitForLoadAsync(this IPage page, string url)
+    public static async Task<IResponse?> GotoAndWaitForLoadAsync(this IPage page, string url)
     {
-        await page.GotoAsync(url);
+        var response = await page.GotoAsync(url);
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        return response;
     }
 }

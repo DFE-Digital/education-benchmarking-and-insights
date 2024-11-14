@@ -1,0 +1,41 @@
+@model Web.App.ViewModels.SchoolBenchmarkingReportCardsUnavailableViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolBenchmarkingReportCards;
+    var header = $"{Constants.ServiceName.Replace("Tool", string.Empty)} Summary";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <span class="govuk-caption-l">
+            @header
+            @Model.Years:
+        </span>
+        <h1 class="govuk-heading-l">@Model.Name</h1>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="app-finance-warn govuk-!-margin-bottom-3">
+            <div class="govuk-warning-text govuk-!-margin-0">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-visually-hidden">Warning</span>
+                    The @header cannot be displayed
+                    @(string.IsNullOrWhiteSpace(Model.Commentary) ? string.Empty : $"because {Model.Commentary}.")
+                </strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-!-margin-top-9 govuk-!-text-align-centre govuk-!-display-none-print">
+    @Html.ActionLink($"Visit the {Constants.ServiceName}", "Index", "School", new
+    {
+        urn = Model.Urn
+    }, new
+    {
+        @class = "govuk-button govuk-button--secondary ",
+        dataModule = "govuk-button"
+    })
+</div>
