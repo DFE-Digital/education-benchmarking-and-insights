@@ -1,7 +1,7 @@
+using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Insight.Census;
-
 namespace Platform.Tests.Insight.Census;
 
 public class CensusFunctionsTestBase : FunctionsTestBase
@@ -11,7 +11,9 @@ public class CensusFunctionsTestBase : FunctionsTestBase
 
     protected CensusFunctionsTestBase()
     {
+        InlineValidator<CensusParameters> censusParametersValidator = new();
+        InlineValidator<QuerySchoolCensusParameters> querySchoolCensusParametersValidator = new();
         Service = new Mock<ICensusService>();
-        Functions = new CensusFunctions(new NullLogger<CensusFunctions>(), Service.Object);
+        Functions = new CensusFunctions(new NullLogger<CensusFunctions>(), Service.Object, censusParametersValidator, querySchoolCensusParametersValidator);
     }
 }

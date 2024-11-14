@@ -162,7 +162,7 @@
           | 990002 | 1674148.00  | 1599525.00        | 66873.00                  | 0.00                   | 1342622.00   | 1306852.00       | 0.00           | 35770.00          | 73936.00        | 9358.00                  | 8239.00        | 10546.00                | 37300.00                             | 1674148.00        | 1599525.00              | 66873.00                        | 0.00                         | 1342622.00         | 1306852.00             | 0.00                 | 35770.00                | 73936.00              | 9358.00                        | 8239.00              | 10546.00                      |
 
     Scenario: Sending a valid school income query request with company number and phase
-        Given a valid school income query request with company number '8104190' and phase 'Secondary':
+        Given a valid school income query request with company number '8104190' and phase 'Secondary'
         When I submit the insights income request
         Then the school income query result should be ok and contain:
           | URN    | TotalIncome | TotalGrantFunding | TotalSelfGeneratedFunding | DirectRevenueFinancing | DirectGrants | PrePost16Funding | OtherDfeGrants | OtherIncomeGrants | CommunityGrants | IncomeFacilitiesServices | IncomeCatering | DonationsVoluntaryFunds | ReceiptsSupplyTeacherInsuranceClaims | SchoolTotalIncome | SchoolTotalGrantFunding | SchoolTotalSelfGeneratedFunding | SchoolDirectRevenueFinancing | SchoolDirectGrants | SchoolPrePost16Funding | SchoolOtherDfeGrants | SchoolOtherIncomeGrants | SchoolCommunityGrants | SchoolIncomeFacilitiesServices | SchoolIncomeCatering | SchoolDonationsVoluntaryFunds |
@@ -174,7 +174,7 @@
           | 777056 | 2420915.00  | 2253162.00        | 151273.00                 | 0.00                   | 2029687.00   | 2029687.00       | 0.00           | 0.00              | 58836.00        | 36359.00                 | 14500.00       | 85114.00                | 15300.00                             | 2420915.00        | 2253162.00              | 151273.00                       | 0.00                         | 2029687.00         | 2029687.00             | 0.00                 | 0.00                    | 58836.00              | 36359.00                       | 14500.00             | 85114.00                      |
 
     Scenario: Sending a valid school income query request with LA code and phase
-        Given a valid school income query request with LA code '205' and phase 'Secondary':
+        Given a valid school income query request with LA code '205' and phase 'Secondary'
         When I submit the insights income request
         Then the school income query result should be ok and contain:
           | URN    | TotalIncome | TotalGrantFunding | TotalSelfGeneratedFunding | DirectRevenueFinancing | DirectGrants | PrePost16Funding | OtherDfeGrants | OtherIncomeGrants | CommunityGrants | IncomeFacilitiesServices | IncomeCatering | DonationsVoluntaryFunds | ReceiptsSupplyTeacherInsuranceClaims | SchoolTotalIncome | SchoolTotalGrantFunding | SchoolTotalSelfGeneratedFunding | SchoolDirectRevenueFinancing | SchoolDirectGrants | SchoolPrePost16Funding | SchoolOtherDfeGrants | SchoolOtherIncomeGrants | SchoolCommunityGrants | SchoolIncomeFacilitiesServices | SchoolIncomeCatering | SchoolDonationsVoluntaryFunds |

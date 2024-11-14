@@ -1,32 +1,22 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Platform.Functions;
-using Platform.Functions.Extensions;
-
 namespace Platform.Api.Insight.Census;
 
 public record CensusParameters : QueryParameters
 {
-    public string? Category { get; private set; }
-    public string Dimension { get; private set; } = CensusDimensions.Total;
-    public string[] Schools { get; private set; } = Array.Empty<string>();
+    public string? Category { get; internal set; }
+    public string Dimension { get; internal set; } = CensusDimensions.Total;
 
     public override void SetValues(IQueryCollection query)
     {
-        var category = query["category"].ToString();
-        if (!CensusCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
+        if (query.TryGetValue("category", out var category) && !string.IsNullOrWhiteSpace(category))
         {
-            category = null;
+            Category = category.ToString();
         }
 
-        var dimension = query["dimension"].ToString();
-        if (!CensusDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+        if (query.TryGetValue("dimension", out var dimension) && !string.IsNullOrWhiteSpace(dimension))
         {
-            dimension = CensusDimensions.Total;
+            Dimension = dimension.ToString();
         }
-
-        Category = category;
-        Dimension = dimension;
-        Schools = query.ToStringArray("urns");
     }
 }

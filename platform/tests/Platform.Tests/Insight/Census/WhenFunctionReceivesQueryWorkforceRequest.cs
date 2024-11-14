@@ -10,7 +10,7 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<CensusModel>());
 
         var result = await Functions.QueryCensusAsync(CreateHttpRequestData());
@@ -19,12 +19,11 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
-
     [Fact]
     public async Task ShouldReturn500OnError()
     {
         Service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.QueryCensusAsync(CreateHttpRequestData());

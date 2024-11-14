@@ -72,6 +72,26 @@ public class InsightCensusSteps(InsightApiDriver api)
         });
     }
 
+    [Given("a valid school census query request with company number '(.*)' and phase '(.*)'")]
+    public void GivenAValidSchoolCensusQueryRequestWithCompanyNumberAndPhase(string companyNumber, string phase)
+    {
+        api.CreateRequest(CensusKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/census?companyNumber={companyNumber}&phase={phase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid school census query request with LA code '(.*)' and phase '(.*)'")]
+    public void GivenAValidSchoolCensusQueryRequestWithLaCodeAndPhase(string laCode, string phase)
+    {
+        api.CreateRequest(CensusKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/census?laCode={laCode}&phase={phase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the insights census request")]
     public async Task WhenISubmitTheInsightsCensusRequest()
     {
