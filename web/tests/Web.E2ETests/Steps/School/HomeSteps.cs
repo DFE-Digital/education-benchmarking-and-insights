@@ -17,13 +17,6 @@ public class HomeSteps(PageDriver driver)
     private HomePage? _schoolHomePage;
     private SpendingCostsPage? _spendingCostsPage;
 
-    [Given("I am not logged in")]
-    public async Task GivenIAmNotLoggedIn()
-    {
-        var page = await driver.Current;
-        await page.SignOut();
-    }
-
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
     {
@@ -88,22 +81,9 @@ public class HomeSteps(PageDriver driver)
         _curriculumAndFinancialPlanningPage = await _schoolHomePage.ClickFinancialPlanning();
     }
 
-    [Then("the curriculum and financial planning page is displayed after logging in with organisation '(.*)'")]
-    public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayedAfterLoggingInWithOrganisation(string organisation)
+    [Then("the curriculum and financial planning page is displayed")]
+    public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayedAfterLoggingInWithOrganisation()
     {
-        var page = await driver.Current;
-        if (await page.Locator("h1:text-is('Curriculum and financial planning (CFP)')").CheckVisible())
-        {
-            // already logged in
-        }
-        else if (await page.Locator("h1:text-is('Access the DfE Sign-in service')").CheckVisible())
-        {
-            await page.SignInWithOrganisation(organisation, true);
-        }
-        else
-        {
-            throw new Exception("Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
-        }
         Assert.NotNull(_curriculumAndFinancialPlanningPage);
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
     }

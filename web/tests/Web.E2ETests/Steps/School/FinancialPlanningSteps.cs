@@ -116,25 +116,12 @@ public class FinancialPlanningSteps(PageDriver driver)
         _startPage = await _selectYearPage.ClickBack();
     }*/
 
-    [Given("I have selected organisation '(.*)' after logging in for school with URN '(.*)'")]
-    public async Task GivenIHaveSelectedOrganisationAfterLoggingInForSchoolWithURN(string organisation, string urn)
+    [Given("I am on the CFP home page for school '(.*)'")]
+    public async Task GivenIAmOnTheCfpHomePageForSchool(string urn)
     {
         var url = CfpLandingUrl(urn);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
-
-        if (await page.Locator("h1:text-is('Curriculum and financial planning (CFP)')").CheckVisible())
-        {
-            // already logged in
-        }
-        else if (await page.Locator("h1:text-is('Access the DfE Sign-in service')").CheckVisible())
-        {
-            await page.SignInWithOrganisation(organisation, true);
-        }
-        else
-        {
-            throw new Exception("Unexpected page state encountered while trying to access the login page. Neither 'Curriculum and financial planning (CFP)' nor 'Access the DfE Sign-in service' page was detected.");
-        }
     }
 
 

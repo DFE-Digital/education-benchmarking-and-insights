@@ -25,13 +25,6 @@ public class CreateComparatorsSteps(PageDriver driver)
         await _createComparatorsPage.IsDisplayed();
     }
 
-    [Given("I have selected organisation '(.*)' after logging in")]
-    public async Task GivenIHaveSelectedOrganisationAfterLoggingIn(string organisation)
-    {
-        Assert.NotNull(_createComparatorsPage);
-        await _createComparatorsPage.SignIn(organisation);
-    }
-
     [When("I click continue")]
     public async Task WhenIClickContinue()
     {
