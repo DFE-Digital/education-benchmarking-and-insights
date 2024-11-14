@@ -1,4 +1,14 @@
-CREATE VIEW [dbo].[SchoolMetricRAG] AS
+IF EXISTS(
+   SELECT
+      1
+   FROM
+      sys.views
+   WHERE
+      name = 'SchoolMetricRAG'
+) BEGIN DROP VIEW SchoolMetricRAG
+END
+GO
+   CREATE VIEW [dbo].[SchoolMetricRAG] AS
 SELECT
    s.URN,
    s.OverallPhase,
