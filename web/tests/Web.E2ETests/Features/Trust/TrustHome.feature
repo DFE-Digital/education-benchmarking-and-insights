@@ -34,3 +34,8 @@
           | Test academy school 92  | Status unavailable                                                |
           | Test academy school 93  | Status unavailable                                                |
           | Test academy school 94  | Status unavailable                                                |
+
+    Scenario: Go to benchmark census data page
+        Given I am on trust homepage for trust with company number '8104190'
+        When I click on benchmark census data
+        Then the benchmark census page is displayed

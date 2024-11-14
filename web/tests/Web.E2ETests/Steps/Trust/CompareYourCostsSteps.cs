@@ -258,5 +258,5 @@ public class CompareYourCostsSteps(PageDriver driver)
         };
     }
 
-    private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparison";
+    private static string CompareYourCostsUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/comparison";
 }

@@ -8,6 +8,10 @@ public class HomePage(IPage page)
     {
         HasText = "View school spending"
     });
+    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "View pupil and workforce data"
+    });
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
@@ -25,5 +29,11 @@ public class HomePage(IPage page)
     public async Task CookieBannerIsDisplayed()
     {
         await CookieBanner.ShouldBeVisible();
+    }
+
+    public async Task<BenchmarkCensusPage> ClickBenchmarkCensus()
+    {
+        await BenchmarkCensusDataLink.Click();
+        return new BenchmarkCensusPage(page);
     }
 }
