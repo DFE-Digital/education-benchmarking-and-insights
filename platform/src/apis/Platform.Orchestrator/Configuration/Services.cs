@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
+using Platform.Orchestrator.Search;
 using Platform.Sql;
 namespace Platform.Orchestrator.Configuration;
 
@@ -13,11 +14,18 @@ internal static class Services
     internal static void Configure(IServiceCollection serviceCollection)
     {
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        var searchName = Environment.GetEnvironmentVariable("Search__Name");
+        var searchKey = Environment.GetEnvironmentVariable("Search__Key");
+
         ArgumentNullException.ThrowIfNull(sqlConnString);
+        ArgumentNullException.ThrowIfNull(searchName);
+        ArgumentNullException.ThrowIfNull(searchKey);
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
-            .AddSingleton<IPipelineDb, PipelineDb>();
+            .AddSingleton<IPipelineDb, PipelineDb>()
+            .AddSingleton<ISearchIndexerClient, SearchIndexerClient>()
+            .AddSingleton<IPipelineSearch, PipelineSearch>();
 
         //TODO: Add serilog configuration AB#227696
         serviceCollection
@@ -25,5 +33,11 @@ internal static class Services
             .ConfigureFunctionsApplicationInsights();
 
         serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+
+        serviceCollection.AddOptions<PipelineSearchOptions>().Configure(x =>
+        {
+            x.Name = searchName;
+            x.Key = searchKey;
+        });
     }
 }

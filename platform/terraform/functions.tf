@@ -127,6 +127,8 @@ module "orchestrator-fa" {
     "PipelineMessageHub__JobStartQueue"    = "data-pipeline-job-custom-start"
     "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "Search__Name"                         = azurerm_search_service.search.name
+    "Search__Key"                          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
   })
   subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name

@@ -7,9 +7,10 @@ using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
 using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Orchestrator.Search;
 namespace Platform.Orchestrator;
 
-public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db)
+public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db, IPipelineSearch search)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
@@ -83,13 +84,16 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 
         switch (input?.Type)
         {
-            case "comparator-set":
-            case "custom-data":
+            case PipelineJobType.ComparatorSet:
+            case PipelineJobType.CustomData:
                 await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus
                 {
                     Id = input.RunId,
                     Success = success
                 });
+                break;
+            case PipelineJobType.Default:
+                await context.CallActivityAsync(nameof(RunIndexerTrigger));
                 break;
         }
     }
@@ -119,4 +123,11 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
                 OrchestrationRuntimeStatus.Terminated,
                 OrchestrationRuntimeStatus.Suspended
             }));
+
+    [Function(nameof(RunIndexerTrigger))]
+    public async Task RunIndexerTrigger([ActivityTrigger] PipelineStatus status)
+    {
+        logger.LogInformation("Updating indexers");
+        await search.RunIndexerAll();
+    }
 }

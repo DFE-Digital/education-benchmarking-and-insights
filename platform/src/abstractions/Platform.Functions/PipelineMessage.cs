@@ -22,8 +22,17 @@ public record PipelineFinishMessage
 public record PipelineStartMessage
 {
     public string? JobId { get; set; } = Guid.NewGuid().ToString();
+
+    /// See
+    /// <see cref="PipelineJobType" />
+    /// for available values
     public string? Type { get; set; } // Pipeline job type : default / comparator-set / custom-data
+
+    /// See
+    /// <see cref="PipelineRunType" />
+    /// for available values
     public string? RunType { get; set; } // Data context : default / custom
+
     public string? RunId { get; set; } // year or id for comparator-set / custom-data
     public int? Year { get; set; } // Needed for when custom data or comparator set
     public string? URN { get; set; }
@@ -97,4 +106,17 @@ public record CustomDataPayload : Payload
     public decimal? NonClassroomSupportStaffFTE { get; set; }
     public decimal? AuxiliaryStaffFTE { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
+}
+
+public record PipelineRunType
+{
+    public const string Default = "default";
+    public const string Custom = "custom";
+}
+
+public record PipelineJobType
+{
+    public const string Default = "default";
+    public const string ComparatorSet = "comparator-set";
+    public const string CustomData = "custom-data";
 }

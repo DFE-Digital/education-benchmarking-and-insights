@@ -10,7 +10,7 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
     <ItemGroup>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="host.json">
@@ -20,19 +20,21 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-        <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
-        <PackageReference Include="Dapper.Contrib" />
-        <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" />
-        <PackageReference Include="Microsoft.Azure.Core.NewtonsoftJson" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues" />
-        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" />
-        <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <PackageReference Include="Azure.Search.Documents"/>
+        <PackageReference Include="Dapper.Contrib"/>
+        <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
+        <PackageReference Include="Microsoft.Azure.Core.NewtonsoftJson"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+        <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext"/>
     </ItemGroup>
 </Project>
