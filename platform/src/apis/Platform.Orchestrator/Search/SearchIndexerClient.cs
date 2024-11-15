@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -11,6 +12,7 @@ public interface ISearchIndexerClient
     Task<Response?> RunIndexerAsync(string indexerName, CancellationToken cancellationToken = default);
 }
 
+[ExcludeFromCodeCoverage]
 public sealed class SearchIndexerClient(IOptions<PipelineSearchOptions> options) : ISearchIndexerClient
 {
     private Azure.Search.Documents.Indexes.SearchIndexerClient Client => new(options.Value.SearchEndPoint, options.Value.SearchCredentials);
