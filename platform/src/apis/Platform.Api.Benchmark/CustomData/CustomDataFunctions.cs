@@ -106,8 +106,8 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
                 var message = new PipelineStartMessage
                 {
                     RunId = data.Id,
-                    RunType = "custom",
-                    Type = "custom-data",
+                    RunType = PipelineRunType.Custom,
+                    Type = PipelineJobType.CustomData,
                     URN = data.URN,
                     Year = int.Parse(year),
                     Payload = body.CreatePayload()

@@ -191,7 +191,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = new ComparatorSetUserDefinedSchool
                 {
                     RunId = identifier,
-                    RunType = "default",
+                    RunType = PipelineRunType.Default,
                     Set = ComparatorSetIds.FromCollection(body.Set),
                     URN = urn
                 };
@@ -215,7 +215,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                     {
                         RunId = comparatorSet.RunId,
                         RunType = comparatorSet.RunType,
-                        Type = "comparator-set",
+                        Type = PipelineJobType.ComparatorSet,
                         URN = comparatorSet.URN,
                         Year = int.Parse(year),
                         Payload = new ComparatorSetPayload
@@ -385,7 +385,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = new ComparatorSetUserDefinedTrust
                 {
                     RunId = identifier,
-                    RunType = "default",
+                    RunType = PipelineRunType.Default,
                     Set = ComparatorSetIds.FromCollection(body.Set),
                     CompanyNumber = companyNumber
                 };
