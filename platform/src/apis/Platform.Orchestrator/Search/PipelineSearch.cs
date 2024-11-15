@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Azure;
 using Microsoft.Extensions.Logging;
@@ -7,23 +9,31 @@ namespace Platform.Orchestrator.Search;
 
 public interface IPipelineSearch
 {
-    Task RunIndexerAll();
+    Task<bool> RunIndexerAll();
 }
 
 public class PipelineSearch(ILogger<PipelineSearch> logger, ISearchIndexerClient searchIndexerClient) : IPipelineSearch
 {
-    public async Task RunIndexerAll()
+    public async Task<bool> RunIndexerAll()
     {
+        var results = new Dictionary<string, bool?>();
         foreach (var indexer in ResourceNames.Search.Indexers.All)
         {
             logger.LogInformation("Triggering {indexer} indexer on {endpoint}", indexer, searchIndexerClient.Endpoint);
-            await RunIndexer(indexer);
+            results[indexer] = null;
+            var result = await RunIndexer(indexer);
+            results[indexer] = result;
         }
+
+        logger.LogInformation("Finished triggering indexers on {endpoint} ({passed}/{total} were successful)", searchIndexerClient.Endpoint, results.Count(d => d.Value == true), results.Count);
+        return results.All(d => d.Value == true);
     }
 
-    private async Task RunIndexer(string indexer)
+    private async Task<bool> RunIndexer(string indexer)
     {
         Response? response = null;
+        var success = false;
+
         try
         {
             response = await searchIndexerClient.RunIndexerAsync(indexer);
@@ -43,8 +53,11 @@ public class PipelineSearch(ILogger<PipelineSearch> logger, ISearchIndexerClient
                 else
                 {
                     logger.LogInformation("{indexer} trigger returned {status} {reason}", indexer, response.Status, response.ReasonPhrase);
+                    success = true;
                 }
             }
         }
+
+        return success;
     }
 }
