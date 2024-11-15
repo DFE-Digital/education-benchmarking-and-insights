@@ -101,7 +101,7 @@ public class BenchmarkCensusPage(IPage page)
     public async Task AreTablesDisplayed()
     {
         var tables = await Tables.AllAsync();
-        Assert.Equal(7, tables.Count);
+        Assert.Equal(8, tables.Count);
         await tables.ShouldBeVisible();
     }
 
@@ -128,7 +128,7 @@ public class BenchmarkCensusPage(IPage page)
     public async Task AreChartsDisplayed()
     {
         var charts = await Charts.AllAsync();
-        Assert.Equal(7, charts.Count);
+        Assert.Equal(8, charts.Count);
         await charts.ShouldBeVisible();
     }
 
