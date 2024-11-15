@@ -2,6 +2,17 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "Azure.Search.Documents": {
+        "type": "Direct",
+        "requested": "[11.6.0, )",
+        "resolved": "11.6.0",
+        "contentHash": "M7WLx3ANLPHymfqb4Nwk4EwcWWRiHqdvnxJ7RH857baAbkEZ3FYVCRJmHgxH+ROpYOTVSx30uJzsa573/cdD8A==",
+        "dependencies": {
+          "Azure.Core": "1.41.0",
+          "System.Text.Json": "4.7.2",
+          "System.Threading.Channels": "4.7.1"
+        }
+      },
       "Dapper.Contrib": {
         "type": "Direct",
         "requested": "[2.0.78, )",
@@ -1994,6 +2005,11 @@
           "System.Threading.Tasks": "4.3.0"
         }
       },
+      "System.Threading.Channels": {
+        "type": "Transitive",
+        "resolved": "4.7.1",
+        "contentHash": "6akRtHK/wab3246t4p5v3HQrtQk8LboOt5T4dtpNgsp3zvDeM4/Gx8V12t0h+c/W9/enUrilk8n6EQqdQorZAA=="
+      },
       "System.Threading.Tasks": {
         "type": "Transitive",
         "resolved": "4.3.0",
@@ -2079,6 +2095,9 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
           "Newtonsoft.Json": "[13.0.3, )"
         }
+      },
+      "platform.infrastructure": {
+        "type": "Project"
       },
       "platform.sql": {
         "type": "Project",

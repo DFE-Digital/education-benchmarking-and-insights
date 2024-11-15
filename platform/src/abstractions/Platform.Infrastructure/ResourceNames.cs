@@ -22,6 +22,8 @@ public static class ResourceNames
             public const string LocalAuthority = "local-authority-indexer";
             public const string SchoolComparators = "school-comparators-indexer";
             public const string TrustComparators = "trust-comparators-indexer";
+
+            public static readonly string[] All = [School, Trust, LocalAuthority, SchoolComparators, TrustComparators];
         }
 
         public static class Indexes

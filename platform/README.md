@@ -103,7 +103,9 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
         "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
         "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-        "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
+        "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
+        "Search__Name" : "s198d01-ebis-search",
+        "Search__Key" : "[INSERT KEY VALUE]"
     },
     "Host": {
         "CORS": "*",
