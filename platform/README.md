@@ -99,7 +99,8 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "ASPNETCORE_ENVIRONMENT": "Development",
         "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
         "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
-        "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start",
+        "PipelineMessageHub__JobCustomStartQueue": "data-pipeline-job-custom-start",
+        "PipelineMessageHub__JobDefaultStartQueue": "data-pipeline-job-default-start",
         "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
         "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
         "AzureFunctionsJobHost__logging__logLevel__default": "Information",
@@ -160,11 +161,12 @@ If nothing seems to be available locally on ports `10000` to `10002` then ensure
 
 The following items should be created:
 
-| Type  | Name                         | Config |
-|-------|------------------------------|--------|
-| Queue | `data-pipeline-job-finished` |        |
-| Queue | `data-pipeline-job-start`    |        |
-| Queue | `data-pipeline-job-pending`  |        |
+| Type  | Name                              | Config |
+|-------|-----------------------------------|--------|
+| Queue | `data-pipeline-job-finished`      |        |
+| Queue | `data-pipeline-job-custom-start`  |        |
+| Queue | `data-pipeline-job-default-start` |        |
+| Queue | `data-pipeline-job-pending`       |        |
 
 When running the `Orchestrator` API, errors such as:
 

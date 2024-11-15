@@ -1,12 +1,15 @@
 # Developer Feature Documentation: Pipeline Orchestrator
 
 ## Introduction
+
 This document provides detailed information for developers about the implementation, usage and integration of the Pipeline Orchestrator feature within the system.
 
 ## Overview
+
 //TODO
 
 ## Usage
+
 //TODO
 
 ```mermaid
@@ -19,31 +22,44 @@ sequenceDiagram
     end
     participant Orchestrator
     box Purple Storage queue
+    participant data-pipeline-job-custom-start
+    end
+    box Purple Storage queue
     participant data-pipeline-job-default-start
     end
     participant Data pipeline
     box Purple Storage queue    
     participant data-pipeline-job-finished
     end
+
     Platform API->>data-pipeline-job-pending: Produce
     Note over Platform API,data-pipeline-job-pending: Platform API generated message
     data-pipeline-job-pending-->>Orchestrator: Consume
-    Orchestrator->>data-pipeline-job-default-start: Produce
-    Developer->>data-pipeline-job-default-start: Produce
-    Note over Developer,data-pipeline-job-default-start: Manually generated message 
-    data-pipeline-job-default-start-->>Data pipeline: Consume
+    
+    Developer->>data-pipeline-job-pending: Produce
+    Note over Developer,data-pipeline-job-pending: Manually generated message 
+    data-pipeline-job-pending-->>Orchestrator: Consume
+
+    alt is custom
+        Orchestrator->>data-pipeline-job-custom-start: Produce
+        Data pipeline-->>data-pipeline-job-custom-start: Consume
+    else is default
+        Orchestrator->>data-pipeline-job-default-start: Produce
+        Data pipeline-->>data-pipeline-job-default-start: Consume
+    end
+
     Data pipeline->>data-pipeline-job-finished: Produce
     data-pipeline-job-finished-->>Orchestrator: Consume
     Orchestrator->>Orchestrator: Log completion
 ```
 
-
 ## Configuration
+
 //TODO
 
 ## Known Issues
-//TODO
 
+//TODO
 
 <!-- Leave the rest of this page blank -->
 \newpage
