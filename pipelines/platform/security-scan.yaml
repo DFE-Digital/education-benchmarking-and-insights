@@ -8,6 +8,7 @@ variables:
     value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
   - name: 'ShouldPublish'
     value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - group: 'security scan settings'
 
 trigger: none
 
@@ -54,13 +55,13 @@ jobs:
       maxParallel: 3
       matrix:
         benchmark:
-          url: https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/swagger/json
+          url: $(security-scan-platform-benchmark-api)
           key: benchmark
         establishment:
-          url: https://s198d01-ebis-establishment-fa.azurewebsites.net/api/swagger/json
+          url: $(security-scan-platform-establishment-api)
           key: establishment
         insight:
-          url: https://s198d01-ebis-insight-fa.azurewebsites.net/api/swagger/json
+          url: $(security-scan-platform-insight-api)
           key: insight
     steps:
       - task: AzureKeyVault@2
@@ -109,7 +110,7 @@ jobs:
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -c config.conf -f openapi -r $(key)-report.html -w $(key)-report.md -z "-configfile /zap/wrk/$(key).prop"
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t $(url) -c config.conf -f openapi -d -T 20 -r $(key)-report.html -w $(key)-report.md -z "-configfile /zap/wrk/$(key).prop"
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish reports"
