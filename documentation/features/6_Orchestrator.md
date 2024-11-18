@@ -19,7 +19,7 @@ sequenceDiagram
     end
     participant Orchestrator
     box Purple Storage queue
-    participant data-pipeline-job-start
+    participant data-pipeline-job-default-start
     end
     participant Data pipeline
     box Purple Storage queue    
@@ -28,10 +28,10 @@ sequenceDiagram
     Platform API->>data-pipeline-job-pending: Produce
     Note over Platform API,data-pipeline-job-pending: Platform API generated message
     data-pipeline-job-pending-->>Orchestrator: Consume
-    Orchestrator->>data-pipeline-job-start: Produce
-    Developer->>data-pipeline-job-start: Produce
-    Note over Developer,data-pipeline-job-start: Mnanually generated message 
-    data-pipeline-job-start-->>Data pipeline: Consume
+    Orchestrator->>data-pipeline-job-default-start: Produce
+    Developer->>data-pipeline-job-default-start: Produce
+    Note over Developer,data-pipeline-job-default-start: Manually generated message 
+    data-pipeline-job-default-start-->>Data pipeline: Consume
     Data pipeline->>data-pipeline-job-finished: Produce
     data-pipeline-job-finished-->>Orchestrator: Consume
     Orchestrator->>Orchestrator: Log completion
