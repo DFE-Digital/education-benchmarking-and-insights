@@ -119,6 +119,7 @@ jobs:
     parameters:
       subscription: ${{ parameters.subscription }}
       resourceGroup: '${{ parameters.environmentPrefix }}-ebis-platform'
+      alias: 'platform'
       resources: 
         - name: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
           alias: 'benchmark'

@@ -48,6 +48,7 @@ jobs:
     parameters:
       subscription: ${{ parameters.subscription }}
       resourceGroup: '${{ parameters.environmentPrefix }}-ebis-web'
+      alias: 'web'
       resources: 
         - name: '${{ parameters.environmentPrefix }}-education-benchmarking'
           alias: 'web'
