@@ -118,7 +118,11 @@ To run the pipeline locally, follow these steps:
     Queues
 
     ```
-    data-pipeline-job-start
+    data-pipeline-job-default-start
+    ```
+
+    ```
+    data-pipeline-job-custom-start
     ```
 
     ```
@@ -206,7 +210,7 @@ To run the pipeline locally, follow these steps:
     poetry run python -m src.pipeline.main
     ```
 
-    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-start` queue:
+    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
 
     ```
     {"type":"default","year":<year>}

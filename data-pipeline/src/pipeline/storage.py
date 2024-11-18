@@ -11,7 +11,7 @@ azure_logger = logging.getLogger("azure")
 azure_logger.setLevel(logging.WARNING)
 
 conn_str = os.getenv("STORAGE_CONNECTION_STRING")
-worker_queue_name = os.getenv("WORKER_QUEUE_NAME", "data-pipeline-job-start")
+worker_queue_name = os.getenv("WORKER_QUEUE_NAME", "data-pipeline-job-default-start")
 complete_queue_name = os.getenv("COMPLETE_QUEUE_NAME", "data-pipeline-job-finished")
 dead_letter_queue_name = os.getenv("DEAD_LETTER_QUEUE_NAME", "data-pipeline-job-dlq")
 dead_letter_dequeue_max = int(os.getenv("DEAD_LETTER_QUEUE_DEQUEUE_MAX", "5"))
