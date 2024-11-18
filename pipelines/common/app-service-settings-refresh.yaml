@@ -44,7 +44,7 @@ jobs:
     variables: 
       - ${{ each resource in parameters.resources }}:
         - name: "${{ resource.alias }}"
-          value: $[ replace(dependencies.GetResourceIds.outputs['AzureCli_${{ resource.alias }}.Resource_Id'], '/subscriptions/', 'subscriptions/') ]
+          value: $[ replace(dependencies.GetResourceIds_${{ parameters.alias }}.outputs['AzureCli_${{ resource.alias }}.Resource_Id'], '/subscriptions/', 'subscriptions/') ]
     pool: server
     steps:
     
