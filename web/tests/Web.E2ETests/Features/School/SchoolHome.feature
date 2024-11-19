@@ -25,10 +25,10 @@
         When I click on benchmark census data
         Then the benchmark census page is displayed
 
-    Scenario: Go to benchmarking report cards page
+    Scenario: Go to Financial Benchmarking Insights Summary page
         Given I am on school homepage for school with urn '777042'
-        When I click on benchmarking report cards
-        Then the benchmarking report cards page is displayed
+        When I click on Financial Benchmarking Insights Summary
+        Then the Financial Benchmarking Insights Summary page is displayed
 
     Scenario: Go to view all spending and costs page
         Given I am on school homepage for school with urn '777042'

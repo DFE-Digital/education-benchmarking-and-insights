@@ -71,7 +71,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToBenchmarkingReportCards(string financeType)
+    public async Task CanNavigateToFinancialBenchmarkingInsightsSummary(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -81,7 +81,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN, "school-home").ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
     [Fact]

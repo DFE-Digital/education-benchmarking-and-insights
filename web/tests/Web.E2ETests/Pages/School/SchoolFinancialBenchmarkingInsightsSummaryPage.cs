@@ -3,16 +3,16 @@ using Microsoft.Playwright;
 using Xunit;
 namespace Web.E2ETests.Pages.School;
 
-public class SchoolBenchmarkingReportCardsPage(IPage page, IResponse? response = null)
+public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IResponse? response = null)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator IntroductionSection => page.Locator(Selectors.BrcIntroduction);
-    private ILocator KeyInformationSection => page.Locator(Selectors.BrcKeyInformation);
+    private ILocator IntroductionSection => page.Locator(Selectors.FbisIntroduction);
+    private ILocator KeyInformationSection => page.Locator(Selectors.FbisKeyInformation);
     private ILocator KeyInformationContent => page.Locator(Selectors.KeyInformationContent);
-    private ILocator SpendPrioritySection => page.Locator(Selectors.BrcPriorityAreas);
-    private ILocator OtherSpendingPrioritiesSection => page.Locator(Selectors.BrcOtherPriorityAreas);
-    private ILocator PupilWorkforceMetricsSection => page.Locator(Selectors.BrcPupilWorkforce);
-    private ILocator NextStepsSection => page.Locator(Selectors.BrcNextSteps);
+    private ILocator SpendPrioritySection => page.Locator(Selectors.FbisPriorityAreas);
+    private ILocator OtherSpendingPrioritiesSection => page.Locator(Selectors.FbisOtherPriorityAreas);
+    private ILocator PupilWorkforceMetricsSection => page.Locator(Selectors.FbisPupilWorkforce);
+    private ILocator NextStepsSection => page.Locator(Selectors.FbisNextSteps);
     private ILocator PrintPageCta => page.Locator(Selectors.GovButton).GetByText("Print this page");
 
     private ILocator VisitFbitButton => page.Locator(Selectors.GovButton)
@@ -20,7 +20,7 @@ public class SchoolBenchmarkingReportCardsPage(IPage page, IResponse? response =
     private ILocator TeachingSupportStaff => page.Locator(Selectors.PriorityAreaTeachingSupportStaff);
     private ILocator NonEducationalSupportStaff => page.Locator(Selectors.PriorityAreaNonEducationSupportStaff);
     private ILocator AdministrativeSupplies => page.Locator(Selectors.PriorityAreaAdministrativeSupplies);
-    private ILocator Top3SpendingPriorities => page.Locator($"{Selectors.BrcOtherPriorityAreas} .priority-position");
+    private ILocator Top3SpendingPriorities => page.Locator($"{Selectors.FbisOtherPriorityAreas} .priority-position");
     private ILocator PupilToTeacherMetric => page.Locator("h3:has-text('Pupil-to-teacher metric')");
     private ILocator PupilToSeniorLeadershipRoles => page.Locator("h3:has-text('Pupil-to-senior leadership role metric')");
     private ILocator PupilWorkforceContent => page.Locator(Selectors.PupilWorkforceContent);

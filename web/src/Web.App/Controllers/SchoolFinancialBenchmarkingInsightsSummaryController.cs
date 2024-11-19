@@ -14,10 +14,10 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.BenchmarkingReportCards)]
-[Route("school/{urn}/benchmarking-report-cards")]
-[SchoolBenchmarkingReportCardsTelemetry(TrackedRequestQueryParameters.Referrer)]
-public class SchoolBenchmarkingReportCardsController(
+[FeatureGate(FeatureFlags.FinancialBenchmarkingInsightsSummary)]
+[Route("school/{urn}/summary")]
+[SchoolFinancialBenchmarkingInsightsSummaryTelemetry(TrackedRequestQueryParameters.Referrer)]
+public class SchoolFinancialBenchmarkingInsightsSummaryController(
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
     IBalanceApi balanceApi,
@@ -25,7 +25,7 @@ public class SchoolBenchmarkingReportCardsController(
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
     ICensusApi censusApi,
-    ILogger<SchoolBenchmarkingReportCardsController> logger)
+    ILogger<SchoolFinancialBenchmarkingInsightsSummaryController> logger)
     : Controller
 {
     [HttpGet]
@@ -43,7 +43,7 @@ public class SchoolBenchmarkingReportCardsController(
                 var isNonLeadFederation = !string.IsNullOrEmpty(school.FederationLeadURN) && school.FederationLeadURN != urn;
                 if (isNonLeadFederation)
                 {
-                    return Unavailable(school, years, SchoolBenchmarkingReportCardsUnavailableViewModel.UnavailableReason.NonLeadFederatedSchool);
+                    return Unavailable(school, years, SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel.UnavailableReason.NonLeadFederatedSchool);
                 }
 
                 var balance = await balanceApi
@@ -55,7 +55,7 @@ public class SchoolBenchmarkingReportCardsController(
                     return Unavailable(
                         school,
                         years,
-                        balance?.PeriodCoveredByReturn == null ? SchoolBenchmarkingReportCardsUnavailableViewModel.UnavailableReason.MissingExpenditure : SchoolBenchmarkingReportCardsUnavailableViewModel.UnavailableReason.PartYear);
+                        balance?.PeriodCoveredByReturn == null ? SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel.UnavailableReason.MissingExpenditure : SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel.UnavailableReason.PartYear);
                 }
 
                 var ratings = await metricRagRatingApi
@@ -74,26 +74,26 @@ public class SchoolBenchmarkingReportCardsController(
                     ? await censusApi.Query(BuildQuery(set.Pupil, "PupilsPerStaffRole")).GetResultOrDefault<Census[]>()
                     : [];
 
-                var viewModel = new SchoolBenchmarkingReportCardsViewModel(school, years, balance, ratings, pupilExpenditure, areaExpenditure, census);
+                var viewModel = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(school, years, balance, ratings, pupilExpenditure, areaExpenditure, census);
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school benchmarking report cards: {DisplayUrl}",
+                logger.LogError(e, "An error displaying financial benchmarking insights summary: {DisplayUrl}",
                     Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
 
-    private ViewResult Unavailable(School school, FinanceYears years, SchoolBenchmarkingReportCardsUnavailableViewModel.UnavailableReason reason)
+    private ViewResult Unavailable(School school, FinanceYears years, SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel.UnavailableReason reason)
     {
-        logger.LogInformation(new EventId((int)reason, reason.ToString()), "Unable to display benchmarking report cards for {urn} ({reason})", school.URN, reason);
+        logger.LogInformation(new EventId((int)reason, reason.ToString()), "Unable to display financial benchmarking insights summary for {urn} ({reason})", school.URN, reason);
         return new ViewResult
         {
             ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
             {
-                Model = new SchoolBenchmarkingReportCardsUnavailableViewModel(school, years, reason)
+                Model = new SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel(school, years, reason)
             },
             ViewName = nameof(Unavailable),
             StatusCode = StatusCodes.Status404NotFound

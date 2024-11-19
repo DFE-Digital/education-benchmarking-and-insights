@@ -4,14 +4,14 @@ using Web.App.ViewModels;
 using Xunit;
 namespace Web.Tests.ViewModels;
 
-public class GivenASchoolBenchmarkingReportCardsViewModel
+public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
 {
     private const string URN = nameof(URN);
     private readonly SchoolBalance _balance;
     private readonly School _school;
     private readonly FinanceYears _years;
 
-    public GivenASchoolBenchmarkingReportCardsViewModel()
+    public GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel()
     {
         var fixture = new Fixture();
         _school = fixture
@@ -101,8 +101,8 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
 
     public static TheoryData<
         IEnumerable<Census>,
-        SchoolBenchmarkingReportCardCensusViewModel,
-        SchoolBenchmarkingReportCardCensusViewModel
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel
     > WhenCensusesAreData
     {
         get
@@ -140,18 +140,18 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
 
             return new TheoryData<
                 IEnumerable<Census>,
-                SchoolBenchmarkingReportCardCensusViewModel,
-                SchoolBenchmarkingReportCardCensusViewModel
+                SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
+                SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel
             >
             {
                 {
-                    [minTeachersCensus, maxTeachersCensus, schoolCensus, minSeniorLeadershipCensus, maxSeniorLeadershipCensus], new SchoolBenchmarkingReportCardCensusViewModel("teacher")
+                    [minTeachersCensus, maxTeachersCensus, schoolCensus, minSeniorLeadershipCensus, maxSeniorLeadershipCensus], new SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel("teacher")
                     {
                         SchoolValue = schoolCensus.Teachers,
                         MinValue = minTeachersCensus.Teachers,
                         MaxValue = maxTeachersCensus.Teachers
                     },
-                    new SchoolBenchmarkingReportCardCensusViewModel("senior leadership role")
+                    new SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel("senior leadership role")
                     {
                         SchoolValue = schoolCensus.SeniorLeadership,
                         MinValue = minSeniorLeadershipCensus.SeniorLeadership,
@@ -171,7 +171,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
         IEnumerable<CostCategory> expectedCostsAllSchools,
         IEnumerable<CostCategory> expectedCostsOtherPriorities)
     {
-        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure, Array.Empty<Census>());
+        var actual = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure, Array.Empty<Census>());
         Assert.Equal(expectedCostsAllSchools.Select(c => c.Rating), actual.CostsAllSchools.Select(c => c.Rating));
         Assert.Equal(expectedCostsOtherPriorities.Select(c => c.Rating), actual.CostsOtherPriorities.Select(c => c.Rating));
     }
@@ -182,7 +182,7 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
     public void WhenIsPartOfTrust(bool isPartOfTrust, string expected)
     {
         _school.TrustCompanyNumber = isPartOfTrust ? nameof(isPartOfTrust) : string.Empty;
-        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), Array.Empty<Census>());
+        var actual = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), Array.Empty<Census>());
         Assert.Equal(expected, actual.Years);
     }
 
@@ -190,10 +190,10 @@ public class GivenASchoolBenchmarkingReportCardsViewModel
     [MemberData(nameof(WhenCensusesAreData))]
     public void WhenCensusesAre(
         IEnumerable<Census> census,
-        SchoolBenchmarkingReportCardCensusViewModel expectedPupilsPerTeacher,
-        SchoolBenchmarkingReportCardCensusViewModel expectedPupilsPerSeniorLeadership)
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel expectedPupilsPerTeacher,
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel expectedPupilsPerSeniorLeadership)
     {
-        var actual = new SchoolBenchmarkingReportCardsViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), census);
+        var actual = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), census);
         Assert.Equivalent(expectedPupilsPerTeacher, actual.PupilsPerTeacher);
         Assert.Equivalent(expectedPupilsPerSeniorLeadership, actual.PupilsPerSeniorLeadership);
     }

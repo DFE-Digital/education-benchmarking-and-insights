@@ -53,7 +53,7 @@ No modules.
 | [azurerm_log_analytics_saved_search.get-feature-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-new-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-queue-put-messages](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
-| [azurerm_log_analytics_saved_search.get-school-benchmarking-report-cards-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
+| [azurerm_log_analytics_saved_search.get-school-financial-benchmarking-insights-summary-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-session-length](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-sessions](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-tracked-links](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |

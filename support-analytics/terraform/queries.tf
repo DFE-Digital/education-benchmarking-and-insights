@@ -481,13 +481,13 @@ resource "azurerm_log_analytics_query_pack_query" "function-app-role-instance-co
   body = file("${path.module}/queries/function-app-role-instance-count.kql")
 }
 
-resource "azurerm_log_analytics_saved_search" "get-school-benchmarking-report-cards-requests" {
-  name                       = "GetSchoolBenchmarkingReportCardsRequests"
+resource "azurerm_log_analytics_saved_search" "get-school-financial-benchmarking-insights-summary-requests" {
+  name                       = "GetSchoolFinancialBenchmarkingInsightsSummaryRequests"
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
-  display_name               = "GetSchoolBenchmarkingReportCardsRequests"
-  function_alias             = "GetSchoolBenchmarkingReportCardsRequests"
+  display_name               = "GetSchoolFinancialBenchmarkingInsightsSummaryRequests"
+  function_alias             = "GetSchoolFinancialBenchmarkingInsightsSummaryRequests"
   tags                       = local.query-tags
 
-  query = file("${path.module}/queries/functions/get-school-benchmarking-report-cards-requests.kql")
+  query = file("${path.module}/queries/functions/get-school-financial-benchmarking-insights-summary-requests.kql")
 }

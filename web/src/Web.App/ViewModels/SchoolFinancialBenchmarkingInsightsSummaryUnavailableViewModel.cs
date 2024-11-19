@@ -2,7 +2,7 @@ using Web.App.Domain;
 using Web.App.Extensions;
 namespace Web.App.ViewModels;
 
-public class SchoolBenchmarkingReportCardsUnavailableViewModel(School school, FinanceYears years, SchoolBenchmarkingReportCardsUnavailableViewModel.UnavailableReason? reason)
+public class SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel(School school, FinanceYears years, SchoolFinancialBenchmarkingInsightsSummaryUnavailableViewModel.UnavailableReason? reason)
 {
     public enum UnavailableReason
     {
