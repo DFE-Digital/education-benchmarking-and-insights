@@ -39,11 +39,11 @@ jobs:
         condition: ne(variables.CACHE_RESTORED, 'true')
         inputs:
           command: pull
-          arguments: ictu/zap2docker-weekly
+          arguments: ghcr.io/zaproxy
 
       - script: |
           mkdir -p $(Pipeline.Workspace)/docker
-          docker save -o $(Pipeline.Workspace)/docker/zap.tar ictu/zap2docker-weekly
+          docker save -o $(Pipeline.Workspace)/docker/zap.tar ghcr.io/zaproxy
         displayName: Docker save
         condition: ne(variables.CACHE_RESTORED, 'true')
 
