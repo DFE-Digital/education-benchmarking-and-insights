@@ -6,7 +6,7 @@ using Web.App.Domain;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools;
 
-public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies, false, false, 12)]
@@ -181,15 +181,15 @@ public class WhenViewingBenchmarkingReportCards(SchoolBenchmarkingWebAppClient c
             .SetupBalance(balance)
             .SetupCensus(censuses)
             .SetupComparatorSet(school, comparatorSet)
-            .Navigate(Paths.SchoolBenchmarkingReportCards(school.URN));
+            .Navigate(Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN));
 
         return (page, school, balance, censuses.First());
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolBenchmarkingReportCards(school.URN).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Benchmarking report cards - Financial Benchmarking and Insights Tool - GOV.UK", school.SchoolName!);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN).ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Summary - Financial Benchmarking and Insights Tool - GOV.UK", school.SchoolName!);
     }
 
     private static void AssertIntroductionSection(IHtmlDocument page, School school)

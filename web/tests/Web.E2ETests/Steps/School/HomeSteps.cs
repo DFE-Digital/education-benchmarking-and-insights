@@ -8,10 +8,10 @@ namespace Web.E2ETests.Steps.School;
 public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
-    private SchoolBenchmarkingReportCardsPage? _benchmarkingReportCardsPage;
     private CommercialResourcesPage? _commercialResourcesPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
+    private SchoolFinancialBenchmarkingInsightsSummaryPage? _financialBenchmarkingInsightsSummaryPage;
     private HistoricDataPage? _historicDataPage;
     private DetailsPage? _schoolDetailsPage;
     private HomePage? _schoolHomePage;
@@ -102,18 +102,18 @@ public class HomeSteps(PageDriver driver)
         await _benchmarkCensusPage.IsDisplayed();
     }
 
-    [When("I click on benchmarking report cards")]
-    public async Task WhenIClickOnBenchmarkingReportCards()
+    [When("I click on Financial Benchmarking Insights Summary")]
+    public async Task WhenIClickOnFinancialBenchmarkingInsightsSummary()
     {
         Assert.NotNull(_schoolHomePage);
-        _benchmarkingReportCardsPage = await _schoolHomePage.ClickBenchmarkingReportCards();
+        _financialBenchmarkingInsightsSummaryPage = await _schoolHomePage.ClickFinancialBenchmarkingInsightsSummary();
     }
 
-    [Then("the benchmarking report cards page is displayed")]
-    public async Task ThenTheBenchmarkingReportCardsPageIsDisplayed()
+    [Then("the Financial Benchmarking Insights Summary page is displayed")]
+    public async Task ThenTheFinancialBenchmarkingInsightsSummaryPageIsDisplayed()
     {
-        Assert.NotNull(_benchmarkingReportCardsPage);
-        await _benchmarkingReportCardsPage.IsDisplayed();
+        Assert.NotNull(_financialBenchmarkingInsightsSummaryPage);
+        await _financialBenchmarkingInsightsSummaryPage.IsDisplayed();
     }
 
     [When("I click on view all spending and costs")]

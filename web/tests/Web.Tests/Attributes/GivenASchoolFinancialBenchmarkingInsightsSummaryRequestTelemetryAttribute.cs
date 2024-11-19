@@ -13,11 +13,11 @@ using Web.App.Extensions;
 using Xunit;
 namespace Web.Tests.Attributes;
 
-public class GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute
+public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAttribute
 {
     private readonly IServiceCollection _services = new ServiceCollection();
 
-    public GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute()
+    public GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAttribute()
     {
         _services.AddScoped<ILogger<RequestTelemetryFilter>, NullLogger<RequestTelemetryFilter>>();
     }
@@ -45,7 +45,7 @@ public class GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute
         var telemetry = await GetTelemetryFromRequest(routeData, query, referrerKey);
 
         Assert.Equal("school", telemetry.Properties["Establishment"]);
-        Assert.Equal(TrackedRequestFeature.BenchmarkingReportCards.GetStringValue(), telemetry.Properties["Feature"]);
+        Assert.Equal(TrackedRequestFeature.FinancialBenchmarkingInsightsSummary.GetStringValue(), telemetry.Properties["Feature"]);
         Assert.Equal(urn, telemetry.Properties["Urn"]);
         Assert.Equal(referrer, telemetry.Properties["Referrer"]);
     }
@@ -78,7 +78,7 @@ public class GivenASchoolBenchmarkingReportCardsRequestTelemetryAttribute
             }
         );
 
-        var attribute = new SchoolBenchmarkingReportCardsTelemetry(referrerKey);
+        var attribute = new SchoolFinancialBenchmarkingInsightsSummaryTelemetry(referrerKey);
         var filter = new RequestTelemetryFilter(
             provider.GetService<ILogger<RequestTelemetryFilter>>()!,
             attribute.Properties,

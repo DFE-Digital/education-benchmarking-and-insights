@@ -4,103 +4,103 @@ using Xunit;
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
-[Scope(Feature = "School Benchmarking Report Cards")]
-public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
+[Scope(Feature = "School Financial Benchmarking Insights Summary")]
+public class SchoolFinancialBenchmarkingInsightsSummarySteps(PageDriver driver)
 {
     private const string PrintButtonWaiterFunctionName = "waitForPrintDialog";
-    private SchoolBenchmarkingReportCardsPage? _brcPage;
     private BenchmarkCensusPage? _censusPage;
     private CompareYourCostsPage? _comparisonPage;
+    private SchoolFinancialBenchmarkingInsightsSummaryPage? _fbisPage;
     private HomePage? _homePage;
 
-    [Given("I am on the Benchmarking Report Card page for school with urn '(.*)'")]
-    public async Task GivenIAmOnTheBenchmarkingReportCardPageForSchoolWithUrn(string urn)
+    [Given("I am on the Financial Benchmarking Insights Summary page for school with urn '(.*)'")]
+    public async Task GivenIAmOnTheFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrn(string urn)
     {
-        _brcPage = await LoadBenchmarkingReportCardsPageForSchoolWithUrn(urn);
-        await _brcPage.IsDisplayed();
+        _fbisPage = await LoadFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrn(urn);
+        await _fbisPage.IsDisplayed();
     }
 
-    [Given("I am on the Benchmarking Report Card page for unavailable school with urn '(.*)'")]
-    public async Task GivenIAmOnTheBenchmarkingReportCardPageForUnavailableSchoolWithUrn(string urn)
+    [Given("I am on the Financial Benchmarking Insights Summary page for unavailable school with urn '(.*)'")]
+    public async Task GivenIAmOnTheFinancialBenchmarkingInsightsSummaryPageForUnavailableSchoolWithUrn(string urn)
     {
-        _brcPage = await LoadBenchmarkingReportCardsPageForSchoolWithUrn(urn);
-        await _brcPage.IsDisplayed(true);
+        _fbisPage = await LoadFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrn(urn);
+        await _fbisPage.IsDisplayed(true);
     }
 
     [Then("I should see the following boxes displayed under Key Information about school")]
     public async Task ThenIShouldSeeTheFollowingBoxesDisplayedUnderKeyInformationAboutSchool(DataTable table)
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.KeyInformationShouldBeVisible();
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.KeyInformationShouldBeVisible();
 
         foreach (var row in table.Rows)
         {
-            await _brcPage.KeyInformationShouldContain(row["Name"], row["Value"]);
+            await _fbisPage.KeyInformationShouldContain(row["Name"], row["Value"]);
         }
     }
 
     [Then("I should see the following boxes displayed under Spend in priority areas")]
     public async Task ThenIShouldSeeTheFollowingBoxesDisplayedUnderSpendInPriorityAreas(DataTable table)
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.SpendPrioritySectionShouldBeVisible();
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.SpendPrioritySectionShouldBeVisible();
 
         foreach (var row in table.Rows)
         {
-            await _brcPage.SpendPrioritySectionShouldContain(row["Name"], row["Tag"], row["Value"]);
+            await _fbisPage.SpendPrioritySectionShouldContain(row["Name"], row["Tag"], row["Value"]);
         }
     }
 
     [Then("I should see the following top 3 spending priorities for my school under Other top spending priorities")]
     public async Task ThenIShouldSeeTheFollowingTopSpendingPrioritiesForMySchoolUnderOtherTopSpendingPriorities(DataTable table)
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.OtherSpendingPrioritiesSectionShouldBeVisible();
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.OtherSpendingPrioritiesSectionShouldBeVisible();
 
         foreach (var row in table.Rows)
         {
-            await _brcPage.OtherTopSpendingPrioritiesSectionShouldContain(row["Name"], row["Tag"], row["Value"]);
+            await _fbisPage.OtherTopSpendingPrioritiesSectionShouldContain(row["Name"], row["Tag"], row["Value"]);
         }
     }
 
     [Then("I should see the following boxes displayed under Pupil and workforce metrics")]
     public async Task ThenIShouldSeeTheFollowingBoxesDisplayedUnderPupilAndWorkforceMetrics(DataTable table)
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.PupilWorkforceMetricsSectionShouldBeVisible();
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.PupilWorkforceMetricsSectionShouldBeVisible();
 
         foreach (var row in table.Rows)
         {
-            await _brcPage.PupilWorkforceMetricsSectionShouldContain(row["Name"], row["Value"], row["Comparison"]);
+            await _fbisPage.PupilWorkforceMetricsSectionShouldContain(row["Name"], row["Value"], row["Comparison"]);
         }
     }
 
     [Then("the print page cta is visible")]
     public async Task ThenThePrintPageCtaIsVisible()
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.PrintPageCtaShouldBeVisible();
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.PrintPageCtaShouldBeVisible();
     }
 
     [When("I click on the 'Print Page' button")]
     public async Task WhenIClickOnTheButton()
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.ClickPrintPageCta(PrintButtonWaiterFunctionName);
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.ClickPrintPageCta(PrintButtonWaiterFunctionName);
     }
 
     [Then("the print page dialog should be displayed")]
     public async Task ThenThePrintPageDialogShouldBeDisplayed()
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.EvaluatePrintPageCta(PrintButtonWaiterFunctionName);
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.EvaluatePrintPageCta(PrintButtonWaiterFunctionName);
     }
 
     [When("I click on the financial benchmarking and insight tool link under introduction")]
     public async Task WhenIClickOnTheFinancialBenchmarkingAndInsightToolLinkUnderIntroduction()
     {
-        Assert.NotNull(_brcPage);
-        _homePage = await _brcPage.ClickIntroductionLink();
+        Assert.NotNull(_fbisPage);
+        _homePage = await _fbisPage.ClickIntroductionLink();
     }
 
     [Then("I am directed to school home page for the school with urn '(.*)'")]
@@ -113,8 +113,8 @@ public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
     [When("I click on the financial benchmarking and insight tool link under key information")]
     public async Task WhenIClickOnTheFinancialBenchmarkingAndInsightToolLinkUnderKeyInformation()
     {
-        Assert.NotNull(_brcPage);
-        _comparisonPage = await _brcPage.ClickKeyInformationLink();
+        Assert.NotNull(_fbisPage);
+        _comparisonPage = await _fbisPage.ClickKeyInformationLink();
     }
 
     [Then("I am directed to school comparison page for the school with urn '(.*)'")]
@@ -127,8 +127,8 @@ public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
     [When("I click on the financial benchmarking and insight tool link under pupil and workforce metrics")]
     public async Task WhenIClickOnTheFinancialBenchmarkingAndInsightToolLinkUnderPupilAndWorkforceMetrics()
     {
-        Assert.NotNull(_brcPage);
-        _censusPage = await _brcPage.ClickCensusLink();
+        Assert.NotNull(_fbisPage);
+        _censusPage = await _fbisPage.ClickCensusLink();
         await driver.WaitForPendingRequests(500);
     }
 
@@ -142,34 +142,34 @@ public class SchoolBenchmarkingReportCardsSteps(PageDriver driver)
     [Then("the '(.*)' warning message should be displayed")]
     public async Task ThenTheWarningMessageShouldBeDisplayed(string commentary)
     {
-        Assert.NotNull(_brcPage);
-        await _brcPage.AssertWarningMessage(commentary);
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.AssertWarningMessage(commentary);
     }
 
     [Then("the response should be OK")]
     public void ThenTheResponseShouldBeOk()
     {
-        Assert.NotNull(_brcPage);
-        _brcPage.IsOk();
+        Assert.NotNull(_fbisPage);
+        _fbisPage.IsOk();
     }
 
     [Then("the response should be NotFound")]
     public void ThenTheResponseShouldBeNotFound()
     {
-        Assert.NotNull(_brcPage);
-        _brcPage.IsNotFound();
+        Assert.NotNull(_fbisPage);
+        _fbisPage.IsNotFound();
     }
 
-    private async Task<SchoolBenchmarkingReportCardsPage> LoadBenchmarkingReportCardsPageForSchoolWithUrn(string urn)
+    private async Task<SchoolFinancialBenchmarkingInsightsSummaryPage> LoadFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrn(string urn)
     {
-        var url = SchoolBenchmarkingReportCardsUrl(urn);
+        var url = SchoolFinancialBenchmarkingInsightsSummaryUrl(urn);
         var page = await driver.Current;
         var response = await page.GotoAndWaitForLoadAsync(url);
 
         await driver.WaitForPendingRequests(500);
 
-        return new SchoolBenchmarkingReportCardsPage(page, response);
+        return new SchoolFinancialBenchmarkingInsightsSummaryPage(page, response);
     }
 
-    private static string SchoolBenchmarkingReportCardsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/benchmarking-report-cards";
+    private static string SchoolFinancialBenchmarkingInsightsSummaryUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/summary";
 }
