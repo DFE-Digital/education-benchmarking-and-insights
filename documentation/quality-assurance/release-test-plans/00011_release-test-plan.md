@@ -7,11 +7,13 @@ _*Release label incremented due to pipeline failures._
 
 ## Introduction
 
-This plan defines the approach for testing release `2024.11.2`, covering all functional, non-functional, and regression testing necessary.
+This plan defines the approach for testing release `2024.11.2`, covering all functional testing necessary.
 
-Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expected without adversely impacting existing functionality.
+Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expected without adversely impacting existing 
+functionality.
 
 ## Scope
+
 **In-scope:**
 - Enhancements
   - Aggregation of contextual data for whole Federation.
@@ -32,12 +34,13 @@ Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expect
 - Any new functionality not targeted for this release.
 
 ## Test Strategy
+
 - Functional Testing:
   - Features: Test updated features for correct functionality.
-  - Regression: Verify that existing functionality remains intact with new changes.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 
 ## Entry and Exit Criteria
+
 **Entry Criteria:**
 - All code changes for release are completed and deployed to the pre-production environment.
 - Pre-production environment is set up with required data.
@@ -49,6 +52,7 @@ Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expect
 - Signed off by stakeholders.
 
 ## Roles and Responsibilities
+
 - **QA lead:** Coordinate testing activities, manage test cases and defect triage.
 - **Engineer(s):** Execute test cases, report and retest defects.
 - **Stakeholders:** Participate in user acceptance testing and provide final approval.
@@ -61,11 +65,13 @@ Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expect
     - **Mitigation:** All queue to be left in place. With any pending jobs to be manually moved to the relevant new queue.
 
 ## Test Deliverables
+
 - Test plan document.
-- Test cases (Functional and regression).
+- Test cases (Functional).
 - Test summary report outlining test results, pass/fail rates, and any outstanding issues.
 
 ## Approval
+
 - Stakeholders
 - Project lead
 - QA Lead
@@ -86,9 +92,29 @@ Ensure that enhancements, and bug fixes in `2024.11.2` are functioning as expect
 - [235396 : Incorrect total expenditure for academies](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/235396)
 - [217530 : Separate data pipeline into two workloads](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/217530)
 - [231353 : Remove unused columns from data pipeline input schema](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231353)
+- [231354 : Remove unused columns from data pipeline output schema](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/231354)
 - [235679 : LA home page unavailable (County Durham - 840)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/235679)
 - [235684 : LA benchmarking pages not shown (Lancashire - 888)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/235684)
 - [233972 : Spending prioritising colour context issue on stat suffix](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233972)
+
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category    | Total Tests | Passed | Failed | Pass Rate |
+|------------------|:-----------:|:------:|:------:|:---------:|
+| Functional Tests |     16      |   16   |   0    |   100%    |
+| Smoke Tests      |     20      |   20   |   0    |   100%    |
+| Total            |     36      |   36   |   0    |   100%    |
+
+**Known issues:**
+
+1. [237597 : Unable to view Spending Priorities for schools missing building comparators](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/237597)
+   - Status: Triage - discovered post-release via monitoring alert
+   - Severity: TBC 
+
 
 <!-- Leave the rest of this page blank -->
 \newpage
