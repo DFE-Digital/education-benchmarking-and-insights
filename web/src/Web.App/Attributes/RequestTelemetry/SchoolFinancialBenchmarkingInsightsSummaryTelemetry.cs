@@ -1,9 +1,9 @@
 ﻿using Web.App.Extensions;
 namespace Web.App.Attributes.RequestTelemetry;
 
-public class SchoolBenchmarkingReportCardsTelemetry : SchoolRequestTelemetryAttribute
+public class SchoolFinancialBenchmarkingInsightsSummaryTelemetry : SchoolRequestTelemetryAttribute
 {
-    public SchoolBenchmarkingReportCardsTelemetry(TrackedRequestQueryParameters referrerKey) : base(TrackedRequestFeature.BenchmarkingReportCards)
+    public SchoolFinancialBenchmarkingInsightsSummaryTelemetry(TrackedRequestQueryParameters referrerKey) : base(TrackedRequestFeature.FinancialBenchmarkingInsightsSummary)
     {
         ContextProperties.Add(TrackedRequestType.Referrer.GetStringValue(), c =>
         {

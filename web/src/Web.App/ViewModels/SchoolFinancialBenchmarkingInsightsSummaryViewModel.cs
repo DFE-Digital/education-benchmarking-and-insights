@@ -2,7 +2,7 @@ using Web.App.Domain;
 using Web.App.Extensions;
 namespace Web.App.ViewModels;
 
-public class SchoolBenchmarkingReportCardsViewModel(
+public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
     School school,
     FinanceYears years,
     SchoolBalance? balance,
@@ -35,8 +35,8 @@ public class SchoolBenchmarkingReportCardsViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
-    public SchoolBenchmarkingReportCardCensusViewModel PupilsPerTeacher => new("teacher", census, school.URN, c => c.Teachers);
-    public SchoolBenchmarkingReportCardCensusViewModel PupilsPerSeniorLeadership => new("senior leadership role", census, school.URN, c => c.SeniorLeadership);
+    public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerTeacher => new("teacher", census, school.URN, c => c.Teachers);
+    public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerSeniorLeadership => new("senior leadership role", census, school.URN, c => c.SeniorLeadership);
     public string? OverallPhase => school.OverallPhase;
     public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance => balance?.InYearBalance;

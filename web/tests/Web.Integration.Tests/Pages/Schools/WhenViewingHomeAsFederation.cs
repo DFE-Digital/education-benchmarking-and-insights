@@ -5,7 +5,6 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -63,7 +62,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     }
 
     [Fact]
-    public async Task CanNavigateToBenchmarkingReportCards()
+    public async Task CanNavigateToFinancialBenchmarkingInsightsSummary()
     {
         var (page, school) = await SetupNavigateInitPage();
 
@@ -73,7 +72,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolBenchmarkingReportCards(school.URN, "school-home").ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
     [Fact]
@@ -112,7 +111,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool isNonLeadFederation = false)
     {
-        var federationLeadSchool = new FederationSchool { URN = "12345", SchoolName = "Test School" };
+        var federationLeadSchool = new FederationSchool
+        {
+            URN = "12345",
+            SchoolName = "Test School"
+        };
         var federationSchools = Fixture.Build<FederationSchool>().CreateMany(3).Append(federationLeadSchool).ToArray();
 
         var school = Fixture.Build<School>()
@@ -155,7 +158,8 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         // assertions for non lead federation schools
         if (school.FederationLeadURN != school.URN)
         {
-            var message = page.QuerySelector("main > div > div:nth-of-type(2) > div > p:first-of-type"); ;
+            var message = page.QuerySelector("main > div > div:nth-of-type(2) > div > p:first-of-type");
+            ;
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
@@ -167,13 +171,15 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         // assertions for lead federation schools
         else
         {
-            var message = page.QuerySelector("main > div > div:nth-child(3) > div > p"); ;
+            var message = page.QuerySelector("main > div > div:nth-child(3) > div > p");
+            ;
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
                 "This school is the lead school of its federation. The following schools are part of this federation:");
 
-            var federationSchoolList = page.QuerySelectorAll("main > div > div:nth-child(4) > div > ul > li"); ;
+            var federationSchoolList = page.QuerySelectorAll("main > div > div:nth-child(4) > div > ul > li");
+            ;
             Assert.NotNull(federationSchoolList);
 
             foreach (var federationSchoolItem in federationSchoolList)

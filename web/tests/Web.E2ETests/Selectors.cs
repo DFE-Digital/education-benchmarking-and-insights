@@ -148,12 +148,12 @@ public static class Selectors
     public const string SignInLink = "header a.app-signin:text-is('Sign in')";
     public const string SignOutLink = "header a.app-signin:text-is('Sign out')";
 
-    public const string BrcIntroduction = "#introduction";
-    public const string BrcKeyInformation = "#key-information-section";
-    public const string BrcPriorityAreas = "#priority-areas-all-schools-section";
-    public const string BrcOtherPriorityAreas = "#priority-areas-other-section";
-    public const string BrcPupilWorkforce = "#pupil-workforce-metrics-section";
-    public const string BrcNextSteps = "#next-steps-section";
+    public const string FbisIntroduction = "#introduction";
+    public const string FbisKeyInformation = "#key-information-section";
+    public const string FbisPriorityAreas = "#priority-areas-all-schools-section";
+    public const string FbisOtherPriorityAreas = "#priority-areas-other-section";
+    public const string FbisPupilWorkforce = "#pupil-workforce-metrics-section";
+    public const string FbisNextSteps = "#next-steps-section";
     public const string KeyInformationContent = "ul.app-headline.app-headline-4 li";
     public const string PriorityAreaTeachingSupportStaff = "#spending-priorities-teaching-and-teaching-support-staff";
     public const string PriorityAreaNonEducationSupportStaff = "#spending-priorities-non-educational-support-staff-and-services";

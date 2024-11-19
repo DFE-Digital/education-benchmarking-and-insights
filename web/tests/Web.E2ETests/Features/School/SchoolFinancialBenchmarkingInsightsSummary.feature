@@ -1,11 +1,11 @@
-﻿Feature: School Benchmarking Report Cards
+﻿Feature: School Financial Benchmarking Insights Summary
 
 As a school governor
-I want to view my school's benchmarking report card (BRC)
+I want to view my school's Financial Benchmarking Insights Summary
 So that I can see how my school is performing from a financial point of view and identify areas for improvement
 
-    Scenario: View BRCs
-        Given I am on the Benchmarking Report Card page for school with urn '777042'
+    Scenario: View Financial Benchmarking Insights Summary
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
         When I click on the 'Print Page' button
         Then I should see the following boxes displayed under Key Information about school
           | Name            | Value    |
@@ -31,31 +31,31 @@ So that I can see how my school is performing from a financial point of view and
         And the response should be OK
 
     Scenario: Print page as PDF
-        Given I am on the Benchmarking Report Card page for school with urn '777042'
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
         When I click on the 'Print Page' button
         Then the print page dialog should be displayed
 
-    Scenario: Go to school home page from BRC page
-        Given I am on the Benchmarking Report Card page for school with urn '777042'
+    Scenario: Go to school home page from Financial Benchmarking Insights Summary page
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
         When I click on the financial benchmarking and insight tool link under introduction
         Then I am directed to school home page for the school with urn '777042'
 
-    Scenario: Go to school comparison page from BRC page
-        Given I am on the Benchmarking Report Card page for school with urn '777042'
+    Scenario: Go to school comparison page from Financial Benchmarking Insights Summary page
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
         When I click on the financial benchmarking and insight tool link under key information
         Then I am directed to school comparison page for the school with urn '777042'
 
-    Scenario: Go to school census page from BRC page
-        Given I am on the Benchmarking Report Card page for school with urn '777042'
+    Scenario: Go to school census page from Financial Benchmarking Insights Summary page
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
         When I click on the financial benchmarking and insight tool link under pupil and workforce metrics
         Then I am directed to school census page for the school with urn '777042'
 
-    Scenario: View BRCs as a non-lead federated school
-        Given I am on the Benchmarking Report Card page for unavailable school with urn '777045'
+    Scenario: View Financial Benchmarking Insights Summary as a non-lead federated school
+        Given I am on the Financial Benchmarking Insights Summary page for unavailable school with urn '777045'
         Then the 'this is a non lead school in a federation' warning message should be displayed
         And the response should be NotFound
 
-    Scenario: View BRCs as a part-year school
-        Given I am on the Benchmarking Report Card page for unavailable school with urn '777043'
+    Scenario: View Financial Benchmarking Insights Summary as a part-year school
+        Given I am on the Financial Benchmarking Insights Summary page for unavailable school with urn '777043'
         Then the 'this school does not have data for the entire period' warning message should be displayed
         And the response should be NotFound

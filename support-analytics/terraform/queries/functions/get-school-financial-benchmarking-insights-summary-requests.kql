@@ -7,7 +7,7 @@ AppRequests
 | where 
     Establishment == "school"
 | where
-    Feature == "benchmarking-report-cards"
+    Feature == "financial-benchmarking-insights-summary"
 | where 
     isempty(SyntheticSource)
 | project

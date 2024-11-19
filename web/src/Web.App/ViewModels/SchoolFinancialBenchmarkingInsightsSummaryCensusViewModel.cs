@@ -1,9 +1,9 @@
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class SchoolBenchmarkingReportCardCensusViewModel(string name)
+public class SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel(string name)
 {
-    public SchoolBenchmarkingReportCardCensusViewModel(string name, IEnumerable<Census>? census, string? urn, Func<Census, decimal?> selector) : this(name)
+    public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel(string name, IEnumerable<Census>? census, string? urn, Func<Census, decimal?> selector) : this(name)
     {
         if (census == null)
         {

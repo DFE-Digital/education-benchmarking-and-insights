@@ -90,12 +90,12 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     }
 
     [Fact]
-    public async Task SchoolBenchmarkingReportCardsRedirectsToFeatureDisabled()
+    public async Task SchoolFinancialBenchmarkingInsightsSummaryRedirectsToFeatureDisabled()
     {
-        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.BenchmarkingReportCards)
-            .Navigate(Paths.SchoolBenchmarkingReportCards(Urn));
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.FinancialBenchmarkingInsightsSummary)
+            .Navigate(Paths.SchoolFinancialBenchmarkingInsightsSummary(Urn));
 
         PageAssert.IsFeatureDisabledPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolBenchmarkingReportCards(Urn).ToAbsolute(), HttpStatusCode.Forbidden);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialBenchmarkingInsightsSummary(Urn).ToAbsolute(), HttpStatusCode.Forbidden);
     }
 }
