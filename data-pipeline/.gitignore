@@ -27,3 +27,5 @@ workbooks/output
 tests/output/
 
 !/tests/e2e/.env
+
+__azurite*.json
