@@ -11,7 +11,6 @@
           | Catering staff and supplies                | High priority   |
           | Premises staff and services                | High priority   |
           | Utilities                                  | Medium priority |
-          | Educational ICT                            | Medium priority |
         When I click on all resources
         Then all resources tab is displayed
 

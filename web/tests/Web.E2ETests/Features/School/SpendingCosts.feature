@@ -77,16 +77,6 @@
           | Utilities                           | Supply of energy 2                                                                                        |
           | Utilities                           | Water, wastewater and ancillary services                                                                  |
           | Utilities                           | Water, wastewater and ancillary services                                                                  |
-          | Educational ICT                     | Digital marketplace (G-Cloud 13)                                                                          |
-          | Educational ICT                     | Everything ICT                                                                                            |
-          | Educational ICT                     | IT hardware                                                                                               |
-          | Educational ICT                     | Multi-functional devices and digital solutions                                                            |
-          | Educational ICT                     | Multifunctional devices and digital transformation solutions                                              |
-          | Educational ICT                     | Multifunctional devices, print and digital workflow software services and managed print service provision |
-          | Educational ICT                     | Outsourced ICT                                                                                            |
-          | Educational ICT                     | Print marketplace                                                                                         |
-          | Educational ICT                     | Software licences and associated services for academies and schools                                       |
-          | Educational ICT                     | Technology products & associated services 2                                                               |
 
     Scenario: Categories have the correct category commentary
         Given I am on spending and costs page for school with URN '777042'
