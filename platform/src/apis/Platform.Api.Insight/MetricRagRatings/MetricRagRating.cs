@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
 namespace Platform.Api.Insight.MetricRagRatings;
 
 [ExcludeFromCodeCoverage]
@@ -10,6 +12,8 @@ public record MetricRagRating
     public decimal? Value { get; set; }
     public decimal? Mean { get; set; }
     public decimal? DiffMean { get; set; }
+    public decimal? Median { get; set; }
+    public decimal? DiffMedian { get; set; }
     public decimal? PercentDiff { get; set; }
     public decimal? Percentile { get; set; }
     public decimal? Decile { get; set; }
