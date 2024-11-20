@@ -105,6 +105,8 @@ def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
             "Value",
             "Mean",
             "DiffMean",
+            "Median",
+            "DiffMedian",
             "PercentDiff",
             "Percentile",
             "Decile",

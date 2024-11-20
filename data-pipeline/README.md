@@ -178,7 +178,7 @@ To run the pipeline locally, follow these steps:
     Set the following program arguments to target this instance:
 
     ```
-    -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;
+    -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;"
     ```
 
 4. Create an `.env` file:
