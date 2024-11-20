@@ -11,6 +11,7 @@ public class SchoolResourcesViewModel(School school, IEnumerable<RagRating> rati
 
     public IEnumerable<CostCategory> CostCategories => _categories
         .Where(x => x.Rating.RAG is "red" or "amber" && x.Rating.Category is not Category.Other)
+        .Where(x => x.CanShowCommercialResources)
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
