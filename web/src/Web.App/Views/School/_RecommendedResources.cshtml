@@ -1,25 +1,28 @@
 ﻿@using Web.App.ViewModels
-@model Web.App.ViewModels.SchoolViewModel
+@model Web.App.ViewModels.SchoolResourcesViewModel
 
 
 <p class="govuk-body">
     Based on how spending and costs compare to similar schools.
 </p>
 
-@foreach (var rating in Model.Ratings)
+@foreach (var category in Model.CostCategories.Where(c => c.CanShowCommercialResources))
 {
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h2 class="govuk-heading-s">
-                @rating.Category
+                @category.Rating.Category
             </h2>
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText) })
+            @await Component.InvokeAsync("Tag", new
+            {
+                rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText)
+            })
         </div>
     </div>
-    
-    @await Html.PartialAsync(rating.ResourcePartial, new ResourceViewModel(false))
+
+    @await Html.PartialAsync(category.Rating.ResourcePartial, new ResourceViewModel(false))
 }

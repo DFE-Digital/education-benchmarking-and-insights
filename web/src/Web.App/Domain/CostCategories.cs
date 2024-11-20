@@ -116,7 +116,7 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
     {
         this[urn] = new Category(expenditure.LearningResourcesIctCosts ?? 0);
     }
-    
+
     public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
 }
 
@@ -128,7 +128,7 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
     {
         this[urn] = new Category(expenditure.TotalEducationalSuppliesCosts ?? 0);
     }
-    
+
     public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
 }
 

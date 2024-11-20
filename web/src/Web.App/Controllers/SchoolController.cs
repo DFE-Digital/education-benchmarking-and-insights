@@ -129,7 +129,6 @@ public class SchoolController(
     [SchoolRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string urn)
     {
-
         using (logger.BeginScope(new
         {
             urn
@@ -144,7 +143,7 @@ public class SchoolController(
 
                 await Task.WhenAll(school, ratings);
 
-                var viewModel = new SchoolViewModel(school.Result, ratings.Result);
+                var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result);
                 return View(viewModel);
             }
             catch (Exception e)
