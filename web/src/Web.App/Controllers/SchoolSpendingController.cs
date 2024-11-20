@@ -10,7 +10,6 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -51,10 +50,9 @@ public class SchoolSpendingController(
                     pupilExpenditure = set is { Pupil.Length: > 0 }
                         ? await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>()
                         : [];
-                    areaExpenditure = set is { Pupil.Length: > 0 }
+                    areaExpenditure = set is { Building.Length: > 0 }
                         ? await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>()
                         : [];
-
                 }
                 else
                 {
