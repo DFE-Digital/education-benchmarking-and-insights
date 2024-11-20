@@ -84,6 +84,8 @@ public abstract class CostCategory(RagRating rating)
 
     public abstract string[] SubCategories { get; }
     public abstract void Add(string urn, SchoolExpenditure expenditure);
+
+    public virtual bool CanShowCommercialResources => Rating.RAG != "green";
 }
 
 public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
@@ -114,6 +116,8 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
     {
         this[urn] = new Category(expenditure.LearningResourcesIctCosts ?? 0);
     }
+    
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
 }
 
 public class EducationalSupplies(RagRating rating) : CostCategory(rating)
@@ -124,6 +128,8 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
     {
         this[urn] = new Category(expenditure.TotalEducationalSuppliesCosts ?? 0);
     }
+    
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
 }
 
 public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
@@ -144,6 +150,8 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
     {
         this[urn] = new Category(expenditure.TotalTeachingSupportStaffCosts ?? 0);
     }
+
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
 }
 
 public class Other(RagRating rating) : CostCategory(rating)
