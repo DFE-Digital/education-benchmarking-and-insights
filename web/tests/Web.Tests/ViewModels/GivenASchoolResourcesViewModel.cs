@@ -25,13 +25,23 @@ public class GivenASchoolResourcesViewModel
             var teachingStaffRagRating = new RagRating
             {
                 Category = Category.TeachingStaff,
-                RAG = "amber"
+                RAG = "amber",
+                Mean = 0,
+                Value = 1
             };
 
             var educationalIctRagRating = new RagRating
             {
                 Category = Category.EducationalIct,
                 RAG = "green"
+            };
+
+            var educationalSuppliesRagRating = new RagRating
+            {
+                Category = Category.EducationalSupplies,
+                RAG = "red",
+                Mean = 1,
+                Value = 0
             };
 
             var otherRagRating = new RagRating
@@ -43,7 +53,7 @@ public class GivenASchoolResourcesViewModel
             return new TheoryData<IEnumerable<RagRating>, IEnumerable<CostCategory>>
             {
                 {
-                    [administrativeSuppliesRagRating, teachingStaffRagRating, educationalIctRagRating, otherRagRating], [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating)]
+                    [administrativeSuppliesRagRating, teachingStaffRagRating, educationalIctRagRating, educationalSuppliesRagRating, otherRagRating], [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating)]
                 }
             };
         }
