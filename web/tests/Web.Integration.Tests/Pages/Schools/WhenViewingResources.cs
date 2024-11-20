@@ -1,15 +1,25 @@
 using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static readonly List<string> AllCostCategories =
+    [
+        Category.TeachingStaff,
+        Category.NonEducationalSupportStaff,
+        Category.EducationalSupplies,
+        Category.EducationalIct,
+        Category.PremisesStaffServices,
+        Category.Utilities,
+        Category.AdministrativeSupplies,
+        Category.CateringStaffServices,
+        Category.Other
+    ];
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -71,7 +81,10 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
 
         var categorySections = recommended.QuerySelectorAll(".govuk-grid-column-two-thirds h2.govuk-heading-s");
 
-        var expectedCount = rating.Count(x => x.RAG is "red" or "amber" && x.Category is not Category.Other);
+        var expectedCount = rating
+            .Where(x => x.RAG is "red" or "amber")
+            .Where(x => x.Category is not Category.Other)
+            .Count(x => x.Category is not Category.TeachingStaff && x.Category is not Category.EducationalSupplies && x.Category is not Category.EducationalIct || x.Value >= x.Mean);
 
         Assert.Equal(expectedCount, categorySections.Length);
 
@@ -111,18 +124,4 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
 
         return ratings.ToArray();
     }
-
-    private static readonly List<string> AllCostCategories =
-    [
-        Category.TeachingStaff,
-        Category.NonEducationalSupportStaff,
-        Category.EducationalSupplies,
-        Category.EducationalIct,
-        Category.PremisesStaffServices,
-        Category.Utilities,
-        Category.AdministrativeSupplies,
-        Category.CateringStaffServices,
-        Category.Other
-    ];
 }
-
