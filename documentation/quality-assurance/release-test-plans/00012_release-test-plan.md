@@ -1,5 +1,4 @@
 # Release Test Plan - 2024.11.3
-_*Release label incremented due to pipeline failures._
 
 **Release Date:** 20/11/2024
 
@@ -71,6 +70,17 @@ N/A
 - [232831 : Trigger the search indexers post pipeline run](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232831)
 - [237597 : Unable to view Spending Priorities when no building comparator set](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/237597)
 
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category | Total Tests | Passed | Failed | Pass Rate |
+|---------------|:-----------:|:------:|:------:|:---------:|
+| Sanity Tests  |      2      |   2    |   0    |   100%    |
+| Smoke Tests   |     20      |   20   |   0    |   100%    |
+| Total         |     22      |   22   |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
