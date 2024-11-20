@@ -1,14 +1,57 @@
 using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using FluentValidation;
+using Moq;
 using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+
+    private static readonly List<string> AllCostCategories =
+    [
+        Category.TeachingStaff,
+        Category.NonEducationalSupportStaff,
+        Category.EducationalSupplies,
+        Category.EducationalIct,
+        Category.PremisesStaffServices,
+        Category.Utilities,
+        Category.AdministrativeSupplies,
+        Category.CateringStaffServices,
+        Category.Other
+    ];
+
+    private static Dictionary<string, string> CategoryHeadingToIdMap => new()
+    {
+        {
+            "Teaching and Teaching support staff", "teaching-and-teaching-support-staff"
+        },
+        {
+            "Non-educational support staff", "non-educational-support-staff-and-services"
+        },
+        {
+            "Educational supplies", "educational-supplies"
+        },
+        {
+            "Educational ICT", "educational-ict"
+        },
+        {
+            "Premises staff and services", "premises-staff-and-services"
+        },
+        {
+            "Utilities", "utilities"
+        },
+        {
+            "Administrative supplies", "administrative-supplies"
+        },
+        {
+            "Catering staff and supplies", "catering-staff-and-supplies"
+        }
+    };
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -88,7 +131,25 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false)]
+    public async Task CanDisplayWithComparatorSet(string financeType, bool pupilSet, bool buildingSet)
+    {
+        var comparatorSet = new SchoolComparatorSet
+        {
+            Building = buildingSet ? Fixture.CreateMany<string>().ToArray() : [],
+            Pupil = pupilSet ? Fixture.CreateMany<string>().ToArray() : []
+        };
+        var (page, school) = await SetupNavigateInitPage(financeType, comparatorSet);
+
+        AssertPageLayout(page, school);
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, SchoolComparatorSet? comparatorSet = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -99,15 +160,34 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var rating = CreateRagRatings(school.URN);
 
-        var expenditure = Fixture.Build<SchoolExpenditure>().Create();
+        var expenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
 
-        var page = await Client.SetupEstablishment(school)
+        var client = Client.SetupEstablishment(school)
             .SetupInsights()
             .SetupUserData()
-            .SetupMetricRagRating(rating)
-            .SetupExpenditure(school, expenditure)
-            .Navigate(Paths.SchoolSpending(school.URN));
+            .SetupMetricRagRating(rating);
 
+        if (comparatorSet != null)
+        {
+            client.SetupComparatorSet(school, comparatorSet);
+            var setup = client.ExpenditureApi.SetupSequence(api => api.QuerySchools(It.IsAny<ApiQuery?>()));
+            if (comparatorSet.Pupil.Length > 0 && comparatorSet.Building.Length == 0 || comparatorSet.Pupil.Length == 0 && comparatorSet.Building.Length > 0)
+            {
+                setup.ReturnsAsync(ApiResult.Ok(expenditures));
+                setup.ReturnsAsync(ApiResult.BadRequest(new ValidationError(Severity.Error, "Urns", "Validation failed")));
+            }
+            else if (comparatorSet.Pupil.Length == 0 && comparatorSet.Building.Length == 0)
+            {
+                setup.ReturnsAsync(ApiResult.BadRequest(new ValidationError(Severity.Error, "Urns", "Validation failed")));
+            }
+            else
+            {
+                setup.ReturnsAsync(ApiResult.Ok(expenditures));
+                setup.ReturnsAsync(ApiResult.Ok(expenditures));
+            }
+        }
+
+        var page = await client.Navigate(Paths.SchoolSpending(school.URN));
         return (page, school);
     }
 
@@ -147,30 +227,4 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         return ratings.ToArray();
     }
-
-    private static readonly List<string> AllCostCategories =
-    [
-        Category.TeachingStaff,
-        Category.NonEducationalSupportStaff,
-        Category.EducationalSupplies,
-        Category.EducationalIct,
-        Category.PremisesStaffServices,
-        Category.Utilities,
-        Category.AdministrativeSupplies,
-        Category.CateringStaffServices,
-        Category.Other
-    ];
-
-    private static Dictionary<string, string> CategoryHeadingToIdMap => new()
-    {
-        { "Teaching and Teaching support staff", "teaching-and-teaching-support-staff" },
-        { "Non-educational support staff", "non-educational-support-staff-and-services" },
-        { "Educational supplies", "educational-supplies" },
-        { "Educational ICT", "educational-ict" },
-        { "Premises staff and services", "premises-staff-and-services" },
-        { "Utilities", "utilities" },
-        { "Administrative supplies", "administrative-supplies" },
-        { "Catering staff and supplies", "catering-staff-and-supplies" },
-    };
-
 }
