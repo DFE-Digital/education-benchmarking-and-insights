@@ -1,10 +1,16 @@
 ﻿@using Web.App.TagHelpers
-@model Web.App.ViewModels.SchoolViewModel
+@model Web.App.ViewModels.SchoolResourcesViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Resources;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 @if (Model.HasMetricRag)
 {
     <div class="govuk-grid-row">
