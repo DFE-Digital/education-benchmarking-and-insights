@@ -63,6 +63,7 @@ const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
         id="la-input"
         name="laInput"
         minLength={3}
+        maxLength={100}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
         suggestionFormatter={suggestionFormatter}

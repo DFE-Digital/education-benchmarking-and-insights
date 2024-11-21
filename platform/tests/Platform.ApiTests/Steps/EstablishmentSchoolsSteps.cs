@@ -26,7 +26,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Given("an invalid school request with id '(.*)'")]
-    private void GivenAnInvalidValidSchoolRequestWithId(string id)
+    private void GivenAnInvalidSchoolRequestWithId(string id)
     {
         api.CreateRequest(RequestKey, new HttpRequestMessage
         {
@@ -36,7 +36,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Given("a valid schools suggest request with searchText '(.*)")]
-    private void GivenAValidSchoolsSuggestRequest(string searchText)
+    private void GivenAValidSchoolsSuggestRequestWithSearchText(string searchText)
     {
         var content = new
         {
@@ -53,12 +53,14 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("an invalid schools suggest request")]
-    private void GivenAnInvalidSchoolsSuggestRequest()
+    [Given("an invalid schools suggest request with '(.*)', '(.*)' and '(.*)'")]
+    private void GivenAnInvalidSchoolsSuggestRequestWithAnd(string suggesterName, string searchText, int size)
     {
         var content = new
         {
-            Size = 0
+            SuggesterName = string.IsNullOrWhiteSpace(suggesterName) ? null : suggesterName,
+            SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
+            Size = size
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -70,7 +72,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Given("a valid query schools request phase '(.*)' laCode '(.*)' and companyNumber '(.*)'")]
-    private void GivenAValidSchoolsQueryRequest(string phase, string laCode, string companyNumber)
+    private void GivenAValidQuerySchoolsRequestPhaseLaCodeAndCompanyNumber(string phase, string laCode, string companyNumber)
     {
         const string baseApiUrl = "/api/schools";
         var queryString = new StringBuilder();
@@ -114,7 +116,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the school result should be ok and have the following values:")]
-    private async Task ThenTheSchoolResultShouldHaveValues(DataTable table)
+    private async Task ThenTheSchoolResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
 
@@ -137,7 +139,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the school suggest result should be ok and have the following values:")]
-    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveValues(DataTable table)
+    private async Task ThenTheSchoolSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -160,7 +162,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the schools suggest result should be ok and have the following multiple values:")]
-    private async Task ThenTheSchoolsSuggestResultShouldShouldHaveMultipleValues(DataTable table)
+    private async Task ThenTheSchoolsSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -195,7 +197,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Then("the schools suggest result should be bad request and have the following validation errors:")]
-    private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowingValidationErrors(DataTable table)
+    private async Task ThenTheSchoolsSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
 
@@ -204,11 +206,17 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
 
-        table.CompareToSet(results);
+        var filteredTable = new DataTable(table.Header.ToArray());
+        foreach (var row in table.Rows.Where(r => !string.IsNullOrWhiteSpace(r["ErrorMessage"])))
+        {
+            filteredTable.AddRow(row);
+        }
+
+        filteredTable.CompareToSet(results);
     }
 
     [Then("the schools query result should be ok and have the following values:")]
-    private async Task ThenTheSchoolsQueryResultShouldHaveValues(DataTable table)
+    private async Task ThenTheSchoolsQueryResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[QueryRequestKey].Response;
 

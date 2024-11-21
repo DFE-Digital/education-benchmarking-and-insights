@@ -52,12 +52,14 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("an invalid local authorities suggest request")]
-    private void GivenAnInvalidLocalAuthoritiesSuggestRequest()
+    [Given("an invalid local authorities suggest request with '(.*)', '(.*)' and '(.*)'")]
+    private void GivenAnInvalidLocalAuthoritiesSuggestRequestWithAnd(string suggesterName, string searchText, int size)
     {
         var content = new
         {
-            Size = 0
+            SuggesterName = string.IsNullOrWhiteSpace(suggesterName) ? null : suggesterName,
+            SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
+            Size = size
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -185,6 +187,12 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
 
-        table.CompareToSet(results);
+        var filteredTable = new DataTable(table.Header.ToArray());
+        foreach (var row in table.Rows.Where(r => !string.IsNullOrWhiteSpace(r["ErrorMessage"])))
+        {
+            filteredTable.AddRow(row);
+        }
+
+        filteredTable.CompareToSet(results);
     }
 }
