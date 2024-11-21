@@ -102,7 +102,62 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());*/
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool seedPlan = true)
+    [Fact]
+    public async Task CanSubmitAndContinueToPrePopulatedData()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        AssertPageLayout(page, school);
+
+        var action = page.QuerySelector("main .govuk-button");
+        Assert.NotNull(action);
+
+        const int year = 2027;
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "Year", year.ToString()
+                }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, year).ToAbsolute());
+    }
+
+    [Theory]
+    [InlineData(null, null, null)]
+    [InlineData(1_234_567, 987_654, null)]
+    [InlineData(1_234_567, null, null)]
+    [InlineData(null, null, 123)]
+    public async Task CanSubmitAndContinueToTotalIncome(int? totalIncome, int? totalExpenditure, int? teachers)
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, totalIncome, totalExpenditure, teachers);
+        AssertPageLayout(page, school);
+
+        var action = page.QuerySelector("main .govuk-button");
+        Assert.NotNull(action);
+
+        const int year = 2027;
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "Year", year.ToString()
+                }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.URN, year).ToAbsolute());
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
+        string financeType,
+        bool seedPlan = true,
+        decimal? totalIncome = 1_234_567,
+        decimal? totalExpenditure = 987_654,
+        decimal? teachers = 123)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -116,8 +171,23 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
                 .With(x => x.Year, CurrentYear)
                 .Create();
 
+        var income = Fixture.Build<SchoolIncome>()
+            .With(i => i.TotalIncome, totalIncome)
+            .Create();
+
+        var expenditure = Fixture.Build<SchoolExpenditure>()
+            .With(i => i.TotalExpenditure, totalExpenditure)
+            .Create();
+
+        var census = Fixture.Build<Census>()
+            .With(i => i.Teachers, teachers)
+            .Create();
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
+            .SetupIncome(school, income)
+            .SetupExpenditure(school, expenditure)
+            .SetupCensus(school, census)
             .Navigate(Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         return (page, school);
