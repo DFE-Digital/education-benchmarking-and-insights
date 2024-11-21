@@ -47,6 +47,7 @@ resource "azurerm_windows_function_app" "func-app" {
   storage_account_name       = var.storage-account-name
   storage_account_access_key = var.storage-account-key
   https_only                 = true
+  builtin_logging_enabled    = false
 
   identity {
     type = "SystemAssigned"
