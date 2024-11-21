@@ -8,9 +8,8 @@ public record RagRating
     public string? SubCategory { get; set; }
     public decimal? Value { get; set; }
 
-    // todo: rename to Median as part of #238518
-    public decimal? Mean { get; set; }
-    public decimal? DiffMean { get; set; }
+    public decimal? Median { get; set; }
+    public decimal? DiffMedian { get; set; }
     public decimal? PercentDiff { get; set; }
     public decimal? Percentile { get; set; }
     public decimal? Decile { get; set; }

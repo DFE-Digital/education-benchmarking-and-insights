@@ -45,13 +45,13 @@ public class GivenAnEducationalIctCategory
     [InlineData("amber", 1, 0, true)]
     [InlineData("amber", 1, 1, true)]
     [InlineData("green", null, null, false)]
-    public void WhenRagRatingIs(string rag, int? value, int? mean, bool expectedCanShowCommercialResources)
+    public void WhenRagRatingIs(string rag, int? value, int? median, bool expectedCanShowCommercialResources)
     {
         var ragRating = new RagRating
         {
             RAG = rag,
             Value = value,
-            Mean = mean
+            Median = median
         };
         var category = new EducationalIct(ragRating);
 
@@ -66,13 +66,13 @@ public class GivenAnEducationalSuppliesCategory
     [InlineData("amber", 1, 0, true)]
     [InlineData("amber", 1, 1, true)]
     [InlineData("green", null, null, false)]
-    public void WhenRagRatingIs(string rag, int? value, int? mean, bool expectedCanShowCommercialResources)
+    public void WhenRagRatingIs(string rag, int? value, int? median, bool expectedCanShowCommercialResources)
     {
         var ragRating = new RagRating
         {
             RAG = rag,
             Value = value,
-            Mean = mean
+            Median = median
         };
         var category = new EducationalSupplies(ragRating);
 
@@ -105,13 +105,13 @@ public class GivenTeachingStaffCategory
     [InlineData("amber", 1, 0, true)]
     [InlineData("amber", 1, 1, true)]
     [InlineData("green", null, null, false)]
-    public void WhenRagRatingIs(string rag, int? value, int? mean, bool expectedCanShowCommercialResources)
+    public void WhenRagRatingIs(string rag, int? value, int? median, bool expectedCanShowCommercialResources)
     {
         var ragRating = new RagRating
         {
             RAG = rag,
             Value = value,
-            Mean = mean
+            Median = median
         };
         var category = new TeachingStaff(ragRating);
 

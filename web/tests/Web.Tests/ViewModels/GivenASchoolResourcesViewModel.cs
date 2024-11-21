@@ -26,7 +26,7 @@ public class GivenASchoolResourcesViewModel
             {
                 Category = Category.TeachingStaff,
                 RAG = "amber",
-                Mean = 0,
+                Median = 0,
                 Value = 1
             };
 
@@ -40,7 +40,7 @@ public class GivenASchoolResourcesViewModel
             {
                 Category = Category.EducationalSupplies,
                 RAG = "red",
-                Mean = 1,
+                Median = 1,
                 Value = 0
             };
 

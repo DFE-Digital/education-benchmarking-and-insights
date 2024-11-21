@@ -84,7 +84,7 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
         var expectedCount = rating
             .Where(x => x.RAG is "red" or "amber")
             .Where(x => x.Category is not Category.Other)
-            .Count(x => x.Category is not Category.TeachingStaff && x.Category is not Category.EducationalSupplies && x.Category is not Category.EducationalIct || x.Value >= x.Mean);
+            .Count(x => x.Category is not Category.TeachingStaff && x.Category is not Category.EducationalSupplies && x.Category is not Category.EducationalIct || x.Value >= x.Median);
 
         Assert.Equal(expectedCount, categorySections.Length);
 

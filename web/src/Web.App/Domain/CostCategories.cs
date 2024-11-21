@@ -117,7 +117,7 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
         this[urn] = new Category(expenditure.LearningResourcesIctCosts ?? 0);
     }
 
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class EducationalSupplies(RagRating rating) : CostCategory(rating)
@@ -129,7 +129,7 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
         this[urn] = new Category(expenditure.TotalEducationalSuppliesCosts ?? 0);
     }
 
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
@@ -151,7 +151,7 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
         this[urn] = new Category(expenditure.TotalTeachingSupportStaffCosts ?? 0);
     }
 
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Mean;
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class Other(RagRating rating) : CostCategory(rating)
