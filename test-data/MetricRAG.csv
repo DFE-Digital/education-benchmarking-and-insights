@@ -1,4 +1,4 @@
-RunType,RunId,URN,Category,SubCategory,SetType,Value,Mean,DiffMean,PercentDiff,Percentile,Decile,RAG
+RunType,RunId,URN,Category,SubCategory,SetType,Value,Median,DiffMedian,PercentDiff,Percentile,Decile,RAG
 default,2022,777042,Administrative supplies,Administrative supplies (non educational),unmixed,429.07,47.78,381.28,88.86,99.0,9,red
 default,2022,777042,Administrative supplies,Total,unmixed,429.07,47.78,381.28,88.86,99.0,9,red
 default,2022,777042,Catering staff and supplies,Catering staff,unmixed,0.0,0.0,0.0,0.0,89.0,8,red

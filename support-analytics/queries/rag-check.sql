@@ -1,13 +1,15 @@
-SELECT r.URN, r.Category, r.SubCategory, r.Value, r.Mean, r.DiffMean, r.Value - r.Mean 'DiffCalc', ABS(DiffMean - ( r.Value - r.Mean)) 'Variance' FROM MetricRAG r
+SELECT r.URN, r.Category, r.SubCategory, r.Value, r.Median, r.DiffMedian, r.Value - r.Median 'DiffCalc', ABS(DiffMedian - (r.Value - r.Median)) 'Variance'
+FROM MetricRAG r
 WHERE RunType = 'default'
   AND RunId = '2023'
-  AND ABS(DiffMean - ( r.Value - r.Mean)) > 0.01
+  AND ABS(DiffMedian - ( r.Value - r.Median)) > 0.01
 ORDER BY Variance DESC
 
 
-SELECT r.URN, r.Category, r.SubCategory, r.Mean, r.DiffMean, r.PercentDiff,
-       IIF(r.Mean = 0, 0, r.DiffMean / r.Mean * 100) 'PercentDiffCalc',
-       ABS(r.PercentDiff - (IIF(r.Mean = 0, 0, r.DiffMean / r.Mean * 100))) 'Variance' FROM MetricRAG r
+SELECT r.URN, r.Category, r.SubCategory, r.Median, r.DiffMedian, r.PercentDiff,
+  IIF(r.Median = 0, 0, r.DiffMedian / r.Median * 100) 'PercentDiffCalc',
+  ABS(r.PercentDiff - (IIF(r.Median = 0, 0, r.DiffMedian / r.Median * 100))) 'Variance'
+FROM MetricRAG r
 WHERE RunType = 'default'
   AND RunId = '2023'
 ORDER BY Variance DESC

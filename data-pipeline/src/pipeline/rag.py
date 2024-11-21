@@ -121,11 +121,11 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
 
     percentile = find_percentile(series, value)
     decile = int(percentile / 10)
-    mean = np.median(series)
-    diff = value - mean
+    median = np.median(series)
+    diff = value - median
     diff_percent = (
-        (diff / mean) * 100
-        if mean != 0 and mean != np.inf and mean != np.nan and not pd.isna(mean)
+        (diff / median) * 100
+        if median != 0 and median != np.inf and median != np.nan and not pd.isna(median)
         else 0
     )
     cats = category_name.split("_")
@@ -134,8 +134,8 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
         "Category": cats[0],
         "SubCategory": cats[1],
         "Value": value,
-        "Mean": mean,
-        "DiffMean": diff,
+        "Median": median,
+        "DiffMedian": diff,
         "Key": key,
         "PercentDiff": diff_percent,
         "Percentile": percentile,
