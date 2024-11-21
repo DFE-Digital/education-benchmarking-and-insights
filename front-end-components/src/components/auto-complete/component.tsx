@@ -9,6 +9,7 @@ export function AutoComplete<T>({
   onSuggest,
   suggestionFormatter,
   valueFormatter,
+  maxLength,
   ...props
 }: AutoCompleteProps<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,6 +21,13 @@ export function AutoComplete<T>({
     setIsLoading(true);
 
     try {
+      if (query) {
+        query = query.trim();
+        if (maxLength > props.minLength) {
+          query = query.substring(0, maxLength).trim();
+        }
+      }
+
       const results = await onSuggest(query);
       if (results && Array.isArray(results)) {
         populateResults(results);

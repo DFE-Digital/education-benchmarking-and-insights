@@ -64,6 +64,7 @@ const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
         id="trust-input"
         name="trustInput"
         minLength={3}
+        maxLength={100}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
         suggestionFormatter={suggestionFormatter}

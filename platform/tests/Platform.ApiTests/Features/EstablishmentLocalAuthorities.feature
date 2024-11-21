@@ -42,10 +42,16 @@ Feature: Establishment local authorities endpoints
         Then the local authorities suggest result should be empty
 
     Scenario: Sending an invalid suggest local authorities request returns the validation results
-        Given an invalid local authorities suggest request
+        Given an invalid local authorities suggest request with '<SuggesterName>', '<SearchText>' and '<Size>'
         When I submit the local authorities request
         Then the local authorities suggest result should be bad request and have the following validation errors:
-          | PropertyName  | ErrorMessage                                 |
-          | SuggesterName | 'Suggester Name' must not be empty.          |
-          | SearchText    | 'Search Text' must not be empty.             |
-          | Size          | 'Size' must be greater than or equal to '5'. |
+          | PropertyName  | ErrorMessage                |
+          | SuggesterName | <SuggesterNameErrorMessage> |
+          | SearchText    | <SearchTextErrorMessage>    |
+          | Size          | <SizeErrorMessage>          |
+
+    Examples:
+      | SuggesterName | SearchText                                                                                                    | Size | SuggesterNameErrorMessage           | SearchTextErrorMessage                                                                   | SizeErrorMessage                             |
+      |               |                                                                                                               | 0    | 'Suggester Name' must not be empty. | 'Search Text' must not be empty.                                                         | 'Size' must be greater than or equal to '5'. |
+      | suggester     | te                                                                                                            | 5    |                                     | The length of 'Search Text' must be at least 3 characters. You entered 2 characters.     |                                              |
+      | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                                     | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                                              |

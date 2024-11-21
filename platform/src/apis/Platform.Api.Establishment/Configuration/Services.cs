@@ -13,6 +13,7 @@ using Platform.Api.Establishment.Trusts;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure;
 using Platform.Search;
+using Platform.Search.Validators;
 using Platform.Sql;
 namespace Platform.Api.Establishment.Configuration;
 

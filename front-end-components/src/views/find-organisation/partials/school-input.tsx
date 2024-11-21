@@ -63,6 +63,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
         id="school-input"
         name="schoolInput"
         minLength={3}
+        maxLength={100}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
         suggestionFormatter={suggestionFormatter}
