@@ -22,15 +22,15 @@ from src.pipeline.database import (
     insert_metric_rag,
     insert_non_financial_data,
     insert_schools_and_local_authorities,
-    insert_trusts,
     insert_trust_financial_data,
+    insert_trusts,
 )
 from src.pipeline.log import setup_logger
 from src.pipeline.message import MessageType, get_message_type
 from src.pipeline.pre_processing import (
     build_academy_data,
-    build_bfr_historical_data,
     build_bfr_data,
+    build_bfr_historical_data,
     build_cfo_data,
     build_maintained_school_data,
     build_trust_data,
@@ -710,8 +710,8 @@ def compute_rag_for(
                 "Category",
                 "SubCategory",
                 "Value",
-                "Mean",
-                "DiffMean",
+                "Median",
+                "DiffMedian",
                 "Key",
                 "PercentDiff",
                 "Percentile",

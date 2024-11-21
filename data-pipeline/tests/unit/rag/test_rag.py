@@ -114,7 +114,7 @@ def test_find_percentile():
 
 
 @pytest.mark.parametrize(
-    "value,data,diff_mean,percent_diff,percentile,decile,expected_rag",
+    "value,data,diff_median,percent_diff,percentile,decile,expected_rag",
     [
         (
             20,
@@ -146,7 +146,7 @@ def test_find_percentile():
     ],
 )
 def test_category_stats(
-    value, data, diff_mean, percent_diff, percentile, decile, expected_rag
+    value, data, diff_median, percent_diff, percentile, decile, expected_rag
 ):
     category = "Teaching and Teaching support staff_Sub Cat"
     data = {
@@ -160,8 +160,8 @@ def test_category_stats(
         "Category": "Teaching and Teaching support staff",
         "SubCategory": "Sub Cat",
         "Value": value,
-        "Mean": 19.5,
-        "DiffMean": diff_mean,
+        "Median": 19.5,
+        "DiffMedian": diff_median,
         "Key": "outstanding",
         "PercentDiff": percent_diff,
         "Percentile": percentile,
