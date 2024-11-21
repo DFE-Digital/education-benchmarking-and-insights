@@ -30,9 +30,7 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
                     schools = await HandleLocalAuthoritySchoolsAsync(organisation);
                     break;
                 default:
-                    var urn = organisation.UrnValue.ToString();
-                    schools = [urn];
-                    trusts = await HandleAcademyTrustAsync(urn);
+                    (schools, trusts) = await HandleAcademyTrustAsync(organisation);
                     break;
             }
         }
@@ -72,8 +70,10 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
         return schools;
     }
 
-    private async Task<string[]> HandleAcademyTrustAsync(string urn)
+    private async Task<(string[] schools, string[] trusts)> HandleAcademyTrustAsync(Organisation organisation)
     {
+        var urn = organisation.UrnValue.ToString();
+        var schools = new[] { urn };
         var trusts = Array.Empty<string>();
         var school = await api.GetSchool(urn).GetResultOrDefault<School>();
         var companyNumber = school?.TrustCompanyNumber;
@@ -83,6 +83,6 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
             trusts = [companyNumber];
         }
 
-        return trusts;
+        return (schools, trusts);
     }
 }
