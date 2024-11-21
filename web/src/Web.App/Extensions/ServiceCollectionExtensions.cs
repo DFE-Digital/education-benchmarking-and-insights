@@ -14,6 +14,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
+using Web.App.Services;
 
 namespace Web.App.Extensions;
 
@@ -249,26 +250,9 @@ public static class ServiceCollectionExtensions
                     {
                         try
                         {
-                            var schools = Array.Empty<string>();
-                            var trusts = Array.Empty<string>();
                             var organisation = context.Principal?.Organisation();
-                            if (organisation != null)
-                            {
-                                schools = [organisation.UrnValue.ToString()];
-
-                                if (organisation.Category is { Id: "013" } or { Id: "010" }) //013 - Single-Academy Trust & 010 - Multi-Academy Trust
-                                {
-                                    var companyNumber = organisation.CompanyRegistrationNumber?.ToString("00000000");
-                                    if (companyNumber != null)
-                                    {
-                                        var api = context.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
-                                        var query = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
-                                        var trustSchools = await api.QuerySchools(query).GetResultOrDefault<School[]>() ?? [];
-                                        trusts = [companyNumber];
-                                        schools = trustSchools.Select(x => x.URN).OfType<string>().ToArray();
-                                    }
-                                }
-                            }
+                            var service = context.HttpContext.RequestServices.GetRequiredService<IClaimsIdentifierService>();
+                            var (schools, trusts) = await service.IdentifyValidClaims(organisation);
 
                             context.Principal?.ApplyClaims(context.TokenEndpointResponse?.AccessToken, schools, trusts);
                             opts.Events.OnValidatedPrincipal(context);

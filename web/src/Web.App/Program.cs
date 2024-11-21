@@ -42,7 +42,8 @@ builder.Services
     .AddScoped<ISuggestService, SuggestService>()
     .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
     .AddScoped<ICustomDataService, CustomDataService>()
-    .AddScoped<IUserDataService, UserDataService>();
+    .AddScoped<IUserDataService, UserDataService>()
+    .AddScoped<IClaimsIdentifierService, ClaimsIdentifierService>();
 
 builder.Services.AddHealthChecks()
     .AddCheck<ApiHealthCheck>("API Health Check");
