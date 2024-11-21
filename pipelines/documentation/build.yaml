@@ -21,6 +21,7 @@ variables:
     value: '$(System.DefaultWorkingDirectory)/$(WorkingDir)'
   - name: DataDir
     value: '$(FullWorkingDir)/tools'
+  - group: 'sharepoint'
 
 stages:
   - stage: Validate
@@ -117,3 +118,18 @@ stages:
               targetPath: '$(WorkingDir)/pub'
               artifact: 'docs'
               publishLocation: 'pipeline'
+              
+      - job: SharePointPublish
+        displayName: 'Publish artifacts to SharePoint'
+        dependsOn: [ BuildDocumentation ]
+        steps:
+          - checkout: self
+
+          - template: ..\common\publish-sharepoint-artifacts.yaml
+            parameters:
+              ArtifactName: 'docs'
+              ArtifactPattern: '**/*.pdf'
+              TargetPath: 'FBIT support\Documentation'
+              SiteUrl: $(SharePoint_SiteUrl)
+              ClientId: $(SharePoint_ClientId)
+              ClientSecret: $(SharePoint_ClientSecret)

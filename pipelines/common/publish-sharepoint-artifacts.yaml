@@ -1,0 +1,29 @@
+parameters:
+  ArtifactName: ''
+  ArtifactPattern: '**'
+  TargetPath: ''
+  SiteUrl: ''
+  ClientId: ''
+  ClientSecret: ''
+
+steps:
+  - task: DownloadPipelineArtifact@2
+    displayName: 'Download build artifacts'
+    inputs:
+      buildType: current
+      targetPath: $(Agent.TempDirectory)/artifacts
+      artifactName: ${{ parameters.ArtifactName }}
+      itemPattern: ${{ parameters.ArtifactPattern }}
+  
+  - task: PowerShell@2
+    displayName: 'Upload files to SharePoint'
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Build.SourcesDirectory)/pipelines/common/scripts/UploadToSharePoint.ps1
+      arguments: > 
+        -SiteUrl "${{ parameters.SiteUrl }}"
+        -ClientId "${{ parameters.ClientId }}"
+        -ClientSecret "${{ parameters.ClientSecret }}"
+        -LibraryName "Documents"
+        -SourceFolderPath: "$(Agent.TempDirectory)/artifacts"
+        -TargetFolderPath "${{ parameters.TargetPath }}"
