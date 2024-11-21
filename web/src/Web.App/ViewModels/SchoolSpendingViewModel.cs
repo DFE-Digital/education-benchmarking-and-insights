@@ -35,13 +35,13 @@ public class SchoolSpendingViewModel(
 
     public static ChartStatsViewModel Stats(RagRating rating) => new()
     {
-        Average = rating.Mean,
-        Difference = rating.DiffMean,
-        PercentDifference = rating.Mean switch
+        Average = rating.Median,
+        Difference = rating.DiffMedian,
+        PercentDifference = rating.Median switch
         {
             null => null,
             0 => 0,
-            _ => rating.DiffMean / rating.Mean * 100
+            _ => rating.DiffMedian / rating.Median * 100
         }
     };
 }

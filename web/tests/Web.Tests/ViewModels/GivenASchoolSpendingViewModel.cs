@@ -99,8 +99,8 @@ public class GivenASchoolSpendingViewModel
                 {
                     new RagRating
                     {
-                        Mean = 1000,
-                        DiffMean = 500
+                        Median = 1000,
+                        DiffMedian = 500
                     },
                     new ChartStatsViewModel
                     {
@@ -115,8 +115,8 @@ public class GivenASchoolSpendingViewModel
                 {
                     new RagRating
                     {
-                        Mean = 0,
-                        DiffMean = 0
+                        Median = 0,
+                        DiffMedian = 0
                     },
                     new ChartStatsViewModel
                     {
