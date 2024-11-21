@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
-using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -139,8 +138,17 @@ public class SchoolPlanningCreateController(
             var income = await incomeApi.School(urn).GetResultOrThrow<SchoolIncome>();
             var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
             var workforce = await censusApi.Get(urn).GetResultOrThrow<Census>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan, income, expenditure, workforce);
 
+            // AB#235762: prevent DivideByZeroException later on if missing figures pre-populated
+            if (income.TotalIncome == null || expenditure.TotalExpenditure == null || workforce.Teachers == null)
+            {
+                return await PrePopulateData(urn, year, new PrePopulateDataStage
+                {
+                    UseFigures = false
+                });
+            }
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, income, expenditure, workforce);
             return View(viewModel);
         }
     }
