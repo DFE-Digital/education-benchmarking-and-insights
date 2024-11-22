@@ -39,3 +39,16 @@ data "azurerm_storage_account" "data" {
   name                = "${var.environment-prefix}data"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
+
+data "azurerm_cdn_frontdoor_endpoint" "web-app-front-door-endpoint" {
+  name                = "${var.environment-prefix}-education-benchmarking"
+  profile_name        = "${var.environment-prefix}-education-benchmarking-fd-profile"
+  resource_group_name = "${var.environment-prefix}-ebis-web"
+}
+
+data "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
+  count               = lower(var.environment) == "production" ? 1 : 0
+  name                = "${var.environment-prefix}-custom-domain"
+  profile_name        = "${var.environment-prefix}-education-benchmarking-fd-profile"
+  resource_group_name = "${var.environment-prefix}-ebis-web"
+}

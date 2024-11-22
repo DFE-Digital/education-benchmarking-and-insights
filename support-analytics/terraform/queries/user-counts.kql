@@ -1,17 +1,17 @@
 let ["Unique Users"] = view() { 
     GetUsers
     | summarize 
-        Count = count_distinct(UserId)
+        Count = count_distinctif(UserId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 let ["New Unique Users"] = view() {
     GetNewUsers
     | summarize 
-        Count = count_distinct(UserId)
+        Count = count_distinctif(UserId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 let ["Authenticated Users"] = view() {
     GetAuthUsers
     | summarize 
-        Count = count_distinct(UserAuthenticatedId)
+        Count = count_distinctif(UserAuthenticatedId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 let ["Anonymous Requests"] = view() {
     GetAnonymousRequests
