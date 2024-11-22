@@ -13,13 +13,7 @@ let ["Authenticated Users"] = view() {
     | summarize 
         Count = count_distinctif(UserAuthenticatedId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
-let ["Anonymous Requests"] = view() {
-    GetAnonymousRequests
-    | summarize 
-        Count = count_distinct(OperationId)
-};
 union withsource=Type
     ["Unique Users"], 
     ["New Unique Users"],
-    ["Authenticated Users"],
-    ["Anonymous Requests"]
+    ["Authenticated Users"]

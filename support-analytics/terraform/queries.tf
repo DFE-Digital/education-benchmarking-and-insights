@@ -283,6 +283,19 @@ resource "azurerm_log_analytics_query_pack_query" "user-counts-table" {
   body = file("${path.module}/queries/user-counts.kql")
 }
 
+resource "random_uuid" "request-counts-table-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "request-counts-table" {
+  name          = random_uuid.request-counts-table-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Request counts"
+  description   = "Table of the number of requests"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/request-counts.kql")
+}
+
 resource "random_uuid" "user-sessions-table-id" {}
 
 resource "azurerm_log_analytics_query_pack_query" "user-sessions-table" {
@@ -359,16 +372,17 @@ resource "azurerm_log_analytics_query_pack_query" "weekly-active-users" {
   body = file("${path.module}/queries/weekly-active-users.kql")
 }
 
-resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
-  name                       = "GetAnonymousRequests"
+resource "azurerm_log_analytics_saved_search" "get-requests" {
+  name                       = "GetRequests"
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   category                   = "Function"
-  display_name               = "GetAnonymousRequests"
-  function_alias             = "GetAnonymousRequests"
+  display_name               = "GetRequests"
+  function_alias             = "GetRequests"
   tags                       = local.query-tags
 
-  query = templatefile("${path.module}/queries/functions/get-anon-requests.kql", {
-    hostName = local.host_name
+  query = templatefile("${path.module}/queries/functions/get-requests.kql", {
+    hostName          = local.host_name,
+    environmentPrefix = var.environment-prefix
   })
 }
 

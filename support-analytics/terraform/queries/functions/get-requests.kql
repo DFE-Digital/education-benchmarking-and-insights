@@ -1,7 +1,5 @@
 AppRequests 
 | where 
-    UserId == ""
-| where 
     isempty(SyntheticSource)
 | where
     Name startswith "GET " 
@@ -10,4 +8,4 @@ AppRequests
 | where 
     not(Url contains "/api/")
 | where 
-    Url startswith "https://${hostName}"
+    Url startswith "https://${hostName}" or Url startswith "https://${environmentPrefix}-education-benchmarking-"

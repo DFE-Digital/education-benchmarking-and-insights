@@ -1,6 +1,7 @@
- GetEstablishmentRequests
+GetEstablishmentRequests
 | where 
-    Establishment == "local-authority" and 
+    Establishment == "local-authority"
+| where 
     ResultCode == 200
 | project 
     TimeGenerated, 
@@ -13,4 +14,3 @@
 | sort by 
     Count desc
 | take(50)
-| render
