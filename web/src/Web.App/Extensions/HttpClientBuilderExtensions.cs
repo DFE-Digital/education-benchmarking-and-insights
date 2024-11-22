@@ -1,9 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using CorrelationId.HttpClient;
-using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
-using Web.App.Infrastructure.Apis;
 
 namespace Web.App.Extensions;
 
@@ -13,7 +11,7 @@ public static class HttpClientBuilderExtensions
     public static IHttpClientBuilder Configure<T>(this IHttpClientBuilder builder, string sectionName)
     {
         builder
-            .SetHandlerLifetime(TimeSpan.FromMinutes(1))
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
             .AddPolicyHandler((serviceProvider, _) =>
             {
                 var logger = serviceProvider.GetRequiredService<ILogger<T>>();
@@ -41,14 +39,14 @@ public static class HttpClientBuilderExtensions
         return builder;
     }
 
-    //Http retries with exponential backoff
+    //Http retries with linear backoff
     private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy(ILogger logger)
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
             .WaitAndRetryAsync(
-                3,
-                retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                5,
+                retryAttempt => TimeSpan.FromSeconds(0.5 * retryAttempt),
                 onRetry: (_, timespan, retryAttempt, _) =>
                 {
                     logger.LogWarning("Retry attempt {RetryAttempt}. Waiting {Timespan} before next retry.", retryAttempt, timespan);
