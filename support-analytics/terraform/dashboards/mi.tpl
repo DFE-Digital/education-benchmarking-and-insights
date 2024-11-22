@@ -8,16 +8,16 @@
                         "x": 0,
                         "y": 0,
                         "colSpan": 3,
-                        "rowSpan": 4
+                        "rowSpan": 5
                     },
                     "metadata": {
                         "inputs": [],
                         "type": "Extension/HubsExtension/PartType/MarkdownPart",
                         "settings": {
                             "content": {
-                                "content": "",
-                                "title": "Users and Sessions",
-                                "subtitle": "${environment}",
+                                "content": "### Users and Sessions\r\n\r\nUser and Session metrics are only gathered for those who have accepted optional analytics cookies. \r\n\r\nThe `Anonymous Requests` metric represents page requests by those users who did not accept the analytics cookies. \r\n\r\n`Authenticated Users` are only correlated with a User/Session if the user accepted analytics cookies.",
+                                "title": "",
+                                "subtitle": "",
                                 "markdownSource": 1,
                                 "markdownUri": ""
                             }
@@ -29,7 +29,7 @@
                         "x": 3,
                         "y": 0,
                         "colSpan": 4,
-                        "rowSpan": 4
+                        "rowSpan": 3
                     },
                     "metadata": {
                         "inputs": [
@@ -115,7 +115,7 @@
                         "x": 7,
                         "y": 0,
                         "colSpan": 7,
-                        "rowSpan": 4
+                        "rowSpan": 5
                     },
                     "metadata": {
                         "inputs": [
@@ -209,7 +209,7 @@
                         "x": 14,
                         "y": 0,
                         "colSpan": 7,
-                        "rowSpan": 4
+                        "rowSpan": 5
                     },
                     "metadata": {
                         "inputs": [
@@ -279,6 +279,8 @@
                             {
                                 "name": "Dimensions",
                                 "value": {
+                                    "aggregation": "Sum",
+                                    "splitBy": [],
                                     "xAxis": {
                                         "name": "Day",
                                         "type": "datetime"
@@ -300,9 +302,7 @@
                                             "name": "New Users",
                                             "type": "real"
                                         }
-                                    ],
-                                    "splitBy": [],
-                                    "aggregation": "Sum"
+                                    ]
                                 },
                                 "isOptional": true
                             },
@@ -339,8 +339,94 @@
                 },
                 "4": {
                     "position": {
+                        "x": 3,
+                        "y": 3,
+                        "colSpan": 4,
+                        "rowSpan": 2
+                    },
+                    "metadata": {
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${request_counts_table_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${request_counts_table_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "AnalyticsGrid"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${request_counts_table_title}"
+                            },
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "settings": {},
+                        "partHeader": {
+                            "title": "${request_counts_table_title}",
+                            "subtitle": "${environment}"
+                        }
+                    }
+                },
+                "5": {
+                    "position": {
                         "x": 0,
-                        "y": 4,
+                        "y": 5,
                         "colSpan": 3,
                         "rowSpan": 12
                     },
@@ -349,19 +435,19 @@
                         "type": "Extension/HubsExtension/PartType/MarkdownPart",
                         "settings": {
                             "content": {
-                                "content": "",
-                                "title": "Features",
-                                "subtitle": "${environment}",
+                                "content": "### Features",
+                                "title": "",
+                                "subtitle": "",
                                 "markdownSource": 1,
                                 "markdownUri": ""
                             }
                         }
                     }
                 },
-                "5": {
+                "6": {
                     "position": {
                         "x": 3,
-                        "y": 4,
+                        "y": 5,
                         "colSpan": 9,
                         "rowSpan": 6
                     },
@@ -465,10 +551,10 @@
                         }
                     }
                 },
-                "6": {
+                "7": {
                     "position": {
                         "x": 12,
-                        "y": 4,
+                        "y": 5,
                         "colSpan": 9,
                         "rowSpan": 6
                     },
@@ -572,10 +658,10 @@
                         }
                     }
                 },
-                "7": {
+                "8": {
                     "position": {
                         "x": 3,
-                        "y": 10,
+                        "y": 11,
                         "colSpan": 9,
                         "rowSpan": 6
                     },
@@ -679,10 +765,10 @@
                         }
                     }
                 },
-                "8": {
+                "9": {
                     "position": {
                         "x": 12,
-                        "y": 10,
+                        "y": 11,
                         "colSpan": 9,
                         "rowSpan": 6
                     },
@@ -786,10 +872,10 @@
                         }
                     }
                 },
-                "9": {
+                "10": {
                     "position": {
                         "x": 0,
-                        "y": 16,
+                        "y": 17,
                         "colSpan": 3,
                         "rowSpan": 3
                     },
@@ -798,19 +884,19 @@
                         "type": "Extension/HubsExtension/PartType/MarkdownPart",
                         "settings": {
                             "content": {
-                                "content": "\n",
-                                "title": "Journeys",
-                                "subtitle": "${environment}",
+                                "content": "### Journeys",
+                                "title": "",
+                                "subtitle": "",
                                 "markdownSource": 1,
                                 "markdownUri": ""
                             }
                         }
                     }
                 },
-                "10": {
+                "11": {
                     "position": {
                         "x": 3,
-                        "y": 16,
+                        "y": 17,
                         "colSpan": 9,
                         "rowSpan": 3
                     },
@@ -893,10 +979,10 @@
                         }
                     }
                 },
-                "11": {
+                "12": {
                     "position": {
                         "x": 0,
-                        "y": 19,
+                        "y": 20,
                         "colSpan": 3,
                         "rowSpan": 3
                     },
@@ -905,19 +991,19 @@
                         "type": "Extension/HubsExtension/PartType/MarkdownPart",
                         "settings": {
                             "content": {
-                                "content": "",
-                                "title": "External links",
-                                "subtitle": "${environment}",
+                                "content": "### External links",
+                                "title": "",
+                                "subtitle": "",
                                 "markdownSource": 1,
                                 "markdownUri": ""
                             }
                         }
                     }
                 },
-                "12": {
+                "13": {
                     "position": {
                         "x": 3,
-                        "y": 19,
+                        "y": 20,
                         "colSpan": 9,
                         "rowSpan": 3
                     },

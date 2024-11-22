@@ -34,6 +34,7 @@ No modules.
 | [azurerm_log_analytics_query_pack_query.popular-local-authority-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.popular-school-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.popular-trust-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
+| [azurerm_log_analytics_query_pack_query.request-counts-table](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.session-count-per-day](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.session-length-per-day](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.tracked-links](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
@@ -45,7 +46,6 @@ No modules.
 | [azurerm_log_analytics_query_pack_query.waf-blocked-requests-per-hour](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.waf-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
 | [azurerm_log_analytics_query_pack_query.weekly-active-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_query_pack_query) | resource |
-| [azurerm_log_analytics_saved_search.get-anon-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-auth-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-commercial-resources](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-establishment-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
@@ -53,6 +53,7 @@ No modules.
 | [azurerm_log_analytics_saved_search.get-feature-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-new-users](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-queue-put-messages](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
+| [azurerm_log_analytics_saved_search.get-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-school-financial-benchmarking-insights-summary-requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-session-length](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_log_analytics_saved_search.get-sessions](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
@@ -93,6 +94,7 @@ No modules.
 | [random_uuid.popular-local-authority-requests-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.popular-school-requests-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.popular-trust-requests-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
+| [random_uuid.request-counts-table-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.session-count-per-day-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.session-length-per-day-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
 | [random_uuid.tracked-links-id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |

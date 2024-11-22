@@ -5,6 +5,7 @@ locals {
   popular-trust-requests-query           = replace(replace(file("${path.module}/queries/popular-trust-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-local-authority-requests-query = replace(replace(file("${path.module}/queries/popular-local-authority-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   user-counts-table-query                = replace(replace(file("${path.module}/queries/user-counts.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  request-counts-table-query             = replace(replace(file("${path.module}/queries/request-counts.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   user-sessions-table-query              = replace(replace(file("${path.module}/queries/user-sessions.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   custom-data-funnel-query               = replace(replace(file("${path.module}/queries/custom-data-funnel.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   popular-commercial-resources-query     = replace(replace(file("${path.module}/queries/popular-commercial-resources.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
@@ -43,6 +44,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       user_counts_table_id    = azurerm_log_analytics_query_pack_query.user-counts-table.name
       user_counts_table_query = local.user-counts-table-query,
       user_counts_table_title = azurerm_log_analytics_query_pack_query.user-counts-table.description
+
+      request_counts_table_id    = azurerm_log_analytics_query_pack_query.request-counts-table.name
+      request_counts_table_query = local.request-counts-table-query,
+      request_counts_table_title = azurerm_log_analytics_query_pack_query.request-counts-table.description
 
       user_sessions_table_id    = azurerm_log_analytics_query_pack_query.user-sessions-table.name
       user_sessions_table_query = local.user-sessions-table-query,
