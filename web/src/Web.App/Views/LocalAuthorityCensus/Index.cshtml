@@ -14,10 +14,14 @@
         additionText = new[] { "View pupil and workforce data for schools in this local authority." },
     })
 
-<div id="compare-your-census"
-     data-type="@OrganisationTypes.LocalAuthority"
-     data-id="@Model.Code"
-     data-phases="@Model.Phases.ToJson(Formatting.None)">
-</div>
+@if (Model.NumberOfSchools > 0)
+{
+    <div id="compare-your-census"
+         data-type="@OrganisationTypes.LocalAuthority"
+         data-id="@Model.Code"
+         data-phases="@Model.Phases.ToJson(Formatting.None)">
+    </div>    
+}
+
 
 @await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.CompareYourCosts } })
