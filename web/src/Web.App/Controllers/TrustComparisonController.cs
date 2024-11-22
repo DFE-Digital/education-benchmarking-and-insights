@@ -31,8 +31,7 @@ public class TrustComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparison(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var phases = trust.Schools.GroupBy(x => x.OverallPhase).OrderByDescending(x => x.Count()).Select(x => x.Key).OfType<string>().ToArray();
-                var viewModel = new TrustComparisonViewModel(trust, phases);
+                var viewModel = new TrustComparisonViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)

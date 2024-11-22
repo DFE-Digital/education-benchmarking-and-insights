@@ -31,8 +31,7 @@ public class TrustCensusController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustCensus(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var phases = trust.Schools.GroupBy(x => x.OverallPhase).OrderByDescending(x => x.Count()).Select(x => x.Key).OfType<string>().ToArray();
-                var viewModel = new TrustCensusViewModel(trust, phases);
+                var viewModel = new TrustCensusViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)
