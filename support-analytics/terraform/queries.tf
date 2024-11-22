@@ -3,6 +3,7 @@ locals {
     "Type"   = "MI"
     "Source" = "terraform"
   }
+  host_name = lower(var.environment) == "production" ? data.azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : data.azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name
 }
 
 resource "random_uuid" "popular-school-requests-id" {}
@@ -366,7 +367,9 @@ resource "azurerm_log_analytics_saved_search" "get-anon-requests" {
   function_alias             = "GetAnonymousRequests"
   tags                       = local.query-tags
 
-  query = file("${path.module}/queries/functions/get-anon-requests.kql")
+  query = templatefile("${path.module}/queries/functions/get-anon-requests.kql", {
+    hostName = local.host_name
+  })
 }
 
 resource "azurerm_log_analytics_saved_search" "get-waf-logs" {

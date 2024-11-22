@@ -9,3 +9,5 @@ AppRequests
     not(Name startswith "GET /")
 | where 
     not(Url contains "/api/")
+| where 
+    Url startswith "https://${hostName}"
