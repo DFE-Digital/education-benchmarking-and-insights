@@ -140,7 +140,7 @@ public class SchoolPlanningCreateController(
             var workforce = await censusApi.Get(urn).GetResultOrThrow<Census>();
 
             // AB#235762: prevent DivideByZeroException later on if missing figures pre-populated
-            if (income.TotalIncome == null || expenditure.TotalExpenditure == null || workforce.Teachers == null)
+            if (SkipPrePopulateData(income, expenditure, workforce))
             {
                 return await PrePopulateData(urn, year, new PrePopulateDataStage
                 {
@@ -1493,4 +1493,8 @@ public class SchoolPlanningCreateController(
         urn,
         year
     }));
+
+    private static bool SkipPrePopulateData(SchoolIncome income, SchoolExpenditure expenditure, Census workforce) =>
+        income.TotalIncome == null || expenditure.TotalExpenditure == null || expenditure.TeachingStaffCosts == null
+        || expenditure.EducationSupportStaffCosts == null || workforce.Teachers == null;
 }

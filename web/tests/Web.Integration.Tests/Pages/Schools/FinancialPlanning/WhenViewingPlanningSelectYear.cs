@@ -126,13 +126,27 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
     }
 
     [Theory]
-    [InlineData(null, null, null)]
-    [InlineData(1_234_567, 987_654, null)]
-    [InlineData(1_234_567, null, null)]
-    [InlineData(null, null, 123)]
-    public async Task CanSubmitAndContinueToTotalIncome(int? totalIncome, int? totalExpenditure, int? teachers)
+    [InlineData(null, null, null, null, null)]
+    [InlineData(1_234_567, 987_654, null, null, null)]
+    [InlineData(1_234_567, null, null, null, null)]
+    [InlineData(null, null, null, null, 123)]
+    [InlineData(1_234_567, 987_654, 98_765, null, 123)]
+    [InlineData(1_234_567, 987_654, null, 9_876, 123)]
+    public async Task CanSubmitAndContinueToTotalIncome(
+        int? totalIncome,
+        int? totalExpenditure,
+        int? teachingStaffCosts,
+        int? educationSupportStaffCosts,
+        int? teachers)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, totalIncome, totalExpenditure, teachers);
+        var (page, school) = await SetupNavigateInitPage(
+            EstablishmentTypes.Academies,
+            true,
+            totalIncome,
+            totalExpenditure,
+            teachingStaffCosts,
+            educationSupportStaffCosts,
+            teachers);
         AssertPageLayout(page, school);
 
         var action = page.QuerySelector("main .govuk-button");
@@ -157,6 +171,8 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         bool seedPlan = true,
         decimal? totalIncome = 1_234_567,
         decimal? totalExpenditure = 987_654,
+        decimal? teachingStaffCosts = 98_765,
+        decimal? educationSupportStaffCosts = 9_876,
         decimal? teachers = 123)
     {
         var school = Fixture.Build<School>()
@@ -177,6 +193,8 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
 
         var expenditure = Fixture.Build<SchoolExpenditure>()
             .With(i => i.TotalExpenditure, totalExpenditure)
+            .With(i => i.TeachingStaffCosts, teachingStaffCosts)
+            .With(i => i.EducationSupportStaffCosts, educationSupportStaffCosts)
             .Create();
 
         var census = Fixture.Build<Census>()
