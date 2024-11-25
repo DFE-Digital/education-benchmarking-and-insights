@@ -13,6 +13,7 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
+using Platform.Search.Requests;
 namespace Platform.Api.Establishment.Schools;
 
 public class SchoolsFunctions(ILogger<SchoolsFunctions> logger,
@@ -126,6 +127,7 @@ public class SchoolsFunctions(ILogger<SchoolsFunctions> logger,
                        "CorrelationID", correlationId
                    }
                }))
+        //using (HttpPipeline.CreateClientRequestIdScope(correlationId.ToString()))
         {
             try
             {

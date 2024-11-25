@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Search;
+using Platform.Search.Requests;
 using Platform.Sql;
-
 namespace Platform.Api.Establishment.Schools;
 
 public interface ISchoolsService
@@ -24,11 +24,17 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
         const string childSchoolsSql = "SELECT * FROM School WHERE FederationLeadURN = @URN";
 
         using var conn = await dbFactory.GetConnection();
-        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new { URN = urn });
+        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new
+        {
+            URN = urn
+        });
 
         if (school != null && !string.IsNullOrEmpty(school.FederationLeadURN))
         {
-            school.FederationSchools = await conn.QueryAsync<School>(childSchoolsSql, new { URN = urn });
+            school.FederationSchools = await conn.QueryAsync<School>(childSchoolsSql, new
+            {
+                URN = urn
+            });
         }
 
         return school;
@@ -42,17 +48,26 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
 
         if (!string.IsNullOrEmpty(companyNumber))
         {
-            builder.Where("TrustCompanyNumber = @CompanyNumber AND FinanceType = 'Academy'", new { companyNumber });
+            builder.Where("TrustCompanyNumber = @CompanyNumber AND FinanceType = 'Academy'", new
+            {
+                companyNumber
+            });
         }
 
         if (!string.IsNullOrEmpty(laCode))
         {
-            builder.Where("LaCode = @LaCode AND FinanceType = 'Maintained'", new { laCode });
+            builder.Where("LaCode = @LaCode AND FinanceType = 'Maintained'", new
+            {
+                laCode
+            });
         }
 
         if (!string.IsNullOrEmpty(phase))
         {
-            builder.Where("OverallPhase = @phase", new { phase });
+            builder.Where("OverallPhase = @phase", new
+            {
+                phase
+            });
         }
 
         using var conn = await dbFactory.GetConnection();
@@ -73,7 +88,7 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
             nameof(School.AddressPostcode)
         };
 
-        return searchConnection.SuggestAsync(request, CreateFilterExpression, selectFields: fields);
+        return searchConnection.SuggestAsync(request, CreateFilterExpression, fields);
 
         string? CreateFilterExpression()
         {

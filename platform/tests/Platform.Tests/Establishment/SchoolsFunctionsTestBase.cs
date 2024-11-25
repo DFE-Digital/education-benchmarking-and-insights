@@ -2,8 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.Schools;
-using Platform.Search;
-
+using Platform.Search.Requests;
 namespace Platform.Tests.Establishment;
 
 public class SchoolsFunctionsTestBase : FunctionsTestBase

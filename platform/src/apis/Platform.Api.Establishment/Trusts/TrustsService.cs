@@ -3,8 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Platform.Search;
+using Platform.Search.Requests;
 using Platform.Sql;
-
 namespace Platform.Api.Establishment.Trusts;
 
 public interface ITrustsService

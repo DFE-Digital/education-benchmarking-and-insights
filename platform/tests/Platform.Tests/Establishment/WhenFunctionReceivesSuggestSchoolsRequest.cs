@@ -4,7 +4,7 @@ using Moq;
 using Platform.Api.Establishment.Schools;
 using Platform.Functions;
 using Platform.Search;
-using Platform.Tests.Extensions;
+using Platform.Search.Requests;
 using Xunit;
 namespace Platform.Tests.Establishment;
 

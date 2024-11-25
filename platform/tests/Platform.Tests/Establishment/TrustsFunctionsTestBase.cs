@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.Trusts;
-using Platform.Search;
+using Platform.Search.Requests;
 namespace Platform.Tests.Establishment;
 
 public class TrustsFunctionsTestBase : FunctionsTestBase

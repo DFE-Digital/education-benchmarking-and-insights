@@ -4,6 +4,7 @@ using Moq;
 using Platform.Api.Establishment.LocalAuthorities;
 using Platform.Functions;
 using Platform.Search;
+using Platform.Search.Requests;
 using Xunit;
 namespace Platform.Tests.Establishment;
 

@@ -1,4 +1,4 @@
-﻿using Platform.Search;
+﻿using Platform.Search.Requests;
 using Platform.Search.Validators;
 using Xunit;
 namespace Platform.Tests.Search.Validators;
