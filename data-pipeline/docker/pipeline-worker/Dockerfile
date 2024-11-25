@@ -28,7 +28,7 @@ RUN apt-get update \
         libatlas-base-dev \
         gnupg2 \
         g++ &&\
-        rm -rf /var/lib/apt/lists/* \
+        rm -rf /var/lib/apt/lists/*
 
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
