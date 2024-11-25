@@ -12,8 +12,8 @@ using Microsoft.OpenApi.Models;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Search;
 using Platform.Search.Requests;
+using Platform.Search.Responses;
 namespace Platform.Api.Establishment.Trusts;
 
 public class TrustsFunctions(
@@ -87,7 +87,6 @@ public class TrustsFunctions(
                        "CorrelationID", correlationId
                    }
                }))
-        //using (HttpPipeline.CreateClientRequestIdScope(correlationId.ToString()))
         {
             try
             {

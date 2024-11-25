@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Azure.Search.Documents.Models;
-
-namespace Platform.Search;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace Platform.Search.Responses;
 
 [ExcludeFromCodeCoverage]
 public record SuggestResponse<T>
@@ -15,12 +16,9 @@ public record SuggestValue<T>
     public string? Text { get; set; }
     public T? Document { get; set; }
 
-    public static SuggestValue<T> Create(SearchSuggestion<T> suggestion)
+    public static SuggestValue<T> Create(SearchSuggestion<T> suggestion) => new()
     {
-        return new SuggestValue<T>
-        {
-            Text = suggestion.Text,
-            Document = suggestion.Document
-        };
-    }
+        Text = suggestion.Text,
+        Document = suggestion.Document
+    };
 }

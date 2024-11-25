@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Platform.Search;
 using Platform.Search.Requests;
+using Platform.Search.Responses;
 using Platform.Sql;
 namespace Platform.Api.Establishment.LocalAuthorities;
 

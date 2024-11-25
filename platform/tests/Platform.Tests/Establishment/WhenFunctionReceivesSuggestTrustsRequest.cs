@@ -3,8 +3,8 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Trusts;
 using Platform.Functions;
-using Platform.Search;
 using Platform.Search.Requests;
+using Platform.Search.Responses;
 using Xunit;
 namespace Platform.Tests.Establishment;
 

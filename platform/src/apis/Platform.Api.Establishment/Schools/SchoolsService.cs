@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Platform.Search;
 using Platform.Search.Requests;
+using Platform.Search.Responses;
 using Platform.Sql;
 namespace Platform.Api.Establishment.Schools;
 

@@ -5,7 +5,7 @@ using Platform.Api.Establishment.LocalAuthorities;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Search;
+using Platform.Search.Responses;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
