@@ -7,7 +7,7 @@ import pandas as pd
 import sqlalchemy
 from sqlalchemy import URL, create_engine, event
 
-from src.pipeline import config
+from pipeline import config
 
 logger = logging.getLogger("fbit-data-pipeline")
 

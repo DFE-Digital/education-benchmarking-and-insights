@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.pipeline import pre_processing
+from pipeline import pre_processing
 
 
 def test_revenue_reservce_part_year_academy():

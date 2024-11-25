@@ -12,7 +12,7 @@ dotenv_path = os.path.join(
 )
 load_dotenv(dotenv_path)
 
-from src.pipeline.storage import (
+from pipeline.storage import (
     complete_queue_name,
     connect_to_queue,
     create_container,

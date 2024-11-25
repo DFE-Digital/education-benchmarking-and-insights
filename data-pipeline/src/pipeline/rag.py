@@ -7,7 +7,7 @@ from typing import Generator
 import numpy as np
 import pandas as pd
 
-from src.pipeline.config import rag_category_settings
+from pipeline.config import rag_category_settings
 
 pd.options.mode.chained_assignment = None
 

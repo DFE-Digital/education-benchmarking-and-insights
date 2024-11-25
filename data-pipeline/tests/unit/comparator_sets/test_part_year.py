@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.pipeline import comparator_sets
+from pipeline import comparator_sets
 
 @pytest.mark.parametrize(
     "series,expected",

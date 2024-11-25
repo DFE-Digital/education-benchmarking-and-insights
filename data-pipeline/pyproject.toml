@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "fbit-data-pipeline"
 version = "0.0.1"
-package-mode = false
 description = "Financial Benchmarking and Insights data pipeline. Supporting the FBIT frontend and API services."
 authors = ["Department for Education (DfE)"]
 license = "MIT"
 readme = "README.md"
+packages = [{include = "pipeline", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -89,6 +89,7 @@ filterwarnings = [
     "ignore::UserWarning",
     'ignore::DeprecationWarning',
 ]
+pythonpath = ["src"]
 
 [build-system]
 requires = ["poetry-core"]

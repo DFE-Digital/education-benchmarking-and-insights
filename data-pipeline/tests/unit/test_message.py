@@ -1,6 +1,6 @@
 import pytest
 
-from src.pipeline.message import MessageType, get_message_type
+from pipeline.message import MessageType, get_message_type
 
 
 @pytest.mark.parametrize(

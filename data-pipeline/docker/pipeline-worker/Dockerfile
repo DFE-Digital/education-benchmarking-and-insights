@@ -28,7 +28,7 @@ RUN apt-get update \
         libatlas-base-dev \
         gnupg2 \
         g++ &&\
-        rm -rf /var/lib/apt/lists/* \
+        rm -rf /var/lib/apt/lists/*
 
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
@@ -65,7 +65,7 @@ RUN chmod +x /docker-entrypoint.sh
 COPY ./docker/pipeline-worker/odbc.ini /odbc.ini
 RUN odbcinst -i -s -f /odbc.ini -l
 RUN cat /etc/odbc.ini
-COPY ./src/pipeline /src/pipeline
+COPY ./src/pipeline /pipeline
 
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD [ "python", "-m", "src.pipeline.main"]
+CMD [ "python", "-m", "pipeline.main"]

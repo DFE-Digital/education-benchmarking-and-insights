@@ -207,7 +207,7 @@ To run the pipeline locally, follow these steps:
     From data-pipeline directory run the pipeline:
 
     ```sh
-    poetry run python -m src.pipeline.main
+    poetry run python -m pipeline.main
     ```
 
     Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:

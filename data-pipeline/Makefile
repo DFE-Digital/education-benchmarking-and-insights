@@ -2,11 +2,11 @@ install:
 	poetry install
 	
 run-pipeline:
-	poetry run python -m src.pipeline.main
+	poetry run python -m pipeline.main
 
 run-pipeline-dev-mode:
 	export ENV=dev;\
-    poetry run python -m src.pipeline.main
+    poetry run python -m pipeline.main
 
 build: 
 	docker build $(tags) --file docker/pipeline-worker/Dockerfile . --platform="linux/amd64"

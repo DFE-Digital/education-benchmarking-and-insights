@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.pipeline.pre_processing import (
+from pipeline.pre_processing import (
     build_bfr_data,
     prepare_aar_data,
     prepare_cdc_data,
