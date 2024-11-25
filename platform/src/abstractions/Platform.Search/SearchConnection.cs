@@ -1,8 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using Azure;
+using Azure.Core.Pipeline;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
-
+using Platform.Search.Requests;
+using Platform.Search.Telemetry;
 namespace Platform.Search;
 
 public interface ISearchConnection<T>
@@ -14,7 +16,7 @@ public interface ISearchConnection<T>
 }
 
 [ExcludeFromCodeCoverage]
-public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, string indexName) : ISearchConnection<T>
+public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, string indexName, ITelemetryService? telemetryService) : ISearchConnection<T>
 {
     private readonly SearchClient _client = new(endpoint, indexName, credential);
 
@@ -28,8 +30,16 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
             QueryType = SearchQueryType.Full
         };
 
-        var searchResponse = await _client.SearchAsync<T>(search, options);
+        var searchId = Guid.NewGuid();
+        Response<SearchResults<T>> searchResponse;
+        using (HttpPipeline.CreateClientRequestIdScope(searchId.ToString()))
+        {
+            searchResponse = await _client.SearchAsync<T>(search, options);
+        }
+
         var searchResults = searchResponse.Value;
+        telemetryService?.TrackSearchEvent(new SearchTelemetryProperties(searchId, _client.ServiceName, indexName, options.Facets, options.Filter, search, searchResults.TotalCount));
+
         return (searchResults.TotalCount, searchResults
             .GetResults()
             .Select(result => new ScoreResponse<T>
@@ -41,7 +51,6 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
 
     public async Task<T> LookUpAsync(string? key)
     {
-
         var response = await _client.GetDocumentAsync<T>(key);
         return response.Value;
     }
@@ -68,12 +77,18 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
             }
         }
 
-        var searchResponse = await _client.SearchAsync<T>(request.SearchText, options);
-        var searchResults = searchResponse.Value;
+        var searchId = Guid.NewGuid();
+        Response<SearchResults<T>> searchResponse;
+        using (HttpPipeline.CreateClientRequestIdScope(searchId.ToString()))
+        {
+            searchResponse = await _client.SearchAsync<T>(request.SearchText, options);
+        }
 
+        var searchResults = searchResponse.Value;
         var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : default;
         var results = searchResults.GetResults().Select(result => result.Document);
 
+        telemetryService?.TrackSearchEvent(new SearchTelemetryProperties(searchId, _client.ServiceName, indexName, options.Facets, options.Filter, request.SearchText, searchResults.TotalCount));
         return SearchResponse<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
@@ -99,9 +114,15 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
             }
         }
 
-        var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
-        var results = response.Value.Results.Select(SuggestValue<T>.Create);
+        var searchId = Guid.NewGuid();
+        Response<SuggestResults<T>> response;
+        using (HttpPipeline.CreateClientRequestIdScope(searchId.ToString()))
+        {
+            response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
+        }
 
+        var results = response.Value.Results.Select(SuggestValue<T>.Create);
+        telemetryService?.TrackSuggestEvent(new SuggestTelemetryProperties(searchId, _client.ServiceName, indexName, request.SuggesterName, options.Select, options.Filter, request.SearchText, response.Value.Results.Count));
         return new SuggestResponse<T>
         {
             Results = results
@@ -114,7 +135,11 @@ public class SearchConnection<T>(Uri endpoint, AzureKeyCredential credential, st
         foreach (var facetResult in facetResults)
         {
             facetOutput[facetResult.Key] = facetResult.Value
-                .Select(x => new FacetValueResponseModel { Value = x.Value.ToString(), Count = x.Count }).ToList();
+                .Select(x => new FacetValueResponseModel
+                {
+                    Value = x.Value.ToString(),
+                    Count = x.Count
+                }).ToList();
         }
 
         return facetOutput;

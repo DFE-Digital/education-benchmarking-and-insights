@@ -13,6 +13,8 @@ using Platform.Api.Establishment.Trusts;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure;
 using Platform.Search;
+using Platform.Search.Requests;
+using Platform.Search.Telemetry;
 using Platform.Search.Validators;
 using Platform.Sql;
 namespace Platform.Api.Establishment.Configuration;
@@ -49,16 +51,22 @@ internal static class Services
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
-            .AddSingleton<ISearchConnection<LocalAuthority>>(new SearchConnection<LocalAuthority>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.LocalAuthority))
-            .AddSingleton<ISearchConnection<School>>(new SearchConnection<School>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.School))
-            .AddSingleton<ISearchConnection<Trust>>(new SearchConnection<Trust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.Trust))
-            .AddSingleton<ISearchConnection<ComparatorSchool>>(new SearchConnection<ComparatorSchool>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.SchoolComparators))
-            .AddSingleton<ISearchConnection<ComparatorTrust>>(new SearchConnection<ComparatorTrust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.TrustComparators))
+            .AddSingleton<ISearchConnection<LocalAuthority>>(x =>
+                new SearchConnection<LocalAuthority>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.LocalAuthority, x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<School>>(x =>
+                new SearchConnection<School>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.School, x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<Trust>>(x =>
+                new SearchConnection<Trust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.Trust, x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorSchool>>(x =>
+                new SearchConnection<ComparatorSchool>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.SchoolComparators, x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorTrust>>(x =>
+                new SearchConnection<ComparatorTrust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.TrustComparators, x.GetService<ITelemetryService>()))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
             .AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>()
-            .AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
+            .AddSingleton<IComparatorTrustsService, ComparatorTrustsService>()
+            .AddSingleton<ITelemetryService, TelemetryService>();
 
         serviceCollection
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();

@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.LocalAuthorities;
-using Platform.Search;
+using Platform.Search.Requests;
 namespace Platform.Tests.Establishment;
 
 public class LocalAuthoritiesFunctionsTestBase : FunctionsTestBase

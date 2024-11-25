@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-
-namespace Platform.Search;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+namespace Platform.Search.Requests;
 
 [ExcludeFromCodeCoverage]
 public record SuggestRequest

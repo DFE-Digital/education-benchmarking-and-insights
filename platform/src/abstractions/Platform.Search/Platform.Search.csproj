@@ -11,6 +11,7 @@
     <ItemGroup>
         <PackageReference Include="Azure.Search.Documents"/>
         <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="Microsoft.ApplicationInsights"/>
     </ItemGroup>
 
 </Project>

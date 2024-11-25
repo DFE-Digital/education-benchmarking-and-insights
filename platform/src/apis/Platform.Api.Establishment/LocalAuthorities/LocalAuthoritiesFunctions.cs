@@ -13,6 +13,7 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
+using Platform.Search.Requests;
 namespace Platform.Api.Establishment.LocalAuthorities;
 
 public class LocalAuthoritiesFunctions(
@@ -86,6 +87,7 @@ public class LocalAuthoritiesFunctions(
                        "CorrelationID", correlationId
                    }
                }))
+        //using (HttpPipeline.CreateClientRequestIdScope(correlationId.ToString()))
         {
             try
             {
