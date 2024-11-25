@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Azure;
+using Azure.Search.Documents;
 using FluentValidation;
 using HealthChecks.AzureSearch.DependencyInjection;
 using Microsoft.Azure.Functions.Worker;
@@ -51,16 +52,21 @@ internal static class Services
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
-            .AddSingleton<ISearchConnection<LocalAuthority>>(x =>
-                new SearchConnection<LocalAuthority>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.LocalAuthority, x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<School>>(x =>
-                new SearchConnection<School>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.School, x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<Trust>>(x =>
-                new SearchConnection<Trust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.Trust, x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorSchool>>(x =>
-                new SearchConnection<ComparatorSchool>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.SchoolComparators, x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorTrust>>(x =>
-                new SearchConnection<ComparatorTrust>(searchEndpoint, searchCredential, ResourceNames.Search.Indexes.TrustComparators, x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<LocalAuthority>>(x => new SearchConnection<LocalAuthority>(
+                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.LocalAuthority, searchCredential),
+                x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<School>>(x => new SearchConnection<School>(
+                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.School, searchCredential),
+                x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<Trust>>(x => new SearchConnection<Trust>(
+                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.Trust, searchCredential),
+                x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorSchool>>(x => new SearchConnection<ComparatorSchool>(
+                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.SchoolComparators, searchCredential),
+                x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorTrust>>(x => new SearchConnection<ComparatorTrust>(
+                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.TrustComparators, searchCredential),
+                x.GetService<ITelemetryService>()))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()

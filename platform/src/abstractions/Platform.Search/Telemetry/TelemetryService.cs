@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.ApplicationInsights;
 namespace Platform.Search.Telemetry;
 
 public interface ITelemetryService
@@ -7,6 +8,7 @@ public interface ITelemetryService
     void TrackSuggestEvent(SuggestTelemetryProperties properties);
 }
 
+[ExcludeFromCodeCoverage]
 public class TelemetryService(TelemetryClient telemetryClient) : ITelemetryService
 {
     public void TrackSearchEvent(SearchTelemetryProperties properties)
