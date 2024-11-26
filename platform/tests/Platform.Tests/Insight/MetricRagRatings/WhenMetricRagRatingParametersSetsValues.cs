@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Platform.Api.Insight.MetricRagRatings;
-using Platform.Functions;
+using Platform.Functions.Messages;
 using Xunit;
 namespace Platform.Tests.Insight.MetricRagRatings;
 
