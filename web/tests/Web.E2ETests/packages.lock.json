@@ -2,6 +2,16 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "Dynamitey": {
+        "type": "Direct",
+        "requested": "[3.0.3, )",
+        "resolved": "3.0.3",
+        "contentHash": "ocF4rRKgnmBkblk8RrgRP9YxxeJBvoaoCNLXgmUMgQCjZRw2v6Rtqxt5Kni6/TtbvICeWVN9X/69G5jltUEnbQ==",
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "System.ComponentModel": "4.3.0"
+        }
+      },
       "FluentAssertions": {
         "type": "Direct",
         "requested": "[6.12.1, )",
@@ -137,6 +147,11 @@
         "resolved": "17.11.1",
         "contentHash": "nPJqrcA5iX+Y0kqoT3a+pD/8lrW/V7ayqnEJQsTonSoPz59J8bmoQhcSN4G8+UJ64Hkuf0zuxnfuj2lkHOq4cA=="
       },
+      "Microsoft.CSharp": {
+        "type": "Transitive",
+        "resolved": "4.7.0",
+        "contentHash": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA=="
+      },
       "Microsoft.Extensions.Configuration.Abstractions": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -233,6 +248,14 @@
         "type": "Transitive",
         "resolved": "1.0.8",
         "contentHash": "lVCC/Rie7N5rFoc7YxPS0nneLfsWSTIMMlkndwxhaD8MxBp3Bsv1HeiVjVwXCjWaQeoqZcvIy52fF5Xit00ZLw=="
+      },
+      "System.ComponentModel": {
+        "type": "Transitive",
+        "resolved": "4.3.0",
+        "contentHash": "VyGn1jGRZVfxnh8EdvDCi71v3bMXrsu8aYJOwoV7SNDLVhiEqwP86pPMyRGsDsxhXAm2b3o9OIqeETfN5qfezw==",
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        }
       },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",

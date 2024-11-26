@@ -5,6 +5,7 @@ public static class Selectors
     public const string H1 = "h1";
     public const string H2 = "h2";
     public const string H3 = "h3";
+    public const string H4 = "h4";
 
     //public const string GovBreadcrumbs = ".govuk-breadcrumbs";
     public const string GovShowAllLinkText = ".govuk-accordion__show-all-text";
@@ -18,6 +19,7 @@ public static class Selectors
     public const string GovTable = ".govuk-table";
     public const string GovHeadingM = ".govuk-heading-m";
     public const string GovWarning = ".govuk-warning-text";
+    public const string GovFooterLink = "footer .govuk-footer__link";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";

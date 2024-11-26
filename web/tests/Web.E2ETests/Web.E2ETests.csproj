@@ -9,6 +9,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Using Include="Reqnroll"/>
+        <PackageReference Include="Dynamitey"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
