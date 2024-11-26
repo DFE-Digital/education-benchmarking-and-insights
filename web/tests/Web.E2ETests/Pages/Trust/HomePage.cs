@@ -17,6 +17,12 @@ public class HomePage(IPage page)
     {
         HasText = "View pupil and workforce data"
     });
+
+    private ILocator TrustForecastLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Forecast and risk"
+    });
+
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
@@ -62,5 +68,11 @@ public class HomePage(IPage page)
     {
         await BenchmarkCensusDataLink.Click();
         return new BenchmarkCensusPage(page);
+    }
+
+    public async Task<TrustForecastPage> ClickTrustForecast()
+    {
+        await TrustForecastLink.Click();
+        return new TrustForecastPage(page);
     }
 }

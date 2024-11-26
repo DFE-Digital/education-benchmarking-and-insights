@@ -15,4 +15,9 @@ public class CurriculumFinancialPlanningPage(IPage page)
         //await Breadcrumbs.ShouldBeVisible();
         await CreateNewPlanBtn.ShouldBeVisible().ShouldBeEnabled();
     }
+
+    public async Task IsForbidden()
+    {
+        await PageH1Heading.ShouldBeVisible().ShouldHaveText("Access denied");
+    }
 }
