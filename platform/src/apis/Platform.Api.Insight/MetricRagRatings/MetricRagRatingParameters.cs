@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Functions.Messages;
 namespace Platform.Api.Insight.MetricRagRatings;
 
 public record MetricRagRatingParameters : QueryParameters

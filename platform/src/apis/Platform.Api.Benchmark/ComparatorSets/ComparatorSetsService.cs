@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using Platform.Functions;
+using Platform.Functions.Messages;
 using Platform.Sql;
 namespace Platform.Api.Benchmark.ComparatorSets;
 

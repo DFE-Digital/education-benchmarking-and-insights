@@ -33,24 +33,30 @@ sequenceDiagram
     end
 
     Platform API->>data-pipeline-job-pending: Produce
-    Note over Platform API,data-pipeline-job-pending: Platform API generated message
+    Note over Platform API,data-pipeline-job-pending: Platform API generated message<br/>with the 'custom' message schema
     data-pipeline-job-pending-->>Orchestrator: Consume
     
     Developer->>data-pipeline-job-pending: Produce
-    Note over Developer,data-pipeline-job-pending: Manually generated message 
+    Note over Developer,data-pipeline-job-pending: Manually generated message <br/>with the 'default' message schema
     data-pipeline-job-pending-->>Orchestrator: Consume
 
-    alt is custom
+    alt is 'custom' message type
         Orchestrator->>data-pipeline-job-custom-start: Produce
         Data pipeline-->>data-pipeline-job-custom-start: Consume
-    else is default
+    else is 'default' message type
         Orchestrator->>data-pipeline-job-default-start: Produce
         Data pipeline-->>data-pipeline-job-default-start: Consume
+    else
+        Note right of Orchestrator: Exception
     end
 
     Data pipeline->>data-pipeline-job-finished: Produce
     data-pipeline-job-finished-->>Orchestrator: Consume
-    Orchestrator->>Orchestrator: Log completion
+    alt is 'custom' message type
+        Orchestrator->>Database: Update status
+    else is 'default' message type
+        Orchestrator->>Azure Search: Run indexers
+    end
 ```
 
 ## Configuration
