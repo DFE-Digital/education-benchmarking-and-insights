@@ -15,10 +15,12 @@ public interface ISearchConnection<T>
     Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null);
 }
 
-public class SearchConnection<T>(SearchClient client, ITelemetryService? telemetryService) : ISearchConnection<T>
+public class SearchConnection<T>(SearchClient? client, ITelemetryService? telemetryService) : ISearchConnection<T>
 {
     public async Task<(long? Total, IEnumerable<ScoreResponse<T>> Response)> SearchAsync(string? search, string? filters, int? size = null)
     {
+        ArgumentNullException.ThrowIfNull(client);
+
         var options = new SearchOptions
         {
             Size = size,
@@ -49,12 +51,16 @@ public class SearchConnection<T>(SearchClient client, ITelemetryService? telemet
 
     public async Task<T> LookUpAsync(string? key)
     {
+        ArgumentNullException.ThrowIfNull(client);
+
         var response = await client.GetDocumentAsync<T>(key);
         return response.Value;
     }
 
     public async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
+        ArgumentNullException.ThrowIfNull(client);
+
         var options = new SearchOptions
         {
             Size = request.PageSize,
@@ -93,6 +99,8 @@ public class SearchConnection<T>(SearchClient client, ITelemetryService? telemet
 
     public async Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
+        ArgumentNullException.ThrowIfNull(client);
+
         var options = new SuggestOptions
         {
             HighlightPreTag = "*",
