@@ -50,23 +50,28 @@ internal static class Services
                 }, $"azuresearch:{index}");
         }
 
+        //TODO: Add serilog configuration AB#227696
+        // App Insights must be BEFORE any keyed services:
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
+        serviceCollection
+            .AddApplicationInsightsTelemetryWorkerService()
+            .ConfigureFunctionsApplicationInsights();
+
+        serviceCollection
+            .AddKeyedSingleton(ServiceKeys.LocalAuthority, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.LocalAuthority, searchCredential))
+            .AddKeyedSingleton(ServiceKeys.School, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.School, searchCredential))
+            .AddKeyedSingleton(ServiceKeys.Trust, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.Trust, searchCredential))
+            .AddKeyedSingleton(ServiceKeys.ComparatorSchool, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.SchoolComparators, searchCredential))
+            .AddKeyedSingleton(ServiceKeys.ComparatorTrust, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.TrustComparators, searchCredential))
+            .AddSingleton<ISearchConnection<LocalAuthority>>(x => new SearchConnection<LocalAuthority>(x.GetKeyedService<SearchClient>(ServiceKeys.LocalAuthority), x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<School>>(x => new SearchConnection<School>(x.GetKeyedService<SearchClient>(ServiceKeys.School), x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<Trust>>(x => new SearchConnection<Trust>(x.GetKeyedService<SearchClient>(ServiceKeys.Trust), x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorSchool>>(x => new SearchConnection<ComparatorSchool>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorSchool), x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<ComparatorTrust>>(x => new SearchConnection<ComparatorTrust>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorTrust), x.GetService<ITelemetryService>()));
+
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
-            .AddSingleton<ISearchConnection<LocalAuthority>>(x => new SearchConnection<LocalAuthority>(
-                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.LocalAuthority, searchCredential),
-                x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<School>>(x => new SearchConnection<School>(
-                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.School, searchCredential),
-                x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<Trust>>(x => new SearchConnection<Trust>(
-                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.Trust, searchCredential),
-                x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorSchool>>(x => new SearchConnection<ComparatorSchool>(
-                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.SchoolComparators, searchCredential),
-                x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorTrust>>(x => new SearchConnection<ComparatorTrust>(
-                new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.TrustComparators, searchCredential),
-                x.GetService<ITelemetryService>()))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
@@ -77,11 +82,15 @@ internal static class Services
         serviceCollection
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
 
-        //TODO: Add serilog configuration AB#227696
-        serviceCollection
-            .AddApplicationInsightsTelemetryWorkerService()
-            .ConfigureFunctionsApplicationInsights();
-
         serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+    }
+
+    internal static class ServiceKeys
+    {
+        public const string LocalAuthority = "local-authority";
+        public const string School = "school";
+        public const string Trust = "trust";
+        public const string ComparatorSchool = "comparator-school";
+        public const string ComparatorTrust = "comparator-trust";
     }
 }
