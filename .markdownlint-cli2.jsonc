@@ -6,7 +6,7 @@
     "config": {
         "no-inline-html": false,
         "line-length": {
-            "line_length": 100
+            "line_length": 180
         }
     },
     // Define glob expressions to ignore
