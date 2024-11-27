@@ -26,18 +26,21 @@ NB: The numbers below are based session counts from the existing services. Sessi
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 4,500 | 6,750 | N/A |
 | **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
+
 ## Establishment API Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 4,500 | 6,750 | N/A |
 | **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
+
 ## Insight API Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |
 |-----------|------------------------------|-------------------|----------------|-------------------------|
 | **API Requests/Minute** | Number of API requests sent to the server per minute. | 6,300 | 9,450 | N/A |
 | **Error Count**        | Requests that result in an error (i.e. HTTP status code 5xx). | 0 | N/A | Above 1  |
+
 ## Storage Queue Demand
 
 | **Metric** | **Description** | **Current Value** | **Peak Value** | **Threshold for Action** |

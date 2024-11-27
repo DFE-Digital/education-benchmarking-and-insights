@@ -2,7 +2,6 @@
 
 The data processing pipeline takes the raw data from various source that cover differing time periods
 
-
 ```mermaid
 gantt
     title Data timeline
@@ -30,16 +29,16 @@ gantt
 
 ## Dataset period
 
-| Dataset              | Period                      | 
+| Dataset              | Period                      |
 |:---------------------|:----------------------------|
-| **GIAS**             |                             | 
+| **GIAS**             |                             |
 | **CDC**              |                             |  
-| **SEN**              |                             | 
-| **AAR**              | 1st September - 31th August | 
+| **SEN**              |                             |
+| **AAR**              | 1st September - 31th August |
 | **CFR**              | 1st April - 31th March      |
-| **Key stage 2/4**    |                             | 
+| **Key stage 2/4**    |                             |
 | **Pupil Census**     |                             |  
-| **Workforce Census** |                             | 
+| **Workforce Census** |                             |
 | **BFR**              |                             |  
 
 <!-- Leave the rest of this page blank -->

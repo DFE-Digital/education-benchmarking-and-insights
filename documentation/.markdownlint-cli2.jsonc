@@ -5,13 +5,14 @@
     // Disable some built-in rules
     "config": {
         "no-inline-html": false,
-        "line-length": {
-            "line_length": 180
+        "line-length": false,
+        "no-duplicate-heading": {
+            "siblings_only": true
         }
     },
     // Define glob expressions to ignore
     "ignores": [
-        "node_modules",
-        "terraform"
+        "quality-assurance/security-scan-reports",
+        "templates/release-test-plan.md"
     ]
 }

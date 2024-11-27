@@ -6,27 +6,19 @@ DD/MM/YYYY
 
 ## Goal
 
-
 ## Objective
-
 
 ## Procedure
 
 **Determine Capacity:**
 
-
 **Average Load Phase:**
-
-
 
 **Monitoring Performance:**
 
-
 ## Performance Success Criteria
 
-
 ## Test Execution
-
 
 ## Test Output
 

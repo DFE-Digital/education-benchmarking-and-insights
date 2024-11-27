@@ -1,6 +1,6 @@
 # School workforce
 
-Source: https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england
+Source: <https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england>
 
 Period: Reporting year
 
@@ -12,11 +12,11 @@ Format: XLSX
 |----------|-----------|
 | June     | Published |
 
- 
 ## Obtaining data
 
 **Latest year:**
-1. Open access from website. 
+
+1. Open access from website.
 2. File is located under "Additional supporting files" > "School level summary file"
 3. Click link to download file
 
@@ -42,8 +42,8 @@ Format: XLSX
 | Total Number of Auxiliary Staff (Headcount)                                                                                                                                           | float |     |
 | Total School Workforce (Headcount)                                                                                                                                                    | float |     |
 
-
 ## Validation
+
 //TODO
 
 <!-- Leave the rest of this page blank -->

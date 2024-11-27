@@ -1,6 +1,6 @@
-# Incident management 
+# Incident management
 
-## Incident levels 
+## Incident levels
 
 |   | Incident levels  |Comms update targets   | Target time to fix once issue triaged<br/>(working hours) |
 |---|---|---|--------------------------------------------|
@@ -9,7 +9,7 @@
 |P3 - Minimal incident   |Less than 10% service functionality unavailable  |Every 8 hours   |24 hours (3 working days)                                            |
 |P4 - Negligible incident   |Reduced functionality within the service   |On request   |40 hours (5 working days)                                            |
 
-## Incident communications 
+## Incident communications
 
 Upon identifying a P1 or P2 incident, the [team stakeholder group] will be notified immediately.
 
@@ -19,14 +19,13 @@ After this, communications will be at the frequency noted above.
 
 Once the incident has been resolved, the
 
-
-## Stakeholder group 
+## Stakeholder group
 
 * Product owner(s)
 * Deliver manager
 * Technical Lead
 
-## Root cause analysis 
+## Root cause analysis
 
 Following an incident, the team root cause analysis process will be following to identify what could be changed in future to help avoid similar incidents recurring.
 

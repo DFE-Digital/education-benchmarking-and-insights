@@ -7,16 +7,16 @@ All prototype updates should be made in the following locations assuming you are
 * Routing - `routes/latest.js`
 * CSS - `assets/sass/_latest.scss`
 
-This will update the pages running at http://localhost:3000/latest/
+This will update the pages running at <http://localhost:3000/latest/>
 
-Archived versions such as http://localhost:3000/v1_0_0 can be created automatically at suitable points.
+Archived versions such as <http://localhost:3000/v1_0_0> can be created automatically at suitable points.
 
 ## Archiving a version of the prototype
 
 Archiving a version of the prototype allows you still access the prototype as it stood at this point in time while allowing you to continue making/viewing changes in the `latest` folder for your next iteration.
 
-
 ### Automatic archiving (Recommended)
+
 Archiving can be done automatically using a script
 
 1. Open the folder you have installed the repo to in Finder
@@ -33,6 +33,7 @@ Archiving can be done automatically using a script
 If this works, you do not need to follow the manual archiving steps below.
 
 ### Manual archiving (Fallback)
+
 If for any reason the script doesn't work, follow these steps to manually create an archived version.
 
 1. Choose a suitable version number in the format `v1_2_3` to use in file/folder names
@@ -40,7 +41,7 @@ If for any reason the script doesn't work, follow these steps to manually create
     2. `v1_2_3` will be used in the below examples
 2. Navigate to `prototype/src/app`
 3. Create a copy of the `views/latest` folder called `views/v1_2_3`
-4. Create a copy of `routes/latest.js` called `routes/v1_2_3.js` 
+4. Create a copy of `routes/latest.js` called `routes/v1_2_3.js`
 5. Create a copy of `assets/sass/_latest.scss` called `assets/sass/_v1_2_3.scss` - note this begins with an underscore
 6. Create a copy of `views/layouts/latest.html` called `views/layouts/v1_2_3.html`
 7. In `routes/v1_2_3.js`:

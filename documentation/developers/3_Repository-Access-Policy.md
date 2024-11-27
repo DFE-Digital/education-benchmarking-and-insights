@@ -14,6 +14,7 @@ This section outlines the access control for this repository. It defines who has
 Readers: Readers have read-only access to the repository. They can view the repository contents, but cannot make any changes or contributions.
 
 ## Access Control
+
 Only individuals who have been granted access explicitly should be added as collaborators to this repository.
 
 Access levels should be assigned based on the individual's role and responsibilities related to the project.
@@ -21,6 +22,7 @@ Access levels should be assigned based on the individual's role and responsibili
 Access should be revoked promptly when an individual no longer requires it, such as when they leave the project or organization.
 
 ### Collaboration Guidelines
+
 All collaborators are expected to follow the project's coding standards, contribution guidelines, and code of conduct.
 
 Before making significant changes, collaborators should discuss and agree upon the approach with other team members if applicable.
@@ -28,11 +30,13 @@ Before making significant changes, collaborators should discuss and agree upon t
 Pull requests should be reviewed by at least one other collaborator before being merged into the main branch.
 
 ### Confidentiality
+
 Collaborators are expected to respect the confidentiality of any sensitive information or proprietary code stored in this repository.
 
 Care should be taken not to include any credentials, API keys, or other sensitive data in code commits or public discussions.
 
 ### Reporting Security Issues
+
 Collaborators who discover security vulnerabilities or other issues should report them promptly to the repository owner(s) or designated security contacts.
 
 <!-- Leave the rest of this page blank -->

@@ -13,7 +13,7 @@ The current systems that the new service is to replace store their data is very 
 
 The options considered were:
 
-* SFB - the data held in SFB 
+* SFB - the data held in SFB
 * SQL Server - a relational database
 
 | Criteria | Comment | CosmosDB | SQL Server |

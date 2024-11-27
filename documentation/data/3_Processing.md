@@ -58,7 +58,7 @@ The pre-processing module takes the raw data and transforms, joins and cleanses 
 | Dataset  | Input Filename                               | Join Key(s) | Description                                                                                                                                                                                                   |
 |:---------|:---------------------------------------------|:------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **GIAS** | gias.csv, gias_all_links.csv, gias_links.csv | UKPRN, URN  | General school information this actually consists of 3 files `gias.csv`, `gias_all_links.csv` and `gias_links.csv`. These files are combined to produce a dataset that represents the base school information |
-| **CDC** | cdc.csv | URN | This contains building information
+| **CDC** | cdc.csv | URN | This contains building information |
 | **SEN** | sen.csv | URN | Contains information about the special educational characteristics of schools, including the number of pupils with a EHC Plan and with various other quantities that define the special education need charateristics of the school  |
 | **Maintained School** | maintained_schools_master_list.csv | URN, UKPRN | This is the master list that represents the full cohort of LA maintained schools in the UK. This file also typically contains the financial data for the schools aswell. |
 | **Academies** | academy_master_list.csv | Trust UPIN, Academy UPIN, URN | This is the master list that represents the full cohort of Academies in the UK. It is worth noting that this also contains entries for trusts |
@@ -307,11 +307,11 @@ flowchart TD
     phases --> prod
 ```
 
-**Pupil Calculation (non-special)**
+#### Pupil Calculation (non-special)
 
 $$ \sqrt{0.5\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.4\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)^2  + 0.1\left(\dfrac{\Delta SEN\%}{range(SEN\%)}\right)^2 } $$
 
-**Special Calculation**
+#### Special Calculation
 
 $$\begin{aligned}
 pupils &= 0.6\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.4\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)^2

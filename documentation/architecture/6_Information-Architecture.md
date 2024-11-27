@@ -19,7 +19,6 @@
 | **MAT Overview**        | Holds general information regarding multi-academy trusts                                                    |
 | **MAT Totals**          | Holds aggregate information specific to multi-academy trusts                                                |
 
-
 ## Data Repositories
 
 | Name | Technology             |

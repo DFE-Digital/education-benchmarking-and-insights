@@ -32,7 +32,6 @@
 | **ARCH-24** | Infrastructure as Code - Build, Deployment, Infrastructure & Networking should utilise scripted automation for Infrastructure as Code and CI, CT, CD. |
 | **ARCH-25** | IT Health Checked - Externally available services must undergo a IT Health Check (ITHC) from a CHECK Accredited ITHC supplier prior to exposing production interfaces to the internet. |
 
-
 ### API principals
 
 | Id   | Principal |
@@ -41,13 +40,12 @@
 | **API-2** | No benchmarking specific logic in the platform |
 | **API-3** | Proactive not reactive analytics and monitoring. |
 | **API-4** | Entropy reduction - focus on stability, minimise deployment dependencies. |
-| **API-5** | Robustness and performance as a feature. | 
+| **API-5** | Robustness and performance as a feature. |
 | **API-6** | Secure by default. |
 | **API-7** | Versioning built-in with graceful deprecation across older versions. |
-| **API-8** | Each API context should be individually deployable and scalable | 
+| **API-8** | Each API context should be individually deployable and scalable |
 | **API-9** | Documented using an Open documentation system, Open API for example. |
 | **API-10** | Have traceability built in to allow correlation of requests throughout the stack. See below. |
-
 
 ## Constraints
 

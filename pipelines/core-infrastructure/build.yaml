@@ -76,7 +76,6 @@ stages:
         steps:
           - template: ..\common\markdown-lint.yaml
             parameters:
-              ConfigFile: '$(System.DefaultWorkingDirectory)/.markdownlint-cli2.jsonc'
               DocumentsDirectory: '$(System.DefaultWorkingDirectory)/core-infrastructure'
 
       - job: ZipStaticArtifacts

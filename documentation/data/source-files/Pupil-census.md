@@ -1,6 +1,6 @@
 # Schools, pupils and their characteristics
 
-Source: https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics
+Source: <https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics>
 
 Period: Academic year
 
@@ -13,11 +13,12 @@ Format: CSV
 | June     | Published |
 
 For example; for academic year ending July 2024 data is published on June 2024.
- 
+
 ## Obtaining data
 
 **Latest year:**
-1. Open access from website. 
+
+1. Open access from website.
 2. File is located under "Additional supporting files" > "School level underlying data - [year]"
 3. Click link to download file
 
@@ -44,6 +45,7 @@ For example; for academic year ending July 2024 data is published on June 2024.
 | number_of_dual_subsidiary_registrations                | float |     |
 
 ## Validation
+
 //TODO
 
 <!-- Leave the rest of this page blank -->

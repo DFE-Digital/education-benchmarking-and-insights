@@ -1,6 +1,6 @@
 # Special educational needs
 
-Source: https://explore-education-statistics.service.gov.uk/find-statistics/special-educational-needs-in-england
+Source: <https://explore-education-statistics.service.gov.uk/find-statistics/special-educational-needs-in-england>
 
 Period: Academic year
 
@@ -13,11 +13,12 @@ Format: CSV
 | June     | Published |
 
 For example; for academic year ending July 2024 data is published on June 2024.
- 
+
 ## Obtaining data
 
 **Latest year:**
-1. Open access from website. 
+
+1. Open access from website.
 2. File is located under "Additional supporting files" > "School level underlying data [year]"
 3. Click link to download file
 
@@ -57,8 +58,8 @@ For example; for academic year ending July 2024 data is published on June 2024.
 | EHC_Primary_need_oth  | float |     |
 | SUP_Primary_need_oth  | float |     |
 
-
 ## Validation
+
 //TODO
 
 <!-- Leave the rest of this page blank -->

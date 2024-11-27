@@ -1,6 +1,6 @@
 # Key stage 4 results
 
-Source: https://www.compare-school-performance.service.gov.uk/
+Source: <https://www.compare-school-performance.service.gov.uk/>
 
 Period: Academic year
 
@@ -20,7 +20,7 @@ For example; for academic year ending July 2024 data is published on October 202
 1. Data tables
 2. Download data(for example, keystage measures, pupil destinations, absence data etc. in csv or xls format) for all of England or a local authority
 3. All of England
-4. Performance > Key stage 4 results 
+4. Performance > Key stage 4 results
 
 ## File schema
 
@@ -34,8 +34,8 @@ For example; for academic year ending July 2024 data is published on October 202
 | P8MEA      | float  |     |
 | P8_BANDING | string |     |
 
-
 ## Validation
+
 //TODO
 
 <!-- Leave the rest of this page blank -->

@@ -8,18 +8,20 @@
 
 This plan defines the approach for testing release `2024.11.3`.
 
-Ensure that the enhancement, and critical bug fix in `2024.11.3` are functioning as expected without adversely impacting existing 
+Ensure that the enhancement, and critical bug fix in `2024.11.3` are functioning as expected without adversely impacting existing
 functionality.
 
 ## Scope
 
 **In-scope:**
+
 - Enhancements
   - Data pipeline orchestrator triggers search indexers on completion
-- Bug fixes 
+- Bug fixes
   - Schools without building comparator set unable to view spending priorities
 
 **Out-of-Scope:**
+
 - Any new functionality not targeted for this release.
 
 ## Test Strategy
@@ -30,10 +32,12 @@ functionality.
 ## Entry and Exit Criteria
 
 **Entry Criteria:**
+
 - All code changes for release are completed and deployed to the pre-production environment.
 - Pre-production environment is set up with required data.
 
 **Exit Criteria:**
+
 - All high-priority test cases pass.
 - No critical defects remain open.
 - Signed off by stakeholders.
@@ -67,6 +71,7 @@ N/A
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=238516&suiteId=238517)**
 
 **Azure DevOps tickets:**
+
 - [232831 : Trigger the search indexers post pipeline run](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/232831)
 - [237597 : Unable to view Spending Priorities when no building comparator set](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/237597)
 

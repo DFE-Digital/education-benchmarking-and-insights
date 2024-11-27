@@ -2,12 +2,13 @@
 
 ## Context and Problem Statement
 
-For the new financial benchmarking system, there are several different frameworks and architectures that can be used to build the user-facing front end site. 
+For the new financial benchmarking system, there are several different frameworks and architectures that can be used to build the user-facing front end site.
 
 ## Considered Options
-- An .NET Core MVC site written in C#. 
-- A ReactJS site running on NodeJS. 
-- An .NET Core MVC site written in C#, consuming a ReactJS application as a package. 
+
+- An .NET Core MVC site written in C#.
+- A ReactJS site running on NodeJS.
+- An .NET Core MVC site written in C#, consuming a ReactJS application as a package.
 
 ### Evaluation
 

@@ -14,15 +14,15 @@ The main branch should always be production-ready. That means the team should th
 
 One of the main benefits of this approach is that it integrates well with existing continuous integration and continuous delivery (CI/CD) services. When the team pushes each commit to the main branch, it runs automated tests (part of CI) to verify that the new changes do not break the main branch. Then, after all the tests successfully complete, the pipelines are configured to create deployments.
 
-
 ## Branch naming
 
 Branches should be named using the following pattern `category/<reference>/description-in-kebab-case`. With categories;
+
 - `feature` is for adding, refactoring or removing a feature
 - `bugfix` is for fixing a bug
 - `hotfix` is for changing code with a temporary solution and/or without following the usual process (usually because of an emergency)
 - `exp` is for experimenting outside an issue/ticket
-- `tech-debt` is for technical debt 
+- `tech-debt` is for technical debt
 - `doc` is for documentation changes
 - `prototype` is for prototype changes
 
