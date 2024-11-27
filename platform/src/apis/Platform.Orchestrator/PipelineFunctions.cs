@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
-using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Functions.Messages;
 using Platform.Orchestrator.Search;
 namespace Platform.Orchestrator;
 
@@ -14,7 +15,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
-        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelineStartMessage message,
+        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelinePendingMessage message,
         [DurableClient] DurableTaskClient client)
     {
         try
@@ -73,42 +74,54 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     }
 
     [Function(nameof(PipelineJobOrchestrator))]
+    [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly")]
     public async Task PipelineJobOrchestrator([OrchestrationTrigger] TaskOrchestrationContext context)
     {
-        var input = context.GetInput<PipelineStartMessage>();
+        var input = context.GetInput<PipelinePendingMessage>();
         switch (input?.Type)
         {
             case PipelineJobType.ComparatorSet:
             case PipelineJobType.CustomData:
-                await context.CallActivityAsync(nameof(OnStartCustomJobTrigger), input);
+                await OrchestrateCustomMessage(context, input);
                 break;
             case PipelineJobType.Default:
-                await context.CallActivityAsync(nameof(OnStartDefaultJobTrigger), input);
+                await OrchestrateDefaultMessage(context, input);
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(PipelinePendingMessage.Type));
         }
+    }
 
-        logger.LogInformation("Waiting for finished event for {JobId}", input?.JobId);
+    private async Task OrchestrateDefaultMessage(TaskOrchestrationContext context, PipelinePendingMessage input)
+    {
+        var message = PipelineStartDefaultMessage.FromPending(input);
+        await context.CallActivityAsync(nameof(OnStartDefaultJobTrigger), message);
+
+        logger.LogInformation("Waiting for finished event for default message {JobId}", message.JobId);
         var success = await context.WaitForExternalEvent<bool>(nameof(PipelineJobFinished));
-        logger.LogInformation("Received finished event for {JobId}", input?.JobId);
+        logger.LogInformation("Received finished event for default message {JobId}", message.JobId);
 
-        switch (input?.Type)
+        await context.CallActivityAsync(nameof(RunIndexerTrigger), new PipelineStatus
         {
-            case PipelineJobType.ComparatorSet:
-            case PipelineJobType.CustomData:
-                await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus
-                {
-                    Id = input.RunId,
-                    Success = success
-                });
-                break;
-            case PipelineJobType.Default:
-                await context.CallActivityAsync(nameof(RunIndexerTrigger), new PipelineStatus
-                {
-                    Id = input.JobId,
-                    Success = success
-                });
-                break;
-        }
+            Id = message.JobId,
+            Success = success
+        });
+    }
+
+    private async Task OrchestrateCustomMessage(TaskOrchestrationContext context, PipelinePendingMessage input)
+    {
+        var message = PipelineStartCustomMessage.FromPending(input);
+        await context.CallActivityAsync(nameof(OnStartCustomJobTrigger), message);
+
+        logger.LogInformation("Waiting for finished event for custom message {JobId}", message.JobId);
+        var success = await context.WaitForExternalEvent<bool>(nameof(PipelineJobFinished));
+        logger.LogInformation("Received finished event for custom message {JobId}", message.JobId);
+
+        await context.CallActivityAsync(nameof(UpdateStatusTrigger), new PipelineStatus
+        {
+            Id = message.RunId,
+            Success = success
+        });
     }
 
     /// <summary>
@@ -121,7 +134,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     /// </summary>
     [Function(nameof(OnStartDefaultJobTrigger))]
     [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-    public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartMessage message)
+    public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartDefaultMessage message)
     {
         logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "default");
         return [message.ToJson()];
@@ -129,7 +142,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 
     [Function(nameof(OnStartCustomJobTrigger))]
     [QueueOutput("%PipelineMessageHub:JobCustomStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-    public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartMessage message)
+    public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartCustomMessage message)
     {
         logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
         return [message.ToJson()];

@@ -189,7 +189,15 @@ To run the pipeline locally, follow these steps:
     Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
 
     ```json
-    {"type":"default","year":<year>}
+    {
+      "type": "default",
+      "runId": <year>,
+        "year": {
+            "aar": <year>,
+            "cfr": <year>,
+            "bfr": <year>
+        }
+    }
     ```
 
 > Note: There is a docker compose script that will start Azurite, SQL server, and the FBIT pipeline that can be run from the `docker` directory using

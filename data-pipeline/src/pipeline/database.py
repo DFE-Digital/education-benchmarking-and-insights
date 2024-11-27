@@ -136,7 +136,7 @@ def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
     logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {run_id}")
 
 
-def insert_schools_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
+def insert_schools_and_local_authorities(run_type: str, run_id: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
@@ -172,7 +172,7 @@ def insert_schools_and_local_authorities(run_type: str, year: str, df: pd.DataFr
     )
 
     upsert(write_frame, "School", keys=["URN"])
-    logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
+    logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {run_id}")
 
     la_projections = {"LA Code": "Code", "LA Name": "Name"}
 
@@ -185,17 +185,17 @@ def insert_schools_and_local_authorities(run_type: str, year: str, df: pd.DataFr
     las.set_index("Code", inplace=True)
 
     upsert(las, "LocalAuthority", keys=["Code"])
-    logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {year}")
+    logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {run_id}")
 
 
-def insert_trusts(run_type: str, year: str, df: pd.DataFrame):
+def insert_trusts(run_type: str, run_id: str, df: pd.DataFrame):
     """
     Store Trust non-financial information.
 
     Academy-level information is rolled up to Trust level.
 
     :param run_type: "default" or "custom"
-    :param year: financial year in question
+    :param run_id: unique identifier for processing
     :param df: Academy financial information
     """
     trust_projections = {
@@ -217,10 +217,10 @@ def insert_trusts(run_type: str, year: str, df: pd.DataFrame):
     )
 
     upsert(trusts, "Trust", keys=["CompanyNumber"])
-    logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {year}")
+    logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {run_id}")
 
 
-def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
+def insert_non_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",
@@ -265,17 +265,17 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunId"] = str(run_id)
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
     upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"])
     logger.info(
-        f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}"
+        f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {run_id}"
     )
 
 
-def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
+def insert_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",
@@ -411,15 +411,17 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunId"] = str(run_id)
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
     upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"])
-    logger.info(f"Wrote {len(write_frame)} rows to financial data {run_type} - {year}")
+    logger.info(
+        f"Wrote {len(write_frame)} rows to financial data {run_type} - {run_id}"
+    )
 
 
-def insert_trust_financial_data(run_type: str, year: str, df: pd.DataFrame):
+def insert_trust_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     """
     Write Trust financial info. to the TrustFinancial table.
 
@@ -427,7 +429,7 @@ def insert_trust_financial_data(run_type: str, year: str, df: pd.DataFrame):
     - erroneous numeric values will be replaced with NULL
 
     :param run_type: should only be "default"
-    :param year: year in question
+    :param run_id: unique identifier for processing
     :param df: Trust financial info.
     """
     write_frame = (
@@ -437,15 +439,24 @@ def insert_trust_financial_data(run_type: str, year: str, df: pd.DataFrame):
     )
 
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunId"] = str(run_id)
 
     upsert(write_frame, "TrustFinancial", keys=["RunType", "RunId", "CompanyNumber"])
     logger.info(
-        f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {year}"
+        f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {run_id}"
     )
 
 
-def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
+def insert_bfr_metrics(run_id: str, year: int, df: pd.DataFrame):
+    """
+    Persist BFR metric data to the database.
+
+    Note: `RunType` will _always_ be "default".
+
+    :param run_id: unique identifier for processing
+    :param year: BFR year in question
+    :param df: BFR metric data
+    """
     projections = {
         "Company Registration Number": "CompanyNumber",
         "Category": "Metric",
@@ -454,8 +465,8 @@ def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
-    write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunType"] = "default"
+    write_frame["RunId"] = str(run_id)
     write_frame["Year"] = int(year)
     write_frame.set_index("CompanyNumber", inplace=True)
 
@@ -472,12 +483,18 @@ def insert_bfr_metrics(run_type: str, year: str, df: pd.DataFrame):
             "Value": sqlalchemy.types.Numeric(16, 2),
         },
     )
-    logger.info(
-        f"Wrote {len(write_frame)} rows to BFR metrics data {run_type} - {year}"
-    )
+    logger.info(f"Wrote {len(write_frame)} rows to BFR metrics data default - {year}")
 
 
-def insert_bfr(run_type: str, year: str, df: pd.DataFrame):
+def insert_bfr(run_id: str, df: pd.DataFrame):
+    """
+    Persist BFR data to the database.
+
+    Note: `RunType` will _always_ be "default".
+
+    :param run_id: unique identifier for processing
+    :param df: BFR data
+    """
     projections = {
         "Company Registration Number": "CompanyNumber",
         "Year": "Year",
@@ -488,8 +505,8 @@ def insert_bfr(run_type: str, year: str, df: pd.DataFrame):
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
     write_frame["CompanyNumber"] = write_frame["CompanyNumber"].astype(str)
-    write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(year)
+    write_frame["RunType"] = "default"
+    write_frame["RunId"] = str(run_id)
 
     upsert(
         write_frame,
@@ -505,4 +522,4 @@ def insert_bfr(run_type: str, year: str, df: pd.DataFrame):
             "TotalPupils": sqlalchemy.types.Numeric(16, 2),
         },
     )
-    logger.info(f"Wrote {len(write_frame)} rows to BFR data {run_type} - {year}")
+    logger.info(f"Wrote {len(write_frame)} rows to BFR data default - {run_id}")
