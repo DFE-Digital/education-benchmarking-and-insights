@@ -1,0 +1,15 @@
+/*
+ * See example config at https://github.com/DavidAnson/markdownlint-cli2/blob/main/test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
+ */
+{
+    // Disable some built-in rules
+    "config": {
+        "line-length": {
+            "line_length": 110
+        }
+    },
+    // Define glob expressions to ignore
+    "ignores": [
+        "terraform"
+    ]
+}

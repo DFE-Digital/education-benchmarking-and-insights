@@ -75,6 +75,13 @@ stages:
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
+      - job: MarkdownLint
+        displayName: 'Markdown lint'
+        steps:
+          - template: ..\common\markdown-lint.yaml
+            parameters:
+              DocumentsDirectory: '$(System.DefaultWorkingDirectory)/platform'
+
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))

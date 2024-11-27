@@ -1,6 +1,7 @@
 # Platform
 
-**//TODO: Describe platform component**
+This project contains the platform APIs as consumed by other components within the monorepo.
+Each .NET project is deployed as an independent Azure Function App.
 
 ## Prerequisites
 
@@ -8,8 +9,8 @@
 2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2024
 3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
-> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to
-> prevent 'too long path name' errors at build time.
+> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive'
+> folders to prevent 'too long path name' errors at build time.
 
 ## Getting started
 
@@ -152,9 +153,9 @@ The following program arguments are required to run the search index sync app
 
 ##### Azurite dependencies
 
-Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite with a
-tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer) using
-the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
+Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite
+with a tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer)
+using the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
 or by
 following [these instructions](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#microsoft-azure-storage-explorer).
 If nothing seems to be available locally on ports `10000` to `10002` then ensure Docker is running.
