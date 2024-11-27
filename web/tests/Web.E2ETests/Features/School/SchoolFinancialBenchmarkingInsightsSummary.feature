@@ -6,7 +6,6 @@ So that I can see how my school is performing from a financial point of view and
 
     Scenario: View Financial Benchmarking Insights Summary
         Given I am on the Financial Benchmarking Insights Summary page for school with urn '777042'
-        When I click on the 'Print Page' button
         Then I should see the following boxes displayed under Key Information about school
           | Name            | Value    |
           | In year balance | £27,196  |
@@ -27,6 +26,20 @@ So that I can see how my school is performing from a financial point of view and
           | Name                                   | Value                                      | Comparison                                                                  |
           | Pupil-to-teacher metric                | 2.73\n\nPupils per teacher                 | Similar schools range from 0.3 to 8.59 pupils per teacher.                  |
           | Pupil-to-senior leadership role metric | 18.42\n\nPupils per senior leadership role | Similar schools range from 4.26 to 34.33 pupils per senior leadership role. |
+        And the print page cta is visible
+        And the response should be OK
+
+    Scenario: View Financial Benchmarking Insights Summary for school with missing data
+        Given I am on the Financial Benchmarking Insights Summary page for school with urn '990754' with missing RAG and census data
+        Then I should see the following boxes displayed under Key Information about school
+          | Name            | Value     |
+          | In year balance | £95,414   |
+          | Revenue reserve | £212,906  |
+          | Ofsted rating   | Good      |
+          | School phase    | Secondary |
+        And I should see the warning message under Spend in priority areas
+        And I should see the warning message under Other top spending priorities
+        And I should see the warning message under Pupil and workforce metrics
         And the print page cta is visible
         And the response should be OK
 

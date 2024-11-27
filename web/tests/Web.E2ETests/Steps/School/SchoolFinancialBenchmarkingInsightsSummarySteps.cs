@@ -27,6 +27,13 @@ public class SchoolFinancialBenchmarkingInsightsSummarySteps(PageDriver driver)
         await _fbisPage.IsDisplayed(true);
     }
 
+    [Given("I am on the Financial Benchmarking Insights Summary page for school with urn '(.*)' with missing RAG and census data")]
+    public async Task GivenIAmOnTheFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrnWithMissingRagAndCensusData(string urn)
+    {
+        _fbisPage = await LoadFinancialBenchmarkingInsightsSummaryPageForSchoolWithUrn(urn);
+        await _fbisPage.IsDisplayed(false, false, false);
+    }
+
     [Then("I should see the following boxes displayed under Key Information about school")]
     public async Task ThenIShouldSeeTheFollowingBoxesDisplayedUnderKeyInformationAboutSchool(DataTable table)
     {
@@ -73,6 +80,30 @@ public class SchoolFinancialBenchmarkingInsightsSummarySteps(PageDriver driver)
         {
             await _fbisPage.PupilWorkforceMetricsSectionShouldContain(row["Name"], row["Value"], row["Comparison"]);
         }
+    }
+
+    [Then("I should see the warning message under Spend in priority areas")]
+    public async Task ThenIShouldSeeTheWarningMessageUnderSpendInPriorityAreas()
+    {
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.SpendPrioritySectionShouldBeVisible();
+        await _fbisPage.SpendPrioritySectionShouldContainWarning();
+    }
+
+    [Then("I should see the warning message under Other top spending priorities")]
+    public async Task ThenIShouldSeeTheWarningMessageUnderOtherTopSpendingPriorities()
+    {
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.OtherSpendingPrioritiesSectionShouldBeVisible();
+        await _fbisPage.OtherSpendingPrioritiesSectionShouldContainWarning();
+    }
+
+    [Then("I should see the warning message under Pupil and workforce metrics")]
+    public async Task ThenIShouldSeeTheWarningMessageUnderPupilAndWorkforceMetrics()
+    {
+        Assert.NotNull(_fbisPage);
+        await _fbisPage.PupilWorkforceMetricsSectionShouldBeVisible();
+        await _fbisPage.PupilWorkforceMetricsSectionShouldContainWarning();
     }
 
     [Then("the print page cta is visible")]

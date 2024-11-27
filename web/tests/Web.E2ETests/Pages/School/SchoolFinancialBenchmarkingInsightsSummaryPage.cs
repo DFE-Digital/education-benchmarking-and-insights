@@ -26,7 +26,7 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
     private ILocator PupilWorkforceContent => page.Locator(Selectors.PupilWorkforceContent);
     private ILocator WarningMessage => page.Locator(Selectors.GovWarning);
 
-    public async Task IsDisplayed(bool unavailable = false)
+    public async Task IsDisplayed(bool unavailable = false, bool hasRagData = true, bool hasCensusData = true)
     {
         await PageH1Heading.ShouldBeVisible();
         await VisitFbitButton.ShouldBeVisible();
@@ -37,18 +37,26 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
         }
 
         await KeyInformationShouldBeVisible();
-        await SpendPrioritySectionShouldBeVisible();
-        await AssertSpendPriorityItems();
-        await OtherSpendingPrioritiesSectionShouldBeVisible();
-        await AssertOtherTopSpendingPriorities();
-        Assert.Equal(3, await Top3SpendingPriorities.Count());
-        foreach (var priority in await Top3SpendingPriorities.AllAsync())
+
+        if (hasRagData)
         {
-            await priority.ShouldBeVisible();
+            await SpendPrioritySectionShouldBeVisible();
+            await AssertSpendPriorityItems();
+            await OtherSpendingPrioritiesSectionShouldBeVisible();
+            await AssertOtherTopSpendingPriorities();
+            Assert.Equal(3, await Top3SpendingPriorities.Count());
+            foreach (var priority in await Top3SpendingPriorities.AllAsync())
+            {
+                await priority.ShouldBeVisible();
+            }
         }
 
-        await PupilWorkforceMetricsSectionShouldBeVisible();
-        await AssertPupilWorkforceMetrics();
+        if (hasCensusData)
+        {
+            await PupilWorkforceMetricsSectionShouldBeVisible();
+            await AssertPupilWorkforceMetrics();
+        }
+
         await PrintPageCtaShouldBeVisible();
         await NextStepsSection.ShouldBeVisible();
     }
@@ -85,6 +93,11 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
         await SpendPrioritySection.ShouldBeVisible();
     }
 
+    public async Task SpendPrioritySectionShouldContainWarning()
+    {
+        await SpendPrioritySection.Locator("p").ShouldHaveText("This school does not have comparator data available for this period.");
+    }
+
     public async Task SpendPrioritySectionShouldContain(string name, string tag, string value)
     {
         var nameElement = SpendPrioritySection.Locator($"h3:has-text('{name}')");
@@ -104,6 +117,11 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
         await OtherSpendingPrioritiesSection.ShouldBeVisible();
     }
 
+    public async Task OtherSpendingPrioritiesSectionShouldContainWarning()
+    {
+        await OtherSpendingPrioritiesSection.Locator("p").ShouldHaveText("This school does not have comparator data available for this period.");
+    }
+
     private async Task AssertOtherTopSpendingPriorities()
     {
         var topSpendingItems = await Top3SpendingPriorities.AllAsync();
@@ -120,6 +138,11 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
     public async Task PupilWorkforceMetricsSectionShouldBeVisible()
     {
         await PupilWorkforceMetricsSection.ShouldBeVisible();
+    }
+
+    public async Task PupilWorkforceMetricsSectionShouldContainWarning()
+    {
+        await PupilWorkforceMetricsSection.Locator("p").ShouldHaveText("This school does not have workforce data available for this period.");
     }
 
     private async Task AssertPupilWorkforceMetrics()
