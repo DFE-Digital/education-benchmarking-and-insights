@@ -4,6 +4,7 @@ import { EstablishmentTickProps } from "src/components/charts/establishment-tick
 import { ChartLink } from "../chart-link";
 import {
   createElement,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -17,6 +18,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     highlightedItemKey,
     href,
     linkToEstablishment,
+    onFocused,
     payload: { value },
     specialItemFlags,
     tickFormatter,
@@ -26,7 +28,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     ...rest
   } = props;
   const textRef = useRef<SVGTextElement>(null);
-  const [focused, setFocused] = useState<boolean>();
+  const [focused, setFocused] = useState<boolean>(false);
   const key = useMemo(() => {
     return (
       linkToEstablishment &&
@@ -49,6 +51,12 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     const bbox = textRef.current?.getBBox();
     setTextBoundingBox({ x: bbox?.x, y: bbox?.y });
   }, []);
+
+  useEffect(() => {
+    if (key && onFocused) {
+      onFocused(key, focused);
+    }
+  }, [key, onFocused, focused]);
 
   if (!key) {
     return <Text>{value}</Text>;

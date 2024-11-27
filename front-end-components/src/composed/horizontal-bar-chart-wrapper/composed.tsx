@@ -43,6 +43,7 @@ export function HorizontalBarChartWrapper<
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
   const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
@@ -149,6 +150,10 @@ export function HorizontalBarChartWrapper<
     return flags;
   };
 
+  const handleTickFocused = (key: string, focused: boolean) => {
+    setTickFocused(Object.assign(tickFocused, { [key]: focused }));
+  };
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -204,10 +209,15 @@ export function HorizontalBarChartWrapper<
                           establishmentKeyResolver={getEstablishmentKey}
                           tooltip={(p) => renderTooltip(p, t)}
                           specialItemFlags={getSpecialItemFlags}
+                          onFocused={handleTickFocused}
                         />
                       );
                     }}
-                    tooltip={(p) => renderTooltip(p)}
+                    tooltip={(p) =>
+                      Object.values(tickFocused).some((t) => t)
+                        ? null
+                        : renderTooltip(p)
+                    }
                     valueFormatter={shortValueFormatter}
                     valueLabel={dimension.label}
                     valueUnit={valueUnit ?? dimension.unit}
