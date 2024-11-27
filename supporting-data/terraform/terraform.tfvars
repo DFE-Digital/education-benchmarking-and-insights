@@ -1,5 +1,0 @@
-environment            = "__environment__"
-environment-prefix     = "__environmentPrefix__"
-dev-environment-prefix = "__devEnvironmentPrefix__"
-location               = "__location__"
-cip-environment        = "__cipEnvironment__"
