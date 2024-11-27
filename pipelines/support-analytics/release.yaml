@@ -65,6 +65,13 @@ stages:
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
+      - job: MarkdownLint
+        displayName: 'Markdown lint'
+        steps:
+          - template: ..\common\markdown-lint.yaml
+            parameters:
+              DocumentsDirectory: '$(System.DefaultWorkingDirectory)/support-analytics'
+
       - job: ZipStaticArtifacts
         dependsOn: [FmtValidateTf, RunCheckOv]
         displayName: 'Zip static artifacts'

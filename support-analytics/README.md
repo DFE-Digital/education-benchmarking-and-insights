@@ -45,7 +45,8 @@ Usage and user analytics, such as page views, session length and establishment f
 
 ### Operational Information
 
-Platform metrics for consumption by operational support staff, such as availability, performance, failure rates and infrastructure map.
+Platform metrics for consumption by operational support staff, such as availability, performance, failure rates and infrastructure
+map.
 
 ## Alerts
 
