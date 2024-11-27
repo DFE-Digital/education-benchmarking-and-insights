@@ -129,8 +129,9 @@ Having initialised the secret storage, add the following section to `secrets.jso
 To use the GOV.UK Design System and front-end components locally:
 
 - Browse to
-  the [private package repository](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking) > '[Connect to Feed](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking/connect)' >
-  npm > and follow the _instructions for using a Personal Access Token to authenticate_
+  the [private package repository](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking) >
+  '[Connect to Feed](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking/connect)' > npm >
+  and follow the _instructions for using a Personal Access Token to authenticate_
 - Navigate to the root of the Web APP `.\web\src\Web.App`
 - Install the required packages `npm i`
 - Run the gulp script to build ssas and copy assets `npm run-script build`
