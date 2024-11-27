@@ -278,8 +278,8 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
             .QuerySelectorAll(".app-headline-figures")
             .Select(e => string.Join(" ", e.ChildNodes.Select(n => n.TextContent.Trim())).Trim());
         Assert.Equal([
-            $"{census.Teachers}  Pupils per teacher",
-            $"{census.SeniorLeadership}  Pupils per senior leadership role"
+            $"{census.Teachers}  Pupil{(census.Teachers == 1 ? string.Empty : "s")} per teacher",
+            $"{census.SeniorLeadership}  Pupil{(census.SeniorLeadership == 1 ? string.Empty : "s")} per senior leadership role"
         ], headlineFiguresTexts);
 
         var link = pupilWorkforceMetricsSection.ChildNodes.QuerySelector("a");

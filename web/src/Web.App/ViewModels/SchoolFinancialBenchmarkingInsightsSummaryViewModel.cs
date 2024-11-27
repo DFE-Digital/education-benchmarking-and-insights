@@ -37,6 +37,8 @@ public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
         .ThenByDescending(x => x.Rating.Value);
     public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerTeacher => new("teacher", census, school.URN, c => c.Teachers);
     public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerSeniorLeadership => new("senior leadership role", census, school.URN, c => c.SeniorLeadership);
+    public bool HasRagData => ratings?.Any() ?? false;
+    public bool HasCensusData => census?.Any(c => c.URN == school.URN && c.TotalPupils.HasValue) ?? false;
     public string? OverallPhase => school.OverallPhase;
     public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance => balance?.InYearBalance;

@@ -31,7 +31,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
         IEnumerable<SchoolExpenditure>,
         IEnumerable<SchoolExpenditure>,
         IEnumerable<CostCategory>,
-        IEnumerable<CostCategory>
+        IEnumerable<CostCategory>,
+        bool
     > WhenRagRatingsAreData
     {
         get
@@ -77,7 +78,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
                 IEnumerable<SchoolExpenditure>,
                 IEnumerable<SchoolExpenditure>,
                 IEnumerable<CostCategory>,
-                IEnumerable<CostCategory>
+                IEnumerable<CostCategory>,
+                bool
             >
             {
                 {
@@ -93,7 +95,22 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
                             URN = URN
                         }
                     ],
-                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)], [new Utilities(utilitiesRagRating)]
+                    [new AdministrativeSupplies(administrativeSuppliesRagRating), new TeachingStaff(teachingStaffRagRating), new NonEducationalSupportStaff(nonEducationalSupportStaffRagRating)], [new Utilities(utilitiesRagRating)], true
+                },
+                {
+                    [], [
+                        new SchoolExpenditure
+                        {
+                            URN = URN
+                        }
+                    ],
+                    [
+                        new SchoolExpenditure
+                        {
+                            URN = URN
+                        }
+                    ],
+                    [], [], false
                 }
             };
         }
@@ -102,7 +119,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
     public static TheoryData<
         IEnumerable<Census>,
         SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
-        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
+        bool
     > WhenCensusesAreData
     {
         get
@@ -111,37 +129,48 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
             {
                 URN = URN,
                 Teachers = 100,
-                SeniorLeadership = 10
+                SeniorLeadership = 10,
+                TotalPupils = 110
+            };
+
+            var schoolCensusInvalid = new Census
+            {
+                URN = URN
             };
 
             var minTeachersCensus = new Census
             {
                 Teachers = 90,
-                SeniorLeadership = 11
+                SeniorLeadership = 11,
+                TotalPupils = 101
             };
 
             var minSeniorLeadershipCensus = new Census
             {
                 Teachers = 101,
-                SeniorLeadership = 1
+                SeniorLeadership = 1,
+                TotalPupils = 102
             };
 
             var maxTeachersCensus = new Census
             {
                 Teachers = 200,
-                SeniorLeadership = 11
+                SeniorLeadership = 11,
+                TotalPupils = 211
             };
 
             var maxSeniorLeadershipCensus = new Census
             {
                 Teachers = 101,
-                SeniorLeadership = 20
+                SeniorLeadership = 20,
+                TotalPupils = 121
             };
 
             return new TheoryData<
                 IEnumerable<Census>,
                 SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
-                SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel
+                SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel,
+                bool
             >
             {
                 {
@@ -156,7 +185,23 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
                         SchoolValue = schoolCensus.SeniorLeadership,
                         MinValue = minSeniorLeadershipCensus.SeniorLeadership,
                         MaxValue = maxSeniorLeadershipCensus.SeniorLeadership
-                    }
+                    },
+                    true
+                },
+                {
+                    [minTeachersCensus, maxTeachersCensus, schoolCensusInvalid, minSeniorLeadershipCensus, maxSeniorLeadershipCensus], new SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel("teacher")
+                    {
+                        SchoolValue = schoolCensusInvalid.Teachers,
+                        MinValue = minTeachersCensus.Teachers,
+                        MaxValue = maxTeachersCensus.Teachers
+                    },
+                    new SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel("senior leadership role")
+                    {
+                        SchoolValue = schoolCensusInvalid.SeniorLeadership,
+                        MinValue = minSeniorLeadershipCensus.SeniorLeadership,
+                        MaxValue = maxSeniorLeadershipCensus.SeniorLeadership
+                    },
+                    false
                 }
             };
         }
@@ -169,11 +214,13 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
         IEnumerable<SchoolExpenditure> pupilExpenditure,
         IEnumerable<SchoolExpenditure> areaExpenditure,
         IEnumerable<CostCategory> expectedCostsAllSchools,
-        IEnumerable<CostCategory> expectedCostsOtherPriorities)
+        IEnumerable<CostCategory> expectedCostsOtherPriorities,
+        bool hasRagData)
     {
         var actual = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(_school, _years, _balance, ratings, pupilExpenditure, areaExpenditure, Array.Empty<Census>());
         Assert.Equal(expectedCostsAllSchools.Select(c => c.Rating), actual.CostsAllSchools.Select(c => c.Rating));
         Assert.Equal(expectedCostsOtherPriorities.Select(c => c.Rating), actual.CostsOtherPriorities.Select(c => c.Rating));
+        Assert.Equal(hasRagData, actual.HasRagData);
     }
 
     [Theory]
@@ -191,10 +238,12 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
     public void WhenCensusesAre(
         IEnumerable<Census> census,
         SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel expectedPupilsPerTeacher,
-        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel expectedPupilsPerSeniorLeadership)
+        SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel expectedPupilsPerSeniorLeadership,
+        bool hasCensusData)
     {
         var actual = new SchoolFinancialBenchmarkingInsightsSummaryViewModel(_school, _years, _balance, Array.Empty<RagRating>(), Array.Empty<SchoolExpenditure>(), Array.Empty<SchoolExpenditure>(), census);
         Assert.Equivalent(expectedPupilsPerTeacher, actual.PupilsPerTeacher);
         Assert.Equivalent(expectedPupilsPerSeniorLeadership, actual.PupilsPerSeniorLeadership);
+        Assert.Equal(hasCensusData, actual.HasCensusData);
     }
 }
