@@ -10,6 +10,7 @@
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",
+    "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0"
   },
   "overrides": {
