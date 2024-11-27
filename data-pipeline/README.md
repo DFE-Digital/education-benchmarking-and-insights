@@ -17,14 +17,11 @@ For more information on the FBIT pipelines see either
 
 Once the above dependencies are installed and working correctly we can install the required project dependencies by running:
 
-```sh
-make install
-```
+    make install
 
 This will install the dependencies and allow the project to be run.
 
-> Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user.
-In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command.
+> Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command.
 
 #### Installing dependencies on Windows
 
@@ -33,9 +30,7 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 1. Open PowerShell terminal as Administrator
 1. Install Chocolatey:
 
-    * ``Set-ExecutionPolicy Bypass -Scope Process -Force; ` ``
-    * ``[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; ` ``
-    * `iex ((New-Object System.Net.WebClient).DownloadString('<https://community.chocolatey.org/install.ps1>'))`
+    * `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('<https://community.chocolatey.org/install.ps1>'))`
 
 1. Install Python:
 
@@ -72,134 +67,130 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
 To run the pipeline locally, follow these steps:
 
-#### 1. Set Up an Azurite instance
+1. Set Up an Azurite instance:
 
-To start an Azurite instance, use the following command:
+    To start an Azurite instance, use the following command:
 
-```sh
-docker run \
-    --name dfe-azurite  \
-    --rm \
-    --publish 10000:10000 \
-    --publish 10001:10001 \
-    --publish 10002:10002 \
-    --detach \
-    mcr.microsoft.com/azure-storage/azurite
-```
+    ```sh
+    docker run \
+        --name dfe-azurite  \
+        --rm \
+        --publish 10000:10000 \
+        --publish 10001:10001 \
+        --publish 10002:10002 \
+        --detach \
+        mcr.microsoft.com/azure-storage/azurite
+    ```
 
-For PowerShell:
+    For PowerShell:
 
-```pwsh
-docker run `
-    --name dfe-azurite `
-    --rm `
-    --publish 10000:10000 `
-    --publish 10001:10001 `
-    --publish 10002:10002 `
-    --detach `
-    mcr.microsoft.com/azure-storage/azurite
-```
+    ```pwsh
+    docker run `
+        --name dfe-azurite `
+        --rm `
+        --publish 10000:10000 `
+        --publish 10001:10001 `
+        --publish 10002:10002 `
+        --detach `
+        mcr.microsoft.com/azure-storage/azurite
+    ```
 
-Using Azure Storage Explorer (default settings), connect to Azurite and manually create the following resources:
+    Using Azure Storage Explorer (default settings), connect to Azurite and manually create the following resources:
 
-##### Containers
+    **Containers**
 
-* `comparator-sets`
-* `metric-rag`
-* `pre-processed`
-* `raw`
+    * `comparator-sets`
+    * `metric-rag`
+    * `pre-processed`
+    * `raw`
 
-##### Queues
+    **Queues**
 
-* `data-pipeline-job-default-start`
-* `data-pipeline-job-custom-start`
-* `data-pipeline-job-finished`
-* `data-pipeline-job-dlq`
+    * `data-pipeline-job-default-start`
+    * `data-pipeline-job-custom-start`
+    * `data-pipeline-job-finished`
+    * `data-pipeline-job-dlq`
 
-Upload files into the `raw` container, following this directory structure:
+    Upload files into the `raw` container, following this directory structure:
 
-```txt
-raw/default/<year>
-```
+    ```raw/default/<year>```
 
-#### 2. Set Up a SQL Server Instance
+2. Set Up a SQL Server Instance
 
-To create a SQL Server instance, use the following command:
+    To create a SQL Server instance, use the following command:
 
-```sh
-docker run \
-    --name dfe-sql-server \
-    --rm \
-    --publish 1433:1433 \
-    --env SA_PASSWORD='mystrong!Pa55word' \
-    --env ACCEPT_EULA=Y \
-    --detach \
-    mcr.microsoft.com/azure-sql-edge
-```
+    ```sh
+    docker run \
+        --name dfe-sql-server \
+        --rm \
+        --publish 1433:1433 \
+        --env SA_PASSWORD='mystrong!Pa55word' \
+        --env ACCEPT_EULA=Y \
+        --detach \
+        mcr.microsoft.com/azure-sql-edge
+    ```
 
-For PowerShell:
+    For PowerShell:
 
-```pwsh
-docker run `
-    --name dfe-sql-server `
-    --rm `
-    --publish 1433:1433 `
-    --env SA_PASSWORD='mystrong!Pa55word' `
-    --env ACCEPT_EULA=Y `
-    --detach `
-    mcr.microsoft.com/azure-sql-edge
-```
+    ```pwsh
+    docker run `
+        --name dfe-sql-server `
+        --rm `
+        --publish 1433:1433 `
+        --env SA_PASSWORD='mystrong!Pa55word' `
+        --env ACCEPT_EULA=Y `
+        --detach `
+        mcr.microsoft.com/azure-sql-edge
+    ```
 
-#### 3. Create the database
+3. Create the database
 
-To create the required database, use [`sqlcmd`](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-utility):
+    To create the required database, use [`sqlcmd`](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-utility):
 
-```sh
-sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
-```
+    ```sh
+    sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
+    ```
 
-Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables.
+    Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables.
 
-Set the following program arguments to target this instance:
+    Set the following program arguments to target this instance:
 
-```sh
--c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;
-```
+    ```sh
+    -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;
+    ```
 
-#### 4. Create an `.env` file
+4. Create an `.env` file:
 
-Configure an `.env` file as follows:
+    Configure an `.env` file as follows:
 
-```sh
-STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127
-.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
-RAW_DATA_CONTAINER="raw"
-DB_NAME="data"
-DB_PORT="1433"
-DB_ARGS="Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
-DB_HOST="127.0.0.1"
-DB_USER="sa"
-DB_PWD='mystrong!Pa55word'
-ENV="dev"
-```
+    ```txt
+    STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127
+    .0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
+    RAW_DATA_CONTAINER="raw"
+    DB_NAME="data"
+    DB_PORT="1433"
+    DB_ARGS="Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
+    DB_HOST="127.0.0.1"
+    DB_USER="sa"
+    DB_PWD='mystrong!Pa55word'
+    ENV="dev"
+    ```
 
-#### 5. Install the Microsoft ODBC Driver for SQL Server
+5. Install the [Microsoft ODBC driver 18 for SQL Server](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16):
 
-Install [Microsoft ODBC driver 18 for SQL Server](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16):
+6. Run the Pipeline
 
-#### 6. Run the Pipeline
+    From data-pipeline directory run the pipeline:
 
-From data-pipeline directory run the pipeline:
+    ```sh
+    poetry run python -m pipeline.main
+    ```
 
-```sh
-poetry run python -m pipeline.main
-```
+    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
 
-Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
-
-```json
-{"type":"default","year":<year>}
-```
+    ```json
+    {"type":"default","year":<year>}
+    ```
 
 > Note: There is a docker compose script that will start Azurite, SQL server, and the FBIT pipeline that can be run from the `docker` directory using
 `docker compose up -d`. Docker compose will _not_ rebuild images on code change. So if you change any of the files in the `src` directory then the

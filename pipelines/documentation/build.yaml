@@ -14,57 +14,106 @@ trigger:
 pr: none
 
 variables:
-  WorkingDir: 'documentation'
-  FullWorkingDir: '$(System.DefaultWorkingDirectory)/$(WorkingDir)'
-  DataDir: '$(FullWorkingDir)/tools'
+  - template: ..\common\vars.yaml
+  - name: WorkingDir
+    value: 'documentation'
+  - name: FullWorkingDir
+    value: '$(System.DefaultWorkingDirectory)/$(WorkingDir)'
+  - name: DataDir
+    value: '$(FullWorkingDir)/tools'
 
-steps:
-  - bash: sudo apt-get update
-    displayName: 'Update the package list'
+stages:
+  - stage: Validate
+    displayName: 'Validate'
+    jobs:
+      - job: BranchValidate
+        displayName: "Validate branch name"
+        steps:
+          - checkout: none
+          - template: ..\common\validate-branch.yaml
+            parameters:
+              branchName: $(SourceBranch)
 
-  - bash: sudo apt-get install -y pandoc texlive-latex-extra
-    displayName: 'Install pandoc & latex'
+      - job: SetBuildNumber
+        displayName: 'Set build number'
+        steps:
+          - checkout: none
+          - bash: |
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
+              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+            displayName: 'Set release build number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
 
-  - bash: sudo apt-get install texlive-fonts-recommended texlive-fonts-extra
-    displayName: 'Install tex fonts'
+          - bash: |
+              if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+                echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+              fi
+              echo "##vso[build.addbuildtag]Documentation"
+            displayName: 'Set build tags'
 
-  - task: Npm@1
-    displayName: 'Install mermaid cli'
-    inputs:
-      command: 'custom'
-      customCommand: 'install -g @mermaid-js/mermaid-cli'
+      - job: MarkdownLint
+        displayName: 'Markdown lint'
+        steps:
+          - template: ..\common\markdown-lint.yaml
+            parameters:
+              DocumentsDirectory: '$(System.DefaultWorkingDirectory)/documentation'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'architecture'
+  - stage: GenerateDocumentation
+    dependsOn: [ Validate ]
+    displayName: 'Generate'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    jobs:
+      - job: BuildDocumentation
+        displayName: 'Build and publish documentation'
+        steps:
+          - bash: sudo apt-get update
+            displayName: 'Update the package list'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'developers'
+          - bash: sudo apt-get install -y pandoc texlive-latex-extra
+            displayName: 'Install pandoc & latex'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'feature'
+          - bash: sudo apt-get install texlive-fonts-recommended texlive-fonts-extra
+            displayName: 'Install tex fonts'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'quality-assurance'
+          - task: Npm@1
+            displayName: 'Install mermaid cli'
+            inputs:
+              command: 'custom'
+              customCommand: 'install -g @mermaid-js/mermaid-cli'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'prototype'
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'architecture'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'operational'
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'developers'
 
-  - template: generate-docs.yaml
-    parameters:
-      folder: 'data'
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'feature'
 
-  - task: PublishPipelineArtifact@1
-    displayName: 'Publish artifacts'
-    inputs:
-      targetPath: '$(WorkingDir)/pub'
-      artifact: 'docs'
-      publishLocation: 'pipeline'
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'quality-assurance'
+
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'prototype'
+
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'operational'
+
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'data'
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish artifacts'
+            inputs:
+              targetPath: '$(WorkingDir)/pub'
+              artifact: 'docs'
+              publishLocation: 'pipeline'

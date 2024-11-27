@@ -18,7 +18,7 @@
 | **Azure Maps API** | An Azure service that provides geolocation data |
 | **BI Tools** | Commonly used across DfE as a report visualisation platform for management information |
 
-## Interaction Viewpoint 
+## Interaction Viewpoint
 
 ![Interaction viewpoint](./images/Interaction-Viewpoint.png)
 
@@ -39,7 +39,7 @@ All Downtime calculations are based on a 8-hour working day (Mon - Fri)
 | Data Storage             | Azure Storage       | 99.99%  | 99%     |
 | **Total**                |                     | **99.81%**  | **79.75%**  |
 
-This translates in to an uptime equivalent of 
+This translates in to an uptime equivalent of
 
 * Weekly: 4m 34s
 * Monthly: 19m 40s
@@ -47,7 +47,6 @@ This translates in to an uptime equivalent of
 * Yearly: 3h 55m 59s
 
 at the [99.81% SLA](https://uptime.is/complex?sla=99.81&wk=iiiiiaa). The pipeline is excluded from this SLA as it is not explicitly required for the service to be running and schools to view the default data sets.
-
 
 ### FBIT Data Pipeline
 

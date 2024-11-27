@@ -1,18 +1,11 @@
 parameters:
-  ConfigFile: ''
   DocumentsDirectory: ''
 
 steps:
-  - bash: |
-      mkdir _config
-      cp --verbose ${{ parameters.ConfigFile }} ./_config/
-    workingDirectory: ${{ parameters.DocumentsDirectory }}
-    displayName: "Copy config"
-
   - bash: docker pull davidanson/markdownlint-cli2
     workingDirectory: ${{ parameters.DocumentsDirectory }}
     displayName: "Pull image"
 
-  - bash: docker run --volume ${{ parameters.DocumentsDirectory }}:/workdir davidanson/markdownlint-cli2 --config "_config/.markdownlint-cli2.jsonc" "**/*.md"
+  - bash: docker run --volume ${{ parameters.DocumentsDirectory }}:/workdir davidanson/markdownlint-cli2 --config ".markdownlint-cli2.jsonc" "**/*.md"
     workingDirectory: ${{ parameters.DocumentsDirectory }}
     displayName: "Run markdown lint"

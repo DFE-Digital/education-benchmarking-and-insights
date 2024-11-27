@@ -25,6 +25,7 @@ Note there may be more than one release per sprint.
 **Tickets included in release:** list tickets included
 
 **Tasks for release, with relevant owner tagged:**
+
 * Share release plan
 * Testing high level summary
 * Deployment steps

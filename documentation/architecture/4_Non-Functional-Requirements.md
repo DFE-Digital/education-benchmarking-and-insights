@@ -1,6 +1,6 @@
 ﻿# Non Functional Requirements
 
-### Accessibility
+## Accessibility
 
 | ID      | Theme         | Requirement                                                        |
 |---------|---------------|--------------------------------------------------------------------|
@@ -8,8 +8,7 @@
 | NFR-U02 | Usability     | The solution must be intuitive and give a positive user experience |
 | NFR-U03 | Reusability   | Potential re-use of the design of the reports and portal           |
 
-
-### Performance & Capacity
+## Performance & Capacity
 
 | ID      | Theme        | Requirement                                                                                                                            |
 |---------|--------------|----------------------------------------------------------------------------------------------------------------------------------------|
@@ -21,24 +20,21 @@
 | NFR-P06 | Performance  | Based on 2-3 users per organisation, assume max usage of 25% schools, c.3,000 users, with worst case of c. 5,000 users;                |
 | NFR-P07 | Performance  | Each Power BI page render request should take no longer than 5 seconds at a maximum                                                    |
 
-
-### Application and testing
+## Application and testing
 
 | ID      | Theme          | Requirement                                                    |
 |---------|----------------|----------------------------------------------------------------|
 | NFR-A01 | Compatibility  | The solution must be compatible with specified browsers and OS |
 | NFR-A02 | Data Integrity | Whether the data going in matches the data coming out          |
 
-
-### Security
+## Security
 
 | ID      | Theme    | Requirement                                                                                |
 |---------|----------|--------------------------------------------------------------------------------------------|
 | NFR-S01 | GDPR     | The solution must comply with the General Data Protection Regulation                       |
 | NFR-S02 | Security | The system must comply with the relevant security policies and DfE health check standards. |
 
-
-### Supportability, Operational and Service Continuity
+## Supportability, Operational and Service Continuity
 
 | ID      | Theme           | Requirement                                                                                                                                                      |
 |---------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -46,7 +42,6 @@
 | NFR-C02 | Recoverability  | Recovery Time Objective (maximum acceptable time to restore service) and resilience to network interruption must be defined and appropriate for the intended use |
 | NFR-C03 | Maintainability | Designing and implementing service features with modularity and extensibility in mind                                                                            |
 | NFR-C04 | Maintainability | Clear and concise documentation about the service to ensure consistent operability                                                                               |
-
 
 <!-- Leave the rest of this page blank -->
 \newpage

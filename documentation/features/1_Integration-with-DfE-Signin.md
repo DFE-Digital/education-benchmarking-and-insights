@@ -54,6 +54,7 @@ If you do not provide a post password-reset URL, the DfE Sign-in system will aut
 ### Client ID
 
 The client ID is a unique identifier of the service you want to configure. It is created manually by the DfE Sign-in team and must be:
+
 - Unique
 - Letters only
 - A minimum of 8 characters
@@ -65,6 +66,7 @@ The client ID should not be easy for third parties to guess as it can lead to ph
 The redirect URL is where you want to redirect users to after they have authenticated. DfE Sign-in will send the authentication response to this URL.
 
 You can add multiple redirect URLs. For security reasons, it is important to add at least 1. URLs must be valid, trusted, and start with https. URLs must not include:
+
 - Query string, for example, `https://myservice.com/auth/cb?user=xyz`
 - Local host, for example, `https://localhost`
 - Wildcards, for example, `https://*.myservice.com`
@@ -76,6 +78,7 @@ Users will only be redirected back to a URL if it exists in this whitelist. It i
 The logout redirect URL is the page that you want to redirect users to after they log out of the service. It is usually the service landing page from DfE Sign-in. For example, [Apply for Teacher Training](https://www.apply-for-teacher-training.service.gov.uk/provider)
 
 You can add multiple redirect URLs. For security reasons, it is important to add at least 1. URLs must be valid, trusted, and start with https. URLs must not include:
+
 - Query string, for example, `https://myservice.com/auth/cb?clientid=xyz`
 - Local host, for example, `https://localhost`
 - Wildcards, for example, `https://*.myservice.com`
@@ -94,15 +97,15 @@ A `refresh_token` is used to exchange a refresh token for an access token when t
 
 When configuring a service and the system has chosen either authorization flow or hybrid flow, you can choose to select `refresh_token`. This is optional.
 
-
 ### Client secret
 
 The client secret is a value that acts as a password for the service. DfE manage console automatically creates the client secret when configuring a service. It:
+
 - is usually 25 characters long
 - can be changed
 
 The client secret should be secure and not easy for third parJes to guess. It is a security pracJce to change the client secret regularly.
- 
+
 You can view or change the client secret on the ‘Edit service configuraJon’ page by clicking ‘Show’ or ‘Regenerate’ next to the client secret field.
 The client secret is needed when your service authenJcates itself to the DfE Sign-in token endpoint. Therefore, it is only required when you have selected response type code which automatically choses authorizaJon flow as your flow.
 
@@ -125,7 +128,6 @@ You must select 1 method that applies to your service when configuring a service
 The DfE Sign-in public API is for external consumers to interact with DfE Sign-in. It is specific to DfE Sign-in, not OAuth.
 
 For any requests on DfE manage console, you will need to provide a JSON Web Token. The token must be signed using the HS256 algorithm with your API secret
-
 
 ### API secret
 
