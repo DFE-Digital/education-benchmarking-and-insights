@@ -1,0 +1,88 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5",
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "size": "medium",
+            "weight": "bolder",
+            "text": "@{triggerBody()?['data']?['essentials']?['severity']} Azure Monitor Alert @{triggerBody()?['data']?['essentials']?['monitorCondition']} in @{parameters('Environment')}",
+            "style": "heading",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "size": "extraLarge",
+                            "style": "heading",
+                            "text": "✅",
+                            "color": "attention"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "bolder",
+                            "text": "@{triggerBody()?['data']?['essentials']?['alertRule']}"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "spacing": "none",
+                            "text": "Fired at @{formatDateTime(triggerBody()?['data']?['essentials']?['firedDateTime'], 'F', 'en-GB')}",
+                            "isSubtle": true,
+                            "wrap": true
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+                    "title": "Affected resource",
+                    "value": "@{variables('AffectedResourceIds')[8]}"
+                },
+                {
+                    "title": "Resource type",
+                    "value": "@{variables('AffectedResourceIds')[6]}/@{variables('AffectedResourceIds')[7]}"
+                },
+                {
+                    "title": "Resource group",
+                    "value": "@{variables('AffectedResourceIds')[4]}"
+                },
+                {
+                    "title": "Description",
+                    "value": "@{triggerBody()?['data']?['essentials']?['description']}"
+                },
+                {
+                    "title": "Monitoring service",
+                    "value": "@{triggerBody()?['data']?['essentials']?['monitoringService']}"
+                },
+                {
+                    "title": "Resolved at",
+                    "value": "@{formatDateTime(triggerBody()?['data']?['essentials']?['resolvedDateTime'], 'F', 'en-GB')}"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "View the alert in Azure Monitor",
+            "url": "https://portal.azure.com/#blade/Microsoft_Azure_Monitoring_Alerts/AlertDetails.ReactView/alertId/%2fsubscriptions%2f@{variables('AffectedResourceIds')[2]}%2fresourceGroups%2f@{variables('AffectedResourceIds')[4]}%2fproviders%2fMicrosoft.AlertsManagement%2falerts%2f@{substring(triggerBody()?['data']?['essentials']?['alertId'], add(lastIndexOf(triggerBody()?['data']?['essentials']?['alertId'], '/'), 1))}",
+            "style": "positive"
+        }
+    ]
+}

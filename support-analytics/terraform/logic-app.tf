@@ -119,8 +119,17 @@ SCHEMA
 
 }
 
+# Import and escape adaptive cards before laoding into `messageBody` in the logic app action.
+# For schema definition and examples see: https://adaptivecards.io/explorer/
+# At time of writing, Teams supports up to and including v1.5 of the schema.
+locals {
+  alert-assigned-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-assigned.json"), "\"", "\\\""), "\n", "\\n")
+  alert-fired-adaptive-card    = replace(replace(file("${path.module}/adaptive-cards/alert-fired.json"), "\"", "\\\""), "\n", "\\n")
+  alert-resolved-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-resolved.json"), "\"", "\\\""), "\n", "\\n")
+}
+
 resource "azurerm_logic_app_action_custom" "initialise-affected-resource-ids" {
-  name         = "Initialize_variable"
+  name         = "Initialize_affected_resource_IDs"
   logic_app_id = azurerm_logic_app_workflow.alert-teams.id
 
   body = <<BODY
@@ -141,9 +150,8 @@ BODY
 
 }
 
-# https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-common-schema#sample-alert-payload
-resource "azurerm_logic_app_action_custom" "condition-post-teams" {
-  name         = "Condition"
+resource "azurerm_logic_app_action_custom" "initialise-alert-id" {
+  name         = "Initialize_alert_ID"
   logic_app_id = azurerm_logic_app_workflow.alert-teams.id
 
   depends_on = [
@@ -152,8 +160,173 @@ resource "azurerm_logic_app_action_custom" "condition-post-teams" {
 
   body = <<BODY
 {
+    "runAfter": {
+        "${azurerm_logic_app_action_custom.initialise-affected-resource-ids.name}": [
+            "Succeeded"
+        ]
+    },
+    "type": "InitializeVariable",
+    "inputs": {
+        "variables": [
+            {
+                "name": "AlertId",
+                "type": "string",
+                "value": "@substring(triggerBody()?['data']?['essentials']?['alertId'], add(lastIndexOf(triggerBody()?['data']?['essentials']?['alertId'], '/'), 1))"
+            }
+        ]
+    }
+}
+BODY
+
+}
+
+resource "azurerm_logic_app_action_custom" "initialise-message-content" {
+  name         = "Initialize_message_content"
+  logic_app_id = azurerm_logic_app_workflow.alert-teams.id
+
+  depends_on = [
+    azurerm_logic_app_action_custom.initialise-alert-id
+  ]
+
+  body = <<BODY
+{
+    "runAfter": {
+        "${azurerm_logic_app_action_custom.initialise-alert-id.name}": [
+            "Succeeded"
+        ]
+    },
+    "type": "InitializeVariable",
+    "inputs": {
+        "variables": [
+            {
+                "name": "MessageContent",
+                "type": "string"
+            }
+        ]
+    }
+}
+BODY
+
+}
+
+resource "azurerm_logic_app_action_custom" "initialise-message-id" {
+  name         = "Initialize_message_ID"
+  logic_app_id = azurerm_logic_app_workflow.alert-teams.id
+
+  depends_on = [
+    azurerm_logic_app_action_custom.initialise-message-content
+  ]
+
+  body = <<BODY
+{
+    "runAfter": {
+        "${azurerm_logic_app_action_custom.initialise-message-content.name}": [
+            "Succeeded"
+        ]
+    },
+    "type": "InitializeVariable",
+    "inputs": {
+        "variables": [
+            {
+                "name": "MessageId",
+                "type": "string"
+            }
+        ]
+    }
+}
+BODY
+
+}
+
+# https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-common-schema#sample-alert-payload
+resource "azurerm_logic_app_action_custom" "is-alert-resolved" {
+  name         = "Is_alert_resolved"
+  logic_app_id = azurerm_logic_app_workflow.alert-teams.id
+
+  depends_on = [
+    azurerm_logic_app_action_custom.initialise-message-id
+  ]
+
+  body = <<BODY
+{
     "actions": {
-        "Post_resolved_message_in_a_channel": {
+        "Get_messages": {
+            "type": "ApiConnection",
+            "inputs": {
+                "host": {
+                    "connection": {
+                        "name": "@parameters('$connections')['teams']['connectionId']"
+                    }
+                },
+                "method": "get",
+                "path": "/beta/teams/@{encodeURIComponent(parameters('TeamId'))}/channels/@{encodeURIComponent(parameters('ChannelId'))}/messages"
+            },
+            "runtimeConfiguration": {
+                "paginationPolicy": {
+                    "minimumItemCount": 10
+                }
+            }
+        },
+        "For_each_message": {
+            "foreach": "@body('Get_messages')?['value']",
+            "actions": {
+                "For_each_attachment": {
+                    "foreach": "@items('For_each_message')?['attachments']",
+                    "actions": {
+                        "Set_message_content": {
+                            "type": "SetVariable",
+                            "inputs": {
+                                "name": "messageContent",
+                                "value": "@items('For_each_attachment')?['content']"
+                            }
+                        },
+                        "Message_content_contains_alert_ID": {
+                            "actions": {
+                                "Set_message_ID": {
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                        "name": "messageId",
+                                        "value": "@items('For_each_message')?['id']"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "Set_message_content": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else": {
+                                "actions": {}
+                            },
+                            "expression": {
+                                "and": [
+                                    {
+                                        "contains": [
+                                            "@variables('messagecontent')",
+                                            "@variables('alertid')"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        }
+                    },
+                    "type": "Foreach"
+                }
+            },
+            "runAfter": {
+                "Get_messages": [
+                    "Succeeded"
+                ]
+            },
+            "type": "Foreach"
+        },
+        "Update_the_adaptive_card_to_mark_as_resolved": {
+            "runAfter": {
+                "For_each_message": [
+                    "Succeeded"
+                ]
+            },
             "type": "ApiConnection",
             "inputs": {
                 "host": {
@@ -163,24 +336,55 @@ resource "azurerm_logic_app_action_custom" "condition-post-teams" {
                 },
                 "method": "post",
                 "body": {
+                    "messageId": "@variables('MessageId')",
                     "recipient": {
-                        "groupId": "@{parameters('TeamId')}",
-                        "channelId": "@{parameters('ChannelId')}"
+                        "groupId": "@parameters('TeamId')",
+                        "channelId": "@parameters('ChannelId')"
                     },
-                    "messageBody": "<p class=\"editor-paragraph\">✅ Alert <strong>@{triggerBody()?['data']?['essentials']?['alertRule']}</strong> was @{triggerBody()?['data']?['essentials']?['monitorCondition']} at @{formatDateTime(triggerBody()?['data']?['essentials']?['firedDateTime'], 'F', 'en-GB')} in <strong>@{parameters('Environment')}</strong></p><br><p class=\"editor-paragraph\"><a href=\"https://portal.azure.com/#blade/Microsoft_Azure_Monitoring_Alerts/AlertDetails.ReactView/alertId/%2fsubscriptions%2f@{variables('AffectedResourceIds')[2]}%2fresourceGroups%2f@{variables('AffectedResourceIds')[4]}%2fproviders%2fMicrosoft.AlertsManagement%2falerts%2f@{substring(triggerBody()?['data']?['essentials']?['alertId'], add(lastIndexOf(triggerBody()?['data']?['essentials']?['alertId'], '/'), 1))}\" class=\"editor-link\">View the alert in Azure Monitor</a></p>"
+                    "messageBody": "${local.alert-resolved-adaptive-card}"
                 },
-                "path": "/beta/teams/conversation/message/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
             }
         }
     },
     "runAfter": {
-        "${azurerm_logic_app_action_custom.initialise-affected-resource-ids.name}": [
+        "${azurerm_logic_app_action_custom.initialise-message-id.name}": [
             "Succeeded"
         ]
     },
     "else": {
         "actions": {
-            "Post_fired_message_in_a_channel": {
+            "Post_adaptive_card_and_wait_for_a_response": {
+                "limit": {
+                    "timeout": "P1D"
+                },
+                "type": "ApiConnectionWebhook",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['teams']['connectionId']"
+                        }
+                    },
+                    "body": {
+                        "notificationUrl": "@listCallbackUrl()",
+                        "body": {
+                            "messageBody": "${local.alert-fired-adaptive-card}",
+                            "updateMessage": "Response sent",
+                            "recipient": {
+                                "groupId": "@parameters('TeamId')",
+                                "channelId": "@parameters('ChannelId')"
+                            }
+                        }
+                    },
+                    "path": "/v1.0/teams/conversation/gatherinput/poster/Flow bot/location/@{encodeURIComponent('Channel')}/$subscriptions"
+                }
+            },
+            "Update_the_adaptive_card_to_mark_as_assigned": {
+                "runAfter": {
+                    "Post_adaptive_card_and_wait_for_a_response": [
+                        "Succeeded"
+                    ]
+                },
                 "type": "ApiConnection",
                 "inputs": {
                     "host": {
@@ -190,13 +394,14 @@ resource "azurerm_logic_app_action_custom" "condition-post-teams" {
                     },
                     "method": "post",
                     "body": {
+                        "messageId": "@body('Post_adaptive_card_and_wait_for_a_response')?['messageId']",
                         "recipient": {
-                            "groupId": "@{parameters('TeamId')}",
-                            "channelId": "@{parameters('ChannelId')}"
+                            "groupId": "@parameters('TeamId')",
+                            "channelId": "@parameters('ChannelId')"
                         },
-                        "messageBody": "<p class=\"editor-paragraph\">🚨 Alert <strong>@{triggerBody()?['data']?['essentials']?['alertRule']}</strong> with severity <strong>@{triggerBody()?['data']?['essentials']?['severity']}</strong> was @{triggerBody()?['data']?['essentials']?['monitorCondition']} at @{formatDateTime(triggerBody()?['data']?['essentials']?['firedDateTime'], 'F', 'en-GB')} in <strong>@{parameters('Environment')}</strong></p><br><p class=\"editor-paragraph\"><a href=\"https://portal.azure.com/#blade/Microsoft_Azure_Monitoring_Alerts/AlertDetails.ReactView/alertId/%2fsubscriptions%2f@{variables('AffectedResourceIds')[2]}%2fresourceGroups%2f@{variables('AffectedResourceIds')[4]}%2fproviders%2fMicrosoft.AlertsManagement%2falerts%2f@{substring(triggerBody()?['data']?['essentials']?['alertId'], add(lastIndexOf(triggerBody()?['data']?['essentials']?['alertId'], '/'), 1))}\" class=\"editor-link\">View the alert in Azure Monitor</a></p>"
+                        "messageBody": "${local.alert-assigned-adaptive-card}"
                     },
-                    "path": "/beta/teams/conversation/message/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                    "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
                 }
             }
         }
@@ -229,6 +434,9 @@ data "azurerm_managed_api" "teams-api" {
 #  General > Edit API connection > Authorize
 #
 # and then logging in with an Office 365 account with access to the target Team and Channel.
+#
+# NOTE: Changing `display_name` here or in Azure Portal forces replacement on next `apply`.
+#       This is not desirable as any previous authorization will also be dropped.
 resource "azurerm_api_connection" "teams-api-connection" {
   name                = "${var.environment-prefix}-teams-api"
   resource_group_name = azurerm_resource_group.resource-group.name

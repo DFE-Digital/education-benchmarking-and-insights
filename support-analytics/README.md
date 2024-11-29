@@ -2,6 +2,11 @@
 
 This is a supplementary project that contains configuration for supporting and monitoring the service.
 
+## Prerequisites
+
+1. Install [Adaptive Card Previewer](https://marketplace.visualstudio.com/items?itemName=TeamsDevApp.vscode-adaptive-cards)
+for VS Code
+
 ## Log Analytics
 
 ### Functions
