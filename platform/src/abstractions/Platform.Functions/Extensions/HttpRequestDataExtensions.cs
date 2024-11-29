@@ -48,8 +48,8 @@ public static class HttpRequestDataExtensions
 
     public static async Task<HttpResponseData> CreateJsonResponseAsync(this HttpRequestData req, object obj, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
-        var response = req.CreateResponse();
-        await response.WriteAsJsonAsync(obj, statusCode);
+        var response = req.CreateResponse(statusCode);
+        await response.WriteAsJsonAsync(obj);
         return response;
     }
 

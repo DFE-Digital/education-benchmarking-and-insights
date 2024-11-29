@@ -13,7 +13,6 @@ internal static class Worker
 
     internal static void Options(WorkerOptions options)
     {
-        options.EnableUserCodeException = true;
         options.Serializer = new NewtonsoftJsonObjectSerializer(JsonExtensions.Settings);
     }
 }

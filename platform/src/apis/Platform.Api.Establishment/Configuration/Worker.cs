@@ -19,6 +19,5 @@ internal static class Worker
 
     internal static void Options(WorkerOptions options)
     {
-        options.EnableUserCodeException = true;
     }
 }
