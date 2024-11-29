@@ -36,147 +36,163 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("DataSource", new
+@if (Model.Balance == null)
 {
-    organisationType = OrganisationTypes.Trust,
-    sourceType = DataSourceTypes.Spending,
-    isPartOfTrust = true
-})
-
-<div class="govuk-grid-row govuk-!-margin-bottom-5">
-    <div class="govuk-grid-column-full">
-        <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
-            <li class="app-headline-figures">
-                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">In year balance</p>
-                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency(0)</p>
-            </li>
-            <li class="app-headline-figures">
-                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Revenue reserve</p>
-                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency(0)</p>
-            </li>
-            <li class="app-headline-figures">
-                <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Number of academies</p>
-                <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.NumberSchools</p>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<h2 class="govuk-heading-m">Spending priorities for this trust</h2>
-<div class="govuk-grid-row govuk-!-margin-bottom-5">
-    <div class="govuk-grid-column-full">
-        <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
-            <li class="app-headline-high">
-                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.High</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
-            </li>
-            <li class="app-headline-medium">
-                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Medium</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">Medium priority costs</p>
-            </li>
-            <li class="app-headline-low">
-                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Low</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">Low priority costs</p>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<table class="govuk-table table-cost-category-rag govuk-!-margin-bottom-4">
-    <caption class="govuk-table__caption govuk-table__caption--m">Cost categories</caption>
-    <thead class="govuk-table__head govuk-visually-hidden">
-    <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Category</th>
-        <th scope="col" class="govuk-table__header">Sum of High/Medium/Low priority school cost categories</th>
-    </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-    @foreach (var rating in Model.Ratings)
+    <p class="govuk-body">This trust does not have a submission for the current period.</p>
+}
+else
+{
+    @await Component.InvokeAsync("DataSource", new
     {
+        organisationType = OrganisationTypes.Trust,
+        sourceType = DataSourceTypes.Spending,
+        isPartOfTrust = true
+    })
 
+    <div class="govuk-grid-row govuk-!-margin-bottom-5">
+        <div class="govuk-grid-column-full">
+            <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
+                <li class="app-headline-figures">
+                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">In year balance</p>
+                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency(0)</p>
+                </li>
+                <li class="app-headline-figures">
+                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Revenue reserve</p>
+                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency(0)</p>
+                </li>
+                <li class="app-headline-figures">
+                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Number of academies</p>
+                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.NumberSchools</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+
+@if (Model.Ratings.Any())
+{
+    <h2 class="govuk-heading-m">Spending priorities for this trust</h2>
+    <div class="govuk-grid-row govuk-!-margin-bottom-5">
+        <div class="govuk-grid-column-full">
+            <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
+                <li class="app-headline-high">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.High</p>
+                    <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
+                </li>
+                <li class="app-headline-medium">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Medium</p>
+                    <p class="govuk-body govuk-!-margin-bottom-1">Medium priority costs</p>
+                </li>
+                <li class="app-headline-low">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Low</p>
+                    <p class="govuk-body govuk-!-margin-bottom-1">Low priority costs</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="govuk-table table-cost-category-rag govuk-!-margin-bottom-4">
+        <caption class="govuk-table__caption govuk-table__caption--m">Cost categories</caption>
+        <thead class="govuk-table__head govuk-visually-hidden">
         <tr class="govuk-table__row">
-            <td class="govuk-table__cell govuk-!-width-one-half">
-                <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
-            </td>
-            <td class="govuk-table__cell govuk-!-width-one-half">
-                @await Component.InvokeAsync("RagStack", new
-                {
-                    identifier = rating.Category,
-                    red = rating.Red,
-                    amber = rating.Amber,
-                    green = rating.Green,
-                    redHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "high" })}",
-                    amberHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "medium" })}",
-                    greenHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "low" })}"
-                })
-            </td>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Category</th>
+            <th scope="col" class="govuk-table__header">Sum of High/Medium/Low priority school cost categories</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var rating in Model.Ratings)
+        {
 
-<p class="govuk-body">
-    <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })" class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a>
-</p>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-width-one-half">
+                    <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
+                </td>
+                <td class="govuk-table__cell govuk-!-width-one-half">
+                    @await Component.InvokeAsync("RagStack", new
+                    {
+                        identifier = rating.Category,
+                        red = rating.Red,
+                        amber = rating.Amber,
+                        green = rating.Green,
+                        redHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "high" })}",
+                        amberHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "medium" })}",
+                        greenHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "low" })}"
+                    })
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 
-<h2 class="govuk-heading-m">Schools in this trust</h2>
+    <p class="govuk-body">
+        <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })" class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a>
+    </p>
+}
 
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+@if (Model.Schools.Any())
 {
-    Heading = "Primary schools",
-    Schools = Model.PrimarySchools
-})
+    <h2 class="govuk-heading-m">Schools in this trust</h2>
 
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "Secondary schools",
-    Schools = Model.SecondarySchools
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "Special",
-    Schools = Model.Special
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "Alternative provision",
-    Schools = Model.AlternativeProvision
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "All-through",
-    Schools = Model.AllThroughSchools
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "Post 16",
-    Schools = Model.PostSixteen
-})
-
-@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
-{
-    Heading = "University technical colleges",
-    Schools = Model.UniversityTechnicalColleges
-})
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-@await Component.InvokeAsync("TrustFinanceTools", new
-{
-    identifier = Model.CompanyNumber,
-    tools = new[]
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
     {
-        FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus,
-        FinanceTools.CentralServices,
-        FinanceTools.ForecastRisk,
-        FinanceTools.FinancialPlanning
-    }
-})
+        Heading = "Primary schools",
+        Schools = Model.PrimarySchools
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "Secondary schools",
+        Schools = Model.SecondarySchools
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "Special",
+        Schools = Model.Special
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "Alternative provision",
+        Schools = Model.AlternativeProvision
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "All-through",
+        Schools = Model.AllThroughSchools
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "Post 16",
+        Schools = Model.PostSixteen
+    })
+
+    @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+    {
+        Heading = "University technical colleges",
+        Schools = Model.UniversityTechnicalColleges
+    })
+}
+
+@if (Model.Balance != null)
+{
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    @await Component.InvokeAsync("TrustFinanceTools", new
+    {
+        identifier = Model.CompanyNumber,
+        tools = new[]
+        {
+            FinanceTools.CompareYourCosts,
+            FinanceTools.BenchmarkCensus,
+            FinanceTools.CentralServices,
+            FinanceTools.ForecastRisk,
+            FinanceTools.FinancialPlanning
+        }
+    })
+}
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

@@ -5,17 +5,18 @@ public class TrustViewModel(Trust trust)
 {
     public TrustViewModel(
         Trust trust,
-        TrustBalance balance,
-        IEnumerable<RagRating> ratings,
+        TrustBalance? balance,
+        IEnumerable<RagRating>? ratings,
         bool? comparatorReverted = false)
         : this(trust)
     {
         NumberSchools = Schools.Count();
-        RevenueReserve = balance.RevenueReserve;
-        InYearBalance = balance.InYearBalance;
+        Balance = balance;
+        RevenueReserve = balance?.RevenueReserve;
+        InYearBalance = balance?.InYearBalance;
         ComparatorReverted = comparatorReverted;
 
-        var ratingsArray = ratings.ToArray();
+        var ratingsArray = ratings?.ToArray() ?? [];
 
         Low = ratingsArray.Where(NotOther).Count(Green);
         Medium = ratingsArray.Where(NotOther).Count(Amber);
@@ -63,6 +64,7 @@ public class TrustViewModel(Trust trust)
     public int Low { get; }
     public int Medium { get; }
     public int High { get; }
+    public TrustBalance? Balance { get; }
     public IEnumerable<TrustSchool> Schools => trust.Schools;
     public IEnumerable<RagCostCategoryViewModel> Ratings { get; } = [];
 

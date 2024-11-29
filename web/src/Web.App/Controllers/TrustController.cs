@@ -137,13 +137,13 @@ public class TrustController(
         return query;
     }
 
-    private async Task<RagRating[]> RagRatings(string companyNumber) => await metricRagRatingApi
+    private async Task<RagRating[]?> RagRatings(string companyNumber) => await metricRagRatingApi
         .GetDefaultAsync(BuildQuery(companyNumber))
-        .GetResultOrThrow<RagRating[]>();
+        .GetResultOrDefault<RagRating[]>();
 
-    private async Task<TrustBalance> TrustBalance(string companyNumber) => await balanceApi
+    private async Task<TrustBalance?> TrustBalance(string companyNumber) => await balanceApi
         .Trust(companyNumber)
-        .GetResultOrThrow<TrustBalance>();
+        .GetResultOrDefault<TrustBalance>();
 
     private async Task<Trust> Trust(string companyNumber) => await establishmentApi
         .GetTrust(companyNumber)
