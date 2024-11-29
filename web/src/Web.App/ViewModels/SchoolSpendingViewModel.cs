@@ -65,5 +65,5 @@ public class CostsViewModel
 public class RagRatingCommentaryViewModel(string prefix = "Spending is")
 {
     public string Prefix => prefix;
-    public RagRating Rating { get; init; }
+    public RagRating? Rating { get; init; }
 }

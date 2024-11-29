@@ -93,7 +93,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.URN).ToAbsolute());
     }
 
-    [Fact]
+    /*[Fact]
     public async Task SetsAndGetsValidCustomValuesToSession()
     {
         /*
@@ -132,8 +132,8 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             };
 
             Assert.True(expected.Equals(actual), $"{field} expected to be {expected} but found {actual}");
-        }*/
-    }
+        }#1#
+    }*/
 
     [Fact]
     public async Task ShowsErrorOnInvalidValues()
@@ -180,7 +180,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -190,8 +190,8 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());#1#
+    }*/
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {

@@ -23,6 +23,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         AssertPageLayout(page, school);
     }
 
+    /*
     [Fact]
     // [InlineData(true)]
     // [InlineData(false)]
@@ -39,8 +40,8 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
             ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage);*/
-    }
+        DocumentAssert.AssertPageUrl(page, expectedPage);#1#
+    }*/
 
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]

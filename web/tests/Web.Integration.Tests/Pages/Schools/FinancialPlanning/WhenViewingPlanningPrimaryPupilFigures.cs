@@ -25,7 +25,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         AssertPageLayout(page, school, plan);
     }
 
-    [Fact]
+    /*[Fact]
     // [InlineData(true)]
     // [InlineData(false)]
     public async Task CanNavigateBack()
@@ -41,8 +41,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage);*/
-    }
+        DocumentAssert.AssertPageUrl(page, expectedPage);#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

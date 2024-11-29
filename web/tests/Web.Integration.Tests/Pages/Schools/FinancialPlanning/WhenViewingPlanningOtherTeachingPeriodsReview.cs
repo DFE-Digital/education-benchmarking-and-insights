@@ -121,7 +121,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute());
     }
 
-    [Fact]
+    /*[Fact]
     // [InlineData(EstablishmentTypes.Academies)]
     // [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateBack()
@@ -133,8 +133,8 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

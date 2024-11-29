@@ -10,6 +10,8 @@ namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private readonly SchoolBenchmarkingWebAppClient _client = client;
+
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
 
@@ -92,7 +94,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         DocumentAssert.FormErrors(page, ("AssistantsNursery", expectedMsg));
     }
 
-    [Fact]
+    /*[Fact]
     // [InlineData(EstablishmentTypes.Academies)]
     // [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateBack()
@@ -104,8 +106,8 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()
@@ -131,7 +133,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         Assert.NotNull(action);
 
-        client.SetupFinancialPlan();
+        _client.SetupFinancialPlan();
 
         page = await Client.SubmitForm(page.Forms[0], action);
 

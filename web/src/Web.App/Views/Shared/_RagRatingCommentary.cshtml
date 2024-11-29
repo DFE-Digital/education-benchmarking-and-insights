@@ -3,13 +3,13 @@
 @model Web.App.ViewModels.RagRatingCommentaryViewModel
 
 @Html.Raw(Model.Prefix)
-@if (Model.Rating.Percentile < 50 && Category.InvertRagValueCategories.Contains(Model.Rating.Category))
+@if (Model.Rating?.Percentile < 50 && Category.InvertRagValueCategories.Contains(Model.Rating.Category))
 {
     @:less than <strong>@((100 - Model.Rating.Percentile).ToPercent())</strong>
 }
 else
 {
     @:higher than
-    <strong>@Model.Rating.Percentile.ToPercent()</strong>
+    <strong>@Model.Rating?.Percentile.ToPercent()</strong>
 }
 of similar schools.

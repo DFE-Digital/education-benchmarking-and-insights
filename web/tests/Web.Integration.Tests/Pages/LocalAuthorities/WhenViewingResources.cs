@@ -16,7 +16,7 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
         AssertPageLayout(page, authority);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -26,8 +26,8 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

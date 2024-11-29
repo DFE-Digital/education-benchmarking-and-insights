@@ -41,7 +41,7 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
     }
 
 
-    [Fact]
+    /*[Fact]
     // [InlineData(EstablishmentTypes.Academies)]
     // [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateBack()
@@ -53,8 +53,8 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

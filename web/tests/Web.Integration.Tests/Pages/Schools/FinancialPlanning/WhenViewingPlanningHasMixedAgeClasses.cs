@@ -21,8 +21,8 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         AssertPageLayout(page, school);
     }
 
-    [Fact]
-    public async Task CanNavigateBack()
+    /*[Fact]
+    public void CanNavigateBack()
     {
         /*
         See decision log: temp remove navigation to be review post private beta
@@ -31,8 +31,8 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

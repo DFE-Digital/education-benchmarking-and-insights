@@ -23,7 +23,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         AssertPageLayout(page, school);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -34,8 +34,8 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());*/
-    }
+            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

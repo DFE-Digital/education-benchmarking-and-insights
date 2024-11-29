@@ -89,7 +89,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -99,8 +99,8 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanSubmitAndContinueToPrePopulatedData()

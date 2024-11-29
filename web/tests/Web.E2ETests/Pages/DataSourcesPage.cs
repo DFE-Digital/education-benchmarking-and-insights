@@ -5,20 +5,22 @@ namespace Web.E2ETests.Pages;
 
 public partial class DataSourcesPage(IPage page) : BasePage(page)
 {
+    private readonly IPage _page = page;
+
     private ILocator CfrSourcesHeader =>
-        page.Locator(Selectors.H4, new PageLocatorOptions
+        _page.Locator(Selectors.H4, new PageLocatorOptions
         {
             HasText = "LA Maintained Schools"
         });
 
     private ILocator AarSourcesHeader =>
-        page.Locator(Selectors.H4, new PageLocatorOptions
+        _page.Locator(Selectors.H4, new PageLocatorOptions
         {
             HasText = "Academies"
         });
 
-    private ILocator CfrSection => page.Locator("#data-sources-cfr");
-    private ILocator AarSection => page.Locator("#data-sources-aar");
+    private ILocator CfrSection => _page.Locator("#data-sources-cfr");
+    private ILocator AarSection => _page.Locator("#data-sources-aar");
 
     public override async Task IsDisplayed()
     {

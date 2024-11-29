@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
@@ -491,7 +492,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
         public Task CommitAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-        public bool TryGetValue(string key, out byte[]? value) => _items.TryGetValue(key, out value);
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value) => _items.TryGetValue(key, out value);
 
         public void Set(string key, byte[] value)
         {

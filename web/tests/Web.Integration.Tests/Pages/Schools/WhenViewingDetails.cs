@@ -18,7 +18,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         AssertPageLayout(page, school);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -28,8 +28,8 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

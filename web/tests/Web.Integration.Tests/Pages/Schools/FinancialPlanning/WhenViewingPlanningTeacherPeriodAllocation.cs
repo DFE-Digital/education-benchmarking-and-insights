@@ -10,6 +10,8 @@ namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private readonly SchoolBenchmarkingWebAppClient _client = client;
+
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
 
@@ -25,7 +27,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         AssertPageLayout(page, school);
     }
 
-    [Fact]
+    /*[Fact]
     // [InlineData(OverallPhaseTypes.Secondary)]
     // [InlineData(OverallPhaseTypes.Primary)]
     public async Task CanNavigateBack()
@@ -41,8 +43,8 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectPage);*/
-    }
+        DocumentAssert.AssertPageUrl(page, expectPage);#1#
+    }*/
 
 
     [Fact]
@@ -69,7 +71,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
         var action = page.QuerySelector("main .govuk-button");
 
-        client.SetupFinancialPlan();
+        _client.SetupFinancialPlan();
 
         Assert.NotNull(action);
 

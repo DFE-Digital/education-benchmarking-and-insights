@@ -23,8 +23,8 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
         AssertPageLayout(page, school);
     }
 
-    [Fact]
-    public async Task CanNavigateBack()
+    /*[Fact]
+    public void CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta
@@ -33,8 +33,8 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

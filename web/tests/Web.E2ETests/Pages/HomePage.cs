@@ -3,8 +3,10 @@ namespace Web.E2ETests.Pages;
 
 public class HomePage(IPage page) : BasePage(page)
 {
+    private readonly IPage _page = page;
+
     private ILocator DataSourcesLink =>
-        page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
+        _page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
         {
             HasText = "Data Sources"
         });
@@ -17,6 +19,6 @@ public class HomePage(IPage page) : BasePage(page)
     public async Task<DataSourcesPage> ClickDataSourcesLink()
     {
         await DataSourcesLink.ClickAsync();
-        return new DataSourcesPage(page);
+        return new DataSourcesPage(_page);
     }
 }

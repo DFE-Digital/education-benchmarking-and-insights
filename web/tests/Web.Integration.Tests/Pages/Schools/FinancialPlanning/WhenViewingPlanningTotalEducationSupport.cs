@@ -48,7 +48,7 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
             Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear).ToAbsolute());
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -59,8 +59,8 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute());*/
-    }
+            Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

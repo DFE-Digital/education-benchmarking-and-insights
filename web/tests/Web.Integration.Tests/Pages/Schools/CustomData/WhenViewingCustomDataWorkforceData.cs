@@ -154,7 +154,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
+    /*[Fact]
     public async Task CanNavigateBack()
     {
         /*
@@ -164,8 +164,8 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());#1#
+    }*/
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {

@@ -73,7 +73,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         DocumentAssert.FormErrors(page, ("Proceed", "Confirm if you want to proceed without adding other teaching periods"));
     }
 
-    [Fact]
+    /*[Fact]
     // [InlineData(EstablishmentTypes.Academies)]
     // [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateBack()
@@ -85,8 +85,8 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());*/
-    }
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());#1#
+    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()

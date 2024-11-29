@@ -18,7 +18,7 @@ public class WhenViewingPlanningHelp(SchoolBenchmarkingWebAppClient client) : Pa
     }
 
     [Fact]
-    public async Task CanNavigateBack()
+    public void CanNavigateBack()
     {
         /*
          See decision log: temp remove navigation to be review post private beta
