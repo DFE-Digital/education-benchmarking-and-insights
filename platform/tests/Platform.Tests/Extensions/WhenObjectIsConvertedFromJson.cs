@@ -75,11 +75,11 @@ public class WhenObjectIsConvertedFromJson
 
         if (input.ThrowsExceptionType != null)
         {
-            Assert.Throws(input.ThrowsExceptionType, () => input.Source.FromJson<TestObjectType>());
+            Assert.Throws(input.ThrowsExceptionType, () => input.Source!.FromJson<TestObjectType>());
             return;
         }
 
-        var actual = input.Source.FromJson<TestObjectType>();
+        var actual = input.Source!.FromJson<TestObjectType>();
         Assert.Equivalent(input.Expected, actual);
     }
 

@@ -71,8 +71,6 @@ public class WhenBudgetForecastServiceQueriesAsync
         // arrange
         const string companyNumber = "companyNumber";
         const string runType = "runType";
-        const string startYear = "startYear";
-        const string endYear = "endYear";
         var results = new List<BudgetForecastReturnMetricModel>
         {
             new()

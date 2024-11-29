@@ -100,7 +100,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Trust>();
 
-        var set = result.Schools.Select(s => new
+        var set = result.Schools!.Select(s => new
         {
             s.URN,
             s.SchoolName,
