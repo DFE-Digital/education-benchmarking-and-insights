@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 
 import numpy as np
 import pandas as pd
@@ -114,10 +115,13 @@ def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(run_id)
 
-    upsert(
-        write_frame,
-        "MetricRAG",
-        keys=["RunType", "RunId", "URN", "Category", "SubCategory"],
+    temp_table = f"MetricRAG_{run_type}_{int(time.time())}_temp"
+    logger.info(f"Writing to temp. table: {temp_table} ({run_id}).")
+    write_frame.to_sql(
+        temp_table,
+        engine,
+        if_exists="replace",
+        index=True,
         dtype={
             "RunType": sqlalchemy.types.VARCHAR(length=50),
             "RunId": sqlalchemy.types.VARCHAR(length=50),
@@ -133,6 +137,51 @@ def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
             "RAG": sqlalchemy.types.VARCHAR(length=10),
         },
     )
+    sql = f"""
+    BEGIN TRANSACTION;
+
+    DELETE
+      FROM MetricRAG
+     WHERE RunId = :run_id
+    ;
+    
+    INSERT INTO MetricRAG (
+        RunType
+      , RunId
+      , URN
+      , Category
+      , SubCategory
+      , Value
+      , Median
+      , DiffMedian
+      , PercentDiff
+      , Percentile
+      , Decile
+      , RAG
+    )
+    SELECT RunType
+         , RunId
+         , URN
+         , Category
+         , SubCategory
+         , Value
+         , Median
+         , DiffMedian
+         , PercentDiff
+         , Percentile
+         , Decile
+         , RAG
+      FROM {temp_table}
+    ;
+    
+    COMMIT;
+    """
+
+    logger.info(f"Writing to MetricRAG ({run_id}).")
+    with engine.begin() as cnx:
+        cnx.execute(sqlalchemy.text(sql), parameters={"run_id": run_id})
+        cnx.execute(sqlalchemy.text(f"DROP TABLE IF EXISTS {temp_table}"))
+
     logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {run_id}")
 
 
