@@ -50,13 +50,23 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(companyName).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, TrustSchool[] schools)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanDisplayWithoutSchools()
+    {
+        var (page, trust, schools) = await SetupNavigateInitPage(false);
+
+        AssertPageLayout(page, trust, schools);
+    }
+
+    private async Task<(IHtmlDocument page, Trust trust, TrustSchool[] schools)> SetupNavigateInitPage(bool includeSchools = true)
     {
         var trust = Fixture.Build<Trust>()
             .Create();
 
-        var schools = Fixture.Build<TrustSchool>()
-            .CreateMany(30).ToArray();
+        var schools = includeSchools
+            ? Fixture.Build<TrustSchool>()
+                .CreateMany(30).ToArray()
+            : [];
 
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupBalance(trust)
@@ -79,15 +89,18 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         var details = page.QuerySelector("dl.govuk-summary-list");
         Assert.NotNull(details);
 
-        var schoolList = page.QuerySelector("#current ul");
-        Assert.NotNull(schoolList);
-        Assert.Equal(schools.Length, schoolList.Children.Length);
-
-        foreach (var schoolElement in schoolList.Children)
+        if (schools.Length != 0)
         {
-            var schoolName = schoolElement.QuerySelector("a")?.TextContent;
-            var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
-            Assert.NotNull(school);
+            var schoolList = page.QuerySelector("#current ul");
+            Assert.NotNull(schoolList);
+            Assert.Equal(schools.Length, schoolList.Children.Length);
+
+            foreach (var schoolElement in schoolList.Children)
+            {
+                var schoolName = schoolElement.QuerySelector("a")?.TextContent;
+                var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
+                Assert.NotNull(school);
+            }
         }
     }
 }
