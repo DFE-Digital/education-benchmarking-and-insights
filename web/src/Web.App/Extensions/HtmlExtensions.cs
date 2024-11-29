@@ -4,9 +4,14 @@ namespace Web.App.Extensions;
 
 public static class HtmlHelperExtensions
 {
-    public static IHtmlContent TrackedAnchor(this IHtmlHelper htmlHelper, TrackedLinks link, string href, string content,
+    public static IHtmlContent TrackedAnchor(this IHtmlHelper htmlHelper, TrackedLinks link, string? href, string content,
         string? hiddenContent = null, string? target = null, string[]? rel = null, params string[] classes)
     {
+        if (string.IsNullOrWhiteSpace(href))
+        {
+            return HtmlString.Empty;
+        }
+
         var anchorTag = new TagBuilder("a");
 
         classes = classes.Length == 0 ? ["govuk-link", "govuk-link--no-visited-state"] : classes;

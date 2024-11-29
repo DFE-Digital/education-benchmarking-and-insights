@@ -54,16 +54,19 @@
     </div>
 </div>
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+@if (Model.Schools.Any())
+{
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">Schools currently in this trust</h2>
-<div id="current">
-    <ul class="govuk-list">
-        @foreach (var school in Model.Schools)
-        {
-            <li>
-                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new { urn = school.URN })">@school.SchoolName</a>
-            </li>
-        }
-    </ul>
-</div>
+    <h2 class="govuk-heading-m">Schools currently in this trust</h2>
+    <div id="current">
+        <ul class="govuk-list">
+            @foreach (var school in Model.Schools)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new { urn = school.URN })">@school.SchoolName</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
