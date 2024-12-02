@@ -71,6 +71,16 @@
                     "value": "@{triggerBody()?['data']?['essentials']?['monitoringService']}"
                 }
             ]
+        },
+        {
+            "type": "FactSet",
+            "isVisible": false,
+            "facts": [
+                {
+                    "title": "firedDateTime",
+                    "value": "@{triggerBody()?['data']?['essentials']?['firedDateTime']}"
+                }
+            ]
         }
     ],
     "actions": [

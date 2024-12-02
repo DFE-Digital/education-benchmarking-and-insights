@@ -123,9 +123,12 @@ SCHEMA
 # For schema definition and examples see: https://adaptivecards.io/explorer/
 # At time of writing, Teams supports up to and including v1.5 of the schema.
 locals {
-  alert-assigned-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-assigned.json"), "\"", "\\\""), "\n", "\\n")
-  alert-fired-adaptive-card    = replace(replace(file("${path.module}/adaptive-cards/alert-fired.json"), "\"", "\\\""), "\n", "\\n")
-  alert-resolved-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-resolved.json"), "\"", "\\\""), "\n", "\\n")
+  alert-assigned-adaptive-card         = replace(replace(file("${path.module}/adaptive-cards/alert-assigned.json"), "\"", "\\\""), "\n", "\\n")
+  alert-assigned-minimal-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-assigned-minimal.json"), "\"", "\\\""), "\n", "\\n")
+  alert-fired-adaptive-card            = replace(replace(file("${path.module}/adaptive-cards/alert-fired.json"), "\"", "\\\""), "\n", "\\n")
+  alert-fired-minimal-adaptive-card    = replace(replace(file("${path.module}/adaptive-cards/alert-fired-minimal.json"), "\"", "\\\""), "\n", "\\n")
+  alert-resolved-adaptive-card         = replace(replace(file("${path.module}/adaptive-cards/alert-resolved.json"), "\"", "\\\""), "\n", "\\n")
+  alert-resolved-minimal-adaptive-card = replace(replace(file("${path.module}/adaptive-cards/alert-resolved-minimal.json"), "\"", "\\\""), "\n", "\\n")
 }
 
 resource "azurerm_logic_app_action_custom" "initialise-affected-resource-ids" {
@@ -180,8 +183,8 @@ BODY
 
 }
 
-resource "azurerm_logic_app_action_custom" "initialise-message-content" {
-  name         = "Initialize_message_content"
+resource "azurerm_logic_app_action_custom" "initialise-message-id" {
+  name         = "Initialize_message_ID"
   logic_app_id = azurerm_logic_app_workflow.alert-teams.id
 
   depends_on = [
@@ -199,7 +202,7 @@ resource "azurerm_logic_app_action_custom" "initialise-message-content" {
     "inputs": {
         "variables": [
             {
-                "name": "MessageContent",
+                "name": "MessageId",
                 "type": "string"
             }
         ]
@@ -209,18 +212,18 @@ BODY
 
 }
 
-resource "azurerm_logic_app_action_custom" "initialise-message-id" {
-  name         = "Initialize_message_ID"
+resource "azurerm_logic_app_action_custom" "initialise-fired-timestamp" {
+  name         = "Initialize_fired_timestamp"
   logic_app_id = azurerm_logic_app_workflow.alert-teams.id
 
   depends_on = [
-    azurerm_logic_app_action_custom.initialise-message-content
+    azurerm_logic_app_action_custom.initialise-message-id
   ]
 
   body = <<BODY
 {
     "runAfter": {
-        "${azurerm_logic_app_action_custom.initialise-message-content.name}": [
+        "${azurerm_logic_app_action_custom.initialise-message-id.name}": [
             "Succeeded"
         ]
     },
@@ -228,8 +231,9 @@ resource "azurerm_logic_app_action_custom" "initialise-message-id" {
     "inputs": {
         "variables": [
             {
-                "name": "MessageId",
-                "type": "string"
+                "name": "FiredDateTime",
+                "type": "string",
+                "value": "@{formatDateTime(triggerBody()?['data']?['essentials']?['firedDateTime'], 'MM/dd/yyyy HH:mm:ss')}"
             }
         ]
     }
@@ -244,43 +248,19 @@ resource "azurerm_logic_app_action_custom" "is-alert-resolved" {
   logic_app_id = azurerm_logic_app_workflow.alert-teams.id
 
   depends_on = [
-    azurerm_logic_app_action_custom.initialise-message-id
+    azurerm_logic_app_action_custom.initialise-fired-timestamp
   ]
 
   body = <<BODY
 {
     "actions": {
-        "Get_messages": {
-            "type": "ApiConnection",
-            "inputs": {
-                "host": {
-                    "connection": {
-                        "name": "@parameters('$connections')['teams']['connectionId']"
-                    }
-                },
-                "method": "get",
-                "path": "/beta/teams/@{encodeURIComponent(parameters('TeamId'))}/channels/@{encodeURIComponent(parameters('ChannelId'))}/messages"
-            },
-            "runtimeConfiguration": {
-                "paginationPolicy": {
-                    "minimumItemCount": 10
-                }
-            }
-        },
         "For_each_message": {
             "foreach": "@body('Get_messages')?['value']",
             "actions": {
                 "For_each_attachment": {
                     "foreach": "@items('For_each_message')?['attachments']",
                     "actions": {
-                        "Set_message_content": {
-                            "type": "SetVariable",
-                            "inputs": {
-                                "name": "messageContent",
-                                "value": "@items('For_each_attachment')?['content']"
-                            }
-                        },
-                        "Message_content_contains_alert_ID": {
+                        "Message_content_contains_fired_timestamp": {
                             "actions": {
                                 "Set_message_ID": {
                                     "type": "SetVariable",
@@ -290,20 +270,15 @@ resource "azurerm_logic_app_action_custom" "is-alert-resolved" {
                                     }
                                 }
                             },
-                            "runAfter": {
-                                "Set_message_content": [
-                                    "Succeeded"
-                                ]
-                            },
                             "else": {
                                 "actions": {}
                             },
                             "expression": {
                                 "and": [
                                     {
-                                        "contains": [
-                                            "@variables('messagecontent')",
-                                            "@variables('alertid')"
+                                        "greater": [
+                                            "@indexOf(items('For_each_attachment')?['content'], variables('FiredDateTime'))",
+                                            0
                                         ]
                                     }
                                 ]
@@ -321,12 +296,7 @@ resource "azurerm_logic_app_action_custom" "is-alert-resolved" {
             },
             "type": "Foreach"
         },
-        "Update_the_adaptive_card_to_mark_as_resolved": {
-            "runAfter": {
-                "For_each_message": [
-                    "Succeeded"
-                ]
-            },
+        "Get_messages": {
             "type": "ApiConnection",
             "inputs": {
                 "host": {
@@ -334,75 +304,205 @@ resource "azurerm_logic_app_action_custom" "is-alert-resolved" {
                         "name": "@parameters('$connections')['teams']['connectionId']"
                     }
                 },
-                "method": "post",
-                "body": {
-                    "messageId": "@variables('MessageId')",
-                    "recipient": {
-                        "groupId": "@parameters('TeamId')",
-                        "channelId": "@parameters('ChannelId')"
-                    },
-                    "messageBody": "${local.alert-resolved-adaptive-card}"
-                },
-                "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                "method": "get",
+                "path": "/beta/teams/@{encodeURIComponent(parameters('TeamId'))}/channels/@{encodeURIComponent(parameters('ChannelId'))}/messages"
+            },
+            "runtimeConfiguration": {
+                "paginationPolicy": {
+                    "minimumItemCount": 5
+                }
             }
+        },
+        "Is_existing_minimal_alert": {
+            "actions": {
+                "Update_the_minimal_adaptive_card_to_mark_as_resolved": {
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['teams']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "body": {
+                            "messageId": "@variables('MessageId')",
+                            "recipient": {
+                                "groupId": "@parameters('TeamId')",
+                                "channelId": "@parameters('ChannelId')"
+                            },
+                            "messageBody": "${local.alert-resolved-minimal-adaptive-card}"
+                        },
+                        "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                    }
+                }
+            },
+            "runAfter": {
+                "For_each_message": [
+                    "Succeeded"
+                ]
+            },
+            "else": {
+                "actions": {
+                    "Update_the_adaptive_card_to_mark_as_resolved": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "body": {
+                                "messageId": "@variables('MessageId')",
+                                "recipient": {
+                                    "groupId": "@parameters('TeamId')",
+                                    "channelId": "@parameters('ChannelId')"
+                                },
+                                "messageBody": "${local.alert-resolved-adaptive-card}"
+                            },
+                            "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                        }
+                    }
+                }
+            },
+            "expression": {
+                "and": [
+                    {
+                        "lessOrEquals": [
+                            "@length(variables('AffectedResourceIds'))",
+                            3
+                        ]
+                    }
+                ]
+            },
+            "type": "If"
         }
     },
     "runAfter": {
-        "${azurerm_logic_app_action_custom.initialise-message-id.name}": [
+        "${azurerm_logic_app_action_custom.initialise-fired-timestamp.name}": [
             "Succeeded"
         ]
     },
     "else": {
         "actions": {
-            "Post_adaptive_card_and_wait_for_a_response": {
-                "limit": {
-                    "timeout": "P1D"
-                },
-                "type": "ApiConnectionWebhook",
-                "inputs": {
-                    "host": {
-                        "connection": {
-                            "name": "@parameters('$connections')['teams']['connectionId']"
+            "Is_new_minimal_alert": {
+                "actions": {
+                    "Post_minimal_adaptive_card_and_wait_for_a_response": {
+                        "limit": {
+                            "timeout": "P1D"
+                        },
+                        "type": "ApiConnectionWebhook",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                }
+                            },
+                            "body": {
+                                "notificationUrl": "@listCallbackUrl()",
+                                "body": {
+                                    "messageBody": "${local.alert-fired-minimal-adaptive-card}",
+                                    "updateMessage": "Response sent",
+                                    "recipient": {
+                                        "groupId": "@parameters('TeamId')",
+                                        "channelId": "@parameters('ChannelId')"
+                                    }
+                                }
+                            },
+                            "path": "/v1.0/teams/conversation/gatherinput/poster/Flow bot/location/@{encodeURIComponent('Channel')}/$subscriptions"
                         }
                     },
-                    "body": {
-                        "notificationUrl": "@listCallbackUrl()",
-                        "body": {
-                            "messageBody": "${local.alert-fired-adaptive-card}",
-                            "updateMessage": "Response sent",
-                            "recipient": {
-                                "groupId": "@parameters('TeamId')",
-                                "channelId": "@parameters('ChannelId')"
+                    "Update_the_minimal_adaptive_card_to_mark_as_assigned": {
+                        "runAfter": {
+                            "Post_minimal_adaptive_card_and_wait_for_a_response": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "body": {
+                                "messageId": "@body('Post_minimal_adaptive_card_and_wait_for_a_response')?['messageId']",
+                                "recipient": {
+                                    "groupId": "@parameters('TeamId')",
+                                    "channelId": "@parameters('ChannelId')"
+                                },
+                                "messageBody": "${local.alert-assigned-minimal-adaptive-card}"
+                            },
+                            "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
+                        }
+                    }
+                },
+                "else": {
+                    "actions": {
+                        "Post_adaptive_card_and_wait_for_a_response": {
+                            "limit": {
+                                "timeout": "P1D"
+                            },
+                            "type": "ApiConnectionWebhook",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['teams']['connectionId']"
+                                    }
+                                },
+                                "body": {
+                                    "notificationUrl": "@listCallbackUrl()",
+                                    "body": {
+                                        "messageBody": "${local.alert-fired-adaptive-card}",
+                                        "updateMessage": "Response sent",
+                                        "recipient": {
+                                            "groupId": "@parameters('TeamId')",
+                                            "channelId": "@parameters('ChannelId')"
+                                        }
+                                    }
+                                },
+                                "path": "/v1.0/teams/conversation/gatherinput/poster/Flow bot/location/@{encodeURIComponent('Channel')}/$subscriptions"
+                            }
+                        },
+                        "Update_the_adaptive_card_to_mark_as_assigned": {
+                            "runAfter": {
+                                "Post_adaptive_card_and_wait_for_a_response": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['teams']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "messageId": "@body('Post_adaptive_card_and_wait_for_a_response')?['messageId']",
+                                    "recipient": {
+                                        "groupId": "@parameters('TeamId')",
+                                        "channelId": "@parameters('ChannelId')"
+                                    },
+                                    "messageBody": "${local.alert-assigned-adaptive-card}"
+                                },
+                                "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
                             }
                         }
-                    },
-                    "path": "/v1.0/teams/conversation/gatherinput/poster/Flow bot/location/@{encodeURIComponent('Channel')}/$subscriptions"
-                }
-            },
-            "Update_the_adaptive_card_to_mark_as_assigned": {
-                "runAfter": {
-                    "Post_adaptive_card_and_wait_for_a_response": [
-                        "Succeeded"
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "lessOrEquals": [
+                                "@length(variables('AffectedResourceIds'))",
+                                3
+                            ]
+                        }
                     ]
                 },
-                "type": "ApiConnection",
-                "inputs": {
-                    "host": {
-                        "connection": {
-                            "name": "@parameters('$connections')['teams']['connectionId']"
-                        }
-                    },
-                    "method": "post",
-                    "body": {
-                        "messageId": "@body('Post_adaptive_card_and_wait_for_a_response')?['messageId']",
-                        "recipient": {
-                            "groupId": "@parameters('TeamId')",
-                            "channelId": "@parameters('ChannelId')"
-                        },
-                        "messageBody": "${local.alert-assigned-adaptive-card}"
-                    },
-                    "path": "/v1.0/teams/conversation/updateAdaptivecard/poster/Flow bot/location/@{encodeURIComponent('Channel')}"
-                }
+                "type": "If"
             }
         }
     },

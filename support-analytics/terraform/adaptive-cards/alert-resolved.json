@@ -75,6 +75,20 @@
                     "value": "@{formatDateTime(triggerBody()?['data']?['essentials']?['resolvedDateTime'], 'F', 'en-GB')}"
                 }
             ]
+        },
+        {
+            "type": "FactSet",
+            "isVisible": false,
+            "facts": [
+                {
+                    "title": "firedDateTime",
+                    "value": "@{triggerBody()?['data']?['essentials']?['firedDateTime']}"
+                },
+                {
+                    "title": "resolvedDateTime",
+                    "value": "@{triggerBody()?['data']?['essentials']?['resolvedDateTime']}"
+                }
+            ]
         }
     ],
     "actions": [
