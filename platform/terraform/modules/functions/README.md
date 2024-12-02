@@ -4,15 +4,15 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.0.1 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.1.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | ~> 2.0.1 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.1.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.12.0 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 
 ## Modules
