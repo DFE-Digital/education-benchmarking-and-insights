@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\storage.tf = terraform\storage.tf
 		terraform\terraform.tfvars = terraform\terraform.tfvars
 		terraform\variables.tf = terraform\variables.tf
+		terraform\README.md = terraform\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
@@ -47,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 		terraform\modules\functions\output.tf = terraform\modules\functions\output.tf
 		terraform\modules\functions\README.md = terraform\modules\functions\README.md
 		terraform\modules\functions\variables.tf = terraform\modules\functions\variables.tf
+		terraform\modules\functions\provider.tf = terraform\modules\functions\provider.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{1D110B5A-02AB-4365-AB94-317241A2C739}"
