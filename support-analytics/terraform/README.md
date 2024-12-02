@@ -64,7 +64,7 @@ No modules.
 | [azurerm_log_analytics_saved_search.get-waf-logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_saved_search) | resource |
 | [azurerm_logic_app_action_custom.initialise-affected-resource-ids](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
 | [azurerm_logic_app_action_custom.initialise-alert-id](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
-| [azurerm_logic_app_action_custom.initialise-message-content](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
+| [azurerm_logic_app_action_custom.initialise-fired-timestamp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
 | [azurerm_logic_app_action_custom.initialise-message-id](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
 | [azurerm_logic_app_action_custom.is-alert-resolved](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_action_custom) | resource |
 | [azurerm_logic_app_trigger_http_request.http-trigger](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/logic_app_trigger_http_request) | resource |
