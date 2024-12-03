@@ -9,6 +9,7 @@ export function AutoComplete<T>({
   onSuggest,
   suggestionFormatter,
   valueFormatter,
+  minLength,
   maxLength,
   ...props
 }: AutoCompleteProps<T>) {
@@ -23,8 +24,12 @@ export function AutoComplete<T>({
     try {
       if (query) {
         query = query.trim();
-        if (maxLength > props.minLength) {
+        if (maxLength > minLength) {
           query = query.substring(0, maxLength).trim();
+        }
+
+        if (query.length < minLength) {
+          return;
         }
       }
 
@@ -53,6 +58,7 @@ export function AutoComplete<T>({
   return (
     <AccessibleAutocomplete
       {...props}
+      minLength={minLength}
       onConfirm={(confirmed) => onSelected(confirmed as T)}
       showNoOptionsFound={false}
       source={debouncedSource}
