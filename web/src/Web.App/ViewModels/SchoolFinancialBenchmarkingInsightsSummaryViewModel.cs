@@ -40,7 +40,6 @@ public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
     public bool HasRagData => ratings?.Any() ?? false;
     public bool HasCensusData => census?.Any(c => c.URN == school.URN && c.TotalPupils.HasValue) ?? false;
     public string? OverallPhase => school.OverallPhase;
-    public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance => balance?.InYearBalance;
     public decimal? RevenueReserve => balance?.RevenueReserve;
 }

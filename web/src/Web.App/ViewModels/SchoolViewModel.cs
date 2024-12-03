@@ -88,7 +88,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public bool? ComparatorReverted { get; }
     public bool? CustomDataGenerated { get; }
     public string? OverallPhase => school.OverallPhase;
-    public string? OfstedRating => school.OfstedDescription;
     public decimal? InYearBalance { get; }
     public decimal? RevenueReserve { get; }
 }

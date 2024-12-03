@@ -153,10 +153,6 @@
                                 {
                                     <p class="govuk-body">Gross internal floor area:</p>
                                 }
-                                @if (Model.OfstedRatingSelected)
-                                {
-                                    <p class="govuk-body">Ofsted rating:</p>
-                                }
                                 @if (Model.SchoolsInTrustSelected)
                                 {
                                     <p class="govuk-body">Number of schools within trust:</p>
@@ -263,10 +259,6 @@
                                 @if (Model.InternalFloorAreaSelected)
                                 {
                                     <p class="govuk-body">@characteristic.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator()</p>
-                                }
-                                @if (Model.OfstedRatingSelected)
-                                {
-                                    <p class="govuk-body">@characteristic.OfstedDescription</p>
                                 }
                                 @if (Model.SchoolsInTrustSelected)
                                 {

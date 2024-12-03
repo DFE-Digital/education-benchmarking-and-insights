@@ -14,7 +14,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [InlineData(false)]
     public async Task CanDisplay(bool isNonLeadFederation)
     {
-        var (page, school) = await SetupNavigateInitPage(isNonLeadFederation);
+        var (page, school, _) = await SetupNavigateInitPage(isNonLeadFederation);
 
         AssertPageLayout(page, school);
     }
@@ -22,7 +22,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanNavigateToCompareYourCosts()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school, _) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[0].QuerySelector("h3 > a");
@@ -36,7 +36,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanNavigateToCurriculumPlanning()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school, _) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");
@@ -50,7 +50,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanNavigateToCensusBenchmark()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school, _) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[2].QuerySelector("h3 > a");
@@ -64,7 +64,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanNavigateToFinancialBenchmarkingInsightsSummary()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school, _) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[7].QuerySelector("h3 > a");
@@ -78,7 +78,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanNavigateToChangeSchool()
     {
-        var (page, _) = await SetupNavigateInitPage();
+        var (page, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
@@ -109,7 +109,14 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool isNonLeadFederation = false)
+    [Fact]
+    public async Task CanDisplayAppHeadlines()
+    {
+        var (page, school, balance) = await SetupNavigateInitPage();
+        AssertAppHeadlines(page, school, balance);
+    }
+
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false)
     {
         var federationLeadSchool = new FederationSchool
         {
@@ -123,7 +130,6 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.SchoolName, "Test School")
             .With(x => x.TrustCompanyNumber, string.Empty)
             .With(x => x.FinanceType, EstablishmentTypes.Maintained)
-            .With(x => x.OfstedDescription, "0")
             .With(x => x.FederationLeadURN, isNonLeadFederation ? "67890" : "12345")
             .With(x => x.FederationSchools, isNonLeadFederation ? [] : federationSchools)
             .Create();
@@ -142,7 +148,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .SetupUserData()
             .Navigate(Paths.SchoolHome(school.URN));
 
-        return (page, school);
+        return (page, school, balance);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
@@ -159,7 +165,6 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         if (school.FederationLeadURN != school.URN)
         {
             var message = page.QuerySelector("main > div > div:nth-of-type(2) > div > p:first-of-type");
-            ;
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
@@ -172,14 +177,12 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         else
         {
             var message = page.QuerySelector("main > div > div:nth-child(3) > div > p");
-            ;
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
                 "This school is the lead school of its federation. The following schools are part of this federation:");
 
             var federationSchoolList = page.QuerySelectorAll("main > div > div:nth-child(4) > div > ul > li");
-            ;
             Assert.NotNull(federationSchoolList);
 
             foreach (var federationSchoolItem in federationSchoolList)
@@ -206,5 +209,19 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
             DocumentAssert.Link(toolsLinks[2], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
         }
+    }
+
+    private static void AssertAppHeadlines(IHtmlDocument page, School school, SchoolBalance balance)
+    {
+        var headlineSection = page.Body.SelectSingleNode("//main/div/div[5]");
+
+        var headlineFiguresTexts = headlineSection.ChildNodes
+            .QuerySelectorAll(".app-headline-figures")
+            .Select(e => string.Join(" ", e.ChildNodes.Select(n => n.TextContent.Trim())).Trim());
+        Assert.Equal([
+            $"In year balance  £{balance.InYearBalance}",
+            $"Revenue reserve  £{balance.RevenueReserve}",
+            $"School phase  {school.OverallPhase}"
+        ], headlineFiguresTexts);
     }
 }

@@ -147,20 +147,6 @@
                                 inputsSuffix: "square metres"))
 
                         @await Html.PartialAsync(
-                            "Characteristics/_AdditionalCharacteristicsSelect",
-                            new AdditionalCharacteristicsSelectViewModel(
-                                ViewData,
-                                "Ofsted rating",
-                                nameof(Model.Data.OfstedRating),
-                                Model.Data.OfstedRating,
-                                nameof(Model.Data.OfstedRatings),
-                                string.Join(",", Model.Data.OfstedRatings),
-                                Model.Name,
-                                Model.Characteristic?.OfstedDescription,
-                                ["Outstanding", "Good", "Requires improvement", "Inadequate", "Not rated"],
-                                prefix: "is rated"))
-
-                        @await Html.PartialAsync(
                             "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,

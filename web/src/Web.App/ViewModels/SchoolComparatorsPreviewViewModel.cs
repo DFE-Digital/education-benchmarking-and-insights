@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolComparatorsPreviewViewModel(
@@ -46,7 +45,6 @@ public class SchoolComparatorsPreviewViewModel(
     public bool LondonWeightingSelected => IsSelected(userDefinedCharacteristics?.LondonWeighting);
     public bool AverageBuildingAgeSelected => IsSelected(userDefinedCharacteristics?.AverageBuildingAge);
     public bool InternalFloorAreaSelected => IsSelected(userDefinedCharacteristics?.InternalFloorArea);
-    public bool OfstedRatingSelected => IsSelected(userDefinedCharacteristics?.OfstedRating);
     public bool SchoolsInTrustSelected => IsSelected(userDefinedCharacteristics?.SchoolsInTrust);
     public bool DeficitSelected => IsSelected(userDefinedCharacteristics?.Deficit);
     public bool PrivateFinanceInitiativeSelected => IsSelected(userDefinedCharacteristics?.PrivateFinanceInitiative);
@@ -71,7 +69,6 @@ public class SchoolComparatorsPreviewViewModel(
                                                  || LondonWeightingSelected
                                                  || AverageBuildingAgeSelected
                                                  || InternalFloorAreaSelected
-                                                 || OfstedRatingSelected
                                                  || SchoolsInTrustSelected
                                                  || DeficitSelected
                                                  || PrivateFinanceInitiativeSelected

@@ -228,7 +228,6 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         Assert.Equal([
             $"In year balance  £{balance.InYearBalance}",
             $"Revenue reserve  £{balance.RevenueReserve}",
-            $"Ofsted rating  {school.OfstedDescription}",
             $"School phase  {school.OverallPhase}"
         ], headlineFiguresTexts);
 
