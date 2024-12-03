@@ -18,13 +18,13 @@
         Then the RAG commentary for each category is
           | Name                                | Commentary                                         |
           | Teaching and Teaching support staff | Spending is higher than 99% of similar schools.    |
-          | Non-educational support staff       | Spending is higher than 95.67% of similar schools. |
+          | Non-educational support staff       | Spending is higher than 95.7% of similar schools. |
           | Administrative supplies             | Spending is higher than 99% of similar schools.    |
           | Educational supplies                | Spending is higher than 99% of similar schools.    |
-          | Catering staff and supplies         | Spending is higher than 92.33% of similar schools. |
+          | Catering staff and supplies         | Spending is higher than 92.3% of similar schools. |
           | Premises staff and services         | Spending is higher than 99% of similar schools.    |
           | Utilities                           | Spending is higher than 39% of similar schools.    |
-          | Educational ICT                     | Spending is less than 77.67% of similar schools.   |
+          | Educational ICT                     | Spending is less than 77.7% of similar schools.   |
 
     Scenario: Categories have the correct commercial resources
         Given I am on spending and costs page for school with URN '777042'
