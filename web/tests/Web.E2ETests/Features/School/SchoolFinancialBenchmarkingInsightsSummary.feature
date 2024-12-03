@@ -14,12 +14,12 @@ So that I can see how my school is performing from a financial point of view and
         And I should see the following boxes displayed under Spend in priority areas
           | Name                                | Tag           | Value                                                  |
           | Teaching and teaching support staff | High priority | £6,315 per pupil; higher than 99% of similar schools.  |
-          | Non-educational support staff       | High priority | £845 per pupil; higher than 95.67% of similar schools. |
+          | Non-educational support staff       | High priority | £845 per pupil; higher than 95.7% of similar schools. |
           | Administrative supplies             | High priority | £429 per pupil; higher than 99% of similar schools.    |
         And I should see the following top 3 spending priorities for my school under Other top spending priorities
           | Name                        | Tag           | Value                                                  |
           | Educational supplies        | High priority | £407 per pupil; higher than 99% of similar schools.    |
-          | Catering staff and supplies | High priority | £363 per pupil; higher than 92.33% of similar schools. |
+          | Catering staff and supplies | High priority | £363 per pupil; higher than 92.3% of similar schools. |
           | Premises staff and services | High priority | £93 per sq. metre; higher than 99% of similar schools. |
         And I should see the following boxes displayed under Pupil and workforce metrics
           | Name                                   | Value                                      | Comparison                                                                  |
