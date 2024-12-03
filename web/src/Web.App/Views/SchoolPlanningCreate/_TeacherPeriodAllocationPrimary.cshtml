@@ -53,7 +53,7 @@
     
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear1Year2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear1Year2)">
-            Teacher period allocation figures from year 1 amd year 2
+            Teacher period allocation figures from year 1 and year 2
         </label>
         @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear1Year2)))
         {
