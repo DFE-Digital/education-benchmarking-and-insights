@@ -14,7 +14,7 @@ public static class DecimalExtensions
 
     public static string ToPercent(this decimal? value) => value.HasValue ? value.Value.ToPercent() : string.Empty;
 
-    public static string ToPercent(this decimal value) => $"{value:0.##}%";
+    public static string ToPercent(this decimal value) => $"{value:0.#}%";
 
     public static string ToAge(this decimal? value) => value.HasValue ? value.Value.ToAge() : string.Empty;
     public static string ToAge(this decimal value)
