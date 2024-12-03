@@ -74,7 +74,7 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
     public async Task KeyInformationShouldBeVisible()
     {
         await KeyInformationSection.ShouldBeVisible();
-        Assert.Equal(4, await KeyInformationContent.Count());
+        Assert.Equal(3, await KeyInformationContent.Count());
         foreach (var item in await KeyInformationContent.AllAsync())
         {
             await item.ShouldBeVisible();

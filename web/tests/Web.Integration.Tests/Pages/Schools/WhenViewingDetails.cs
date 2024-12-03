@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -63,7 +62,6 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
                 .With(x => x.FinanceType, financeType)
                 .With(x => x.TrustCompanyNumber, "1223545")
                 .With(x => x.TrustName, "Test Trust")
-                .With(x => x.OfstedDescription, "0")
                 .Create();
 
         var page = await Client

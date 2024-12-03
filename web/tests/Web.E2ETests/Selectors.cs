@@ -156,7 +156,7 @@ public static class Selectors
     public const string FbisOtherPriorityAreas = "#priority-areas-other-section";
     public const string FbisPupilWorkforce = "#pupil-workforce-metrics-section";
     public const string FbisNextSteps = "#next-steps-section";
-    public const string KeyInformationContent = "ul.app-headline.app-headline-4 li";
+    public const string KeyInformationContent = "ul.app-headline.app-headline-3 li";
     public const string PriorityAreaTeachingSupportStaff = "#spending-priorities-teaching-and-teaching-support-staff";
     public const string PriorityAreaNonEducationSupportStaff = "#spending-priorities-non-educational-support-staff-and-services";
     public const string PriorityAreaAdministrativeSupplies = "#spending-priorities-administrative-supplies";

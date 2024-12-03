@@ -10,7 +10,6 @@ So that I can see how my school is performing from a financial point of view and
           | Name            | Value    |
           | In year balance | £27,196  |
           | Revenue reserve | £162,440 |
-          | Ofsted rating   | Good     |
           | School phase    | Primary  |
         And I should see the following boxes displayed under Spend in priority areas
           | Name                                | Tag           | Value                                                  |
@@ -35,7 +34,6 @@ So that I can see how my school is performing from a financial point of view and
           | Name            | Value     |
           | In year balance | £95,414   |
           | Revenue reserve | £212,906  |
-          | Ofsted rating   | Good      |
           | School phase    | Secondary |
         And I should see the warning message under Spend in priority areas
         And I should see the warning message under Other top spending priorities

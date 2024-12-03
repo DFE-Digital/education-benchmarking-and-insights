@@ -119,12 +119,6 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     [CompareIntValue(nameof(InternalFloorAreaFrom), Operator.GreaterThanOrEqualTo, "The From value for gross internal floor area must be less than the To value")]
     public int? InternalFloorAreaTo { get; init; }
 
-    // ofsted
-    public string? OfstedRating { get; init; }
-
-    [RequiredDepends(nameof(OfstedRating), "true", ErrorMessage = "Select at least one Oftsed rating")]
-    public string[] OfstedRatings { get; init; } = [];
-
     // number of schools
     public string? SchoolsInTrust { get; init; }
 

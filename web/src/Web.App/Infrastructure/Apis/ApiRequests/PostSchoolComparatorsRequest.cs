@@ -68,10 +68,6 @@ public class PostSchoolComparatorsRequest(string? laName, UserDefinedSchoolChara
         ? new CharacteristicList(viewModel.LondonWeightings)
         : null;
 
-    public CharacteristicList? OfstedDescription => IsSelected(viewModel.OfstedRating)
-        ? new CharacteristicList(viewModel.OfstedRatings)
-        : null;
-
     public CharacteristicRange? TotalPupils => IsSelected(viewModel.TotalPupils)
         ? new CharacteristicRange(viewModel.TotalPupilsFrom, viewModel.TotalPupilsTo)
         : null;

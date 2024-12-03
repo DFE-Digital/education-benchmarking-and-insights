@@ -258,40 +258,6 @@ public class GivenAPostSchoolComparatorsRequest
     }
 
     [Theory]
-    [InlineData("false", null, null)]
-    [InlineData("true", new[]
-    {
-        "Good"
-    }, new[]
-    {
-        "Good"
-    })]
-    [InlineData("true", new[]
-    {
-        "Requires improvement",
-        "Inadequate"
-    }, new[]
-    {
-        "Requires improvement",
-        "Inadequate"
-    })]
-    public void MapsOfstedDescription(string? selected, string[]? values, string[]? expected)
-    {
-        // arrange
-        var viewModel = new UserDefinedSchoolCharacteristicViewModel
-        {
-            OfstedRating = selected,
-            OfstedRatings = values ?? []
-        };
-
-        // act
-        var actual = new PostSchoolComparatorsRequest(LAName, viewModel).OfstedDescription;
-
-        // assert
-        Assert.Equal(expected, actual?.Values);
-    }
-
-    [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
     public void MapsTotalPupils(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
