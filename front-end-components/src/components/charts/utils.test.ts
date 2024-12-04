@@ -220,13 +220,14 @@ describe("Chart utils", () => {
 
     describe("with percent option", () => {
       const theories: { input: ValueFormatterValue; expected: string }[] = [
-        { input: -987.65, expected: "-988%" },
+        { input: -987.65, expected: "-987.7%" },
         { input: 0, expected: "0%" },
         { input: 1, expected: "1%" },
-        { input: 2.3456789, expected: "2%" },
-        { input: 12345.67, expected: "12,346%" },
+        { input: 2.3456789, expected: "2.3%" },
+        { input: 12345.67, expected: "12,345.7%" },
         { input: 890123456, expected: "890,123,456%" },
         { input: "not-a-number", expected: "not-a-number" },
+        { input: 0.28, expected: "0.3%" },
       ];
 
       const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
