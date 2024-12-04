@@ -9,10 +9,10 @@ import {
   shortValueFormatter,
   fullValueFormatter,
 } from "src/components/charts/utils.ts";
-//import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ChartProps, ValueFormatterValue } from "src/components/charts/types";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { SchoolHistoryBase } from "src/services";
+import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 
 export function HistoricChart2<TData extends SchoolHistoryBase>({
   chartName,
@@ -97,18 +97,17 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
-                tooltip={
-                  () => null /*TODO (t) => (
-                  <LineChartTooltip
+                tooltip={(t) => (
+                  <HistoricDataTooltip
                     {...t}
                     valueFormatter={(v) =>
                       shortValueFormatter(v, {
                         valueUnit: valueUnit ?? dimension.unit,
                       })
                     }
+                    dimension={dimension.heading}
                   />
-                )*/
-                }
+                )}
                 {...props}
               />
             </div>
