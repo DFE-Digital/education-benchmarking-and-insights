@@ -140,7 +140,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck        = false
         ForecastRisk                         = true
         TrustComparison                      = true
-        FinancialBenchmarkingInsightsSummary = false
+        FinancialBenchmarkingInsightsSummary = true
       }
       CacheOptions = {
         ReturnYears = {
@@ -164,7 +164,7 @@ variable "configuration" {
         DisableOrganisationClaimCheck        = false
         ForecastRisk                         = true
         TrustComparison                      = true
-        FinancialBenchmarkingInsightsSummary = false
+        FinancialBenchmarkingInsightsSummary = true
       },
       CacheOptions = {
         ReturnYears = {
