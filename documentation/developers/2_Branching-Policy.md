@@ -25,6 +25,8 @@ Branches should be named using the following pattern `category/<reference>/descr
 - `tech-debt` is for technical debt
 - `doc` is for documentation changes
 - `prototype` is for prototype changes
+- `dependabot` is for managing dependencies by [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
+- `chore` is for minor admin tasks, such as toggling features or bumping dependencies
 
 Reference should be the user story and/or bug id, avoid using task, feature or epic id. If you have no ticket then leave off the reference.
 
