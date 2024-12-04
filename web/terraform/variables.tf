@@ -20,6 +20,7 @@ variable "configuration" {
       ForecastRisk                         = bool
       TrustComparison                      = bool
       FinancialBenchmarkingInsightsSummary = bool
+      HistoricalTrends                     = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -45,6 +46,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -69,6 +71,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -93,6 +96,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -117,6 +121,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -141,6 +146,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -165,6 +171,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
+        HistoricalTrends                     = false
       },
       CacheOptions = {
         ReturnYears = {
