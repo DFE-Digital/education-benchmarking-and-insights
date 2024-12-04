@@ -1,3 +1,5 @@
+@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Web.App.Domain
 @model Web.App.ViewModels.SchoolViewModel
 
 @{
@@ -7,7 +9,13 @@
         : "Financial data is from consistent financial reporting (CFR).";
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -18,4 +26,9 @@
     </div>
 </div>
 
-<div id="historic-data" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+<feature name="@FeatureFlags.HistoricalTrends">
+    <div id="historic-data-2" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-phase="@Model.OverallPhase" data-finance-type="@(Model.IsPartOfTrust ? EstablishmentTypes.Academies : EstablishmentTypes.Maintained)"></div>
+</feature>
+<feature negate="true" name="@FeatureFlags.HistoricalTrends">
+    <div id="historic-data" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+</feature>
