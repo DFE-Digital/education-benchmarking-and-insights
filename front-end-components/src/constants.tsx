@@ -10,6 +10,7 @@ export const LineChart2SeriesElementId = "line-chart-2-series";
 export const VerticalBarChart2SeriesElementId = "vertical-chart-2-series";
 export const VerticalBarChart3SeriesElementId = "vertical-chart-3-series";
 export const HistoricDataElementId = "historic-data";
+export const HistoricData2ElementId = "historic-data-2";
 export const SpendingAndCostsComposedElementId = "spending-and-costs-composed";
 export const FindOrganisationElementId = "find-organisation";
 export const SchoolEstablishment = "school";

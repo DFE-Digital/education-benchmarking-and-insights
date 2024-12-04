@@ -1,6 +1,7 @@
 import {
   SchoolExpenditure,
   SchoolExpenditureHistory,
+  SchoolHistoryComparison,
   TrustExpenditure,
 } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
@@ -40,6 +41,51 @@ export class ExpenditureApi {
 
         return res;
       });
+  }
+
+  static async historyComparison(
+    type: string,
+    id: string,
+    dimension: string,
+    excludeCentralServices?: boolean
+  ): Promise<SchoolHistoryComparison<SchoolExpenditureHistory>> {
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+      dimension: dimension,
+    });
+    if (excludeCentralServices !== undefined) {
+      params.append(
+        "excludeCentralServices",
+        excludeCentralServices ? "true" : "false"
+      );
+    }
+
+    const response = await fetch("/api/expenditure/history?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    });
+
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    const school = json as SchoolExpenditureHistory[];
+    return {
+      school,
+      // for demo purposes
+      comparatorSetAverage: school.map((s, i) => {
+        return { ...s, totalExpenditure: s.totalExpenditure * i * 2 };
+      }),
+      nationalAverage: school.map((s, i) => {
+        return { ...s, totalExpenditure: (s.totalExpenditure * i) / 2 };
+      }),
+    };
   }
 
   static async query<T extends SchoolExpenditure>(
