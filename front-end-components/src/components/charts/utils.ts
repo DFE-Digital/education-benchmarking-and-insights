@@ -71,7 +71,8 @@ export function statValueFormatter(
           : undefined,
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     currencyDisplay: options?.currencyAsName ? "name" : "symbol",
-    maximumFractionDigits: options?.compact ? undefined : 0,
+    maximumFractionDigits:
+      options?.valueUnit === "%" ? 1 : options?.compact ? undefined : 0,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
