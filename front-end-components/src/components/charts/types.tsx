@@ -1,5 +1,10 @@
 import { Ref, SVGProps } from "react";
 import {
+  HorizontalAlignmentType,
+  IconType,
+  VerticalAlignmentType,
+} from "recharts/types/component/DefaultLegendContent";
+import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
@@ -10,6 +15,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
   barCategoryGap?: string | number;
   chartName: string;
+  className?: string;
   data: TData[];
   grid?: boolean;
   hideXAxis?: boolean;
@@ -20,6 +26,9 @@ export interface ChartProps<TData extends ChartDataSeries>
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
+  legendIconType?: IconType | "default";
+  legendHorizontalAlign?: HorizontalAlignmentType;
+  legendVerticalAlign?: VerticalAlignmentType;
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageLoading?: (loading: boolean) => void;

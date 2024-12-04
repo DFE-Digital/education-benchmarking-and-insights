@@ -28,6 +28,9 @@
   --focus-colour: #fd0;
   --warning-colour: #f47738;
   --warning-colour-bg: #ffe4c4;
+  --historic-chart-2-series-0-colour: #156082;
+  --historic-chart-2-series-1-colour: #e97132;
+  --historic-chart-2-series-2-colour: #196b24;
 }
 
 .govuk-table {
@@ -161,6 +164,31 @@
   stroke-width: 5;
 }
 
+.recharts-wrapper .chart-line.chart-line-series-2 path,
+.recharts-wrapper .chart-line.chart-line-series-2 .recharts-line-dot,
+.recharts-wrapper .recharts-default-legend .legend-item-2 line {
+  stroke: var(--series-2-colour);
+  stroke-width: 5;
+}
+
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-0 path,
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-0 .recharts-line-dot,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-0 path {
+  stroke: var(--historic-chart-2-series-0-colour);
+}
+
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-1 path,
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-1 .recharts-line-dot,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-1 path {
+  stroke: var(--historic-chart-2-series-1-colour);
+}
+
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-2 path,
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-2 .recharts-line-dot,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-2 path {
+  stroke: var(--historic-chart-2-series-2-colour);
+}
+
 .recharts-wrapper .recharts-default-legend .recharts-legend-item-text {
   color: var(--label-colour) !important;
 }
@@ -173,6 +201,24 @@
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-1,
 .recharts-wrapper .recharts-label-list .chart-label-series-1 {
   fill: var(--series-1-colour);
+}
+
+.recharts-wrapper.historic-chart-2 .chart-active-dot.chart-active-dot-series-0,
+.recharts-wrapper.historic-chart-2 .recharts-label-list .chart-label-series-0,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-0 path  {
+  fill: var(--historic-chart-2-series-0-colour);
+}
+
+.recharts-wrapper.historic-chart-2 .chart-active-dot.chart-active-dot-series-1,
+.recharts-wrapper.historic-chart-2 .recharts-label-list .chart-label-series-1,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-1 path {
+  fill: var(--historic-chart-2-series-1-colour);
+}
+
+.recharts-wrapper.historic-chart-2 .chart-active-dot.chart-active-dot-series-2,
+.recharts-wrapper.historic-chart-2 .recharts-label-list .chart-label-series-2,
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-2 path {
+  fill: var(--historic-chart-2-series-2-colour);
 }
 
 .recharts-wrapper .chart-active-tooltip {
