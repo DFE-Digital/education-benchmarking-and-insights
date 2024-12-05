@@ -17,33 +17,33 @@ CREATE VIEW SchoolExpenditureAvgPerUnitComparatorSet AS
      CROSS APPLY Openjson(Building) Comparator
      WHERE RunType = 'default'
   ), pupilExpenditureAvgPerMetricComparatorSet AS (
-    SELECT SchoolExpenditurePerUnitHistoric.URN
-         , SchoolExpenditurePerUnitHistoric.RunId
+    SELECT pupilComparator.URN
+         , pupilComparator.RunId
          , Avg(TotalExpenditure) AS AvgTotalExpenditurePerPupil
-      FROM SchoolExpenditurePerUnitHistoric
+      FROM pupilComparator
      INNER
-      JOIN pupilComparator
+      JOIN SchoolExpenditurePerUnitHistoric
         ON (
-                 SchoolExpenditurePerUnitHistoric.URN = pupilComparator.URN
+                 pupilComparator.PupilComparatorURN = SchoolExpenditurePerUnitHistoric.URN
              AND pupilComparator.RunId = SchoolExpenditurePerUnitHistoric.RunId
            )
      GROUP
-        BY SchoolExpenditurePerUnitHistoric.URN
-         , SchoolExpenditurePerUnitHistoric.RunId
+        BY pupilComparator.URN
+         , pupilComparator.RunId
    ), buildingExpenditureAvgPerMetricComparatorSet AS (
-    SELECT SchoolExpenditurePerUnitHistoric.URN
-         , SchoolExpenditurePerUnitHistoric.RunId
+    SELECT buildingComparator.URN
+         , buildingComparator.RunId
          , Avg(TotalPremisesStaffServiceCosts) AS AvgTotalPremisesStaffServiceCostsPerArea
-      FROM SchoolExpenditurePerUnitHistoric
+      FROM buildingComparator
      INNER
-      JOIN buildingComparator
+      JOIN SchoolExpenditurePerUnitHistoric
         ON (
-                 SchoolExpenditurePerUnitHistoric.URN = buildingComparator.URN
+                 buildingComparator.BuildingComparatorURN = SchoolExpenditurePerUnitHistoric.URN
              AND buildingComparator.RunId = SchoolExpenditurePerUnitHistoric.RunId
            )
      GROUP
-        BY SchoolExpenditurePerUnitHistoric.URN
-         , SchoolExpenditurePerUnitHistoric.RunId
+        BY buildingComparator.URN
+         , buildingComparator.RunId
     )
   SELECT pupilExpenditureAvgPerMetricComparatorSet.URN
        , pupilExpenditureAvgPerMetricComparatorSet.RunId AS Year
