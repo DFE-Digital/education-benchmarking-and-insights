@@ -10,6 +10,8 @@ public interface IExpenditureService
     Task<SchoolExpenditureModel?> GetSchoolAsync(string urn);
     Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn);
+    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, ExpenditureParameters queryParams);
+    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(ExpenditureParameters queryParams);
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
@@ -62,6 +64,65 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         {
             URN = urn
         };
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
+    }
+
+    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, ExpenditureParameters queryParams)
+    {
+        string sql;
+        var parameters = new
+        {
+            URN = urn
+        };
+
+        switch (queryParams.Dimension)
+        {
+            case "Actuals":
+                sql = "SELECT * FROM SchoolExpenditureAvgComparatorSet WHERE URN = @URN";
+                break;
+            case "PerUnit":
+                sql = "SELECT * FROM SchoolExpenditureAvgPerUnitComparatorSet WHERE URN = @URN";
+                break;
+            case "PercentIncome":
+                throw new NotImplementedException();
+            case "PercentExpenditure":
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(queryParams));
+        }
+
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
+    }
+
+    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(ExpenditureParameters queryParams)
+    {
+        string sql;
+        var parameters = new
+        {
+            OverallPhase = queryParams.OverallPhase,
+            FinanceType = queryParams.FinanceType
+        };
+
+        switch (queryParams.Dimension)
+        {
+            case "Actuals":
+                sql = "SELECT * FROM SchoolExpenditureAvgHistoric WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
+                break;
+            case "PerUnit":
+                sql = "SELECT * FROM SchoolExpenditureAvgPerUnitHistoric WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
+                break;
+            case "PercentIncome":
+                throw new NotImplementedException();
+            case "PercentExpenditure":
+                throw new NotImplementedException();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(queryParams));
+        }
+
 
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
