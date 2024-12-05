@@ -46,9 +46,9 @@ CREATE VIEW SchoolExpenditureAvgPerUnitComparatorSet AS
          , SchoolExpenditurePerUnitHistoric.RunId
     )
   SELECT pupilExpenditureAvgPerMetricComparatorSet.URN
-       , pupilExpenditureAvgPerMetricComparatorSet.RunId
-       , AvgTotalExpenditurePerPupil              AS TotalExpenditure
-       , AvgTotalPremisesStaffServiceCostsPerArea AS TotalPremisesStaffServiceCosts
+       , pupilExpenditureAvgPerMetricComparatorSet.RunId AS Year
+       , AvgTotalExpenditurePerPupil                     AS TotalExpenditure
+       , AvgTotalPremisesStaffServiceCostsPerArea        AS TotalPremisesStaffServiceCosts
     FROM pupilExpenditureAvgPerMetricComparatorSet
     FULL
     JOIN buildingExpenditureAvgPerMetricComparatorSet

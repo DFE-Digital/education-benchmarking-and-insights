@@ -2,7 +2,7 @@ DROP VIEW IF EXISTS SchoolExpenditureAvgHistoric
 GO
 
 CREATE VIEW SchoolExpenditureAvgHistoric AS
-  SELECT RunId
+  SELECT RunId                               AS Year
        , FinanceType
        , OverallPhase
        , Avg(TotalExpenditure)               AS TotalExpenditure

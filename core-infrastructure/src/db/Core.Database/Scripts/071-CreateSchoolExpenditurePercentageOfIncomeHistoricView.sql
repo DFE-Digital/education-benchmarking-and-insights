@@ -2,7 +2,7 @@ DROP VIEW IF EXISTS SchoolExpenditurePercentageOfIncomeHistoric
 GO
 
 CREATE VIEW SchoolExpenditurePercentageOfIncomeHistoric AS
-  SELECT RunId
+  SELECT RunId                                                AS Year
        , SchoolExpenditureHistoricWithNulls.URN
        , FinanceType
        , OverallPhase
