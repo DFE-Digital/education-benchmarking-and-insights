@@ -19,6 +19,7 @@ public class ExpenditureFunctions(
     ILogger<ExpenditureFunctions> logger,
     IExpenditureService service,
     IValidator<ExpenditureParameters> expenditureParametersValidator,
+    IValidator<ExpenditureNationalAvgParameters> expenditureNationalAvgValidator,
     IValidator<QuerySchoolExpenditureParameters> querySchoolExpenditureParametersValidator,
     IValidator<QueryTrustExpenditureParameters> queryTrustExpenditureParametersValidator)
 {
@@ -257,6 +258,97 @@ public class ExpenditureFunctions(
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get school expenditure history");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+
+    [Function(nameof(SchoolExpenditureHistoryAvgComparatorSetAsync))]
+    [OpenApiOperation(nameof(SchoolExpenditureHistoryAvgComparatorSetAsync), "Expenditure")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolExpenditureHistoryAvgComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history/comparator-set-average")] HttpRequestData req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<ExpenditureParameters>();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
+               }))
+        {
+            try
+            {
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams);
+
+                return await req.CreateJsonResponseAsync(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get school comparator set average expenditure history");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+
+    [Function(nameof(SchoolExpenditureHistoryAvgNationalAsync))]
+    [OpenApiOperation(nameof(SchoolExpenditureHistoryAvgNationalAsync), "Expenditure")]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleExpenditureDimension))]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
+    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolExpenditureHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SchoolExpenditureHistoryAvgNationalAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/history/national-average")] HttpRequestData req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<ExpenditureNationalAvgParameters>();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
+               }))
+        {
+            try
+            {
+                var validationResult = await expenditureNationalAvgValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams);
+
+                return await req.CreateJsonResponseAsync(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get school national average expenditure history");
                 return req.CreateErrorResponse();
             }
         }

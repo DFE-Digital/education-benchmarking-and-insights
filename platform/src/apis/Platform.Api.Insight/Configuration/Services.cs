@@ -42,6 +42,7 @@ internal static class Services
 
         serviceCollection
             .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
+            .AddTransient<IValidator<ExpenditureNationalAvgParameters>, ExpenditureNationalAvgParametersValidator>()
             .AddTransient<IValidator<QuerySchoolExpenditureParameters>, QuerySchoolExpenditureParametersValidator>()
             .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
