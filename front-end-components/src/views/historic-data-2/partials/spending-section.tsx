@@ -13,6 +13,7 @@ import {
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
+import { SpendingSectionPremisesServices } from "./spending-section-premises-services";
 
 export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   type,
@@ -69,17 +70,36 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
           chartName="Total expenditure"
           data={data}
           valueField="totalExpenditure"
-          legend
-          legendIconType="default"
-          legendHorizontalAlign="center"
-          legendVerticalAlign="bottom"
-          axisLabel=""
         >
           <h2 className="govuk-heading-m">Total expenditure</h2>
         </HistoricChart2>
       ) : (
         <Loading />
       )}
+      <div
+        className="govuk-accordion"
+        data-module="govuk-accordion"
+        id="accordion-expenditure"
+      >
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-1"
+              >
+                Premises staff and services
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-1"
+            className="govuk-accordion__section-content"
+          >
+            <SpendingSectionPremisesServices data={data} />
+          </div>
+        </div>
+      </div>
     </ChartDimensionContext.Provider>
   );
 };

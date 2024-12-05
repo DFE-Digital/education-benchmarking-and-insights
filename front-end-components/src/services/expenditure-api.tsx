@@ -61,31 +61,24 @@ export class ExpenditureApi {
       );
     }
 
-    const response = await fetch("/api/expenditure/history?" + params, {
-      redirect: "manual",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Correlation-ID": uuidv4(),
-      },
-    });
+    const response = await fetch(
+      "/api/expenditure/history/comparison?" + params,
+      {
+        redirect: "manual",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Correlation-ID": uuidv4(),
+        },
+      }
+    );
 
     const json = await response.json();
     if (json.error) {
       throw json.error;
     }
 
-    const school = json as SchoolExpenditureHistory[];
-    return {
-      school,
-      // for demo purposes
-      comparatorSetAverage: school.map((s, i) => {
-        return { ...s, totalExpenditure: s.totalExpenditure * i * 2 };
-      }),
-      nationalAverage: school.map((s, i) => {
-        return { ...s, totalExpenditure: (s.totalExpenditure * i) / 2 };
-      }),
-    };
+    return json;
   }
 
   static async query<T extends SchoolExpenditure>(

@@ -15,14 +15,17 @@ import { SchoolHistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 
 export function HistoricChart2<TData extends SchoolHistoryBase>({
-  chartName,
-  data,
-  valueField,
-  children,
-  valueUnit,
   axisLabel,
+  chartName,
+  children,
   columnHeading,
-  ...props
+  data,
+  legend,
+  legendHorizontalAlign,
+  legendIconType,
+  legendVerticalAlign,
+  valueField,
+  valueUnit,
 }: HistoricChart2Props<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -102,7 +105,9 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                 keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
-                seriesLabel={axisLabel ?? dimension.label}
+                seriesLabel={
+                  axisLabel === undefined ? "" : (axisLabel ?? dimension.label)
+                }
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
@@ -117,7 +122,20 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                     dimension={dimension.heading}
                   />
                 )}
-                {...props}
+                legend={legend === undefined ? true : legend}
+                legendIconType={
+                  legend === undefined ? "default" : legendIconType
+                }
+                legendHorizontalAlign={
+                  legendHorizontalAlign === undefined
+                    ? "center"
+                    : legendHorizontalAlign
+                }
+                legendVerticalAlign={
+                  legendVerticalAlign === undefined
+                    ? "bottom"
+                    : legendVerticalAlign
+                }
               />
             </div>
           </div>
