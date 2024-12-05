@@ -1,4 +1,8 @@
-﻿namespace Web.App.Domain;
+﻿// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
+namespace Web.App.Domain;
 
 public abstract record ExpenditureBase
 {
@@ -156,4 +160,11 @@ public record ExpenditureHistory : ExpenditureBase
 {
     public int? Year { get; set; }
     public string? Term { get; set; }
+}
+
+public record HistoryComparison<T> where T : ExpenditureBase
+{
+    public T[]? School { get; set; }
+    public T[]? ComparatorSetAverage { get; set; }
+    public T[]? NationalAverage { get; set; }
 }

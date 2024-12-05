@@ -93,14 +93,10 @@ public class ExpenditureProxyController(
         {
             try
             {
-                var query = new ApiQuery()
-                    .AddIfNotNull("dimension", dimension)
-                    .AddIfNotNull("excludeCentralServices", excludeCentralServices);
-
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await expenditureApi.SchoolHistory(id, query).GetResultOrDefault<ExpenditureHistory[]>(),
-                    OrganisationTypes.Trust => await expenditureApi.TrustHistory(id, query).GetResultOrDefault<ExpenditureHistory[]>(),
+                    OrganisationTypes.School => await SchoolExpenditureHistory(id, dimension, excludeCentralServices),
+                    OrganisationTypes.Trust => await TrustExpenditureHistory(id, dimension, excludeCentralServices),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -109,6 +105,45 @@ public class ExpenditureProxyController(
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting expenditure history data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    /// <param name="type" example="school"></param>
+    /// <param name="id" example="140565"></param>
+    /// <param name="dimension" example="PerUnit"></param>
+    /// <param name="excludeCentralServices"></param>
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType<HistoryComparison<ExpenditureHistory>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("history/comparison")]
+    public async Task<IActionResult> HistoryComparison(
+        [FromQuery] string type,
+        [FromQuery] string id,
+        [FromQuery] string dimension,
+        [FromQuery] bool? excludeCentralServices)
+    {
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
+        {
+            try
+            {
+                var result = type.ToLower() switch
+                {
+                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, excludeCentralServices),
+                    _ => throw new ArgumentOutOfRangeException(nameof(type))
+                };
+
+                return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting expenditure history trends data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -255,18 +290,30 @@ public class ExpenditureProxyController(
         return new JsonResult(userDefinedResult);
     }
 
-    private static ApiQuery BuildQuery(string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
+    private static ApiQuery BuildQuery(
+        string? category,
+        string? dimension,
+        bool? excludeCentralServices = null,
+        string? phase = null,
+        string? financeType = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("category", category)
             .AddIfNotNull("dimension", dimension)
             .AddIfNotNull("excludeCentralServices", excludeCentralServices)
+            .AddIfNotNull("financeType", financeType)
             .AddIfNotNull("phase", phase);
 
         return query;
     }
 
-    private static ApiQuery BuildQuery(IEnumerable<string> ids, string idQueryName, string? category, string? dimension, bool? excludeCentralServices = null, string? phase = null)
+    private static ApiQuery BuildQuery(
+        IEnumerable<string> ids,
+        string idQueryName,
+        string? category,
+        string? dimension,
+        bool? excludeCentralServices = null,
+        string? phase = null)
     {
         var query = BuildQuery(category, dimension, excludeCentralServices, phase);
 
@@ -277,4 +324,32 @@ public class ExpenditureProxyController(
 
         return query;
     }
+
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistory(string urn, string dimension, bool? excludeCentralServices) => await expenditureApi
+        .SchoolHistory(urn, BuildQuery(null, dimension, excludeCentralServices))
+        .GetResultOrDefault<ExpenditureHistory[]>();
+
+    private async Task<ExpenditureHistory[]?> TrustExpenditureHistory(string companyNumber, string dimension, bool? excludeCentralServices) => await expenditureApi
+        .TrustHistory(companyNumber, BuildQuery(null, dimension, excludeCentralServices))
+        .GetResultOrDefault<ExpenditureHistory[]>();
+
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension) => await expenditureApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension))
+        .GetResultOrDefault<ExpenditureHistory[]>();
+
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension)
+    {
+        var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+        var query = BuildQuery(null, dimension, phase: school.OverallPhase, financeType: school.FinanceType);
+        return await expenditureApi
+            .SchoolHistoryNationalAverage(query)
+            .GetResultOrDefault<ExpenditureHistory[]>();
+    }
+
+    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, bool? excludeCentralServices) => new()
+    {
+        School = await SchoolExpenditureHistory(urn, dimension, excludeCentralServices),
+        ComparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension),
+        NationalAverage = await SchoolExpenditureHistoryNationalAverage(urn, dimension)
+    };
 }
