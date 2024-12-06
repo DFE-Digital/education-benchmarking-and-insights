@@ -45,9 +45,11 @@ export function HistoricDataTooltip<
               {dimension}
             </th>
             <td className="govuk-table__cell">
-              {valueFormatter
-                ? valueFormatter(school, { valueUnit })
-                : String(school)}
+              {school === undefined
+                ? ""
+                : valueFormatter
+                  ? valueFormatter(school, { valueUnit })
+                  : String(school)}
             </td>
           </tr>
           <tr className="govuk-table__row">
@@ -55,9 +57,11 @@ export function HistoricDataTooltip<
               Average across comparator set
             </th>
             <td className="govuk-table__cell">
-              {valueFormatter
-                ? valueFormatter(comparatorSetAverage, { valueUnit })
-                : String(comparatorSetAverage)}
+              {comparatorSetAverage === undefined
+                ? ""
+                : valueFormatter
+                  ? valueFormatter(comparatorSetAverage, { valueUnit })
+                  : String(comparatorSetAverage)}
             </td>
           </tr>
           <tr className="govuk-table__row">
@@ -65,9 +69,11 @@ export function HistoricDataTooltip<
               National average across phase type
             </th>
             <td className="govuk-table__cell">
-              {valueFormatter
-                ? valueFormatter(nationalAverage, { valueUnit })
-                : String(nationalAverage)}
+              {nationalAverage === undefined
+                ? ""
+                : valueFormatter
+                  ? valueFormatter(nationalAverage, { valueUnit })
+                  : String(nationalAverage)}
             </td>
           </tr>
         </tbody>

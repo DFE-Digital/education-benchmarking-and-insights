@@ -47,12 +47,16 @@ export class ExpenditureApi {
     type: string,
     id: string,
     dimension: string,
+    overallPhase?: string,
+    financeType?: string,
     excludeCentralServices?: boolean
   ): Promise<SchoolHistoryComparison<SchoolExpenditureHistory>> {
     const params = new URLSearchParams({
       type: type,
       id: id,
       dimension: dimension,
+      phase: overallPhase || "",
+      financeType: financeType || "",
     });
     if (excludeCentralServices !== undefined) {
       params.append(
