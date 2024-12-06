@@ -7,7 +7,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
-namespace Web.Integration.Tests.Api.Census;
+namespace Web.Tests.Controllers.Api.Census;
 
 public class WhenCensusApiReceivesQueryRequest
 {

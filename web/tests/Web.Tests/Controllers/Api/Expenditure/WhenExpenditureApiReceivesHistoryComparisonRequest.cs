@@ -10,7 +10,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
-namespace Web.Integration.Tests.Api.Expenditure;
+namespace Web.Tests.Controllers.Api.Expenditure;
 
 public class WhenExpenditureApiReceivesHistoryComparisonRequest
 {
@@ -30,9 +30,9 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, "?dimension=dimension")]
-    [InlineData("urn", "dimension", true, "?dimension=dimension&excludeCentralServices=true")]
-    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, null, "?dimension=dimension")]
+    [InlineData("urn", "dimension", null, null, true, "?dimension=dimension&excludeCentralServices=true")]
+    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, string expectedQuery)
     {
         // arrange
         var results = Array.Empty<ExpenditureHistory>();
@@ -54,7 +54,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, excludeCentralServices);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
@@ -63,9 +63,9 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, "?dimension=dimension")]
-    [InlineData("urn", "dimension", true, "?dimension=dimension")]
-    public async Task ShouldGetExpenditureHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, null, "?dimension=dimension")]
+    [InlineData("urn", "dimension", null, null, true, "?dimension=dimension")]
+    public async Task ShouldGetExpenditureHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, string expectedQuery)
     {
         // arrange
         var results = Array.Empty<ExpenditureHistory>();
@@ -87,7 +87,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, excludeCentralServices);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
@@ -96,9 +96,12 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, "financeType", "overallPhase", "?dimension=dimension&financeType=financeType&phase=overallPhase")]
-    [InlineData("urn", "dimension", true, "financeType", "overallPhase", "?dimension=dimension&financeType=financeType&phase=overallPhase")]
-    public async Task ShouldGetExpenditureHistoryNationalAverageFromApiForSchool(string urn, string dimension, bool? excludeCentralServices, string financeType, string overallPhase, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", null, null, true, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", "financeType", null, null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", null, "phase", null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", "financeType", "phase", null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=financeType&phase=phase")]
+    public async Task ShouldGetExpenditureHistoryNationalAverageFromApiForSchool(string urn, string dimension, string? financeType, string? phase, bool? excludeCentralServices, string schoolFinanceType, string schoolOverallPhase, string expectedQuery)
     {
         // arrange
         var results = Array.Empty<ExpenditureHistory>();
@@ -107,8 +110,8 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
         var school = new School
         {
             URN = urn,
-            FinanceType = financeType,
-            OverallPhase = overallPhase
+            FinanceType = schoolFinanceType,
+            OverallPhase = schoolOverallPhase
         };
         _establishmentApi
             .Setup(e => e.GetSchool(urn))
@@ -123,7 +126,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, excludeCentralServices);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
