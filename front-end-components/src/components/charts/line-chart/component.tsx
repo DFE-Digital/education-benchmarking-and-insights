@@ -35,6 +35,7 @@ function LineChartInner<TData extends ChartDataSeries>(
     keyField,
     labels,
     legend,
+    legendIconSize,
     legendIconType,
     legendHorizontalAlign,
     legendVerticalAlign,
@@ -203,7 +204,7 @@ function LineChartInner<TData extends ChartDataSeries>(
               formatter={(value) =>
                 (seriesConfig && seriesConfig[value]?.label) || value
               }
-              iconSize={30}
+              iconSize={legendIconSize || 30}
               iconType={
                 legendIconType
                   ? legendIconType == "default"

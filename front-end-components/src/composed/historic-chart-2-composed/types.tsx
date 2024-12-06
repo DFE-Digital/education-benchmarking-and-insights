@@ -11,6 +11,7 @@ export interface HistoricChart2Props<T extends SchoolHistoryBase>
   extends Pick<
     LineChartProps<T>,
     | "legend"
+    | "legendIconSize"
     | "legendIconType"
     | "legendHorizontalAlign"
     | "legendVerticalAlign"
