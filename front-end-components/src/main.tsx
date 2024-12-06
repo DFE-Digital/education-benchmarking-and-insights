@@ -73,12 +73,17 @@ if (historicDataElement) {
 
 const historicData2Element = document.getElementById(HistoricData2ElementId);
 if (historicData2Element) {
-  const { type, id } = historicData2Element.dataset;
+  const { type, id, phase, financeType } = historicData2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(historicData2Element);
     root.render(
       <React.StrictMode>
-        <HistoricData2 type={type} id={id} />
+        <HistoricData2
+          type={type}
+          id={id}
+          overallPhase={phase}
+          financeType={financeType}
+        />
       </React.StrictMode>
     );
   }
