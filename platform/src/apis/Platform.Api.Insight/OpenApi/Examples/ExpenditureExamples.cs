@@ -62,3 +62,22 @@ internal class ExampleRagStatuses : OpenApiExample<string>
         return this;
     }
 }
+
+[ExcludeFromCodeCoverage]
+internal class ExampleFinanceTypes : OpenApiExample<string>
+{
+    public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+    {
+        var types = new string[]
+        {
+            "Academy", "Maintained"
+        };
+        foreach (var type in types)
+        {
+            Examples.Add(OpenApiExampleResolver.Resolve(type, type, namingStrategy));
+
+        }
+
+        return this;
+    }
+}
