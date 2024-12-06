@@ -82,7 +82,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.Trusts,
             FeatureFlags.LocalAuthorities,
             FeatureFlags.ForecastRisk,
-            FeatureFlags.FinancialBenchmarkingInsightsSummary
+            FeatureFlags.FinancialBenchmarkingInsightsSummary,
+            FeatureFlags.HistoricalTrends
         };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
