@@ -71,27 +71,21 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
 
     public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, ExpenditureParameters queryParams)
     {
-        string sql;
         var parameters = new
         {
             URN = urn
         };
-
-        switch (queryParams.Dimension)
+        
+        var sourceName = queryParams.Dimension switch
         {
-            case "Actuals":
-                sql = "SELECT * FROM SchoolExpenditureAvgComparatorSet WHERE URN = @URN";
-                break;
-            case "PerUnit":
-                sql = "SELECT * FROM SchoolExpenditureAvgPerUnitComparatorSet WHERE URN = @URN";
-                break;
-            case "PercentIncome":
-                throw new NotImplementedException();
-            case "PercentExpenditure":
-                throw new NotImplementedException();
-            default:
-                throw new ArgumentOutOfRangeException(nameof(queryParams));
-        }
+            ExpenditureDimensions.Actuals => "SchoolExpenditureAvgComparatorSet",
+            ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitComparatorSet",
+            ExpenditureDimensions.PercentIncome => throw new NotImplementedException(),
+            ExpenditureDimensions.PercentExpenditure => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+        };
+
+        var sql = $"SELECT * FROM {sourceName} WHERE URN = @URN";
 
 
         using var conn = await dbFactory.GetConnection();
@@ -100,30 +94,28 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
 
     public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(ExpenditureParameters queryParams)
     {
-        string sql;
-        var parameters = new
+        if (string.IsNullOrEmpty(queryParams.OverallPhase) || string.IsNullOrEmpty(queryParams.FinanceType))
         {
-            OverallPhase = queryParams.OverallPhase,
-            FinanceType = queryParams.FinanceType
-        };
-
-        switch (queryParams.Dimension)
-        {
-            case "Actuals":
-                sql = "SELECT * FROM SchoolExpenditureAvgHistoric WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
-                break;
-            case "PerUnit":
-                sql = "SELECT * FROM SchoolExpenditureAvgPerUnitHistoric WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
-                break;
-            case "PercentIncome":
-                throw new NotImplementedException();
-            case "PercentExpenditure":
-                throw new NotImplementedException();
-            default:
-                throw new ArgumentOutOfRangeException(nameof(queryParams));
+            throw new ArgumentException("queryParams.OverallPhase and/or queryParams.FinanceType cannot be null or empty", nameof(queryParams));
         }
 
+        var parameters = new
+        {
+            queryParams.OverallPhase,
+            queryParams.FinanceType
+        };
 
+        var sourceName = queryParams.Dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SchoolExpenditureAvgHistoric",
+            ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitHistoric",
+            ExpenditureDimensions.PercentIncome => throw new NotImplementedException(),
+            ExpenditureDimensions.PercentExpenditure => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+        };
+
+        var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
+        
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
     }
