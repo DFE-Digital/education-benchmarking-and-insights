@@ -9,7 +9,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
-namespace Web.Integration.Tests.Api.Expenditure;
+namespace Web.Tests.Controllers.Api.Expenditure;
 
 public class WhenExpenditureApiReceivesQueryRequest
 {

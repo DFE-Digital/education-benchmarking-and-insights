@@ -113,6 +113,8 @@ public class ExpenditureProxyController(
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
     /// <param name="dimension" example="PerUnit"></param>
+    /// <param name="phase" example="Secondary"></param>
+    /// <param name="financeType" example="Academy"></param>
     /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
@@ -123,6 +125,8 @@ public class ExpenditureProxyController(
         [FromQuery] string type,
         [FromQuery] string id,
         [FromQuery] string dimension,
+        [FromQuery] string? phase,
+        [FromQuery] string? financeType,
         [FromQuery] bool? excludeCentralServices)
     {
         using (logger.BeginScope(new
@@ -135,7 +139,7 @@ public class ExpenditureProxyController(
             {
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, excludeCentralServices),
+                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, phase, financeType, excludeCentralServices),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -340,16 +344,23 @@ public class ExpenditureProxyController(
     private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension)
     {
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-        var query = BuildQuery(null, dimension, phase: school.OverallPhase, financeType: school.FinanceType);
+        return await SchoolExpenditureHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension);
+    }
+
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string? phase, string? financeType, string dimension)
+    {
+        var query = BuildQuery(null, dimension, phase: phase, financeType: financeType);
         return await expenditureApi
             .SchoolHistoryNationalAverage(query)
             .GetResultOrDefault<ExpenditureHistory[]>();
     }
 
-    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, bool? excludeCentralServices) => new()
+    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices) => new()
     {
         School = await SchoolExpenditureHistory(urn, dimension, excludeCentralServices),
         ComparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension),
-        NationalAverage = await SchoolExpenditureHistoryNationalAverage(urn, dimension)
+        NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
+            ? await SchoolExpenditureHistoryNationalAverage(urn, dimension)
+            : await SchoolExpenditureHistoryNationalAverage(phase, financeType, dimension)
     };
 }
