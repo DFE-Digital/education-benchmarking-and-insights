@@ -99,6 +99,23 @@ N/A
 - [226832 : A02: Duplicate Tooltips displayed in Horizontal Bar Chart when using both keyboard and mouse to navigate](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/226832)
 - [235688 : The Beckmead Trust (11830749) home page returns 404 not found](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/235688)
 
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category | Total Tests | Passed | Failed | Pass Rate |
+|---------------|:-----------:|:------:|:------:|:---------:|
+| Sanity Tests  |      8      |   8    |    0   |     100%  |
+| Smoke Tests   |      1      |   1    |    0   |     100%  |
+| Total         |      9      |   9    |    0   |     100%  |
+
+**Known issues:**
+
+1. [240744 : Validation error from School/Trust/LA suggesters](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/240744)
+   - Status: discovered post-release via monitoring alert - fix pending for next release
+   - Severity: P4
 
 <!-- Leave the rest of this page blank -->
 \newpage
