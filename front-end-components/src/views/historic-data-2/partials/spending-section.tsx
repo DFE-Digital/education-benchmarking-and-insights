@@ -14,10 +14,13 @@ import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
 import { SpendingSectionPremisesServices } from "./spending-section-premises-services";
+import { HistoricData2Props } from "../types";
 
-export const SpendingSection: React.FC<{ type: string; id: string }> = ({
+export const SpendingSection: React.FC<HistoricData2Props> = ({
   type,
   id,
+  overallPhase,
+  financeType,
 }) => {
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
@@ -27,8 +30,14 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   >({});
   const getData = useCallback(async () => {
     setData({});
-    return await ExpenditureApi.historyComparison(type, id, dimension.value);
-  }, [type, id, dimension]);
+    return await ExpenditureApi.historyComparison(
+      type,
+      id,
+      dimension.value,
+      overallPhase,
+      financeType
+    );
+  }, [type, id, dimension, overallPhase, financeType]);
 
   useEffect(() => {
     getData().then((result) => {

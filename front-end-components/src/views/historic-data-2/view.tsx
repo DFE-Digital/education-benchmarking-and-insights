@@ -1,11 +1,10 @@
 import { SpendingSection } from "src/views/historic-data-2/partials";
-import { HistoricData2ViewProps } from "src/views/historic-data-2/types";
+import { HistoricData2Props } from "src/views/historic-data-2/types";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider } from "src/contexts";
 
-export const HistoricData2: React.FC<HistoricData2ViewProps> = (props) => {
-  const { type, id } = props;
+export const HistoricData2: React.FC<HistoricData2Props> = (props) => {
   useGovUk();
 
   return (
@@ -19,7 +18,7 @@ export const HistoricData2: React.FC<HistoricData2ViewProps> = (props) => {
       </ul>
       <ChartModeProvider initialValue={ChartModeChart}>
         <div className="govuk-tabs__panel" id="spending">
-          <SpendingSection type={type} id={id} />
+          <SpendingSection {...props} />
         </div>
       </ChartModeProvider>
     </div>
