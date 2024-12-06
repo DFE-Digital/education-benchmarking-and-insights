@@ -13,15 +13,15 @@ CREATE VIEW SchoolExpenditureHistoricWithNulls AS
              ELSE TotalInternalFloorArea
          END AS TotalInternalFloorArea
        , CASE
-             WHEN TotalPupils IS NULL OR TotalPupils <= 0.0 THEN NULL
+             WHEN TotalExpenditure IS NULL OR TotalExpenditure <= 0.0 THEN NULL
              ELSE TotalExpenditure
          END AS TotalExpenditure
        , CASE
-             WHEN TotalPupils IS NULL OR TotalPupils <= 0.0 THEN NULL
+             WHEN TotalIncome IS NULL OR TotalIncome <= 0.0 THEN NULL
              ELSE TotalIncome
          END AS TotalIncome
        , CASE
-             WHEN TotalInternalFloorArea IS NULL OR TotalInternalFloorArea <= 0.0 THEN NULL
+             WHEN TotalPremisesStaffServiceCosts IS NULL OR TotalPremisesStaffServiceCosts <= 0.0 THEN NULL
              ELSE TotalPremisesStaffServiceCosts
          END AS TotalPremisesStaffServiceCosts
     FROM Financial
