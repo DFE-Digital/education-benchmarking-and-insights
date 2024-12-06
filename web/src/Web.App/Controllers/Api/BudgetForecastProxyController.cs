@@ -25,8 +25,15 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
         {
             try
             {
-                var bfrYear = await budgetForecastApi.GetCurrentBudgetForecastYear(companyNumber).GetResultOrDefault(Constants.CurrentYear - 1);
-                var query = new ApiQuery().AddIfNotNull("runId", bfrYear.ToString());
+                var metrics = await budgetForecastApi
+                    .BudgetForecastReturnsMetrics(companyNumber)
+                    .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
+                var metricsYear = metrics
+                    .Select(x => x.Year)
+                    .OrderDescending()
+                    .FirstOrDefault() ?? Constants.CurrentYear - 1;
+
+                var query = new ApiQuery().AddIfNotNull("runId", metricsYear.ToString());
                 var result = await budgetForecastApi
                     .BudgetForecastReturns(companyNumber, query)
                     .GetResultOrDefault<BudgetForecastReturn[]>();
