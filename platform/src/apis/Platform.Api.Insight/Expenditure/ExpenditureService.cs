@@ -75,7 +75,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         {
             URN = urn
         };
-        
+
         var sourceName = queryParams.Dimension switch
         {
             ExpenditureDimensions.Actuals => "SchoolExpenditureAvgComparatorSet",
@@ -115,7 +115,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         };
 
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
     }
