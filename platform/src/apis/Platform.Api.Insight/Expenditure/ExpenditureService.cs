@@ -80,8 +80,8 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         {
             ExpenditureDimensions.Actuals => "SchoolExpenditureAvgComparatorSet",
             ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitComparatorSet",
-            ExpenditureDimensions.PercentIncome => throw new NotImplementedException(),
-            ExpenditureDimensions.PercentExpenditure => throw new NotImplementedException(),
+            ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeComparatorSet",
+            ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureComparatorSet",
             _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
         };
 
@@ -109,8 +109,8 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         {
             ExpenditureDimensions.Actuals => "SchoolExpenditureAvgHistoric",
             ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitHistoric",
-            ExpenditureDimensions.PercentIncome => throw new NotImplementedException(),
-            ExpenditureDimensions.PercentExpenditure => throw new NotImplementedException(),
+            ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeHistoric",
+            ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureHistoric",
             _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
         };
 
