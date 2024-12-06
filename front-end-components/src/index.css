@@ -28,9 +28,9 @@
   --focus-colour: #fd0;
   --warning-colour: #f47738;
   --warning-colour-bg: #ffe4c4;
-  --historic-chart-2-series-0-colour: #156082;
+  --historic-chart-2-series-0-colour: #196b24;
   --historic-chart-2-series-1-colour: #e97132;
-  --historic-chart-2-series-2-colour: #196b24;
+  --historic-chart-2-series-2-colour: #156082;
 }
 
 .govuk-table {
@@ -177,6 +177,12 @@
   stroke: var(--historic-chart-2-series-0-colour);
 }
 
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-0 path,
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-1 path,
+.recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-2 path {
+  stroke-opacity: 75%;
+}
+
 .recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-1 path,
 .recharts-wrapper.historic-chart-2 .chart-line.chart-line-series-1 .recharts-line-dot,
 .recharts-wrapper.historic-chart-2 .recharts-default-legend .legend-item-1 path {
@@ -191,6 +197,12 @@
 
 .recharts-wrapper .recharts-default-legend .recharts-legend-item-text {
   color: var(--label-colour) !important;
+}
+
+.recharts-wrapper.historic-chart-2 .recharts-default-legend{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
 }
 
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0,

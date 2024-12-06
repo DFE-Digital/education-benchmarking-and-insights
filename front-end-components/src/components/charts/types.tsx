@@ -26,6 +26,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
+  legendIconSize?: number;
   legendIconType?: IconType | "default";
   legendHorizontalAlign?: HorizontalAlignmentType;
   legendVerticalAlign?: VerticalAlignmentType;

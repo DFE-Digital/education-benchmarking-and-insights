@@ -8,11 +8,13 @@ import { LineChart } from "src/components/charts/line-chart";
 import {
   shortValueFormatter,
   fullValueFormatter,
+  statValueFormatter,
 } from "src/components/charts/utils.ts";
 import { ChartProps } from "src/components/charts/types";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { SchoolHistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
+import { ResolvedStat } from "src/components/charts/resolved-stat";
 
 export function HistoricChart2<TData extends SchoolHistoryBase>({
   axisLabel,
@@ -22,6 +24,7 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
   data,
   legend,
   legendHorizontalAlign,
+  legendIconSize,
   legendIconType,
   legendVerticalAlign,
   valueField,
@@ -75,16 +78,16 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
   }, [data, valueField]);
 
   const seriesConfig: ChartProps<SchoolHistoryValue>["seriesConfig"] = {
-    school: {
-      label: dimension.label,
+    nationalAverage: {
+      label: "national average across phase type",
       visible: true,
     },
     comparatorSetAverage: {
       label: "average across comparator set",
       visible: true,
     },
-    nationalAverage: {
-      label: "national average across phase type",
+    school: {
+      label: dimension.label,
       visible: true,
     },
   };
@@ -123,6 +126,7 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                   />
                 )}
                 legend={legend === undefined ? true : legend}
+                legendIconSize={legendIconSize || 24}
                 legendIconType={
                   legend === undefined ? "default" : legendIconType
                 }
@@ -139,22 +143,36 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
               />
             </div>
           </div>
-          <aside className="govuk-grid-column-one-quarter"></aside>
+          <aside className="govuk-grid-column-one-quarter">
+            <ResolvedStat
+              chartName={`Most recent ${chartName.toLowerCase()}`}
+              className="chart-stat-line-chart"
+              compactValue
+              data={data.school || []}
+              displayIndex={(data.school?.length || 0) - 1}
+              seriesLabelField="term"
+              valueField={valueField}
+              valueFormatter={statValueFormatter}
+              valueUnit={valueUnit ?? dimension.unit}
+            />
+          </aside>
         </div>
       ) : (
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-three-quarters">
+          <div className="govuk-grid-column-full">
             <table className="govuk-table">
               <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
-                  <th className="govuk-table__header">Year</th>
-                  <th className="govuk-table__header">
+                  <th className="govuk-table__header govuk-!-width-one-quarter">
+                    Year
+                  </th>
+                  <th className="govuk-table__header govuk-!-width-one-quarter">
                     {columnHeading ?? dimension.heading}
                   </th>
-                  <th className="govuk-table__header">
+                  <th className="govuk-table__header govuk-!-width-one-quarter">
                     Average across comparator set
                   </th>
-                  <th className="govuk-table__header">
+                  <th className="govuk-table__header govuk-!-width-one-quarter">
                     National average across phase type
                   </th>
                 </tr>
