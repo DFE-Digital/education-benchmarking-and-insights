@@ -283,10 +283,19 @@ export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
   PremisesStaffServicesExpenditureBase &
   TeachingSupportStaffExpenditureBase &
   TotalExpenditureExpenditureBase &
-  UtilitiesExpenditureBase & {
-    year: number;
-    term: string;
-  };
+  UtilitiesExpenditureBase &
+  SchoolHistoryBase;
+
+export type SchoolHistoryComparison<T extends SchoolHistoryBase> = {
+  school?: T[];
+  comparatorSetAverage?: T[];
+  nationalAverage?: T[];
+};
+
+export type SchoolHistoryBase = {
+  year: number;
+  term: string;
+};
 
 type BalanceBase = {
   inYearBalance: number;
@@ -311,10 +320,7 @@ export type TrustBalance = TrustBalanceBase & {
   trustName: string;
 };
 
-export type SchoolBalanceHistory = BalanceBase & {
-  year: number;
-  term: string;
-};
+export type SchoolBalanceHistory = BalanceBase & SchoolHistoryBase;
 
 type CensusBase = {
   urn: string;
@@ -335,10 +341,7 @@ export type Census = CensusBase & {
   laName: string;
 };
 
-export type CensusHistory = CensusBase & {
-  year: string;
-  term: string;
-};
+export type CensusHistory = CensusBase & SchoolHistoryBase;
 
 export type Income = {
   yearEnd: string;

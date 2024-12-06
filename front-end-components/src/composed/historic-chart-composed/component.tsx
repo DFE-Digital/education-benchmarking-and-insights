@@ -87,7 +87,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
               </thead>
               <tbody className="govuk-table__body">
                 {data.map((item) => (
-                  <tr className="govuk-table__row">
+                  <tr className="govuk-table__row" key={item.year as string}>
                     <td className="govuk-table__cell">{String(item.term)}</td>
                     <td className="govuk-table__cell">
                       {fullValueFormatter(item[valueField], {

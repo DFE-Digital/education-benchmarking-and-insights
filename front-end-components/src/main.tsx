@@ -9,6 +9,7 @@ import {
   DeploymentPlan,
   FindOrganisation,
   HistoricData,
+  HistoricData2,
 } from "src/views";
 import {
   CompareCostsElementId,
@@ -16,6 +17,7 @@ import {
   DeploymentPlanElementId,
   FindOrganisationElementId,
   HistoricDataElementId,
+  HistoricData2ElementId,
   HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
   SpendingAndCostsComposedElementId,
@@ -64,6 +66,19 @@ if (historicDataElement) {
     root.render(
       <React.StrictMode>
         <HistoricData type={type} id={id} />
+      </React.StrictMode>
+    );
+  }
+}
+
+const historicData2Element = document.getElementById(HistoricData2ElementId);
+if (historicData2Element) {
+  const { type, id } = historicData2Element.dataset;
+  if (type && id) {
+    const root = ReactDOM.createRoot(historicData2Element);
+    root.render(
+      <React.StrictMode>
+        <HistoricData2 type={type} id={id} />
       </React.StrictMode>
     );
   }

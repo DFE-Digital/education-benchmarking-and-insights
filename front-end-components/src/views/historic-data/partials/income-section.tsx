@@ -98,9 +98,7 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-income-content-1"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <IncomeSectionGrantFunding data={data} />
-            </p>
+            <IncomeSectionGrantFunding data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -118,9 +116,7 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-income-content-2"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <IncomeSectionSelfGenerated data={data} />
-            </p>
+            <IncomeSectionSelfGenerated data={data} />
           </div>
         </div>
         {type === "school" && (
@@ -139,9 +135,7 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
               id="accordion-income-content-3"
               className="govuk-accordion__section-content"
             >
-              <p className="govuk-body">
-                <IncomeSectionDirectRevenue data={data} />
-              </p>
+              <IncomeSectionDirectRevenue data={data} />
             </div>
           </div>
         )}

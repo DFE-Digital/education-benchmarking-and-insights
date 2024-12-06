@@ -104,9 +104,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-1"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionTeachingCosts data={data} />
-            </p>
+            <SpendingSectionTeachingCosts data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -124,9 +122,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-2"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionNonEducationalStaffCosts data={data} />
-            </p>
+            <SpendingSectionNonEducationalStaffCosts data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -144,9 +140,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-3"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionEducationalSupplies data={data} />
-            </p>
+            <SpendingSectionEducationalSupplies data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -164,9 +158,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-4"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionEducationalIct data={data} />
-            </p>
+            <SpendingSectionEducationalIct data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -184,9 +176,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-5"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionPremisesServices data={data} />
-            </p>
+            <SpendingSectionPremisesServices data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -204,9 +194,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-6"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionUtilities data={data} />
-            </p>
+            <SpendingSectionUtilities data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -224,9 +212,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-7"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionAdministrativeSupplies data={data} />
-            </p>
+            <SpendingSectionAdministrativeSupplies data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -244,9 +230,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-8"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionCateringServices data={data} />
-            </p>
+            <SpendingSectionCateringServices data={data} />
           </div>
         </div>
         <div className="govuk-accordion__section">
@@ -264,9 +248,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
             id="accordion-expenditure-content-9"
             className="govuk-accordion__section-content"
           >
-            <p className="govuk-body">
-              <SpendingSectionOther data={data} type={type} />
-            </p>
+            <SpendingSectionOther data={data} type={type} />
           </div>
         </div>
       </div>

@@ -23,11 +23,9 @@ import classNames from "classnames";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
 function LineChartInner<TData extends ChartDataSeries>(
-  props: LineChartProps<TData>,
-  ref: ForwardedRef<ChartHandler>
-) {
-  const {
+  {
     chartName,
+    className,
     curveType,
     data,
     grid,
@@ -37,6 +35,10 @@ function LineChartInner<TData extends ChartDataSeries>(
     keyField,
     labels,
     legend,
+    legendIconSize,
+    legendIconType,
+    legendHorizontalAlign,
+    legendVerticalAlign,
     margin: _margin,
     multiLineAxisLabel,
     onImageLoading,
@@ -48,8 +50,9 @@ function LineChartInner<TData extends ChartDataSeries>(
     valueFormatter,
     valueLabel,
     valueUnit,
-  } = props;
-
+  }: LineChartProps<TData>,
+  ref: ForwardedRef<ChartHandler>
+) {
   const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
     fileName: `${chartName}.png`,
     onImageLoading,
@@ -152,7 +155,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             left: margin,
           }}
           ref={rechartsRef}
-          className="recharts-wrapper-line-chart"
+          className={classNames("recharts-wrapper-line-chart", className)}
         >
           {grid && <CartesianGrid vertical={false} />}
           <XAxis
@@ -196,13 +199,19 @@ function LineChartInner<TData extends ChartDataSeries>(
           {visibleSeriesNames.map(renderLine)}
           {legend && (
             <Legend
-              align="right"
-              verticalAlign="top"
+              align={legendHorizontalAlign || "right"}
+              verticalAlign={legendVerticalAlign || "top"}
               formatter={(value) =>
                 (seriesConfig && seriesConfig[value]?.label) || value
               }
-              iconSize={30}
-              iconType="plainline"
+              iconSize={legendIconSize || 30}
+              iconType={
+                legendIconType
+                  ? legendIconType == "default"
+                    ? undefined
+                    : legendIconType
+                  : "plainline"
+              }
             />
           )}
         </RechartsLineChart>
