@@ -13,8 +13,9 @@ import {
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
-import { SpendingSectionPremisesServices } from "./spending-section-premises-services";
 import { HistoricData2Props } from "../types";
+import { CateringCostsHistoryChart } from "./catering-costs-history-chart";
+import { spendingSections } from "./spending-sections";
 
 export const SpendingSection: React.FC<HistoricData2Props> = ({
   type,
@@ -90,24 +91,49 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
         data-module="govuk-accordion"
         id="accordion-expenditure"
       >
-        <div className="govuk-accordion__section">
-          <div className="govuk-accordion__section-header">
-            <h2 className="govuk-accordion__section-heading">
-              <span
-                className="govuk-accordion__section-button"
-                id="accordion-expenditure-heading-1"
-              >
-                Premises staff and services
-              </span>
-            </h2>
+        {spendingSections.map((section, index) => (
+          <div className="govuk-accordion__section" key={index}>
+            <div className="govuk-accordion__section-header">
+              <h2 className="govuk-accordion__section-heading">
+                <span
+                  className="govuk-accordion__section-button"
+                  id={`accordion-expenditure-heading-${index + 1}`}
+                >
+                  {section.heading}
+                </span>
+              </h2>
+            </div>
+            <div
+              id={`accordion-expenditure-content-${index + 1}`}
+              className="govuk-accordion__section-content"
+            >
+              {section.charts
+                .filter((c) => c.type === undefined || c.type === type)
+                .map((chart) => {
+                  return data.school?.length ? (
+                    chart.field === "totalCateringCostsField" ? (
+                      <CateringCostsHistoryChart
+                        chartName={chart.name}
+                        data={data}
+                        key={chart.field}
+                      />
+                    ) : (
+                      <HistoricChart2
+                        chartName={chart.name}
+                        data={data}
+                        valueField={chart.field}
+                        key={chart.field}
+                      >
+                        <h3 className="govuk-heading-s">{chart.name}</h3>
+                      </HistoricChart2>
+                    )
+                  ) : (
+                    <Loading key={chart.field} />
+                  );
+                })}
+            </div>
           </div>
-          <div
-            id="accordion-expenditure-content-1"
-            className="govuk-accordion__section-content"
-          >
-            <SpendingSectionPremisesServices data={data} />
-          </div>
-        </div>
+        ))}
       </div>
     </ChartDimensionContext.Provider>
   );
