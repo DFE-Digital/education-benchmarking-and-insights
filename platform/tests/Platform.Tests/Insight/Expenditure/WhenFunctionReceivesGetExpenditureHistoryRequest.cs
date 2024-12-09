@@ -1,4 +1,5 @@
 using System.Net;
+using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Expenditure;
 using Xunit;
@@ -9,6 +10,10 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        ExpenditureParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());

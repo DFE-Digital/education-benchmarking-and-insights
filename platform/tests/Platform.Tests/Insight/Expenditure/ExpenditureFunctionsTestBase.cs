@@ -8,19 +8,21 @@ public class ExpenditureFunctionsTestBase : FunctionsTestBase
 {
     protected readonly ExpenditureFunctions Functions;
     protected readonly Mock<IExpenditureService> Service;
+    protected readonly Mock<IValidator<ExpenditureParameters>> ExpenditureParametersValidator;
+    protected readonly Mock<IValidator<ExpenditureNationalAvgParameters>> ExpenditureNationalAvgParametersValidator;
 
     protected ExpenditureFunctionsTestBase()
     {
-        InlineValidator<ExpenditureParameters> expenditureParametersValidator = new();
-        InlineValidator<ExpenditureNationalAvgParameters> expenditureNationalAvgParametersValidator = new();
         InlineValidator<QuerySchoolExpenditureParameters> querySchoolExpenditureParametersValidator = new();
         InlineValidator<QueryTrustExpenditureParameters> queryTrustExpenditureParametersValidator = new();
+        ExpenditureParametersValidator = new Mock<IValidator<ExpenditureParameters>>();
+        ExpenditureNationalAvgParametersValidator = new Mock<IValidator<ExpenditureNationalAvgParameters>>();
         Service = new Mock<IExpenditureService>();
         Functions = new ExpenditureFunctions(
             new NullLogger<ExpenditureFunctions>(),
             Service.Object,
-            expenditureParametersValidator,
-            expenditureNationalAvgParametersValidator,
+            ExpenditureParametersValidator.Object,
+            ExpenditureNationalAvgParametersValidator.Object,
             querySchoolExpenditureParametersValidator,
             queryTrustExpenditureParametersValidator);
     }
