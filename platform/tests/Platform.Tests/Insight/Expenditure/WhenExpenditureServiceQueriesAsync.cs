@@ -325,4 +325,135 @@ public class WhenExpenditureServiceQueriesAsync
             RunId = identifier
         }, actualParam, true);
     }
+
+    [InlineData(ExpenditureDimensions.Actuals, "SchoolExpenditureAvgComparatorSet")]
+    [InlineData(ExpenditureDimensions.PerUnit, "SchoolExpenditureAvgPerUnitComparatorSet")]
+    [InlineData(ExpenditureDimensions.PercentIncome, "SchoolExpenditureAvgPercentageOfIncomeComparatorSet")]
+    [InlineData(ExpenditureDimensions.PercentExpenditure, "SchoolExpenditureAvgPercentageOfExpenditureComparatorSet")]
+    [Theory]
+    public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgComparatorSetAsync(string dimension, string expectedSource)
+    {
+        const string urn = "123";
+        var queryParams = new ExpenditureParameters
+        {
+            Dimension = dimension
+        };
+        var expected = new List<SchoolExpenditureHistoryModel>
+        {
+            new()
+        };
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? param) =>
+            {
+                actualSql = sql;
+                actualParam = param;
+            })
+            .ReturnsAsync(expected);
+
+        var expectedSql = $"SELECT * FROM {expectedSource} WHERE URN = @URN";
+
+        var actual = await _service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams);
+
+        Assert.Equal(expected, actual);
+        Assert.Equal(expectedSql, actualSql);
+        Assert.Equivalent(new
+        {
+            URN = urn,
+        }, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldThrowOnInvalidDimensionWhenGetSchoolHistoryAvgComparatorSetAsync()
+    {
+        const string urn = "123";
+        var queryParams = new ExpenditureParameters
+        {
+            Dimension = "Invalid"
+        };
+        var result = new List<SchoolExpenditureHistoryModel>
+        {
+            new()
+        };
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .ReturnsAsync(result);
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+            _service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams));
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+    }
+
+    [InlineData(ExpenditureDimensions.Actuals, "Primary", "Maintained", "SchoolExpenditureAvgHistoric")]
+    [InlineData(ExpenditureDimensions.PerUnit, "Secondary", "Maintained", "SchoolExpenditureAvgPerUnitHistoric")]
+    [InlineData(ExpenditureDimensions.PercentIncome, "Pupil Referral Unit", "Maintained", "SchoolExpenditureAvgPercentageOfIncomeHistoric")]
+    [InlineData(ExpenditureDimensions.PercentExpenditure, "Nursery", "Maintained", "SchoolExpenditureAvgPercentageOfExpenditureHistoric")]
+    [InlineData(ExpenditureDimensions.Actuals, "University Technical College", "Academy", "SchoolExpenditureAvgHistoric")]
+    [InlineData(ExpenditureDimensions.PerUnit, "Alternative Provision", "Academy", "SchoolExpenditureAvgPerUnitHistoric")]
+    [InlineData(ExpenditureDimensions.PercentIncome, "Post-16", "Academy", "SchoolExpenditureAvgPercentageOfIncomeHistoric")]
+    [InlineData(ExpenditureDimensions.PercentExpenditure, "Special", "Academy", "SchoolExpenditureAvgPercentageOfExpenditureHistoric")]
+    [InlineData(ExpenditureDimensions.Actuals, "All-through", "Academy", "SchoolExpenditureAvgHistoric")]
+    [Theory]
+    public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgNationalAsync(string dimension, string phase, string financeType, string expectedSource)
+    {
+        const string urn = "123";
+        var queryParams = new ExpenditureNationalAvgParameters
+        {
+            Dimension = dimension,
+            OverallPhase = phase,
+            FinanceType = financeType
+        };
+        var expected = new List<SchoolExpenditureHistoryModel>
+        {
+            new()
+        };
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Callback((string sql, object? param) =>
+            {
+                actualSql = sql;
+                actualParam = param;
+            })
+            .ReturnsAsync(expected);
+
+        var expectedSql = $"SELECT * FROM {expectedSource} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
+
+        var actual = await _service.GetSchoolHistoryAvgNationalAsync(queryParams);
+
+        Assert.Equal(expected, actual);
+        Assert.Equal(expectedSql, actualSql);
+        Assert.Equivalent(new
+        {
+            OverallPhase = phase,
+            FinanceType = financeType
+        }, actualParam, true);
+    }
+
+    [Fact]
+    public async Task ShouldThrowOnInvalidDimensionWhenGetSchoolHistoryAvgNationalAsync()
+    {
+        var queryParams = new ExpenditureNationalAvgParameters()
+        {
+            Dimension = "Invalid"
+        };
+        var result = new List<SchoolExpenditureHistoryModel>
+        {
+            new()
+        };
+
+        _connection
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .ReturnsAsync(result);
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+            _service.GetSchoolHistoryAvgNationalAsync(queryParams));
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+    }
 }
