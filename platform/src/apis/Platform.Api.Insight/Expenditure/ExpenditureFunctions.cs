@@ -318,8 +318,7 @@ public class ExpenditureFunctions(
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureHistoryAvgNationalAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/history/national-average")] HttpRequestData req,
-        string urn)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/history/national-average")] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureNationalAvgParameters>();
