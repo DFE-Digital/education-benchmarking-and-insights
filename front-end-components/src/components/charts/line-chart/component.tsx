@@ -21,6 +21,7 @@ import {
 import { ChartDataSeries, ChartHandler } from "src/components";
 import classNames from "classnames";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
+import { LineChartDot } from "../line-chart-dot";
 
 function LineChartInner<TData extends ChartDataSeries>(
   {
@@ -75,6 +76,41 @@ function LineChartInner<TData extends ChartDataSeries>(
   }, [data, keyField, seriesConfig, seriesLabelField]);
 
   const margin = _margin || 5;
+
+  // https://github.com/recharts/recharts/issues/1231#issuecomment-1237958802
+  const handleDotActiveIndexChanged = (itemIndex?: number) => {
+    if (itemIndex === undefined) {
+      rechartsRef.current?.setState({
+        isTooltipActive: false,
+      });
+      return;
+    }
+
+    const activeItem =
+      rechartsRef.current?.state.formattedGraphicalItems?.[0].props.points[
+        itemIndex
+      ];
+    if (!activeItem) {
+      return;
+    }
+
+    activeItem.value = activeItem.value || 0;
+    const mouseEnterArgs = {
+      tooltipPayload: [activeItem],
+      tooltipPosition: {
+        x: activeItem.x,
+        y: activeItem.y,
+      },
+    };
+    rechartsRef.current?.setState(
+      {
+        activeTooltipIndex: itemIndex,
+      },
+      () => {
+        rechartsRef.current?.handleItemMouseEnter(mouseEnterArgs);
+      }
+    );
+  };
 
   const renderLabel = ({
     x,
@@ -131,6 +167,16 @@ function LineChartInner<TData extends ChartDataSeries>(
             ...props,
             className: `chart-label-series-${seriesIndex}`,
           })
+        }
+        dot={
+          tooltip ? (
+            <LineChartDot
+              onActiveIndexChanged={handleDotActiveIndexChanged}
+              keyField={keyField as string}
+            />
+          ) : (
+            true
+          )
         }
       ></Line>
     );
