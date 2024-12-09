@@ -25,7 +25,7 @@ CREATE VIEW SchoolExpenditureAvgComparatorSet AS
       JOIN SchoolExpenditureHistoricWithNulls
         ON (
                  pupilComparator.PupilComparatorURN = SchoolExpenditureHistoricWithNulls.URN
-             AND pupilComparator.RunId = SchoolExpenditureHistoricWithNulls.RunId
+             AND pupilComparator.RunId = SchoolExpenditureHistoricWithNulls.Year
            )
      GROUP
         BY pupilComparator.URN
@@ -39,7 +39,7 @@ CREATE VIEW SchoolExpenditureAvgComparatorSet AS
       JOIN SchoolExpenditureHistoricWithNulls
         ON (
                  buildingComparator.BuildingComparatorURN = SchoolExpenditureHistoricWithNulls.URN
-             AND buildingComparator.RunId = SchoolExpenditureHistoricWithNulls.RunId
+             AND buildingComparator.RunId = SchoolExpenditureHistoricWithNulls.Year
            )
      GROUP
         BY buildingComparator.URN

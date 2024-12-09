@@ -2,17 +2,14 @@ DROP VIEW IF EXISTS SchoolExpenditureAvgHistoric
 GO
 
 CREATE VIEW SchoolExpenditureAvgHistoric AS
-  SELECT RunId                               AS Year
+  SELECT Year
        , FinanceType
        , OverallPhase
        , Avg(TotalExpenditure)               AS TotalExpenditure
        , Avg(TotalPremisesStaffServiceCosts) AS TotalPremisesStaffServiceCosts
     FROM SchoolExpenditureHistoricWithNulls
-   INNER
-    JOIN School
-      ON (School.URN = SchoolExpenditureHistoricWithNulls.URN)
    GROUP
-      BY RunId
+      BY Year
        , FinanceType
        , OverallPhase
 GO

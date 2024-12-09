@@ -2,8 +2,10 @@ DROP VIEW IF EXISTS SchoolExpenditureHistoricWithNulls
 GO
 
 CREATE VIEW SchoolExpenditureHistoricWithNulls AS
-  SELECT Financial.URN
-       , Financial.RunId
+  SELECT URN
+       , Year
+       , FinanceType
+       , OverallPhase
        , CASE
              WHEN TotalPupils IS NULL OR TotalPupils <= 0.0 THEN NULL
              ELSE TotalPupils
@@ -24,6 +26,5 @@ CREATE VIEW SchoolExpenditureHistoricWithNulls AS
              WHEN TotalPremisesStaffServiceCosts IS NULL OR TotalPremisesStaffServiceCosts <= 0.0 THEN NULL
              ELSE TotalPremisesStaffServiceCosts
          END AS TotalPremisesStaffServiceCosts
-    FROM Financial
-   WHERE RunType = 'default'
+    FROM SchoolExpenditureHistoric
 GO
