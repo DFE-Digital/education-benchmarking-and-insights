@@ -9,19 +9,23 @@ export function LineChartTooltip<
   TData extends ChartDataSeries,
   TValue extends ValueType,
   TName extends NameType,
->(props: LineChartTooltipProps<TData, TValue, TName>) {
-  const { active, payload, valueFormatter, valueUnit } = props;
-  if (active && payload && payload.length) {
-    return (
-      <div className="chart-active-tooltip">
-        <p className="govuk-body-s">
-          {valueFormatter
-            ? valueFormatter(payload[0].value, { valueUnit })
-            : String(payload[0].value)}
-        </p>
-      </div>
-    );
+>({
+  active,
+  payload,
+  valueFormatter,
+  valueUnit,
+}: LineChartTooltipProps<TData, TValue, TName>) {
+  if (!active || !payload || !payload.length) {
+    return null;
   }
 
-  return null;
+  return (
+    <div className="chart-active-tooltip">
+      <p className="govuk-body-s">
+        {valueFormatter
+          ? valueFormatter(payload[0].value, { valueUnit })
+          : String(payload[0].value)}
+      </p>
+    </div>
+  );
 }
