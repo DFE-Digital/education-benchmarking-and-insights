@@ -1,4 +1,5 @@
 using System.Net;
+using FluentValidation.Results;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.Insight.Census;
@@ -12,6 +13,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetAsync(Urn))
             .ReturnsAsync(new CensusModel());
@@ -28,6 +33,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [InlineData(CensusCategories.TeachersFte, CensusDimensions.HeadcountPerFte)]
     public async Task ShouldTryParseQueryString(string? category, string? dimension)
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service.Setup(d => d.GetAsync(Urn)).Verifiable();
 
         var query = new Dictionary<string, StringValues>
@@ -47,6 +56,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [Fact]
     public async Task ShouldReturn404OnNotFound()
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetAsync(Urn))
             .ReturnsAsync((CensusModel?)null);
@@ -60,6 +73,10 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetAsync(Urn))
             .Throws(new Exception());

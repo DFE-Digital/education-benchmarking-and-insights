@@ -50,6 +50,7 @@ internal static class Services
             .AddTransient<IValidator<QueryTrustIncomeParameters>, QueryTrustIncomeParametersValidator>()
             .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
             .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()
+            .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()
             .AddTransient<IValidator<QuerySchoolCensusParameters>, QuerySchoolCensusParametersValidator>();
 
         //TODO: Add serilog configuration AB#227696
