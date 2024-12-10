@@ -5,9 +5,9 @@ namespace Platform.Api.Insight.Expenditure;
 
 public record ExpenditureNationalAvgParameters : QueryParameters
 {
-    public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
-    public string FinanceType { get; private set; } = string.Empty;
-    public string OverallPhase { get; private set; } = string.Empty;
+    public string Dimension { get; internal set; } = ExpenditureDimensions.Actuals;
+    public string FinanceType { get; internal set; } = string.Empty;
+    public string OverallPhase { get; internal set; } = string.Empty;
 
     public override void SetValues(IQueryCollection query)
     {
