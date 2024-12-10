@@ -62,7 +62,7 @@ public class WhenExpressionBuilderAddsFilterToList
     }
 
     [Theory]
-    [InlineData("field", "item1,item2,item3", $"{Default} field:('item1' OR 'item2' OR 'item3')")]
+    [InlineData("field", "item1,item2,item3", $"{Default} field:(\"item1\" OR \"item2\" OR \"item3\")")]
     [InlineData("field", null, Default)]
     public void ShouldAddSearchToList(string fieldName, string? value, string expected)
     {
