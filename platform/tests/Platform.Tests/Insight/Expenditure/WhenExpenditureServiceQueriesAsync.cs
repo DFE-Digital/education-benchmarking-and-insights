@@ -400,7 +400,6 @@ public class WhenExpenditureServiceQueriesAsync
     [Theory]
     public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgNationalAsync(string dimension, string phase, string financeType, string expectedSource)
     {
-        const string urn = "123";
         var queryParams = new ExpenditureNationalAvgParameters
         {
             Dimension = dimension,

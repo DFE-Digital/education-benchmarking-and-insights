@@ -27,6 +27,10 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
     [Fact]
     public async Task ShouldReturn500OnError()
     {
+        ExpenditureParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
             .Throws(new Exception());

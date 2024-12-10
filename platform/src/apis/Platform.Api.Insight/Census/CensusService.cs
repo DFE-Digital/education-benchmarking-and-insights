@@ -8,6 +8,8 @@ namespace Platform.Api.Insight.Census;
 public interface ICensusService
 {
     Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn);
+    Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgComparatorSetAsync(string urn, CensusParameters queryParams);
+    Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgNationalAsync(CensusNationalAvgParameters queryParams);
     Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<CensusModel?> GetAsync(string urn);
     Task<CensusModel?> GetCustomAsync(string urn, string identifier);
@@ -22,6 +24,52 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         {
             URN = urn
         };
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
+    }
+
+    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgComparatorSetAsync(string urn, CensusParameters queryParams)
+    {
+        var parameters = new
+        {
+            URN = urn
+        };
+
+        var sourceName = queryParams.Dimension switch
+        {
+            CensusDimensions.Total => "SchoolCensusAvgComparatorSet",
+            CensusDimensions.HeadcountPerFte => "SchoolCensusAvgPerFteComparatorSet",
+            CensusDimensions.PercentWorkforce => "SchoolCensusAvgPercentageOfWorkforceFteComparatorSet",
+            CensusDimensions.PupilsPerStaffRole => "SchoolCensusAvgPupilsPerStaffComparatorSet",
+            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+        };
+
+        var sql = $"SELECT * FROM {sourceName} WHERE URN = @URN";
+
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
+    }
+
+    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgNationalAsync(CensusNationalAvgParameters queryParams)
+    {
+        var parameters = new
+        {
+            queryParams.OverallPhase,
+            queryParams.FinanceType
+        };
+
+        var sourceName = queryParams.Dimension switch
+        {
+            CensusDimensions.Total => "SchoolCensusAvgHistoric",
+            CensusDimensions.HeadcountPerFte => "SchoolCensusAvgPerFteHistoric",
+            CensusDimensions.PercentWorkforce => "SchoolCensusAvgPercentageOfWorkforceFteHistoric",
+            CensusDimensions.PupilsPerStaffRole => "SchoolCensusAvgPupilsPerStaffHistoric",
+            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+        };
+
+        var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);

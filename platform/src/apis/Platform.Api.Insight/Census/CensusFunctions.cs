@@ -19,6 +19,7 @@ public class CensusFunctions(
     ILogger<CensusFunctions> logger,
     ICensusService service,
     IValidator<CensusParameters> censusParametersValidator,
+    IValidator<CensusNationalAvgParameters> censusNationalAvgValidator,
     IValidator<QuerySchoolCensusParameters> querySchoolCensusParametersValidator)
 {
     [Function(nameof(CensusAllCategories))]
@@ -205,6 +206,94 @@ public class CensusFunctions(
             catch (Exception e)
             {
                 logger.LogError(e, "Failed to get census history");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+
+    [Function(nameof(CensusHistoryAvgComparatorSetAsync))]
+    [OpenApiOperation(nameof(CensusHistoryAvgComparatorSetAsync), "Census")]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleCensusDimension))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CensusHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> CensusHistoryAvgComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history/comparator-set-average")] HttpRequestData req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusParameters>();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
+               }))
+        {
+            try
+            {
+                var validationResult = await censusParametersValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams);
+                return await req.CreateJsonResponseAsync(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get comparator set average census history");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+
+    [Function(nameof(CensusHistoryAvgNationalAsync))]
+    [OpenApiOperation(nameof(CensusHistoryAvgNationalAsync), "Census")]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleCensusDimension))]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
+    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CensusHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> CensusHistoryAvgNationalAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/history/national-average")] HttpRequestData req)
+    {
+        var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusNationalAvgParameters>();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
+               }))
+        {
+            try
+            {
+                var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var result = await service.GetHistoryAvgNationalAsync(queryParams);
+                return await req.CreateJsonResponseAsync(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get national average census history");
                 return req.CreateErrorResponse();
             }
         }

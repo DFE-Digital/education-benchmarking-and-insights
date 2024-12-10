@@ -1,4 +1,5 @@
 using System.Net;
+using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Census;
 using Xunit;
@@ -9,6 +10,10 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<CensusHistoryModel>());
@@ -22,6 +27,10 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     [Fact]
     public async Task ShouldReturn500OnError()
     {
+        CensusParametersValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
             .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
             .Throws(new Exception());
