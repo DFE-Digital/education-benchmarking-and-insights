@@ -1,8 +1,7 @@
-﻿using Reqnroll;
+﻿using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
-
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -10,6 +9,7 @@ namespace Web.E2ETests.Steps.School;
 public class HistoricDataSteps(PageDriver driver)
 {
     private HistoricDataPage? _historicDataPage;
+
     [Given("I am on '(.*)' history page for school with URN '(.*)'")]
     public async Task GivenIAmOnHistoryPageForSchoolWithUrn(string tab, string urn)
     {
@@ -17,6 +17,7 @@ public class HistoricDataSteps(PageDriver driver)
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
         await page.ReloadAsync();
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
         _historicDataPage = new HistoricDataPage(page);
         await _historicDataPage.IsDisplayed(TabNamesFromFriendlyNames(tab));
@@ -24,7 +25,7 @@ public class HistoricDataSteps(PageDriver driver)
 
     [Given("all sections are shown on '(.*)'")]
     [When("I click on show all sections on '(.*)'")]
-    public async Task WhenIClickOnShowAllSections(string tab)
+    public async Task WhenIClickOnShowAllSectionsOn(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.ClickShowAllSections(TabNamesFromFriendlyNames(tab));
@@ -45,14 +46,14 @@ public class HistoricDataSteps(PageDriver driver)
     }
 
     [Then("all sections on '(.*)' tab are expanded")]
-    public async Task ThenAllSectionsOnThePageAreExpanded(string tab)
+    public async Task ThenAllSectionsOnTabAreExpanded(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.AreSectionsExpanded(TabNamesFromFriendlyNames(tab));
     }
 
     [Then("the show all text changes to hide all sections on '(.*)'")]
-    public async Task ThenTheShowAllTextChangesToHideAllSectionsOnTab(string tab)
+    public async Task ThenTheShowAllTextChangesToHideAllSectionsOn(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.IsShowHideAllSectionsText(TabNamesFromFriendlyNames(tab), "Hide all sections");
@@ -94,6 +95,13 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.IsSectionVisible(ExpenditureCategoryFromFriendlyName(chartName), false, "Show", "chart");
     }
 
+    [Then("the '(.*)' charts show the legend '(.*)' using separator '(.*)'")]
+    public async Task ThenTheChartsShowTheLegendUsingSeparator(string tab, string legend, string separator)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.ChartLegendContains(TabNamesFromFriendlyNames(tab), legend, separator);
+    }
+
     private static SpendingCategoriesNames ExpenditureCategoryFromFriendlyName(string chartName)
     {
         return chartName switch
@@ -102,7 +110,9 @@ public class HistoricDataSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
+
     private static string FindWaysToSpendLessUrl(string tab, string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/history#{tab}";
+
     private static HistoryTabs TabNamesFromFriendlyNames(string tab)
     {
         return tab switch
@@ -114,5 +124,4 @@ public class HistoricDataSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
     }
-
 }

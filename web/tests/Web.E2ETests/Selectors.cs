@@ -53,7 +53,7 @@ public static class Selectors
     public const string SectionContent9 = "#accordion-content-9";
 
     public const string ToggleSectionText = ".govuk-accordion__section-toggle-text";
-    public const string Charts = ".recharts-surface";
+    public const string Charts = ".recharts-wrapper > .recharts-surface";
     public const string Table = "table";
     public const string Button = "button";
     public const string Aside = "aside";

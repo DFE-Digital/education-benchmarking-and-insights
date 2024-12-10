@@ -265,6 +265,7 @@ public class HistoricDataPage(IPage page)
     public async Task SelectDimension(HistoryTabs tab, string dimensionValue)
     {
         await HistoryDimensionDropdown(tab).SelectOption(dimensionValue);
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     public async Task IsDimensionSelected(HistoryTabs tab, string value)
@@ -380,6 +381,33 @@ public class HistoricDataPage(IPage page)
         await link.ShouldHaveAttribute("aria-expanded", visibility.ToString().ToLower());
         await link.Locator(Selectors.ToggleSectionText).ShouldHaveText(text);
         await IsSectionContentVisible(categoryName, visibility, chartMode);
+    }
+
+    public async Task ChartLegendContains(HistoryTabs tab, string text, string separator)
+    {
+        var charts = tab switch
+        {
+            HistoryTabs.Spending => AllSpendingCharts,
+            HistoryTabs.Income => AllIncomeCharts,
+            HistoryTabs.Balance => AllBalanceCharts,
+            HistoryTabs.Census => AllCensusCharts,
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        await page.WaitForSelectorAsync(Selectors.Charts);
+        var legend = charts.Locator("//following-sibling::div[1]").First;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            await legend.ShouldNotBeVisible();
+        }
+        else
+        {
+            var parts = text.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var part in parts)
+            {
+                await legend.ShouldContainText(part.Trim());
+            }
+        }
     }
 
     private async Task IsSectionContentVisible(SpendingCategoriesNames categoryName, bool visibility, string chartMode)
