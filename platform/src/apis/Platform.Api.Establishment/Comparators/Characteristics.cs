@@ -72,17 +72,27 @@ public static class ExpressionBuilder
         return list;
     }
 
+    public static List<string> ValuesFilter(this List<string> list, string fieldName, CharacteristicList? characteristic)
+    {
+        if (characteristic is not null)
+        {
+            list.Add($"(({fieldName} eq {string.Join($" or ({fieldName} eq ", characteristic.Values.Select(a => $"'{a}')"))})");
+        }
+
+        return list;
+    }
+
     public static string BuildFilter(this List<string> list) => string.Join(" and ", list);
 
     public static List<string> ListSearch(this List<string> list, string fieldName, CharacteristicList? characteristic)
     {
         if (characteristic is not null)
         {
-            list.Add($"{fieldName}:({string.Join(" OR ", characteristic.Values.Select(a => $"'{a}'"))})");
+            list.Add($"{fieldName}:({string.Join(" OR ", characteristic.Values.Select(a => $"\"{a}\""))})");
         }
 
         return list;
     }
 
-    public static string BuildSearch(this List<string> list) => string.Join(" AND ", list);
+    public static string BuildSearch(this List<string> list) => list.Count > 0 ? string.Join(" AND ", list) : "*";
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper disable InconsistentNaming
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Platform.Api.Establishment.Comparators;
 
-[ExcludeFromCodeCoverage]
 public record ComparatorSchoolsRequest
 {
     public CharacteristicList? FinanceType { get; set; }
@@ -58,14 +59,16 @@ public record ComparatorSchoolsRequest
         .RangeFilter(nameof(PercentWithMLD), PercentWithMLD)
         .RangeFilter(nameof(PercentWithHI), PercentWithHI)
         .RangeFilter(nameof(PercentWithASD), PercentWithASD)
+        .ValuesFilter(nameof(FinanceType), FinanceType)
+        .ValuesFilter(nameof(OverallPhase), OverallPhase)
+        .ValuesFilter(nameof(LAName), LAName)
+        .ValuesFilter(nameof(SchoolPosition), SchoolPosition)
+        .ValuesFilter(nameof(LondonWeighting), LondonWeighting)
+        .ValuesFilter(nameof(OfstedDescription), OfstedDescription)
         .BuildFilter();
 
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
+    [SuppressMessage("Performance", "CA1822:Mark members as static")]
     public string SearchExpression() => new List<string>()
-        .ListSearch(nameof(FinanceType), FinanceType)
-        .ListSearch(nameof(OverallPhase), OverallPhase)
-        .ListSearch(nameof(LAName), LAName)
-        .ListSearch(nameof(SchoolPosition), SchoolPosition)
-        .ListSearch(nameof(LondonWeighting), LondonWeighting)
-        .ListSearch(nameof(OfstedDescription), OfstedDescription)
         .BuildSearch();
 }
