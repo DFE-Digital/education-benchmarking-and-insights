@@ -9,7 +9,7 @@ CREATE VIEW SchoolExpenditureAvgPercentageOfExpenditureHistoric AS
        , Avg(TotalPremisesStaffServiceCosts) AS TotalPremisesStaffServiceCosts
     FROM SchoolExpenditurePercentageOfExpenditureHistoric
    GROUP
-      BY RunId
+      BY Year
        , FinanceType
        , OverallPhase
 GO
