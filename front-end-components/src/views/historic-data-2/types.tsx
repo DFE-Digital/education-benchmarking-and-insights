@@ -1,3 +1,4 @@
+import { Dimension } from "src/components";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
 import { SchoolHistoryBase } from "src/services";
 
@@ -17,4 +18,5 @@ type HistoricData2SectionChart<T extends SchoolHistoryBase> = {
   name: string;
   field: ResolvedStatProps<T>["valueField"] | "totalCateringCostsField";
   type?: "school" | "trust" | "local-authority";
+  perUnitDimension: Dimension;
 };

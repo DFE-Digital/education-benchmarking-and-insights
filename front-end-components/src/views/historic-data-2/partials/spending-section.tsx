@@ -4,6 +4,7 @@ import {
   ChartDimensions,
   ChartMode,
   CostCategories,
+  PoundsPerPupil,
 } from "src/components";
 import {
   ExpenditureApi,
@@ -15,7 +16,7 @@ import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
 import { HistoricData2Props } from "../types";
 import { CateringCostsHistoryChart } from "./catering-costs-history-chart";
-import { spendingSections } from "./spending-sections";
+import { spendingSections } from ".";
 
 export const SpendingSection: React.FC<HistoricData2Props> = ({
   type,
@@ -80,6 +81,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
           chartName="Total expenditure"
           data={data}
           valueField="totalExpenditure"
+          perUnitDimension={PoundsPerPupil}
         >
           <h2 className="govuk-heading-m">Total expenditure</h2>
         </HistoricChart2>
@@ -116,6 +118,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
                         chartName={chart.name}
                         data={data}
                         key={chart.field}
+                        perUnitDimension={chart.perUnitDimension}
                       />
                     ) : (
                       <HistoricChart2
@@ -123,6 +126,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
                         data={data}
                         valueField={chart.field}
                         key={chart.field}
+                        perUnitDimension={chart.perUnitDimension}
                       >
                         <h3 className="govuk-heading-s">{chart.name}</h3>
                       </HistoricChart2>

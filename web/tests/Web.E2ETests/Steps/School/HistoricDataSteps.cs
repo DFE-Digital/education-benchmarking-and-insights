@@ -95,11 +95,18 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.IsSectionVisible(ExpenditureCategoryFromFriendlyName(chartName), false, "Show", "chart");
     }
 
-    [Then("the '(.*)' charts show the legend '(.*)' using separator '(.*)'")]
-    public async Task ThenTheChartsShowTheLegendUsingSeparator(string tab, string legend, string separator)
+    [Then("the '(.*)' tab '(.*)' chart shows the legend '(.*)' using separator '(.*)'")]
+    public async Task ThenTheTabChartShowsTheLegendUsingSeparator(string tab, string chartName, string legend, string separator)
     {
         Assert.NotNull(_historicDataPage);
-        await _historicDataPage.ChartLegendContains(TabNamesFromFriendlyNames(tab), legend, separator);
+        await _historicDataPage.ChartLegendContains(chartName, legend, separator);
+    }
+
+    [Then("the table on the '(.*)' tab '(.*)' chart contains:")]
+    public async Task ThenTheTableOnTheTabChartContains(string tab, string chartName, DataTable table)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.ChartTableContains(chartName, table);
     }
 
     private static SpendingCategoriesNames ExpenditureCategoryFromFriendlyName(string chartName)
