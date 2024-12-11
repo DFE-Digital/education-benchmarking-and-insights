@@ -11,11 +11,11 @@ public static partial class DynamicTableHelpers
     private const string ErrorMessageNotOnTable = "The '{0}' value not present in the table, but on the instance";
     private const string ErrorMessageNotOnInstance = "The '{0}' value not present on the instance, but in the table";
     private const string ErrorMessageValueDiffers =
-        "The '{0}' value differs from table and instance.\n\tInstance:\t'{1}'(type: {2}).\n\tTable:\t\t'{3}'(type: {4})";
+        "The '{0}' value differs from table and instance.\n\tInstance:\t'{1}' (type: {2}).\n\tTable:\t\t'{3}' (type: {4})";
     private const string ErrorMessageNumberOfRowsDiffers =
         "Number of rows for table ({0} rows) and set ({1} rows) differs";
     private const string ErrorMessageSetValuesDiffers =
-        "A difference was found on row '{0}' for column '{1}' (property '{2}').\n\tInstance:\t'{3}'(type: {4}).\n\tTable:\t\t'{5}'(type: {6})";
+        "A difference was found on row '{0}' for column '{1}' (property '{2}').\n\tInstance:\t'{3}' (type: {4}).\n\tTable:\t\t'{5}' (type: {6})";
 
     /// <summary>
     ///     Create a dynamic object from the headers and values of the <paramref name="table" />
@@ -286,7 +286,7 @@ public static partial class DynamicTableHelpers
         return valueFromTable;
     }
 
-    private static string CreatePropertyName(string header)
+    internal static string CreatePropertyName(string header)
     {
         var cleanedHeader = RemoveReservedChars(header);
         var propName = FixCasing(cleanedHeader);

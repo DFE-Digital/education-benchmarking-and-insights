@@ -1,4 +1,6 @@
-﻿using Microsoft.Playwright;
+﻿using System.Dynamic;
+using Microsoft.Playwright;
+using Web.E2ETests.Assist;
 using Xunit;
 namespace Web.E2ETests.Pages.School;
 
@@ -383,19 +385,14 @@ public class HistoricDataPage(IPage page)
         await IsSectionContentVisible(categoryName, visibility, chartMode);
     }
 
-    public async Task ChartLegendContains(HistoryTabs tab, string text, string separator)
+    public async Task ChartLegendContains(string chartName, string text, string separator)
     {
-        var charts = tab switch
-        {
-            HistoryTabs.Spending => AllSpendingCharts,
-            HistoryTabs.Income => AllIncomeCharts,
-            HistoryTabs.Balance => AllBalanceCharts,
-            HistoryTabs.Census => AllCensusCharts,
-            _ => throw new ArgumentOutOfRangeException(nameof(tab))
-        };
-
         await page.WaitForSelectorAsync(Selectors.Charts);
-        var legend = charts.Locator("//following-sibling::div[1]").First;
+        var parent = page.Locator($"div[aria-label='{chartName}']");
+        var chart = parent.Locator(Selectors.Charts);
+        await chart.ShouldBeVisible();
+
+        var legend = chart.Locator("//following-sibling::div[1]");
         if (string.IsNullOrWhiteSpace(text))
         {
             await legend.ShouldNotBeVisible();
@@ -408,6 +405,40 @@ public class HistoricDataPage(IPage page)
                 await legend.ShouldContainText(part.Trim());
             }
         }
+    }
+
+    public async Task ChartTableContains(string chartName, DataTable expected)
+    {
+        var parent = page.Locator($"h2:has-text('{chartName}') + div");
+        var table = parent.Locator(Tables);
+        await table.ShouldBeVisible();
+
+        var set = new List<dynamic>();
+        var rows = await table.Locator("tr").AllAsync();
+        var headerCells = await rows[0].Locator("th").AllAsync();
+        var headers = new List<string>();
+        foreach (var headerCell in headerCells)
+        {
+            headers.Add(DynamicTableHelpers.CreatePropertyName(await headerCell.InnerTextAsync()));
+        }
+
+        foreach (var row in rows.Skip(1))
+        {
+            var expando = new ExpandoObject();
+            var cells = await row.Locator("td").AllAsync();
+            for (var i = 0; i < cells.Count; i++)
+            {
+                var header = headers.ElementAtOrDefault(i);
+                if (!string.IsNullOrWhiteSpace(header))
+                {
+                    (expando as ICollection<KeyValuePair<string, object>>).Add(new KeyValuePair<string, object>(header, await cells[i].InnerTextAsync()));
+                }
+            }
+
+            set.Add(expando);
+        }
+
+        expected.CompareToDynamicSet(set, false);
     }
 
     private async Task IsSectionContentVisible(SpendingCategoriesNames categoryName, bool visibility, string chartMode)

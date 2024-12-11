@@ -27,6 +27,7 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
   legendIconSize,
   legendIconType,
   legendVerticalAlign,
+  perUnitDimension,
   valueField,
   valueUnit,
 }: HistoricChart2Props<TData>) {
@@ -87,7 +88,10 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
       visible: true,
     },
     school: {
-      label: dimension.label,
+      label:
+        dimension.value === "PerUnit"
+          ? perUnitDimension.label
+          : dimension.label,
       visible: true,
     },
   };
