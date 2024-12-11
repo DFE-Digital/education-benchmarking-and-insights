@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -11,6 +12,7 @@ namespace Web.App.Controllers.Api;
 [Route("api/census")]
 public class CensusProxyController(
     ILogger<CensusProxyController> logger,
+    IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IUserDataService userDataService)
@@ -57,13 +59,45 @@ public class CensusProxyController(
         {
             try
             {
-                var query = BuildApiQuery(dimension: dimension);
-                var result = await censusApi.History(id, query).GetResultOrDefault<CensusHistory[]>();
+                var result = await SchoolCensusHistory(id, dimension);
                 return new JsonResult(result);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting census history data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    /// <param name="id" example="140565"></param>
+    /// <param name="dimension" example="HeadcountPerFte"></param>
+    /// <param name="phase" example="Secondary"></param>
+    /// <param name="financeType" example="Academy"></param>
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType<HistoryComparison<CensusHistory>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("history/comparison")]
+    public async Task<IActionResult> HistoryComparison(
+        [FromQuery] string id,
+        [FromQuery] string dimension,
+        [FromQuery] string? phase,
+        [FromQuery] string? financeType)
+    {
+        using (logger.BeginScope(new
+        {
+            id
+        }))
+        {
+            try
+            {
+                var result = await GetSchoolHistoryComparison(id, dimension, phase, financeType);
+                return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting census history trends data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -123,11 +157,13 @@ public class CensusProxyController(
         IEnumerable<string>? urns = null,
         string? phase = null,
         string? companyNumber = null,
-        string? laCode = null)
+        string? laCode = null,
+        string? financeType = null)
     {
         var query = new ApiQuery()
             .AddIfNotNull("category", category)
             .AddIfNotNull("dimension", dimension)
+            .AddIfNotNull("financeType", financeType)
             .AddIfNotNull("phase", phase)
             .AddIfNotNull("companyNumber", companyNumber)
             .AddIfNotNull("laCode", laCode);
@@ -139,4 +175,35 @@ public class CensusProxyController(
 
         return query;
     }
+
+    private async Task<CensusHistory[]?> SchoolCensusHistory(string urn, string dimension) => await censusApi
+        .SchoolHistory(urn, BuildApiQuery(dimension: dimension))
+        .GetResultOrDefault<CensusHistory[]>();
+
+    private async Task<CensusHistory[]?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension) => await censusApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension))
+        .GetResultOrDefault<CensusHistory[]>();
+
+    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string urn, string dimension)
+    {
+        var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+        return await SchoolCensusHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension);
+    }
+
+    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension)
+    {
+        var query = BuildApiQuery(null, dimension, phase: phase, financeType: financeType);
+        return await censusApi
+            .SchoolHistoryNationalAverage(query)
+            .GetResultOrDefault<CensusHistory[]>();
+    }
+
+    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType) => new()
+    {
+        School = await SchoolCensusHistory(urn, dimension),
+        ComparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension),
+        NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
+            ? await SchoolCensusHistoryNationalAverage(urn, dimension)
+            : await SchoolCensusHistoryNationalAverage(phase, financeType, dimension)
+    };
 }
