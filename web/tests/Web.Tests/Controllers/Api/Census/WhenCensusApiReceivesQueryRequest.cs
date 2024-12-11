@@ -4,6 +4,7 @@ using Moq;
 using Web.App;
 using Web.App.Controllers.Api;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
@@ -13,13 +14,14 @@ public class WhenCensusApiReceivesQueryRequest
 {
     private readonly CensusProxyController _api;
     private readonly Mock<ICensusApi> _censusApi = new();
+    private readonly Mock<IEstablishmentApi> _establishmentApi = new();
     private readonly NullLogger<CensusProxyController> _logger = new();
     private readonly Mock<ISchoolComparatorSetService> _schoolComparatorSetService = new();
     private readonly Mock<IUserDataService> _userDataService = new();
 
     public WhenCensusApiReceivesQueryRequest()
     {
-        _api = new CensusProxyController(_logger, _censusApi.Object, _schoolComparatorSetService.Object, _userDataService.Object);
+        _api = new CensusProxyController(_logger, _establishmentApi.Object, _censusApi.Object, _schoolComparatorSetService.Object, _userDataService.Object);
     }
 
     [Theory]

@@ -18,19 +18,21 @@ public static class Api
     public static class Census
     {
         public static string Schools => "api/census";
+        public static string SchoolHistoryNationalAverage => "api/census/history/national-average"; // proposed endpoint
         public static string School(string? urn) => $"api/census/{urn}";
         public static string SchoolCustom(string? urn, string? identifier) => $"api/census/{urn}/custom/{identifier}";
         public static string SchoolHistory(string? urn) => $"api/census/{urn}/history";
+        public static string SchoolHistoryComparatorSetAverage(string? urn) => $"api/census/{urn}/history/comparator-set-average"; // proposed endpoint
     }
 
     public static class Expenditure
     {
         public static string Schools => "api/expenditure/schools";
         public static string Trusts => "api/expenditure/trusts";
-        public static string SchoolHistoryNationalAverage => "api/expenditure/school/history/national-average"; // proposed endpoint
+        public static string SchoolHistoryNationalAverage => "api/expenditure/school/history/national-average";
         public static string School(string? urn) => $"api/expenditure/school/{urn}";
         public static string SchoolHistory(string? urn) => $"api/expenditure/school/{urn}/history";
-        public static string SchoolHistoryComparatorSetAverage(string? urn) => $"api/expenditure/school/{urn}/history/comparator-set-average"; // proposed endpoint
+        public static string SchoolHistoryComparatorSetAverage(string? urn) => $"api/expenditure/school/{urn}/history/comparator-set-average";
         public static string SchoolCustom(string? urn, string? identifier) => $"api/expenditure/school/{urn}/custom/{identifier}";
         public static string Trust(string? companyNo) => $"api/expenditure/trust/{companyNo}";
         public static string TrustHistory(string? companyNo) => $"api/expenditure/trust/{companyNo}/history";

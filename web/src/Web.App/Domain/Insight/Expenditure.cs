@@ -161,10 +161,3 @@ public record ExpenditureHistory : ExpenditureBase
     public int? Year { get; set; }
     public string? Term { get; set; }
 }
-
-public record HistoryComparison<T> where T : ExpenditureBase
-{
-    public T[]? School { get; set; }
-    public T[]? ComparatorSetAverage { get; set; }
-    public T[]? NationalAverage { get; set; }
-}

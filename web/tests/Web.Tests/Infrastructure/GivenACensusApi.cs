@@ -18,7 +18,7 @@ public class GivenACensusApi(ITestOutputHelper testOutputHelper) : ApiClientTest
     {
         var api = new CensusApi(HttpClient);
 
-        await api.History("123213");
+        await api.SchoolHistory("123213");
 
         VerifyCall(HttpMethod.Get, "api/census/123213/history");
     }

@@ -204,7 +204,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupCensusWithException()
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Setup(api => api.SchoolHistory(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
         CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
         return this;
     }
