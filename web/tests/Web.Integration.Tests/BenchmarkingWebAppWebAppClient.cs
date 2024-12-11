@@ -201,6 +201,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupCensus(School school, CensusHistory[] historySchool, CensusHistory[]? historyComparatorSet = null, CensusHistory[]? historyNational = null)
+    {
+        CensusApi.Reset();
+        CensusApi.Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historySchool));
+        CensusApi.Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyComparatorSet));
+        CensusApi.Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyNational));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupCensusWithException()
     {
         CensusApi.Reset();
@@ -343,6 +352,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ExpenditureApi
             .Setup(api => api.SchoolCustom(school.URN, identifier, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistory[] historySchool, ExpenditureHistory[]? historyComparatorSet = null, ExpenditureHistory[]? historyNational = null)
+    {
+        ExpenditureApi.Reset();
+        ExpenditureApi.Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historySchool));
+        ExpenditureApi.Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyComparatorSet));
+        ExpenditureApi.Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyNational));
         return this;
     }
 

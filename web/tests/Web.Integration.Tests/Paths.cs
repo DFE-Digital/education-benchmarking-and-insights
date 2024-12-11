@@ -96,7 +96,9 @@ public static class Paths
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
     public static string ApiExpenditure(string? type, string? id, string category, string dimension) => $"api/expenditure?type={type}&id={id}&category={category}&dimension={dimension}";
+    public static string ApiExpenditureHistoryComparison(string? type, string? id, string dimension, string? phase, string? financeType) => $"api/expenditure/history/comparison?type={type}&id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
+    public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
     public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
