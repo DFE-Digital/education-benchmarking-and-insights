@@ -89,9 +89,10 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
     },
     school: {
       label:
-        dimension.value === "PerUnit"
+        axisLabel ??
+        (dimension.value === "PerUnit"
           ? perUnitDimension.label
-          : dimension.label,
+          : dimension.label),
       visible: true,
     },
   };
@@ -112,9 +113,6 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                 keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
-                seriesLabel={
-                  axisLabel === undefined ? "" : (axisLabel ?? dimension.label)
-                }
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
@@ -126,7 +124,7 @@ export function HistoricChart2<TData extends SchoolHistoryBase>({
                         valueUnit: valueUnit ?? dimension.unit,
                       })
                     }
-                    dimension={dimension.heading}
+                    dimension={columnHeading ?? dimension.heading}
                   />
                 )}
                 legend={legend === undefined ? true : legend}

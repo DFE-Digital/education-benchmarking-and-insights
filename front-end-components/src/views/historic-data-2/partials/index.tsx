@@ -273,7 +273,7 @@ export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
     perUnitDimension: PupilsPerStaffRole,
   },
   {
-    name: "Teaching staff costs",
+    name: "School workforce (full time equivalent)",
     field: "workforce",
     perUnitDimension: PupilsPerStaffRole,
     details: {
@@ -308,7 +308,7 @@ export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
     },
   },
   {
-    name: "Teachers with qualified teacher status (%)",
+    name: "Teachers with qualified teacher status (percentage)",
     field: "percentTeacherWithQualifiedStatus",
     perUnitDimension: PupilsPerStaffRole,
     details: {

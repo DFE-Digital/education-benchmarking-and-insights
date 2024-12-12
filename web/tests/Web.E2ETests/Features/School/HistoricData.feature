@@ -24,6 +24,18 @@
           | spending |
           | income   |
 
+    Scenario Outline: Expected number of charts are displayed
+        Given I am on '<tab>' history page for school with URN '777042'
+        And all sections are shown on '<tab>'
+        Then there should be '<charts>' charts displayed on '<tab>'
+
+        Examples:
+          | tab      | charts |
+          | spending | 42     |
+          | income   | 17     |
+          | balance  | 2      |
+          | census   | 9      |
+
     Scenario Outline: Change all charts to table view
         Given I am on '<tab>' history page for school with URN '777042'
         And all sections are shown on '<tab>'
@@ -52,13 +64,15 @@
         And the '<tab>' tab '<chart>' chart shows the legend '<legend>' using separator ','
 
         Examples:
-          | tab      | dimension         | chart                                   | legend                                                                         |
-          | spending | actuals           | Total expenditure                       | national average across phase type, average across comparator set, actuals     |
-          | spending | £ per pupil       | Total expenditure                       | national average across phase type, average across comparator set, £ per pupil |
-          | spending | £ per pupil       | Total premises staff and services costs | national average across phase type, average across comparator set, £ per m²    |
-          | income   | £ per pupil       | Total income                            |                                                                                |
-          | balance  | £ per pupil       | In-year balance                         |                                                                                |
-          | census   | headcount per FTE | Pupils on roll                          |                                                                                |
+          | tab      | dimension         | chart                                   | legend                                                                               |
+          | spending | actuals           | Total expenditure                       | national average across phase type, average across comparator set, actuals           |
+          | spending | £ per pupil       | Total expenditure                       | national average across phase type, average across comparator set, £ per pupil       |
+          | spending | £ per pupil       | Total premises staff and services costs | national average across phase type, average across comparator set, £ per m²          |
+          | income   | £ per pupil       | Total income                            |                                                                                      |
+          | balance  | £ per pupil       | In-year balance                         |                                                                                      |
+          | census   | total             | Pupils on roll                          | national average across phase type, average across comparator set, total             |
+          | census   | headcount per FTE | Pupils on roll                          | national average across phase type, average across comparator set, total             |
+          | census   | headcount per FTE | School workforce (full time equivalent) | national average across phase type, average across comparator set, headcount per FTE |
 
     @HistoricalTrendsFlagEnabled
     Scenario: Change Total expenditure chart to table view when historical trends flag enabled
@@ -85,3 +99,55 @@
           | 2019 to 2020 |        |                               |                                    |
           | 2020 to 2021 | £7,208 |                               | £10,704                            |
           | 2021 to 2022 | £7,487 | £8,127                        | £11,018                            |
+
+    @HistoricalTrendsFlagEnabled
+    Scenario: Change Pupils on roll census chart to table view when historical trends flag enabled and dimension set to headcount per FTE
+        Given I am on 'census' history page for school with URN '777042'
+        When I change 'census' dimension to 'headcount per FTE'
+        And I click on view as table on 'census' tab
+        Then the table on the 'census' tab 'Pupils on roll' chart contains:
+          | Year         | Total | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |       |                               |                                    |
+          | 2018 to 2019 |       |                               |                                    |
+          | 2019 to 2020 |       |                               |                                    |
+          | 2020 to 2021 |       |                               |                                    |
+          | 2021 to 2022 | 350   |                               |                                    |
+
+    @HistoricalTrendsFlagEnabled
+    Scenario: Change School workforce (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to per unit
+        Given I am on 'census' history page for school with URN '777042'
+        When I change 'census' dimension to 'headcount per FTE'
+        And I click on view as table on 'census' tab
+        Then the table on the 'census' tab 'School workforce (full time equivalent)' chart contains:
+          | Year         | Ratio | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |       |                               |                                    |
+          | 2018 to 2019 |       |                               |                                    |
+          | 2019 to 2020 |       |                               |                                    |
+          | 2020 to 2021 |       |                               |                                    |
+          | 2021 to 2022 | 1.29  |                               |                                    |
+
+    @HistoricalTrendsFlagEnabled
+    Scenario: Change Pupils on roll census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
+        Given I am on 'census' history page for school with URN '777042'
+        When I change 'census' dimension to 'percentage of workforce'
+        And I click on view as table on 'census' tab
+        Then the table on the 'census' tab 'Pupils on roll' chart contains:
+          | Year         | Total | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |       |                               |                                    |
+          | 2018 to 2019 |       |                               |                                    |
+          | 2019 to 2020 |       |                               |                                    |
+          | 2020 to 2021 |       |                               |                                    |
+          | 2021 to 2022 | 350   |                               |                                    |
+
+    @HistoricalTrendsFlagEnabled
+    Scenario: Change Total number of teachers (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
+        Given I am on 'census' history page for school with URN '777042'
+        When I change 'census' dimension to 'percentage of workforce'
+        And I click on view as table on 'census' tab
+        Then the table on the 'census' tab 'Total number of teachers (full time equivalent)' chart contains:
+          | Year         | Percentage  | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |        |                               |                                    |
+          | 2018 to 2019 |        |                               |                                    |
+          | 2019 to 2020 |        |                               |                                    |
+          | 2020 to 2021 |        |                               |                                    |
+          | 2021 to 2022 | 284.4% |                               |                                    |
