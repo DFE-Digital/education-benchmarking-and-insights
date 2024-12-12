@@ -283,10 +283,11 @@ export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
   PremisesStaffServicesExpenditureBase &
   TeachingSupportStaffExpenditureBase &
   TotalExpenditureExpenditureBase &
-  UtilitiesExpenditureBase &
-  SchoolHistoryBase;
+  UtilitiesExpenditureBase & {
+    totalCateringCostsField: number;
+  } & SchoolHistoryBase;
 
-export type SchoolHistoryComparison<T extends SchoolHistoryBase> = {
+export type SchoolHistoryComparison<T> = {
   school?: T[];
   comparatorSetAverage?: T[];
   nationalAverage?: T[];

@@ -1,9 +1,14 @@
-import { SchoolExpenditureHistory } from "src/services";
-import { HistoricData2Section } from "../types";
-import { PoundsPerMetreSq, PoundsPerPupil } from "src/components";
+import { CensusHistory, SchoolExpenditureHistory } from "src/services";
+import { HistoricData2Section, HistoricData2SectionChart } from "../types";
+import {
+  PoundsPerMetreSq,
+  PoundsPerPupil,
+  PupilsPerStaffRole,
+} from "src/components";
 
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/views/historic-data-2/partials/spending-section.tsx";
+export * from "src/views/historic-data-2/partials/census-section.tsx";
 
 export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] =
   [
@@ -260,3 +265,158 @@ export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] 
       ],
     },
   ];
+
+export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
+  {
+    name: "Pupils on roll",
+    field: "totalPupils",
+    perUnitDimension: PupilsPerStaffRole,
+  },
+  {
+    name: "Teaching staff costs",
+    field: "workforce",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about school workforce",
+      content: (
+        <>
+          <p>
+            This includes non-classroom based support staff, and full-time
+            equivalent:{" "}
+          </p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>classroom teachers</li>
+            <li>senior leadership</li>
+            <li>teaching assistants</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+  {
+    name: "Total number of teachers (full time equivalent)",
+    field: "teachers",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about total number of teachers",
+      content: (
+        <p>
+          This is the full-time equivalent of all classroom and leadership
+          teachers.
+        </p>
+      ),
+    },
+  },
+  {
+    name: "Teachers with qualified teacher status (%)",
+    field: "percentTeacherWithQualifiedStatus",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about teachers with qualified teacher status",
+      content: (
+        <p>
+          We divided the number of teachers with qualified teacher status by the
+          total number of teachers.
+        </p>
+      ),
+    },
+  },
+  {
+    name: "Senior leadership (full time equivalent)",
+    field: "seniorLeadership",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about senior leadership",
+      content: (
+        <>
+          <p>
+            This is the full-time equivalent of senior leadership roles,
+            including:
+          </p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>headteachers</li>
+            <li>deputy headteachers</li>
+            <li>assistant headteachers</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+  {
+    name: "Teaching assistants (full time equivalent)",
+    field: "teachingAssistant",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about senior leadership",
+      content: (
+        <>
+          <p>
+            This is the full-time equivalent of teaching assistants, including:
+          </p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>teaching assistants</li>
+            <li>higher level teaching assistants</li>
+            <li>education needs support staff</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+  {
+    name: "Non-classroom support staff - excluding auxiliary staff (full time equivalent)",
+    field: "nonClassroomSupportStaff",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about non-classroom support staff",
+      content: (
+        <>
+          <p>
+            This is the full-time equivalent of non-classroom-based support
+            staff, excluding:
+          </p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>auxiliary staff</li>
+            <li>third party support staff</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+  {
+    name: "Auxiliary staff (full time equivalent)",
+    field: "auxiliaryStaff",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about auxiliary staff",
+      content: (
+        <>
+          <p>This is the full-time equivalent of auxiliary staff, including;</p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>catering</li>
+            <li>school maintenance staff</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+  {
+    name: "School workforce (headcount)",
+    field: "workforceHeadcount",
+    perUnitDimension: PupilsPerStaffRole,
+    details: {
+      label: "More about school workforce (headcount)",
+      content: (
+        <>
+          <p>This is the total headcount of the school workforce, including:</p>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>
+              full and part-time teachers (including school leadership teachers)
+            </li>
+            <li>teaching assistant</li>
+            <li>non-classroom based support staff</li>
+          </ul>
+        </>
+      ),
+    },
+  },
+];

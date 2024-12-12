@@ -113,7 +113,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
                 .filter((c) => c.type === undefined || c.type === type)
                 .map((chart) => {
                   return data.school?.length ? (
-                    chart.field === "totalCateringCostsField" ? (
+                    (chart.field as string) === "totalCateringCostsField" ? (
                       <CateringCostsHistoryChart
                         chartName={chart.name}
                         data={data}
