@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryReques
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), new ExpenditureParameters()))
+            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
 
         var result = await Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
@@ -35,14 +35,14 @@ public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryReques
             }));
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), new ExpenditureParameters()));
+            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), new ExpenditureParameters()), Times.Never());
+            x => x.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryReques
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), new ExpenditureParameters()))
+            .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
