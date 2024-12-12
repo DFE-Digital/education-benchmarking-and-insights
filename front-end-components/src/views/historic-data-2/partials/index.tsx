@@ -347,7 +347,7 @@ export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
     field: "teachingAssistant",
     perUnitDimension: PupilsPerStaffRole,
     details: {
-      label: "More about senior leadership",
+      label: "More about teaching assistants",
       content: (
         <>
           <p>

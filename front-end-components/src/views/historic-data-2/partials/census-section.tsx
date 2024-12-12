@@ -17,16 +17,21 @@ import { HistoricData2Props } from "../types";
 import { censusCharts } from ".";
 
 export const CensusSection: React.FC<HistoricData2Props> = ({
-  type,
-  id,
-  overallPhase,
   financeType,
+  id,
+  load,
+  overallPhase,
+  type,
 }) => {
   const defaultDimension = PupilsPerStaffRole;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState<SchoolHistoryComparison<CensusHistory>>({});
   const getData = useCallback(async () => {
+    if (!load) {
+      return {};
+    }
+
     setData({});
     return await CensusApi.historyComparison(
       id,
@@ -34,7 +39,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
       overallPhase,
       financeType
     );
-  }, [id, dimension, overallPhase, financeType]);
+  }, [dimension.value, financeType, id, load, overallPhase]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -71,11 +76,11 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
         </div>
       </div>
       <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
-      {censusCharts
-        .filter((c) => c.type === undefined || c.type === type)
-        .map((chart) => {
-          return data.school?.length ? (
-            <>
+      {data.school?.length ? (
+        censusCharts
+          .filter((c) => c.type === undefined || c.type === type)
+          .map((chart) => (
+            <section key={chart.field}>
               <HistoricChart2
                 chartName={chart.name}
                 data={data}
@@ -97,11 +102,11 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
                   </div>
                 </details>
               )}
-            </>
-          ) : (
-            <Loading key={chart.field} />
-          );
-        })}
+            </section>
+          ))
+      ) : (
+        <Loading />
+      )}
     </ChartDimensionContext.Provider>
   );
 };

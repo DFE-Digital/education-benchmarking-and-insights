@@ -13,18 +13,23 @@ import { IncomeSectionSelfGenerated } from "src/views/historic-data/partials/inc
 import { IncomeSectionDirectRevenue } from "src/views/historic-data/partials/income-section-direct-revenue";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 
-export const IncomeSection: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const IncomeSection: React.FC<{
+  type: string;
+  id: string;
+  load: boolean;
+}> = ({ type, id, load }) => {
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<Income>());
   const getData = useCallback(async () => {
+    if (!load) {
+      return [];
+    }
+
     setData(new Array<Income>());
     return await IncomeApi.history(type, id, dimension.value);
-  }, [type, id, dimension]);
+  }, [type, id, dimension, load]);
 
   useEffect(() => {
     getData().then((result) => {

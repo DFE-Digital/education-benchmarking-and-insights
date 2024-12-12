@@ -10,15 +10,22 @@ import { CensusHistory, CensusApi } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
-export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
+export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
+  id,
+  load,
+}) => {
   const defaultDimension = PupilsPerStaffRole;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<CensusHistory>());
   const getData = useCallback(async () => {
+    if (!load) {
+      return [];
+    }
+
     setData(new Array<CensusHistory>());
     return await CensusApi.history(id, dimension.value);
-  }, [id, dimension]);
+  }, [id, dimension, load]);
 
   useEffect(() => {
     getData().then((result) => {
