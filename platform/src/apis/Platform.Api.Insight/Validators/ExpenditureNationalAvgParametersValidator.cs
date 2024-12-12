@@ -13,7 +13,7 @@ public class ExpenditureNationalAvgParametersValidator : AbstractValidator<Expen
 
         RuleFor(x => x.OverallPhase)
             .Must(BeAValidPhase)
-            .WithMessage($"{{PropertyName}} must one of the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.FinanceType)
             .Must(BeAValidFinanceType)
