@@ -334,10 +334,6 @@ public class WhenExpenditureServiceQueriesAsync
     public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgComparatorSetAsync(string dimension, string expectedSource)
     {
         const string urn = "123";
-        var queryParams = new ExpenditureParameters
-        {
-            Dimension = dimension
-        };
         var expected = new List<SchoolExpenditureHistoryModel>
         {
             new()
@@ -356,7 +352,7 @@ public class WhenExpenditureServiceQueriesAsync
 
         var expectedSql = $"SELECT * FROM {expectedSource} WHERE URN = @URN";
 
-        var actual = await _service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams);
+        var actual = await _service.GetSchoolHistoryAvgComparatorSetAsync(urn, dimension);
 
         Assert.Equal(expected, actual);
         Assert.Equal(expectedSql, actualSql);
@@ -370,10 +366,6 @@ public class WhenExpenditureServiceQueriesAsync
     public async Task ShouldThrowOnInvalidDimensionWhenGetSchoolHistoryAvgComparatorSetAsync()
     {
         const string urn = "123";
-        var queryParams = new ExpenditureParameters
-        {
-            Dimension = "Invalid"
-        };
         var result = new List<SchoolExpenditureHistoryModel>
         {
             new()
@@ -384,7 +376,7 @@ public class WhenExpenditureServiceQueriesAsync
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-            _service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams));
+            _service.GetSchoolHistoryAvgComparatorSetAsync(urn, "invalid"));
         _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 
@@ -400,12 +392,6 @@ public class WhenExpenditureServiceQueriesAsync
     [Theory]
     public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgNationalAsync(string dimension, string phase, string financeType, string expectedSource)
     {
-        var queryParams = new ExpenditureNationalAvgParameters
-        {
-            Dimension = dimension,
-            OverallPhase = phase,
-            FinanceType = financeType
-        };
         var expected = new List<SchoolExpenditureHistoryModel>
         {
             new()
@@ -424,7 +410,7 @@ public class WhenExpenditureServiceQueriesAsync
 
         var expectedSql = $"SELECT * FROM {expectedSource} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
-        var actual = await _service.GetSchoolHistoryAvgNationalAsync(queryParams);
+        var actual = await _service.GetSchoolHistoryAvgNationalAsync(dimension, phase, financeType);
 
         Assert.Equal(expected, actual);
         Assert.Equal(expectedSql, actualSql);
@@ -452,7 +438,7 @@ public class WhenExpenditureServiceQueriesAsync
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-            _service.GetSchoolHistoryAvgNationalAsync(queryParams));
+            _service.GetSchoolHistoryAvgNationalAsync("invalid", "Primary", "Maintained"));
         _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 }

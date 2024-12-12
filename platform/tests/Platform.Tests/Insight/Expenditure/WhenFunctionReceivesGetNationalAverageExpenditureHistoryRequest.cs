@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(new ExpenditureNationalAvgParameters()))
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
@@ -35,14 +35,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             }));
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(new ExpenditureNationalAvgParameters()));
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetSchoolHistoryAvgNationalAsync(new ExpenditureNationalAvgParameters()), Times.Never());
+            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(new ExpenditureNationalAvgParameters()))
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
