@@ -296,7 +296,7 @@ public class ExpenditureFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams);
+                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams.Dimension);
 
                 return await req.CreateJsonResponseAsync(result);
             }
@@ -341,7 +341,7 @@ public class ExpenditureFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams);
+                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType);
 
                 return await req.CreateJsonResponseAsync(result);
             }

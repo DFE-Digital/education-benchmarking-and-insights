@@ -10,8 +10,8 @@ public interface IExpenditureService
     Task<SchoolExpenditureModel?> GetSchoolAsync(string urn);
     Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, ExpenditureParameters queryParams);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(ExpenditureNationalAvgParameters queryParams);
+    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension);
+    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
@@ -69,20 +69,20 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, ExpenditureParameters queryParams)
+    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension)
     {
         var parameters = new
         {
             URN = urn
         };
 
-        var sourceName = queryParams.Dimension switch
+        var sourceName = dimension switch
         {
             ExpenditureDimensions.Actuals => "SchoolExpenditureAvgComparatorSet",
             ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitComparatorSet",
             ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeComparatorSet",
             ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureComparatorSet",
-            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
         };
 
         var sql = $"SELECT * FROM {sourceName} WHERE URN = @URN";
@@ -92,21 +92,21 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(ExpenditureNationalAvgParameters queryParams)
+    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
     {
         var parameters = new
         {
-            queryParams.OverallPhase,
-            queryParams.FinanceType
+            OverallPhase = overallPhase,
+            FinanceType = financeType
         };
 
-        var sourceName = queryParams.Dimension switch
+        var sourceName = dimension switch
         {
             ExpenditureDimensions.Actuals => "SchoolExpenditureAvgHistoric",
             ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitHistoric",
             ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeHistoric",
             ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureHistoric",
-            _ => throw new ArgumentOutOfRangeException(nameof(queryParams))
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
         };
 
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
