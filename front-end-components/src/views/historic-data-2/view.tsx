@@ -1,9 +1,8 @@
+import { BalanceSection, IncomeSection } from "../historic-data/partials";
 import {
-  BalanceSection,
   CensusSection,
-  IncomeSection,
-} from "../historic-data/partials";
-import { SpendingSection } from "src/views/historic-data-2/partials";
+  SpendingSection,
+} from "src/views/historic-data-2/partials";
 import { HistoricData2Props } from "src/views/historic-data-2/types";
 import { SchoolEstablishment } from "src/constants";
 import { useGovUk } from "src/hooks/useGovUk";
@@ -60,7 +59,7 @@ export const HistoricData2: React.FC<HistoricData2Props> = (props) => {
             className="govuk-tabs__panel govuk-tabs__panel--hidden"
             id="census"
           >
-            <CensusSection id={props.id} />
+            <CensusSection {...props} />
           </div>
         )}
       </ChartModeProvider>

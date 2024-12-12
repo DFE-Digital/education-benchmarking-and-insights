@@ -1,0 +1,107 @@
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  CensusCategories,
+  ChartDimensions,
+  ChartMode,
+  PupilsPerStaffRole,
+} from "src/components";
+import {
+  CensusApi,
+  CensusHistory,
+  SchoolHistoryComparison,
+} from "src/services";
+import { ChartDimensionContext, useChartModeContext } from "src/contexts";
+import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
+import { Loading } from "src/components/loading";
+import { HistoricData2Props } from "../types";
+import { censusCharts } from ".";
+
+export const CensusSection: React.FC<HistoricData2Props> = ({
+  type,
+  id,
+  overallPhase,
+  financeType,
+}) => {
+  const defaultDimension = PupilsPerStaffRole;
+  const { chartMode, setChartMode } = useChartModeContext();
+  const [dimension, setDimension] = useState(defaultDimension);
+  const [data, setData] = useState<SchoolHistoryComparison<CensusHistory>>({});
+  const getData = useCallback(async () => {
+    setData({});
+    return await CensusApi.historyComparison(
+      id,
+      dimension.value,
+      overallPhase,
+      financeType
+    );
+  }, [id, dimension, overallPhase, financeType]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
+  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    event
+  ) => {
+    const dimension =
+      CensusCategories.find((x) => x.value === event.target.value) ??
+      defaultDimension;
+    setDimension(dimension);
+  };
+
+  return (
+    <ChartDimensionContext.Provider value={dimension}>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-two-thirds">
+          <ChartDimensions
+            dimensions={CensusCategories}
+            handleChange={handleSelectChange}
+            elementId="census"
+            value={dimension.value}
+          />
+        </div>
+        <div className="govuk-grid-column-one-third">
+          <ChartMode
+            chartMode={chartMode}
+            handleChange={setChartMode}
+            prefix="census"
+          />
+        </div>
+      </div>
+      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+      {censusCharts
+        .filter((c) => c.type === undefined || c.type === type)
+        .map((chart) => {
+          return data.school?.length ? (
+            <>
+              <HistoricChart2
+                chartName={chart.name}
+                data={data}
+                valueField={chart.field}
+                key={chart.field}
+                perUnitDimension={chart.perUnitDimension}
+              >
+                <h3 className="govuk-heading-s">{chart.name}</h3>
+              </HistoricChart2>
+              {chart.details && (
+                <details className="govuk-details">
+                  <summary className="govuk-details__summary">
+                    <span className="govuk-details__summary-text">
+                      {chart.details.label}
+                    </span>
+                  </summary>
+                  <div className="govuk-details__text">
+                    {chart.details.content}
+                  </div>
+                </details>
+              )}
+            </>
+          ) : (
+            <Loading key={chart.field} />
+          );
+        })}
+    </ChartDimensionContext.Provider>
+  );
+};

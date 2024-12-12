@@ -1,4 +1,8 @@
-import { Census, CensusHistory } from "src/services/types";
+import {
+  Census,
+  CensusHistory,
+  SchoolHistoryComparison,
+} from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class CensusApi {
@@ -26,6 +30,36 @@ export class CensusApi {
 
         return res;
       });
+  }
+
+  static async historyComparison(
+    id: string,
+    dimension: string,
+    overallPhase?: string,
+    financeType?: string
+  ): Promise<SchoolHistoryComparison<CensusHistory>> {
+    const params = new URLSearchParams({
+      id: id,
+      dimension: dimension,
+      phase: overallPhase || "",
+      financeType: financeType || "",
+    });
+
+    const response = await fetch("/api/census/history/comparison?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    });
+
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
   }
 
   static async query(
