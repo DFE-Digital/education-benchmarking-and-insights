@@ -64,7 +64,13 @@ public class HistoricDataSteps(PageDriver driver)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.AreSubCategoriesVisible(TabNamesFromFriendlyNames(tab));
+    }
 
+    [Then("there should be '(.*)' charts displayed on '(.*)'")]
+    public async Task ThenThereShouldBeChartsDisplayedOn(string count, string tab)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.HasChartCount(TabNamesFromFriendlyNames(tab), int.Parse(count));
     }
 
     [Then("are showing table view on '(.*)' tab")]

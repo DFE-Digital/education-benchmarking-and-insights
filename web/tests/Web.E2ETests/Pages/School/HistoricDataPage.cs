@@ -20,6 +20,7 @@ public enum SpendingCategoriesNames
 
 public class HistoricDataPage(IPage page)
 {
+    // todo: move all categories to be asserted to feature
     private readonly string[] _balanceCategories =
     [
         "In-year balance",
@@ -209,8 +210,6 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
-                Assert.Equal(42, await AllSpendingCharts.Count());
-
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();
@@ -227,7 +226,6 @@ public class HistoricDataPage(IPage page)
                 await AllIncomeCharts.First.ShouldBeVisible();
                 await IncomeChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_incomeCategories, selectedTab);
-                Assert.Equal(17, await AllIncomeCharts.Count());
                 break;
             case HistoryTabs.Balance:
                 await BalanceDimension.ShouldBeVisible();
@@ -243,7 +241,6 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_balanceCategories, selectedTab);
-                Assert.Equal(2, await AllBalanceCharts.Count());
                 break;
             case HistoryTabs.Census:
                 await CensusDimension.ShouldBeVisible();
@@ -259,7 +256,6 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_censusCategories, selectedTab);
-                Assert.Equal(9, await AllCensusCharts.Count());
                 break;
         }
     }
@@ -335,6 +331,20 @@ public class HistoricDataPage(IPage page)
         await AreChartStatsVisible(tab);
         await AreChartsVisible(tab);
         Assert.Equal(expectedSubCategories, await GetSubCategoriesOfTab(tab));
+    }
+
+    public async Task HasChartCount(HistoryTabs tab, int count)
+    {
+        var charts = tab switch
+        {
+            HistoryTabs.Spending => AllSpendingCharts,
+            HistoryTabs.Income => AllIncomeCharts,
+            HistoryTabs.Balance => AllBalanceCharts,
+            HistoryTabs.Census => AllCensusCharts,
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        Assert.Equal(count, await charts.Count());
     }
 
     public async Task AreTablesShown(HistoryTabs tab)

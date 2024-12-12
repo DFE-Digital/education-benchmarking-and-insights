@@ -11,7 +11,10 @@ import {
   SchoolHistoryComparison,
 } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
-import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
+import {
+  HistoricChart2,
+  HistoricChart2Props,
+} from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
 import { HistoricData2Props } from "../types";
 import { censusCharts } from ".";
@@ -79,31 +82,41 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
       {data.school?.length ? (
         censusCharts
           .filter((c) => c.type === undefined || c.type === type)
-          .map((chart) => (
-            <section key={chart.field}>
-              <HistoricChart2
-                chartName={chart.name}
-                data={data}
-                valueField={chart.field}
-                key={chart.field}
-                perUnitDimension={chart.perUnitDimension}
-              >
-                <h3 className="govuk-heading-s">{chart.name}</h3>
-              </HistoricChart2>
-              {chart.details && (
-                <details className="govuk-details">
-                  <summary className="govuk-details__summary">
-                    <span className="govuk-details__summary-text">
-                      {chart.details.label}
-                    </span>
-                  </summary>
-                  <div className="govuk-details__text">
-                    {chart.details.content}
-                  </div>
-                </details>
-              )}
-            </section>
-          ))
+          .map((chart) => {
+            const chartProps: Partial<HistoricChart2Props<CensusHistory>> = {};
+            if (chart.field === "totalPupils") {
+              chartProps.valueUnit = "amount";
+              chartProps.axisLabel = "total";
+              chartProps.columnHeading = "Total";
+            }
+
+            return (
+              <section key={chart.field}>
+                <HistoricChart2
+                  chartName={chart.name}
+                  data={data}
+                  valueField={chart.field}
+                  key={chart.field}
+                  perUnitDimension={chart.perUnitDimension}
+                  {...chartProps}
+                >
+                  <h2 className="govuk-heading-s">{chart.name}</h2>
+                </HistoricChart2>
+                {chart.details && (
+                  <details className="govuk-details">
+                    <summary className="govuk-details__summary">
+                      <span className="govuk-details__summary-text">
+                        {chart.details.label}
+                      </span>
+                    </summary>
+                    <div className="govuk-details__text">
+                      {chart.details.content}
+                    </div>
+                  </details>
+                )}
+              </section>
+            );
+          })
       ) : (
         <Loading />
       )}
