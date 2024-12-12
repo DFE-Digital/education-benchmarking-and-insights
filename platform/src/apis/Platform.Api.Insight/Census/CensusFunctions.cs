@@ -244,7 +244,7 @@ public class CensusFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams);
+                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension);
                 return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
@@ -288,7 +288,7 @@ public class CensusFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetHistoryAvgNationalAsync(queryParams);
+                var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType);
                 return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
