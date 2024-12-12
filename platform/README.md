@@ -28,9 +28,10 @@ Add configuration in `local.settings.json` for `Platform.Api.Establishment`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Search__Name" : "s198d01-ebis-search",
-    "Search__Key" : "[INSERT KEY VALUE]",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "Search__Name": "s198d01-ebis-search",
+    "Search__Key": "[INSERT KEY VALUE]",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
     "AzureFunctionsJobHost__logging__logLevel__default": "Information",
     "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
   },
@@ -50,7 +51,8 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
     "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
     "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
     "AzureFunctionsJobHost__logging__logLevel__default": "Information",
@@ -73,7 +75,8 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
     "AzureFunctionsJobHost__logging__logLevel__default": "Information",
     "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
   },
@@ -103,11 +106,12 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "PipelineMessageHub__JobCustomStartQueue": "data-pipeline-job-custom-start",
         "PipelineMessageHub__JobDefaultStartQueue": "data-pipeline-job-default-start",
         "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
-        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+        "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+        "Sql__TelemetryEnabled": true,
         "AzureFunctionsJobHost__logging__logLevel__default": "Information",
         "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-        "Search__Name" : "s198d01-ebis-search",
-        "Search__Key" : "[INSERT KEY VALUE]"
+        "Search__Name": "s198d01-ebis-search",
+        "Search__Key": "[INSERT KEY VALUE]"
     },
     "Host": {
         "CORS": "*",
@@ -130,7 +134,8 @@ Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+        "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+        "Sql__TelemetryEnabled": true,
         "AzureFunctionsJobHost__logging__logLevel__default": "Information",
         "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
     },
@@ -155,7 +160,8 @@ The following program arguments are required to run the search index sync app
 
 Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite
 with a tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer)
-using the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
+using
+the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
 or by
 following [these instructions](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#microsoft-azure-storage-explorer).
 If nothing seems to be available locally on ports `10000` to `10002` then ensure Docker is running.
