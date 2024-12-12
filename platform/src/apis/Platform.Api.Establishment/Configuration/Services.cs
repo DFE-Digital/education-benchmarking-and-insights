@@ -5,6 +5,7 @@ using Azure;
 using Azure.Search.Documents;
 using FluentValidation;
 using HealthChecks.AzureSearch.DependencyInjection;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Comparators;
@@ -54,9 +55,14 @@ internal static class Services
         // App Insights must be BEFORE any keyed services:
         // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
         // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
+        var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
-            .ConfigureFunctionsApplicationInsights();
+            .ConfigureFunctionsApplicationInsights()
+            .ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, _) =>
+            {
+                module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
+            });
 
         serviceCollection
             .AddKeyedSingleton(ServiceKeys.LocalAuthority, new SearchClient(searchEndpoint, ResourceNames.Search.Indexes.LocalAuthority, searchCredential))

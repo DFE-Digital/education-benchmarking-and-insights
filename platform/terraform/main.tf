@@ -8,6 +8,7 @@ locals {
   }
   default_app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "0"
+    "Sql__TelemetryEnabled"    = var.configuration[var.environment].sql_telemetry_enabled
   }
 }
 

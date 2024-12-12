@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
@@ -20,9 +21,14 @@ internal static class Services
             .AddSingleton<IPlatformDb, PlatformDb>();
 
         //TODO: Add serilog configuration AB#227696
+        var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
-            .ConfigureFunctionsApplicationInsights();
+            .ConfigureFunctionsApplicationInsights()
+            .ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, _) =>
+            {
+                module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
+            });
 
         serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
     }
