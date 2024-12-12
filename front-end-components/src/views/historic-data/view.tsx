@@ -42,26 +42,26 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
       </ul>
       <ChartModeProvider initialValue={ChartModeChart}>
         <div className="govuk-tabs__panel" id="spending">
-          <SpendingSection type={type} id={id} />
+          <SpendingSection type={type} id={id} load />
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="income"
         >
-          <IncomeSection type={type} id={id} />
+          <IncomeSection type={type} id={id} load />
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="balance"
         >
-          <BalanceSection type={type} id={id} />
+          <BalanceSection type={type} id={id} load />
         </div>
         {type === SchoolEstablishment && (
           <div
             className="govuk-tabs__panel govuk-tabs__panel--hidden"
             id="census"
           >
-            <CensusSection id={id} />
+            <CensusSection id={id} load />
           </div>
         )}
       </ChartModeProvider>

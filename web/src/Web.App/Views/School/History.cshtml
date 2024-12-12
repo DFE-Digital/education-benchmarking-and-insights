@@ -1,6 +1,6 @@
 @using Microsoft.FeatureManagement.Mvc.TagHelpers
 @using Web.App.Domain
-@model Web.App.ViewModels.SchoolViewModel
+@model Web.App.ViewModels.SchoolHistoryViewModel
 
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.HistoricData;
@@ -27,7 +27,13 @@
 </div>
 
 <feature name="@FeatureFlags.HistoricalTrends">
-    <div id="historic-data-2" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-phase="@Model.OverallPhase" data-finance-type="@(Model.IsPartOfTrust ? EstablishmentTypes.Academies : EstablishmentTypes.Maintained)"></div>
+    <div
+        id="historic-data-2"
+        data-finance-type="@(Model.IsPartOfTrust ? EstablishmentTypes.Academies : EstablishmentTypes.Maintained)"
+        data-id="@Model.Urn"
+        data-phase="@Model.OverallPhase"
+        data-type="@OrganisationTypes.School">
+    </div>
 </feature>
 <feature negate="true" name="@FeatureFlags.HistoricalTrends">
     <div id="historic-data" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>

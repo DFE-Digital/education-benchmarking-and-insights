@@ -87,7 +87,7 @@ public class SchoolController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(urn);
 
                 var school = await School(urn);
-                var viewModel = new SchoolViewModel(school);
+                var viewModel = new SchoolHistoryViewModel(school);
                 return View(viewModel);
             }
             catch (Exception e)

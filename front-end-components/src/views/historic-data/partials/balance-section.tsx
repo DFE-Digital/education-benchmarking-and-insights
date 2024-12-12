@@ -10,18 +10,23 @@ import { SchoolBalanceHistory, BalanceApi } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
-export const BalanceSection: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const BalanceSection: React.FC<{
+  type: string;
+  id: string;
+  load: boolean;
+}> = ({ type, id, load }) => {
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<SchoolBalanceHistory>());
   const getData = useCallback(async () => {
+    if (!load) {
+      return [];
+    }
+
     setData(new Array<SchoolBalanceHistory>());
     return await BalanceApi.history(type, id, dimension.value);
-  }, [type, id, dimension]);
+  }, [type, id, dimension, load]);
 
   useEffect(() => {
     getData().then((result) => {

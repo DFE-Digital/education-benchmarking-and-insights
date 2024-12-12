@@ -10,6 +10,7 @@ import {
   FindOrganisation,
   HistoricData,
   HistoricData2,
+  HistoricData2SectionName,
 } from "src/views";
 import {
   CompareCostsElementId,
@@ -73,9 +74,10 @@ if (historicDataElement) {
 
 const historicData2Element = document.getElementById(HistoricData2ElementId);
 if (historicData2Element) {
-  const { type, id, phase, financeType } = historicData2Element.dataset;
+  const { financeType, id, phase, type } = historicData2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(historicData2Element);
+    const hash = window?.location.hash.replace("#", "");
     root.render(
       <React.StrictMode>
         <HistoricData2
@@ -83,6 +85,9 @@ if (historicData2Element) {
           id={id}
           overallPhase={phase}
           financeType={financeType}
+          preLoadSections={
+            hash ? [hash as HistoricData2SectionName] : undefined
+          }
         />
       </React.StrictMode>
     );

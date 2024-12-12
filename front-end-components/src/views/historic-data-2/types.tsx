@@ -8,7 +8,18 @@ export type HistoricData2Props = {
   id: string;
   overallPhase?: string;
   financeType?: string;
+  load?: boolean;
 };
+
+export type HistoricData2ViewProps = Omit<HistoricData2Props, "load"> & {
+  preLoadSections?: HistoricData2SectionName[];
+};
+
+export type HistoricData2SectionName =
+  | "spending"
+  | "income"
+  | "balance"
+  | "census";
 
 export type HistoricData2Section<T extends SchoolHistoryBase> = {
   heading: string;

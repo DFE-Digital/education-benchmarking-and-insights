@@ -17,12 +17,14 @@ import { Loading } from "src/components/loading";
 import { HistoricData2Props } from "../types";
 import { CateringCostsHistoryChart } from "./catering-costs-history-chart";
 import { spendingSections } from ".";
+import classNames from "classnames";
 
 export const SpendingSection: React.FC<HistoricData2Props> = ({
-  type,
-  id,
-  overallPhase,
   financeType,
+  id,
+  load,
+  overallPhase,
+  type,
 }) => {
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
@@ -31,6 +33,10 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
     SchoolHistoryComparison<SchoolExpenditureHistory>
   >({});
   const getData = useCallback(async () => {
+    if (!load) {
+      return {};
+    }
+
     setData({});
     return await ExpenditureApi.historyComparison(
       type,
@@ -39,7 +45,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
       overallPhase,
       financeType
     );
-  }, [type, id, dimension, overallPhase, financeType]);
+  }, [dimension.value, financeType, id, load, overallPhase, type]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -77,19 +83,23 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
       </div>
       <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       {data.school?.length ? (
-        <HistoricChart2
-          chartName="Total expenditure"
-          data={data}
-          valueField="totalExpenditure"
-          perUnitDimension={PoundsPerPupil}
-        >
-          <h2 className="govuk-heading-m">Total expenditure</h2>
-        </HistoricChart2>
+        <section>
+          <HistoricChart2
+            chartName="Total expenditure"
+            data={data}
+            valueField="totalExpenditure"
+            perUnitDimension={PoundsPerPupil}
+          >
+            <h2 className="govuk-heading-m">Total expenditure</h2>
+          </HistoricChart2>
+        </section>
       ) : (
         <Loading />
       )}
       <div
-        className="govuk-accordion"
+        className={classNames("govuk-accordion", {
+          "govuk-visually-hidden": !data.school?.length,
+        })}
         data-module="govuk-accordion"
         id="accordion-expenditure"
       >
@@ -111,13 +121,12 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
             >
               {section.charts
                 .filter((c) => c.type === undefined || c.type === type)
-                .map((chart) => {
-                  return data.school?.length ? (
-                    (chart.field as string) === "totalCateringCostsField" ? (
+                .map((chart) => (
+                  <section key={chart.field}>
+                    {(chart.field as string) === "totalCateringCostsField" ? (
                       <CateringCostsHistoryChart
                         chartName={chart.name}
                         data={data}
-                        key={chart.field}
                         perUnitDimension={chart.perUnitDimension}
                       />
                     ) : (
@@ -125,16 +134,13 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
                         chartName={chart.name}
                         data={data}
                         valueField={chart.field}
-                        key={chart.field}
                         perUnitDimension={chart.perUnitDimension}
                       >
                         <h3 className="govuk-heading-s">{chart.name}</h3>
                       </HistoricChart2>
-                    )
-                  ) : (
-                    <Loading key={chart.field} />
-                  );
-                })}
+                    )}
+                  </section>
+                ))}
             </div>
           </div>
         ))}
