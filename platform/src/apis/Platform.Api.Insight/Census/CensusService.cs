@@ -8,8 +8,8 @@ namespace Platform.Api.Insight.Census;
 public interface ICensusService
 {
     Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn);
-    Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgComparatorSetAsync(string urn, string dimension);
-    Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
+    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension);
+    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
     Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<CensusModel?> GetAsync(string urn);
     Task<CensusModel?> GetCustomAsync(string urn, string identifier);
@@ -29,7 +29,7 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgComparatorSetAsync(string urn, string dimension)
+    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension)
     {
         var parameters = new
         {
@@ -49,10 +49,10 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
 
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters);
     }
 
-    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
+    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
     {
         var parameters = new
         {
@@ -72,7 +72,7 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters);
     }
 
     public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase)

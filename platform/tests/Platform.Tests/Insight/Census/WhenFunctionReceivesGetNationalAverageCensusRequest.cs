@@ -16,7 +16,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
 
         Service
             .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<CensusHistoryModel>());
+            .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
 
         var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData());
 
