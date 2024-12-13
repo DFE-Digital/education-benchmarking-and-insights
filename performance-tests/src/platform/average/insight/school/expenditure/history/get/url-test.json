@@ -1,0 +1,42 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get School Expenditure History (school)",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-insight-fa.azurewebsites.net/api/expenditure/school/${identifier}/history?dimension=${dimension}",
+                    "headers": {
+                        "x-functions-key": "${insight-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "dimensions.csv",
+                    "variableNames": "dimension"
+                },
+                {
+                    "fileName": "schools.csv",
+                    "variableNames": "identifier,name"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 1,
+            "durationInSeconds": 360,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}
