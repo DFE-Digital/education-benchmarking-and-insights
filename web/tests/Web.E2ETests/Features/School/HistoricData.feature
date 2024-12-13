@@ -111,7 +111,7 @@
           | 2018 to 2019 |       |                               |                                    |
           | 2019 to 2020 |       |                               |                                    |
           | 2020 to 2021 |       |                               |                                    |
-          | 2021 to 2022 | 350   |                               |                                    |
+          | 2021 to 2022 | 350   | 310.73                        | 308.02                             |
 
     @HistoricalTrendsFlagEnabled
     Scenario: Change School workforce (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to per unit
@@ -124,7 +124,7 @@
           | 2018 to 2019 |       |                               |                                    |
           | 2019 to 2020 |       |                               |                                    |
           | 2020 to 2021 |       |                               |                                    |
-          | 2021 to 2022 | 1.29  |                               |                                    |
+          | 2021 to 2022 | 1.29  | 1.28                          | 1.3                                |
 
     @HistoricalTrendsFlagEnabled
     Scenario: Change Pupils on roll census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
@@ -137,7 +137,7 @@
           | 2018 to 2019 |       |                               |                                    |
           | 2019 to 2020 |       |                               |                                    |
           | 2020 to 2021 |       |                               |                                    |
-          | 2021 to 2022 | 350   |                               |                                    |
+          | 2021 to 2022 | 350   | 310.73                        | 308.02                             |
 
     @HistoricalTrendsFlagEnabled
     Scenario: Change Total number of teachers (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
@@ -145,9 +145,9 @@
         When I change 'census' dimension to 'percentage of workforce'
         And I click on view as table on 'census' tab
         Then the table on the 'census' tab 'Total number of teachers (full time equivalent)' chart contains:
-          | Year         | Percentage  | Average across comparator set | National average across phase type |
-          | 2017 to 2018 |        |                               |                                    |
-          | 2018 to 2019 |        |                               |                                    |
-          | 2019 to 2020 |        |                               |                                    |
-          | 2020 to 2021 |        |                               |                                    |
-          | 2021 to 2022 | 284.4% |                               |                                    |
+          | Year         | Percentage | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 |            |                               |                                    |
+          | 2021 to 2022 | 284.4%     | 444.2%                        | 422.1%                             |

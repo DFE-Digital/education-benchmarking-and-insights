@@ -71,7 +71,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
-        HistoricalTrends                     = false
+        HistoricalTrends                     = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -96,7 +96,7 @@ variable "configuration" {
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
-        HistoricalTrends                     = false
+        HistoricalTrends                     = true
       },
       CacheOptions = {
         ReturnYears = {
