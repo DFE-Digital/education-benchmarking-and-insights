@@ -12,7 +12,8 @@
       "samplingSettings": {
         "isEnabled": true,
         "excludedTypes": "Request"
-      }
+      },
+      "enableQueryStringTracing": true
     }
   },
   "extensions": {

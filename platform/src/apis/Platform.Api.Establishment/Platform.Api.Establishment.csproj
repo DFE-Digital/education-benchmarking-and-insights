@@ -20,6 +20,7 @@
         <PackageReference Include="AspNetCore.HealthChecks.AzureSearch"/>
         <PackageReference Include="Dapper.Contrib"/>
         <PackageReference Include="Dapper.SqlBuilder"/>
+        <PackageReference Include="Microsoft.Azure.WebJobs"/>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
