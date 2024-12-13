@@ -198,7 +198,7 @@ public class WhenCensusServiceQueriesAsync
     public async Task ShouldQueryAsyncWhenGetHistoryAvgComparatorSetAsync(string dimension, string expectedSource)
     {
         const string urn = "123";
-        var expected = new List<CensusHistoryModel>
+        var expected = new List<CensusHistoryResponse>
         {
             new()
         };
@@ -206,7 +206,7 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
@@ -230,18 +230,18 @@ public class WhenCensusServiceQueriesAsync
     public async Task ShouldThrowOnInvalidDimensionWhenGetHistoryAvgComparatorSetAsync()
     {
         const string urn = "123";
-        var result = new List<CensusHistoryModel>
+        var result = new List<CensusHistoryResponse>
         {
             new()
         };
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetHistoryAvgComparatorSetAsync(urn, "invalid"));
-        _connection.Verify(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 
     [InlineData(CensusDimensions.Total, "Primary", "Maintained", "SchoolCensusAvgHistoric")]
@@ -256,7 +256,7 @@ public class WhenCensusServiceQueriesAsync
     [Theory]
     public async Task ShouldQueryAsyncWhenGetHistoryAvgNationalAsync(string dimension, string phase, string financeType, string expectedSource)
     {
-        var expected = new List<CensusHistoryModel>
+        var expected = new List<CensusHistoryResponse>
         {
             new()
         };
@@ -264,7 +264,7 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
@@ -288,17 +288,17 @@ public class WhenCensusServiceQueriesAsync
     [Fact]
     public async Task ShouldThrowOnInvalidDimensionWhenGetHistoryAvgNationalAsync()
     {
-        var result = new List<CensusHistoryModel>
+        var result = new List<CensusHistoryResponse>
         {
             new()
         };
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetHistoryAvgNationalAsync("Invalid", "Primary", "Maintained"));
-        _connection.Verify(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 }

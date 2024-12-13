@@ -16,7 +16,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
 
         Service
             .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<CensusHistoryModel>());
+            .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
 
