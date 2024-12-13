@@ -271,6 +271,9 @@ export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
     name: "Pupils on roll",
     field: "totalPupils",
     perUnitDimension: PupilsPerStaffRole,
+    valueUnit: "amount",
+    axisLabel: "total",
+    columnHeading: "Total",
   },
   {
     name: "School workforce (full time equivalent)",
@@ -320,6 +323,9 @@ export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
         </p>
       ),
     },
+    valueUnit: "%",
+    axisLabel: "percentage",
+    columnHeading: "Percent",
   },
   {
     name: "Senior leadership (full time equivalent)",

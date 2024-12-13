@@ -18,6 +18,7 @@ import { HistoricData2Props } from "../types";
 import { CateringCostsHistoryChart } from "./catering-costs-history-chart";
 import { spendingSections } from ".";
 import classNames from "classnames";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export const SpendingSection: React.FC<HistoricData2Props> = ({
   financeType,
@@ -32,11 +33,14 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
   const [data, setData] = useState<
     SchoolHistoryComparison<SchoolExpenditureHistory>
   >({});
+  const [loadError, setLoadError] = useState<string>();
+
   const getData = useCallback(async () => {
     if (!load) {
       return {};
     }
 
+    setLoadError(undefined);
     setData({});
     return await ExpenditureApi.historyComparison(
       type,
@@ -48,9 +52,14 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
   }, [dimension.value, financeType, id, load, overallPhase, type]);
 
   useEffect(() => {
-    getData().then((result) => {
-      setData(result);
-    });
+    getData()
+      .then((result) => {
+        setData(result);
+      })
+      .catch(() => {
+        setData({});
+        setLoadError("Unable to load historical spending data");
+      });
   }, [getData]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -93,6 +102,8 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
             <h2 className="govuk-heading-m">Total expenditure</h2>
           </HistoricChart2>
         </section>
+      ) : loadError ? (
+        <DataWarning>{loadError}</DataWarning>
       ) : (
         <Loading />
       )}

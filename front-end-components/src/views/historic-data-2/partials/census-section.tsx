@@ -11,13 +11,11 @@ import {
   SchoolHistoryComparison,
 } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
-import {
-  HistoricChart2,
-  HistoricChart2Props,
-} from "src/composed/historic-chart-2-composed";
+import { HistoricChart2 } from "src/composed/historic-chart-2-composed";
 import { Loading } from "src/components/loading";
 import { HistoricData2Props } from "../types";
 import { censusCharts } from ".";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export const CensusSection: React.FC<HistoricData2Props> = ({
   financeType,
@@ -30,11 +28,14 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState<SchoolHistoryComparison<CensusHistory>>({});
+  const [loadError, setLoadError] = useState<string>();
+
   const getData = useCallback(async () => {
     if (!load) {
       return {};
     }
 
+    setLoadError(undefined);
     setData({});
     return await CensusApi.historyComparison(
       id,
@@ -45,9 +46,14 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
   }, [dimension.value, financeType, id, load, overallPhase]);
 
   useEffect(() => {
-    getData().then((result) => {
-      setData(result);
-    });
+    getData()
+      .then((result) => {
+        setData(result);
+      })
+      .catch(() => {
+        setData({});
+        setLoadError("Unable to load historical pupil and workforce data");
+      });
   }, [getData]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -83,13 +89,6 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
         censusCharts
           .filter((c) => c.type === undefined || c.type === type)
           .map((chart) => {
-            const chartProps: Partial<HistoricChart2Props<CensusHistory>> = {};
-            if (chart.field === "totalPupils") {
-              chartProps.valueUnit = "amount";
-              chartProps.axisLabel = "total";
-              chartProps.columnHeading = "Total";
-            }
-
             return (
               <section key={chart.field}>
                 <HistoricChart2
@@ -98,7 +97,9 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
                   valueField={chart.field}
                   key={chart.field}
                   perUnitDimension={chart.perUnitDimension}
-                  {...chartProps}
+                  valueUnit={chart.valueUnit}
+                  axisLabel={chart.axisLabel}
+                  columnHeading={chart.columnHeading}
                 >
                   <h2 className="govuk-heading-s">{chart.name}</h2>
                 </HistoricChart2>
@@ -117,6 +118,8 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
               </section>
             );
           })
+      ) : loadError ? (
+        <DataWarning>{loadError}</DataWarning>
       ) : (
         <Loading />
       )}
