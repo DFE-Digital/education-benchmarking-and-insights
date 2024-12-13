@@ -52,6 +52,7 @@ export class CensusApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: AbortSignal.timeout(30_000),
     });
 
     const json = await response.json();

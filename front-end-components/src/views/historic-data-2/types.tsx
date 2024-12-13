@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { Dimension } from "src/components";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
+import { HistoricChart2Props } from "src/composed/historic-chart-2-composed";
 import { SchoolHistoryBase } from "src/services";
 
 export type HistoricData2Props = {
@@ -26,11 +26,13 @@ export type HistoricData2Section<T extends SchoolHistoryBase> = {
   charts: HistoricData2SectionChart<T>[];
 };
 
-export type HistoricData2SectionChart<T extends SchoolHistoryBase> = {
+export type HistoricData2SectionChart<T extends SchoolHistoryBase> = Pick<
+  HistoricChart2Props<T>,
+  "valueUnit" | "axisLabel" | "columnHeading" | "perUnitDimension"
+> & {
   name: string;
   field: ResolvedStatProps<T>["valueField"];
   type?: "school" | "trust" | "local-authority";
-  perUnitDimension: Dimension;
   details?: {
     label: string;
     content: ReactNode;
