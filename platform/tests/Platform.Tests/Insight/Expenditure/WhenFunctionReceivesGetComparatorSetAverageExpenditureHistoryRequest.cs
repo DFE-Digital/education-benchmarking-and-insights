@@ -16,7 +16,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryReques
 
         Service
             .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
+            .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
 
         var result = await Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
 
