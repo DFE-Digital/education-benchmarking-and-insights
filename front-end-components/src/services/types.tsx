@@ -9,7 +9,7 @@ export type SchoolExpenditure = {
 };
 
 type AdministrativeSuppliesExpenditureBase = {
-  administrativeSuppliesCosts: number;
+  administrativeSuppliesNonEducationalCosts: number;
 };
 
 export type AdministrativeSuppliesExpenditure = SchoolExpenditure &
@@ -117,8 +117,8 @@ export type TrustExpenditure = {
 
 type AdministrativeSuppliesTrustExpenditureBase =
   AdministrativeSuppliesExpenditureBase & {
-    schoolAdministrativeSuppliesCosts: number;
-    centralAdministrativeSuppliesCosts: number;
+    schoolAdministrativeSuppliesNonEducationalCosts: number;
+    centralAdministrativeSuppliesNonEducationalCosts: number;
   };
 
 export type AdministrativeSuppliesTrustExpenditure = TrustExpenditure &
