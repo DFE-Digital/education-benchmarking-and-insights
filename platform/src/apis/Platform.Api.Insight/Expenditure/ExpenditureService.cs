@@ -10,8 +10,8 @@ public interface IExpenditureService
     Task<SchoolExpenditureModel?> GetSchoolAsync(string urn);
     Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
+    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension);
+    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
@@ -69,7 +69,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension)
+    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension)
     {
         var parameters = new
         {
@@ -89,10 +89,10 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
 
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
+    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
     {
         var parameters = new
         {
@@ -112,7 +112,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters);
     }
 
     public async Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber)

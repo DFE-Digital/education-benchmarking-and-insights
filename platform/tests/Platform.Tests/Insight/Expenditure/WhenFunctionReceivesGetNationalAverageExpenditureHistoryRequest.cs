@@ -16,7 +16,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
 
         Service
             .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
+            .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
 

@@ -334,7 +334,7 @@ public class WhenExpenditureServiceQueriesAsync
     public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgComparatorSetAsync(string dimension, string expectedSource)
     {
         const string urn = "123";
-        var expected = new List<SchoolExpenditureHistoryModel>
+        var expected = new List<SchoolExpenditureHistoryResponse>
         {
             new()
         };
@@ -342,7 +342,7 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
@@ -366,18 +366,18 @@ public class WhenExpenditureServiceQueriesAsync
     public async Task ShouldThrowOnInvalidDimensionWhenGetSchoolHistoryAvgComparatorSetAsync()
     {
         const string urn = "123";
-        var result = new List<SchoolExpenditureHistoryModel>
+        var result = new List<SchoolExpenditureHistoryResponse>
         {
             new()
         };
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetSchoolHistoryAvgComparatorSetAsync(urn, "invalid"));
-        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 
     [InlineData(ExpenditureDimensions.Actuals, "Primary", "Maintained", "SchoolExpenditureAvgHistoric")]
@@ -392,7 +392,7 @@ public class WhenExpenditureServiceQueriesAsync
     [Theory]
     public async Task ShouldQueryAsyncWhenGetSchoolHistoryAvgNationalAsync(string dimension, string phase, string financeType, string expectedSource)
     {
-        var expected = new List<SchoolExpenditureHistoryModel>
+        var expected = new List<SchoolExpenditureHistoryResponse>
         {
             new()
         };
@@ -400,7 +400,7 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .Callback((string sql, object? param) =>
             {
                 actualSql = sql;
@@ -428,17 +428,17 @@ public class WhenExpenditureServiceQueriesAsync
         {
             Dimension = "Invalid"
         };
-        var result = new List<SchoolExpenditureHistoryModel>
+        var result = new List<SchoolExpenditureHistoryResponse>
         {
             new()
         };
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetSchoolHistoryAvgNationalAsync("invalid", "Primary", "Maintained"));
-        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
     }
 }
