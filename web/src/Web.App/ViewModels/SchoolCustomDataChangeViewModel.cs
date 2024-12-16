@@ -16,10 +16,10 @@ public class SchoolCustomDataChangeViewModel(
         "Cost",
         new SchoolCustomDataValueViewModel
         {
-            Title = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesCosts,
-            Name = nameof(SchoolCustomDataViewModel.AdministrativeSuppliesCosts),
-            Current = CurrentValues.AdministrativeSuppliesCosts,
-            Custom = CustomInput.AdministrativeSuppliesCosts
+            Title = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts,
+            Name = nameof(SchoolCustomDataViewModel.AdministrativeSuppliesNonEducationalCosts),
+            Current = CurrentValues.AdministrativeSuppliesNonEducationalCosts,
+            Custom = CustomInput.AdministrativeSuppliesNonEducationalCosts
         }
     );
 

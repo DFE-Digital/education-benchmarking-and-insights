@@ -10,7 +10,7 @@ public static class CustomDataFactory
         SchoolBalance balance) => new()
         {
             // Administrative supplies
-            AdministrativeSuppliesCosts = expenditure.AdministrativeSuppliesCosts,
+            AdministrativeSuppliesNonEducationalCosts = expenditure.AdministrativeSuppliesNonEducationalCosts,
             // Catering
             CateringStaffCosts = expenditure.CateringStaffCosts,
             CateringSuppliesCosts = expenditure.CateringSuppliesCosts,

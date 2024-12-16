@@ -5,7 +5,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     IWorkforceDataCustomDataViewModel
 {
     // Administrative supplies
-    public decimal? AdministrativeSuppliesCosts { get; init; }
+    public decimal? AdministrativeSuppliesNonEducationalCosts { get; init; }
 
     // Catering
     public decimal? CateringStaffCosts { get; init; }
@@ -78,7 +78,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public static SchoolCustomDataViewModel FromCustomData(CustomData customData) => new()
     {
         // Administrative supplies
-        AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
+        AdministrativeSuppliesNonEducationalCosts = customData.AdministrativeSuppliesNonEducationalCosts,
 
         // Catering
         CateringStaffCosts = customData.CateringStaffCosts,
