@@ -1,8 +1,8 @@
 ﻿# Performance Test Plan - 0001 - API Average Load
 
-**Test run dates:**
+**Test run date:**
 
-September-December 2024
+September 2024
 
 ## Goal
 
@@ -52,19 +52,16 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 
 **APIs & Endpoints Under Test:**
 
-| API           | Endpoint                                                       | Target Throughput | DB DTUs |
-|---------------|----------------------------------------------------------------|-------------------|---------|
-| Establishment | `POST /school/suggest`                                         | 75 /s             |         |
-| Establishment | `GET /school/{identifier}`                                     | 75 /s             |         |
-| Establishment | `POST /school/{identifier}/comparators`                        | 75 /s             |         |
-| Benchmark     | `GET /user-data`                                               | 75 /s             |         |
-| Benchmark     | `GET /comparator-set/school/{urn}/default`                     | 75 /s             |         |
-| Insights      | `GET /school/{urn}/characteristics`                            | 105 /s            |         |
-| Insights      | `GET /expenditure/school/{urn}`                                | 105 /s            |         |
-| Insights      | `GET /metric-rag/default`                                      | 105 /s            |         |
-| Insights      | `GET /expenditure/school/{urn}/history`                        | 20 /s             | S1      |
-| Insights      | `GET /expenditure/school/history/national-average`             | 20 /s             | S1      |
-| Insights      | `GET /expenditure/school/{urn}/history/comparator-set-average` | 20 /s             | S1      |
+| API           | Endpoint                                   | Target Throughput |
+|---------------|--------------------------------------------|-------------------|
+| Establishment | `POST /school/suggest`                     | 75 /s             |
+| Establishment | `GET /school/{identifier}`                 | 75 /s             |
+| Establishment | `POST /school/{identifier}/comparators`    | 75 /s             |
+| Benchmark     | `GET /user-data`                           | 75 /s             |
+| Benchmark     | `GET /comparator-set/school/{urn}/default` | 75 /s             |
+| Insights      | `GET /school/{urn}/characteristics`        | 105 /s            |
+| Insights      | `GET /expenditure/school/{urn}`            | 105 /s            |
+| Insights      | `GET /metric-rag/default`                  | 105 /s            |
 
 ## Performance Success Criteria
 
@@ -83,27 +80,23 @@ For each endpoint, simulate the typical number of concurrent virtual users to mi
 ## Test Output
 
 <!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
-| Load Test Name                                                        | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result |
-|-----------------------------------------------------------------------|----------------------|---------|----------|---------------|--------|------------|--------|
-| Establishment API - Suggest Schools                                   | 30/08/2024, 13:52:13 | 2       | 5m 36s   | 42 ms         | 0 %    | 62.57 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c5e6f0a9-6512-4d8b-b0ca-8c6ac86a2050/testRunId/0bff3c63-0302-4d60-bfeb-e882a2ea2060)     |
-| Establishment API - Get School                                        | 30/08/2024, 13:51:23 | 2       | 5m 32s   | 28 ms         | 0 %    | 82.35 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/d7f8fc2f-870c-4166-8958-3633a07e4007/testRunId/0bff3c63-0302-4d60-bfeb-e882a2ea204a)     |
-| Benchmark API - Get User Data                                         | 30/08/2024, 14:25:47 | 2       | 5m 30s   | 30 ms         | 0 %    | 77.63 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/2136802a-1ecf-4277-bf8f-d72ff72ab0e7/testRunId/2136802a-1ecf-4277-bf8f-d72ff72ab114)     |
-| Benchmark API - Post Comparators                                      | 30/08/2024, 21:07:24 | 6       | 5m 52s   | 110 ms        | 0 %    | 69.61 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/8daea33b-ffae-41d5-8790-ae77a36f1033/testRunId/ba8041df-c0e5-4007-bcad-51c53c579054)     |
-| Establishment API - Post Comparators                                  | 30/09/2024, 15:28:43 | 6       | 5m 50s   | 111 ms        | 0 %    | 68.60 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/8daea33b-ffae-41d5-8790-ae77a36f1033/testRunId/555c0673-d7f6-4d88-bff3-43ae26a8a273) 3️⃣ |
-| Benchmark API - Get Default Comparator Set                            | 30/08/2024, 20:59:11 | 2       | 5m 33s   | 30 ms         | 0 %    | 76.35 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/49627d01-559a-4e73-9313-649e2602906e/testRunId/13617169-5b76-4f40-8eff-f8467b6c306e)     |
-| Insight API - Get School Characteristics                              | 02/09/2024, 10:32:41 | 3       | 5m 46s   | 31 ms         | 0 %    | 120.86 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/e21fdb84-7dbb-406c-9fb8-cc2f44144008/testRunId/bd85629a-1327-4ea6-b566-fff5cc988066)     |
-| Insight API - Get School Expenditure                                  | 02/09/2024, 10:54:38 | 3       | 5m 48s   | 30 ms         | 0 %    | 119.87 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/bd85629a-1327-4ea6-b566-fff5cc9882b7/testRunId/bd85629a-1327-4ea6-b566-fff5cc9882d5)     |
-| Insight API - Get Default Metric RAG                                  | 02/09/2024, 11:35:13 | 3       | 5m 41s   | 32 ms         | 0 %    | 114.57 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/4b81ce6f-94bc-4476-b0b3-4d6246943037/testRunId/5eb66cee-ac1a-4210-860e-2593420ee010)     |
-| Insight API - Get School Expenditure History (school)                 | 13/12/2024, 17:12:08 | 1       | 5m 3s    | 52 ms         | 0 %    | 26.53 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/033810ae-2d25-4a4e-a7f7-0cb9e7312008/testRunId/033810ae-2d25-4a4e-a7f7-0cb9e7312028)     |
-| Insight API - Get School Expenditure History (national average)       | 16/12/2024, 06:09:59 | 1       | 4m 58s   | 5.86 s        | 61 %   | 0.40 /s    | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/9650ad0b-cf99-40e8-b7fc-d96e84526008/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a053) 4️⃣ |
-| Insight API - Get School Expenditure History (comparator set average) | 16/12/2024, 06:30:13 | 1       | 5m 3s    | 78 ms         | 0 %    | 15.52 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/7935fa61-109e-4ce8-8860-59165b9e4026/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a13c)     |
+| Load Test Name                             | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result      |
+|--------------------------------------------|----------------------|---------|----------|---------------|--------|------------|-------------|
+| Establishment API - Suggest Schools        | 30/08/2024, 13:52:13 | 2       | 5m 36s   | 42 ms         | 0 %    | 62.57 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c5e6f0a9-6512-4d8b-b0ca-8c6ac86a2050/testRunId/0bff3c63-0302-4d60-bfeb-e882a2ea2060)     |
+| Establishment API - Get School             | 30/08/2024, 13:51:23 | 2       | 5m 32s   | 28 ms         | 0 %    | 82.35 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/d7f8fc2f-870c-4166-8958-3633a07e4007/testRunId/0bff3c63-0302-4d60-bfeb-e882a2ea204a)     |
+| Benchmark API - Get User Data              | 30/08/2024, 14:25:47 | 2       | 5m 30s   | 30 ms         | 0 %    | 77.63 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/2136802a-1ecf-4277-bf8f-d72ff72ab0e7/testRunId/2136802a-1ecf-4277-bf8f-d72ff72ab114)     |
+| Benchmark API - Post Comparators           | 30/08/2024, 21:07:24 | 6       | 5m 52s   | 110 ms        | 0 %    | 69.61 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/8daea33b-ffae-41d5-8790-ae77a36f1033/testRunId/ba8041df-c0e5-4007-bcad-51c53c579054)     |
+| Establishment API - Post Comparators       | 30/09/2024, 15:28:43 | 6       | 5m 50s   | 111 ms        | 0 %    | 68.60 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2FresourceGroups%2Fs198t01-ebis-perf-tests%2Fproviders%2FMicrosoft.LoadTestService%2Floadtests%2Fs198t01-load-tests/testId/8daea33b-ffae-41d5-8790-ae77a36f1033/testRunId/555c0673-d7f6-4d88-bff3-43ae26a8a273) 3️⃣ |
+| Benchmark API - Get Default Comparator Set | 30/08/2024, 20:59:11 | 2       | 5m 33s   | 30 ms         | 0 %    | 76.35 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/49627d01-559a-4e73-9313-649e2602906e/testRunId/13617169-5b76-4f40-8eff-f8467b6c306e)     |
+| Insight API - Get School Characteristics   | 02/09/2024, 10:32:41 | 3       | 5m 46s   | 31 ms         | 0 %    | 120.86 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/e21fdb84-7dbb-406c-9fb8-cc2f44144008/testRunId/bd85629a-1327-4ea6-b566-fff5cc988066)     |
+| Insight API - Get School Expenditure       | 02/09/2024, 10:54:38 | 3       | 5m 48s   | 30 ms         | 0 %    | 119.87 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/bd85629a-1327-4ea6-b566-fff5cc9882b7/testRunId/bd85629a-1327-4ea6-b566-fff5cc9882d5)     |
+| Insight API - Get Default Metric RAG       | 02/09/2024, 11:35:13 | 3       | 5m 41s   | 32 ms         | 0 %    | 114.57 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/4b81ce6f-94bc-4476-b0b3-4d6246943037/testRunId/5eb66cee-ac1a-4210-860e-2593420ee010)     |
 
 **Findings and Recommendations:**
 
 All test runs passed 💯
 
 3️⃣ Search (including comparator) endpoints were refactored before this additional run took place.
-4️⃣ Very poor performance of National Average School Expenditure History endpoint.
 
 <!-- Leave the rest of this page blank -->
 \newpage
