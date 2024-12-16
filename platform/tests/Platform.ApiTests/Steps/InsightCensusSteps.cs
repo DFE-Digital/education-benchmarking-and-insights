@@ -92,6 +92,28 @@ public class InsightCensusSteps(InsightApiDriver api)
         });
     }
 
+    [Given("a school average across comparator set census history request with urn '(.*)' and dimension '(.*)'")]
+    public void GivenASchoolCensusHistoryAvgComparatorSetRequest(string urn, string dimension)
+    {
+        api.CreateRequest(CensusKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/census/{urn}/history/comparator-set-average?dimension={dimension}",
+                UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a school average across comparator set census history request with dimension '(.*)', phase '(.*)', financeType '(.*)'")]
+    public void GivenASchoolCensusHistoryAvgNationalRequest(string dimension, string phase, string financeType)
+    {
+        api.CreateRequest(CensusKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/census/history/national-average?dimension={dimension}&phase={phase}&financeType={financeType}",
+                UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the insights census request")]
     public async Task WhenISubmitTheInsightsCensusRequest()
     {
@@ -190,6 +212,15 @@ public class InsightCensusSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<CensusResponse[]>();
         table.CompareToSet(result);
+    }
+
+    [Then("the census result should be bad request")]
+    public void ThenTheCensusResultShouldBeBadRequest()
+    {
+        var response = api[CensusKey].Response;
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
