@@ -72,7 +72,7 @@ export type UtilitiesData = {
 export type AdministrativeSuppliesData = {
   urn: string;
   schoolType: string;
-  administrativeSuppliesCosts: number;
+  administrativeSuppliesNonEducationalCosts: number;
   totalPupils: bigint;
   schoolName: string;
   laName: string;

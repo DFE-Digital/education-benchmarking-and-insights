@@ -73,9 +73,12 @@ export const AdministrativeSupplies: React.FC<{
             ? data.map((trust) => {
                 return {
                   ...trust,
-                  totalValue: trust.administrativeSuppliesCosts ?? 0,
-                  schoolValue: trust.schoolAdministrativeSuppliesCosts ?? 0,
-                  centralValue: trust.centralAdministrativeSuppliesCosts ?? 0,
+                  totalValue:
+                    trust.administrativeSuppliesNonEducationalCosts ?? 0,
+                  schoolValue:
+                    trust.schoolAdministrativeSuppliesNonEducationalCosts ?? 0,
+                  centralValue:
+                    trust.centralAdministrativeSuppliesNonEducationalCosts ?? 0,
                 };
               })
             : [],

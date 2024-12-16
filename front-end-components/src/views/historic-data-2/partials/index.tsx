@@ -162,7 +162,7 @@ export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] 
       charts: [
         {
           name: "Administration supplies (non educational) costs",
-          field: "administrativeSuppliesCosts",
+          field: "administrativeSuppliesNonEducationalCosts",
           perUnitDimension: PoundsPerPupil,
         },
       ],

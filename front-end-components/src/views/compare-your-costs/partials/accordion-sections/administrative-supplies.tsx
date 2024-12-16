@@ -83,7 +83,7 @@ export const AdministrativeSupplies: React.FC<CompareYourCostsProps> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.administrativeSuppliesCosts,
+              value: school.administrativeSuppliesNonEducationalCosts,
             };
           }) ?? [],
         tableHeadings,

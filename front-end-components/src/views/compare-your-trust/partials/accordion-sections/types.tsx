@@ -53,7 +53,7 @@ export type UtilitiesData = {
 
 export type AdministrativeSuppliesData = {
   companyNumber: string;
-  administrativeSuppliesCosts: number;
+  administrativeSuppliesNonEducationalCosts: number;
   trustName: string;
 };
 

@@ -12,12 +12,12 @@ export const SpendingSectionAdministrativeSupplies: React.FC<{
           chartName="Administration supplies (non educational) costs"
           data={data}
           seriesConfig={{
-            administrativeSuppliesCosts: {
+            administrativeSuppliesNonEducationalCosts: {
               label: "Administration supplies (non educational) costs",
               visible: true,
             },
           }}
-          valueField="administrativeSuppliesCosts"
+          valueField="administrativeSuppliesNonEducationalCosts"
         >
           <h3 className="govuk-heading-s">
             Administration supplies (non educational) costs
