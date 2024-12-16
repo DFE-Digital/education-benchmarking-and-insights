@@ -4,6 +4,7 @@ using Platform.Api.Insight.Expenditure;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -33,7 +34,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a school expenditure request with urn '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
+    [Given(
+        "a school expenditure request with urn '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
     public void GivenASchoolExpenditureRequestWithUrnCategoryDimensionAndExcludeCentralServices(
         string urn,
         string category,
@@ -75,7 +77,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/expenditure/schools?companyNumber={companyNumber}&phase={phase}", UriKind.Relative),
+            RequestUri = new Uri($"/api/expenditure/schools?companyNumber={companyNumber}&phase={phase}",
+                UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -90,7 +93,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a trust expenditure request with company number '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
+    [Given(
+        "a trust expenditure request with company number '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
     public void GivenATrustExpenditureRequestWithCompanyNumberCategoryDimensionAndExcludeCentralServices(
         string companyNumber,
         string category,
@@ -122,7 +126,33 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var urns = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/expenditure/trusts?companyNumbers={string.Join("&companyNumbers=", urns)}", UriKind.Relative),
+            RequestUri = new Uri($"/api/expenditure/trusts?companyNumbers={string.Join("&companyNumbers=", urns)}",
+                UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a school average across comparator set expenditure history request with urn '(.*)' and dimension '(.*)'")]
+    public void GivenASchoolExpenditureHistoryAvgComparatorSetRequest(string urn, string dimension)
+    {
+        api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/expenditure/school/{urn}/history/comparator-set-average?dimension={dimension}",
+                UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given(
+        "a school national average expenditure history request with dimension '(.*)', phase '(.*)', financeType '(.*)'")]
+    public void GivenASchoolExpenditureHistoryAvgNationalRequest(string dimension, string phase, string financeType)
+    {
+        api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
+        {
+            RequestUri =
+                new Uri(
+                    $"/api/expenditure/school/history/national-average?dimension={dimension}&phase={phase}&financeType={financeType}",
+                    UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
