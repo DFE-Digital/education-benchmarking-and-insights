@@ -4,7 +4,7 @@
     "Dimension": "Actuals",
     "ExcludeCentralServices": true,
     "Expected": {
-      "AdministrativeSuppliesCosts": 1290000
+      "AdministrativeSuppliesNonEducationalCosts": 1290000
     }
   },
   {
@@ -12,7 +12,7 @@
     "Dimension": "PercentExpenditure",
     "ExcludeCentralServices": true,
     "Expected": {
-      "AdministrativeSuppliesCosts": 12900
+      "AdministrativeSuppliesNonEducationalCosts": 12900
     }
   },
   {
@@ -20,7 +20,7 @@
     "Dimension": "PercentIncome",
     "ExcludeCentralServices": true,
     "Expected": {
-      "AdministrativeSuppliesCosts": 12900
+      "AdministrativeSuppliesNonEducationalCosts": 12900
     }
   },
   {
@@ -28,7 +28,7 @@
     "Dimension": "PerUnit",
     "ExcludeCentralServices": true,
     "Expected": {
-      "AdministrativeSuppliesCosts": 1290
+      "AdministrativeSuppliesNonEducationalCosts": 1290
     }
   },
   {
@@ -36,9 +36,9 @@
     "Dimension": "Actuals",
     "ExcludeCentralServices": false,
     "Expected": {
-      "AdministrativeSuppliesCosts": 1600000,
-      "SchoolAdministrativeSuppliesCosts": 1290000,
-      "CentralAdministrativeSuppliesCosts": 310000
+      "AdministrativeSuppliesNonEducationalCosts": 1600000,
+      "SchoolAdministrativeSuppliesNonEducationalCosts": 1290000,
+      "CentralAdministrativeSuppliesNonEducationalCosts": 310000
     }
   },
   {
@@ -46,9 +46,9 @@
     "Dimension": "PercentIncome",
     "ExcludeCentralServices": false,
     "Expected": {
-      "AdministrativeSuppliesCosts": 160,
-      "SchoolAdministrativeSuppliesCosts": 129,
-      "CentralAdministrativeSuppliesCosts": 31
+      "AdministrativeSuppliesNonEducationalCosts": 160,
+      "SchoolAdministrativeSuppliesNonEducationalCosts": 129,
+      "CentralAdministrativeSuppliesNonEducationalCosts": 31
     }
   },
   {
@@ -56,9 +56,9 @@
     "Dimension": "PercentExpenditure",
     "ExcludeCentralServices": false,
     "Expected": {
-      "AdministrativeSuppliesCosts": 80,
-      "SchoolAdministrativeSuppliesCosts": 64.5,
-      "CentralAdministrativeSuppliesCosts": 15.5
+      "AdministrativeSuppliesNonEducationalCosts": 80,
+      "SchoolAdministrativeSuppliesNonEducationalCosts": 64.5,
+      "CentralAdministrativeSuppliesNonEducationalCosts": 15.5
     }
   },
   {
@@ -66,9 +66,9 @@
     "Dimension": "PerUnit",
     "ExcludeCentralServices": false,
     "Expected": {
-      "AdministrativeSuppliesCosts": 1600,
-      "SchoolAdministrativeSuppliesCosts": 1290,
-      "CentralAdministrativeSuppliesCosts": 310
+      "AdministrativeSuppliesNonEducationalCosts": 1600,
+      "SchoolAdministrativeSuppliesNonEducationalCosts": 1290,
+      "CentralAdministrativeSuppliesNonEducationalCosts": 310
     }
   },
   {
@@ -82,7 +82,7 @@
     "Dimension": "Actuals",
     "ExcludeCentralServices": true,
     "Expected": {
-      "AdministrativeSuppliesCosts": 1290000
+      "AdministrativeSuppliesNonEducationalCosts": 1290000
     }
   },
   {

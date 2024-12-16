@@ -212,9 +212,9 @@ public static class ExpenditureResponseFactory
 
     private static void SetAdministrationSupplies<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        response.SchoolAdministrativeSuppliesCosts = CalcPupilAmount(model.AdministrativeSuppliesNonEducationalCosts - model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault(), model, parameters);
-        response.CentralAdministrativeSuppliesCosts = CalcPupilAmount(model.AdministrativeSuppliesNonEducationalCostsCS, model, parameters);
-        response.AdministrativeSuppliesCosts = CalcPupilTotal(model.AdministrativeSuppliesNonEducationalCosts, model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolAdministrativeSuppliesNonEducationalCosts = CalcPupilAmount(model.AdministrativeSuppliesNonEducationalCosts - model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault(), model, parameters);
+        response.CentralAdministrativeSuppliesNonEducationalCosts = CalcPupilAmount(model.AdministrativeSuppliesNonEducationalCostsCS, model, parameters);
+        response.AdministrativeSuppliesNonEducationalCosts = CalcPupilTotal(model.AdministrativeSuppliesNonEducationalCosts, model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault(), model, parameters);
     }
 
     private static void SetCateringStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
@@ -367,7 +367,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? SchoolTotalUtilitiesCosts { get; set; }
     public decimal? SchoolEnergyCosts { get; set; }
     public decimal? SchoolWaterSewerageCosts { get; set; }
-    public decimal? SchoolAdministrativeSuppliesCosts { get; set; }
+    public decimal? SchoolAdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? SchoolTotalGrossCateringCosts { get; set; }
     public decimal? SchoolTotalNetCateringCosts { get; set; }
     public decimal? SchoolCateringStaffCosts { get; set; }
@@ -411,7 +411,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? CentralTotalUtilitiesCosts { get; set; }
     public decimal? CentralEnergyCosts { get; set; }
     public decimal? CentralWaterSewerageCosts { get; set; }
-    public decimal? CentralAdministrativeSuppliesCosts { get; set; }
+    public decimal? CentralAdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CentralTotalGrossCateringCosts { get; set; }
     public decimal? CentralTotalNetCateringCosts { get; set; }
     public decimal? CentralCateringStaffCosts { get; set; }
@@ -455,7 +455,7 @@ public abstract record ExpenditureBaseResponse
     public decimal? TotalUtilitiesCosts { get; set; }
     public decimal? EnergyCosts { get; set; }
     public decimal? WaterSewerageCosts { get; set; }
-    public decimal? AdministrativeSuppliesCosts { get; set; }
+    public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? TotalGrossCateringCosts { get; set; }
     public decimal? TotalNetCateringCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }

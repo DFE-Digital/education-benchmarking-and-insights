@@ -123,9 +123,9 @@ public static class Assertions
 
     internal static void AssertAdministrationSupplies(ExpenditureBaseResponse expected, ExpenditureBaseResponse response)
     {
-        AssertEqual(nameof(ExpenditureBaseResponse.AdministrativeSuppliesCosts), expected.AdministrativeSuppliesCosts, response.AdministrativeSuppliesCosts);
-        AssertEqual(nameof(ExpenditureBaseResponse.SchoolAdministrativeSuppliesCosts), expected.SchoolAdministrativeSuppliesCosts, response.SchoolAdministrativeSuppliesCosts);
-        AssertEqual(nameof(ExpenditureBaseResponse.CentralAdministrativeSuppliesCosts), expected.CentralAdministrativeSuppliesCosts, response.CentralAdministrativeSuppliesCosts);
+        AssertEqual(nameof(ExpenditureBaseResponse.AdministrativeSuppliesNonEducationalCosts), expected.AdministrativeSuppliesNonEducationalCosts, response.AdministrativeSuppliesNonEducationalCosts);
+        AssertEqual(nameof(ExpenditureBaseResponse.SchoolAdministrativeSuppliesNonEducationalCosts), expected.SchoolAdministrativeSuppliesNonEducationalCosts, response.SchoolAdministrativeSuppliesNonEducationalCosts);
+        AssertEqual(nameof(ExpenditureBaseResponse.CentralAdministrativeSuppliesNonEducationalCosts), expected.CentralAdministrativeSuppliesNonEducationalCosts, response.CentralAdministrativeSuppliesNonEducationalCosts);
     }
 
     internal static void AssertCateringStaffServices(ExpenditureBaseResponse expected, ExpenditureBaseResponse response)
