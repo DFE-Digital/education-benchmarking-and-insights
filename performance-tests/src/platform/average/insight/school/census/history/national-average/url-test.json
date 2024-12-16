@@ -1,0 +1,46 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Get School Census History (national average)",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://s198t01-ebis-insight-fa.azurewebsites.net/api/census/history/national-average?dimension=${dimension}&phase=${phase}&financeType=${financeType}",
+                    "headers": {
+                        "x-functions-key": "${insight-host-key}",
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": [
+                {
+                    "fileName": "financeTypes.csv",
+                    "variableNames": "financeType"
+                },
+                {
+                    "fileName": "overallPhases.csv",
+                    "variableNames": "phase"
+                },
+                {
+                    "fileName": "dimensions.csv",
+                    "variableNames": "dimension"
+                }
+            ]
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 1,
+            "durationInSeconds": 360,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}
