@@ -43,7 +43,7 @@ namespace Web.Tests.ViewModels;
 //     public void CurrentValuesIsSet()
 //     {
 //         // Administrative supplies
-//         Assert.Equal(_expenditure.AdministrativeSuppliesCosts, _sut.CurrentValues.AdministrativeSuppliesCosts);
+//         Assert.Equal(_expenditure.AdministrativeSuppliesNonEducationalCosts, _sut.CurrentValues.AdministrativeSuppliesNonEducationalCosts);
 //
 //         // Catering
 //         Assert.Equal(_expenditure.CateringStaffCosts, _sut.CurrentValues.CateringStaffCosts);
@@ -116,7 +116,7 @@ namespace Web.Tests.ViewModels;
 //     public void CustomInputIsSet()
 //     {
 //         // Administrative supplies
-//         Assert.Equal(_customInput.AdministrativeSuppliesCosts, _sut.CustomInput.AdministrativeSuppliesCosts);
+//         Assert.Equal(_customInput.AdministrativeSuppliesNonEducationalCosts, _sut.CustomInput.AdministrativeSuppliesNonEducationalCosts);
 //
 //         // Catering
 //         Assert.Equal(_customInput.CateringStaffCosts, _sut.CustomInput.CateringStaffCosts);
@@ -187,9 +187,9 @@ namespace Web.Tests.ViewModels;
 //     [Fact]
 //     public void AdministrativeSuppliesSectionIsSet()
 //     {
-//         var administrativeSuppliesCosts = _sut.AdministrativeSuppliesSection.Values.ElementAtOrDefault(0);
-//         Assert.NotNull(administrativeSuppliesCosts);
-//         Assert.Equal(_currentValues.AdministrativeSuppliesCosts, administrativeSuppliesCosts.Current);
-//         Assert.Equal(_customInput.AdministrativeSuppliesCosts, administrativeSuppliesCosts.Custom);
+//         var AdministrativeSuppliesNonEducationalCosts = _sut.AdministrativeSuppliesSection.Values.ElementAtOrDefault(0);
+//         Assert.NotNull(AdministrativeSuppliesNonEducationalCosts);
+//         Assert.Equal(_currentValues.AdministrativeSuppliesNonEducationalCosts, AdministrativeSuppliesNonEducationalCosts.Current);
+//         Assert.Equal(_customInput.AdministrativeSuppliesNonEducationalCosts, AdministrativeSuppliesNonEducationalCosts.Custom);
 //     }
 // }

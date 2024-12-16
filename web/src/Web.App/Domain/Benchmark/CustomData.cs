@@ -6,7 +6,7 @@ namespace Web.App.Domain;
 public record CustomData
 {
     // Administrative supplies
-    public decimal? AdministrativeSuppliesCosts { get; set; }
+    public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
 
     // Catering
     public decimal? CateringStaffCosts { get; set; }
@@ -95,7 +95,7 @@ public record CustomData
     private void Merge(IFinancialDataCustomDataViewModel viewModel)
     {
         // Administrative supplies
-        AdministrativeSuppliesCosts = viewModel.AdministrativeSuppliesCosts;
+        AdministrativeSuppliesNonEducationalCosts = viewModel.AdministrativeSuppliesNonEducationalCosts;
 
         // Catering
         CateringStaffCosts = viewModel.CateringStaffCosts;

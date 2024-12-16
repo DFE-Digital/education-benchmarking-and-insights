@@ -8,7 +8,7 @@ namespace Web.App.ViewModels;
 
 public interface IFinancialDataCustomDataViewModel : ICustomDataViewModel
 {
-    decimal? AdministrativeSuppliesCosts { get; }
+    decimal? AdministrativeSuppliesNonEducationalCosts { get; }
     decimal? CateringStaffCosts { get; }
     decimal? CateringSuppliesCosts { get; }
     decimal? ExaminationFeesCosts { get; }
@@ -49,8 +49,8 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
 {
     // Administrative supplies
     [PositiveNumericValue]
-    [Display(Name = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesCosts)]
-    public decimal? AdministrativeSuppliesCosts { get; init; }
+    [Display(Name = SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts)]
+    public decimal? AdministrativeSuppliesNonEducationalCosts { get; init; }
 
     // Catering
     [PositiveNumericValue]

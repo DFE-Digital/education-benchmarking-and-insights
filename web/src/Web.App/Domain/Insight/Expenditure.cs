@@ -30,7 +30,7 @@ public abstract record ExpenditureBase
     public decimal? SchoolTotalUtilitiesCosts { get; set; }
     public decimal? SchoolEnergyCosts { get; set; }
     public decimal? SchoolWaterSewerageCosts { get; set; }
-    public decimal? SchoolAdministrativeSuppliesCosts { get; set; }
+    public decimal? SchoolAdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? SchoolTotalGrossCateringCosts { get; set; }
     public decimal? SchoolTotalNetCateringCosts { get; set; }
     public decimal? SchoolCateringStaffCosts { get; set; }
@@ -74,7 +74,7 @@ public abstract record ExpenditureBase
     public decimal? CentralTotalUtilitiesCosts { get; set; }
     public decimal? CentralEnergyCosts { get; set; }
     public decimal? CentralWaterSewerageCosts { get; set; }
-    public decimal? CentralAdministrativeSuppliesCosts { get; set; }
+    public decimal? CentralAdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CentralTotalGrossCateringCosts { get; set; }
     public decimal? CentralTotalNetCateringCosts { get; set; }
     public decimal? CentralCateringStaffCosts { get; set; }
@@ -118,7 +118,7 @@ public abstract record ExpenditureBase
     public decimal? TotalUtilitiesCosts { get; set; }
     public decimal? EnergyCosts { get; set; }
     public decimal? WaterSewerageCosts { get; set; }
-    public decimal? AdministrativeSuppliesCosts { get; set; }
+    public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? TotalGrossCateringCosts { get; set; }
     public decimal? TotalNetCateringCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }

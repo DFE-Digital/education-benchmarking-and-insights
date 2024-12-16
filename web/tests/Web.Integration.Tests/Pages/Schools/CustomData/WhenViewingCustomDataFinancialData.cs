@@ -42,7 +42,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         _formValues = new Dictionary<string, decimal?>
         {
             {
-                nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesCosts), _customExpenditure.AdministrativeSuppliesCosts
+                nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesNonEducationalCosts), _customExpenditure.AdministrativeSuppliesNonEducationalCosts
             },
             {
                 nameof(FinancialDataCustomDataViewModel.CateringStaffCosts), _customExpenditure.CateringStaffCosts
@@ -247,7 +247,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
         DocumentAssert.SummaryErrors(
             page,
-            (nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesCosts), "Enter administrative supplies (non-educational) in the correct format"),
+            (nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesNonEducationalCosts), "Enter administrative supplies (non-educational) in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.CateringStaffCosts), "Enter catering staff in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.CateringSuppliesCosts), "Enter catering supplies in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.ExaminationFeesCosts), "Enter examination fees in the correct format"),
@@ -325,7 +325,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         var (page, school, customData) = await SetupNavigateInitPageWithUserData();
         AssertPageLayout(page, school);
 
-        DocumentAssert.Input(page, "AdministrativeSuppliesCosts", customData.AdministrativeSuppliesNonEducationalCosts.ToSimpleDisplay());
+        DocumentAssert.Input(page, "AdministrativeSuppliesNonEducationalCosts", customData.AdministrativeSuppliesNonEducationalCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "CateringStaffCosts", customData.CateringStaffCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "CateringSuppliesCosts", customData.CateringSuppliesCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "ExaminationFeesCosts", customData.ExaminationFeesCosts.ToSimpleDisplay());

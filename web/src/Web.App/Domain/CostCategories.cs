@@ -94,7 +94,7 @@ public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new Category(expenditure.AdministrativeSuppliesCosts ?? 0);
+        this[urn] = new Category(expenditure.AdministrativeSuppliesNonEducationalCosts ?? 0);
     }
 }
 
@@ -326,9 +326,9 @@ public static class SubCostCategories
 
     public static class AdministrativeSupplies
     {
-        public const string AdministrativeSuppliesCosts = "Administrative supplies (non-educational)";
+        public const string AdministrativeSuppliesNonEducationalCosts = "Administrative supplies (non-educational)";
 
-        public static string[] SubCategories { get; } = [AdministrativeSuppliesCosts];
+        public static string[] SubCategories { get; } = [AdministrativeSuppliesNonEducationalCosts];
     }
 
     public static class CateringStaffServices

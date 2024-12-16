@@ -111,7 +111,7 @@ public class CustomDataService(
 
     private static PutCustomDataRequest CreateRequest(CustomData data) => new()
     {
-        AdministrativeSuppliesNonEducationalCosts = data.AdministrativeSuppliesCosts,
+        AdministrativeSuppliesNonEducationalCosts = data.AdministrativeSuppliesNonEducationalCosts,
         CateringStaffCosts = data.CateringStaffCosts,
         CateringSuppliesCosts = data.CateringSuppliesCosts,
         ExaminationFeesCosts = data.ExaminationFeesCosts,
@@ -162,7 +162,7 @@ public class CustomDataService(
 
     private static CustomData CreateCustomData(PutCustomDataRequest data) => new()
     {
-        AdministrativeSuppliesCosts = data.AdministrativeSuppliesNonEducationalCosts,
+        AdministrativeSuppliesNonEducationalCosts = data.AdministrativeSuppliesNonEducationalCosts,
         CateringStaffCosts = data.CateringStaffCosts,
         CateringSuppliesCosts = data.CateringSuppliesCosts,
         ExaminationFeesCosts = data.ExaminationFeesCosts,
