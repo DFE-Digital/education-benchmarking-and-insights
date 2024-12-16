@@ -65,6 +65,9 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Insights | `GET /expenditure/school/{urn}/history`                        | Peak    | 40 /s             | S2      |
 | Insights | `GET /expenditure/school/history/national-average`             | Peak    | 40 /s             | S2      |
 | Insights | `GET /expenditure/school/{urn}/history/comparator-set-average` | Peak    | 40 /s             | S2      |
+| Insights | `GET /census/{urn}/history`                                    | Average | 20 /s             | S1      |
+| Insights | `GET /census/history/national-average`                         | Average | 20 /s             | S1      |
+| Insights | `GET /census/{urn}/history/comparator-set-average`             | Average | 20 /s             | S1      |
 
 ## Performance Success Criteria
 
@@ -76,7 +79,7 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
   - P75 below 200ms
   - P95 below 300ms
   - P99 below 1000ms
-- Error Rate:  below 0.1%
+- Error Rate: below 0.1%
 
 ## Test Execution
 
@@ -94,13 +97,18 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Insight API - Get School Expenditure History (comparator set average) | 16/12/2024, 06:30:13 | 1       | 5m 3s    | 78 ms         | 0 %    | 15.52 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/7935fa61-109e-4ce8-8860-59165b9e4026/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a13c)     |
 | Insight API - Get School Expenditure History (school)                 | 16/12/2024, 07:45:49 | 3       | 5m 45s   | 30.00 ms      | 0 %    | 120.29 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/39f67675-b857-4bcb-a84b-140dd1b2a529/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a685)     |
 | Insight API - Get School Expenditure History (national average)       | 16/12/2024, 08:36:42 | 3       | 5m 27s   | 1.25 s        | 64 %   | 1.10 /s    | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/39f67675-b857-4bcb-a84b-140dd1b2a545/testRunId/39f67675-b857-4bcb-a84b-140dd1b2adb4) 1️⃣ |
-| Insight API - Get School Expenditure History (comparator set average) | 16/12/2024, 07:54:12 | 3       | 5m 49s   | 111.00 ms     | 0 %    | 33.94 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/39f67675-b857-4bcb-a84b-140dd1b2a4fe/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a837)  2️⃣ |
+| Insight API - Get School Expenditure History (comparator set average) | 16/12/2024, 07:54:12 | 3       | 5m 49s   | 111.00 ms     | 0 %    | 33.94 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/39f67675-b857-4bcb-a84b-140dd1b2a4fe/testRunId/39f67675-b857-4bcb-a84b-140dd1b2a837) 2️⃣ |
+| Insight API - Get School Census History (comparator set average)      | 16/12/2024, 11:10:06 | 1       | 5m 4s    | 36.00 ms      | 0 %    | 31.06 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e039/testRunId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e2ab)     |
+| Insight API - Get School Census History (school)                      | 16/12/2024, 11:44:53 | 1       | 5m 1s    | 52.00 ms      | 0 %    | 28.56 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e151/testRunId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e782)     |
+| Insight API - Get School Census History (national average)            | 16/12/2024, 11:52:27 | 1       | 5m 9s    | 700.00 ms     | 56 %   | 4.11 /s    | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e1aa/testRunId/87d8dd2a-7c3f-4a70-85ae-9aa3c5c2e975) 3️⃣ |
 
 **Findings and Recommendations:**
 
 1️⃣ Very poor performance of National Average School Expenditure History endpoint.
 
 2️⃣ Poor performance of Comparator Set Average School Expenditure History endpoint, but within the variance defined for the test run.
+
+3️⃣ Poor performance of National Average School Census History endpoint.
 
 <!-- Leave the rest of this page blank -->
 \newpage
