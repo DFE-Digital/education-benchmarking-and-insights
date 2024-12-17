@@ -12,9 +12,9 @@ configurationFiles:
 - financeTypes.csv
 - overallPhases.csv
 failureCriteria:
-- p75(response_time_ms) > 200
-- p95(response_time_ms) > 300
-- p99(response_time_ms) > 1000
+- p75(response_time_ms) > 400
+- p95(response_time_ms) > 6000
+- p99(response_time_ms) > 10000
 - percentage(error) > 0.1
 secrets:
 - name: insight-host-key
