@@ -6,6 +6,7 @@ import {
   useCallback,
   useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -31,6 +32,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
 import {
+  CategoricalChartWrapper,
   ChartDataSeries,
   ChartHandler,
   ChartSeriesConfigItem,
@@ -71,9 +73,12 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     valueUnit,
   } = props;
 
-  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+  const rechartsRef = useRef<CategoricalChartWrapper>(null);
+  const downloadPng = useDownloadPngImage({
+    ref: rechartsRef,
     fileName: `${chartName}.png`,
     onImageLoading,
+    elementSelector: (r) => r.container,
   });
 
   useImperativeHandle(ref, () => ({
@@ -224,7 +229,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             left: hasSomeNegativeValues ? margin + 48 : margin,
           }}
           onMouseMove={handleBarChartMouseMove}
-          ref={rechartsRef}
+          ref={
+            // https://github.com/recharts/recharts/issues/2665
+            rechartsRef as never
+          }
           className="recharts-wrapper-horizontal-bar-chart"
         >
           {grid && <CartesianGrid />}
