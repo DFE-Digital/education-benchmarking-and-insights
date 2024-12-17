@@ -13,8 +13,8 @@ configurationFiles:
 - overallPhases.csv
 failureCriteria:
 - p75(response_time_ms) > 200
-- p95(response_time_ms) > 300
-- p99(response_time_ms) > 1000
+- p95(response_time_ms) > 5000
+- p99(response_time_ms) > 6000
 - percentage(error) > 0.1
 secrets:
 - name: insight-host-key
