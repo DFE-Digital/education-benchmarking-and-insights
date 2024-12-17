@@ -182,3 +182,12 @@ resource "mssql_user" "app-service-user" {
   object_id = data.azapi_resource.app-service-identity.output.properties.clientId
   roles     = ["db_datareader", "db_datawriter"]
 }
+
+resource "azurerm_redis_cache_access_policy_assignment" "contributor" {
+  count              = var.redis-cache-id != null ? 1 : 0
+  name               = "${var.function-name}-contributor"
+  redis_cache_id     = var.redis-cache-id
+  access_policy_name = "Data Contributor"
+  object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
+  object_id_alias    = "${var.function-name}-contributor"
+}
