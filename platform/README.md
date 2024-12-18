@@ -14,7 +14,13 @@ Each .NET project is deployed as an independent Azure Function App.
 
 ## Getting started
 
-> Docker: Compose file contents configuration for running SQL server and Azurite locally
+> Docker: Compose file contents configuration for running SQL Server, Azurite and Redis locally:
+
+```sh
+cd docker
+echo "REDIS_PASSWORD=a_password_of_your_choice" >| redis.env
+docker-compose up
+```
 
 ### Running Platform APIs
 
@@ -78,7 +84,10 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
     "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
     "Sql__TelemetryEnabled": true,
     "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
+    "Cache__Host": "localhost",
+    "Cache__Port": "6379",
+    "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]"
   },
   "Host": {
     "CORS": "*",
