@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.BudgetForecast;
+using Platform.Api.Insight.Cache;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Income;
@@ -14,6 +15,7 @@ using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
+using Platform.Functions.Configuration;
 using Platform.Functions.Extensions;
 using Platform.Sql;
 namespace Platform.Api.Insight.Configuration;
@@ -26,6 +28,7 @@ internal static class Services
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         ArgumentNullException.ThrowIfNull(sqlConnString);
 
+        // todo: redis health check
         serviceCollection
             .AddHealthChecks()
             .AddSqlServer(sqlConnString);
@@ -40,6 +43,19 @@ internal static class Services
             .AddSingleton<IExpenditureService, ExpenditureService>()
             .AddSingleton<IIncomeService, IncomeService>()
             .AddSingleton<IBudgetForecastService, BudgetForecastService>();
+
+        var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
+        var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
+        var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
+        ArgumentNullException.ThrowIfNull(cacheHost);
+        ArgumentNullException.ThrowIfNull(cachePort);
+        serviceCollection.AddOptions<RedisCacheOptions>().Configure(x =>
+        {
+            x.Host = cacheHost;
+            x.Port = cachePort;
+            x.Password = cachePassword;
+        });
+        serviceCollection.AddSingleton<IDistributedCache, RedisDistributedCache>();
 
         serviceCollection
             .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()

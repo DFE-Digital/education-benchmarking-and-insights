@@ -184,7 +184,7 @@ resource "mssql_user" "app-service-user" {
 }
 
 resource "azurerm_redis_cache_access_policy_assignment" "contributor" {
-  count              = var.redis-cache-id != null ? 1 : 0
+  count              = var.requires-cache ? 1 : 0
   name               = "${var.function-name}-contributor"
   redis_cache_id     = var.redis-cache-id
   access_policy_name = "Data Contributor"

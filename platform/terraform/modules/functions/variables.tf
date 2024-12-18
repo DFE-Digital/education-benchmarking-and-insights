@@ -112,8 +112,12 @@ variable "use-isolated-runtime" {
   default = true
 }
 
+variable "requires-cache" {
+  type    = bool
+  default = false
+}
+
 variable "redis-cache-id" {
-  type     = string
-  default  = null
-  nullable = true
+  type    = string
+  default = null
 }
