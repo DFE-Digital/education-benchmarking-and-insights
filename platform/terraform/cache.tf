@@ -1,5 +1,6 @@
 resource "azurerm_redis_cache" "cache" {
-  name                               = "${var.environment-prefix}-ebis-search"
+  #checkov:skip=CKV_AZURE_89:See ADO backlog AB#243011
+  name                               = "${var.environment-prefix}-ebis-cache"
   location                           = azurerm_resource_group.resource-group.location
   resource_group_name                = azurerm_resource_group.resource-group.name
   capacity                           = var.configuration[var.environment].cache_capacity
@@ -7,7 +8,7 @@ resource "azurerm_redis_cache" "cache" {
   sku_name                           = var.configuration[var.environment].cache_sku
   non_ssl_port_enabled               = false
   minimum_tls_version                = "1.2"
-  public_network_access_enabled      = false
+  public_network_access_enabled      = true
   access_keys_authentication_enabled = false
   tags                               = local.common-tags
 
@@ -26,6 +27,7 @@ resource "azurerm_redis_cache_access_policy_assignment" "owner" {
 }
 
 resource "azurerm_key_vault_secret" "cache-host-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "ebis-cache-host-name"
   value        = azurerm_redis_cache.cache.hostname
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -33,6 +35,7 @@ resource "azurerm_key_vault_secret" "cache-host-name" {
 }
 
 resource "azurerm_key_vault_secret" "cache-ssl-port" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "ebis-cache-ssl-port"
   value        = azurerm_redis_cache.cache.ssl_port
   key_vault_id = data.azurerm_key_vault.key-vault.id

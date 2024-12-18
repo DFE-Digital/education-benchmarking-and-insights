@@ -44,14 +44,14 @@ variable "configuration" {
       search_sku            = "basic"
       search_replica_count  = 1
       sql_telemetry_enabled = false
-      cache_sku             = "Basic"
+      cache_sku             = "Standard"
       cache_capacity        = 1
     }
     production = {
       search_sku            = "basic"
       search_replica_count  = 3
       sql_telemetry_enabled = false
-      cache_sku             = "Basic"
+      cache_sku             = "Standard"
       cache_capacity        = 1
     }
   }
