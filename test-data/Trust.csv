@@ -1,4 +1,5 @@
 CompanyNumber,TrustName,CFOName,CFOEmail,OpenDate,UID,TrustUPIN
+00000001, FBIT Multi Academy Trust,Automation,,2021-09-01,
 10020683,Test Company/Trust  244,,,2021-09-01,17467,
 10038640,Test Company/Trust  334,,,2016-06-01,16122,
 10050238,Test Company/Trust  388,,,2017-09-01,16492,
@@ -6,7 +7,6 @@ CompanyNumber,TrustName,CFOName,CFOEmail,OpenDate,UID,TrustUPIN
 10075893,Test Company/Trust  193,,,2016-06-01,16125,
 10151730,Reach South Academy Trust,,,2018-09-01,16503,
 10192252,Test Company/Trust  31,,,2016-09-01,16300,
-10221189,Interaction and Communication Academy Trust Limited,,,2016-09-01,16301,
 10249712,Test Company/Trust  229,,,2020-02-01,16169,
 10259334,Test Company/Trust  157,,,2016-08-01,16168,
 10264735,Test Company/Trust  262,,,2016-09-01,16311,
