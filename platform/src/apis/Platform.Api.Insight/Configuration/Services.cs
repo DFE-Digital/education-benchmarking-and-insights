@@ -7,7 +7,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.BudgetForecast;
-using Platform.Api.Insight.Cache;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Income;
@@ -15,7 +14,7 @@ using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
-using Platform.Functions.Configuration;
+using Platform.Cache.Configuration;
 using Platform.Functions.Extensions;
 using Platform.Sql;
 namespace Platform.Api.Insight.Configuration;
@@ -28,9 +27,10 @@ internal static class Services
         var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         ArgumentNullException.ThrowIfNull(sqlConnString);
 
-        var healthChecks = serviceCollection
+        serviceCollection
             .AddHealthChecks()
-            .AddSqlServer(sqlConnString);
+            .AddSqlServer(sqlConnString)
+            .AddRedis();
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
@@ -56,7 +56,7 @@ internal static class Services
             .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()
             .AddTransient<IValidator<QuerySchoolCensusParameters>, QuerySchoolCensusParametersValidator>();
 
-        serviceCollection.AddDistributedCache(healthChecks);
+        serviceCollection.AddRedis();
 
         //TODO: Add serilog configuration AB#227696
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
@@ -69,29 +69,5 @@ internal static class Services
             });
 
         serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
-    }
-
-    private static void AddDistributedCache(this IServiceCollection serviceCollection, IHealthChecksBuilder healthChecks)
-    {
-        var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
-        var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
-        var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
-        ArgumentNullException.ThrowIfNull(cacheHost);
-        ArgumentNullException.ThrowIfNull(cachePort);
-
-        serviceCollection.AddOptions<RedisCacheOptions>().Configure(x =>
-        {
-            x.Host = cacheHost;
-            x.Port = cachePort;
-            x.Password = cachePassword;
-        });
-
-        serviceCollection.AddSingleton<IDistributedCache, RedisDistributedCache>();
-
-        healthChecks.AddRedis(p =>
-        {
-            var cache = p.GetService<IDistributedCache>();
-            return cache!.Connection.Value.GetAwaiter().GetResult();
-        });
     }
 }
