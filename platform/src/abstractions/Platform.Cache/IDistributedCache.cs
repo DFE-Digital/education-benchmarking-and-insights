@@ -14,4 +14,7 @@ public interface IDistributedCache
     Task<T?> GetAsync<T>(string key);
 
     Task<bool> SetAsync<T>(string key, T value);
+
+    /// <inheritdoc cref="IDatabase.KeyDelete(RedisKey[], CommandFlags)" />
+    Task<long> DeleteAsync(params string[] keys);
 }
