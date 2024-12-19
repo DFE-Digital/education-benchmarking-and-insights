@@ -31,13 +31,14 @@ public class RedisDistributedCache : IDistributedCache
                 await configurationOptions.ConfigureForAzureWithSystemAssignedManagedIdentityAsync();
             }
 
-            logger.LogDebug("Connecting to Redis at {EndPoint}", configurationOptions.EndPoints.First());
+            logger.LogInformation("Establishing connection to Redis cache at {EndPoint}", configurationOptions.EndPoints.First());
             return await ConnectionMultiplexer.ConnectAsync(configurationOptions);
         });
     }
 
-    private Lazy<Task<ConnectionMultiplexer>> Connection { get; }
     private ILogger<RedisDistributedCache> Logger { get; }
+
+    public Lazy<Task<ConnectionMultiplexer>> Connection { get; }
 
     public async Task<string?> GetStringAsync(string key)
     {
@@ -112,7 +113,7 @@ public class RedisDistributedCache : IDistributedCache
             Logger.LogDebug("Cached value was not base64 encoded");
             return default;
         }
-        
+
         using var ms = new MemoryStream(data);
         using var reader = new BsonDataReader(ms);
         var serializer = new JsonSerializer();
@@ -122,6 +123,8 @@ public class RedisDistributedCache : IDistributedCache
 
 public interface IDistributedCache
 {
+    Lazy<Task<ConnectionMultiplexer>> Connection { get; }
+
     /// <inheritdoc cref="IDatabase.StringGet(RedisKey, CommandFlags)" />
     Task<string?> GetStringAsync(string key);
 

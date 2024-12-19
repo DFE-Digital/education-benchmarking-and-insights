@@ -21,7 +21,7 @@ public class TempCacheFunction(IDistributedCache distributedCache)
             now
         });
     }
-    
+
     [Function(nameof(TestCacheObject))]
     public async Task<HttpResponseData> TestCacheObject(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "cache/object/{key}")] HttpRequestData req, string key)

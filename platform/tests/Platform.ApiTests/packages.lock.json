@@ -2092,6 +2092,7 @@
       "platform.api.insight": {
         "type": "Project",
         "dependencies": {
+          "AspNetCore.HealthChecks.Redis": "[8.0.1, )",
           "AspNetCore.HealthChecks.SqlServer": "[8.0.2, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
@@ -2149,6 +2150,16 @@
         "dependencies": {
           "Azure.Search.Documents": "11.5.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0"
+        }
+      },
+      "AspNetCore.HealthChecks.Redis": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.1, )",
+        "resolved": "8.0.1",
+        "contentHash": "45jqq4ydvmm7yKpTf0jEpUuYloe2vlytN9dasmqwmQyorpNbjdvWuyvSmjVZM5nBa5e5ryF5MU+F7bXv6Zp2vQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
+          "StackExchange.Redis": "2.7.4"
         }
       },
       "AspNetCore.HealthChecks.SqlServer": {
