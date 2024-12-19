@@ -14,61 +14,55 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
 {
     public Lazy<Task<IConnectionMultiplexer>> Connection { get; } = new(factory.CreateAsync);
 
+    /// <exception cref="RedisConnectionException"></exception>
     public async Task<string?> GetStringAsync(string key)
     {
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "CacheKey", key
-                   }
-               }))
+        using (LoggerContext(key))
         {
-            var connection = await Connection.Value;
-            return await connection.GetDatabase().StringGetAsync(key);
+            var db = await GetDatabase();
+            return await db.StringGetAsync(key);
         }
     }
 
-    public async Task<string?> GetSetStringAsync(string key, string value)
-    {
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "CacheKey", key
-                   }
-               }))
-        {
-            var connection = await Connection.Value;
-            return await connection.GetDatabase().StringGetSetAsync(key, value);
-        }
-    }
-
+    /// <exception cref="RedisConnectionException"></exception>
     public async Task<bool> SetStringAsync(string key, string value)
     {
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "CacheKey", key
-                   }
-               }))
+        using (LoggerContext(key))
         {
-            var connection = await Connection.Value;
-            return await connection.GetDatabase().StringSetAsync(key, value);
+            var db = await GetDatabase();
+            return await db.StringSetAsync(key, value);
         }
     }
 
     public async Task<T?> GetAsync<T>(string key)
     {
-        var result = await GetStringAsync(key);
-        return string.IsNullOrWhiteSpace(result) ? default : FromBson<T>(result);
+        using (LoggerContext(key))
+        {
+            var result = await GetStringAsync(key);
+            return string.IsNullOrWhiteSpace(result) ? default : FromBson<T>(result);
+        }
     }
 
-    public async Task<T?> GetSetAsync<T>(string key, T value)
+    public async Task<bool> SetAsync<T>(string key, T value)
     {
-        var result = await GetSetStringAsync(key, ToBson(value));
-        return string.IsNullOrWhiteSpace(result) ? default : FromBson<T>(result);
+        using (LoggerContext(key))
+        {
+            return await SetStringAsync(key, ToBson(value));
+        }
     }
 
-    public async Task<bool> SetAsync<T>(string key, T value) => await SetStringAsync(key, ToBson(value));
+    private async Task<IDatabase> GetDatabase()
+    {
+        var connection = await Connection.Value;
+        return connection.GetDatabase();
+    }
+
+    private IDisposable? LoggerContext(string key) => logger.BeginScope(new Dictionary<string, object>
+    {
+        {
+            "CacheKey", key
+        }
+    });
 
     private static string ToBson<T>(T value)
     {
@@ -84,13 +78,22 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         var data = new byte[base64data.Length];
         if (!Convert.TryFromBase64String(base64data, data, out _))
         {
-            logger.LogDebug("Cached value was not base64 encoded");
+            logger.LogWarning("Cached value was not Base64 encoded");
             return default;
         }
 
         using var ms = new MemoryStream(data);
         using var reader = new BsonDataReader(ms);
         var serializer = new JsonSerializer();
-        return serializer.Deserialize<T>(reader);
+
+        try
+        {
+            return serializer.Deserialize<T>(reader);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("Cached value was not valid Bson. {Message}", ex.Message);
+            return default;
+        }
     }
 }
