@@ -51,6 +51,25 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         }
     }
 
+    /// <exception cref="RedisConnectionException"></exception>
+    public async Task<long> DeleteAsync(params string[] keys)
+    {
+        var filteredKeys = keys
+            .Where(k => !string.IsNullOrWhiteSpace(k))
+            .Select(k => new RedisKey(k))
+            .ToArray();
+        if (filteredKeys.Length == 0)
+        {
+            return default;
+        }
+
+        using (LoggerContext(string.Join(",", filteredKeys)))
+        {
+            var db = await GetDatabase();
+            return await db.KeyDeleteAsync(filteredKeys);
+        }
+    }
+
     private async Task<IDatabase> GetDatabase()
     {
         var connection = await Connection.Value;
