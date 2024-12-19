@@ -44,6 +44,8 @@ module "insight-fa" {
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "Cache__Host"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
+    "Cache__Port"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
   })
   subnet_ids = [
     data.azurerm_subnet.web-app-subnet.id,
@@ -52,6 +54,8 @@ module "insight-fa" {
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+  redis-cache-id      = azurerm_redis_cache.cache.id
+  requires-cache      = true
 }
 
 module "establishment-fa" {

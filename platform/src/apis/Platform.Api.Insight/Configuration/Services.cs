@@ -14,6 +14,7 @@ using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
+using Platform.Cache.Configuration;
 using Platform.Functions.Extensions;
 using Platform.Sql;
 namespace Platform.Api.Insight.Configuration;
@@ -28,7 +29,8 @@ internal static class Services
 
         serviceCollection
             .AddHealthChecks()
-            .AddSqlServer(sqlConnString);
+            .AddSqlServer(sqlConnString)
+            .AddRedis();
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
@@ -53,6 +55,8 @@ internal static class Services
             .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()
             .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()
             .AddTransient<IValidator<QuerySchoolCensusParameters>, QuerySchoolCensusParametersValidator>();
+
+        serviceCollection.AddRedis();
 
         //TODO: Add serilog configuration AB#227696
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");

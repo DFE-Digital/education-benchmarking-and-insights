@@ -20,4 +20,16 @@ services:
       - "1433:1433"
     volumes:
       - "./sql/data:/var/opt/mssql/data"
-      
+  cache:
+    container_name: "redis-platform"
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --save 20 1 --loglevel warning --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
+    env_file:
+      - redis.env
+    volumes:
+      - "./redis/data:/data"
