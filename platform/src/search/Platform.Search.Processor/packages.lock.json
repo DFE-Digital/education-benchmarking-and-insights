@@ -189,11 +189,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg=="
-      },
       "Microsoft.Extensions.Diagnostics": {
         "type": "Transitive",
         "resolved": "8.0.1",
@@ -426,6 +421,12 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "8.0.1",
           "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0"
         }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",

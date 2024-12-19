@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
-using Platform.Functions.Configuration;
 using StackExchange.Redis;
-namespace Platform.Api.Insight.Cache;
+namespace Platform.Cache;
 
 /// <remarks>
 ///     From the
@@ -17,32 +10,13 @@ namespace Platform.Api.Insight.Cache;
 ///     :
 ///     The object returned from <c>GetDatabase</c> is a cheap pass-thru object, and does not need to be stored.
 /// </remarks>
-public class RedisDistributedCache : IDistributedCache
+public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedisConnectionMultiplexerFactory factory) : IDistributedCache
 {
-    public RedisDistributedCache(IOptions<RedisCacheOptions> options, ILogger<RedisDistributedCache> logger)
-    {
-        Logger = logger;
-        Connection = new Lazy<Task<ConnectionMultiplexer>>(async () =>
-        {
-            var configurationOptions = ConfigurationOptions.Parse(options.Value.ConnectionString);
-            if (string.IsNullOrWhiteSpace(options.Value.Password))
-            {
-                logger.LogDebug("Password is empty - configuring Redis with system assigned managed identity");
-                await configurationOptions.ConfigureForAzureWithSystemAssignedManagedIdentityAsync();
-            }
-
-            logger.LogInformation("Establishing connection to Redis cache at {EndPoint}", configurationOptions.EndPoints.First());
-            return await ConnectionMultiplexer.ConnectAsync(configurationOptions);
-        });
-    }
-
-    private ILogger<RedisDistributedCache> Logger { get; }
-
-    public Lazy<Task<ConnectionMultiplexer>> Connection { get; }
+    public Lazy<Task<IConnectionMultiplexer>> Connection { get; } = new(factory.CreateAsync);
 
     public async Task<string?> GetStringAsync(string key)
     {
-        using (Logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
                    {
                        "CacheKey", key
@@ -56,7 +30,7 @@ public class RedisDistributedCache : IDistributedCache
 
     public async Task<string?> GetSetStringAsync(string key, string value)
     {
-        using (Logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
                    {
                        "CacheKey", key
@@ -70,7 +44,7 @@ public class RedisDistributedCache : IDistributedCache
 
     public async Task<bool> SetStringAsync(string key, string value)
     {
-        using (Logger.BeginScope(new Dictionary<string, object>
+        using (logger.BeginScope(new Dictionary<string, object>
                {
                    {
                        "CacheKey", key
@@ -110,7 +84,7 @@ public class RedisDistributedCache : IDistributedCache
         var data = new byte[base64data.Length];
         if (!Convert.TryFromBase64String(base64data, data, out _))
         {
-            Logger.LogDebug("Cached value was not base64 encoded");
+            logger.LogDebug("Cached value was not base64 encoded");
             return default;
         }
 
@@ -119,24 +93,4 @@ public class RedisDistributedCache : IDistributedCache
         var serializer = new JsonSerializer();
         return serializer.Deserialize<T>(reader);
     }
-}
-
-public interface IDistributedCache
-{
-    Lazy<Task<ConnectionMultiplexer>> Connection { get; }
-
-    /// <inheritdoc cref="IDatabase.StringGet(RedisKey, CommandFlags)" />
-    Task<string?> GetStringAsync(string key);
-
-    /// <inheritdoc cref="IDatabase.StringGetSet(RedisKey, RedisValue, CommandFlags)" />
-    Task<string?> GetSetStringAsync(string key, string value);
-
-    /// <inheritdoc cref="IDatabase.StringSet(RedisKey, RedisValue, TimeSpan?, bool, When, CommandFlags)" />
-    Task<bool> SetStringAsync(string key, string value);
-
-    Task<T?> GetAsync<T>(string key);
-
-    Task<T?> GetSetAsync<T>(string key, T value);
-
-    Task<bool> SetAsync<T>(string key, T value);
 }

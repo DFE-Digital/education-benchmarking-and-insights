@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Platform.Functions.Configuration;
+namespace Platform.Cache.Configuration;
 
 public class RedisCacheOptions
 {
