@@ -1116,6 +1116,8 @@ def build_maintained_school_data(
         config.income_category_map["maintained_schools"],
     )
 
+    maintained_schools = maintained_pipeline.join_federations(maintained_schools)
+
     maintained_schools = maintained_pipeline.calc_rag_cost_series(
         maintained_schools, config.rag_category_settings
     )
@@ -1132,8 +1134,6 @@ def build_maintained_school_data(
     maintained_schools = part_year.common.map_has_building_comparator_data(
         maintained_schools
     )
-
-    maintained_schools = maintained_pipeline.join_federations(maintained_schools)
 
     return maintained_schools.set_index("URN")
 
