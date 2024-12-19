@@ -27,7 +27,7 @@ public class WhenRedisDistributedCacheGetsObject : RedisDistributedCacheTestBase
         Database.Verify();
         Assert.Equal(input.ExpectedValue, actual);
     }
-    
+
     [Fact]
     public async Task ShouldThrowExceptionIfRedisUnavailable()
     {

@@ -10,7 +10,10 @@ public class WhenRedisDistributedCacheDeletes : RedisDistributedCacheTestBase
     public async Task ShouldReturnExpectedValueFromCache(string key, long count)
     {
         Database
-            .Setup(d => d.KeyDeleteAsync(new RedisKey[] {key}, CommandFlags.None))
+            .Setup(d => d.KeyDeleteAsync(new RedisKey[]
+            {
+                key
+            }, CommandFlags.None))
             .ReturnsAsync(count)
             .Verifiable(Times.Once);
 
@@ -19,13 +22,16 @@ public class WhenRedisDistributedCacheDeletes : RedisDistributedCacheTestBase
         Database.Verify();
         Assert.Equal(count, actual);
     }
-    
+
     [Fact]
     public async Task ShouldThrowExceptionIfRedisUnavailable()
     {
         const string key = nameof(key);
         Database
-            .Setup(d => d.KeyDeleteAsync(new RedisKey[] {key}, CommandFlags.None))
+            .Setup(d => d.KeyDeleteAsync(new RedisKey[]
+            {
+                key
+            }, CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 

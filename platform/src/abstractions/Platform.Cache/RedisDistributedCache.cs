@@ -20,6 +20,7 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         using (LoggerContext(key))
         {
             var db = await GetDatabase();
+            logger.LogDebug("Getting string value for key {Key} from Redis", key);
             return await db.StringGetAsync(key);
         }
     }
@@ -30,7 +31,25 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         using (LoggerContext(key))
         {
             var db = await GetDatabase();
+            logger.LogDebug("Setting string value for key {Key} in Redis", key);
             return await db.StringSetAsync(key, value);
+        }
+    }
+
+    /// <exception cref="RedisConnectionException"></exception>
+    public async Task<bool> SetStringsAsync(KeyValuePair<string, string>[] values)
+    {
+        var filteredValues = values
+            .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key))
+            .Select(kvp => new KeyValuePair<RedisKey, RedisValue>(kvp.Key, kvp.Value))
+            .ToArray();
+        var filteredKeys = filteredValues.Select(v => v.Key);
+
+        using (LoggerContext(string.Join(",", filteredKeys)))
+        {
+            var db = await GetDatabase();
+            logger.LogDebug("Setting string value(s) for key(s) {Keys} in Redis", filteredKeys);
+            return await db.StringSetAsync(filteredValues);
         }
     }
 
@@ -51,6 +70,20 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         }
     }
 
+    public async Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values)
+    {
+        var filteredValues = values
+            .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key))
+            .ToArray();
+
+        using (LoggerContext(string.Join(",", filteredValues.Select(v => v.Key))))
+        {
+            return await SetStringsAsync(filteredValues
+                .Select(kvp => new KeyValuePair<string, string>(kvp.Key, ToBson(kvp.Value)))
+                .ToArray());
+        }
+    }
+
     /// <exception cref="RedisConnectionException"></exception>
     public async Task<long> DeleteAsync(params string[] keys)
     {
@@ -66,6 +99,7 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         using (LoggerContext(string.Join(",", filteredKeys)))
         {
             var db = await GetDatabase();
+            logger.LogDebug("Deleting key(s) {Keys} from Redis", filteredKeys);
             return await db.KeyDeleteAsync(filteredKeys);
         }
     }
