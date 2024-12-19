@@ -2,6 +2,16 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "AspNetCore.HealthChecks.Redis": {
+        "type": "Direct",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "yNH0h8GLRbAf+PU5HNVLZ5hNeyq9mDVmRKO9xuZsme/znUYoBJlQvI0gq45gaZNlLncCHkMhR4o90MuT+gxxPw==",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11",
+          "StackExchange.Redis": "2.7.4"
+        }
+      },
       "AspNetCore.HealthChecks.SqlServer": {
         "type": "Direct",
         "requested": "[9.0.0, )",

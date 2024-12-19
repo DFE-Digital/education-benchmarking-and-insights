@@ -17,7 +17,8 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-        <PackageReference Include="Microsoft.Azure.StackExchangeRedis" />
+        <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
+        <PackageReference Include="Microsoft.Azure.StackExchangeRedis"/>
         <PackageReference Include="Microsoft.Azure.WebJobs"/>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
