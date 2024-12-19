@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Platform.Cache;
 using Platform.Functions.Extensions;
 namespace Platform.Api.Insight.Cache;
 

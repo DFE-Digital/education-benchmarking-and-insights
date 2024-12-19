@@ -628,11 +628,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg=="
-      },
       "Microsoft.Extensions.DependencyModel": {
         "type": "Transitive",
         "resolved": "8.0.2",
@@ -977,15 +972,6 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
-        }
-      },
-      "Newtonsoft.Json.Bson": {
-        "type": "Transitive",
-        "resolved": "1.0.1",
-        "contentHash": "5PYT/IqQ+UK31AmZiSS102R6EsTo+LGTSI8bp7WAUqDKaF4wHXD8U9u4WxTI1vc64tYi++8p3dk3WWNqPFgldw==",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "Newtonsoft.Json": "10.0.1"
         }
       },
       "Pipelines.Sockets.Unofficial": {
@@ -2092,7 +2078,6 @@
       "platform.api.insight": {
         "type": "Project",
         "dependencies": {
-          "AspNetCore.HealthChecks.Redis": "[9.0.0, )",
           "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
@@ -2102,10 +2087,20 @@
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
           "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.0, )",
           "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.0, )",
-          "Microsoft.Azure.StackExchangeRedis": "[3.2.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
+          "Platform.Cache": "[1.0.0, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
+        }
+      },
+      "platform.cache": {
+        "type": "Project",
+        "dependencies": {
+          "AspNetCore.HealthChecks.Redis": "[9.0.0, )",
+          "Microsoft.Azure.StackExchangeRedis": "[3.2.0, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.0, )",
+          "Newtonsoft.Json": "[13.0.3, )",
+          "Newtonsoft.Json.Bson": "[1.0.3, )"
         }
       },
       "platform.functions": {
@@ -2155,7 +2150,7 @@
       },
       "AspNetCore.HealthChecks.Redis": {
         "type": "CentralTransitive",
-        "requested": "[8.0.1, )",
+        "requested": "[9.0.0, )",
         "resolved": "9.0.0",
         "contentHash": "yNH0h8GLRbAf+PU5HNVLZ5hNeyq9mDVmRKO9xuZsme/znUYoBJlQvI0gq45gaZNlLncCHkMhR4o90MuT+gxxPw==",
         "dependencies": {
@@ -2444,6 +2439,12 @@
           "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0"
         }
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg=="
+      },
       "Microsoft.Extensions.Diagnostics.HealthChecks": {
         "type": "CentralTransitive",
         "requested": "[8.0.7, )",
@@ -2519,6 +2520,15 @@
         "requested": "[13.0.3, )",
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+      },
+      "Newtonsoft.Json.Bson": {
+        "type": "CentralTransitive",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "bCcwagnHfYnhwQfY1criEcn6Hy9PtBuVnZu0pA8hmRhuR3jI/8WxVgoVAdNw9BJ3JHkxmWJzpj/AQy+PMMLqxg==",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        }
       },
       "System.Text.Json": {
         "type": "CentralTransitive",
