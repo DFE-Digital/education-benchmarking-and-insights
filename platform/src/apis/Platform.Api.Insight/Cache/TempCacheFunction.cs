@@ -38,6 +38,17 @@ public class TempCacheFunction(IDistributedCache distributedCache)
         });
     }
 
+    [Function(nameof(TestCacheDelete))]
+    public async Task<HttpResponseData> TestCacheDelete(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "cache/delete/{key}")] HttpRequestData req, string key)
+    {
+        var count = await distributedCache.DeleteAsync(key);
+        return await req.CreateJsonResponseAsync(new
+        {
+            count
+        });
+    }
+
     // ReSharper disable once NotAccessedPositionalProperty.Local
     private record TestObject(DateTime Timestamp);
 }
