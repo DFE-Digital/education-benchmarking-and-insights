@@ -7,8 +7,8 @@ namespace Platform.Api.Insight.Cache;
 
 public class TempCacheFunction(IDistributedCache distributedCache)
 {
-    [Function("TestCacheString")]
-    public async Task<HttpResponseData> Test(
+    [Function(nameof(TestCacheString))]
+    public async Task<HttpResponseData> TestCacheString(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "cache/string/{key}")] HttpRequestData req, string key)
     {
         var was = await distributedCache.GetStringAsync(key) ?? string.Empty;
@@ -21,4 +21,22 @@ public class TempCacheFunction(IDistributedCache distributedCache)
             now
         });
     }
+    
+    [Function(nameof(TestCacheObject))]
+    public async Task<HttpResponseData> TestCacheObject(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "cache/object/{key}")] HttpRequestData req, string key)
+    {
+        var was = await distributedCache.GetAsync<TestObject>(key) ?? null;
+        var now = new TestObject(DateTime.UtcNow);
+        await distributedCache.SetAsync(key, now);
+
+        return await req.CreateJsonResponseAsync(new
+        {
+            was,
+            now
+        });
+    }
+
+    // ReSharper disable once NotAccessedPositionalProperty.Local
+    private record TestObject(DateTime Timestamp);
 }
