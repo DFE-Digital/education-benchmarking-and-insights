@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -177,7 +178,8 @@ public class CensusFunctions(
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CensusHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history")] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<CensusParameters>();
@@ -194,13 +196,13 @@ public class CensusFunctions(
         {
             try
             {
-                var validationResult = await censusParametersValidator.ValidateAsync(queryParams);
+                var validationResult = await censusParametersValidator.ValidateAsync(queryParams, cancellationToken);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetHistoryAsync(urn);
+                var result = await service.GetHistoryAsync(urn, cancellationToken);
                 return await req.CreateJsonResponseAsync(result.Select(x => CensusResponseFactory.Create(x, queryParams.Dimension)));
             }
             catch (Exception e)
@@ -221,7 +223,8 @@ public class CensusFunctions(
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CensusHistoryAvgComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history/comparator-set-average")] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken token)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<CensusParameters>();
@@ -238,13 +241,13 @@ public class CensusFunctions(
         {
             try
             {
-                var validationResult = await censusParametersValidator.ValidateAsync(queryParams);
+                var validationResult = await censusParametersValidator.ValidateAsync(queryParams, token);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension);
+                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, token);
                 return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)
@@ -265,7 +268,8 @@ public class CensusFunctions(
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CensusHistoryAvgNationalAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/history/national-average")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/history/national-average")] HttpRequestData req,
+        CancellationToken token)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<CensusNationalAvgParameters>();
@@ -282,13 +286,13 @@ public class CensusFunctions(
         {
             try
             {
-                var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams);
+                var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams, token);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType);
+                var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, token);
                 return await req.CreateJsonResponseAsync(result);
             }
             catch (Exception e)

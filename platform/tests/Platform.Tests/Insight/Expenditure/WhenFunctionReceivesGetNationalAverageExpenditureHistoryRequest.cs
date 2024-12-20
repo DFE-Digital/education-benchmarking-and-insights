@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Expenditure;
 
 public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : ExpenditureFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -18,7 +20,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -37,7 +39,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
         Service
             .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -56,7 +58,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
