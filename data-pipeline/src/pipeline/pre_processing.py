@@ -44,6 +44,16 @@ def prepare_cdc_data(cdc_file_path, current_year):
 
 # noinspection PyTypeChecker
 def prepare_census_data(workforce_census_path, pupil_census_path):
+    """
+    Prepare workforce- and pupil-census data.
+
+    Note: either source may have orgs. present which the other lacks.
+    In either case, all rows must be retained in the resulting, merged
+    data.
+
+    :param workforce_census_path: readable source for workforce census
+    :param pupil_census_path: readable source for pupil census
+    """
     school_workforce_census = pd.read_excel(
         workforce_census_path,
         header=5,
@@ -79,13 +89,18 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     else:
         school_pupil_census["Pupil Dual Registrations"] = 0
 
-    census = school_pupil_census.join(
-        school_workforce_census,
-        on="URN",
-        how="inner",
-        rsuffix="_pupil",
-        lsuffix="_workforce",
-    ).rename(columns=config.census_column_map)
+    census = (
+        school_pupil_census.join(
+            school_workforce_census,
+            on="URN",
+            how="outer",
+            rsuffix="_pupil",
+            lsuffix="_workforce",
+        )
+        .rename(columns=config.census_column_map)
+        .reset_index()
+        .set_index("URN")
+    )
 
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
@@ -1091,7 +1106,6 @@ def build_maintained_school_data(
     ks2,
     ks4,
 ):
-
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
         encoding="unicode-escape",
