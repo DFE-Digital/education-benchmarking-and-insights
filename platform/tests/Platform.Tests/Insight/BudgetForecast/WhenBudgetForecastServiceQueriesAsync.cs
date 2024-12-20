@@ -32,8 +32,8 @@ public class WhenBudgetForecastServiceQueriesAsync
         var actualParam = new Dictionary<string, object>();
 
         _connection
-            .Setup(c => c.QueryAsync<BudgetForecastReturnModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<BudgetForecastReturnModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "RunType", "Category", "RunId");
@@ -79,12 +79,12 @@ public class WhenBudgetForecastServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<int>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryFirstOrDefaultAsync<int>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(2021);
 
         _connection
-            .Setup(c => c.QueryAsync<BudgetForecastReturnMetricModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<BudgetForecastReturnMetricModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -108,14 +108,14 @@ public class WhenBudgetForecastServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldExecuteScalarAsyncWhenGetBudgetForecastCurrentYear()
+    public async Task ShouldQueryFirstOrDefaultAsyncWhenGetBudgetForecastCurrentYear()
     {
         // arrange
         string? actualSql = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<int?>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? _) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<int?>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? _, CancellationToken _) =>
             {
                 actualSql = sql;
             })

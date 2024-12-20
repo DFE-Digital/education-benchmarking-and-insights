@@ -32,8 +32,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolIncomeHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolIncomeHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -65,8 +65,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "URNS");
@@ -102,8 +102,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "Phase");
@@ -142,8 +142,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "LaCode", "Phase");
@@ -178,8 +178,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -211,8 +211,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustIncomeHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustIncomeHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -244,8 +244,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -274,8 +274,8 @@ public class WhenIncomeServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<TrustIncomeModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<TrustIncomeModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;

@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
 using Microsoft.Data.SqlClient;
-
 namespace Platform.Sql;
 
 [ExcludeFromCodeCoverage]
@@ -45,13 +44,17 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
 
     public ConnectionState State => connection.State;
 
-    public Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null) => connection.QueryAsync<T>(sql, param);
+    public Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
+        => connection.QueryAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
-    public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null) => connection.QueryFirstOrDefaultAsync<T>(sql, param);
+    public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
+        => connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
-    public Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null) => connection.ExecuteScalarAsync<T>(sql, param);
+    public Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
+        => connection.ExecuteScalarAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
-    public Task<T> QueryFirstAsync<T>(string sql, object? param = null) => connection.QueryFirstAsync<T>(sql, param);
+    public Task<T> QueryFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
+        => connection.QueryFirstAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
     public Task OpenAsync() => connection.OpenAsync();
 }
@@ -64,12 +67,13 @@ public interface IDatabaseConnection : IDbConnection
     /// <typeparam name="T">The type of results to return.</typeparam>
     /// <param name="sql">The SQL to execute for the query.</param>
     /// <param name="param">The parameters to pass, if any.</param>
+    /// <param name="cancellationToken">The cancellation token for this command.</param>
     /// <returns>
     ///     A sequence of data of <typeparamref name="T" />; if a basic type (int, string, etc) is queried then the data from
     ///     the first column in assumed, otherwise an instance is
     ///     created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
     /// </returns>
-    Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null);
+    Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
@@ -77,7 +81,8 @@ public interface IDatabaseConnection : IDbConnection
     /// <typeparam name="T">The type of result to return.</typeparam>
     /// <param name="sql">The SQL to execute for the query.</param>
     /// <param name="param">The parameters to pass, if any.</param>
-    Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null);
+    /// <param name="cancellationToken">The cancellation token for this command.</param>
+    Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Execute parameterized SQL that selects a single value.
@@ -85,9 +90,9 @@ public interface IDatabaseConnection : IDbConnection
     /// <typeparam name="T">The type to return.</typeparam>
     /// <param name="sql">The SQL to execute.</param>
     /// <param name="param">The parameters to use for this command.</param>
+    /// <param name="cancellationToken">The cancellation token for this command.</param>
     /// <returns>The first cell returned, as <typeparamref name="T" />.</returns>
-    Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null);
-
+    Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
@@ -95,5 +100,6 @@ public interface IDatabaseConnection : IDbConnection
     /// <typeparam name="T">The type of result to return.</typeparam>
     /// <param name="sql">The SQL to execute for the query.</param>
     /// <param name="param">The parameters to pass, if any.</param>
-    Task<T> QueryFirstAsync<T>(string sql, object? param = null);
+    /// <param name="cancellationToken">The cancellation token for this command.</param>
+    Task<T> QueryFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 }
