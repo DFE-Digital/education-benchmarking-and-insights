@@ -24,7 +24,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     {
         // arrange
         _connection
-            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null))
+            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null, It.IsAny<CancellationToken>()))
             .Verifiable();
 
         // act
@@ -76,12 +76,12 @@ public class WhenMetricRagRatingsServiceQueriesAsync
 
         const string year = "year";
         _connection
-            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null))
+            .Setup(c => c.QueryFirstAsync<string>("SELECT Value from Parameters where Name = 'CurrentYear'", null, It.IsAny<CancellationToken>()))
             .ReturnsAsync(year);
 
         _connection
-            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId", "URNS", "CompanyNumber", "LaCode", "Phase", "categories", "statuses");
@@ -160,8 +160,8 @@ public class WhenMetricRagRatingsServiceQueriesAsync
         var actualParam = new Dictionary<string, object>();
 
         _connection
-            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "RunType", "RunId");

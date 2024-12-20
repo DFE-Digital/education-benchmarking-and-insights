@@ -32,8 +32,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolBalanceHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolBalanceHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -65,8 +65,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolBalanceModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolBalanceModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -95,8 +95,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolBalanceModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolBalanceModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -128,8 +128,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustBalanceHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustBalanceHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -161,8 +161,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustBalanceModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustBalanceModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -191,8 +191,8 @@ public class WhenBalanceServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<TrustBalanceModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<TrustBalanceModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
