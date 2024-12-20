@@ -33,13 +33,14 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
             .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Throws(new Exception());
+            .Throws(exception);
 
-        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }
