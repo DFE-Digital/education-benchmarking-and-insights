@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Expenditure;
 
 public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+    
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -18,7 +20,7 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
 
-        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -35,7 +37,7 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);

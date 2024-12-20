@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : CensusFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -18,7 +20,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
 
-        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -37,7 +39,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
         Service
             .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
-        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -56,7 +58,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
