@@ -54,13 +54,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
             .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Throws(new Exception());
+            .Throws(exception);
 
-        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }
