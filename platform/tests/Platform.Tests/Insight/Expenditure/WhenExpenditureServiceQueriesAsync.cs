@@ -32,8 +32,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -65,8 +65,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "URNS");
@@ -102,8 +102,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "Phase");
@@ -142,8 +142,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "LaCode", "Phase");
@@ -178,8 +178,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -211,8 +211,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustExpenditureHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -244,8 +244,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<TrustExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<TrustExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -274,8 +274,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<TrustExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<TrustExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -305,8 +305,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -342,8 +342,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -358,7 +358,7 @@ public class WhenExpenditureServiceQueriesAsync
         Assert.Equal(expectedSql, actualSql);
         Assert.Equivalent(new
         {
-            URN = urn,
+            URN = urn
         }, actualParam, true);
     }
 
@@ -372,12 +372,12 @@ public class WhenExpenditureServiceQueriesAsync
         };
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetSchoolHistoryAvgComparatorSetAsync(urn, "invalid"));
-        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [InlineData(ExpenditureDimensions.Actuals, "Primary", "Maintained", "SchoolExpenditureAvgHistoric")]
@@ -400,8 +400,8 @@ public class WhenExpenditureServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -424,7 +424,7 @@ public class WhenExpenditureServiceQueriesAsync
     [Fact]
     public async Task ShouldThrowOnInvalidDimensionWhenGetSchoolHistoryAvgNationalAsync()
     {
-        var queryParams = new ExpenditureNationalAvgParameters()
+        var queryParams = new ExpenditureNationalAvgParameters
         {
             Dimension = "Invalid"
         };
@@ -434,11 +434,11 @@ public class WhenExpenditureServiceQueriesAsync
         };
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetSchoolHistoryAvgNationalAsync("invalid", "Primary", "Maintained"));
-        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<SchoolExpenditureHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

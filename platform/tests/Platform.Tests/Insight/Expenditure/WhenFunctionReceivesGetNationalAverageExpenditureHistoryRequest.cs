@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Expenditure;
 
 public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : ExpenditureFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -15,10 +17,10 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -35,30 +37,31 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             }));
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
-    public async Task ShouldReturn500OnError()
+    public async Task ShouldThrowExceptionOnError()
     {
         ExpenditureNationalAvgParametersValidator
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Throws(new Exception());
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Throws(exception);
 
-        var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }

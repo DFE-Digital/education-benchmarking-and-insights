@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -15,10 +17,10 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryModel>());
 
-        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -31,13 +33,14 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
-            .Throws(new Exception());
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Throws(exception);
 
-        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }

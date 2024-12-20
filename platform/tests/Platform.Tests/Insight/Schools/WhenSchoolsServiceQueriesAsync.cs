@@ -32,8 +32,8 @@ public class WhenSchoolsServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<SchoolCharacteristic>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<SchoolCharacteristic>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -62,8 +62,8 @@ public class WhenSchoolsServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolCharacteristic>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<SchoolCharacteristic>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;

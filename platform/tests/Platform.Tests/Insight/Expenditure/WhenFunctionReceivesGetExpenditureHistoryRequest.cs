@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Expenditure;
 
 public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -15,29 +17,30 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
 
-        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Fact]
-    public async Task ShouldReturn500OnError()
+    public async Task ShouldThrowExceptionOnError()
     {
         ExpenditureParametersValidator
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
-            .Throws(new Exception());
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Throws(exception);
 
-        var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }

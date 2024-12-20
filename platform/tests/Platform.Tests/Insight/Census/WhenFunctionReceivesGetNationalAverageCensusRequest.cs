@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : CensusFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -15,10 +17,10 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
 
-        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -35,14 +37,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             }));
 
         Service
-            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
-        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData());
+        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            x => x.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
@@ -52,13 +54,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
-            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Throws(new Exception());
+            .Setup(d => d.GetHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Throws(exception);
 
-        var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData());
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }
