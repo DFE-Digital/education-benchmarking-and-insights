@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -229,7 +230,8 @@ public class ExpenditureFunctions(
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
@@ -246,13 +248,13 @@ public class ExpenditureFunctions(
         {
             try
             {
-                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetSchoolHistoryAsync(urn);
+                var result = await service.GetSchoolHistoryAsync(urn, cancellationToken);
                 return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
@@ -273,7 +275,8 @@ public class ExpenditureFunctions(
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureHistoryAvgComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history/comparator-set-average")] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureParameters>();
@@ -290,13 +293,13 @@ public class ExpenditureFunctions(
         {
             try
             {
-                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams);
+                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams.Dimension);
+                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, cancellationToken);
 
                 return await req.CreateJsonResponseAsync(result);
             }
@@ -318,7 +321,8 @@ public class ExpenditureFunctions(
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolExpenditureHistoryAvgNationalAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/history/national-average")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/history/national-average")] HttpRequestData req,
+        CancellationToken cancellationToken)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<ExpenditureNationalAvgParameters>();
@@ -335,13 +339,13 @@ public class ExpenditureFunctions(
         {
             try
             {
-                var validationResult = await expenditureNationalAvgValidator.ValidateAsync(queryParams);
+                var validationResult = await expenditureNationalAvgValidator.ValidateAsync(queryParams, cancellationToken);
                 if (!validationResult.IsValid)
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType);
+                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, cancellationToken);
 
                 return await req.CreateJsonResponseAsync(result);
             }

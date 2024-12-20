@@ -7,6 +7,8 @@ namespace Platform.Tests.Insight.Census;
 
 public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTestBase
 {
+    private readonly CancellationToken _cancellationToken = CancellationToken.None;
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -18,7 +20,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryModel>());
 
-        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -35,7 +37,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");
+        var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
