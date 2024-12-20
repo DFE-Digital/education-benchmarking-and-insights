@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryModel>());
 
         var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesGetExpenditureHistoryRequest : ExpenditureFunct
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
         var result = await Functions.SchoolExpenditureHistoryAsync(CreateHttpRequestData(), "1");

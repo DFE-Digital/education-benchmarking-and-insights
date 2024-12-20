@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
@@ -7,9 +8,9 @@ namespace Platform.Api.Insight.Census;
 
 public interface ICensusService
 {
-    Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn);
-    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension);
-    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
+    Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn, CancellationToken cancellationToken = default);
+    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default);
+    Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default);
     Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<CensusModel?> GetAsync(string urn);
     Task<CensusModel?> GetCustomAsync(string urn, string identifier);
@@ -17,7 +18,7 @@ public interface ICensusService
 
 public class CensusService(IDatabaseFactory dbFactory) : ICensusService
 {
-    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn)
+    public async Task<IEnumerable<CensusHistoryModel>> GetHistoryAsync(string urn, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from SchoolCensusHistoric WHERE URN = @URN";
         var parameters = new
@@ -26,10 +27,10 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<CensusHistoryModel>(sql, parameters, cancellationToken);
     }
 
-    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension)
+    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -49,10 +50,10 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
 
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters);
+        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters, cancellationToken);
     }
 
-    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
+    public async Task<IEnumerable<CensusHistoryResponse>> GetHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -72,7 +73,7 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters);
+        return await conn.QueryAsync<CensusHistoryResponse>(sql, parameters, cancellationToken);
     }
 
     public async Task<IEnumerable<CensusModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase)

@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryModel>());
 
         var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
         var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1");

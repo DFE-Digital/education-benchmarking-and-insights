@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
@@ -9,9 +10,9 @@ public interface IExpenditureService
 {
     Task<SchoolExpenditureModel?> GetSchoolAsync(string urn);
     Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn);
-    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension);
-    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType);
+    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default);
     Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
     Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
     Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
@@ -57,7 +58,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         return await conn.QueryFirstOrDefaultAsync<TrustExpenditureModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn)
+    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * FROM SchoolExpenditureHistoric WHERE URN = @URN";
         var parameters = new
@@ -66,10 +67,10 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters, cancellationToken);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension)
+    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -89,10 +90,10 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
 
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters, cancellationToken);
     }
 
-    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType)
+    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -112,7 +113,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters);
+        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters, cancellationToken);
     }
 
     public async Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber)
