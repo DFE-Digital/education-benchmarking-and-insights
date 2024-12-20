@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Pages.Trust.Benchmarking;
 using Xunit;
 namespace Web.E2ETests.Pages.Trust;
 
@@ -8,6 +9,10 @@ public class HomePage(IPage page)
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View school spending"
+    });
+    private ILocator TrustBenchmarking => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Trust to trust benchmarking"
     });
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
@@ -74,5 +79,22 @@ public class HomePage(IPage page)
     {
         await TrustForecastLink.Click();
         return new TrustForecastPage(page);
+    }
+
+    public async Task<object?> ClickTrustBenchmarkingLink()
+    {
+        await TrustBenchmarking.Click();
+        var h1 = await page.Locator("h1").TextContentAsync();
+        if (h1 is "Benchmark spending for this trust")
+        {
+            return new TrustBenchmarkSpendingPage(page);
+        }
+        else if(h1 is "How do you want to choose your own set of trusts?")
+        {
+            return new CreateComparatorsByPage(page);
+        }
+    
+        throw new Exception("Unable to determine the page after clicking Compare Your Costs.");
+
     }
 }

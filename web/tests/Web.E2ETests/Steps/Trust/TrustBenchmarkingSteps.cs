@@ -25,6 +25,28 @@ public class TrustBenchmarkingSteps(PageDriver driver)
         _trustHomePage = new HomePage(page);
         await _trustHomePage.IsDisplayed();
     }
+    
+    [Given("I click on trust benchmarking link")]
+    public async Task GivenIClickOnTrustBenchmarkingLink()
+    {
+        Assert.NotNull(_trustHomePage);
+        var navigationResponse = await _trustHomePage.ClickTrustBenchmarkingLink();
+        if (navigationResponse is TrustBenchmarkSpendingPage trustBenchmarkSpendingPage)
+        {
+            _trustBenchmarkSpendingPage = trustBenchmarkSpendingPage;
+           await _trustBenchmarkSpendingPage.IsDisplayed();
+
+        }
+        else if (navigationResponse is CreateComparatorsByPage createComparatorsByPage)
+        {
+            _createComparatorsByPage = createComparatorsByPage;
+            await _createComparatorsByPage.IsDisplayed();
+        }
+        else
+        {
+            throw new Exception("Unexpected page type.");
+        }
+    }
     [Given("I am on create comparators page for trust with company number '(.*)'")]
     public async Task GivenIAmOnCreateComparatorsPageForTrustWithCompanyNumber(string companyNumber)
     {
@@ -87,5 +109,6 @@ public class TrustBenchmarkingSteps(PageDriver driver)
 
     private static string TrustBenchmarkingUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/comparators";
 
-   
+
+    
 }
