@@ -8,7 +8,7 @@ namespace Platform.Tests.Insight.Expenditure;
 public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryRequest : ExpenditureFunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
-    
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
@@ -48,19 +48,20 @@ public class WhenFunctionReceivesGetComparatorSetAverageExpenditureHistoryReques
     }
 
     [Fact]
-    public async Task ShouldReturn500OnError()
+    public async Task ShouldThrowExceptionOnError()
     {
         ExpenditureParametersValidator
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
+        var exception = new Exception();
         Service
             .Setup(d => d.GetSchoolHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Throws(new Exception());
+            .Throws(exception);
 
-        var result = await Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        // exception handled by middleware
+        var result = await Assert.ThrowsAsync<Exception>(() => Functions.SchoolExpenditureHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken));
 
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        Assert.Equal(exception, result);
     }
 }

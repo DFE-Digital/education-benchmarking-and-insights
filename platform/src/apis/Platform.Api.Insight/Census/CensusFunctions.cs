@@ -194,22 +194,14 @@ public class CensusFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await censusParametersValidator.ValidateAsync(queryParams, cancellationToken);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await censusParametersValidator.ValidateAsync(queryParams, cancellationToken);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            }
 
-                var result = await service.GetHistoryAsync(urn, cancellationToken);
-                return await req.CreateJsonResponseAsync(result.Select(x => CensusResponseFactory.Create(x, queryParams.Dimension)));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get census history");
-                return req.CreateErrorResponse();
-            }
+            var result = await service.GetHistoryAsync(urn, cancellationToken);
+            return await req.CreateJsonResponseAsync(result.Select(x => CensusResponseFactory.Create(x, queryParams.Dimension)));
         }
     }
 
@@ -239,22 +231,14 @@ public class CensusFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await censusParametersValidator.ValidateAsync(queryParams, token);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await censusParametersValidator.ValidateAsync(queryParams, token);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            }
 
-                var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, token);
-                return await req.CreateJsonResponseAsync(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get comparator set average census history");
-                return req.CreateErrorResponse();
-            }
+            var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, token);
+            return await req.CreateJsonResponseAsync(result);
         }
     }
 
@@ -284,22 +268,14 @@ public class CensusFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams, token);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams, token);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            }
 
-                var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, token);
-                return await req.CreateJsonResponseAsync(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get national average census history");
-                return req.CreateErrorResponse();
-            }
+            var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, token);
+            return await req.CreateJsonResponseAsync(result);
         }
     }
 

@@ -246,22 +246,14 @@ public class ExpenditureFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            }
 
-                var result = await service.GetSchoolHistoryAsync(urn, cancellationToken);
-                return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get school expenditure history");
-                return req.CreateErrorResponse();
-            }
+            var result = await service.GetSchoolHistoryAsync(urn, cancellationToken);
+            return await req.CreateJsonResponseAsync(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
         }
     }
 
@@ -291,23 +283,15 @@ public class ExpenditureFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await expenditureParametersValidator.ValidateAsync(queryParams, cancellationToken);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
-
-                var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, cancellationToken);
-
-                return await req.CreateJsonResponseAsync(result);
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get school comparator set average expenditure history");
-                return req.CreateErrorResponse();
-            }
+
+            var result = await service.GetSchoolHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, cancellationToken);
+
+            return await req.CreateJsonResponseAsync(result);
         }
     }
 
@@ -337,23 +321,15 @@ public class ExpenditureFunctions(
                    }
                }))
         {
-            try
+            var validationResult = await expenditureNationalAvgValidator.ValidateAsync(queryParams, cancellationToken);
+            if (!validationResult.IsValid)
             {
-                var validationResult = await expenditureNationalAvgValidator.ValidateAsync(queryParams, cancellationToken);
-                if (!validationResult.IsValid)
-                {
-                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-                }
-
-                var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, cancellationToken);
-
-                return await req.CreateJsonResponseAsync(result);
+                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get school national average expenditure history");
-                return req.CreateErrorResponse();
-            }
+
+            var result = await service.GetSchoolHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, cancellationToken);
+
+            return await req.CreateJsonResponseAsync(result);
         }
     }
 
