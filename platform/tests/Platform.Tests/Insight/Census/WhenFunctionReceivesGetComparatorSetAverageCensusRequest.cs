@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
@@ -35,14 +35,14 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             }));
 
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()));
+            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            x => x.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1");

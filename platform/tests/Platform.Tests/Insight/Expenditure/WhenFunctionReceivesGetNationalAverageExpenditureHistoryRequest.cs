@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
@@ -35,14 +35,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             }));
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData());
