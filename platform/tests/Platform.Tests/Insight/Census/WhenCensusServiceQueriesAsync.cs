@@ -32,8 +32,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusHistoryModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -65,8 +65,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "URNS");
@@ -102,8 +102,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = TestDatabase.GetDictionaryFromDynamicParameters(param, "CompanyNumber", "Phase");
@@ -138,8 +138,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -169,8 +169,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryFirstOrDefaultAsync<CensusModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -206,8 +206,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -222,7 +222,7 @@ public class WhenCensusServiceQueriesAsync
         Assert.Equal(expectedSql, actualSql);
         Assert.Equivalent(new
         {
-            URN = urn,
+            URN = urn
         }, actualParam, true);
     }
 
@@ -236,12 +236,12 @@ public class WhenCensusServiceQueriesAsync
         };
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetHistoryAvgComparatorSetAsync(urn, "invalid"));
-        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [InlineData(CensusDimensions.Total, "Primary", "Maintained", "SchoolCensusAvgHistoric")]
@@ -264,8 +264,8 @@ public class WhenCensusServiceQueriesAsync
         object? actualParam = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
-            .Callback((string sql, object? param) =>
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
             {
                 actualSql = sql;
                 actualParam = param;
@@ -294,11 +294,11 @@ public class WhenCensusServiceQueriesAsync
         };
 
         _connection
-            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()))
+            .Setup(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
 
         await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetHistoryAvgNationalAsync("Invalid", "Primary", "Maintained"));
-        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Never());
+        _connection.Verify(c => c.QueryAsync<CensusHistoryResponse>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }
