@@ -1,6 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using FluentAssertions;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using Xunit;
 
 namespace Web.E2ETests.Pages.Trust.Benchmarking;
 
@@ -16,6 +15,8 @@ public class TrustBenchmarkSpendingPage (IPage page)
     private ILocator SaveAsImageBtns => page.Locator(Selectors.GovButton, new PageLocatorOptions{HasText = "Save "});
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
+    private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
+
 
     
     public async Task IsDisplayed()
@@ -29,21 +30,12 @@ public class TrustBenchmarkSpendingPage (IPage page)
       await SaveAsImageBtns.Nth(0).ShouldBeVisible();
       await TotalExpenditureDimension.ShouldBeVisible();
       await ShowHideAllSectionsLink.ShouldBeVisible();
-      var sections = await Sections.AllAsync();
-      sections.Count().Should().Be(9);
-      foreach (var sec in sections)
+      foreach (var sec in await Sections.AllAsync())
       {
          await sec.ShouldBeVisible();
       }
-
-
-
-
-
-
-
-
-      //todo increase coverage here
+      Assert.Equal(9, await Sections.Count());
+      await AllCharts.Nth(0).ShouldBeVisible();
     }
     
 }
