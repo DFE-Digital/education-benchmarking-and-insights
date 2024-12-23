@@ -80,21 +80,4 @@ public class HomePage(IPage page)
         await TrustForecastLink.Click();
         return new TrustForecastPage(page);
     }
-
-    public async Task<object?> ClickTrustBenchmarkingLink()
-    {
-        await TrustBenchmarking.Click();
-        var h1 = await page.Locator("h1").TextContentAsync();
-        if (h1 is "Benchmark spending for this trust")
-        {
-            return new TrustBenchmarkSpendingPage(page);
-        }
-        else if(h1 is "How do you want to choose your own set of trusts?")
-        {
-            return new CreateComparatorsByPage(page);
-        }
-    
-        throw new Exception("Unable to determine the page after clicking Compare Your Costs.");
-
-    }
 }

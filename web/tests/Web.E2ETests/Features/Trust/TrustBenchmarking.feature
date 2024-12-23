@@ -1,9 +1,9 @@
 ﻿Feature: Trust Benchmarking
 
     Background:
-        Given I am on trust homepage for trust with company number '00000001'
+        Given I am on the service home
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
-        And I click on trust benchmarking link
+        And I am on compare by page for trust with company number '00000001'
         
     Scenario: Can create comparator set by name
         When I select the option By Name and continue
