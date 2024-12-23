@@ -13,8 +13,8 @@ public class TrustBenchmarkingSteps(PageDriver driver)
     private CreateComparatorsByNamePage? _createComparatorsByNamePage;
     private CreateComparatorsByPage? _createComparatorsByPage;
     private TrustBenchmarkSpendingPage? _trustBenchmarkSpendingPage;
-    
-    
+
+
     [Given("I am on compare by page for trust with company number '(.*)'")]
     public async Task GivenIAmCompareByPageForTrustWithCompanyNumber(string companyNumber)
     {
@@ -25,7 +25,7 @@ public class TrustBenchmarkingSteps(PageDriver driver)
         await _createComparatorsByPage.IsDisplayed();
 
     }
-    
+
     [Given("I am on create comparators page for trust with company number '(.*)'")]
     public async Task GivenIAmOnCreateComparatorsPageForTrustWithCompanyNumber(string companyNumber)
     {
@@ -47,21 +47,21 @@ public class TrustBenchmarkingSteps(PageDriver driver)
         await _createComparatorsByNamePage.TypeIntoSearchBox(companyNumber);
         await _createComparatorsByNamePage.SelectItemFromSuggester();
     }
-    
+
     [When("I click the choose trust button")]
     public async Task WhenIClickTheChooseTrustButton()
     {
         Assert.NotNull(_createComparatorsByNamePage);
         await _createComparatorsByNamePage.ClickChooseTrustButton();
     }
-    
+
     [When("I click the create set button")]
     public async Task WhenIClickTheCreateSetButton()
     {
         Assert.NotNull(_createComparatorsByNamePage);
         _trustBenchmarkSpendingPage = await _createComparatorsByNamePage.ClickCreateSetButton();
     }
-    
+
     [Then("the trust benchmark spending page is displayed")]
     public async Task ThenTheTrustBenchmarkSpendingPageIsDisplayed()
     {
@@ -77,7 +77,7 @@ public class TrustBenchmarkingSteps(PageDriver driver)
         {
             _createComparatorsByNamePage = await _createComparatorsByPage.ClickContinue(type) as CreateComparatorsByNamePage;
         }
-       
+
     }
 
 
