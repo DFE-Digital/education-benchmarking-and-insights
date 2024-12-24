@@ -11,6 +11,7 @@ public class HomeSteps(PageDriver driver)
     private CompareYourCostsPage? _compareYourCostsPage;
     private SpendingCostsPage? _spendingCostsPage;
     private HomePage? _trustHomePage;
+    private CurriculumFinancialPlanningPage? _curriculumFinancialPlanningPage;
 
     [Given("I am on trust homepage for trust with company number '(.*)'")]
     public async Task GivenIAmOnTrustHomepageForTrustWithCompanyNumber(string companyNumber)
@@ -89,5 +90,20 @@ public class HomeSteps(PageDriver driver)
         await _benchmarkCensusPage.IsDisplayed();
     }
 
+    [When("I click on Curriculum and financial planning")]
+    public async Task WhenIClickOnCurriculumAndFinancialPlanning()
+    {
+        Assert.NotNull(_trustHomePage);
+        _curriculumFinancialPlanningPage = await _trustHomePage.ClickTrustCurriculumFinancialPlanning();
+    }
+
+    [Then("the Curriculum and financial page is displayed")]
+    public async Task ThenTheCurriculumAndFinancialPageIsDisplayed()
+    {
+        Assert.NotNull(_curriculumFinancialPlanningPage);
+        await _curriculumFinancialPlanningPage.IsDisplayed();
+    }
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
+
+
 }

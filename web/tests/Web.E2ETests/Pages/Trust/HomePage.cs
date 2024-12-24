@@ -28,6 +28,9 @@ public class HomePage(IPage page)
         HasText = "Forecast and risk"
     });
 
+    private ILocator CurriculumFinancialPlanningLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Curriculum and financial planning" });
+
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
 
     public async Task IsDisplayed()
@@ -79,5 +82,11 @@ public class HomePage(IPage page)
     {
         await TrustForecastLink.Click();
         return new TrustForecastPage(page);
+    }
+
+    public async Task<CurriculumFinancialPlanningPage> ClickTrustCurriculumFinancialPlanning()
+    {
+        await CurriculumFinancialPlanningLink.Click();
+        return new CurriculumFinancialPlanningPage(page);
     }
 }

@@ -39,3 +39,9 @@
         Given I am on trust homepage for trust with company number '8104190'
         When I click on benchmark census data
         Then the benchmark census page is displayed
+
+    Scenario: Go to Curriculum and financial planning
+        Given I am on trust homepage for trust with company number '00000001'
+        And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
+        When I click on Curriculum and financial planning
+        Then the Curriculum and financial page is displayed
