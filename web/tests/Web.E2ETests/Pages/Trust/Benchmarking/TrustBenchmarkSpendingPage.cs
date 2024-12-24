@@ -29,6 +29,12 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await ViewCentralSpendRadio.ShouldBeVisible().ShouldBeChecked();
         await SaveAsImageBtns.Nth(0).ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
+        var allOptions = await TotalExpenditureDimension.InnerTextAsync();
+        var expectedOptions = new[] { "£ per pupil", "actuals", "percentage of income" };
+        foreach (var expected in expectedOptions)
+        {
+            Assert.Contains(expected, allOptions);
+        }
         await ShowHideAllSectionsLink.ShouldBeVisible();
         foreach (var sec in await Sections.AllAsync())
         {
