@@ -191,7 +191,7 @@ Feature: School compare your costs
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £41,903  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £41,903  |
           | Test academy school 466 | Haringey                | Academy 16-19 converter            | 232              | £41,903  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £41,338  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £41,338  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £41,338  |
 
     Scenario: View Catering staff and services using Net figures
@@ -227,7 +227,7 @@ Feature: School compare your costs
           | Test academy school 333 | Hampshire               | Free schools alternative provision | 190              | £55,255  |
           | Test academy school 435 | Bradford                | Academy sponsor led                | 204              | £53,473  |
           | Test school 158         | Newcastle upon Tyne     | Community school                   | 206              | £50,814  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £47,932  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £47,932  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £47,932  |
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £41,903  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £41,903  |
