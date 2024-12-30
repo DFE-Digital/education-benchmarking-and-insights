@@ -41,7 +41,7 @@ Feature: School compare your costs
           | Test academy school 162 | West Northamptonshire   | Academy special converter          | 231              | £1,597,953  |
           | Test academy school 465 | Enfield                 | Academy 16-19 converter            | 231              | £1,597,953  |
           | Test school 102         | Hammersmith and Fulham  | Community school                   | 212              | £1,587,223  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £1,545,387  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £1,545,387  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £1,545,387  |
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £1,540,100  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £1,540,100  |
