@@ -1,6 +1,7 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
 using Xunit;
+
 namespace Web.E2ETests.Steps.Trust;
 
 [Binding]
@@ -12,6 +13,7 @@ public class HomeSteps(PageDriver driver)
     private SpendingCostsPage? _spendingCostsPage;
     private HomePage? _trustHomePage;
     private CurriculumFinancialPlanningPage? _curriculumFinancialPlanningPage;
+    private TrustForecastPage? _trustForecastPage;
 
     [Given("I am on trust homepage for trust with company number '(.*)'")]
     public async Task GivenIAmOnTrustHomepageForTrustWithCompanyNumber(string companyNumber)
@@ -83,6 +85,13 @@ public class HomeSteps(PageDriver driver)
         _benchmarkCensusPage = await _trustHomePage.ClickBenchmarkCensus();
     }
 
+    [When("I click on forecast and risk")]
+    public async Task WhenIClickOnForecastAndRisk()
+    {
+        Assert.NotNull(_trustHomePage);
+        _trustForecastPage = await _trustHomePage.ClickTrustForecast();
+    }
+
     [Then("the benchmark census page is displayed")]
     public async Task ThenTheBenchmarkCensusPageIsDisplayed()
     {
@@ -103,6 +112,27 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_curriculumFinancialPlanningPage);
         await _curriculumFinancialPlanningPage.IsDisplayed();
     }
+    [Then("the trust forecast page is displayed")]
+    public async Task ThenTheTrustForecastPageIsDisplayed()
+    {
+        Assert.NotNull(_trustForecastPage);
+        await _trustForecastPage.IsDisplayed();
+    }
+
+    [Then("following table is displayed on the page")]
+    public async Task ThenFollowingTableIsDisplayedOnThePage(Table table)
+    {
+        var expected = new List<List<string>>();
+        {
+            var headers = table.Header.ToList();
+
+            expected.Add(headers);
+            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+        }
+        Assert.NotNull(_trustForecastPage);
+        await _trustForecastPage.IsTableDataDisplayed(expected);
+    }
+
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
 
 }

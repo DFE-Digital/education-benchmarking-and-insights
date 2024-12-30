@@ -13,6 +13,7 @@ public static class Selectors
     //public const string GovBackLink = ".govuk-back-link";
     public const string GovButton = "main .govuk-button";
     public const string GovLink = "main .govuk-link";
+    public const string GovDetails = ".govuk-details";
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
@@ -167,4 +168,5 @@ public static class Selectors
     public const string TrustBenchmarkingSpendingTab = "#tab_spending";
     public const string TrustBenchmarkingBalanceTab = "#tab_balance";
     public const string AccordionSchoolContent = "#accordion-schools-content-";
+    public const string ForecastRisksDimension = "#year-end-reserves-dimension";
 }
