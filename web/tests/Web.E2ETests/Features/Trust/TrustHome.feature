@@ -53,7 +53,7 @@
         Then the trust forecast page is displayed
         And following table is displayed on the page
           | Period end date | Forecast reserves | Actual reserves | Difference | Variance percentage | Variance status                 |
-          | 31 Aug 2020     | 0                |                 |            |                     |                                 |
+          | 31 Aug 2020     | 0                 |                 |            |                     |                                 |
           | 31 Aug 2021     | £763,000          |                 |            |                     |                                 |
           | 31 Aug 2022     | £653,000          | £733,588        | £80,588    | 11%                 | AR significantly above forecast |
           | 31 Aug 2023     | £608,000          |                 |            |                     |                                 |
