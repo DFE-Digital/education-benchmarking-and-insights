@@ -9,7 +9,7 @@
         <PackageVersion Include="Azure.Search.Documents" Version="11.6.0"/>
         <PackageVersion Include="AzureExtensions.Swashbuckle" Version="3.3.2"/>
         <PackageVersion Include="CommandLineParser" Version="2.9.1"/>
-        <PackageVersion Include="coverlet.collector" Version="6.0.2">
+        <PackageVersion Include="coverlet.collector" Version="6.0.3">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageVersion>
