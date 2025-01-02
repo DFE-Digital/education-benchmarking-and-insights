@@ -1,4 +1,3 @@
-import datetime
 import logging
 from warnings import simplefilter
 
@@ -1456,6 +1455,10 @@ def update_custom_data(
     (less the "Financial Position" as this is non-numeric) will be set
     to zero, again for that row only.
 
+    It is assumed that the updated custom-data constitutes a full year
+    of financial information and as a result, `Partial Years Present`
+    will _always_ be set to _false_ for the row in question.
+
     Note: only a subset of the custom fields may be present in the
     inbound message; only a subset of mapped columns may be present in
     the existing data. Equally, the data will only be updated if the
@@ -1545,6 +1548,8 @@ def update_custom_data(
     existing_data.loc[target_urn] = _post_process_custom(
         target_data=existing_data.loc[[target_urn]]
     ).loc[target_urn]
+
+    existing_data.loc[target_urn, "Partial Years Present"] = False
 
     return existing_data
 

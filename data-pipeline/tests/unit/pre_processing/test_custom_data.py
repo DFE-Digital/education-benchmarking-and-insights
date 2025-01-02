@@ -126,6 +126,7 @@ _default_existing_data = {
     "NonClassroomSupportStaffFTE": [0.0, 0.0, 0.0, 0.0],
     "Total Number of Auxiliary Staff (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
     "Total School Workforce (Headcount)": [0.0, 0.0, 0.0, 0.0],
+    "Partial Years Present": [True, True, True, True],
 }
 
 
@@ -170,7 +171,11 @@ def test_update_custom_data():
                 ]
             ),
         ].items()
-        if column != "Catering staff and supplies_Net Costs"
+        if column
+        not in (
+            "Catering staff and supplies_Net Costs",
+            "Partial Years Present",
+        )
         and not column.endswith(
             (
                 "_Total",
@@ -264,3 +269,19 @@ def test_update_custom_data_missing_target():
     )
 
     assert 4 not in result.index
+
+
+def test_custom_data_part_year():
+    """
+    `Partial Years Present` will be set to `False` for the URN in
+    question.
+    """
+    df = pd.DataFrame(_default_existing_data, index=[0, 1, 2, 3])
+
+    result = update_custom_data(
+        existing_data=df,
+        custom_data=_default_custom_data,
+        target_urn=1,
+    )
+
+    assert list(result["Partial Years Present"]) == [True, False, True, True]
