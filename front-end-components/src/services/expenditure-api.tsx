@@ -49,7 +49,8 @@ export class ExpenditureApi {
     dimension: string,
     overallPhase?: string,
     financeType?: string,
-    excludeCentralServices?: boolean
+    excludeCentralServices?: boolean,
+    signals?: AbortSignal[]
   ): Promise<SchoolHistoryComparison<SchoolExpenditureHistory>> {
     const params = new URLSearchParams({
       type: type,
@@ -74,7 +75,7 @@ export class ExpenditureApi {
           "Content-Type": "application/json",
           "X-Correlation-ID": uuidv4(),
         },
-        signal: AbortSignal.timeout(30_000),
+        signal: signals?.length ? AbortSignal.any(signals) : undefined,
       }
     );
 

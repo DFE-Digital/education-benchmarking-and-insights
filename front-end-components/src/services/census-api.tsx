@@ -36,7 +36,8 @@ export class CensusApi {
     id: string,
     dimension: string,
     overallPhase?: string,
-    financeType?: string
+    financeType?: string,
+    signals?: AbortSignal[]
   ): Promise<SchoolHistoryComparison<CensusHistory>> {
     const params = new URLSearchParams({
       id: id,
@@ -52,7 +53,7 @@ export class CensusApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
-      signal: AbortSignal.timeout(30_000),
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     });
 
     const json = await response.json();
