@@ -41,7 +41,7 @@ Feature: School compare your costs
           | Test academy school 162 | West Northamptonshire   | Academy special converter          | 231              | £1,597,953  |
           | Test academy school 465 | Enfield                 | Academy 16-19 converter            | 231              | £1,597,953  |
           | Test school 102         | Hammersmith and Fulham  | Community school                   | 212              | £1,587,223  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £1,545,387  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £1,545,387  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £1,545,387  |
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £1,540,100  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £1,540,100  |
@@ -69,7 +69,7 @@ Feature: School compare your costs
           | Test school 181                                                                                                           | Dorset                            | Voluntary aided school         | 399              | £8,584  |
           | Test school 87                                                                                                            | Reading                           | Foundation school              | 206              | £8,224  |
           | Test school 124                                                                                                           | Newham                            | Voluntary aided school         | 769              | £8,089  |
-          | Test academy school 82                                                                                                    | Bournemouth, Christchurch & Poole | Academy converter              | 991              | £8,088  |
+          | Test academy school 82                                                                                                    | Bournemouth Christchurch & Poole  | Academy converter              | 991              | £8,088  |
           | Test academy school 53                                                                                                    | Salford                           | Free school                    | 407              | £8,028  |
           | Test school 260                                                                                                           | Kingston upon Thames              | Community school               | 853              | £7,880  |
           | Test academy school 450                                                                                                   | Surrey                            | Academy 16-19 converter        | 367              | £7,703  |
@@ -191,7 +191,7 @@ Feature: School compare your costs
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £41,903  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £41,903  |
           | Test academy school 466 | Haringey                | Academy 16-19 converter            | 232              | £41,903  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £41,338  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £41,338  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £41,338  |
 
     Scenario: View Catering staff and services using Net figures
@@ -227,7 +227,7 @@ Feature: School compare your costs
           | Test academy school 333 | Hampshire               | Free schools alternative provision | 190              | £55,255  |
           | Test academy school 435 | Bradford                | Academy sponsor led                | 204              | £53,473  |
           | Test school 158         | Newcastle upon Tyne     | Community school                   | 206              | £50,814  |
-          | Test school 154         | Kirklees                | Community school                   | 174              | £47,932  |
+          | Test school 154         | Test Local Authority    | Community school                   | 174              | £47,932  |
           | Test school 243         | Lambeth                 | Voluntary aided school             | 174              | £47,932  |
           | Test school 149         | Barnsley                | Pupil referral unit                | 232              | £41,903  |
           | Test academy school 12  | Hounslow                | Academy sponsor led                | 232              | £41,903  |
