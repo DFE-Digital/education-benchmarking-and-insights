@@ -30,7 +30,7 @@
         Then the census result should be ok and contain:
           | Field                             | Value                  |
           | AuxiliaryStaff                    |                        |
-          | LAName                            | Bedford                |
+          | LAName                            | Test Local Authority   |
           | NonClassroomSupportStaff          |                        |
           | PercentTeacherWithQualifiedStatus |                        |
           | SchoolName                        | Test school 176        |
@@ -49,7 +49,7 @@
         Then the census result should be ok and contain:
           | Field                             | Value                  |
           | AuxiliaryStaff                    | 3.00                   |
-          | LAName                            | Bedford                |
+          | LAName                            | Test Local Authority   |
           | NonClassroomSupportStaff          | 0.00                   |
           | PercentTeacherWithQualifiedStatus | 1.00                   |
           | SchoolName                        | Test school 176        |
@@ -86,10 +86,10 @@
           | 990002 |
         When I submit the insights census request
         Then the census query result should be ok and contain:
-          | SchoolName      | SchoolType                     | LAName        | AuxiliaryStaff | NonClassroomSupportStaff | PercentTeacherWithQualifiedStatus | SeniorLeadership | Teachers | TeachingAssistant | TotalPupils | URN    | Workforce | WorkforceHeadcount |
-          | Test school 176 | Voluntary aided school         | Bedford       | 3.00           | 0.00                     | 1.00                              | 16.00            | 116.00   | 1.00              | 337.00      | 990000 | 29.00     | 33.00              |
-          | Test school 241 | Voluntary aided school         | Islington     | 3.00           | 0.00                     | 1.00                              | 11.00            | 147.00   | 1.00              | 164.00      | 990001 | 27.00     | 39.00              |
-          | Test school 224 | Local authority nursery school | Isle of Wight | 2.00           | 0.00                     | 1.00                              | 4.00             | 136.00   | 1.00              | 86.00       | 990002 | 15.00     | 20.00              |
+          | SchoolName      | SchoolType                     | LAName               | AuxiliaryStaff | NonClassroomSupportStaff | PercentTeacherWithQualifiedStatus | SeniorLeadership | Teachers | TeachingAssistant | TotalPupils | URN    | Workforce | WorkforceHeadcount |
+          | Test school 176 | Voluntary aided school         | Test Local Authority | 3.00           | 0.00                     | 1.00                              | 16.00            | 116.00   | 1.00              | 337.00      | 990000 | 29.00     | 33.00              |
+          | Test school 241 | Voluntary aided school         | Islington            | 3.00           | 0.00                     | 1.00                              | 11.00            | 147.00   | 1.00              | 164.00      | 990001 | 27.00     | 39.00              |
+          | Test school 224 | Local authority nursery school | Isle of Wight        | 2.00           | 0.00                     | 1.00                              | 4.00             | 136.00   | 1.00              | 86.00       | 990002 | 15.00     | 20.00              |
 
     Scenario: Sending a valid school census query request with company number and phase
         Given a valid school census query request with company number '8104190' and phase 'Secondary'

@@ -18,7 +18,7 @@
           | URN                 | 990000                 |
           | SchoolName          | Test school 176        |
           | SchoolType          | Voluntary aided school |
-          | LAName              | Bedford                |
+          | LAName              | Test Local Authority   |
           | TotalPupils         | 418.00                 |
           | SchoolInYearBalance |                        |
           | InYearBalance       | 121827.00              |
@@ -32,7 +32,7 @@
           | URN                 | 990000                 |
           | SchoolName          | Test school 176        |
           | SchoolType          | Voluntary aided school |
-          | LAName              | Bedford                |
+          | LAName              | Test Local Authority   |
           | TotalPupils         | 418.00                 |
           | SchoolInYearBalance | 121827.00              |
           | InYearBalance       | 121827.00              |
