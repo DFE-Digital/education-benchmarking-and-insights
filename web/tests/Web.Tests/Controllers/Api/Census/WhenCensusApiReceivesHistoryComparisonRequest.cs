@@ -42,16 +42,17 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        var cancellationToken = CancellationToken.None;
         _censusApi
-            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>()))
-            .Callback<string, ApiQuery?>((_, query) =>
+            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType);
+        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
@@ -74,16 +75,17 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        var cancellationToken = CancellationToken.None;
         _censusApi
-            .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>()))
-            .Callback<string, ApiQuery?>((_, query) =>
+            .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType);
+        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
@@ -112,16 +114,17 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        var cancellationToken = CancellationToken.None;
         _censusApi
-            .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(query =>
+            .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<ApiQuery?, CancellationToken>((query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType);
+        var actual = await _api.HistoryComparison(urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;

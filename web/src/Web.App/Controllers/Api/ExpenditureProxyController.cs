@@ -95,7 +95,7 @@ public class ExpenditureProxyController(
             {
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await SchoolExpenditureHistory(id, dimension, excludeCentralServices),
+                    OrganisationTypes.School => await SchoolExpenditureHistory(id, dimension, excludeCentralServices, CancellationToken.None),
                     OrganisationTypes.Trust => await TrustExpenditureHistory(id, dimension, excludeCentralServices),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
@@ -116,6 +116,7 @@ public class ExpenditureProxyController(
     /// <param name="phase" example="Secondary"></param>
     /// <param name="financeType" example="Academy"></param>
     /// <param name="excludeCentralServices"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<HistoryComparison<ExpenditureHistory>>(StatusCodes.Status200OK)]
@@ -127,7 +128,8 @@ public class ExpenditureProxyController(
         [FromQuery] string dimension,
         [FromQuery] string? phase,
         [FromQuery] string? financeType,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] bool? excludeCentralServices,
+        CancellationToken cancellationToken)
     {
         using (logger.BeginScope(new
         {
@@ -139,7 +141,7 @@ public class ExpenditureProxyController(
             {
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, phase, financeType, excludeCentralServices),
+                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, phase, financeType, excludeCentralServices, cancellationToken),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -329,38 +331,38 @@ public class ExpenditureProxyController(
         return query;
     }
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistory(string urn, string dimension, bool? excludeCentralServices) => await expenditureApi
-        .SchoolHistory(urn, BuildQuery(null, dimension, excludeCentralServices))
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistory(string urn, string dimension, bool? excludeCentralServices, CancellationToken cancellationToken) => await expenditureApi
+        .SchoolHistory(urn, BuildQuery(null, dimension, excludeCentralServices), cancellationToken)
         .GetResultOrDefault<ExpenditureHistory[]>();
 
     private async Task<ExpenditureHistory[]?> TrustExpenditureHistory(string companyNumber, string dimension, bool? excludeCentralServices) => await expenditureApi
         .TrustHistory(companyNumber, BuildQuery(null, dimension, excludeCentralServices))
         .GetResultOrDefault<ExpenditureHistory[]>();
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension) => await expenditureApi
-        .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension))
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await expenditureApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension), cancellationToken)
         .GetResultOrDefault<ExpenditureHistory[]>();
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension)
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
     {
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-        return await SchoolExpenditureHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension);
+        return await SchoolExpenditureHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension, cancellationToken);
     }
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string? phase, string? financeType, string dimension)
+    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
     {
         var query = BuildQuery(null, dimension, phase: phase, financeType: financeType);
         return await expenditureApi
-            .SchoolHistoryNationalAverage(query)
+            .SchoolHistoryNationalAverage(query, cancellationToken)
             .GetResultOrDefault<ExpenditureHistory[]>();
     }
 
-    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices) => new()
+    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, CancellationToken cancellationToken) => new()
     {
-        School = await SchoolExpenditureHistory(urn, dimension, excludeCentralServices),
-        ComparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension),
+        School = await SchoolExpenditureHistory(urn, dimension, excludeCentralServices, cancellationToken),
+        ComparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension, cancellationToken),
         NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
-            ? await SchoolExpenditureHistoryNationalAverage(urn, dimension)
-            : await SchoolExpenditureHistoryNationalAverage(phase, financeType, dimension)
+            ? await SchoolExpenditureHistoryNationalAverage(urn, dimension, cancellationToken)
+            : await SchoolExpenditureHistoryNationalAverage(phase, financeType, dimension, cancellationToken)
     };
 }

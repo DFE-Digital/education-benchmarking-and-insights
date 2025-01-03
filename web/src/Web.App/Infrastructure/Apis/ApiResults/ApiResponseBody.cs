@@ -5,11 +5,14 @@ public abstract class ApiResponseBody(byte[] content)
     public byte[] Content { get; } = content;
     public bool HasContent => Content is { Length: > 0 };
 
-    public static async Task<ApiResponseBody> FromHttpContent(HttpContent content)
+    public static async Task<ApiResponseBody> FromHttpContent(HttpContent content, CancellationToken cancellationToken = default)
     {
-        if (content is not { Headers.ContentLength: > 0 }) return new EmptyResponseBody();
+        if (content is not { Headers.ContentLength: > 0 })
+        {
+            return new EmptyResponseBody();
+        }
 
-        var bytes = await content.ReadAsByteArrayAsync();
+        var bytes = await content.ReadAsByteArrayAsync(cancellationToken);
 
         return content.Headers.ContentType?.MediaType switch
         {

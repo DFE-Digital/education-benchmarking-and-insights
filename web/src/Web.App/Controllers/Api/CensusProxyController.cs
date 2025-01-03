@@ -59,7 +59,7 @@ public class CensusProxyController(
         {
             try
             {
-                var result = await SchoolCensusHistory(id, dimension);
+                var result = await SchoolCensusHistory(id, dimension, CancellationToken.None);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -74,6 +74,7 @@ public class CensusProxyController(
     /// <param name="dimension" example="HeadcountPerFte"></param>
     /// <param name="phase" example="Secondary"></param>
     /// <param name="financeType" example="Academy"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<HistoryComparison<CensusHistory>>(StatusCodes.Status200OK)]
@@ -83,7 +84,8 @@ public class CensusProxyController(
         [FromQuery] string id,
         [FromQuery] string dimension,
         [FromQuery] string? phase,
-        [FromQuery] string? financeType)
+        [FromQuery] string? financeType,
+        CancellationToken cancellationToken)
     {
         using (logger.BeginScope(new
         {
@@ -92,7 +94,7 @@ public class CensusProxyController(
         {
             try
             {
-                var result = await GetSchoolHistoryComparison(id, dimension, phase, financeType);
+                var result = await GetSchoolHistoryComparison(id, dimension, phase, financeType, cancellationToken);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -176,34 +178,34 @@ public class CensusProxyController(
         return query;
     }
 
-    private async Task<CensusHistory[]?> SchoolCensusHistory(string urn, string dimension) => await censusApi
-        .SchoolHistory(urn, BuildApiQuery(dimension: dimension))
+    private async Task<CensusHistory[]?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
+        .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
         .GetResultOrDefault<CensusHistory[]>();
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension) => await censusApi
-        .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension))
+    private async Task<CensusHistory[]?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
         .GetResultOrDefault<CensusHistory[]>();
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string urn, string dimension)
+    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
     {
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-        return await SchoolCensusHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension);
+        return await SchoolCensusHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension, cancellationToken);
     }
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension)
+    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
     {
         var query = BuildApiQuery(null, dimension, phase: phase, financeType: financeType);
         return await censusApi
-            .SchoolHistoryNationalAverage(query)
+            .SchoolHistoryNationalAverage(query, cancellationToken)
             .GetResultOrDefault<CensusHistory[]>();
     }
 
-    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType) => new()
+    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken) => new()
     {
-        School = await SchoolCensusHistory(urn, dimension),
-        ComparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension),
+        School = await SchoolCensusHistory(urn, dimension, cancellationToken),
+        ComparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension, cancellationToken),
         NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
-            ? await SchoolCensusHistoryNationalAverage(urn, dimension)
-            : await SchoolCensusHistoryNationalAverage(phase, financeType, dimension)
+            ? await SchoolCensusHistoryNationalAverage(urn, dimension, cancellationToken)
+            : await SchoolCensusHistoryNationalAverage(phase, financeType, dimension, cancellationToken)
     };
 }
