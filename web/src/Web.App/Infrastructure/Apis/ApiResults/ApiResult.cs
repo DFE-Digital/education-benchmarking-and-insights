@@ -2,7 +2,6 @@ using System.Net;
 using FluentValidation;
 using FluentValidation.Results;
 using Web.App.Extensions;
-
 namespace Web.App.Infrastructure.Apis;
 
 public abstract class ApiResult(HttpStatusCode status)
@@ -25,7 +24,10 @@ public abstract class ApiResult(HttpStatusCode status)
 
     public bool EnsureSuccess()
     {
-        if (IsSuccess) return true;
+        if (IsSuccess)
+        {
+            return true;
+        }
 
         if (this is BadRequestApiResult b && b.Errors.Any())
         {
@@ -41,23 +43,23 @@ public abstract class ApiResult(HttpStatusCode status)
         throw new StatusCodeException(Status);
     }
 
-    public static async Task<ApiResult> FromHttpResponse(HttpResponseMessage response)
+    public static async Task<ApiResult> FromHttpResponse(HttpResponseMessage response, CancellationToken cancellationToken = default)
     {
         if (response.IsSuccessStatusCode)
         {
-            var body = await ApiResponseBody.FromHttpContent(response.Content);
+            var body = await ApiResponseBody.FromHttpContent(response.Content, cancellationToken);
             return new SuccessApiResult(response.StatusCode, body);
         }
 
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            var body = await ApiResponseBody.FromHttpContent(response.Content);
+            var body = await ApiResponseBody.FromHttpContent(response.Content, cancellationToken);
             return new BadRequestApiResult(body);
         }
 
         if (response.StatusCode == HttpStatusCode.Conflict)
         {
-            var body = await ApiResponseBody.FromHttpContent(response.Content);
+            var body = await ApiResponseBody.FromHttpContent(response.Content, cancellationToken);
             return new ConflictApiResult(body);
         }
 

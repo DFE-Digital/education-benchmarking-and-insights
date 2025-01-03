@@ -204,16 +204,24 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupCensus(School school, CensusHistory[] historySchool, CensusHistory[]? historyComparatorSet = null, CensusHistory[]? historyNational = null)
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historySchool));
-        CensusApi.Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyComparatorSet));
-        CensusApi.Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyNational));
+        CensusApi
+            .Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historySchool));
+        CensusApi
+            .Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historyComparatorSet));
+        CensusApi
+            .Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historyNational));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupCensusWithException()
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.SchoolHistory(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi
+            .Setup(api => api.SchoolHistory(It.IsAny<string?>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Throws(new Exception());
         CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
         return this;
     }
@@ -358,9 +366,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistory[] historySchool, ExpenditureHistory[]? historyComparatorSet = null, ExpenditureHistory[]? historyNational = null)
     {
         ExpenditureApi.Reset();
-        ExpenditureApi.Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historySchool));
-        ExpenditureApi.Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyComparatorSet));
-        ExpenditureApi.Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(historyNational));
+        ExpenditureApi
+            .Setup(api => api.SchoolHistory(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historySchool));
+        ExpenditureApi
+            .Setup(api => api.SchoolHistoryComparatorSetAverage(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historyComparatorSet));
+        ExpenditureApi
+            .Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(historyNational));
         return this;
     }
 

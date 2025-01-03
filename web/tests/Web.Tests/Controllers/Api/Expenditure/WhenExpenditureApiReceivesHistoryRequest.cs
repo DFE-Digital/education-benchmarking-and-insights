@@ -36,8 +36,8 @@ public class WhenExpenditureApiReceivesHistoryRequest
         var actualQuery = string.Empty;
 
         _expenditureApi
-            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>()))
-            .Callback<string, ApiQuery?>((_, query) =>
+            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })
