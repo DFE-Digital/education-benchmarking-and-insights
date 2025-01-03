@@ -26,6 +26,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
   load,
   overallPhase,
   type,
+  fetchTimeout,
 }) => {
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
@@ -34,6 +35,9 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
     SchoolHistoryComparison<SchoolExpenditureHistory>
   >({});
   const [loadError, setLoadError] = useState<string>();
+  const [cancelSignal, setCancelSignal] = useState<AbortController>(
+    new AbortController()
+  );
 
   const getData = useCallback(async () => {
     if (!load) {
@@ -47,28 +51,48 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
       id,
       dimension.value,
       overallPhase,
-      financeType
+      financeType,
+      undefined,
+      fetchTimeout
+        ? [cancelSignal.signal, AbortSignal.timeout(fetchTimeout)]
+        : [cancelSignal.signal]
     );
-  }, [dimension.value, financeType, id, load, overallPhase, type]);
+  }, [
+    dimension.value,
+    financeType,
+    id,
+    load,
+    overallPhase,
+    type,
+    fetchTimeout,
+    cancelSignal,
+  ]);
 
   useEffect(() => {
     getData()
       .then((result) => {
         setData(result);
       })
-      .catch(() => {
+      .catch((e: Error) => {
         setData({});
-        setLoadError("Unable to load historical spending data");
+
+        if (e.name !== "AbortError") {
+          setLoadError("Unable to load historical spending data");
+        }
       });
   }, [getData]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
+    cancelSignal?.abort();
+
     const dimension =
       CostCategories.find((x) => x.value === event.target.value) ??
       defaultDimension;
     setDimension(dimension);
+
+    setCancelSignal(new AbortController());
   };
 
   return (

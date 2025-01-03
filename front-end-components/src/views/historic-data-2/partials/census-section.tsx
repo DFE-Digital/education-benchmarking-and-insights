@@ -23,12 +23,16 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
   load,
   overallPhase,
   type,
+  fetchTimeout,
 }) => {
   const defaultDimension = PupilsPerStaffRole;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState<SchoolHistoryComparison<CensusHistory>>({});
   const [loadError, setLoadError] = useState<string>();
+  const [cancelSignal, setCancelSignal] = useState<AbortController>(
+    new AbortController()
+  );
 
   const getData = useCallback(async () => {
     if (!load) {
@@ -41,28 +45,46 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
       id,
       dimension.value,
       overallPhase,
-      financeType
+      financeType,
+      fetchTimeout
+        ? [cancelSignal.signal, AbortSignal.timeout(fetchTimeout)]
+        : [cancelSignal.signal]
     );
-  }, [dimension.value, financeType, id, load, overallPhase]);
+  }, [
+    dimension.value,
+    financeType,
+    id,
+    load,
+    overallPhase,
+    fetchTimeout,
+    cancelSignal,
+  ]);
 
   useEffect(() => {
     getData()
       .then((result) => {
         setData(result);
       })
-      .catch(() => {
+      .catch((e: Error) => {
         setData({});
-        setLoadError("Unable to load historical pupil and workforce data");
+
+        if (e.name !== "AbortError") {
+          setLoadError("Unable to load historical pupil and workforce data");
+        }
       });
   }, [getData]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
+    cancelSignal?.abort();
+
     const dimension =
       CensusCategories.find((x) => x.value === event.target.value) ??
       defaultDimension;
     setDimension(dimension);
+
+    setCancelSignal(new AbortController());
   };
 
   return (

@@ -9,6 +9,7 @@ export type HistoricData2Props = {
   overallPhase?: string;
   financeType?: string;
   load?: boolean;
+  fetchTimeout?: number;
 };
 
 export type HistoricData2ViewProps = Omit<HistoricData2Props, "load"> & {

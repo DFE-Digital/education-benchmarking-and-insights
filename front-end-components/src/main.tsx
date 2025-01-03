@@ -88,6 +88,7 @@ if (historicData2Element) {
           preLoadSections={
             hash ? [hash as HistoricData2SectionName] : undefined
           }
+          fetchTimeout={30_000}
         />
       </React.StrictMode>
     );
