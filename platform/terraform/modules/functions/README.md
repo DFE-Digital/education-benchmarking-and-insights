@@ -4,7 +4,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.1.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.2.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers

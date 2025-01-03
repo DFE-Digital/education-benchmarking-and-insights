@@ -27,7 +27,7 @@
           | URN                                  | 990000                 |
           | SchoolName                           | Test school 176        |
           | SchoolType                           | Voluntary aided school |
-          | LAName                               | Bedford                |
+          | LAName                               | Test Local Authority   |
           | TotalPupils                          | 418.00                 |
           | TotalIncome                          | 2912331.00             |
           | TotalGrantFunding                    | 2851071.00             |
@@ -63,7 +63,7 @@
           | URN                                  | 990000                 |
           | SchoolName                           | Test school 176        |
           | SchoolType                           | Voluntary aided school |
-          | LAName                               | Bedford                |
+          | LAName                               | Test Local Authority   |
           | TotalPupils                          | 418.00                 |
           | TotalIncome                          | 2912331.00             |
           | TotalGrantFunding                    | 2851071.00             |
@@ -99,7 +99,7 @@
           | URN                                  | 990000                 |
           | SchoolName                           | Test school 176        |
           | SchoolType                           | Voluntary aided school |
-          | LAName                               | Bedford                |
+          | LAName                               | Test Local Authority   |
           | TotalPupils                          | 418.00                 |
           | TotalIncome                          | 2912331.00             |
           | TotalGrantFunding                    | 2851071.00             |
@@ -179,7 +179,7 @@
         Then the school income query result should be ok and contain:
           | URN    | TotalIncome | TotalGrantFunding | TotalSelfGeneratedFunding | DirectRevenueFinancing | DirectGrants | PrePost16Funding | OtherDfeGrants | OtherIncomeGrants | CommunityGrants | IncomeFacilitiesServices | IncomeCatering | DonationsVoluntaryFunds | ReceiptsSupplyTeacherInsuranceClaims | SchoolTotalIncome | SchoolTotalGrantFunding | SchoolTotalSelfGeneratedFunding | SchoolDirectRevenueFinancing | SchoolDirectGrants | SchoolPrePost16Funding | SchoolOtherDfeGrants | SchoolOtherIncomeGrants | SchoolCommunityGrants | SchoolIncomeFacilitiesServices | SchoolIncomeCatering | SchoolDonationsVoluntaryFunds |
           | 777055 | 3685110.00  | 3595411.00        | 68353.00                  | 0.00                   | 2741553.00   | 2736638.00       | 0.00           | 4915.00           | 46914.00        | 41001.00                 | 13600.00       | 14957.00                | 0.00                                 | 3685110.00        | 3595411.00              | 68353.00                        | 0.00                         | 2741553.00         | 2736638.00             | 0.00                 | 4915.00                 | 46914.00              | 41001.00                       | 13600.00             | 14957.00                      |
-          
+
     Scenario: Sending a valid trust income request with category, dimension and exclude central services
         Given a valid trust income request with company number '10192252', category 'GrantFunding', dimension 'Actuals' and exclude central services = 'true'
         When I submit the insights income request
