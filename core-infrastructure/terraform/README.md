@@ -4,17 +4,17 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.1.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.12.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.2.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.14.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.1.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.2.0 |
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.0.2 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.12.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.14.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | 2.5.2 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
