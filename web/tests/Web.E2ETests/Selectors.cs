@@ -166,4 +166,5 @@ public static class Selectors
     public const string PupilWorkforceContent = "#pupil-workforce-metrics-section .two-halves-with-divider > div";
     public const string TrustBenchmarkingSpendingTab = "#tab_spending";
     public const string TrustBenchmarkingBalanceTab = "#tab_balance";
+    public const string AccordionSchoolContent = "#accordion-schools-content-";
 }
