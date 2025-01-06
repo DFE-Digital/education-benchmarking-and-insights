@@ -14,5 +14,6 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         
         <EmbeddedResource Include="Scripts/*.sql" />
+        <EmbeddedResource Include="Views/*.sql" />
     </ItemGroup>
 </Project>

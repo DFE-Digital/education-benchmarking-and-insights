@@ -1,90 +1,137 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Sql;
+
 namespace Platform.Api.Insight.Balance;
 
 public interface IBalanceService
 {
-    Task<SchoolBalanceModel?> GetSchoolAsync(string urn);
-    Task<TrustBalanceModel?> GetTrustAsync(string companyNumber);
-    Task<IEnumerable<SchoolBalanceHistoryModel>> GetSchoolHistoryAsync(string urn);
-    Task<IEnumerable<TrustBalanceHistoryModel>> GetTrustHistoryAsync(string companyNumber);
-    Task<IEnumerable<SchoolBalanceModel>> QuerySchoolsAsync(string[] urns);
-    Task<IEnumerable<TrustBalanceModel>> QueryTrustsAsync(string[] companyNumbers);
+    Task<BalanceSchoolModel?> GetSchoolAsync(string urn);
+    Task<(BalanceYearsModel? years, IEnumerable<BalanceHistoryModel> rows)> GetSchoolHistoryAsync(string urn, string dimension = BalanceDimensions.Actuals);
+    Task<BalanceTrustModel?> GetTrustAsync(string companyNumber);
+    Task<(BalanceYearsModel? years, IEnumerable<BalanceHistoryModel> rows)> GetTrustHistoryAsync(string companyNumber, string dimension = BalanceDimensions.Actuals);
+    Task<IEnumerable<BalanceTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension = BalanceDimensions.Actuals);
 }
 
 public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
 {
-    public async Task<SchoolBalanceModel?> GetSchoolAsync(string urn)
+    public async Task<BalanceSchoolModel?> GetSchoolAsync(string urn)
     {
-        const string sql = "SELECT * FROM SchoolBalance WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
+        var sql = GetSchoolSql(BalanceDimensions.Actuals);
+        var parameters = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<SchoolBalanceModel>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<BalanceSchoolModel>(sql, parameters);
     }
 
-    public async Task<TrustBalanceModel?> GetTrustAsync(string companyNumber)
+    public async Task<(BalanceYearsModel?, IEnumerable<BalanceHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = BalanceDimensions.Actuals)
     {
-        const string sql = "SELECT * FROM TrustBalance WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
+        const string yearSql = "SELECT * FROM VW_SchoolYears WHERE URN = @URN";
+        var yearParams = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<TrustBalanceModel>(sql, parameters);
+
+        var years = await conn.QueryFirstOrDefaultAsync<BalanceYearsModel>(yearSql, yearParams);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<BalanceHistoryModel>());
+        }
+
+        var historySql = GetSchoolHistorySql(dimension);
+        var historyParams = new { URN = urn, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<BalanceHistoryModel>(historySql, historyParams));
     }
 
-    public async Task<IEnumerable<SchoolBalanceHistoryModel>> GetSchoolHistoryAsync(string urn)
+    public async Task<BalanceTrustModel?> GetTrustAsync(string companyNumber)
     {
-        const string sql = "SELECT * FROM SchoolBalanceHistoric WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
+        var sql = GetTrustSql(BalanceDimensions.Actuals);
+        var parameters = new { CompanyNumber = companyNumber };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolBalanceHistoryModel>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<BalanceTrustModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<TrustBalanceHistoryModel>> GetTrustHistoryAsync(string companyNumber)
+    public async Task<(BalanceYearsModel?, IEnumerable<BalanceHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = BalanceDimensions.Actuals)
     {
-        const string sql = "SELECT * FROM TrustBalanceHistoric WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
+        const string yearSql = "SELECT * FROM VW_TrustYears WHERE CompanyNumber = @CompanyNumber";
+        var yearParams = new { CompanyNumber = companyNumber };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustBalanceHistoryModel>(sql, parameters);
+
+        var years = await conn.QueryFirstOrDefaultAsync<BalanceYearsModel>(yearSql, yearParams);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<BalanceHistoryModel>());
+        }
+
+        var historySql = GetTrustHistorySql(dimension);
+        var historyParams = new { CompanyNumber = companyNumber, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<BalanceHistoryModel>(historySql, historyParams));
     }
 
-    public async Task<IEnumerable<SchoolBalanceModel>> QuerySchoolsAsync(string[] urns)
+    public async Task<IEnumerable<BalanceTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension = BalanceDimensions.Actuals)
     {
-        const string sql = "SELECT * from SchoolBalance where URN IN @URNS";
-        var parameters = new
-        {
-            URNS = urns
-        };
+        var sql = QueryTrustsSql(dimension);
+        var parameters = new { CompanyNumbers = companyNumbers };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolBalanceModel>(sql, parameters);
+        return await conn.QueryAsync<BalanceTrustModel>(sql, parameters);
     }
 
-    public async Task<IEnumerable<TrustBalanceModel>> QueryTrustsAsync(string[] companyNumbers)
+    private static string GetTrustSql(string dimension)
     {
-        const string sql = "SELECT * from TrustBalance where CompanyNumber IN @CompanyNumbers";
-        var parameters = new
+        return dimension switch
         {
-            CompanyNumbers = companyNumbers
+            BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber = @CompanyNumber",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
+    }
 
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustBalanceModel>(sql, parameters);
+    private static string QueryTrustsSql(string dimension)
+    {
+        return dimension switch
+        {
+            BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PerUnit => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PercentExpenditure => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PercentIncome => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetTrustHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceTrustDefaultActual WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PerUnit => "SELECT * FROM VW_BalanceTrustDefaultPerUnit WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PercentExpenditure => "SELECT * FROM VW_BalanceTrustDefaultPercentExpenditure WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PercentIncome => "SELECT * FROM VW_BalanceTrustDefaultPercentIncome WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetSchoolSql(string dimension)
+    {
+        return dimension switch
+        {
+            BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceSchoolDefaultCurrentActual WHERE URN = @URN",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetSchoolHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceSchoolDefaultActual WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PerUnit => "SELECT * FROM VW_BalanceSchoolDefaultPerUnit WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PercentExpenditure => "SELECT * FROM VW_BalanceSchoolDefaultPercentExpenditure WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            BalanceDimensions.PercentIncome => "SELECT * FROM VW_BalanceSchoolDefaultPercentIncome WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
     }
 }

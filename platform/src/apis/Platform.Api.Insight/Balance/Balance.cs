@@ -9,13 +9,13 @@ public static class BalanceDimensions
     public const string PercentIncome = nameof(PercentIncome);
     public const string PercentExpenditure = nameof(PercentExpenditure);
 
-    public static readonly string[] All = new[]
-    {
+    public static readonly string[] All =
+    [
         Actuals,
         PerUnit,
         PercentIncome,
         PercentExpenditure
-    };
+    ];
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }
