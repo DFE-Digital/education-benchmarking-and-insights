@@ -1,6 +1,6 @@
 # DSI Pre-Production Test Organisations
 
-This document provides an overview of the DSI test organisations available for testing purposes across the development, testing, and automated test environments, contingent upon the inclusion of relevant data in these environments.
+This document provides an overview of the DSI pre-production test organisations available for testing purposes across the development, testing, and automated test environments, contingent upon the inclusion of relevant data in these environments.
 
 ## Test Organisations Overview
 
