@@ -1,10 +1,9 @@
 using System.Net;
 using Web.App.Extensions;
-
 namespace Web.App.Infrastructure.Apis;
 
 public class StatusCodeException(HttpStatusCode statusCode)
-    : Exception($"The api returned `{GetFriendlyMessage(statusCode)}` underlying status code: {statusCode}")
+    : Exception($"The API returned `{GetFriendlyMessage(statusCode)}` (underlying status code {(int)statusCode})")
 {
     public HttpStatusCode Status { get; } = statusCode;
 
@@ -18,6 +17,7 @@ public class StatusCodeException(HttpStatusCode statusCode)
             HttpStatusCode.NotFound => "Resource not found",
             HttpStatusCode.NotImplemented => "Not yet implemented",
             HttpStatusCode.OK => "OK",
+            (HttpStatusCode)499 => "Client Closed Request",
             _ => status.ToString().SplitPascalCase()
         };
     }
