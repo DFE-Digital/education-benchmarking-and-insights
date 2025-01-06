@@ -8,7 +8,6 @@ public enum AccordionsNames
     ContactRatio,
     AverageClassSize,
     InYearBalance
-
 }
 public class CurriculumFinancialPlanningPage(IPage page)
 {
