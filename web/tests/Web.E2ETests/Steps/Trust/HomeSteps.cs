@@ -104,6 +104,5 @@ public class HomeSteps(PageDriver driver)
         await _curriculumFinancialPlanningPage.IsDisplayed();
     }
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
-
-
+    
 }
