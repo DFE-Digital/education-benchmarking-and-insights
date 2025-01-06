@@ -67,7 +67,7 @@ public static class HttpRequestDataExtensions
         return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode);
     }
 
-    public static HttpResponseData CreateErrorResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.InternalServerError);
+    public static HttpResponseData CreateErrorResponse(this HttpRequestData req, int statusCode = (int)HttpStatusCode.InternalServerError) => req.CreateResponse((HttpStatusCode)statusCode);
 
     public static HttpResponseData CreateNotFoundResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.NotFound);
 }
