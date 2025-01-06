@@ -1,28 +1,34 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Runtime.CompilerServices;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Functions.Worker.Middleware;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Platform.Functions.Extensions;
+[assembly: InternalsVisibleTo("Platform.Tests")]
 // ReSharper disable ClassNeverInstantiated.Global
 namespace Platform.Functions.Middleware;
 
 [ExcludeFromCodeCoverage]
 public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IFunctionsWorkerMiddleware
 {
-    public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
+    public Task Invoke(FunctionContext context, FunctionExecutionDelegate next) => Invoke(new FunctionContextWrapper(context), next);
+
+    internal async Task Invoke(FunctionContextWrapper context, FunctionExecutionDelegate next)
     {
         try
         {
-            await next(context);
+            await next(context.Context);
         }
-        catch (TaskCanceledException ex)
+        catch (Exception ex) when
+            (ex is OperationCanceledException
+             || ex is TaskCanceledException
+             || ex is SqlException && ex.Message.Contains("Operation cancelled by user"))
         {
             logger.LogInformation(ex, "The request was cancelled upon request by the client");
-
-            // ideally the unofficial status code 499 (Client Closed Request) would be set but
-            // `HttpResponseData.StatusCode` is a `HttpStatusCode` rather than `StatusCode` or `int` 
-            await WriteErrorResponse(context, "Client Closed Request");
+            await WriteErrorResponse(context, "Client Closed Request", 499);
         }
         catch (Exception e)
         {
@@ -31,16 +37,24 @@ public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddlew
         }
     }
 
-    private static async Task WriteErrorResponse(FunctionContext context, string? content = null)
+    private static async Task WriteErrorResponse(FunctionContextWrapper context, string? content = null, int statusCode = (int)HttpStatusCode.InternalServerError)
     {
         var request = await context.GetHttpRequestDataAsync();
-        var response = request!.CreateErrorResponse();
+        var response = request!.CreateErrorResponse(statusCode);
 
         if (!string.IsNullOrWhiteSpace(content))
         {
             await response.WriteStringAsync(content);
         }
 
-        context.GetInvocationResult().Value = response;
+        context.SetInvocationResult(response);
     }
+}
+
+// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+public class FunctionContextWrapper(FunctionContext context)
+{
+    public FunctionContext Context => context;
+    public virtual ValueTask<HttpRequestData?> GetHttpRequestDataAsync() => context.GetHttpRequestDataAsync();
+    public virtual void SetInvocationResult(HttpResponseData result) => context.GetInvocationResult().Value = result;
 }

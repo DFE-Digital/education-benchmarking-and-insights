@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Core"/>
         <PackageReference Include="Microsoft.Azure.WebJobs"/>
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi.Core"/>
+        <PackageReference Include="Microsoft.Data.SqlClient"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
