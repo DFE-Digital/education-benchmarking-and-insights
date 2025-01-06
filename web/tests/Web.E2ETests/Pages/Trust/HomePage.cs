@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Pages.Trust.Benchmarking;
 using Xunit;
 namespace Web.E2ETests.Pages.Trust;
 
@@ -8,6 +9,10 @@ public class HomePage(IPage page)
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View school spending"
+    });
+    private ILocator TrustBenchmarking => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Trust to trust benchmarking"
     });
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
