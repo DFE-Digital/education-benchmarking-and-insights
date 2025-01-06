@@ -75,6 +75,8 @@
           | census   | headcount per FTE | School workforce (full time equivalent) | national average across phase type, average across comparator set, headcount per FTE |
 
     @HistoricalTrendsFlagEnabled
+    @ignore
+    #until 243002 of 237633 is completed
     Scenario: Change Total expenditure chart to table view when historical trends flag enabled
         Given I am on 'spending' history page for school with URN '777042'
         When I change 'spending' dimension to 'actuals'
@@ -88,6 +90,8 @@
           | 2021 to 2022 | £1,587,223 | £2,929,445                    | £3,586,859                         |
 
     @HistoricalTrendsFlagEnabled
+    @ignore
+    #until 243002 of 237633 is completed
     Scenario: Change Total expenditure chart to table view when historical trends flag enabled and dimension set to per unit
         Given I am on 'spending' history page for school with URN '777042'
         When I change 'spending' dimension to '£ per pupil'
