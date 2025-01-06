@@ -22,6 +22,8 @@ public abstract class ApiResult(HttpStatusCode status)
 
     public static ApiResult Conflict(ConflictData conflict) => new ConflictApiResult(new JsonResponseBody(conflict));
 
+    public static ApiResult Cancelled() => new ErrorApiResult((HttpStatusCode)499);
+
     public bool EnsureSuccess()
     {
         if (IsSuccess)
@@ -38,7 +40,6 @@ public abstract class ApiResult(HttpStatusCode status)
         {
             throw new DataConflictException(c.Details);
         }
-
 
         throw new StatusCodeException(Status);
     }
