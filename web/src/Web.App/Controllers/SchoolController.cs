@@ -20,7 +20,8 @@ public class SchoolController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
-    IUserDataService userDataService)
+    IUserDataService userDataService,
+    ICensusApi censusApi)
     : Controller
 {
     [HttpGet]
@@ -39,28 +40,24 @@ public class SchoolController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
-                var school = School(urn);
-                var balance = SchoolBalance(urn);
-                var userData = UserData(urn);
-
-                await Task.WhenAll(school, balance, userData);
-
-                var isNonLeadFederation = !string.IsNullOrEmpty(school.Result.FederationLeadURN) && school.Result.FederationLeadURN != urn;
+                var school = await School(urn);
+                var isNonLeadFederation = !string.IsNullOrEmpty(school.FederationLeadURN) && school.FederationLeadURN != urn;
 
                 if (isNonLeadFederation)
                 {
-                    var viewModel = new SchoolViewModel(school.Result, balance.Result);
-
+                    var census = await Census(urn);
+                    var viewModel = new NonLeadFederationSchoolViewModel(school, census);
                     return View("NonLeadFederation", viewModel);
                 }
                 else
                 {
-                    var ratings = string.IsNullOrEmpty(userData.Result.ComparatorSet)
+                    var balance = await SchoolBalance(urn);
+                    var (customData, comparatorSet) = await UserData(urn);
+                    var ratings = string.IsNullOrEmpty(comparatorSet)
                         ? await RagRatingsDefault(urn)
-                        : await RagRatingsUserDefined(userData.Result.ComparatorSet);
+                        : await RagRatingsUserDefined(comparatorSet);
 
-                    var viewModel = new SchoolViewModel(school.Result, balance.Result, ratings, comparatorGenerated, comparatorReverted, userData.Result.ComparatorSet, userData.Result.CustomData);
-
+                    var viewModel = new SchoolViewModel(school, balance, ratings, comparatorGenerated, comparatorReverted, comparatorSet, customData);
                     return View(viewModel);
                 }
             }
@@ -214,6 +211,10 @@ public class SchoolController(
     private async Task<School> School(string urn) => await establishmentApi
         .GetSchool(urn)
         .GetResultOrThrow<School>();
+
+    private async Task<Census> Census(string urn) => await censusApi
+        .Get(urn)
+        .GetResultOrThrow<Census>();
 
     private async Task<RagRating[]> RagRatingsDefault(string urn) => await metricRagRatingApi
         .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))

@@ -5,11 +5,24 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
+
 public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static readonly List<string> AllCostCategories =
+    [
+        Category.TeachingStaff,
+        Category.NonEducationalSupportStaff,
+        Category.EducationalSupplies,
+        Category.EducationalIct,
+        Category.PremisesStaffServices,
+        Category.Utilities,
+        Category.AdministrativeSupplies,
+        Category.CateringStaffServices,
+        Category.Other
+    ];
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -75,6 +88,7 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
+            .Without(x => x.FederationLeadURN)
             .Create();
 
         var customDataId = "123";
@@ -119,10 +133,10 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCensusCustomData(school.URN).ToAbsolute());
 
         var expectedBreadcrumbs = new[]
-       {
+        {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute()),
+            ("Customised data", Paths.SchoolCustomisedData(school.URN).ToAbsolute())
         };
 
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
@@ -159,47 +173,14 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
             foreach (var category in AllCostCategories)
             {
                 var rating = Fixture.Build<RagRating>()
-                                    .With(x => x.Category, category)
-                                    .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
-                                    .With(r => r.URN, urn)
-                                    .Create();
+                    .With(x => x.Category, category)
+                    .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
+                    .With(r => r.URN, urn)
+                    .Create();
                 ratings.Add(rating);
             }
 
             return ratings.ToArray();
         }
     }
-
-    private static readonly List<string> AllCostCategories = new()
-    {
-        {
-            Category.TeachingStaff
-        },
-        {
-            Category.NonEducationalSupportStaff
-        },
-        {
-            Category.EducationalSupplies
-        },
-        {
-            Category.EducationalIct
-        },
-        {
-            Category.PremisesStaffServices
-        },
-        {
-            Category.Utilities
-        },
-        {
-            Category.AdministrativeSupplies
-        },
-        {
-            Category.CateringStaffServices
-        },
-        {
-            Category.Other
-        }
-    };
 }
-
-

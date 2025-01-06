@@ -40,14 +40,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         CustomDataGenerated = customDataGenerated;
     }
 
-    public SchoolViewModel(
-        School school,
-        SchoolBalance? balance)
-        : this(school)
-    {
-        NumberOfPupils = balance?.TotalPupils;
-    }
-
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
@@ -62,7 +54,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public bool HasNursery => school.HasNursery;
     public string? SchoolType => school.SchoolType;
     public bool HasSixthForm => school.HasSixthForm;
-    public decimal? NumberOfPupils { get; }
     public FederationSchool[] FederationSchools => school.FederationSchools;
 
     public string Website

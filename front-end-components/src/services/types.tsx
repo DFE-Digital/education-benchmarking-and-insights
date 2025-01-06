@@ -299,8 +299,8 @@ export type SchoolHistoryBase = {
 };
 
 type BalanceBase = {
-  inYearBalance: number;
-  revenueReserve: number;
+  inYearBalance?: number;
+  revenueReserve?: number;
 };
 
 type TrustBalanceBase = BalanceBase & {
@@ -322,6 +322,16 @@ export type TrustBalance = TrustBalanceBase & {
 };
 
 export type SchoolBalanceHistory = BalanceBase & SchoolHistoryBase;
+
+type BalanceHistory = {
+  year: number;
+};
+
+export type BalanceHistoryRows = {
+  startYear: number;
+  endYear: number;
+  rows: Array<BalanceBase & BalanceHistory>;
+};
 
 type CensusBase = {
   urn: string;

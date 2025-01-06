@@ -6,7 +6,7 @@ import {
   CostCategories,
 } from "src/components";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
-import { SchoolBalanceHistory, BalanceApi } from "src/services";
+import { SchoolBalanceHistory, BalanceService } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
@@ -25,7 +25,7 @@ export const BalanceSection: React.FC<{
     }
 
     setData(new Array<SchoolBalanceHistory>());
-    return await BalanceApi.history(type, id, dimension.value);
+    return await BalanceService.getHistory(type, id, dimension.value);
   }, [type, id, dimension, load]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import {
+  BalanceHistoryRows,
   BudgetForecastReturn,
-  SchoolBalanceHistory,
   TrustBalance,
 } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
@@ -10,7 +10,7 @@ export class BalanceApi {
     type: string,
     id: string,
     dimension: string
-  ): Promise<SchoolBalanceHistory[]> {
+  ): Promise<BalanceHistoryRows> {
     const params = new URLSearchParams({
       type: type,
       id: id,

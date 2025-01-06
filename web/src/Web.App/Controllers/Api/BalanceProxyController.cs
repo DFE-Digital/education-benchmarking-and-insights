@@ -6,7 +6,6 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -20,17 +19,15 @@ public class BalanceProxyController(
     /// <param name="type" example="school"></param>
     /// <param name="id" example="148793"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<BalanceHistory[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType<BalanceHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] string dimension)
     {
         using (logger.BeginScope(new
         {
@@ -43,11 +40,11 @@ public class BalanceProxyController(
                 var result = type.ToLower() switch
                 {
                     OrganisationTypes.School => await api
-                        .SchoolHistory(id, BuildQuery(dimension, excludeCentralServices))
-                        .GetResultOrDefault<BalanceHistory[]>(),
+                        .SchoolHistory(id, BuildQuery(dimension))
+                        .GetResultOrDefault<BalanceHistoryRows>(),
                     OrganisationTypes.Trust => await api
-                        .TrustHistory(id, BuildQuery(dimension, excludeCentralServices))
-                        .GetResultOrDefault<BalanceHistory[]>(),
+                        .TrustHistory(id, BuildQuery(dimension))
+                        .GetResultOrDefault<BalanceHistoryRows>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -64,7 +61,6 @@ public class BalanceProxyController(
     /// <param name="type" example="trust"></param>
     /// <param name="id" example="07465701"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<TrustBalance[]>(StatusCodes.Status200OK)]
@@ -74,8 +70,7 @@ public class BalanceProxyController(
     public async Task<IActionResult> UserDefined(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] string dimension)
     {
         using (logger.BeginScope(new
         {
@@ -87,7 +82,7 @@ public class BalanceProxyController(
             {
                 return type.ToLower() switch
                 {
-                    OrganisationTypes.Trust => await TrustBalanceUserDefined(id, dimension, excludeCentralServices),
+                    OrganisationTypes.Trust => await TrustBalanceUserDefined(id, dimension),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
             }
@@ -99,7 +94,7 @@ public class BalanceProxyController(
         }
     }
 
-    private async Task<IActionResult> TrustBalanceUserDefined(string id, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> TrustBalanceUserDefined(string id, string? dimension)
     {
         var userData = await userDataService.GetTrustDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -109,17 +104,16 @@ public class BalanceProxyController(
 
         var userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         var userDefinedResult = await api
-            .QueryTrusts(BuildQuery(dimension, excludeCentralServices, userDefinedSet.Set, "companyNumbers"))
+            .QueryTrusts(BuildQuery(dimension, userDefinedSet.Set, "companyNumbers"))
             .GetResultOrThrow<TrustBalance[]>();
 
         return new JsonResult(userDefinedResult);
     }
 
-    private static ApiQuery BuildQuery(string? dimension, bool? excludeCentralServices, IEnumerable<string>? ids = null, string? idQueryName = null)
+    private static ApiQuery BuildQuery(string? dimension, IEnumerable<string>? ids = null, string? idQueryName = null)
     {
         var query = new ApiQuery()
-            .AddIfNotNull("dimension", dimension)
-            .AddIfNotNull("excludeCentralServices", excludeCentralServices);
+            .AddIfNotNull("dimension", dimension);
 
         if (ids != null && !string.IsNullOrWhiteSpace(idQueryName))
         {

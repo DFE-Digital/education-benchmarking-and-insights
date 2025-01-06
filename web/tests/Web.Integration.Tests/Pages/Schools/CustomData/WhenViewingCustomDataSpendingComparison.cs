@@ -1,15 +1,28 @@
-﻿using AngleSharp.Dom;
+﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
-using System.Net;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
+
 public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static readonly List<string> AllCostCategories =
+    [
+        Category.TeachingStaff,
+        Category.NonEducationalSupportStaff,
+        Category.EducationalSupplies,
+        Category.EducationalIct,
+        Category.PremisesStaffServices,
+        Category.Utilities,
+        Category.AdministrativeSupplies,
+        Category.CateringStaffServices,
+        Category.Other
+    ];
+
     [Theory]
     [InlineData(true, true, true)]
     [InlineData(true, false, false)]
@@ -34,7 +47,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
     [Fact]
     public async Task CanNavigateToCompareYourCostsCustomData()
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(true, false, false);
+        var (page, school, _, _) = await SetupNavigateInitPage(true);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[0].QuerySelector("h3 > a");
@@ -122,6 +135,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
+            .Without(x => x.FederationLeadURN)
             .Create();
 
         var customDataId = "123";
@@ -230,9 +244,13 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
 
         var changeCount = customRatings
             .Join(originalRatings,
-                  custom => custom.Category,
-                  original => original.Category,
-                  (custom, original) => new { custom, original })
+                custom => custom.Category,
+                original => original.Category,
+                (custom, original) => new
+                {
+                    custom,
+                    original
+                })
             .Where(joined => joined.custom.RAG != joined.original.RAG)
             .Count();
 
@@ -256,9 +274,13 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
 
         var noChangeCount = customRatings
             .Join(originalRatings,
-                  custom => custom.Category,
-                  original => original.Category,
-                  (custom, original) => new { custom, original })
+                custom => custom.Category,
+                original => original.Category,
+                (custom, original) => new
+                {
+                    custom,
+                    original
+                })
             .Where(joined => joined.custom.RAG == joined.original.RAG)
             .Count();
 
@@ -305,10 +327,10 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         foreach (var category in AllCostCategories)
         {
             var rating = Fixture.Build<RagRating>()
-                                .With(x => x.Category, category)
-                                .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
-                                .With(r => r.URN, urn)
-                                .Create();
+                .With(x => x.Category, category)
+                .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
+                .With(r => r.URN, urn)
+                .Create();
             ratings.Add(rating);
         }
 
@@ -394,37 +416,6 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         Assert.Contains(customExpectedPercentage, customPercentageCell);
     }
 
-    private static readonly List<string> AllCostCategories = new()
-    {
-        {
-            Category.TeachingStaff
-        },
-        {
-            Category.NonEducationalSupportStaff
-        },
-        {
-            Category.EducationalSupplies
-        },
-        {
-            Category.EducationalIct
-        },
-        {
-            Category.PremisesStaffServices
-        },
-        {
-            Category.Utilities
-        },
-        {
-            Category.AdministrativeSupplies
-        },
-        {
-            Category.CateringStaffServices
-        },
-        {
-            Category.Other
-        }
-    };
-
     private static class ChangeSymbols
     {
         public const string Decrease = "▼";
@@ -435,4 +426,3 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         public const string NoChangeText = "no change";
     }
 }
-
