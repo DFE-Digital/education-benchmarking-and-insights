@@ -8,7 +8,7 @@ namespace Web.E2ETests.Steps.Trust;
 public class CurriculumFinancialPlanningSteps(PageDriver driver)
 {
     private CurriculumFinancialPlanningPage? _curriculumFinancialPlanningPage;
-    
+
     [Given("I am on Curriculum and financial planning page for trust with company number '(.*)'")]
     public async Task GivenIAmOnCurriculumAndFinancialPlanningPageForTrustWithCompanyNumber(string companyNumber)
     {
@@ -59,5 +59,5 @@ public class CurriculumFinancialPlanningSteps(PageDriver driver)
         };
     }
     private static string TrustCurriculumFinancialPlanningPageUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/financial-planning";
-    
+
 }
