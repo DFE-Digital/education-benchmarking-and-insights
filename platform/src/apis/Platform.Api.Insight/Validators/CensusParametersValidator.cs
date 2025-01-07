@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Platform.Api.Insight.Census;
-using Platform.Api.Insight.Expenditure;
-using Platform.Api.Insight.Income;
+
 namespace Platform.Api.Insight.Validators;
 
 public class CensusParametersValidator : AbstractValidator<CensusParameters>

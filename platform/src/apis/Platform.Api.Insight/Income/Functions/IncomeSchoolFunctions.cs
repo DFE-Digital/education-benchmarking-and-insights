@@ -2,31 +2,36 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
-namespace Platform.Api.Insight.Balance;
+namespace Platform.Api.Insight.Income;
 
-public class BalanceSchoolFunctions(ILogger<BalanceSchoolFunctions> logger, IBalanceService service)
+public class IncomeSchoolFunctions(
+    ILogger<IncomeSchoolFunctions> logger,
+    IIncomeService service,
+    IValidator<IncomeParameters> validator)
 {
-    [Function(nameof(SchoolBalanceAsync))]
-    [OpenApiOperation(nameof(SchoolBalanceAsync), "Balance")]
+    //TODO: Add parameters to logger scope
+    [Function(nameof(SchoolIncomeAsync))]
+    [OpenApiOperation(nameof(SchoolIncomeAsync), "Income")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BalanceSchoolResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IncomeSchoolResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-    public async Task<HttpResponseData> SchoolBalanceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}")] HttpRequestData req,
+    public async Task<HttpResponseData> SchoolIncomeAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
-
         using (logger.BeginScope(new Dictionary<string, object>
                {
                    {
@@ -34,10 +39,7 @@ public class BalanceSchoolFunctions(ILogger<BalanceSchoolFunctions> logger, IBal
                    },
                    {
                        "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
+                   }
                }))
         {
             try
@@ -49,28 +51,28 @@ public class BalanceSchoolFunctions(ILogger<BalanceSchoolFunctions> logger, IBal
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Failed to get school balance");
+                logger.LogError(e, "Failed to get school income");
                 return req.CreateErrorResponse();
             }
         }
     }
 
-    //TODO: Add validation for dimension
     //TODO: Add parameters to logger scope
-    [Function(nameof(SchoolBalanceHistoryAsync))]
-    [OpenApiOperation(nameof(SchoolBalanceHistoryAsync), "Balance")]
+    [Function(nameof(SchoolIncomeHistoryAsync))]
+    [OpenApiOperation(nameof(SchoolIncomeHistoryAsync), "Income")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleBalanceDimension))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BalanceHistoryResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IncomeHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-    public async Task<HttpResponseData> SchoolBalanceHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}/history")] HttpRequestData req,
+    public async Task<HttpResponseData> SchoolIncomeHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "income/school/{urn}/history")] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
-        var queryParams = req.GetParameters<BalanceParameters>();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
@@ -84,6 +86,11 @@ public class BalanceSchoolFunctions(ILogger<BalanceSchoolFunctions> logger, IBal
         {
             try
             {
+                var validationResult = await validator.ValidateAsync(queryParams);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
 
                 var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension);
                 return years == null
@@ -92,7 +99,7 @@ public class BalanceSchoolFunctions(ILogger<BalanceSchoolFunctions> logger, IBal
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Failed to get school balance history");
+                logger.LogError(e, "Failed to get school income history");
                 return req.CreateErrorResponse();
             }
         }

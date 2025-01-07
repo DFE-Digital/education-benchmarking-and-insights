@@ -1,13 +1,18 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.Insight.Income;
 
 [ExcludeFromCodeCoverage]
-public abstract record IncomeBaseModel
+public record IncomeYearsModel
 {
-    public int? PeriodCoveredByReturn { get; set; }
-    public decimal? TotalPupils { get; set; }
+    public int StartYear { get; set; }
+    public int EndYear { get; set; }
+}
+
+[ExcludeFromCodeCoverage]
+public abstract record IncomeModel
+{
     public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
     public decimal? TotalGrantFunding { get; set; }
     public decimal? TotalSelfGeneratedFunding { get; set; }
     public decimal? DirectRevenueFinancing { get; set; }
@@ -24,53 +29,20 @@ public abstract record IncomeBaseModel
     public decimal? ReceiptsSupplyTeacherInsuranceClaims { get; set; }
     public decimal? InvestmentIncome { get; set; }
     public decimal? OtherSelfGeneratedIncome { get; set; }
-
-    public decimal? TotalIncomeCS { get; set; }
-    public decimal? TotalExpenditureCS { get; set; }
-    public decimal? TotalGrantFundingCS { get; set; }
-    public decimal? TotalSelfGeneratedFundingCS { get; set; }
-    public decimal? DirectRevenueFinancingCS { get; set; }
-    public decimal? DirectGrantsCS { get; set; }
-    public decimal? PrePost16FundingCS { get; set; }
-    public decimal? OtherDfeGrantsCS { get; set; }
-    public decimal? OtherIncomeGrantsCS { get; set; }
-    public decimal? GovernmentSourceCS { get; set; }
-    public decimal? CommunityGrantsCS { get; set; }
-    public decimal? AcademiesCS { get; set; }
-    public decimal? IncomeFacilitiesServicesCS { get; set; }
-    public decimal? IncomeCateringServicesCS { get; set; }
-    public decimal? DonationsVoluntaryFundsCS { get; set; }
-    public decimal? ReceiptsSupplyTeacherInsuranceClaimsCS { get; set; }
-    public decimal? InvestmentIncomeCS { get; set; }
-    public decimal? OtherSelfGeneratedIncomeCS { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolIncomeModel : IncomeBaseModel
+public record IncomeSchoolModel : IncomeModel
 {
     public string? URN { get; set; }
     public string? SchoolName { get; set; }
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolIncomeHistoryModel : IncomeBaseModel
+public record IncomeHistoryModel : IncomeModel
 {
-    public string? URN { get; set; }
-    public int? Year { get; set; }
-}
-
-[ExcludeFromCodeCoverage]
-public record TrustIncomeModel : IncomeBaseModel
-{
-    public string? CompanyNumber { get; set; }
-    public string? TrustName { get; set; }
-}
-
-[ExcludeFromCodeCoverage]
-public record TrustIncomeHistoryModel : IncomeBaseModel
-{
-    public string? CompanyNumber { get; set; }
-    public int? Year { get; set; }
+    public int? RunId { get; set; }
 }

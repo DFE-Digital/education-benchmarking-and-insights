@@ -34,7 +34,22 @@ SELECT RunId,
        InYearBalance,
        InYearBalanceCS,
        InYearBalance - InYearBalanceCS       AS 'InYearBalanceSchool',
-       RevenueReserve
+       RevenueReserve,
+       TotalGrantFunding,
+       TotalSelfGeneratedFunding,
+       DirectGrants,
+       PrePost16Funding,
+       OtherDfeGrants,
+       OtherIncomeGrants,
+       GovernmentSource,
+       CommunityGrants,
+       Academies,
+       IncomeFacilitiesServices,
+       IncomeCateringServices,
+       DonationsVoluntaryFunds,
+       ReceiptsSupplyTeacherInsuranceClaims,
+       InvestmentIncome,
+       OtherSelfGeneratedIncome
 FROM TrustFinancial
 WHERE RunType = 'default'
 GO

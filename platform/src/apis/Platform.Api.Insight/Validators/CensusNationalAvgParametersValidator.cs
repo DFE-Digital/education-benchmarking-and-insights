@@ -1,7 +1,7 @@
 using FluentValidation;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Domain;
-using Platform.Api.Insight.Expenditure;
+
 namespace Platform.Api.Insight.Validators;
 
 public class CensusNationalAvgParametersValidator : AbstractValidator<CensusNationalAvgParameters>

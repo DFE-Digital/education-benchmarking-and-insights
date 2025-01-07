@@ -7,7 +7,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 

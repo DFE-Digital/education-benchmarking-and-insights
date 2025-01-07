@@ -1,115 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Sql;
+
 namespace Platform.Api.Insight.Income;
 
 public interface IIncomeService
 {
-    Task<SchoolIncomeModel?> GetSchoolAsync(string urn);
-    Task<TrustIncomeModel?> GetTrustAsync(string companyNumber);
-    Task<IEnumerable<SchoolIncomeHistoryModel>> GetSchoolHistoryAsync(string urn);
-    Task<IEnumerable<TrustIncomeHistoryModel>> GetTrustHistoryAsync(string companyNumber);
-    Task<IEnumerable<SchoolIncomeModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
-    Task<IEnumerable<TrustIncomeModel>> QueryTrustsAsync(string[] companyNumbers);
+    Task<IncomeSchoolModel?> GetSchoolAsync(string urn);
+    Task<(IncomeYearsModel? years, IEnumerable<IncomeHistoryModel> rows)> GetSchoolHistoryAsync(string urn, string dimension = IncomeDimensions.Actuals);
+    Task<(IncomeYearsModel?, IEnumerable<IncomeHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = IncomeDimensions.Actuals);
 }
 
 public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
 {
-    public async Task<SchoolIncomeModel?> GetSchoolAsync(string urn)
+    public async Task<IncomeSchoolModel?> GetSchoolAsync(string urn)
     {
-        const string sql = "SELECT * FROM SchoolIncome WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
+        var sql = GetSchoolSql(IncomeDimensions.Actuals);
+        var parameters = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<SchoolIncomeModel>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<IncomeSchoolModel>(sql, parameters);
     }
 
-    public async Task<TrustIncomeModel?> GetTrustAsync(string companyNumber)
+    public async Task<(IncomeYearsModel?, IEnumerable<IncomeHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = IncomeDimensions.Actuals)
     {
-        const string sql = "SELECT * FROM TrustIncome WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
+        const string yearSql = "SELECT * FROM VW_SchoolYears WHERE URN = @URN";
+        var yearParams = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<TrustIncomeModel>(sql, parameters);
-    }
 
-    public async Task<IEnumerable<SchoolIncomeHistoryModel>> GetSchoolHistoryAsync(string urn)
-    {
-        const string sql = "SELECT * FROM SchoolIncomeHistoric WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
+        var years = await conn.QueryFirstOrDefaultAsync<IncomeYearsModel>(yearSql, yearParams);
 
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolIncomeHistoryModel>(sql, parameters);
-    }
-
-    public async Task<IEnumerable<TrustIncomeHistoryModel>> GetTrustHistoryAsync(string companyNumber)
-    {
-        const string sql = "SELECT * FROM TrustIncomeHistoric WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
+        if (years == null)
         {
-            CompanyNumber = companyNumber
-        };
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustIncomeHistoryModel>(sql, parameters);
-    }
-
-    public async Task<IEnumerable<SchoolIncomeModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase)
-    {
-        var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from SchoolIncome /**where**/");
-        if (urns.Length != 0)
-        {
-            builder.Where("URN IN @URNS", new
-            {
-                URNS = urns
-            });
-        }
-        else if (!string.IsNullOrWhiteSpace(companyNumber))
-        {
-            builder.Where("TrustCompanyNumber = @CompanyNumber AND OverallPhase = @Phase", new
-            {
-                CompanyNumber = companyNumber,
-                Phase = phase
-            });
-        }
-        else if (!string.IsNullOrWhiteSpace(laCode))
-        {
-            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
-            {
-                LaCode = laCode,
-                Phase = phase
-            });
-        }
-        else
-        {
-            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+            return (null, Array.Empty<IncomeHistoryModel>());
         }
 
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolIncomeModel>(template.RawSql, template.Parameters);
+        var historySql = GetSchoolHistorySql(dimension);
+        var historyParams = new { URN = urn, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<IncomeHistoryModel>(historySql, historyParams));
     }
-
-    public async Task<IEnumerable<TrustIncomeModel>> QueryTrustsAsync(string[] companyNumbers)
+  
+    public async Task<(IncomeYearsModel?, IEnumerable<IncomeHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = IncomeDimensions.Actuals)
     {
-        const string sql = "SELECT * from TrustIncome where CompanyNumber IN @CompanyNumbers";
-        var parameters = new
-        {
-            CompanyNumbers = companyNumbers
-        };
+        const string yearSql = "SELECT * FROM VW_TrustYears WHERE CompanyNumber = @CompanyNumber";
+        var yearParams = new { CompanyNumber = companyNumber };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustIncomeModel>(sql, parameters);
+
+        var years = await conn.QueryFirstOrDefaultAsync<IncomeYearsModel>(yearSql, yearParams);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<IncomeHistoryModel>());
+        }
+
+        var historySql = GetTrustHistorySql(dimension);
+        var historyParams = new { CompanyNumber = companyNumber, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<IncomeHistoryModel>(historySql, historyParams));
+    }
+    
+    private static string GetTrustHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            IncomeDimensions.Actuals => "SELECT * FROM VW_IncomeTrustDefaultActual WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PerUnit => "SELECT * FROM VW_IncomeTrustDefaultPerUnit WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PercentExpenditure => "SELECT * FROM VW_IncomeTrustDefaultPercentExpenditure WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PercentIncome => "SELECT * FROM VW_IncomeTrustDefaultPercentIncome WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+    
+    private static string GetSchoolSql(string dimension)
+    {
+        return dimension switch
+        {
+            IncomeDimensions.Actuals => "SELECT * FROM VW_IncomeSchoolDefaultCurrentActual WHERE URN = @URN",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+    
+    private static string GetSchoolHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            IncomeDimensions.Actuals => "SELECT * FROM VW_IncomeSchoolDefaultActual WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PerUnit => "SELECT * FROM VW_IncomeSchoolDefaultPerUnit WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PercentExpenditure => "SELECT * FROM VW_IncomeSchoolDefaultPercentExpenditure WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            IncomeDimensions.PercentIncome => "SELECT * FROM VW_IncomeSchoolDefaultPercentIncome WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
     }
 }
