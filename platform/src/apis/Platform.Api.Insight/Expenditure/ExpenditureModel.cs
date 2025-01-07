@@ -1,15 +1,18 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.Insight.Expenditure;
 
 [ExcludeFromCodeCoverage]
-public abstract record ExpenditureBaseModel
+public record ExpenditureYearsModel
 {
-    public int? PeriodCoveredByReturn { get; set; }
-    public decimal? TotalPupils { get; set; }
-    public decimal? TotalInternalFloorArea { get; set; }
-    public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
+    public int StartYear { get; set; }
+    public int EndYear { get; set; }
+}
 
+[ExcludeFromCodeCoverage]
+public abstract record ExpenditureModel
+{
+    public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeachingSupportStaffCosts { get; set; }
     public decimal? TeachingStaffCosts { get; set; }
     public decimal? SupplyTeachingStaffCosts { get; set; }
@@ -52,10 +55,27 @@ public abstract record ExpenditureBaseModel
     public decimal? SupplyTeacherInsurableCosts { get; set; }
     public decimal? CommunityFocusedSchoolStaff { get; set; }
     public decimal? CommunityFocusedSchoolCosts { get; set; }
+}
 
-    public decimal? TotalIncomeCS { get; set; }
+[ExcludeFromCodeCoverage]
+public record ExpenditureSchoolModel : ExpenditureModel
+{
+    public string? URN { get; set; }
+    public string? SchoolName { get; set; }
+    public string? SchoolType { get; set; }
+    public string? LAName { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
+    public decimal? TotalPupils { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
+}
+
+[ExcludeFromCodeCoverage]
+public record ExpenditureTrustModel : ExpenditureModel
+{
+    public string? CompanyNumber { get; set; }
+    public string? TrustName { get; set; }
+
     public decimal? TotalExpenditureCS { get; set; }
-
     public decimal? TotalTeachingSupportStaffCostsCS { get; set; }
     public decimal? TeachingStaffCostsCS { get; set; }
     public decimal? SupplyTeachingStaffCostsCS { get; set; }
@@ -96,36 +116,55 @@ public abstract record ExpenditureBaseModel
     public decimal? StaffDevelopmentTrainingCostsCS { get; set; }
     public decimal? StaffRelatedInsuranceCostsCS { get; set; }
     public decimal? SupplyTeacherInsurableCostsCS { get; set; }
-    public decimal? CommunityFocusedSchoolStaffCS { get; set; }
-    public decimal? CommunityFocusedSchoolCostsCS { get; set; }
+
+    public decimal? TotalExpenditureSchool { get; set; }
+    public decimal? TotalTeachingSupportStaffCostsSchool { get; set; }
+    public decimal? TeachingStaffCostsSchool { get; set; }
+    public decimal? SupplyTeachingStaffCostsSchool { get; set; }
+    public decimal? EducationalConsultancyCostsSchool { get; set; }
+    public decimal? EducationSupportStaffCostsSchool { get; set; }
+    public decimal? AgencySupplyTeachingStaffCostsSchool { get; set; }
+    public decimal? TotalNonEducationalSupportStaffCostsSchool { get; set; }
+    public decimal? AdministrativeClericalStaffCostsSchool { get; set; }
+    public decimal? AuditorsCostsSchool { get; set; }
+    public decimal? OtherStaffCostsSchool { get; set; }
+    public decimal? ProfessionalServicesNonCurriculumCostsSchool { get; set; }
+    public decimal? TotalEducationalSuppliesCostsSchool { get; set; }
+    public decimal? ExaminationFeesCostsSchool { get; set; }
+    public decimal? LearningResourcesNonIctCostsSchool { get; set; }
+    public decimal? LearningResourcesIctCostsSchool { get; set; }
+    public decimal? TotalPremisesStaffServiceCostsSchool { get; set; }
+    public decimal? CleaningCaretakingCostsSchool { get; set; }
+    public decimal? MaintenancePremisesCostsSchool { get; set; }
+    public decimal? OtherOccupationCostsSchool { get; set; }
+    public decimal? PremisesStaffCostsSchool { get; set; }
+    public decimal? TotalUtilitiesCostsSchool { get; set; }
+    public decimal? EnergyCostsSchool { get; set; }
+    public decimal? WaterSewerageCostsSchool { get; set; }
+    public decimal? AdministrativeSuppliesNonEducationalCostsSchool { get; set; }
+    public decimal? TotalGrossCateringCostsSchool { get; set; }
+    public decimal? TotalNetCateringCostsSchool { get; set; }
+    public decimal? CateringStaffCostsSchool { get; set; }
+    public decimal? CateringSuppliesCostsSchool { get; set; }
+    public decimal? TotalOtherCostsSchool { get; set; }
+    public decimal? DirectRevenueFinancingCostsSchool { get; set; }
+    public decimal? GroundsMaintenanceCostsSchool { get; set; }
+    public decimal? IndirectEmployeeExpensesSchool { get; set; }
+    public decimal? InterestChargesLoanBankSchool { get; set; }
+    public decimal? OtherInsurancePremiumsCostsSchool { get; set; }
+    public decimal? PrivateFinanceInitiativeChargesSchool { get; set; }
+    public decimal? RentRatesCostsSchool { get; set; }
+    public decimal? SpecialFacilitiesCostsSchool { get; set; }
+    public decimal? StaffDevelopmentTrainingCostsSchool { get; set; }
+    public decimal? StaffRelatedInsuranceCostsSchool { get; set; }
+    public decimal? SupplyTeacherInsurableCostsSchool { get; set; }
 }
 
-[ExcludeFromCodeCoverage]
-public record SchoolExpenditureModel : ExpenditureBaseModel
-{
-    public string? URN { get; set; }
-    public string? SchoolName { get; set; }
-    public string? SchoolType { get; set; }
-    public string? LAName { get; set; }
-}
 
 [ExcludeFromCodeCoverage]
-public record SchoolExpenditureHistoryModel : ExpenditureBaseModel
+public record ExpenditureHistoryModel : ExpenditureModel
 {
-    public string? URN { get; set; }
-    public int? Year { get; set; }
+    public int? RunId { get; set; }
 }
 
-[ExcludeFromCodeCoverage]
-public record TrustExpenditureModel : ExpenditureBaseModel
-{
-    public string? CompanyNumber { get; set; }
-    public string? TrustName { get; set; }
-}
 
-[ExcludeFromCodeCoverage]
-public record TrustExpenditureHistoryModel : ExpenditureBaseModel
-{
-    public string? CompanyNumber { get; set; }
-    public int? Year { get; set; }
-}

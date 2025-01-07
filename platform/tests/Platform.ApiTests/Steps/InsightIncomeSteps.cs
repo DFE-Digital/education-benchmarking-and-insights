@@ -198,7 +198,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolIncomeResponse>();
+        var result = content.FromJson<IncomeSchoolResponse>();
         table.CompareToInstance(result);
     }
 
@@ -229,7 +229,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolIncomeHistoryResponse[]>();
+        var result = content.FromJson<IncomeHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -242,7 +242,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolIncomeResponse[]>();
+        var result = content.FromJson<IncomeSchoolResponse[]>();
         table.CompareToSet(result);
     }
 

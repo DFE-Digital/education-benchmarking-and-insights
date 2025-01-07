@@ -10,7 +10,9 @@ SELECT s.URN,
        f.InYearBalance,
        f.RevenueReserve
 FROM School s
-         LEFT JOIN VW_FinancialDefaultCurrent f on f.URN = s.URN
+         LEFT JOIN Financial f on f.URN = s.URN
+WHERE RunType = 'default'
+  AND RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
 GO
 
 DROP VIEW IF EXISTS VW_BalanceSchoolDefaultActual

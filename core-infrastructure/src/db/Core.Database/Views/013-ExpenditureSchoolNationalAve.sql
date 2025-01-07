@@ -1,7 +1,7 @@
-DROP VIEW IF EXISTS VW_SchoolExpenditureNationalAveActual
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultNationalAveActual
 GO
 
-CREATE VIEW VW_SchoolExpenditureNationalAveActual AS
+CREATE VIEW VW_ExpenditureSchoolDefaultNationalAveActual AS
 SELECT RunId,
        FinanceType,
        OverallPhase,
@@ -48,16 +48,16 @@ SELECT RunId,
        Avg(TotalUtilitiesCosts)                       AS TotalUtilitiesCosts,
        Avg(EnergyCosts)                               AS EnergyCosts,
        Avg(WaterSewerageCosts)                        AS WaterSewerageCosts
-FROM VW_FinancialDefaultNormalisedActual
+FROM VW_ExpenditureSchoolDefaultNormalisedActual
 GROUP BY RunId,
          FinanceType,
          OverallPhase
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureNationalAvePercentExpenditure
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultNationalAvePercentExpenditure
 GO
 
-CREATE VIEW VW_SchoolExpenditureNationalAvePercentExpenditure AS
+CREATE VIEW VW_ExpenditureSchoolDefaultNationalAvePercentExpenditure AS
 SELECT RunId,
        FinanceType,
        OverallPhase,
@@ -104,16 +104,16 @@ SELECT RunId,
        Avg(TotalUtilitiesCosts)                       AS TotalUtilitiesCosts,
        Avg(EnergyCosts)                               AS EnergyCosts,
        Avg(WaterSewerageCosts)                        AS WaterSewerageCosts
-FROM VW_FinancialDefaultNormalisedPercentExpenditure
+FROM VW_ExpenditureSchoolDefaultNormalisedPercentExpenditure
 GROUP BY RunId,
          FinanceType,
          OverallPhase
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureNationalAvePercentIncome
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultNationalAvePercentIncome
 GO
 
-CREATE VIEW VW_SchoolExpenditureNationalAvePercentIncome AS
+CREATE VIEW VW_ExpenditureSchoolDefaultNationalAvePercentIncome AS
 SELECT RunId,
        FinanceType,
        OverallPhase,
@@ -160,16 +160,16 @@ SELECT RunId,
        Avg(TotalUtilitiesCosts)                       AS TotalUtilitiesCosts,
        Avg(EnergyCosts)                               AS EnergyCosts,
        Avg(WaterSewerageCosts)                        AS WaterSewerageCosts
-FROM VW_FinancialDefaultNormalisedPercentIncome
+FROM VW_ExpenditureSchoolDefaultNormalisedPercentIncome
 GROUP BY RunId,
          FinanceType,
          OverallPhase
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureNationalAvePerUnit
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultNationalAvePerUnit
 GO
 
-CREATE VIEW VW_SchoolExpenditureNationalAvePerUnit AS
+CREATE VIEW VW_ExpenditureSchoolDefaultNationalAvePerUnit AS
 SELECT RunId,
        FinanceType,
        OverallPhase,
@@ -216,7 +216,7 @@ SELECT RunId,
        Avg(TotalUtilitiesCosts)                       AS TotalUtilitiesCosts,
        Avg(EnergyCosts)                               AS EnergyCosts,
        Avg(WaterSewerageCosts)                        AS WaterSewerageCosts
-FROM VW_FinancialDefaultNormalisedPerUnit
+FROM VW_ExpenditureSchoolDefaultNormalisedPerUnit
 GROUP BY RunId,
          FinanceType,
          OverallPhase

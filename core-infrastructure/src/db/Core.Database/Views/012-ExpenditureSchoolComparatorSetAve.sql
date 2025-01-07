@@ -1,7 +1,7 @@
-﻿DROP VIEW IF EXISTS VW_SchoolExpenditureComparatorSetAvgActual
+﻿DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultComparatorAvgActual
 GO
 
-CREATE VIEW VW_SchoolExpenditureComparatorSetAvgActual AS
+CREATE VIEW VW_ExpenditureSchoolDefaultComparatorAvgActual AS
 WITH pupilSet AS (SELECT RunId
                        , URN
                        , Comparator.value AS ComparatorURN
@@ -52,7 +52,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CommunityFocusedSchoolCosts)               AS CommunityFocusedSchoolCosts
                        , Avg(f.AdministrativeSuppliesNonEducationalCosts) AS AdministrativeSuppliesNonEducationalCosts
                   FROM pupilSet s
-                           INNER JOIN VW_FinancialDefaultNormalisedActual f
+                           INNER JOIN VW_ExpenditureSchoolDefaultNormalisedActual f
                                       ON (
                                           s.ComparatorURN = f.URN
                                               AND s.RunId = f.RunId
@@ -70,7 +70,7 @@ WITH pupilSet AS (SELECT RunId
                           , Avg(f.EnergyCosts)                    AS EnergyCosts
                           , Avg(f.WaterSewerageCosts)             AS WaterSewerageCosts
                      FROM buildingSet s
-                              INNER JOIN VW_FinancialDefaultNormalisedActual f
+                              INNER JOIN VW_ExpenditureSchoolDefaultNormalisedActual f
                                          ON (
                                              s.ComparatorURN = f.URN
                                                  AND s.RunId = f.RunId
@@ -130,10 +130,10 @@ FROM pupilAvg p
                        )
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureComparatorSetAvgPercentExpenditure
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultComparatorAvgPercentExpenditure
 GO
 
-CREATE VIEW VW_SchoolExpenditureComparatorSetAvgPercentExpenditure AS
+CREATE VIEW VW_ExpenditureSchoolDefaultComparatorAvgPercentExpenditure AS
 WITH pupilSet AS (SELECT RunId
                        , URN
                        , Comparator.value AS ComparatorURN
@@ -184,7 +184,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CommunityFocusedSchoolCosts)               AS CommunityFocusedSchoolCosts
                        , Avg(f.AdministrativeSuppliesNonEducationalCosts) AS AdministrativeSuppliesNonEducationalCosts
                   FROM pupilSet s
-                           INNER JOIN VW_FinancialDefaultNormalisedPercentExpenditure f
+                           INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPercentExpenditure f
                                       ON (
                                           s.ComparatorURN = f.URN
                                               AND s.RunId = f.RunId
@@ -202,7 +202,7 @@ WITH pupilSet AS (SELECT RunId
                           , Avg(f.EnergyCosts)                    AS EnergyCosts
                           , Avg(f.WaterSewerageCosts)             AS WaterSewerageCosts
                      FROM buildingSet s
-                              INNER JOIN VW_FinancialDefaultNormalisedPercentExpenditure f
+                              INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPercentExpenditure f
                                          ON (
                                              s.ComparatorURN = f.URN
                                                  AND s.RunId = f.RunId
@@ -262,10 +262,10 @@ FROM pupilAvg p
                        )
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureComparatorSetAvgPercentIncome
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultComparatorAvgPercentIncome
 GO
 
-CREATE VIEW VW_SchoolExpenditureComparatorSetAvgPercentIncome AS
+CREATE VIEW VW_ExpenditureSchoolDefaultComparatorAvgPercentIncome AS
 WITH pupilSet AS (SELECT RunId
                        , URN
                        , Comparator.value AS ComparatorURN
@@ -316,7 +316,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CommunityFocusedSchoolCosts)               AS CommunityFocusedSchoolCosts
                        , Avg(f.AdministrativeSuppliesNonEducationalCosts) AS AdministrativeSuppliesNonEducationalCosts
                   FROM pupilSet s
-                           INNER JOIN VW_FinancialDefaultNormalisedPercentIncome f
+                           INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPercentIncome f
                                       ON (
                                           s.ComparatorURN = f.URN
                                               AND s.RunId = f.RunId
@@ -334,7 +334,7 @@ WITH pupilSet AS (SELECT RunId
                           , Avg(f.EnergyCosts)                    AS EnergyCosts
                           , Avg(f.WaterSewerageCosts)             AS WaterSewerageCosts
                      FROM buildingSet s
-                              INNER JOIN VW_FinancialDefaultNormalisedPercentIncome f
+                              INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPercentIncome f
                                          ON (
                                              s.ComparatorURN = f.URN
                                                  AND s.RunId = f.RunId
@@ -394,10 +394,10 @@ FROM pupilAvg p
                        )
 GO
 
-DROP VIEW IF EXISTS VW_SchoolExpenditureComparatorSetAvgPerUnit
+DROP VIEW IF EXISTS VW_ExpenditureSchoolDefaultComparatorAvgPerUnit
 GO
 
-CREATE VIEW VW_SchoolExpenditureComparatorSetAvgPerUnit AS
+CREATE VIEW VW_ExpenditureSchoolDefaultComparatorAvgPerUnit AS
 WITH pupilSet AS (SELECT RunId
                        , URN
                        , Comparator.value AS ComparatorURN
@@ -448,7 +448,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CommunityFocusedSchoolCosts)               AS CommunityFocusedSchoolCosts
                        , Avg(f.AdministrativeSuppliesNonEducationalCosts) AS AdministrativeSuppliesNonEducationalCosts
                   FROM pupilSet s
-                           INNER JOIN VW_FinancialDefaultNormalisedPerUnit f
+                           INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPerUnit f
                                       ON (
                                           s.ComparatorURN = f.URN
                                               AND s.RunId = f.RunId
@@ -466,7 +466,7 @@ WITH pupilSet AS (SELECT RunId
                           , Avg(f.EnergyCosts)                    AS EnergyCosts
                           , Avg(f.WaterSewerageCosts)             AS WaterSewerageCosts
                      FROM buildingSet s
-                              INNER JOIN VW_FinancialDefaultNormalisedPerUnit f
+                              INNER JOIN VW_ExpenditureSchoolDefaultNormalisedPerUnit f
                                          ON (
                                              s.ComparatorURN = f.URN
                                                  AND s.RunId = f.RunId

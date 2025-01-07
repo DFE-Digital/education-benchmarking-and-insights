@@ -10,7 +10,7 @@ public interface IBalanceService
     Task<BalanceSchoolModel?> GetSchoolAsync(string urn);
     Task<(BalanceYearsModel? years, IEnumerable<BalanceHistoryModel> rows)> GetSchoolHistoryAsync(string urn, string dimension = BalanceDimensions.Actuals);
     Task<BalanceTrustModel?> GetTrustAsync(string companyNumber);
-    Task<(BalanceYearsModel? years, IEnumerable<BalanceHistoryModel> rows)> GetTrustHistoryAsync(string companyNumber, string dimension = BalanceDimensions.Actuals);
+    Task<(BalanceYearsModel?, IEnumerable<BalanceHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = BalanceDimensions.Actuals);
     Task<IEnumerable<BalanceTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension = BalanceDimensions.Actuals);
 }
 
@@ -95,9 +95,9 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
         return dimension switch
         {
             BalanceDimensions.Actuals => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
-            BalanceDimensions.PerUnit => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
-            BalanceDimensions.PercentExpenditure => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
-            BalanceDimensions.PercentIncome => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PerUnit => "SELECT * FROM VW_BalanceTrustDefaultCurrentPerUnit WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PercentExpenditure => "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentExpenditure WHERE CompanyNumber IN @CompanyNumbers",
+            BalanceDimensions.PercentIncome => "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentIncome WHERE CompanyNumber IN @CompanyNumbers",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

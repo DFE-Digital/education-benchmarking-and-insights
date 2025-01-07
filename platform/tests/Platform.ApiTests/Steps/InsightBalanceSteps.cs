@@ -175,7 +175,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolBalanceResponse>();
+        var result = content.FromJson<BalanceSchoolResponse>();
         table.CompareToInstance(result);
     }
 
@@ -197,7 +197,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolBalanceHistoryResponse[]>();
+        var result = content.FromJson<BalanceHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -210,7 +210,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolBalanceResponse[]>();
+        var result = content.FromJson<BalanceSchoolResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -223,7 +223,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustBalanceResponse>();
+        var result = content.FromJson<BalanceTrustResponse>();
         table.CompareToInstance(result);
     }
 
@@ -245,7 +245,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustBalanceHistoryResponse[]>();
+        var result = content.FromJson<BalanceHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -258,7 +258,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustBalanceResponse[]>();
+        var result = content.FromJson<BalanceTrustResponse[]>();
         table.CompareToSet(result);
     }
 
