@@ -1,6 +1,7 @@
 import {
   Census,
-  CensusHistory,
+  CensusHistoryRow,
+  CensusHistoryRows,
   SchoolHistoryComparison,
 } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
@@ -9,8 +10,8 @@ export class CensusApi {
   static async history(
     id: string,
     dimension: string
-  ): Promise<CensusHistory[]> {
-    return fetch(
+  ): Promise<CensusHistoryRows> {
+    const response = await fetch(
       "/api/census/history?" +
         new URLSearchParams({ id: id, dimension: dimension }),
       {
@@ -21,15 +22,14 @@ export class CensusApi {
           "X-Correlation-ID": uuidv4(),
         },
       }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw res.error;
-        }
+    );
 
-        return res;
-      });
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
   }
 
   static async historyComparison(
@@ -38,7 +38,7 @@ export class CensusApi {
     overallPhase?: string,
     financeType?: string,
     signals?: AbortSignal[]
-  ): Promise<SchoolHistoryComparison<CensusHistory>> {
+  ): Promise<SchoolHistoryComparison<CensusHistoryRow>> {
     const params = new URLSearchParams({
       id: id,
       dimension: dimension,

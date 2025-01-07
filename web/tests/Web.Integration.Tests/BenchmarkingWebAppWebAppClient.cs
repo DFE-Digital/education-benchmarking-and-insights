@@ -201,7 +201,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupCensus(School school, CensusHistory[] historySchool, CensusHistory[]? historyComparatorSet = null, CensusHistory[]? historyNational = null)
+    public BenchmarkingWebAppClient SetupCensus(School school, CensusHistoryRows historySchool, CensusHistoryRows? historyComparatorSet = null, CensusHistoryRows? historyNational = null)
     {
         CensusApi.Reset();
         CensusApi

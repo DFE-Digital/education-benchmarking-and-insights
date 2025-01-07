@@ -29,7 +29,7 @@ public class WhenCensusApiReceivesHistoryRequest
     public async Task ShouldGetCensusHistoryFromApiForSchool(string urn, string dimension, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         _censusApi
@@ -45,7 +45,7 @@ public class WhenCensusApiReceivesHistoryRequest
 
         // assert
         var json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json);
+        Assert.Equivalent(results, json);
         Assert.Equal(expectedQuery, actualQuery);
     }
 }

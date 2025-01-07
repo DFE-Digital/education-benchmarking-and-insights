@@ -47,7 +47,7 @@ public class CensusProxyController(
 
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<CensusHistory[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType<CensusHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension)
@@ -178,34 +178,43 @@ public class CensusProxyController(
         return query;
     }
 
-    private async Task<CensusHistory[]?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
+    private async Task<CensusHistoryRows?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
         .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-        .GetResultOrDefault<CensusHistory[]>();
+        .GetResultOrDefault<CensusHistoryRows>();
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
         .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-        .GetResultOrDefault<CensusHistory[]>();
+        .GetResultOrDefault<CensusHistoryRows>();
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
     {
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
         return await SchoolCensusHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension, cancellationToken);
     }
 
-    private async Task<CensusHistory[]?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
     {
         var query = BuildApiQuery(null, dimension, phase: phase, financeType: financeType);
         return await censusApi
             .SchoolHistoryNationalAverage(query, cancellationToken)
-            .GetResultOrDefault<CensusHistory[]>();
+            .GetResultOrDefault<CensusHistoryRows>();
     }
 
-    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken) => new()
+    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken)
     {
-        School = await SchoolCensusHistory(urn, dimension, cancellationToken),
-        ComparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension, cancellationToken),
-        NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
+        var school = await SchoolCensusHistory(urn, dimension, cancellationToken);
+        var comparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension, cancellationToken);
+        var nationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
             ? await SchoolCensusHistoryNationalAverage(urn, dimension, cancellationToken)
-            : await SchoolCensusHistoryNationalAverage(phase, financeType, dimension, cancellationToken)
-    };
+            : await SchoolCensusHistoryNationalAverage(phase, financeType, dimension, cancellationToken);
+
+        return new HistoryComparison<CensusHistory>
+        {
+            StartYear = school?.StartYear,
+            EndYear = school?.EndYear,
+            School = school?.Rows.ToArray(),
+            ComparatorSetAverage = comparatorSetAverage?.Rows.ToArray(),
+            NationalAverage = nationalAverage?.Rows.ToArray()
+        };
+    }
 }

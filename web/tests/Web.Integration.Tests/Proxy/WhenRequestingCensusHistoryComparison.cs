@@ -7,6 +7,8 @@ namespace Web.Integration.Tests.Proxy;
 
 public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
+    private const int StartYear = 2017;
+    private const int EndYear = 2022;
     private static readonly Fixture Fixture = new();
     private static readonly CensusHistory[] HistorySchool = Fixture.CreateMany<CensusHistory>().ToArray();
     private static readonly CensusHistory[] HistoryComparatorSet = Fixture.CreateMany<CensusHistory>().ToArray();
@@ -23,6 +25,8 @@ public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClien
                 null,
                 new HistoryComparison<CensusHistory>
                 {
+                    StartYear = StartYear,
+                    EndYear = EndYear,
                     School = HistorySchool,
                     ComparatorSetAverage = HistoryComparatorSet,
                     NationalAverage = HistoryNational
@@ -36,6 +40,8 @@ public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClien
                 "financeType",
                 new HistoryComparison<CensusHistory>
                 {
+                    StartYear = StartYear,
+                    EndYear = EndYear,
                     School = HistorySchool,
                     ComparatorSetAverage = HistoryComparatorSet,
                     NationalAverage = HistoryNational
@@ -56,7 +62,22 @@ public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClien
 
         var response = await client
             .SetupEstablishment(school)
-            .SetupCensus(school, HistorySchool, HistoryComparatorSet, HistoryNational)
+            .SetupCensus(school, new CensusHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistorySchool
+            }, new CensusHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistoryComparatorSet
+            }, new CensusHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistoryNational
+            })
             .Get(Paths.ApiCensusHistoryComparison(urn, dimension, phase, financeType));
 
         Assert.IsType<HttpResponseMessage>(response);

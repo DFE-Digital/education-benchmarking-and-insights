@@ -6,7 +6,7 @@ import {
   CensusCategories,
 } from "src/components";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
-import { CensusHistory, CensusApi } from "src/services";
+import { CensusHistoryRow, HistoryService } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
@@ -17,14 +17,14 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
   const defaultDimension = PupilsPerStaffRole;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
-  const [data, setData] = useState(new Array<CensusHistory>());
+  const [data, setData] = useState(new Array<CensusHistoryRow>());
   const getData = useCallback(async () => {
     if (!load) {
       return [];
     }
 
-    setData(new Array<CensusHistory>());
-    return await CensusApi.history(id, dimension.value);
+    setData(new Array<CensusHistoryRow>());
+    return await HistoryService.getCensusHistory(id, dimension.value);
   }, [id, dimension, load]);
 
   useEffect(() => {

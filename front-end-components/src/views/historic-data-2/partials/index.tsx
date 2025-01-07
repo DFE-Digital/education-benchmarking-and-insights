@@ -1,4 +1,4 @@
-import { CensusHistory, SchoolExpenditureHistory } from "src/services";
+import { CensusHistoryItem, SchoolExpenditureHistory } from "src/services";
 import { HistoricData2Section, HistoricData2SectionChart } from "../types";
 import {
   PoundsPerMetreSq,
@@ -266,7 +266,7 @@ export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] 
     },
   ];
 
-export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
+export const censusCharts: HistoricData2SectionChart<CensusHistoryItem>[] = [
   {
     name: "Pupils on roll",
     field: "totalPupils",

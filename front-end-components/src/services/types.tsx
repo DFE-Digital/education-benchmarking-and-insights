@@ -287,10 +287,12 @@ export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
     totalCateringCostsField: number;
   } & HistoryBase;
 
-export type SchoolHistoryComparison<T> = {
-  school?: T[];
-  comparatorSetAverage?: T[];
-  nationalAverage?: T[];
+export type SchoolHistoryComparison<T extends HistoryRow> = {
+  startYear?: number;
+  endYear?: number;
+  school?: Array<T>;
+  comparatorSetAverage?: Array<T>;
+  nationalAverage?: Array<T>;
 };
 
 export type HistoryBase = {
@@ -346,7 +348,9 @@ export type Census = CensusBase & {
   laName: string;
 };
 
-export type CensusHistory = CensusBase & HistoryBase;
+export type CensusHistoryItem = Partial<CensusBase> & HistoryBase;
+export type CensusHistoryRow = Partial<CensusBase> & HistoryRow;
+export type CensusHistoryRows = HistoryRows<CensusHistoryRow>;
 
 type IncomeBase = {
   totalIncome: number;

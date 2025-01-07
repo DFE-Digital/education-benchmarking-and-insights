@@ -32,7 +32,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -56,7 +56,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.School as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.School as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
@@ -65,7 +65,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -89,7 +89,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.ComparatorSetAverage as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.ComparatorSetAverage as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
@@ -101,7 +101,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryNationalAverageFromApiForSchool(string urn, string dimension, string? financeType, string? phase, string schoolFinanceType, string schoolOverallPhase, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = new School
@@ -128,7 +128,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.NationalAverage as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.NationalAverage as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 }
