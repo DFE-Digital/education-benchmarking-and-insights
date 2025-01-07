@@ -508,3 +508,16 @@ resource "azurerm_log_analytics_saved_search" "get-school-financial-benchmarking
 
   query = file("${path.module}/queries/functions/get-school-financial-benchmarking-insights-summary-requests.kql")
 }
+
+resource "random_uuid" "most-popular-recent-schools-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "most-popular-recent-schools" {
+  name          = random_uuid.most-popular-recent-schools-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Most popular schools in past 90 days"
+  description   = "Top 50 most popular schools (based on priority spending requests)"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/most-popular-recent-schools.kql")
+}

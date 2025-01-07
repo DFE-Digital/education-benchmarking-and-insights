@@ -16,10 +16,10 @@
                         "settings": {
                             "content": {
                                 "content": "### Users and Sessions\r\n\r\nUser and Session metrics are only gathered for those who have accepted optional analytics cookies. \r\n\r\nThe `Anonymous Requests` metric represents page requests by those users who did not accept the analytics cookies. \r\n\r\n`Authenticated Users` are only correlated with a User/Session if the user accepted analytics cookies.",
-                                "title": "",
-                                "subtitle": "",
                                 "markdownSource": 1,
-                                "markdownUri": ""
+                                "markdownUri": "",
+                                "subtitle": "",
+                                "title": ""
                             }
                         }
                     }
@@ -192,9 +192,9 @@
                         "settings": {
                             "content": {
                                 "GridColumnsWidth": {
+                                    "Average length in seconds": "234px",
                                     "Count": "90px",
-                                    "Date": "122px",
-                                    "Average length in seconds": "234px"
+                                    "Date": "122px"
                                 }
                             }
                         },
@@ -428,7 +428,7 @@
                         "x": 0,
                         "y": 5,
                         "colSpan": 3,
-                        "rowSpan": 12
+                        "rowSpan": 18
                     },
                     "metadata": {
                         "inputs": [],
@@ -436,10 +436,10 @@
                         "settings": {
                             "content": {
                                 "content": "### Features",
-                                "title": "",
-                                "subtitle": "",
                                 "markdownSource": 1,
-                                "markdownUri": ""
+                                "markdownUri": "",
+                                "subtitle": "",
+                                "title": ""
                             }
                         }
                     }
@@ -566,6 +566,116 @@
                                     "resourceIds": [
                                         "${workspace_id}"
                                     ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${most_popular_recent_schools_id}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${most_popular_recent_schools_query}",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "StackedColumn",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${most_popular_recent_schools_title}"
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "aggregation": "Sum",
+                                    "splitBy": [],
+                                    "xAxis": {
+                                        "name": "Urn",
+                                        "type": "string"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "Count",
+                                            "type": "long"
+                                        }
+                                    ]
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": false
+                                },
+                                "isOptional": true
+                            },
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "value": true,
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "settings": {}
+                    }
+                },
+                "8": {
+                    "position": {
+                        "x": 3,
+                        "y": 11,
+                        "colSpan": 9,
+                        "rowSpan": 6
+                    },
+                    "metadata": {
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "/subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d11-ebis-core/providers/Microsoft.OperationalInsights/workspaces/s198d11-ebis-aiw"
+                                    ]
                                 }
                             },
                             {
@@ -654,113 +764,6 @@
                         "settings": {},
                         "partHeader": {
                             "title": "${popular_trust_requests_title}",
-                            "subtitle": "${environment}"
-                        }
-                    }
-                },
-                "8": {
-                    "position": {
-                        "x": 3,
-                        "y": 11,
-                        "colSpan": 9,
-                        "rowSpan": 6
-                    },
-                    "metadata": {
-                        "inputs": [
-                            {
-                                "name": "Scope",
-                                "value": {
-                                    "resourceIds": [
-                                        "${workspace_id}"
-                                    ]
-                                }
-                            },
-                            {
-                                "name": "PartId",
-                                "value": "${popular_local_authority_requests_id}"
-                            },
-                            {
-                                "name": "Version",
-                                "value": "2.0"
-                            },
-                            {
-                                "name": "Query",
-                                "value": "${popular_local_authority_requests_query}"
-                            },
-                            {
-                                "name": "ControlType",
-                                "value": "FrameControlChart"
-                            },
-                            {
-                                "name": "SpecificChart",
-                                "value": "StackedColumn"
-                            },
-                            {
-                                "name": "PartTitle",
-                                "value": "${popular_local_authority_requests_title}"
-                            },
-                            {
-                                "name": "Dimensions",
-                                "value": {
-                                    "aggregation": "Sum",
-                                    "splitBy": [
-                                        {
-                                            "name": "Feature",
-                                            "type": "string"
-                                        }
-                                    ],
-                                    "xAxis": {
-                                        "name": "Code",
-                                        "type": "string"
-                                    },
-                                    "yAxis": [
-                                        {
-                                            "name": "Count",
-                                            "type": "long"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "name": "LegendOptions",
-                                "value": {
-                                    "isEnabled": true,
-                                    "position": "Bottom"
-                                }
-                            },
-                            {
-                                "name": "resourceTypeMode",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "ComponentId",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "TimeRange",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "DashboardId",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "DraftRequestParameters",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "PartSubTitle",
-                                "isOptional": true
-                            },
-                            {
-                                "name": "IsQueryContainTimeRange",
-                                "isOptional": true
-                            }
-                        ],
-                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
-                        "settings": {},
-                        "partHeader": {
-                            "title": "${popular_local_authority_requests_title}",
                             "subtitle": "${environment}"
                         }
                     }
@@ -874,8 +877,115 @@
                 },
                 "10": {
                     "position": {
-                        "x": 0,
+                        "x": 3,
                         "y": 17,
+                        "colSpan": 9,
+                        "rowSpan": 6
+                    },
+                    "metadata": {
+                        "inputs": [
+                            {
+                                "name": "Scope",
+                                "value": {
+                                    "resourceIds": [
+                                        "${workspace_id}"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "PartId",
+                                "value": "${popular_local_authority_requests_id}"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "2.0"
+                            },
+                            {
+                                "name": "Query",
+                                "value": "${popular_local_authority_requests_query}"
+                            },
+                            {
+                                "name": "ControlType",
+                                "value": "FrameControlChart"
+                            },
+                            {
+                                "name": "SpecificChart",
+                                "value": "StackedColumn"
+                            },
+                            {
+                                "name": "PartTitle",
+                                "value": "${popular_local_authority_requests_title}"
+                            },
+                            {
+                                "name": "Dimensions",
+                                "value": {
+                                    "aggregation": "Sum",
+                                    "splitBy": [
+                                        {
+                                            "name": "Feature",
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "xAxis": {
+                                        "name": "Code",
+                                        "type": "string"
+                                    },
+                                    "yAxis": [
+                                        {
+                                            "name": "Count",
+                                            "type": "long"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "LegendOptions",
+                                "value": {
+                                    "isEnabled": true,
+                                    "position": "Bottom"
+                                }
+                            },
+                            {
+                                "name": "resourceTypeMode",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "ComponentId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "TimeRange",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DashboardId",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "DraftRequestParameters",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "PartSubTitle",
+                                "isOptional": true
+                            },
+                            {
+                                "name": "IsQueryContainTimeRange",
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+                        "settings": {},
+                        "partHeader": {
+                            "title": "${popular_local_authority_requests_title}",
+                            "subtitle": "${environment}"
+                        }
+                    }
+                },
+                "11": {
+                    "position": {
+                        "x": 0,
+                        "y": 23,
                         "colSpan": 3,
                         "rowSpan": 3
                     },
@@ -885,18 +995,18 @@
                         "settings": {
                             "content": {
                                 "content": "### Journeys",
-                                "title": "",
-                                "subtitle": "",
                                 "markdownSource": 1,
-                                "markdownUri": ""
+                                "markdownUri": "",
+                                "subtitle": "",
+                                "title": ""
                             }
                         }
                     }
                 },
-                "11": {
+                "12": {
                     "position": {
                         "x": 3,
-                        "y": 17,
+                        "y": 23,
                         "colSpan": 9,
                         "rowSpan": 3
                     },
@@ -979,10 +1089,10 @@
                         }
                     }
                 },
-                "12": {
+                "13": {
                     "position": {
                         "x": 0,
-                        "y": 20,
+                        "y": 26,
                         "colSpan": 3,
                         "rowSpan": 3
                     },
@@ -992,18 +1102,18 @@
                         "settings": {
                             "content": {
                                 "content": "### External links",
-                                "title": "",
-                                "subtitle": "",
                                 "markdownSource": 1,
-                                "markdownUri": ""
+                                "markdownUri": "",
+                                "subtitle": "",
+                                "title": ""
                             }
                         }
                     }
                 },
-                "13": {
+                "14": {
                     "position": {
                         "x": 3,
-                        "y": 20,
+                        "y": 26,
                         "colSpan": 9,
                         "rowSpan": 3
                     },
@@ -1122,15 +1232,17 @@
                             "value": "Past 7 days"
                         },
                         "filteredPartIds": [
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b826",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b828",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b82c",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b82e",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b830",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b832",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b836",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b83a",
-                            "StartboardPart-LogsDashboardPart-fe9e8ce7-58e9-4bcc-aca2-31fdb261b83c"
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac011",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac01d",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac01f",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac021",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac025",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac027",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac02b",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac013",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac017",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac01b",
+                            "StartboardPart-LogsDashboardPart-0a88422f-f530-4210-886d-6bcd743ac029"
                         ]
                     }
                 }

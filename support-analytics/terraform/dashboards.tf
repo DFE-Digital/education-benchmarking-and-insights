@@ -11,6 +11,7 @@ locals {
   popular-commercial-resources-query     = replace(replace(file("${path.module}/queries/popular-commercial-resources.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   feature-requests-query                 = replace(replace(file("${path.module}/queries/feature-requests.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
   weekly-active-users-query              = replace(replace(file("${path.module}/queries/weekly-active-users.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
+  most-popular-recent-schools-query      = replace(replace(file("${path.module}/queries/most-popular-recent-schools.kql"), "/[\r\n]+/", "\\n"), "\"", "\\\"")
 }
 
 resource "azurerm_portal_dashboard" "mi-dashboard" {
@@ -68,6 +69,10 @@ resource "azurerm_portal_dashboard" "mi-dashboard" {
       weekly_active_users_id    = azurerm_log_analytics_query_pack_query.weekly-active-users.name,
       weekly_active_users_query = local.weekly-active-users-query,
       weekly_active_users_title = azurerm_log_analytics_query_pack_query.weekly-active-users.description
+
+      most_popular_recent_schools_id    = azurerm_log_analytics_query_pack_query.most-popular-recent-schools.name
+      most_popular_recent_schools_query = local.most-popular-recent-schools-query,
+      most_popular_recent_schools_title = azurerm_log_analytics_query_pack_query.most-popular-recent-schools.description
   })
 }
 
