@@ -10,7 +10,6 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Percentage Free school meals",
         "Number of pupils (headcount)",
         "Number of pupils",
-        "ward_name",
         "Number of early year pupils (years E1 and E2)",
         "Number of nursery pupils (years N1 and N2)",
         "Full time boys Year group 12",
@@ -72,7 +71,7 @@ def test_census_data_pupil_merge(
     output.seek(0)
     workforce_xlsx = output
 
-    census = prepare_census_data(workforce_xlsx, pupil_csv)
+    census = prepare_census_data(workforce_xlsx, pupil_csv, 2023)
 
     assert sorted(list(pupil_census_data["URN"])) == [100150, 100152]
     assert sorted(list(workforce_census_data["URN"])) == [100150, 100152, 100153]
@@ -101,7 +100,7 @@ def test_census_data_workforce_merge(
     output.seek(0)
     workforce_xlsx = output
 
-    census = prepare_census_data(workforce_xlsx, pupil_csv)
+    census = prepare_census_data(workforce_xlsx, pupil_csv, 2023)
 
     assert sorted(list(pupil_census_data["URN"])) == [100150, 100152, 100153]
     assert sorted(list(workforce_census_data["URN"])) == [100150, 100152]
@@ -131,7 +130,7 @@ def test_census_data_merge(
     output.seek(0)
     workforce_xlsx = output
 
-    census = prepare_census_data(workforce_xlsx, pupil_csv)
+    census = prepare_census_data(workforce_xlsx, pupil_csv, 2023)
 
     print(census)
     assert sorted(list(pupil_census_data["URN"])) == [100150, 100152]

@@ -1,3 +1,10 @@
+from .census_pupils import (  # noqa
+    pupil_census,
+    pupil_census_column_mappings,
+    pupil_census_index_col,
+)
+
+
 gias_index_col = "URN"
 gias = {
     "URN": "Int64",
@@ -160,22 +167,6 @@ workforce_census = {
     "Total Number of Auxiliary Staff (Full-Time Equivalent)": "float",
     "Total Number of Auxiliary Staff (Headcount)": "float",
     "Total School Workforce (Headcount)": "float",
-}
-
-pupil_census_index_col = "URN"
-pupil_census = {
-    "URN": "Int64",
-    "% of pupils known to be eligible for free school meals": "float",
-    "headcount of pupils": "float",
-    "fte pupils": "float",
-    "ward_name": "string",
-    "Number of early year pupils (years E1 and E2)": "float",
-    "Number of nursery pupils (years N1 and N2)": "float",
-    "Full time boys Year group 12": "float",
-    "Full time girls Year group 12": "float",
-    "Full time boys Year group 13": "float",
-    "Full time girls Year group 13": "float",
-    "number_of_dual_subsidiary_registrations": "float",
 }
 
 cfr_index_col = "URN"

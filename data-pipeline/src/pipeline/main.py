@@ -88,7 +88,11 @@ def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
         raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="cp1252"
     )
 
-    census = prepare_census_data(workforce_census_data, pupil_census_data)
+    census = prepare_census_data(
+        workforce_census_data,
+        pupil_census_data,
+        year,
+    )
 
     write_blob(
         "pre-processed",
@@ -212,7 +216,6 @@ def pre_process_central_services(
     if academies_data := try_get_blob(
         raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8"
     ):
-
         central_services = prepare_central_services_data(academies_data, year)
 
         write_blob(
@@ -985,7 +988,6 @@ def handle_msg(
 
     try:
         match get_message_type(message=msg_payload):
-
             case MessageType.Default:
                 msg_payload["pre_process_duration"] = pre_process_data(
                     worker_client=worker_client,
