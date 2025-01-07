@@ -1,0 +1,14 @@
+GetEstablishmentRequests
+| where 
+    Establishment == 'school'
+| where 
+    Feature == 'spending-priorities'
+| where 
+    ResultCode == 200
+| where
+    TimeGenerated > ago(90d)
+| project 
+    Urn = Identifier
+| top-nested 50 of Urn with others = "Others" by Count = count()
+| where
+    Urn != "Others"
