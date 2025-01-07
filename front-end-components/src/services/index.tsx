@@ -2,6 +2,6 @@
 export * from "src/services/census-api";
 export * from "src/services/income-api";
 export * from "src/services/balance-api";
-export * from "src/services/balance-service";
 export * from "src/services/expenditure-api";
 export * from "src/services/types";
+export * from "src/services/history-service";

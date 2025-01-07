@@ -17,22 +17,21 @@ export class BalanceApi {
       dimension: dimension,
     });
 
-    return fetch("/api/balance/history?" + params, {
+    const response = await fetch("/api/balance/history?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw res.error;
-        }
+    });
 
-        return res;
-      });
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
   }
 
   static async trust(

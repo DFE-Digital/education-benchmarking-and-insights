@@ -2,11 +2,11 @@ import {
   HistoricChart2,
   HistoricChart2Props,
 } from "src/composed/historic-chart-2-composed";
-import { SchoolHistoryBase, TotalCateringCostsField } from "src/services";
+import { HistoryBase, TotalCateringCostsField } from "src/services";
 import { useState } from "react";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
-export function CateringCostsHistoryChart<T extends SchoolHistoryBase>(
+export function CateringCostsHistoryChart<T extends HistoryBase>(
   props: Pick<HistoricChart2Props<T>, "data" | "chartName" | "perUnitDimension">
 ) {
   const [totalCateringCostsField, setTotalCateringCostsField] =

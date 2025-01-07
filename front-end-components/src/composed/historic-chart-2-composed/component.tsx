@@ -12,11 +12,11 @@ import {
 } from "src/components/charts/utils.ts";
 import { ChartProps } from "src/components/charts/types";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
-import { SchoolHistoryBase } from "src/services";
+import { HistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 
-export function HistoricChart2<TData extends SchoolHistoryBase>({
+export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
   chartName,
   children,

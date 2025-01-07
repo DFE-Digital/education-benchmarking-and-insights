@@ -25,7 +25,7 @@ public class IncomeTrustFunctions(
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleIncomeDimension))]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IncomeHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IncomeHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
