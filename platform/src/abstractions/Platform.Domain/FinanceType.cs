@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-namespace Platform.Api.Insight.Domain;
+﻿namespace Platform.Domain;
 
 public static class FinanceType
 {

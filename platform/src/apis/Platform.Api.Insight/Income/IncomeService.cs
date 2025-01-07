@@ -25,7 +25,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
 
     public async Task<(IncomeYearsModel?, IEnumerable<IncomeHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = IncomeDimensions.Actuals)
     {
-        const string yearSql = "SELECT * FROM VW_SchoolYears WHERE URN = @URN";
+        const string yearSql = "SELECT * FROM VW_YearsSchool WHERE URN = @URN";
         var yearParams = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
@@ -41,10 +41,10 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         var historyParams = new { URN = urn, years.StartYear, years.EndYear };
         return (years, await conn.QueryAsync<IncomeHistoryModel>(historySql, historyParams));
     }
-  
+
     public async Task<(IncomeYearsModel?, IEnumerable<IncomeHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = IncomeDimensions.Actuals)
     {
-        const string yearSql = "SELECT * FROM VW_TrustYears WHERE CompanyNumber = @CompanyNumber";
+        const string yearSql = "SELECT * FROM VW_YearsTrust WHERE CompanyNumber = @CompanyNumber";
         var yearParams = new { CompanyNumber = companyNumber };
 
         using var conn = await dbFactory.GetConnection();
@@ -60,7 +60,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         var historyParams = new { CompanyNumber = companyNumber, years.StartYear, years.EndYear };
         return (years, await conn.QueryAsync<IncomeHistoryModel>(historySql, historyParams));
     }
-    
+
     private static string GetTrustHistorySql(string dimension)
     {
         return dimension switch
@@ -72,7 +72,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
-    
+
     private static string GetSchoolSql(string dimension)
     {
         return dimension switch
@@ -81,7 +81,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
-    
+
     private static string GetSchoolHistorySql(string dimension)
     {
         return dimension switch

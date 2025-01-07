@@ -1440,6 +1440,9 @@
           "Newtonsoft.Json.Bson": "[1.0.3, )"
         }
       },
+      "platform.domain": {
+        "type": "Project"
+      },
       "platform.functions": {
         "type": "Project",
         "dependencies": {

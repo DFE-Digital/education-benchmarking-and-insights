@@ -8,16 +8,6 @@ WHERE RunType = 'default'
   AND RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
 GO
 
-DROP VIEW IF EXISTS VW_NonFinancialDefaultCurrent
-GO
-
-CREATE VIEW VW_NonFinancialDefaultCurrent AS
-SELECT *
-FROM NonFinancial
-WHERE RunType = 'default'
-  AND RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
-GO
-
 DROP VIEW IF EXISTS VW_TrustFinancialDefault
 GO
 

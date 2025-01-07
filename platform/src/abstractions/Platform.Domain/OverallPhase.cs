@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-namespace Platform.Api.Insight.Domain;
+﻿namespace Platform.Domain;
 
 public static class OverallPhase
 {
-    internal const string Primary = "Primary";
+    private const string Primary = "Primary";
     private const string Secondary = "Secondary";
     private const string Special = "Special";
     private const string PupilReferralUnit = "Pupil Referral Unit";

@@ -53,7 +53,7 @@ public class IncomeTrustFunctions(
                 {
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
-                
+
                 var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension);
                 return years == null
                     ? req.CreateNotFoundResponse()

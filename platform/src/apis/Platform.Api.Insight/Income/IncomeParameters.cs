@@ -4,7 +4,7 @@ namespace Platform.Api.Insight.Income;
 
 public record IncomeParameters : QueryParameters
 {
-    public string Dimension { get; internal set; } = IncomeDimensions.Actuals;
+    public string Dimension { get; private set; } = IncomeDimensions.Actuals;
 
     public override void SetValues(IQueryCollection query)
     {

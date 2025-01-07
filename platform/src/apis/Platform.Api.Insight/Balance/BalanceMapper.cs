@@ -11,9 +11,9 @@ public static class BalanceMapper
 {
     public static BalanceSchoolResponse MapToApiResponse(this BalanceSchoolModel model)
     {
-        if (model == null) 
+        if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        
+
         return new BalanceSchoolResponse
         {
             URN = model.URN,
@@ -25,7 +25,7 @@ public static class BalanceMapper
             RevenueReserve = model.RevenueReserve
         };
     }
-    
+
     public static BalanceHistoryResponse MapToApiResponse(this IEnumerable<BalanceHistoryModel> models, int startYear, int endYear)
     {
         return new BalanceHistoryResponse
@@ -35,12 +35,12 @@ public static class BalanceMapper
             Rows = models.Select(x => x.MapToApiResponse())
         };
     }
-    
+
     public static BalanceTrustResponse MapToApiResponse(this BalanceTrustModel model)
     {
-        if (model == null) 
+        if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        
+
         return new BalanceTrustResponse
         {
             TrustName = model.TrustName,
@@ -56,12 +56,12 @@ public static class BalanceMapper
     {
         return models.Select(x => x.MapToApiResponse());
     }
-    
+
     private static BalanceHistoryRowResponse MapToApiResponse(this BalanceHistoryModel model)
     {
-        if (model == null) 
+        if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        
+
         return new BalanceHistoryRowResponse
         {
             Year = model.RunId,

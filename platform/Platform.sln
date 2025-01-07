@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Cache", "src\abstractions\Platform.Cache\Platform.Cache.csproj", "{F763848C-9E85-4FED-85C2-790C5E58E56A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Domain", "src\abstractions\Platform.Domain\Platform.Domain.csproj", "{D63BCFE5-E1A2-4F0C-939F-96187E64B16D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,10 @@ Global
 		{F763848C-9E85-4FED-85C2-790C5E58E56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F763848C-9E85-4FED-85C2-790C5E58E56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F763848C-9E85-4FED-85C2-790C5E58E56A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63BCFE5-E1A2-4F0C-939F-96187E64B16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63BCFE5-E1A2-4F0C-939F-96187E64B16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63BCFE5-E1A2-4F0C-939F-96187E64B16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63BCFE5-E1A2-4F0C-939F-96187E64B16D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,5 +178,6 @@ Global
 		{F5525998-DB69-4209-8832-E3176C0DBC6D} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{25B60DB3-6ABF-4F76-B60D-73381A88FD09} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{F763848C-9E85-4FED-85C2-790C5E58E56A} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{D63BCFE5-E1A2-4F0C-939F-96187E64B16D} = {D52455F1-3BF5-46F4-9833-633817248295}
 	EndGlobalSection
 EndGlobal

@@ -11,9 +11,9 @@ public static class IncomeMapper
 {
     public static IncomeSchoolResponse MapToApiResponse(this IncomeSchoolModel model)
     {
-        if (model == null) 
+        if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        
+
         return new IncomeSchoolResponse
         {
             URN = model.URN,
@@ -40,7 +40,7 @@ public static class IncomeMapper
             OtherSelfGeneratedIncome = model.OtherSelfGeneratedIncome
         };
     }
-    
+
     public static IncomeHistoryResponse MapToApiResponse(this IEnumerable<IncomeHistoryModel> models, int startYear, int endYear)
     {
         return new IncomeHistoryResponse
@@ -50,12 +50,12 @@ public static class IncomeMapper
             Rows = models.Select(x => x.MapToApiResponse())
         };
     }
-    
+
     private static IncomeHistoryRowResponse MapToApiResponse(this IncomeHistoryModel model)
     {
-        if (model == null) 
+        if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        
+
         return new IncomeHistoryRowResponse
         {
             Year = model.RunId,

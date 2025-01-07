@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,62 +13,15 @@ using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
+
 namespace Platform.Api.Insight.Census;
 
-public class CensusFunctions(
-    ILogger<CensusFunctions> logger,
+public class CensusSchoolFunctions(
+    ILogger<CensusSchoolFunctions> logger,
     ICensusService service,
     IValidator<CensusParameters> censusParametersValidator,
-    IValidator<CensusNationalAvgParameters> censusNationalAvgValidator,
     IValidator<QuerySchoolCensusParameters> querySchoolCensusParametersValidator)
 {
-    [Function(nameof(CensusAllCategories))]
-    [OpenApiOperation(nameof(CensusAllCategories), "Census")]
-    [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
-    public async Task<HttpResponseData> CensusAllCategories(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/categories")] HttpRequestData req)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   }
-               }))
-        {
-            return await req.CreateJsonResponseAsync(CensusCategories.All);
-        }
-    }
-
-    [Function(nameof(CensusAllDimensions))]
-    [OpenApiOperation(nameof(CensusAllDimensions), "Census")]
-    [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(string[]))]
-    public async Task<HttpResponseData> CensusAllDimensions(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/dimensions")] HttpRequestData req)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   }
-               }))
-        {
-
-            return await req.CreateJsonResponseAsync(CensusDimensions.All);
-        }
-    }
-
     [Function(nameof(CensusAsync))]
     [OpenApiOperation(nameof(CensusAsync), "Census")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
@@ -108,7 +60,7 @@ public class CensusFunctions(
                 var result = await service.GetAsync(urn);
                 return result == null
                     ? req.CreateNotFoundResponse()
-                    : await req.CreateJsonResponseAsync(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
+                    : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category));
             }
             catch (Exception e)
             {
@@ -155,10 +107,10 @@ public class CensusFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.GetCustomAsync(urn, identifier);
+                var result = await service.GetCustomAsync(urn, identifier, queryParams.Dimension);
                 return result == null
                     ? req.CreateNotFoundResponse()
-                    : await req.CreateJsonResponseAsync(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
+                    : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category));
             }
             catch (Exception e)
             {
@@ -179,7 +131,7 @@ public class CensusFunctions(
     public async Task<HttpResponseData> CensusHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history")] HttpRequestData req,
         string urn,
-        CancellationToken cancellationToken)
+        CancellationToken token)
     {
         var correlationId = req.GetCorrelationId();
         var queryParams = req.GetParameters<CensusParameters>();
@@ -194,14 +146,16 @@ public class CensusFunctions(
                    }
                }))
         {
-            var validationResult = await censusParametersValidator.ValidateAsync(queryParams, cancellationToken);
+            var validationResult = await censusParametersValidator.ValidateAsync(queryParams, token);
             if (!validationResult.IsValid)
             {
                 return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
 
-            var result = await service.GetHistoryAsync(urn, cancellationToken);
-            return await req.CreateJsonResponseAsync(result.Select(x => CensusResponseFactory.Create(x, queryParams.Dimension)));
+            var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension, token);
+            return years == null
+                ? req.CreateNotFoundResponse()
+                : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
         }
     }
 
@@ -237,45 +191,10 @@ public class CensusFunctions(
                 return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
 
-            var result = await service.GetHistoryAvgComparatorSetAsync(urn, queryParams.Dimension, token);
-            return await req.CreateJsonResponseAsync(result);
-        }
-    }
-
-    [Function(nameof(CensusHistoryAvgNationalAsync))]
-    [OpenApiOperation(nameof(CensusHistoryAvgNationalAsync), "Census")]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleCensusDimension))]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
-    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]
-    [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CensusHistoryResponse[]))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-    public async Task<HttpResponseData> CensusHistoryAvgNationalAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/history/national-average")] HttpRequestData req,
-        CancellationToken token)
-    {
-        var correlationId = req.GetCorrelationId();
-        var queryParams = req.GetParameters<CensusNationalAvgParameters>();
-
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   }
-               }))
-        {
-            var validationResult = await censusNationalAvgValidator.ValidateAsync(queryParams, token);
-            if (!validationResult.IsValid)
-            {
-                return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
-            }
-
-            var result = await service.GetHistoryAvgNationalAsync(queryParams.Dimension, queryParams.OverallPhase, queryParams.FinanceType, token);
-            return await req.CreateJsonResponseAsync(result);
+            var (years, rows) = await service.GetComparatorAveHistoryAsync(urn, queryParams.Dimension, token);
+            return years == null
+                ? req.CreateNotFoundResponse()
+                : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
         }
     }
 
@@ -315,8 +234,8 @@ public class CensusFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var result = await service.QueryAsync(queryParams.Urns, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase);
-                return await req.CreateJsonResponseAsync(result.Select(x => CensusResponseFactory.Create(x, queryParams.Category, queryParams.Dimension)));
+                var result = await service.QueryAsync(queryParams.Urns, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase, queryParams.Dimension);
+                return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category));
             }
             catch (Exception e)
             {

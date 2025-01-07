@@ -27,7 +27,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
 
     public async Task<(BalanceYearsModel?, IEnumerable<BalanceHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = BalanceDimensions.Actuals)
     {
-        const string yearSql = "SELECT * FROM VW_SchoolYears WHERE URN = @URN";
+        const string yearSql = "SELECT * FROM VW_YearsSchool WHERE URN = @URN";
         var yearParams = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
@@ -55,7 +55,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
 
     public async Task<(BalanceYearsModel?, IEnumerable<BalanceHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = BalanceDimensions.Actuals)
     {
-        const string yearSql = "SELECT * FROM VW_TrustYears WHERE CompanyNumber = @CompanyNumber";
+        const string yearSql = "SELECT * FROM VW_YearsTrust WHERE CompanyNumber = @CompanyNumber";
         var yearParams = new { CompanyNumber = companyNumber };
 
         using var conn = await dbFactory.GetConnection();

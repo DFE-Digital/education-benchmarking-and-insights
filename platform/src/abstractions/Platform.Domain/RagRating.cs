@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-namespace Platform.Api.Insight.Domain;
+﻿namespace Platform.Domain;
 
 public static class RagRating
 {
-    internal const string Red = "red";
+    private const string Red = "red";
     private const string Amber = "amber";
     private const string Green = "green";
 

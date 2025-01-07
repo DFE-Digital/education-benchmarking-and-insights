@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Platform.Api.Insight.Domain;
+using Platform.Domain;
 using Platform.Api.Insight.Expenditure;
 namespace Platform.Api.Insight.Validators;
 

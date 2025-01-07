@@ -6,7 +6,7 @@ namespace Platform.Api.Insight.Balance;
 
 public record BalanceParameters : QueryParameters
 {
-    public string Dimension { get; internal set; } = BalanceDimensions.Actuals;
+    public string Dimension { get; private set; } = BalanceDimensions.Actuals;
     public string[] Trusts { get; private set; } = [];
 
     public override void SetValues(IQueryCollection query)

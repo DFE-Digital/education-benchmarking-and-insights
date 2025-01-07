@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-namespace Platform.Api.Insight.Domain;
+﻿namespace Platform.Domain;
 
 public static class CostCategory
 {
-    internal const string TeachingStaff = "Teaching and Teaching support staff";
+    private const string TeachingStaff = "Teaching and Teaching support staff";
     private const string NonEducationalSupportStaff = "Non-educational support staff and services";
     private const string EducationalSupplies = "Educational supplies";
     private const string EducationalIct = "Educational ICT";
