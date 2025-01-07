@@ -58,17 +58,32 @@ def prepare_census_data(
     :param pupil_census_path: readable source for pupil census
     :param year: financial year in question
     """
-    school_workforce_census = pd.read_excel(
-        workforce_census_path,
-        header=5,
-        usecols=input_schemas.workforce_census.keys(),
-        na_values=["x", "u", "c", "z", ":"],
-        keep_default_na=True,
-    ).drop_duplicates()
+    school_workforce_census = (
+        pd.read_excel(
+            workforce_census_path,
+            header=input_schemas.workforce_census_header_row.get(
+                year, input_schemas.workforce_census_header_row["default"]
+            ),
+            usecols=input_schemas.workforce_census.get(
+                year, input_schemas.workforce_census["default"]
+            ).keys(),
+            dtype=input_schemas.workforce_census.get(
+                year, input_schemas.workforce_census["default"]
+            ),
+            na_values=["x", "u", "c", "z", ":"],
+            keep_default_na=True,
+        )
+        .drop_duplicates()
+        .rename(
+            columns=input_schemas.workforce_census_column_mappings.get(year, {}),
+        )
+        .set_index(input_schemas.workforce_census_index_col)
+    )
 
-    school_workforce_census = school_workforce_census.astype(
-        input_schemas.workforce_census
-    ).set_index(input_schemas.workforce_census_index_col)
+    for column, eval_ in input_schemas.workforce_census_column_eval.get(
+        year, {}
+    ).items():
+        school_workforce_census[column] = school_workforce_census.eval(eval_)
 
     school_pupil_census = (
         pd.read_csv(
