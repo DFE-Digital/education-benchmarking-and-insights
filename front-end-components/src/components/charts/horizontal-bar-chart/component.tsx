@@ -7,11 +7,18 @@ import {
   useImperativeHandle,
   useMemo,
   useState,
+  useContext,
 } from "react";
 import {
   HorizontalBarChartProps,
   LabelListContentProps,
 } from "src/components/charts/horizontal-bar-chart";
+
+import { ErrorBanner } from "src/components/error-banner";
+import {
+  SuppressNegativeOrZeroContext,
+  SelectedEstablishmentContext,
+} from "src/contexts";
 import {
   Bar,
   BarChart,
@@ -69,7 +76,23 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     valueFormatter,
     valueLabel,
     valueUnit,
+    trust,
   } = props;
+
+  const { suppressNegativeOrZero, message } = useContext(
+    SuppressNegativeOrZeroContext
+  );
+  const selectedSchool = useContext(SelectedEstablishmentContext);
+
+  const dataPointKey = (trust ? "totalValue" : "value") as keyof TData;
+
+  const filteredData = useMemo(() => {
+    return data.filter((d) =>
+      suppressNegativeOrZero
+        ? (d[dataPointKey] as number) > 0 || d[keyField] === selectedSchool
+        : true
+    );
+  }, [data, suppressNegativeOrZero, dataPointKey, keyField, selectedSchool]);
 
   const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
     fileName: `${chartName}.png`,
@@ -87,10 +110,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
       ? Object.entries(seriesConfig)
           .filter((v) => v[1]?.visible)
           .map((v) => v[0])
-      : Object.keys(data).filter(
+      : Object.keys(filteredData).filter(
           (k) => k !== seriesLabelField && k !== keyField
         );
-  }, [data, keyField, seriesConfig, seriesLabelField]);
+  }, [filteredData, keyField, seriesConfig, seriesLabelField]);
 
   const [activeItemIndex, setActiveItemIndex] = useState<number>();
   const handleBarChartMouseMove = (nextState: CategoricalChartState) => {
@@ -109,12 +132,12 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   );
 
   const hasSomeNegativeValues = useMemo(() => {
-    return data.some(seriesHasNegativeValues);
-  }, [data, seriesHasNegativeValues]);
+    return filteredData.some(seriesHasNegativeValues);
+  }, [filteredData, seriesHasNegativeValues]);
 
   const hasAllNegativeValues = useMemo(() => {
-    return data.every(seriesHasNegativeValues);
-  }, [data, seriesHasNegativeValues]);
+    return filteredData.every(seriesHasNegativeValues);
+  }, [filteredData, seriesHasNegativeValues]);
 
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
@@ -207,100 +230,114 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
-    <div
-      aria-label={chartName}
-      className="govuk-body-s govuk-!-font-size-14 full-height-width"
-      role="img"
-    >
-      <ResponsiveContainer>
-        <BarChart
-          barCategoryGap={barCategoryGap}
-          data={data}
-          layout="vertical"
-          margin={{
-            top: margin,
-            right: margin + (labels ? 25 : 5),
-            bottom: margin,
-            left: hasSomeNegativeValues ? margin + 48 : margin,
-          }}
-          onMouseMove={handleBarChartMouseMove}
-          ref={rechartsRef}
-          className="recharts-wrapper-horizontal-bar-chart"
+    <>
+      <ErrorBanner
+        isRendered={suppressNegativeOrZero && filteredData.length < data.length}
+        message={message}
+      />
+      <div style={{ height: 22 * filteredData.length + 75 }}>
+        <div
+          aria-label={chartName}
+          className="govuk-body-s govuk-!-font-size-14 full-height-width"
+          role="img"
         >
-          {grid && <CartesianGrid />}
-          {!!tooltip && <Tooltip content={tooltip} />}
-          {visibleSeriesNames.map((seriesName, seriesIndex) => {
-            const config = seriesConfig && seriesConfig[seriesName];
-            return (
-              <Bar
-                key={seriesName as string}
-                dataKey={seriesName as string}
-                stackId={config?.stackId}
+          <ResponsiveContainer>
+            <BarChart
+              barCategoryGap={barCategoryGap}
+              data={filteredData}
+              layout="vertical"
+              margin={{
+                top: margin,
+                right: margin + (labels ? 25 : 5),
+                bottom: margin,
+                left: hasSomeNegativeValues ? margin + 48 : margin,
+              }}
+              onMouseMove={handleBarChartMouseMove}
+              ref={rechartsRef}
+              className="recharts-wrapper-horizontal-bar-chart"
+            >
+              {grid && <CartesianGrid />}
+              {!!tooltip && <Tooltip content={tooltip} />}
+              {visibleSeriesNames.map((seriesName, seriesIndex) => {
+                const config = seriesConfig && seriesConfig[seriesName];
+                return (
+                  <Bar
+                    key={seriesName as string}
+                    dataKey={seriesName as string}
+                    stackId={config?.stackId}
+                  >
+                    {filteredData.map((entry, dataIndex) =>
+                      renderCell(entry, dataIndex, seriesIndex, config)
+                    )}
+                    {labels &&
+                      (!config?.stackId ||
+                        seriesIndex === visibleSeriesNames.length - 1) && (
+                        <LabelList
+                          dataKey={
+                            (labelListSeriesName ?? seriesName) as string
+                          }
+                          content={(c) =>
+                            renderLabelList(c, config?.valueFormatter)
+                          }
+                        />
+                      )}
+                  </Bar>
+                );
+              })}
+              <XAxis
+                domain={
+                  hasSomeNegativeValues
+                    ? ["dataMin", hasAllNegativeValues ? 0 : "dataMax"]
+                    : undefined
+                }
+                type="number"
+                hide={hideXAxis}
+                tickFormatter={(value) =>
+                  valueFormatter
+                    ? valueFormatter(value, { valueUnit })
+                    : String(value)
+                }
+                padding={{ left: 3 }}
               >
-                {data.map((entry, dataIndex) =>
-                  renderCell(entry, dataIndex, seriesIndex, config)
+                {valueLabel && (
+                  <Label value={valueLabel} offset={0} position="bottom" />
                 )}
-                {labels &&
-                  (!config?.stackId ||
-                    seriesIndex === visibleSeriesNames.length - 1) && (
-                    <LabelList
-                      dataKey={(labelListSeriesName ?? seriesName) as string}
-                      content={(c) =>
-                        renderLabelList(c, config?.valueFormatter)
-                      }
-                    />
-                  )}
-              </Bar>
-            );
-          })}
-          <XAxis
-            domain={
-              hasSomeNegativeValues
-                ? ["dataMin", hasAllNegativeValues ? 0 : "dataMax"]
-                : undefined
-            }
-            type="number"
-            hide={hideXAxis}
-            tickFormatter={(value) =>
-              valueFormatter
-                ? valueFormatter(value, { valueUnit })
-                : String(value)
-            }
-            padding={{ left: 3 }}
-          >
-            {valueLabel && (
-              <Label value={valueLabel} offset={0} position="bottom" />
-            )}
-          </XAxis>
-          <YAxis
-            dataKey={seriesLabelField as string}
-            hide={hideYAxis}
-            interval={0}
-            tick={tick}
-            type="category"
-            width={tickWidth}
-            axisLine={hasSomeNegativeValues ? false : undefined}
-            tickLine={hasSomeNegativeValues ? false : undefined}
-            tickMargin={hasSomeNegativeValues ? 50 : undefined}
-          ></YAxis>
-          {hasSomeNegativeValues && (
-            <ReferenceLine x={0}>
-              <Label offset={8} position="bottom" content={renderOriginLabel} />
-            </ReferenceLine>
-          )}
-          {legend && (
-            <Legend
-              align="right"
-              verticalAlign="top"
-              formatter={(value) =>
-                (seriesConfig && seriesConfig[value]?.label) || value
-              }
-              height={30}
-            />
-          )}
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+              </XAxis>
+              <YAxis
+                dataKey={seriesLabelField as string}
+                hide={hideYAxis}
+                interval={0}
+                tick={tick}
+                type="category"
+                width={tickWidth}
+                axisLine={hasSomeNegativeValues ? false : undefined}
+                tickLine={hasSomeNegativeValues ? false : undefined}
+                tickMargin={hasSomeNegativeValues ? 50 : undefined}
+              ></YAxis>
+              {hasSomeNegativeValues && (
+                <ReferenceLine x={0}>
+                  <Label
+                    offset={8}
+                    position="bottom"
+                    content={renderOriginLabel}
+                  />
+                </ReferenceLine>
+              )}
+              {legend && (
+                <Legend
+                  align="right"
+                  verticalAlign="top"
+                  formatter={(value) =>
+                    (seriesConfig && seriesConfig[value]?.label) || value
+                  }
+                  height={30}
+                />
+              )}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </>
   );
 }
 

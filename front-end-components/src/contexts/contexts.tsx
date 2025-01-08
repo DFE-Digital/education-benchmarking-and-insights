@@ -29,3 +29,14 @@ export const CentralServicesBreakdownContext = createContext<
 >(undefined);
 
 export const CustomDataContext = createContext<string | undefined>(undefined);
+
+type SuppressNegativeOrZero = {
+  suppressNegativeOrZero: boolean;
+  message: string;
+};
+
+export const SuppressNegativeOrZeroContext =
+  createContext<SuppressNegativeOrZero>({
+    suppressNegativeOrZero: false,
+    message: "",
+  });

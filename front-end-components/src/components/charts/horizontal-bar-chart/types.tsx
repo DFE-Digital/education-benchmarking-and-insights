@@ -11,6 +11,7 @@ export interface HorizontalBarChartProps<TData extends ChartDataSeries>
     Pick<BaseAxisProps, "tick"> {
   tickWidth?: number;
   labelListSeriesName?: keyof TData;
+  trust?: boolean;
 }
 
 export interface LabelListContentProps

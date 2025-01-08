@@ -123,7 +123,8 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id, phases, customDataId } = compareCostsElement.dataset;
+  const { type, id, phases, customDataId, suppressNegativeOrZero } =
+    compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
@@ -135,6 +136,7 @@ if (compareCostsElement) {
           id={id}
           phases={phasesParsed}
           customDataId={customDataId}
+          suppressNegativeOrZero={suppressNegativeOrZero === "true"}
         />
       </React.StrictMode>
     );
