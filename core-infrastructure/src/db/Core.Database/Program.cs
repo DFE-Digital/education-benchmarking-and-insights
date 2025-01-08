@@ -20,16 +20,16 @@ static Task Deploy(Options options)
      .LogToConsole()
      .Build()
      .Execute();
-    
+
     //Deploy views
- DeployChanges.To
-        .SqlDatabase(options.ConnectionString)
-        .JournalTo(new NullJournal())
-        .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.StartsWith("Core.Database.Views"))
-        .SetTimeout(60 * 10)
-        .LogToConsole()
-        .Build()
-        .Execute();
+    DeployChanges.To
+           .SqlDatabase(options.ConnectionString)
+           .JournalTo(new NullJournal())
+           .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.StartsWith("Core.Database.Views"))
+           .SetTimeout(60 * 10)
+           .LogToConsole()
+           .Build()
+           .Execute();
 
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Success!");
