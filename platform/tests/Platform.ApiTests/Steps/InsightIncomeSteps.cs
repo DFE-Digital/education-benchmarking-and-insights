@@ -23,7 +23,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
             Method = HttpMethod.Get
         });
     }
-    
+
     [Given("a valid school income request with urn '(.*)'")]
     public void GivenAValidSchoolIncomeRequestWithUrn(
         string urn)
@@ -46,7 +46,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
             Method = HttpMethod.Get
         });
     }
-    
+
     [Given("a valid trust income history request with company number '(.*)'")]
     public void GivenAValidTrustIncomeHistoryRequestWithCompanyNumber(string companyNumber)
     {
@@ -56,7 +56,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
             Method = HttpMethod.Get
         });
     }
-    
+
     [When("I submit the insights income request")]
     public async Task WhenISubmitTheInsightsIncomeRequest()
     {
@@ -85,7 +85,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
 
         table.CompareToDynamicSet(set, false);
     }
-    
+
     [Then("the school income result should be ok and contain:")]
     public async Task ThenTheSchoolIncomeResultShouldBeOkAndContain(DataTable table)
     {
@@ -107,7 +107,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
-    
+
     [Then("the school income history result should be ok and contain:")]
     public async Task ThenTheSchoolIncomeHistoryResultShouldBeOkAndContain(DataTable table)
     {
@@ -133,7 +133,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
         var result = content.FromJson<IncomeHistoryResponse>();
         table.CompareToSet(result.Rows);
     }
-    
+
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {
         return table.Rows
