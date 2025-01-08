@@ -1,70 +1,59 @@
-﻿# Release Test Plan - [TBC]
+﻿# Release Test Plan - 2025.01.01
 
 **Release Date:** TBC  
-**Release Label:** [TBC]
+**Release Label:** 2025.01.01
+
+---
 
 ## Introduction
 
-## Introduction
+This plan outlines the approach for testing the `2025.01.01` release, ensuring enhancements and critical bug fixes are validated and do not adversely impact existing functionalities.
 
-This plan defines the approach for testing release `[release label]`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
+---
 
 ## Scope
 
-**In-scope:**
+### **In-Scope:**
 
-- New Features:
-  - Historic pages updated to show historical averages nationally.
+- **Enhancements**:
+    - A02: Hover over information for line charts needs to be available for keyboard
+    - Analytics - View which schools have been accessed
 
-- Enhancements:
-  - Removed negative and zero cost category value for schools for better analysis.
-  - Improved service reliability and maintainability:
-    - Handled of varying input schemas for pupil and workforce census to accept varying schema.
-    - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
-  - Additional features for exporting and sharing charts for offline use:
-    - Download multiple chart images, copy to clipboard
-    - Download this page data.
-    - Added cost codes to all charts and downloaded charts for improved clarity.
-    - Extended "Save as Image" functionality on spending priorities and historic data page.
+- **Bug Fixes**:
+    - Spinner when no data submitted
+    - Multi-selection of LA's not working
+    - Benchmarking historical trends
+    - Suppressing negative and zero values
+    - Federation per unit RAG values incorrect
+    - Federation per unit RAG values incorrect
+    - Handle custom-data/part-year RAG
 
-- Bug Fixes:
-  - Data Accuracy and Presentation:
-    - Corrected RAG value calculations to show aggregated data for federations.
-    - Updated/fixed inconsistencies with pupil numbers.
-  - UI and Usability Fixes:
-    - Ensured multi-selection of LAs working as intended when doing user defined comparator set.
-    - Added hover-over information for line charts for better accessibility.
-    - Added appropriate message when no data is submitted in BFR.
+- **Dependencies**:
+    - January 2025 - Dependent bot updates
 
-**Out-of-Scope:**
+### **Out-of-Scope:**
+- Any functionality not included in this release's work items.
 
-- Any new functionality or enhancements not explicitly targeted for this release.
-- Non-critical visual or content updates not related to user experience or data correctness.
-- Testing scenarios outside the scope of existing modules, including datasets not included in this release.
+---
 
 ## Test Strategy
 
-- Functional Testing:
-  - Features: Test new and updated features for correct functionality.
-- Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
-- Sanity Testing: Perform sanity checks on bug fixes, enhancments to confirm the updates.
-- User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
+- **Sanity Testing**: Verify bug fixes are resolved.
+- **Smoke Testing**: Validate basic application functionality after deployment.
+- **Regression Testing**: Focus on areas affected by enhancements and bug fixes.
+---
 
 ## Entry and Exit Criteria
 
-**Entry Criteria:**
-
-- All code changes for release are completed and successfully deployed to the pre-production environment.
-- Pipeline run is completed successfully with the updated files including pupil and workforce census, AAR 2024 files in pre-production.
-
-**Exit Criteria:**
-
+### **Entry Criteria:**
+- All code changes are merged and deployed to the pre-production environment.
+- Pipeline run completed in pre-production environment.
+### **Exit Criteria:**
 - All high-priority test cases have passed.
 - No critical defects remain open.
-- UAT Testing completed.
-- Signed off by stakeholders.
+- Stakeholders approve release readiness.
 
+---
 
 ## Roles and Responsibilities
 
@@ -73,55 +62,30 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `[release 
 - **Stakeholders:** Participate in user acceptance testing and provide final approval.
 - **Technical lead:** Oversee release planning.
 - **Project lead:** Go/no-go decisions.
+---
 
 ## Risk Analysis
->
->[!NOTE]
->Add risks (with mitigation) for this release.
 
-- **Risk:**
-  - **Mitigation:**
+n/a
+
+---
 
 ## Test Deliverables
->
->[!NOTE]
->Add/remove/update where necessary to reflect the deliverables for this release.
 
-- Test plan document
-- Test cases (Functional, Regression, Non-Functional)
-- Test charters
-- Test summary report outlining test results, pass/fail rates, and any outstanding issues
+- Test plan document.
+- Test summary report, including test results and outstanding issues.
 
-## Approval
+---
 
-- Stakeholders
-- Project lead
-- QA Lead
-- Technical lead
+## Azure DevOps Tickets
 
-## Notes
-
-**Azure DevOps tickets:**
-
-- [242989 Handle varying input schemas](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242989)
-- [237633 - Benchmarking historical trends](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/237633)
-- [235748 - Suppressing negative and zero values](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/235748)
-- [241716 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241716)
-- [241759 - Missing pupil numbers](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241759)
-- [241954 - Handle custom-data/part-year RAG](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241954)
-- [236233 - BFR Spinner when no data submitted](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/236233)
-- [225945 - A02: Hover over information for line charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225945)
-- WIP [241700 - Change Cost and Income codes in aar](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241700)
-- [241720 - Multi-selection of LA's not working](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241720)
-- [243796 - Extend Log Analytics Workspace data retention period](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243796)
-- [243084 - Dependencies - January 2025](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243084)
-- [231743 - Break pre-processing module into a smaller package/modules](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231743)
-- [231273 - ADO pipeline formatting check for data pipeline build](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/231273)
-- [244563 - Configuration-driven data source download page](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244563)
-- [241881 - Ofsted data points optional in GIAS dataset](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241881)
-- [242105 - User defined comparator/custom data improvements](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242105)
-- [239257 - Add index to UserData table](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/239257)
-- [245362 - Replace recharts-to-png with html-to-image](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245362)
-- [245267 - Add titles on all graphs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245267)
-- [244349 - Add Save as Image to additional pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244349)
-- [242101 - Copy chart to clipboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242101)
+- **[236233 - Spinner when no data submitted](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/236233)**
+- **[225945 - A02: Hover over information for line charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225945)**
+- **[241720 - Multi-selection of LA's not working](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241720)**
+- **[237633 - Benchmarking historical trends](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/237633)**
+- **[235748 - Suppressing negative and zero values](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/235748)**
+- **[241716 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241716)**
+- **[241759 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241759)**
+- **[241954 - Handle custom-data/part-year RAG](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241954)**
+- **[242081 - Analytics - View which schools have been accessed](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242081)**
+- **[243084 - Dependencies - January 2025](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243084)**  
