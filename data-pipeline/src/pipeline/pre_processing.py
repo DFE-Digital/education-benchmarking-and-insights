@@ -75,13 +75,15 @@ def prepare_census_data(
         )
         .drop_duplicates()
         .rename(
-            columns=input_schemas.workforce_census_column_mappings.get(year, {}),
+            columns=input_schemas.workforce_census_column_mappings.get(
+                year, input_schemas.workforce_census_column_mappings["default"]
+            ),
         )
         .set_index(input_schemas.workforce_census_index_col)
     )
 
     for column, eval_ in input_schemas.workforce_census_column_eval.get(
-        year, {}
+        year, input_schemas.workforce_census_column_eval["default"]
     ).items():
         school_workforce_census[column] = school_workforce_census.eval(eval_)
 
@@ -100,7 +102,9 @@ def prepare_census_data(
         )
         .drop_duplicates()
         .rename(
-            columns=input_schemas.pupil_census_column_mappings.get(year, {}),
+            columns=input_schemas.pupil_census_column_mappings.get(
+                year, input_schemas.pupil_census_column_mappings["default"]
+            ),
         )
         .set_index(input_schemas.pupil_census_index_col)
     )

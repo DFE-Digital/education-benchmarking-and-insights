@@ -49,16 +49,18 @@ workforce_census = {
 }
 
 workforce_census_column_mappings = {
+    "default": {},
     2024: {
         "Total Number of Teaching Assistants (FTE)": "Total Number of Teaching Assistants (Full-Time Equivalent)",
         "Total School Workforce (FTE)": "Total School Workforce (Full-Time Equivalent)",
         "Total Number of Teachers (FTE)": "Total Number of Teachers (Full-Time Equivalent)",
         "Total Number of Teachers in the Leadership Group (FTE)": "Total Number of Teachers in the Leadership Group (Full-time Equivalent)",
         "Total Number of Auxiliary Staff (FTE)": "Total Number of Auxiliary Staff (Full-Time Equivalent)",
-    }
+    },
 }
 
 workforce_census_column_eval = {
+    "default": {},
     2024: {
         "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "`Total Number of Other School Support Staff (FTE)` + `Total Number of Technicians (FTE)` + `Total Number of Leadership Non-Teachers (FTE)` + `Total Number of School Business Professionals (FTE)` + `Total Number of Administrative Staff (FTE)`",
         "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "`Total Number of Other School Support Staff (Headcount)` + `Total Number of Technicians (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)` + `Total Number of School Business Professionals (Headcount)` + `Total Number of Administrative Staff (Headcount)`",

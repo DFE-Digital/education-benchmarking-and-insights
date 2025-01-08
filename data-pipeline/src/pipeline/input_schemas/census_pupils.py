@@ -42,6 +42,7 @@ pupil_census = {
 }
 
 pupil_census_column_mappings = {
+    "default": {},
     2023: {
         "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
     },
