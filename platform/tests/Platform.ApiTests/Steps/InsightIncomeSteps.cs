@@ -246,19 +246,6 @@ public class InsightIncomeSteps(InsightApiDriver api)
         table.CompareToSet(result);
     }
 
-    [Then("the trust income result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[TrustIncomeKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustIncomeResponse>();
-        table.CompareToInstance(result);
-    }
-
     [Then("the trust income result should be not found")]
     public void ThenTheTrustIncomeResultShouldBeNotFound()
     {
@@ -277,22 +264,11 @@ public class InsightIncomeSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustIncomeHistoryResponse[]>();
+        var result = content.FromJson<IncomeHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
-    [Then("the trust income query result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeQueryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[TrustIncomeKey].Response;
 
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustIncomeResponse[]>();
-        table.CompareToSet(result);
-    }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
     {

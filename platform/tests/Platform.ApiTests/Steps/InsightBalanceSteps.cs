@@ -22,16 +22,15 @@ public class InsightBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid school balance request with urn '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenAValidSchoolBalanceRequestWithUrnDimensionAndExcludeCentralServices(
+    [Given("a valid school balance request with urn '(.*)', dimension '(.*)'")]
+    public void GivenAValidSchoolBalanceRequestWithUrnDimension(
         string urn,
-        string dimension,
-        string excludeCentralServices)
+        string dimension)
     {
         api.CreateRequest(SchoolBalanceKey, new HttpRequestMessage
         {
             RequestUri = new Uri(
-                $"/api/balance/school/{urn}?dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+                $"/api/balance/school/{urn}?dimension={dimension}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -68,16 +67,15 @@ public class InsightBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid trust balance request with company number '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenAValidTrustBalanceRequestWithCompanyNumberDimensionAndExcludeCentralServices(
+    [Given("a valid trust balance request with company number '(.*)', dimension '(.*)'")]
+    public void GivenAValidTrustBalanceRequestWithCompanyNumberDimension(
         string companyNumber,
-        string dimension,
-        string excludeCentralServices)
+        string dimension)
     {
         api.CreateRequest(TrustBalanceKey, new HttpRequestMessage
         {
             RequestUri = new Uri(
-                $"/api/balance/trust/{companyNumber}?dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+                $"/api/balance/trust/{companyNumber}?dimension={dimension}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -143,29 +141,6 @@ public class InsightBalanceSteps(InsightApiDriver api)
         table.CompareToDynamicSet(set, false);
     }
 
-    [Then("the balance categories result should be ok and contain:")]
-    public async Task ThenTheBalanceCategoriesResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Category = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
     [Then("the school balance result should be ok and contain:")]
     public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(DataTable table)
     {
@@ -197,23 +172,10 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<BalanceHistoryResponse[]>();
-        table.CompareToSet(result);
+        var result = content.FromJson<BalanceHistoryResponse>();
+        table.CompareToSet(result.Rows);
     }
-
-    [Then("the school balance query result should be ok and contain:")]
-    public async Task ThenTheSchoolBalanceQueryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<BalanceSchoolResponse[]>();
-        table.CompareToSet(result);
-    }
-
+    
     [Then("the trust balance result should be ok and contain:")]
     public async Task ThenTheTrustBalanceResultShouldBeOkAndContain(DataTable table)
     {
@@ -245,8 +207,8 @@ public class InsightBalanceSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<BalanceHistoryResponse[]>();
-        table.CompareToSet(result);
+        var result = content.FromJson<BalanceHistoryResponse>();
+        table.CompareToSet(result.Rows);
     }
 
     [Then("the trust balance query result should be ok and contain:")]

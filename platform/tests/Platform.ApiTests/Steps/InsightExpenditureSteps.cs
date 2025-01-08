@@ -218,7 +218,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureResponse>();
+        var result = content.FromJson<ExpenditureSchoolResponse>();
         table.CompareToInstance(result);
     }
 
@@ -249,7 +249,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureHistoryResponse[]>();
+        var result = content.FromJson<ExpenditureHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -262,7 +262,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureResponse[]>();
+        var result = content.FromJson<ExpenditureSchoolResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -275,7 +275,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureResponse>();
+        var result = content.FromJson<ExpenditureTrustResponse>();
         table.CompareToInstance(result);
     }
 
@@ -306,7 +306,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureHistoryResponse[]>();
+        var result = content.FromJson<ExpenditureHistoryResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -319,7 +319,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureResponse[]>();
+        var result = content.FromJson<ExpenditureTrustResponse[]>();
         table.CompareToSet(result);
     }
 
