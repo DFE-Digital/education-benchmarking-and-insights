@@ -363,7 +363,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistory[] historySchool, ExpenditureHistory[]? historyComparatorSet = null, ExpenditureHistory[]? historyNational = null)
+    public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistoryRows historySchool, ExpenditureHistoryRows? historyComparatorSet = null, ExpenditureHistoryRows? historyNational = null)
     {
         ExpenditureApi.Reset();
         ExpenditureApi

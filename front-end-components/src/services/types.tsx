@@ -274,7 +274,7 @@ type UtilitiesTrustExpenditureBase = UtilitiesExpenditureBase & {
 export type UtilitiesTrustExpenditure = TrustExpenditure &
   UtilitiesTrustExpenditureBase;
 
-export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
+type ExpenditureBase = AdministrativeSuppliesExpenditureBase &
   CateringStaffServicesExpenditureBase &
   EducationalIctExpenditureBase &
   EducationalSuppliesExpenditureBase &
@@ -285,7 +285,13 @@ export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
   TotalExpenditureExpenditureBase &
   UtilitiesExpenditureBase & {
     totalCateringCostsField: number;
-  } & HistoryBase;
+  };
+
+export type Expenditure = ExpenditureBase;
+
+export type ExpenditureHistoryItem = Partial<ExpenditureBase> & HistoryBase;
+export type ExpenditureHistoryRow = Partial<ExpenditureBase> & HistoryRow;
+export type ExpenditureHistoryRows = HistoryRows<ExpenditureHistoryRow>;
 
 export type SchoolHistoryComparison<T extends HistoryRow> = {
   startYear?: number;

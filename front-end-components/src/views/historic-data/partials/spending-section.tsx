@@ -5,7 +5,7 @@ import {
   ChartMode,
   CostCategories,
 } from "src/components";
-import { SchoolExpenditureHistory, ExpenditureApi } from "src/services";
+import { ExpenditureHistoryRow, HistoryService } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
@@ -27,14 +27,18 @@ export const SpendingSection: React.FC<{
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
-  const [data, setData] = useState(new Array<SchoolExpenditureHistory>());
+  const [data, setData] = useState(new Array<ExpenditureHistoryRow>());
   const getData = useCallback(async () => {
     if (!load) {
       return [];
     }
 
-    setData(new Array<SchoolExpenditureHistory>());
-    return await ExpenditureApi.history(type, id, dimension.value);
+    setData(new Array<ExpenditureHistoryRow>());
+    return await HistoryService.getExpenditureHistory(
+      type,
+      id,
+      dimension.value
+    );
   }, [type, id, dimension, load]);
 
   useEffect(() => {

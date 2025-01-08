@@ -1,9 +1,9 @@
 import { HistoricChart } from "src/composed/historic-chart-composed";
-import { SchoolExpenditureHistory } from "src/services";
+import { ExpenditureHistoryRow } from "src/services";
 import { Loading } from "src/components/loading";
 
 export const SpendingSectionEducationalIct: React.FC<{
-  data: SchoolExpenditureHistory[];
+  data: ExpenditureHistoryRow[];
 }> = ({ data }) => {
   return (
     <>

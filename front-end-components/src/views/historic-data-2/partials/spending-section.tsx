@@ -7,8 +7,8 @@ import {
   PoundsPerPupil,
 } from "src/components";
 import {
-  ExpenditureApi,
-  SchoolExpenditureHistory,
+  ExpenditureHistoryItem,
+  HistoryService,
   SchoolHistoryComparison,
 } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
@@ -32,7 +32,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState<
-    SchoolHistoryComparison<SchoolExpenditureHistory>
+    SchoolHistoryComparison<ExpenditureHistoryItem>
   >({});
   const [loadError, setLoadError] = useState<string>();
   const [cancelSignal, setCancelSignal] = useState<AbortController>(
@@ -46,13 +46,12 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
 
     setLoadError(undefined);
     setData({});
-    return await ExpenditureApi.historyComparison(
+    return await HistoryService.getExpenditureHistoryComparison(
       type,
       id,
       dimension.value,
       overallPhase,
       financeType,
-      undefined,
       fetchTimeout
         ? [cancelSignal.signal, AbortSignal.timeout(fetchTimeout)]
         : [cancelSignal.signal]

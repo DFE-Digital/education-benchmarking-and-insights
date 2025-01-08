@@ -95,6 +95,11 @@ public class CensusProxyController(
             try
             {
                 var result = await GetSchoolHistoryComparison(id, dimension, phase, financeType, cancellationToken);
+                if (result == null)
+                {
+                    return new NotFoundResult();
+                }
+
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -200,9 +205,14 @@ public class CensusProxyController(
             .GetResultOrDefault<CensusHistoryRows>();
     }
 
-    private async Task<HistoryComparison<CensusHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken)
+    private async Task<HistoryComparison<CensusHistory>?> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken)
     {
         var school = await SchoolCensusHistory(urn, dimension, cancellationToken);
+        if (school == null)
+        {
+            return null;
+        }
+
         var comparatorSetAverage = await SchoolCensusHistoryComparatorSetAverage(urn, dimension, cancellationToken);
         var nationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
             ? await SchoolCensusHistoryNationalAverage(urn, dimension, cancellationToken)
@@ -210,9 +220,9 @@ public class CensusProxyController(
 
         return new HistoryComparison<CensusHistory>
         {
-            StartYear = school?.StartYear,
-            EndYear = school?.EndYear,
-            School = school?.Rows.ToArray(),
+            StartYear = school.StartYear,
+            EndYear = school.EndYear,
+            School = school.Rows.ToArray(),
             ComparatorSetAverage = comparatorSetAverage?.Rows.ToArray(),
             NationalAverage = nationalAverage?.Rows.ToArray()
         };

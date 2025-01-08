@@ -7,6 +7,8 @@ namespace Web.Integration.Tests.Proxy;
 
 public class WhenRequestingExpenditureHistoryComparison(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
+    private const int StartYear = 2017;
+    private const int EndYear = 2022;
     private static readonly Fixture Fixture = new();
     private static readonly ExpenditureHistory[] HistorySchool = Fixture.CreateMany<ExpenditureHistory>().ToArray();
     private static readonly ExpenditureHistory[] HistoryComparatorSet = Fixture.CreateMany<ExpenditureHistory>().ToArray();
@@ -23,6 +25,8 @@ public class WhenRequestingExpenditureHistoryComparison(SchoolBenchmarkingWebApp
                 null,
                 new HistoryComparison<ExpenditureHistory>
                 {
+                    StartYear = StartYear,
+                    EndYear = EndYear,
                     School = HistorySchool,
                     ComparatorSetAverage = HistoryComparatorSet,
                     NationalAverage = HistoryNational
@@ -36,6 +40,8 @@ public class WhenRequestingExpenditureHistoryComparison(SchoolBenchmarkingWebApp
                 "financeType",
                 new HistoryComparison<ExpenditureHistory>
                 {
+                    StartYear = StartYear,
+                    EndYear = EndYear,
                     School = HistorySchool,
                     ComparatorSetAverage = HistoryComparatorSet,
                     NationalAverage = HistoryNational
@@ -56,7 +62,22 @@ public class WhenRequestingExpenditureHistoryComparison(SchoolBenchmarkingWebApp
 
         var response = await client
             .SetupEstablishment(school)
-            .SetupExpenditure(school, HistorySchool, HistoryComparatorSet, HistoryNational)
+            .SetupExpenditure(school, new ExpenditureHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistorySchool
+            }, new ExpenditureHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistoryComparatorSet
+            }, new ExpenditureHistoryRows
+            {
+                StartYear = StartYear,
+                EndYear = EndYear,
+                Rows = HistoryNational
+            })
             .Get(Paths.ApiExpenditureHistoryComparison("school", urn, dimension, phase, financeType));
 
         Assert.IsType<HttpResponseMessage>(response);

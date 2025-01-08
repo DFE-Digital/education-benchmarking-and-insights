@@ -51,7 +51,7 @@ public class WhenExpenditureApiReceivesQueryRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.Query(OrganisationTypes.Trust, companyNumber, category, dimension, phase, null, null);
+        var actual = await _api.Query(OrganisationTypes.Trust, companyNumber, category, dimension, phase, null);
 
         // assert
         var json = Assert.IsType<JsonResult>(actual).Value;
@@ -84,7 +84,7 @@ public class WhenExpenditureApiReceivesQueryRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.Query(OrganisationTypes.LocalAuthority, laCode, category, dimension, phase, null, null);
+        var actual = await _api.Query(OrganisationTypes.LocalAuthority, laCode, category, dimension, phase, null);
 
         // assert
         var json = Assert.IsType<JsonResult>(actual).Value;

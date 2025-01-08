@@ -1,9 +1,11 @@
 import { BalanceApi } from "./balance-api";
 import { CensusApi } from "./census-api";
+import { ExpenditureApi } from "./expenditure-api";
 import { IncomeApi } from "./income-api";
 import {
   BalanceHistoryItem,
   CensusHistoryItem,
+  ExpenditureHistoryItem,
   HistoryBase,
   HistoryRow,
   HistoryRows,
@@ -52,6 +54,61 @@ export class HistoryService {
       comparatorSetAverage,
       nationalAverage,
     } = await CensusApi.historyComparison(
+      id,
+      dimension,
+      overallPhase,
+      financeType,
+      signals
+    );
+
+    if (!startYear || !endYear) {
+      return {};
+    }
+
+    return {
+      school: HistoryService.populateHistoricYearsRows(
+        school || [],
+        startYear,
+        endYear
+      ),
+      comparatorSetAverage: HistoryService.populateHistoricYearsRows(
+        comparatorSetAverage || [],
+        startYear,
+        endYear
+      ),
+      nationalAverage: HistoryService.populateHistoricYearsRows(
+        nationalAverage || [],
+        startYear,
+        endYear
+      ),
+    };
+  }
+
+  static async getExpenditureHistory(
+    type: string,
+    id: string,
+    dimension: string
+  ): Promise<ExpenditureHistoryItem[]> {
+    const historyRows = await ExpenditureApi.history(type, id, dimension);
+    return HistoryService.populateHistoricYears(historyRows);
+  }
+
+  static async getExpenditureHistoryComparison(
+    type: string,
+    id: string,
+    dimension: string,
+    overallPhase?: string,
+    financeType?: string,
+    signals?: AbortSignal[]
+  ): Promise<SchoolHistoryComparison<ExpenditureHistoryItem>> {
+    const {
+      startYear,
+      endYear,
+      school,
+      comparatorSetAverage,
+      nationalAverage,
+    } = await ExpenditureApi.historyComparison(
+      type,
       id,
       dimension,
       overallPhase,

@@ -30,12 +30,11 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, null, null, "?dimension=dimension")]
-    [InlineData("urn", "dimension", null, null, true, "?dimension=dimension&excludeCentralServices=true")]
-    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, "?dimension=dimension")]
+    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -46,30 +45,23 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(school));
 
         var cancellationToken = CancellationToken.None;
-        _expenditureApi
-            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
-            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
-            {
-                actualQuery = query?.ToQueryString();
-            })
-            .ReturnsAsync(ApiResult.Ok(results));
+        SetupExpenditureHistory(urn, results, q => actualQuery = q, cancellationToken);
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices, cancellationToken);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.School as ExpenditureHistory[]);
+        Assert.Equal(results.Rows, json?.School as ExpenditureHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, null, null, "?dimension=dimension")]
-    [InlineData("urn", "dimension", null, null, true, "?dimension=dimension")]
-    public async Task ShouldGetExpenditureHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, "?dimension=dimension")]
+    public async Task ShouldGetExpenditureHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -79,6 +71,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupExpenditureHistory(urn);
         var cancellationToken = CancellationToken.None;
         _expenditureApi
             .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
@@ -89,24 +82,23 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices, cancellationToken);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.ComparatorSetAverage as ExpenditureHistory[]);
+        Assert.Equal(results.Rows, json?.ComparatorSetAverage as ExpenditureHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, null, null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
-    [InlineData("urn", "dimension", null, null, true, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
-    [InlineData("urn", "dimension", "financeType", null, null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
-    [InlineData("urn", "dimension", null, "phase", null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
-    [InlineData("urn", "dimension", "financeType", "phase", null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=financeType&phase=phase")]
-    public async Task ShouldGetExpenditureHistoryNationalAverageFromApiForSchool(string urn, string dimension, string? financeType, string? phase, bool? excludeCentralServices, string schoolFinanceType, string schoolOverallPhase, string expectedQuery)
+    [InlineData("urn", "dimension", null, null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", "financeType", null, "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", null, "phase", "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=schoolFinanceType&phase=schoolOverallPhase")]
+    [InlineData("urn", "dimension", "financeType", "phase", "schoolFinanceType", "schoolOverallPhase", "?dimension=dimension&financeType=financeType&phase=phase")]
+    public async Task ShouldGetExpenditureHistoryNationalAverageFromApiForSchool(string urn, string dimension, string? financeType, string? phase, string schoolFinanceType, string schoolOverallPhase, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
 
         var school = new School
@@ -119,6 +111,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupExpenditureHistory(urn);
         var cancellationToken = CancellationToken.None;
         _expenditureApi
             .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
@@ -129,11 +122,22 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, excludeCentralServices, cancellationToken);
+        var actual = await _api.HistoryComparison(OrganisationTypes.School, urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.NationalAverage as ExpenditureHistory[]);
+        Assert.Equal(results.Rows, json?.NationalAverage as ExpenditureHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
+    }
+
+    private void SetupExpenditureHistory(string urn, ExpenditureHistoryRows? results = null, Action<string?>? callback = null, CancellationToken cancellationToken = default)
+    {
+        _expenditureApi
+            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
+            {
+                callback?.Invoke(query?.ToQueryString());
+            })
+            .ReturnsAsync(ApiResult.Ok(results ?? new ExpenditureHistoryRows()));
     }
 }

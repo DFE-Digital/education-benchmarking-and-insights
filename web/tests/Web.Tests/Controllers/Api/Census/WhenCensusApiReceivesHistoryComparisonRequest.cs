@@ -43,13 +43,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(school));
 
         var cancellationToken = CancellationToken.None;
-        _censusApi
-            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
-            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
-            {
-                actualQuery = query?.ToQueryString();
-            })
-            .ReturnsAsync(ApiResult.Ok(results));
+        SetupCensusHistory(urn, results, q => actualQuery = q, cancellationToken);
 
         // act
         var actual = await _api.HistoryComparison(urn, dimension, phase, financeType, cancellationToken);
@@ -75,6 +69,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupCensusHistory(urn);
         var cancellationToken = CancellationToken.None;
         _censusApi
             .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
@@ -114,6 +109,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupCensusHistory(urn);
         var cancellationToken = CancellationToken.None;
         _censusApi
             .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
@@ -130,5 +126,16 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
         Assert.Equal(results.Rows, json?.NationalAverage as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
+    }
+
+    private void SetupCensusHistory(string urn, CensusHistoryRows? results = null, Action<string?>? callback = null, CancellationToken cancellationToken = default)
+    {
+        _censusApi
+            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
+            {
+                callback?.Invoke(query?.ToQueryString());
+            })
+            .ReturnsAsync(ApiResult.Ok(results ?? new CensusHistoryRows()));
     }
 }
