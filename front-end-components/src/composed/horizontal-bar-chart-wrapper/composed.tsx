@@ -58,15 +58,14 @@ export function HorizontalBarChartWrapper<
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
-    let dataPoint = "value";
+    let dataPoint = "value" as keyof (SchoolChartData | TrustChartData);
     if (trust) {
-      dataPoint = "totalValue";
+      dataPoint = "totalValue" as keyof (SchoolChartData | TrustChartData);
     }
 
     return data.dataPoints
       .map((d) =>
-        isFinite((d as never)[dataPoint] as number) &&
-        !isNaN((d as never)[dataPoint] as number)
+        isFinite(d[dataPoint] as number) && !isNaN(d[dataPoint] as number)
           ? d
           : { ...d, [dataPoint]: 0 }
       )
@@ -181,48 +180,47 @@ export function HorizontalBarChartWrapper<
           {sortedDataPoints.length > 0 ? (
             <>
               {chartMode == ChartModeChart && (
-                <div style={{ height: 22 * data.dataPoints.length + 75 }}>
-                  <HorizontalBarChart
-                    barCategoryGap={3}
-                    chartName={chartName}
-                    data={sortedDataPoints}
-                    highlightActive
-                    highlightedItemKeys={
-                      selectedEstabishment ? [selectedEstabishment] : undefined
-                    }
-                    specialItemKeys={{ partYear: partYearKeys }}
-                    keyField={keyField}
-                    onImageLoading={setImageLoading}
-                    labels
-                    margin={20}
-                    ref={chartRef}
-                    seriesConfig={seriesConfig as object}
-                    seriesLabelField={seriesLabelField}
-                    tickWidth={400}
-                    tick={(t) => {
-                      return (
-                        <EstablishmentTick
-                          {...t}
-                          highlightedItemKey={selectedEstabishment}
-                          linkToEstablishment
-                          href={(id) => `/${trust ? "trust" : "school"}/${id}`}
-                          establishmentKeyResolver={getEstablishmentKey}
-                          tooltip={(p) => renderTooltip(p, t)}
-                          specialItemFlags={getSpecialItemFlags}
-                          onFocused={handleTickFocused}
-                        />
-                      );
-                    }}
-                    tooltip={(p) =>
-                      Object.values(tickFocused).some((t) => t)
-                        ? null
-                        : renderTooltip(p)
-                    }
-                    valueFormatter={shortValueFormatter}
-                    valueLabel={dimension.label}
-                    valueUnit={valueUnit ?? dimension.unit}
-                  />
-                </div>
+                <HorizontalBarChart
+                  barCategoryGap={3}
+                  chartName={chartName}
+                  data={sortedDataPoints}
+                  highlightActive
+                  highlightedItemKeys={
+                    selectedEstabishment ? [selectedEstabishment] : undefined
+                  }
+                  specialItemKeys={{ partYear: partYearKeys }}
+                  keyField={keyField}
+                  onImageLoading={setImageLoading}
+                  labels
+                  margin={20}
+                  ref={chartRef}
+                  seriesConfig={seriesConfig as object}
+                  seriesLabelField={seriesLabelField}
+                  tickWidth={400}
+                  tick={(t) => {
+                    return (
+                      <EstablishmentTick
+                        {...t}
+                        highlightedItemKey={selectedEstabishment}
+                        linkToEstablishment
+                        href={(id) => `/${trust ? "trust" : "school"}/${id}`}
+                        establishmentKeyResolver={getEstablishmentKey}
+                        tooltip={(p) => renderTooltip(p, t)}
+                        specialItemFlags={getSpecialItemFlags}
+                        onFocused={handleTickFocused}
+                      />
+                    );
+                  }}
+                  tooltip={(p) =>
+                    Object.values(tickFocused).some((t) => t)
+                      ? null
+                      : renderTooltip(p)
+                  }
+                  valueFormatter={shortValueFormatter}
+                  valueLabel={dimension.label}
+                  valueUnit={valueUnit ?? dimension.unit}
+                  trust={trust}
+                />
               )}
               <div
                 className={

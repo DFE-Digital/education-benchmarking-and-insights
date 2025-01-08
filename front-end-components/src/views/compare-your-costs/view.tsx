@@ -10,6 +10,7 @@ import {
   PhaseContext,
   CustomDataContext,
   ChartModeProvider,
+  SuppressNegativeOrZeroContext,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
@@ -17,10 +18,13 @@ import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
 ) => {
-  const { type, id, phases, customDataId } = props;
+  const { type, id, phases, customDataId, suppressNegativeOrZero } = props;
   const [phase, setPhase] = useState<string | undefined>(
     phases ? phases[0] : undefined
   );
+
+  const message =
+    "Only displaying other similar schools with positive expenditure";
 
   useGovUk();
 
@@ -28,14 +32,18 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     <SelectedEstablishmentContext.Provider value={id}>
       <PhaseContext.Provider value={phase}>
         <CustomDataContext.Provider value={customDataId}>
-          <ChartModeProvider initialValue={ChartModeChart}>
-            <ChartOptionsPhaseMode
-              phases={phases}
-              handlePhaseChange={setPhase}
-            />
-            <TotalExpenditure id={id} type={type} />
-            <ExpenditureAccordion id={id} type={type} />
-          </ChartModeProvider>
+          <SuppressNegativeOrZeroContext.Provider
+            value={{ suppressNegativeOrZero, message }}
+          >
+            <ChartModeProvider initialValue={ChartModeChart}>
+              <ChartOptionsPhaseMode
+                phases={phases}
+                handlePhaseChange={setPhase}
+              />
+              <TotalExpenditure id={id} type={type} />
+              <ExpenditureAccordion id={id} type={type} />
+            </ChartModeProvider>
+          </SuppressNegativeOrZeroContext.Provider>
         </CustomDataContext.Provider>
       </PhaseContext.Provider>
     </SelectedEstablishmentContext.Provider>
