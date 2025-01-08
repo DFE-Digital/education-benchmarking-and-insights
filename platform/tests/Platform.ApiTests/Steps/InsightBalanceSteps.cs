@@ -175,7 +175,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
         var result = content.FromJson<BalanceHistoryResponse>();
         table.CompareToSet(result.Rows);
     }
-    
+
     [Then("the trust balance result should be ok and contain:")]
     public async Task ThenTheTrustBalanceResultShouldBeOkAndContain(DataTable table)
     {
