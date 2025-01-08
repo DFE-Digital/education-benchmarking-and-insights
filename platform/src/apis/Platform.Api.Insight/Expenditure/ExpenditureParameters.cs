@@ -6,9 +6,9 @@ namespace Platform.Api.Insight.Expenditure;
 
 public record ExpenditureParameters : QueryParameters
 {
-    public bool ExcludeCentralServices { get; private set; }
-    public string? Category { get; private set; }
-    public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
+    public bool ExcludeCentralServices { get; internal set; }
+    public string? Category { get; internal set; }
+    public string Dimension { get; internal set; } = ExpenditureDimensions.Actuals;
 
     public override void SetValues(IQueryCollection query)
     {
@@ -28,10 +28,10 @@ public record ExpenditureParameters : QueryParameters
 
 public record QuerySchoolExpenditureParameters : ExpenditureParameters
 {
-    public string[] Urns { get; private set; } = [];
-    public string? Phase { get; private set; }
-    public string? CompanyNumber { get; private set; }
-    public string? LaCode { get; private set; }
+    public string[] Urns { get; internal set; } = [];
+    public string? Phase { get; internal set; }
+    public string? CompanyNumber { get; internal set; }
+    public string? LaCode { get; internal set; }
 
     public override void SetValues(IQueryCollection query)
     {
@@ -45,7 +45,7 @@ public record QuerySchoolExpenditureParameters : ExpenditureParameters
 
 public record QueryTrustExpenditureParameters : ExpenditureParameters
 {
-    public string[] CompanyNumbers { get; private set; } = [];
+    public string[] CompanyNumbers { get; internal set; } = [];
 
     public override void SetValues(IQueryCollection query)
     {
@@ -56,9 +56,9 @@ public record QueryTrustExpenditureParameters : ExpenditureParameters
 
 public record ExpenditureNationalAvgParameters : QueryParameters
 {
-    public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
-    public string FinanceType { get; private set; } = string.Empty;
-    public string OverallPhase { get; private set; } = string.Empty;
+    public string Dimension { get; internal set; } = ExpenditureDimensions.Actuals;
+    public string FinanceType { get; internal set; } = string.Empty;
+    public string OverallPhase { get; internal set; } = string.Empty;
 
     public override void SetValues(IQueryCollection query)
     {

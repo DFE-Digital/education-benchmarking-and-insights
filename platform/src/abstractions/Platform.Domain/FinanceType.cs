@@ -2,8 +2,8 @@
 
 public static class FinanceType
 {
-    private const string Academy = "Academy";
-    private const string Maintained = "Maintained";
+    public const string Academy = "Academy";
+    public const string Maintained = "Maintained";
 
     public static readonly string[] All =
     [

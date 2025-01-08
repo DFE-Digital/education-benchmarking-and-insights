@@ -1,17 +1,23 @@
 using System.Net;
+using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Income;
 using Xunit;
+
 namespace Platform.Tests.Insight.Income;
 
-public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBase
+public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeSchoolFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        Validator
+            .Setup(v => v.ValidateAsync(It.IsAny<IncomeParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<SchoolIncomeHistoryModel>());
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((new IncomeYearsModel(), Array.Empty<IncomeHistoryModel>()));
 
         var result = await Functions.SchoolIncomeHistoryAsync(CreateHttpRequestData(), "1");
 
@@ -22,8 +28,12 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBa
     [Fact]
     public async Task ShouldReturn500OnError()
     {
+        Validator
+            .Setup(v => v.ValidateAsync(It.IsAny<IncomeParameters>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult());
+
         Service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SchoolIncomeHistoryAsync(CreateHttpRequestData(), "1");

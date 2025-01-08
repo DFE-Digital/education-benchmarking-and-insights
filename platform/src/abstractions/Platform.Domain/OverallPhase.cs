@@ -2,15 +2,15 @@
 
 public static class OverallPhase
 {
-    private const string Primary = "Primary";
-    private const string Secondary = "Secondary";
-    private const string Special = "Special";
-    private const string PupilReferralUnit = "Pupil Referral Unit";
-    private const string AllThrough = "All-through";
-    private const string Nursery = "Nursery";
-    private const string PostSixteen = "Post-16";
-    private const string AlternativeProvision = "Alternative Provision";
-    private const string UniversityTechnicalCollege = "University Technical College";
+    public const string Primary = "Primary";
+    public const string Secondary = "Secondary";
+    public const string Special = "Special";
+    public const string PupilReferralUnit = "Pupil Referral Unit";
+    public const string AllThrough = "All-through";
+    public const string Nursery = "Nursery";
+    public const string PostSixteen = "Post-16";
+    public const string AlternativeProvision = "Alternative Provision";
+    public const string UniversityTechnicalCollege = "University Technical College";
 
     public static readonly string[] All =
     [

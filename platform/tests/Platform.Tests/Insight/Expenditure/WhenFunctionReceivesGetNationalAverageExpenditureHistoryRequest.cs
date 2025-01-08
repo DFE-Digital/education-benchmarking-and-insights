@@ -3,9 +3,10 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Expenditure;
 using Xunit;
+
 namespace Platform.Tests.Insight.Expenditure;
 
-public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : ExpenditureFunctionsTestBase
+public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : ExpenditureNationalAveFunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
 
@@ -17,8 +18,8 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Array.Empty<SchoolExpenditureHistoryResponse>());
+            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((new ExpenditureYearsModel(), Array.Empty<ExpenditureHistoryModel>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
@@ -37,14 +38,14 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             }));
 
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
+            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
+            x => x.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
@@ -56,7 +57,7 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
 
         var exception = new Exception();
         Service
-            .Setup(d => d.GetSchoolHistoryAvgNationalAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(exception);
 
         // exception handled by middleware

@@ -4,9 +4,10 @@ using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.Insight.Census;
 using Xunit;
+
 namespace Platform.Tests.Insight.Census;
 
-public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
+public class WhenFunctionReceivesGetCensusRequest : CensusSchoolFunctionsTestBase
 {
     private const string Urn = "URN";
 
@@ -18,8 +19,8 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetAsync(Urn))
-            .ReturnsAsync(new CensusModel());
+            .Setup(d => d.GetAsync(Urn, It.IsAny<string>()))
+            .ReturnsAsync(new CensusSchoolModel());
 
         var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);
 
@@ -37,7 +38,7 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
-        Service.Setup(d => d.GetAsync(Urn)).Verifiable();
+        Service.Setup(d => d.GetAsync(Urn, It.IsAny<string>())).Verifiable();
 
         var query = new Dictionary<string, StringValues>
         {
@@ -61,8 +62,8 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetAsync(Urn))
-            .ReturnsAsync((CensusModel?)null);
+            .Setup(d => d.GetAsync(Urn, It.IsAny<string>()))
+            .ReturnsAsync((CensusSchoolModel?)null);
 
         var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);
 
@@ -78,7 +79,7 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetAsync(Urn))
+            .Setup(d => d.GetAsync(Urn, It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.CensusAsync(CreateHttpRequestData(), Urn);

@@ -2,15 +2,15 @@
 
 public static class CostCategory
 {
-    private const string TeachingStaff = "Teaching and Teaching support staff";
-    private const string NonEducationalSupportStaff = "Non-educational support staff and services";
-    private const string EducationalSupplies = "Educational supplies";
-    private const string EducationalIct = "Educational ICT";
-    private const string PremisesStaffServices = "Premises staff and services";
-    private const string Utilities = "Utilities";
-    private const string AdministrativeSupplies = "Administrative supplies";
-    private const string CateringStaffServices = "Catering staff and supplies";
-    private const string Other = "Other costs";
+    public const string TeachingStaff = "Teaching and Teaching support staff";
+    public const string NonEducationalSupportStaff = "Non-educational support staff and services";
+    public const string EducationalSupplies = "Educational supplies";
+    public const string EducationalIct = "Educational ICT";
+    public const string PremisesStaffServices = "Premises staff and services";
+    public const string Utilities = "Utilities";
+    public const string AdministrativeSupplies = "Administrative supplies";
+    public const string CateringStaffServices = "Catering staff and supplies";
+    public const string Other = "Other costs";
 
     public static readonly string[] All =
     [

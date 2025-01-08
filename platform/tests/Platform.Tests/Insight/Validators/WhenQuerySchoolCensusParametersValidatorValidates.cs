@@ -1,7 +1,7 @@
 ﻿using Platform.Api.Insight.Census;
-using Platform.Api.Insight.Domain;
-using Platform.Api.Insight.Validators;
+using Platform.Domain;
 using Xunit;
+
 namespace Platform.Tests.Insight.Validators;
 
 public class WhenQuerySchoolCensusParametersValidatorValidates

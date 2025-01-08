@@ -2,9 +2,9 @@
 
 public static class RagRating
 {
-    private const string Red = "red";
-    private const string Amber = "amber";
-    private const string Green = "green";
+    public const string Red = "red";
+    public const string Amber = "amber";
+    public const string Green = "green";
 
     public static readonly string[] All =
     [

@@ -6,8 +6,8 @@ namespace Platform.Api.Insight.Census;
 
 public record CensusParameters : QueryParameters
 {
-    public string? Category { get; private set; }
-    public string Dimension { get; private set; } = CensusDimensions.Total;
+    public string? Category { get; internal set; }
+    public string Dimension { get; internal set; } = CensusDimensions.Total;
 
     public override void SetValues(IQueryCollection query)
     {
@@ -25,9 +25,9 @@ public record CensusParameters : QueryParameters
 
 public record CensusNationalAvgParameters : QueryParameters
 {
-    public string Dimension { get; private set; } = CensusDimensions.Total;
-    public string FinanceType { get; private set; } = string.Empty;
-    public string OverallPhase { get; private set; } = string.Empty;
+    public string Dimension { get; internal set; } = CensusDimensions.Total;
+    public string FinanceType { get; internal set; } = string.Empty;
+    public string OverallPhase { get; internal set; } = string.Empty;
 
     public override void SetValues(IQueryCollection query)
     {
@@ -50,10 +50,10 @@ public record CensusNationalAvgParameters : QueryParameters
 
 public record QuerySchoolCensusParameters : CensusParameters
 {
-    public string[] Urns { get; private set; } = [];
-    public string? Phase { get; private set; }
-    public string? CompanyNumber { get; private set; }
-    public string? LaCode { get; private set; }
+    public string[] Urns { get; internal set; } = [];
+    public string? Phase { get; internal set; }
+    public string? CompanyNumber { get; internal set; }
+    public string? LaCode { get; internal set; }
 
     public override void SetValues(IQueryCollection query)
     {
