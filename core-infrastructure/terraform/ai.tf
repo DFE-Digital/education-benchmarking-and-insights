@@ -2,7 +2,7 @@ resource "azurerm_log_analytics_workspace" "application-insights-workspace" {
   name                = "${var.environment-prefix}-ebis-aiw"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
-  retention_in_days   = 180
+  retention_in_days   = 550
   tags                = local.common-tags
 }
 
