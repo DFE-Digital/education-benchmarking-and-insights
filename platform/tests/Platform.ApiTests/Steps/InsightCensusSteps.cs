@@ -4,6 +4,7 @@ using Platform.Api.Insight.Census;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -93,7 +94,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Given("a school average across comparator set census history request with urn '(.*)' and dimension '(.*)'")]
-    public void GivenASchoolCensusHistoryAvgComparatorSetRequest(string urn, string dimension)
+    public void GivenASchoolAverageAcrossComparatorSetCensusHistoryRequestWithUrnAndDimension(string urn, string dimension)
     {
         api.CreateRequest(CensusKey, new HttpRequestMessage
         {
@@ -104,7 +105,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     }
 
     [Given("a school average across comparator set census history request with dimension '(.*)', phase '(.*)', financeType '(.*)'")]
-    public void GivenASchoolCensusHistoryAvgNationalRequest(string dimension, string phase, string financeType)
+    public void GivenASchoolAverageAcrossComparatorSetCensusHistoryRequestWithDimensionPhaseFinanceType(string dimension, string phase, string financeType)
     {
         api.CreateRequest(CensusKey, new HttpRequestMessage
         {
@@ -175,7 +176,7 @@ public class InsightCensusSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<CensusResponse>();
+        var result = content.FromJson<CensusSchoolResponse>();
         table.CompareToInstance(result);
     }
 
@@ -197,8 +198,8 @@ public class InsightCensusSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<CensusHistoryResponse[]>();
-        table.CompareToSet(result);
+        var result = content.FromJson<CensusHistoryResponse>();
+        table.CompareToSet(result.Rows);
     }
 
     [Then("the census query result should be ok and contain:")]
@@ -210,7 +211,7 @@ public class InsightCensusSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<CensusResponse[]>();
+        var result = content.FromJson<CensusSchoolResponse[]>();
         table.CompareToSet(result);
     }
 
