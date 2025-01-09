@@ -43,7 +43,7 @@
 
 @if (!hasMissingComparatorSet)
 {
-    <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+    <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-suppress-negative-or-zero="true"></div>
 }
 
 @await Component.InvokeAsync("SchoolFinanceTools", new
