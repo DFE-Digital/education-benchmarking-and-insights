@@ -17,7 +17,12 @@
         id = Model.Urn,
     })
 
-<div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-custom-data-id="@Model.CustomDataId"></div>
+<div 
+    id="compare-your-costs" 
+    data-type="@OrganisationTypes.School" 
+    data-id="@Model.Urn" 
+    data-custom-data-id="@Model.CustomDataId" 
+    data-suppress-negative-or-zero="true"></div>
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new
     {
