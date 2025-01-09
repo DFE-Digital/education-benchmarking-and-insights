@@ -390,3 +390,19 @@ hr.govuk-section-break--print {
     opacity: 0;
   }
 }
+
+.app-resources {
+  margin-top: govuk-spacing(6);
+  
+  @include govuk-media-query('tablet') {
+    margin-top: 0;
+  }
+}
+
+.app-resources-warning-spacing {
+  padding-top: 0;
+
+  @include govuk-media-query('tablet') {
+    padding-top: govuk-spacing(2);
+  }
+}
