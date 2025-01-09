@@ -112,3 +112,11 @@
         Given I am on spending and costs page for school with URN '777042'
         When I click on View more details on cost categories link
         Then I am directed to cost categories guidance page
+
+    Scenario: School with zero for a cost category in comparator set are not consumed when computing
+        Given I am on spending and costs page for school with URN '777042'
+        Then the 'Educational ICT' category should display:
+          | Description           | Value                     |
+          | This school spends    | £130 per pupil            |
+          | Similar schools spend | £67 per pupil, on average |
+          | This school spends    | £30(44.2%) less per pupil |

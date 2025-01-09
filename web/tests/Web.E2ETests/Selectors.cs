@@ -169,4 +169,5 @@ public static class Selectors
     public const string TrustBenchmarkingBalanceTab = "#tab_balance";
     public const string AccordionSchoolContent = "#accordion-schools-content-";
     public const string ForecastRisksDimension = "#year-end-reserves-dimension";
+    public const string EducationIctSpendingCosts = "#spending-priorities-educational-ict";
 }

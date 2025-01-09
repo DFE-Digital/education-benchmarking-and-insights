@@ -30,8 +30,6 @@ public class SpendingCostsPage(IPage page)
     ];
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
-
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
             new PageLocatorOptions
@@ -98,11 +96,12 @@ public class SpendingCostsPage(IPage page)
         });
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
+    private ILocator EducationIctCostCategory => page.Locator(Selectors.EducationIctSpendingCosts);
+    private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        //await Breadcrumbs.ShouldBeVisible();
         Assert.Equal(await PageH3Headings.Count(), _h3Names.Length);
         await AssertChartNames(_h3Names);
         Assert.Equal(8, await AllCharts.Count());
@@ -136,6 +135,7 @@ public class SpendingCostsPage(IPage page)
                 break;
             }
         }
+
         Assert.Equal(expectedOrder, actualOrder);
     }
 
@@ -194,6 +194,70 @@ public class SpendingCostsPage(IPage page)
         await page.BringToFrontAsync();
         return new CostCategoriesGuidancePage(page);
     }
+
+    public async Task AssertCostCategoryData(CostCategoryNames costCategory, Table expectedTable)
+    {
+        var actualData = await GetCostCategoryData(costCategory);
+        for (int i = 0; i < expectedTable.Rows.Count; i++)
+        {
+            var expectedDescription = expectedTable.Rows[i]["Description"];
+            var expectedValue = expectedTable.Rows[i]["Value"];
+
+            Assert.True(actualData.Count > i, $"Expected more entries in actual data for '{expectedDescription}'.");
+
+            var actualDescription = actualData[i]["Description"];
+            var actualValue = actualData[i]["Value"];
+
+            Assert.Equal(expectedDescription, actualDescription); // Compare descriptions
+            Assert.Equal(expectedValue, actualValue); // Compare values
+        }
+    }
+
+    private async Task<List<Dictionary<string, string>>> GetCostCategoryData(CostCategoryNames costCategory)
+    {
+        var chartStats = ChartStatsSummary(await GetSelectorForCostCategory(costCategory));
+
+        if (chartStats == null)
+        {
+            throw new Exception($"Cost category '{costCategory}' not found on the page.");
+        }
+
+        var rows = new List<Dictionary<string, string>>();
+        var chartStatWrappers = chartStats.Locator(".chart-stat-wrapper");
+        var count = await chartStatWrappers.CountAsync();
+        for (int i = 0; i < count; i++)
+        {
+            var wrapper = chartStatWrappers.Nth(i);
+            var labelElement = wrapper.Locator(".chart-stat-label");
+            var valueElement = wrapper.Locator(".chart-stat-value");
+            var suffixElement = wrapper.Locator(".chart-stat-suffix");
+            var label = (await labelElement.TextContentAsync())?.Trim();
+            var value = (await valueElement.TextContentAsync())?.Trim();
+            var suffix = (await suffixElement.TextContentAsync())?.Trim();
+            if (!string.IsNullOrEmpty(label) && value != null && suffix != null)
+            {
+                rows.Add(new Dictionary<string, string>
+                {
+                    { "Description", label },
+                    { "Value", $"{value} {suffix}" }
+                });
+            }
+        }
+
+        return rows;
+    }
+
+
+    private async Task<ILocator> GetSelectorForCostCategory(CostCategoryNames costCategoryName)
+    {
+        var chartSelector = costCategoryName switch
+        {
+            CostCategoryNames.EducationalIct => EducationIctCostCategory,
+            _ => throw new ArgumentOutOfRangeException(nameof(costCategoryName))
+        };
+        return chartSelector;
+    }
+
 
     private async Task<List<string>> GetCategoryNames()
     {

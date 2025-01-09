@@ -122,6 +122,13 @@ public class SpendingCostsSteps(PageDriver driver)
         await _costCategoriesGuidancePage.IsDisplayed();
     }
 
+    [Then("the '(.*)' category should display:")]
+    public async Task ThenTheCategoryShouldDisplay(string costCategory, Table table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.AssertCostCategoryData(CostCategoryFromFriendlyName(costCategory), table);
+    }
+
     private static string SpendingCostsUrl(string urn) =>
         $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
 
