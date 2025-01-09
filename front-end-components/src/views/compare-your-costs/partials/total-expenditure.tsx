@@ -83,6 +83,7 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   };
 
   const hasNoData = data?.length === 0;
+  const title = "Total expenditure";
 
   return hasNoData ? (
     <ErrorBanner
@@ -91,8 +92,12 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
     />
   ) : (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
-        <h2 className="govuk-heading-m">Total expenditure</h2>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="total expenditure"
+        chartTitle={title}
+      >
+        <h2 className="govuk-heading-m">{title}</h2>
         <ChartDimensions
           dimensions={CostCategories.filter(function (category) {
             return category !== PercentageExpenditure;

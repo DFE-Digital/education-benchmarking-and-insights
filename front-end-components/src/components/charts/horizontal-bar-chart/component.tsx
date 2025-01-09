@@ -50,6 +50,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const {
     barCategoryGap,
     chartName,
+    chartTitle,
     data,
     grid,
     hideXAxis,
@@ -76,9 +77,16 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const rechartsRef = useRef<CategoricalChartWrapper>(null);
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
-    fileName: `${chartName}.png`,
+    fileName: `${chartName.replace(" ", "-")}.png`,
     onImageLoading,
-    elementSelector: (r) => r.container,
+    elementSelector: ({ container }) => container,
+    filter: (node) => {
+      const exclusionClasses = ["recharts-tooltip-wrapper"];
+      return !exclusionClasses.some((classname) =>
+        node.classList?.contains(classname)
+      );
+    },
+    title: chartTitle,
   });
 
   useImperativeHandle(ref, () => ({

@@ -16,6 +16,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
   barCategoryGap?: string | number;
   chartName: string;
+  chartTitle?: string;
   className?: string;
   data: TData[];
   grid?: boolean;

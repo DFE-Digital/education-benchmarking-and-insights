@@ -37,7 +37,8 @@ import { SchoolExpenditure } from "src/services";
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartName, children, data, sort, trust, valueUnit } = props;
+  const { chartName, chartTitle, children, data, sort, trust, valueUnit } =
+    props;
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -154,6 +155,8 @@ export function HorizontalBarChartWrapper<
     setTickFocused(Object.assign(tickFocused, { [key]: focused }));
   };
 
+  const hasData = sortedDataPoints.length > 0;
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -165,26 +168,30 @@ export function HorizontalBarChartWrapper<
               data-module="govuk-button"
               data-prevent-double-click="true"
               onClick={() => chartRef.current?.download()}
-              disabled={imageLoading}
-              aria-disabled={imageLoading}
+              disabled={imageLoading || !hasData}
+              aria-disabled={imageLoading || !hasData}
               data-custom-event-id="save-chart-as-image"
               data-custom-event-chart-name={chartName}
             >
-              Save <span className="govuk-visually-hidden">{chartName}</span> as
-              image
+              Save{" "}
+              <span className="govuk-visually-hidden">
+                {chartTitle ?? chartName}
+              </span>{" "}
+              as image
             </button>
           </div>
         )}
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          {sortedDataPoints.length > 0 ? (
+          {hasData ? (
             <>
               {chartMode == ChartModeChart && (
                 <div style={{ height: 22 * data.dataPoints.length + 75 }}>
                   <HorizontalBarChart
                     barCategoryGap={3}
                     chartName={chartName}
+                    chartTitle={chartTitle}
                     data={sortedDataPoints}
                     highlightActive
                     highlightedItemKeys={
