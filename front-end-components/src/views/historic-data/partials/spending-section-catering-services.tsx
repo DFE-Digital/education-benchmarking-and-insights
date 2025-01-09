@@ -1,14 +1,11 @@
 import { HistoricChart } from "src/composed/historic-chart-composed";
-import {
-  SchoolExpenditureHistory,
-  TotalCateringCostsField,
-} from "src/services";
+import { ExpenditureHistoryRow, TotalCateringCostsField } from "src/services";
 import { Loading } from "src/components/loading";
 import { useState } from "react";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
 export const SpendingSectionCateringServices: React.FC<{
-  data: SchoolExpenditureHistory[];
+  data: ExpenditureHistoryRow[];
 }> = ({ data }) => {
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");

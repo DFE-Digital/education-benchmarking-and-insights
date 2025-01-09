@@ -6,8 +6,8 @@ import {
   PupilsPerStaffRole,
 } from "src/components";
 import {
-  CensusApi,
-  CensusHistory,
+  CensusHistoryItem,
+  HistoryService,
   SchoolHistoryComparison,
 } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
@@ -28,7 +28,9 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
   const defaultDimension = PupilsPerStaffRole;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
-  const [data, setData] = useState<SchoolHistoryComparison<CensusHistory>>({});
+  const [data, setData] = useState<SchoolHistoryComparison<CensusHistoryItem>>(
+    {}
+  );
   const [loadError, setLoadError] = useState<string>();
   const [cancelSignal, setCancelSignal] = useState<AbortController>(
     new AbortController()
@@ -41,7 +43,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
 
     setLoadError(undefined);
     setData({});
-    return await CensusApi.historyComparison(
+    return await HistoryService.getCensusHistoryComparison(
       id,
       dimension.value,
       overallPhase,

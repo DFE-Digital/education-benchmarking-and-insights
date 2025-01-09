@@ -201,7 +201,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupCensus(School school, CensusHistory[] historySchool, CensusHistory[]? historyComparatorSet = null, CensusHistory[]? historyNational = null)
+    public BenchmarkingWebAppClient SetupCensus(School school, CensusHistoryRows historySchool, CensusHistoryRows? historyComparatorSet = null, CensusHistoryRows? historyNational = null)
     {
         CensusApi.Reset();
         CensusApi
@@ -363,7 +363,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistory[] historySchool, ExpenditureHistory[]? historyComparatorSet = null, ExpenditureHistory[]? historyNational = null)
+    public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistoryRows historySchool, ExpenditureHistoryRows? historyComparatorSet = null, ExpenditureHistoryRows? historyNational = null)
     {
         ExpenditureApi.Reset();
         ExpenditureApi

@@ -32,6 +32,7 @@ public class WhenViewingCustomDataRevert(SchoolBenchmarkingWebAppClient client) 
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
+            .Without(x => x.FederationLeadURN)
             .Create();
 
         var key = SessionKeys.CustomData(school.URN!);

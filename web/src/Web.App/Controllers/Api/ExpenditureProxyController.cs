@@ -24,7 +24,6 @@ public class ExpenditureProxyController(
     /// <param name="category" example="TotalExpenditure"></param>
     /// <param name="dimension" example="PerUnit"></param>
     /// <param name="phase"></param>
-    /// <param name="excludeCentralServices"></param>
     /// <param name="customDataId"></param>
     [HttpGet]
     [Produces("application/json")]
@@ -37,7 +36,6 @@ public class ExpenditureProxyController(
         [FromQuery] string category,
         [FromQuery] string dimension,
         [FromQuery] string? phase,
-        [FromQuery] bool? excludeCentralServices,
         [FromQuery] string? customDataId)
     {
         using (logger.BeginScope(new
@@ -53,11 +51,11 @@ public class ExpenditureProxyController(
                     case OrganisationTypes.School when customDataId is not null:
                         return await CustomSchoolExpenditure(id, category, dimension, customDataId);
                     case OrganisationTypes.School:
-                        return await SchoolExpenditure(id, category, dimension, excludeCentralServices);
+                        return await SchoolExpenditure(id, category, dimension);
                     case OrganisationTypes.Trust:
-                        return await TrustExpenditure(id, phase, category, dimension, excludeCentralServices);
+                        return await TrustExpenditure(id, phase, category, dimension);
                     case OrganisationTypes.LocalAuthority:
-                        return await LocalAuthorityExpenditure(id, phase, category, dimension, excludeCentralServices);
+                        return await LocalAuthorityExpenditure(id, phase, category, dimension);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -73,17 +71,15 @@ public class ExpenditureProxyController(
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<ExpenditureHistory[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ExpenditureHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] string dimension)
     {
         using (logger.BeginScope(new
         {
@@ -95,8 +91,8 @@ public class ExpenditureProxyController(
             {
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await SchoolExpenditureHistory(id, dimension, excludeCentralServices, CancellationToken.None),
-                    OrganisationTypes.Trust => await TrustExpenditureHistory(id, dimension, excludeCentralServices),
+                    OrganisationTypes.School => await SchoolExpenditureHistory(id, dimension, CancellationToken.None),
+                    OrganisationTypes.Trust => await TrustExpenditureHistory(id, dimension),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -115,7 +111,6 @@ public class ExpenditureProxyController(
     /// <param name="dimension" example="PerUnit"></param>
     /// <param name="phase" example="Secondary"></param>
     /// <param name="financeType" example="Academy"></param>
-    /// <param name="excludeCentralServices"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
@@ -128,7 +123,6 @@ public class ExpenditureProxyController(
         [FromQuery] string dimension,
         [FromQuery] string? phase,
         [FromQuery] string? financeType,
-        [FromQuery] bool? excludeCentralServices,
         CancellationToken cancellationToken)
     {
         using (logger.BeginScope(new
@@ -141,9 +135,14 @@ public class ExpenditureProxyController(
             {
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, phase, financeType, excludeCentralServices, cancellationToken),
+                    OrganisationTypes.School => await GetSchoolHistoryComparison(id, dimension, phase, financeType, cancellationToken),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
+
+                if (result == null)
+                {
+                    return new NotFoundResult();
+                }
 
                 return new JsonResult(result);
             }
@@ -195,10 +194,10 @@ public class ExpenditureProxyController(
         }
     }
 
-    private async Task<IActionResult> LocalAuthorityExpenditure(string laCode, string? phase, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> LocalAuthorityExpenditure(string laCode, string? phase, string? category, string? dimension)
     {
         var la = await establishmentApi.GetLocalAuthority(laCode).GetResultOrThrow<LocalAuthority>();
-        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+        var query = BuildQuery(category, dimension, phase);
         query.AddIfNotNull("laCode", la.Code);
         var result = await expenditureApi
             .QuerySchools(query)
@@ -206,10 +205,10 @@ public class ExpenditureProxyController(
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditure(string companyNumber, string? phase, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> TrustExpenditure(string companyNumber, string? phase, string? category, string? dimension)
     {
         var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+        var query = BuildQuery(category, dimension, phase);
         query.AddIfNotNull("companyNumber", trust.CompanyNumber);
         var result = await expenditureApi
             .QuerySchools(query)
@@ -260,7 +259,7 @@ public class ExpenditureProxyController(
             : new JsonResult(defaultResult);
     }
 
-    private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension)
     {
         var userData = await userDataService.GetSchoolDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -276,7 +275,7 @@ public class ExpenditureProxyController(
             }
 
             var defaultResult = await expenditureApi
-                .QuerySchools(BuildQuery(set, "urns", category, dimension, excludeCentralServices))
+                .QuerySchools(BuildQuery(set, "urns", category, dimension))
                 .GetResultOrThrow<SchoolExpenditure[]>();
 
             return new JsonResult(defaultResult);
@@ -288,9 +287,8 @@ public class ExpenditureProxyController(
             return new JsonResult(Array.Empty<SchoolExpenditure>());
         }
 
-
         var userDefinedResult = await expenditureApi
-            .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension, excludeCentralServices))
+            .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension))
             .GetResultOrThrow<SchoolExpenditure[]>();
 
         return new JsonResult(userDefinedResult);
@@ -299,8 +297,8 @@ public class ExpenditureProxyController(
     private static ApiQuery BuildQuery(
         string? category,
         string? dimension,
-        bool? excludeCentralServices = null,
         string? phase = null,
+        bool? excludeCentralServices = null,
         string? financeType = null)
     {
         var query = new ApiQuery()
@@ -321,7 +319,7 @@ public class ExpenditureProxyController(
         bool? excludeCentralServices = null,
         string? phase = null)
     {
-        var query = BuildQuery(category, dimension, excludeCentralServices, phase);
+        var query = BuildQuery(category, dimension, phase, excludeCentralServices);
 
         foreach (var id in ids)
         {
@@ -331,38 +329,52 @@ public class ExpenditureProxyController(
         return query;
     }
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistory(string urn, string dimension, bool? excludeCentralServices, CancellationToken cancellationToken) => await expenditureApi
-        .SchoolHistory(urn, BuildQuery(null, dimension, excludeCentralServices), cancellationToken)
-        .GetResultOrDefault<ExpenditureHistory[]>();
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistory(string urn, string dimension, CancellationToken cancellationToken) => await expenditureApi
+        .SchoolHistory(urn, BuildQuery(null, dimension), cancellationToken)
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
-    private async Task<ExpenditureHistory[]?> TrustExpenditureHistory(string companyNumber, string dimension, bool? excludeCentralServices) => await expenditureApi
-        .TrustHistory(companyNumber, BuildQuery(null, dimension, excludeCentralServices))
-        .GetResultOrDefault<ExpenditureHistory[]>();
+    private async Task<ExpenditureHistoryRows?> TrustExpenditureHistory(string companyNumber, string dimension) => await expenditureApi
+        .TrustHistory(companyNumber, BuildQuery(null, dimension))
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await expenditureApi
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await expenditureApi
         .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension), cancellationToken)
-        .GetResultOrDefault<ExpenditureHistory[]>();
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
     {
         var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
         return await SchoolExpenditureHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension, cancellationToken);
     }
 
-    private async Task<ExpenditureHistory[]?> SchoolExpenditureHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
     {
-        var query = BuildQuery(null, dimension, phase: phase, financeType: financeType);
+        var query = BuildQuery(null, dimension, phase, financeType: financeType);
         return await expenditureApi
             .SchoolHistoryNationalAverage(query, cancellationToken)
-            .GetResultOrDefault<ExpenditureHistory[]>();
+            .GetResultOrDefault<ExpenditureHistoryRows>();
     }
 
-    private async Task<HistoryComparison<ExpenditureHistory>> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, bool? excludeCentralServices, CancellationToken cancellationToken) => new()
+    private async Task<HistoryComparison<ExpenditureHistory>?> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken)
     {
-        School = await SchoolExpenditureHistory(urn, dimension, excludeCentralServices, cancellationToken),
-        ComparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension, cancellationToken),
-        NationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
+        var school = await SchoolExpenditureHistory(urn, dimension, cancellationToken);
+        if (school == null)
+        {
+            return null;
+        }
+
+        var comparatorSetAverage = await SchoolExpenditureHistoryComparatorSetAverage(urn, dimension, cancellationToken);
+        var nationalAverage = string.IsNullOrWhiteSpace(phase) || string.IsNullOrWhiteSpace(financeType)
             ? await SchoolExpenditureHistoryNationalAverage(urn, dimension, cancellationToken)
-            : await SchoolExpenditureHistoryNationalAverage(phase, financeType, dimension, cancellationToken)
-    };
+            : await SchoolExpenditureHistoryNationalAverage(phase, financeType, dimension, cancellationToken);
+
+        return new HistoryComparison<ExpenditureHistory>
+        {
+            StartYear = school.StartYear,
+            EndYear = school.EndYear,
+            School = school.Rows.ToArray(),
+            ComparatorSetAverage = comparatorSetAverage?.Rows.ToArray(),
+            NationalAverage = nationalAverage?.Rows.ToArray()
+        };
+    }
 }

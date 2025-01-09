@@ -1,9 +1,9 @@
 import { HistoricChart } from "src/composed/historic-chart-composed";
-import { Income } from "src/services";
+import { IncomeHistoryRow } from "src/services";
 import { Loading } from "src/components/loading";
 
 export const IncomeSectionGrantFunding: React.FC<{
-  data: Income[];
+  data: IncomeHistoryRow[];
 }> = ({ data }) => {
   return (
     <>

@@ -1,4 +1,8 @@
-﻿namespace Web.App.Domain;
+﻿// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
+namespace Web.App.Domain;
 
 public abstract record CensusBase
 {
@@ -14,7 +18,6 @@ public abstract record CensusBase
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
-
 public record Census : CensusBase
 {
     public string? SchoolName { get; set; }
@@ -25,5 +28,11 @@ public record Census : CensusBase
 public record CensusHistory : CensusBase
 {
     public int? Year { get; set; }
-    public string? Term { get; set; }
+}
+
+public record CensusHistoryRows
+{
+    public int? StartYear { get; set; }
+    public int? EndYear { get; set; }
+    public IEnumerable<CensusHistory> Rows { get; set; } = [];
 }

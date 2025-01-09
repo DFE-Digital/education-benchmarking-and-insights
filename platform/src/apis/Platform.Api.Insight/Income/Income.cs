@@ -1,23 +1,13 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
+using Newtonsoft.Json.Serialization;
+
 namespace Platform.Api.Insight.Income;
 
-public static class IncomeCategories
-{
-    public const string GrantFunding = nameof(GrantFunding);
-    public const string SelfGenerated = nameof(SelfGenerated);
-    public const string DirectRevenueFinancing = nameof(DirectRevenueFinancing);
-
-    public static readonly string[] All =
-    [
-        GrantFunding,
-        SelfGenerated,
-        DirectRevenueFinancing
-    ];
-
-    public static bool IsValid(string? category) => All.Any(a => a == category);
-}
-
-public static class IncomeDimensions
+[ExcludeFromCodeCoverage]
+internal static class IncomeDimensions
 {
     public const string Actuals = nameof(Actuals);
     public const string PerUnit = nameof(PerUnit);
@@ -33,4 +23,18 @@ public static class IncomeDimensions
     ];
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
+}
+
+[ExcludeFromCodeCoverage]
+internal class ExampleIncomeDimension : OpenApiExample<string>
+{
+    public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+    {
+        foreach (var dimension in IncomeDimensions.All)
+        {
+            Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
+        }
+
+        return this;
+    }
 }

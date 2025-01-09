@@ -1,6 +1,7 @@
 import {
+  ExpenditureHistoryRow,
+  ExpenditureHistoryRows,
   SchoolExpenditure,
-  SchoolExpenditureHistory,
   SchoolHistoryComparison,
   TrustExpenditure,
 } from "src/services/types";
@@ -10,37 +11,29 @@ export class ExpenditureApi {
   static async history(
     type: string,
     id: string,
-    dimension: string,
-    excludeCentralServices?: boolean
-  ): Promise<SchoolExpenditureHistory[]> {
+    dimension: string
+  ): Promise<ExpenditureHistoryRows> {
     const params = new URLSearchParams({
       type: type,
       id: id,
       dimension: dimension,
     });
-    if (excludeCentralServices !== undefined) {
-      params.append(
-        "excludeCentralServices",
-        excludeCentralServices ? "true" : "false"
-      );
-    }
 
-    return fetch("/api/expenditure/history?" + params, {
+    const response = await fetch("/api/expenditure/history?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw res.error;
-        }
+    });
 
-        return res;
-      });
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
   }
 
   static async historyComparison(
@@ -49,9 +42,8 @@ export class ExpenditureApi {
     dimension: string,
     overallPhase?: string,
     financeType?: string,
-    excludeCentralServices?: boolean,
     signals?: AbortSignal[]
-  ): Promise<SchoolHistoryComparison<SchoolExpenditureHistory>> {
+  ): Promise<SchoolHistoryComparison<ExpenditureHistoryRow>> {
     const params = new URLSearchParams({
       type: type,
       id: id,
@@ -59,12 +51,6 @@ export class ExpenditureApi {
       phase: overallPhase || "",
       financeType: financeType || "",
     });
-    if (excludeCentralServices !== undefined) {
-      params.append(
-        "excludeCentralServices",
-        excludeCentralServices ? "true" : "false"
-      );
-    }
 
     const response = await fetch(
       "/api/expenditure/history/comparison?" + params,

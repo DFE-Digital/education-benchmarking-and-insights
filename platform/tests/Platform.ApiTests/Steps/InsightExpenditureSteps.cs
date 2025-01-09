@@ -35,17 +35,16 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given(
-        "a school expenditure request with urn '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenASchoolExpenditureRequestWithUrnCategoryDimensionAndExcludeCentralServices(
+        "a school expenditure request with urn '(.*)', category '(.*)' and dimension '(.*)'")]
+    public void GivenASchoolExpenditureRequestWithUrnCategoryAndDimension(
         string urn,
         string category,
-        string dimension,
-        string excludeCentralServices)
+        string dimension)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
             RequestUri = new Uri(
-                $"/api/expenditure/school/{urn}?category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+                $"/api/expenditure/school/{urn}?category={category}&dimension={dimension}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -94,17 +93,16 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given(
-        "a trust expenditure request with company number '(.*)', category '(.*)', dimension '(.*)' and exclude central services = '(.*)'")]
-    public void GivenATrustExpenditureRequestWithCompanyNumberCategoryDimensionAndExcludeCentralServices(
+        "a trust expenditure request with company number '(.*)', category '(.*)' and dimension '(.*)'")]
+    public void GivenATrustExpenditureRequestWithCompanyNumberCategoryAndDimension(
         string companyNumber,
         string category,
-        string dimension,
-        string excludeCentralServices)
+        string dimension)
     {
         api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
         {
             RequestUri = new Uri(
-                $"/api/expenditure/trust/{companyNumber}?category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+                $"/api/expenditure/trust/{companyNumber}?category={category}&dimension={dimension}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -133,7 +131,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Given("a school average across comparator set expenditure history request with urn '(.*)' and dimension '(.*)'")]
-    public void GivenASchoolExpenditureHistoryAvgComparatorSetRequest(string urn, string dimension)
+    public void GivenASchoolAverageAcrossComparatorSetExpenditureHistoryRequestWithUrnAndDimension(string urn, string dimension)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
@@ -145,7 +143,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
 
     [Given(
         "a school national average expenditure history request with dimension '(.*)', phase '(.*)', financeType '(.*)'")]
-    public void GivenASchoolExpenditureHistoryAvgNationalRequest(string dimension, string phase, string financeType)
+    public void GivenASchoolNationalAverageExpenditureHistoryRequestWithDimensionPhaseFinanceType(string dimension, string phase, string financeType)
     {
         api.CreateRequest(SchoolExpenditureKey, new HttpRequestMessage
         {
@@ -218,7 +216,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureResponse>();
+        var result = content.FromJson<ExpenditureSchoolResponse>();
         table.CompareToInstance(result);
     }
 
@@ -249,8 +247,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureHistoryResponse[]>();
-        table.CompareToSet(result);
+        var result = content.FromJson<ExpenditureHistoryResponse>();
+        table.CompareToSet(result.Rows);
     }
 
     [Then("the school expenditure query result should be ok and contain:")]
@@ -262,7 +260,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolExpenditureResponse[]>();
+        var result = content.FromJson<ExpenditureSchoolResponse[]>();
         table.CompareToSet(result);
     }
 
@@ -275,7 +273,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureResponse>();
+        var result = content.FromJson<ExpenditureTrustResponse>();
         table.CompareToInstance(result);
     }
 
@@ -306,8 +304,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureHistoryResponse[]>();
-        table.CompareToSet(result);
+        var result = content.FromJson<ExpenditureHistoryResponse>();
+        table.CompareToSet(result.Rows);
     }
 
     [Then("the trust expenditure query result should be ok and contain:")]
@@ -319,7 +317,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<TrustExpenditureResponse[]>();
+        var result = content.FromJson<ExpenditureTrustResponse[]>();
         table.CompareToSet(result);
     }
 

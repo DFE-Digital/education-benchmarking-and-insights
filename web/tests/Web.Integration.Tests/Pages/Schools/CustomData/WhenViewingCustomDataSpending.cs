@@ -3,12 +3,51 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static readonly List<string> AllCostCategories =
+    [
+        Category.TeachingStaff,
+        Category.NonEducationalSupportStaff,
+        Category.EducationalSupplies,
+        Category.EducationalIct,
+        Category.PremisesStaffServices,
+        Category.Utilities,
+        Category.AdministrativeSupplies,
+        Category.CateringStaffServices,
+        Category.Other
+    ];
+
+    private static Dictionary<string, string> CategoryHeadingToIdMap => new()
+    {
+        {
+            "Teaching and Teaching support staff", "teaching-and-teaching-support-staff"
+        },
+        {
+            "Non-educational support staff", "non-educational-support-staff-and-services"
+        },
+        {
+            "Educational supplies", "educational-supplies"
+        },
+        {
+            "Educational ICT", "educational-ict"
+        },
+        {
+            "Premises staff and services", "premises-staff-and-services"
+        },
+        {
+            "Utilities", "utilities"
+        },
+        {
+            "Administrative supplies", "administrative-supplies"
+        },
+        {
+            "Catering staff and supplies", "catering-staff-and-supplies"
+        }
+    };
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -106,6 +145,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
+            .Without(x => x.FederationLeadURN)
             .Create();
 
         var customDataId = "123";
@@ -186,30 +226,4 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
 
         return ratings.ToArray();
     }
-
-    private static readonly List<string> AllCostCategories =
-    [
-        Category.TeachingStaff,
-        Category.NonEducationalSupportStaff,
-        Category.EducationalSupplies,
-        Category.EducationalIct,
-        Category.PremisesStaffServices,
-        Category.Utilities,
-        Category.AdministrativeSupplies,
-        Category.CateringStaffServices,
-        Category.Other
-    ];
-
-    private static Dictionary<string, string> CategoryHeadingToIdMap => new()
-    {
-        { "Teaching and Teaching support staff", "teaching-and-teaching-support-staff" },
-        { "Non-educational support staff", "non-educational-support-staff-and-services" },
-        { "Educational supplies", "educational-supplies" },
-        { "Educational ICT", "educational-ict" },
-        { "Premises staff and services", "premises-staff-and-services" },
-        { "Utilities", "utilities" },
-        { "Administrative supplies", "administrative-supplies" },
-        { "Catering staff and supplies", "catering-staff-and-supplies" },
-    };
-
 }

@@ -4,134 +4,58 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
+
 namespace Platform.Api.Insight.Expenditure;
 
 public interface IExpenditureService
 {
-    Task<SchoolExpenditureModel?> GetSchoolAsync(string urn);
-    Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber);
-    Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn, CancellationToken cancellationToken = default);
-    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default);
-    Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default);
-    Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber);
-    Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase);
-    Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers);
-    Task<SchoolExpenditureModel?> GetCustomSchoolAsync(string urn, string identifier);
+    Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension = ExpenditureDimensions.Actuals);
+    Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension = ExpenditureDimensions.Actuals);
+    Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension = ExpenditureDimensions.Actuals);
+    Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension = ExpenditureDimensions.Actuals);
+    Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = ExpenditureDimensions.Actuals);
+    Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension = ExpenditureDimensions.Actuals);
+    Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default);
+    Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default);
 }
 
 public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureService
 {
-    public async Task<SchoolExpenditureModel?> GetSchoolAsync(string urn)
+    public async Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension = ExpenditureDimensions.Actuals)
     {
-        const string sql = "SELECT * FROM SchoolExpenditure WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
+        var sql = GetSchoolSql(dimension);
+        var parameters = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(sql, parameters);
+        ;
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(sql, parameters);
     }
 
-    public async Task<SchoolExpenditureModel?> GetCustomSchoolAsync(string urn, string identifier)
+    public async Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default)
     {
-        const string sql = "SELECT * FROM SchoolExpenditureCustom WHERE URN = @URN AND RunId = @RunId";
-        var parameters = new
-        {
-            URN = urn,
-            RunId = identifier
-        };
+        const string yearSql = "SELECT * FROM VW_YearsSchool WHERE URN = @URN";
+        var yearParams = new { URN = urn };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<SchoolExpenditureModel>(sql, parameters);
+
+        var years = await conn.QueryFirstOrDefaultAsync<ExpenditureYearsModel>(yearSql, yearParams, cancellationToken);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<ExpenditureHistoryModel>());
+        }
+
+        var historySql = GetSchoolHistorySql(dimension);
+        var historyParams = new { URN = urn, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historySql, historyParams, cancellationToken));
     }
 
-    public async Task<TrustExpenditureModel?> GetTrustAsync(string companyNumber)
+    public async Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension = ExpenditureDimensions.Actuals)
     {
-        const string sql = "SELECT * FROM TrustExpenditure WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<TrustExpenditureModel>(sql, parameters);
-    }
-
-    public async Task<IEnumerable<SchoolExpenditureHistoryModel>> GetSchoolHistoryAsync(string urn, CancellationToken cancellationToken = default)
-    {
-        const string sql = "SELECT * FROM SchoolExpenditureHistoric WHERE URN = @URN";
-        var parameters = new
-        {
-            URN = urn
-        };
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryModel>(sql, parameters, cancellationToken);
-    }
-
-    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgComparatorSetAsync(string urn, string dimension, CancellationToken cancellationToken = default)
-    {
-        var parameters = new
-        {
-            URN = urn
-        };
-
-        var sourceName = dimension switch
-        {
-            ExpenditureDimensions.Actuals => "SchoolExpenditureAvgComparatorSet",
-            ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitComparatorSet",
-            ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeComparatorSet",
-            ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureComparatorSet",
-            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
-        };
-
-        var sql = $"SELECT * FROM {sourceName} WHERE URN = @URN";
-
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters, cancellationToken);
-    }
-
-    public async Task<IEnumerable<SchoolExpenditureHistoryResponse>> GetSchoolHistoryAvgNationalAsync(string dimension, string overallPhase, string financeType, CancellationToken cancellationToken = default)
-    {
-        var parameters = new
-        {
-            OverallPhase = overallPhase,
-            FinanceType = financeType
-        };
-
-        var sourceName = dimension switch
-        {
-            ExpenditureDimensions.Actuals => "SchoolExpenditureAvgHistoric",
-            ExpenditureDimensions.PerUnit => "SchoolExpenditureAvgPerUnitHistoric",
-            ExpenditureDimensions.PercentIncome => "SchoolExpenditureAvgPercentageOfIncomeHistoric",
-            ExpenditureDimensions.PercentExpenditure => "SchoolExpenditureAvgPercentageOfExpenditureHistoric",
-            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
-        };
-
-        var sql = $"SELECT * FROM {sourceName} WHERE FinanceType = @FinanceType AND OverallPhase = @OverallPhase";
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureHistoryResponse>(sql, parameters, cancellationToken);
-    }
-
-    public async Task<IEnumerable<TrustExpenditureHistoryModel>> GetTrustHistoryAsync(string companyNumber)
-    {
-        const string sql = "SELECT * FROM TrustExpenditureHistoric WHERE CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
-
-        using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustExpenditureHistoryModel>(sql, parameters);
-    }
-
-    public async Task<IEnumerable<SchoolExpenditureModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase)
-    {
+        var sql = GetQueryTemplateSql(dimension);
         var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from SchoolExpenditure /**where**/");
+        var template = builder.AddTemplate(sql);
         if (urns.Length != 0)
         {
             builder.Where("URN IN @URNS", new
@@ -161,18 +85,210 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         }
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<SchoolExpenditureModel>(template.RawSql, template.Parameters);
+        return await conn.QueryAsync<ExpenditureSchoolModel>(template.RawSql, template.Parameters);
     }
 
-    public async Task<IEnumerable<TrustExpenditureModel>> QueryTrustsAsync(string[] companyNumbers)
+    public async Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension = ExpenditureDimensions.Actuals)
     {
-        const string sql = "SELECT * from TrustExpenditure where CompanyNumber IN @CompanyNumbers";
-        var parameters = new
+        var sql = GetSchoolCustomSql(dimension);
+        var parameters = new { URN = urn, RunId = identifier };
+
+        using var conn = await dbFactory.GetConnection();
+
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(sql, parameters);
+    }
+
+    public async Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension = ExpenditureDimensions.Actuals)
+    {
+        var sql = GetTrustSql(dimension);
+        var parameters = new { CompanyNumber = companyNumber };
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureTrustModel>(sql, parameters);
+    }
+
+    public async Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension = ExpenditureDimensions.Actuals)
+    {
+        const string yearSql = "SELECT * FROM VW_YearsTrust WHERE CompanyNumber = @CompanyNumber";
+        var yearParams = new { CompanyNumber = companyNumber };
+
+        using var conn = await dbFactory.GetConnection();
+
+        var years = await conn.QueryFirstOrDefaultAsync<ExpenditureYearsModel>(yearSql, yearParams);
+
+        if (years == null)
         {
-            CompanyNumbers = companyNumbers
+            return (null, Array.Empty<ExpenditureHistoryModel>());
+        }
+
+        var historySql = GetTrustHistorySql(dimension);
+        var historyParams = new { CompanyNumber = companyNumber, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historySql, historyParams));
+    }
+
+    public async Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension = ExpenditureDimensions.Actuals)
+    {
+        var sql = QueryTrustsSql(dimension);
+        var parameters = new { CompanyNumbers = companyNumbers };
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<ExpenditureTrustModel>(sql, parameters);
+    }
+
+    public async Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default)
+    {
+        const string yearSql = "SELECT * FROM VW_YearsSchool WHERE URN = @URN";
+        var yearParams = new { URN = urn };
+
+        using var conn = await dbFactory.GetConnection();
+
+        var years = await conn.QueryFirstOrDefaultAsync<ExpenditureYearsModel>(yearSql, yearParams, cancellationToken);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<ExpenditureHistoryModel>());
+        }
+
+        var historySql = GetComparatorAveHistorySql(dimension);
+        var historyParams = new { URN = urn, years.StartYear, years.EndYear };
+        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historySql, historyParams, cancellationToken));
+    }
+
+    public async Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default)
+    {
+        const string yearSql = "SELECT * FROM VW_YearsOverallPhase WHERE OverallPhase = @OverallPhase AND FinanceType = @FinanceType";
+        var yearParams = new
+        {
+            OverallPhase = overallPhase,
+            FinanceType = financeType
         };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<TrustExpenditureModel>(sql, parameters);
+
+        var years = await conn.QueryFirstOrDefaultAsync<ExpenditureYearsModel>(yearSql, yearParams, cancellationToken);
+
+        if (years == null)
+        {
+            return (null, Array.Empty<ExpenditureHistoryModel>());
+        }
+
+        var historySql = GetNationalAvgHistorySql(dimension);
+        var historyParams = new
+        {
+            OverallPhase = overallPhase,
+            FinanceType = financeType,
+            years.StartYear,
+            years.EndYear
+        };
+        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historySql, historyParams, cancellationToken));
+    }
+
+
+    private static string GetComparatorAveHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgActual WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPerUnit WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentExpenditure WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentIncome WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetNationalAvgHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAveActual WHERE OverallPhase = @OverallPhase AND FinanceType = @FinanceType AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePerUnit WHERE OverallPhase = @OverallPhase AND FinanceType = @FinanceType AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentExpenditure WHERE OverallPhase = @OverallPhase AND FinanceType = @FinanceType AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentIncome WHERE OverallPhase = @OverallPhase AND FinanceType = @FinanceType AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetTrustSql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentActual WHERE CompanyNumber = @CompanyNumber",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPerUnit WHERE CompanyNumber = @CompanyNumber",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentExpenditure WHERE CompanyNumber = @CompanyNumber",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentIncome WHERE CompanyNumber = @CompanyNumber",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string QueryTrustsSql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentActual WHERE CompanyNumber IN @CompanyNumbers",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPerUnit WHERE CompanyNumber IN @CompanyNumbers",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentExpenditure WHERE CompanyNumber IN @CompanyNumbers",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentIncome WHERE CompanyNumber IN @CompanyNumbers",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetTrustHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultActual WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultPerUnit WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultPercentExpenditure WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultPercentIncome WHERE CompanyNumber = @CompanyNumber AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetSchoolCustomSql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolCustomActual WHERE URN = @URN AND RunId = @RunId",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolCustomPercentExpenditure WHERE URN = @URN AND RunId = @RunId",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolCustomPercentIncome WHERE URN = @URN AND RunId = @RunId",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolCustomPerUnit WHERE URN = @URN AND RunId = @RunId",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetQueryTemplateSql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentActual /**where**/",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentExpenditure /**where**/",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentIncome /**where**/",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPerUnit /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetSchoolHistorySql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultActual WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit WHERE URN = @URN AND RunId BETWEEN @StartYear AND @EndYear",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+
+    private static string GetSchoolSql(string dimension)
+    {
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentActual WHERE URN = @URN",
+            ExpenditureDimensions.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentExpenditure WHERE URN = @URN",
+            ExpenditureDimensions.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentIncome WHERE URN = @URN",
+            ExpenditureDimensions.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPerUnit WHERE URN = @URN",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
     }
 }

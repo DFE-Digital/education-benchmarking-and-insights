@@ -1,7 +1,8 @@
-﻿using Platform.Api.Insight.Domain;
+﻿using Platform.Domain;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Validators;
 using Xunit;
+
 namespace Platform.Tests.Insight.Validators;
 
 public class WhenMetricRagRatingsParametersValidatorValidates

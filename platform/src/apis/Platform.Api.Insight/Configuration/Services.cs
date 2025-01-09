@@ -49,8 +49,6 @@ internal static class Services
             .AddTransient<IValidator<QuerySchoolExpenditureParameters>, QuerySchoolExpenditureParametersValidator>()
             .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
-            .AddTransient<IValidator<QuerySchoolIncomeParameters>, QuerySchoolIncomeParametersValidator>()
-            .AddTransient<IValidator<QueryTrustIncomeParameters>, QueryTrustIncomeParametersValidator>()
             .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
             .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()
             .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()

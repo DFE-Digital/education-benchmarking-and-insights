@@ -4,11 +4,11 @@ import {
   ChartSeriesValueUnit,
 } from "src/components/charts/types";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
-import { SchoolHistoryBase, SchoolHistoryComparison } from "src/services";
+import { HistoryBase, SchoolHistoryComparison } from "src/services";
 import { LineChartProps } from "src/components/charts/line-chart";
 import { Dimension } from "src/components";
 
-export interface HistoricChart2Props<T extends SchoolHistoryBase>
+export interface HistoricChart2Props<T extends HistoryBase>
   extends Pick<
     LineChartProps<T>,
     | "legend"
@@ -27,7 +27,7 @@ export interface HistoricChart2Props<T extends SchoolHistoryBase>
   perUnitDimension: Dimension;
 }
 
-export type SchoolHistoryValue = SchoolHistoryBase & {
+export type SchoolHistoryValue = HistoryBase & {
   school?: ChartSeriesValue;
   comparatorSetAverage?: ChartSeriesValue;
   nationalAverage?: ChartSeriesValue;

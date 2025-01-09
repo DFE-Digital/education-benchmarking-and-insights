@@ -32,7 +32,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -43,20 +43,14 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .ReturnsAsync(ApiResult.Ok(school));
 
         var cancellationToken = CancellationToken.None;
-        _censusApi
-            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
-            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
-            {
-                actualQuery = query?.ToQueryString();
-            })
-            .ReturnsAsync(ApiResult.Ok(results));
+        SetupCensusHistory(urn, results, q => actualQuery = q, cancellationToken);
 
         // act
         var actual = await _api.HistoryComparison(urn, dimension, phase, financeType, cancellationToken);
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.School as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.School as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
@@ -65,7 +59,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryComparatorSetAverageFromApiForSchool(string urn, string dimension, string? phase, string? financeType, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = _fixture.Build<School>()
@@ -75,6 +69,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupCensusHistory(urn);
         var cancellationToken = CancellationToken.None;
         _censusApi
             .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
@@ -89,7 +84,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.ComparatorSetAverage as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.ComparatorSetAverage as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
@@ -101,7 +96,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
     public async Task ShouldGetCensusHistoryNationalAverageFromApiForSchool(string urn, string dimension, string? financeType, string? phase, string schoolFinanceType, string schoolOverallPhase, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<CensusHistory>();
+        var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
 
         var school = new School
@@ -114,6 +109,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             .Setup(e => e.GetSchool(urn))
             .ReturnsAsync(ApiResult.Ok(school));
 
+        SetupCensusHistory(urn);
         var cancellationToken = CancellationToken.None;
         _censusApi
             .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
@@ -128,7 +124,18 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
 
         // assert
         dynamic? json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json?.NationalAverage as CensusHistory[]);
+        Assert.Equal(results.Rows, json?.NationalAverage as CensusHistory[]);
         Assert.Equal(expectedQuery, actualQuery);
+    }
+
+    private void SetupCensusHistory(string urn, CensusHistoryRows? results = null, Action<string?>? callback = null, CancellationToken cancellationToken = default)
+    {
+        _censusApi
+            .Setup(e => e.SchoolHistory(urn, It.IsAny<ApiQuery?>(), cancellationToken))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
+            {
+                callback?.Invoke(query?.ToQueryString());
+            })
+            .ReturnsAsync(ApiResult.Ok(results ?? new CensusHistoryRows()));
     }
 }

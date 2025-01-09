@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Sql;
 namespace Platform.Api.Insight.Schools;
 

@@ -140,12 +140,18 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
+        var census = Fixture.Build<Census>()
+            .With(x => x.SchoolName, school.SchoolName)
+            .With(x => x.URN, school.URN)
+            .Create();
+
         var page = await Client.SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupBalance(balance)
             .SetupUserData()
+            .SetupCensus(school, census)
             .Navigate(Paths.SchoolHome(school.URN));
 
         return (page, school, balance);
@@ -168,7 +174,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
-                "This school’s finance data is not displayed, as it’s part of a federated budget. The full federated data is shown on the federation page.");
+                "This school's finance data is not displayed, as it's part of a federated budget. The full federated data is\n            shown on the federation page.");
 
             var federationLeadCta = message.QuerySelector("a");
             DocumentAssert.Link(federationLeadCta, "federation page", Paths.SchoolHome(school.FederationLeadURN).ToAbsolute());

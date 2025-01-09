@@ -2089,6 +2089,7 @@
           "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
           "Platform.Cache": "[1.0.0, )",
+          "Platform.Domain": "[1.0.0, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
         }
@@ -2102,6 +2103,9 @@
           "Newtonsoft.Json": "[13.0.3, )",
           "Newtonsoft.Json.Bson": "[1.0.3, )"
         }
+      },
+      "platform.domain": {
+        "type": "Project"
       },
       "platform.functions": {
         "type": "Project",

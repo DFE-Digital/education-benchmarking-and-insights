@@ -1,4 +1,4 @@
-import { CensusHistory, SchoolExpenditureHistory } from "src/services";
+import { CensusHistoryItem, ExpenditureHistoryItem } from "src/services";
 import { HistoricData2Section, HistoricData2SectionChart } from "../types";
 import {
   PoundsPerMetreSq,
@@ -10,7 +10,7 @@ import {
 export * from "src/views/historic-data-2/partials/spending-section.tsx";
 export * from "src/views/historic-data-2/partials/census-section.tsx";
 
-export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] =
+export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
   [
     {
       heading: "Teaching and teaching support staff",
@@ -266,7 +266,7 @@ export const spendingSections: HistoricData2Section<SchoolExpenditureHistory>[] 
     },
   ];
 
-export const censusCharts: HistoricData2SectionChart<CensusHistory>[] = [
+export const censusCharts: HistoricData2SectionChart<CensusHistoryItem>[] = [
   {
     name: "Pupils on roll",
     field: "totalPupils",

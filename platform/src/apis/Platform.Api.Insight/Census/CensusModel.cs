@@ -1,36 +1,39 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.Insight.Census;
 
 [ExcludeFromCodeCoverage]
-public abstract record CensusBaseModel
+public record CensusYearsModel
 {
-    public string? URN { get; set; }
+    public int StartYear { get; set; }
+    public int EndYear { get; set; }
+}
+
+[ExcludeFromCodeCoverage]
+public abstract record CensusModel
+{
     public decimal? TotalPupils { get; set; }
-    public decimal? WorkforceFTE { get; set; }
+    public decimal? Workforce { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
-    public decimal? TeachersFTE { get; set; }
-    public decimal? TeachersHeadcount { get; set; }
-    public decimal? SeniorLeadershipFTE { get; set; }
-    public decimal? SeniorLeadershipHeadcount { get; set; }
-    public decimal? TeachingAssistantFTE { get; set; }
-    public decimal? TeachingAssistantHeadcount { get; set; }
-    public decimal? NonClassroomSupportStaffFTE { get; set; }
-    public decimal? NonClassroomSupportStaffHeadcount { get; set; }
-    public decimal? AuxiliaryStaffFTE { get; set; }
-    public decimal? AuxiliaryStaffHeadcount { get; set; }
+    public decimal? Teachers { get; set; }
+    public decimal? SeniorLeadership { get; set; }
+    public decimal? TeachingAssistant { get; set; }
+    public decimal? NonClassroomSupportStaff { get; set; }
+    public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
-public record CensusModel : CensusBaseModel
+public record CensusSchoolModel : CensusModel
 {
+    public string? URN { get; set; }
     public string? SchoolName { get; set; }
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
-public record CensusHistoryModel : CensusBaseModel
+public record CensusHistoryModel : CensusModel
 {
-    public int? Year { get; set; }
+    public int? RunId { get; set; }
 }

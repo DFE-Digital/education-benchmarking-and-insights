@@ -5,7 +5,7 @@ import {
   ChartMode,
   CostCategories,
 } from "src/components";
-import { Income, IncomeApi } from "src/services";
+import { HistoryService, IncomeHistoryRow } from "src/services";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { IncomeSectionGrantFunding } from "src/views/historic-data/partials/income-section-grant-funding";
@@ -21,14 +21,14 @@ export const IncomeSection: React.FC<{
   const defaultDimension = Actual;
   const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
-  const [data, setData] = useState(new Array<Income>());
+  const [data, setData] = useState(new Array<IncomeHistoryRow>());
   const getData = useCallback(async () => {
     if (!load) {
       return [];
     }
 
-    setData(new Array<Income>());
-    return await IncomeApi.history(type, id, dimension.value);
+    setData(new Array<IncomeHistoryRow>());
+    return await HistoryService.getIncomeHistory(type, id, dimension.value);
   }, [type, id, dimension, load]);
 
   useEffect(() => {

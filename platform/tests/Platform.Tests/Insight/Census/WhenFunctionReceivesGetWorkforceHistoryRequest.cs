@@ -3,9 +3,10 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Census;
 using Xunit;
+
 namespace Platform.Tests.Insight.Census;
 
-public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTestBase
+public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusSchoolFunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
 
@@ -17,8 +18,8 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Array.Empty<CensusHistoryModel>());
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((new CensusYearsModel(), Array.Empty<CensusHistoryModel>()));
 
         var result = await Functions.CensusHistoryAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
@@ -35,7 +36,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
 
         var exception = new Exception();
         Service
-            .Setup(d => d.GetHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(exception);
 
         // exception handled by middleware

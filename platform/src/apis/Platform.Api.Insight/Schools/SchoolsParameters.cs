@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Platform.Functions;
 using Platform.Functions.Extensions;

@@ -27,12 +27,11 @@ public class WhenExpenditureApiReceivesHistoryRequest
     }
 
     [Theory]
-    [InlineData("urn", "dimension", null, "?dimension=dimension")]
-    [InlineData("urn", "dimension", true, "?dimension=dimension&excludeCentralServices=true")]
-    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("urn", "dimension", "?dimension=dimension")]
+    public async Task ShouldGetExpenditureHistoryFromApiForSchool(string urn, string dimension, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
 
         _expenditureApi
@@ -44,21 +43,20 @@ public class WhenExpenditureApiReceivesHistoryRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.History(OrganisationTypes.School, urn, dimension, excludeCentralServices);
+        var actual = await _api.History(OrganisationTypes.School, urn, dimension);
 
         // assert
         var json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json);
+        Assert.Equivalent(results, json);
         Assert.Equal(expectedQuery, actualQuery);
     }
 
     [Theory]
-    [InlineData("companyNumber", "dimension", null, "?dimension=dimension")]
-    [InlineData("companyNumber", "dimension", true, "?dimension=dimension&excludeCentralServices=true")]
-    public async Task ShouldGetExpenditureHistoryFromApiForTrust(string companyNumber, string dimension, bool? excludeCentralServices, string expectedQuery)
+    [InlineData("companyNumber", "dimension", "?dimension=dimension")]
+    public async Task ShouldGetExpenditureHistoryFromApiForTrust(string companyNumber, string dimension, string expectedQuery)
     {
         // arrange
-        var results = Array.Empty<ExpenditureHistory>();
+        var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
 
         _expenditureApi
@@ -70,11 +68,11 @@ public class WhenExpenditureApiReceivesHistoryRequest
             .ReturnsAsync(ApiResult.Ok(results));
 
         // act
-        var actual = await _api.History(OrganisationTypes.Trust, companyNumber, dimension, excludeCentralServices);
+        var actual = await _api.History(OrganisationTypes.Trust, companyNumber, dimension);
 
         // assert
         var json = Assert.IsType<JsonResult>(actual).Value;
-        Assert.Equal(results, json);
+        Assert.Equivalent(results, json);
         Assert.Equal(expectedQuery, actualQuery);
     }
 }

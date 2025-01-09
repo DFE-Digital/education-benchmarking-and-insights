@@ -3,9 +3,10 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Census;
 using Xunit;
+
 namespace Platform.Tests.Insight.Census;
 
-public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : CensusFunctionsTestBase
+public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : CensusSchoolFunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
 
@@ -17,8 +18,8 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             .ReturnsAsync(new ValidationResult());
 
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Array.Empty<CensusHistoryResponse>());
+            .Setup(d => d.GetComparatorAveHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((new CensusYearsModel(), Array.Empty<CensusHistoryModel>()));
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
@@ -37,14 +38,14 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
             }));
 
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
+            .Setup(d => d.GetComparatorAveHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
 
         var result = await Functions.CensusHistoryAvgComparatorSetAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Service.Verify(
-            x => x.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
+            x => x.GetComparatorAveHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 
     [Fact]
@@ -56,7 +57,7 @@ public class WhenFunctionReceivesGetComparatorSetAverageCensusHistoryRequest : C
 
         var exception = new Exception();
         Service
-            .Setup(d => d.GetHistoryAvgComparatorSetAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetComparatorAveHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Throws(exception);
 
         // exception handled by middleware

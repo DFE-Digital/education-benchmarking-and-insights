@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+namespace Platform.Api.Insight.Balance;
+
+//TODO: Add unit test coverage for mapper
+[ExcludeFromCodeCoverage]
+public static class BalanceMapper
+{
+    public static BalanceSchoolResponse MapToApiResponse(this BalanceSchoolModel model)
+    {
+        if (model == null)
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+
+        return new BalanceSchoolResponse
+        {
+            URN = model.URN,
+            SchoolName = model.SchoolName,
+            SchoolType = model.SchoolType,
+            LAName = model.LAName,
+            PeriodCoveredByReturn = model.PeriodCoveredByReturn,
+            InYearBalance = model.InYearBalance,
+            RevenueReserve = model.RevenueReserve
+        };
+    }
+
+    public static BalanceHistoryResponse MapToApiResponse(this IEnumerable<BalanceHistoryModel> models, int startYear, int endYear)
+    {
+        return new BalanceHistoryResponse
+        {
+            StartYear = startYear,
+            EndYear = endYear,
+            Rows = models.Select(x => x.MapToApiResponse())
+        };
+    }
+
+    public static BalanceTrustResponse MapToApiResponse(this BalanceTrustModel model)
+    {
+        if (model == null)
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+
+        return new BalanceTrustResponse
+        {
+            TrustName = model.TrustName,
+            CompanyNumber = model.CompanyNumber,
+            InYearBalance = model.InYearBalance,
+            CentralInYearBalance = model.InYearBalanceCS,
+            SchoolInYearBalance = model.InYearBalanceSchool,
+            RevenueReserve = model.RevenueReserve
+        };
+    }
+
+    public static IEnumerable<BalanceTrustResponse> MapToApiResponse(this IEnumerable<BalanceTrustModel> models)
+    {
+        return models.Select(x => x.MapToApiResponse());
+    }
+
+    private static BalanceHistoryRowResponse MapToApiResponse(this BalanceHistoryModel model)
+    {
+        if (model == null)
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+
+        return new BalanceHistoryRowResponse
+        {
+            Year = model.RunId,
+            InYearBalance = model.InYearBalance,
+            RevenueReserve = model.RevenueReserve
+        };
+    }
+}

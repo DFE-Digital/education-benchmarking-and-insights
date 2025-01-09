@@ -11,9 +11,7 @@ var hostBuilder = new HostBuilder()
 
 hostBuilder.Build().Run();
 
-namespace Platform.Api.Establishment
-{
-    [ExcludeFromCodeCoverage]
-    // ReSharper disable once UnusedType.Global
-    public partial class Program;
-}
+
+[ExcludeFromCodeCoverage]
+// ReSharper disable once UnusedType.Global
+public partial class Program;

@@ -2,7 +2,7 @@
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 using Newtonsoft.Json.Serialization;
-using Platform.Api.Insight.Domain;
+using Platform.Domain;
 using Platform.Api.Insight.Expenditure;
 namespace Platform.Api.Insight.OpenApi.Examples;
 

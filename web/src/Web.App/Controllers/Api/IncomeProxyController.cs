@@ -13,17 +13,15 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<IncomeHistory[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IncomeHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension,
-        [FromQuery] bool? excludeCentralServices)
+        [FromQuery] string dimension)
     {
         using (logger.BeginScope(new
         {
@@ -34,13 +32,12 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
             try
             {
                 var query = new ApiQuery()
-                    .AddIfNotNull("dimension", dimension)
-                    .AddIfNotNull("excludeCentralServices", excludeCentralServices);
+                    .AddIfNotNull("dimension", dimension);
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await api.SchoolHistory(id, query).GetResultOrDefault<IncomeHistory[]>(),
-                    OrganisationTypes.Trust => await api.TrustHistory(id, query).GetResultOrDefault<IncomeHistory[]>(),
+                    OrganisationTypes.School => await api.SchoolHistory(id, query).GetResultOrDefault<IncomeHistoryRows>(),
+                    OrganisationTypes.Trust => await api.TrustHistory(id, query).GetResultOrDefault<IncomeHistoryRows>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 

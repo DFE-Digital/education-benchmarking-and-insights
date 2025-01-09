@@ -274,7 +274,7 @@ type UtilitiesTrustExpenditureBase = UtilitiesExpenditureBase & {
 export type UtilitiesTrustExpenditure = TrustExpenditure &
   UtilitiesTrustExpenditureBase;
 
-export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
+type ExpenditureBase = AdministrativeSuppliesExpenditureBase &
   CateringStaffServicesExpenditureBase &
   EducationalIctExpenditureBase &
   EducationalSuppliesExpenditureBase &
@@ -285,15 +285,23 @@ export type SchoolExpenditureHistory = AdministrativeSuppliesExpenditureBase &
   TotalExpenditureExpenditureBase &
   UtilitiesExpenditureBase & {
     totalCateringCostsField: number;
-  } & SchoolHistoryBase;
+  };
 
-export type SchoolHistoryComparison<T> = {
-  school?: T[];
-  comparatorSetAverage?: T[];
-  nationalAverage?: T[];
+export type Expenditure = ExpenditureBase;
+
+export type ExpenditureHistoryItem = Partial<ExpenditureBase> & HistoryBase;
+export type ExpenditureHistoryRow = Partial<ExpenditureBase> & HistoryRow;
+export type ExpenditureHistoryRows = HistoryRows<ExpenditureHistoryRow>;
+
+export type SchoolHistoryComparison<T extends HistoryRow> = {
+  startYear?: number;
+  endYear?: number;
+  school?: Array<T>;
+  comparatorSetAverage?: Array<T>;
+  nationalAverage?: Array<T>;
 };
 
-export type SchoolHistoryBase = {
+export type HistoryBase = {
   year: number;
   term: string;
 };
@@ -308,20 +316,24 @@ type TrustBalanceBase = BalanceBase & {
   centralInYearBalance: number;
 };
 
-export type SchoolBalance = BalanceBase & {
-  urn: string;
-  schoolName: string;
-  schoolType: string;
-  laName: string;
-  totalPupils: number;
-};
-
 export type TrustBalance = TrustBalanceBase & {
   companyNumber: string;
   trustName: string;
 };
 
-export type SchoolBalanceHistory = BalanceBase & SchoolHistoryBase;
+export type HistoryRow = {
+  year: number;
+};
+
+export type HistoryRows<T extends HistoryRow> = {
+  startYear: number;
+  endYear: number;
+  rows: Array<T>;
+};
+
+export type BalanceHistoryItem = Partial<BalanceBase> & HistoryBase;
+export type BalanceHistoryRow = Partial<BalanceBase> & HistoryRow;
+export type BalanceHistoryRows = HistoryRows<BalanceHistoryRow>;
 
 type CensusBase = {
   urn: string;
@@ -342,12 +354,11 @@ export type Census = CensusBase & {
   laName: string;
 };
 
-export type CensusHistory = CensusBase & SchoolHistoryBase;
+export type CensusHistoryItem = Partial<CensusBase> & HistoryBase;
+export type CensusHistoryRow = Partial<CensusBase> & HistoryRow;
+export type CensusHistoryRows = HistoryRows<CensusHistoryRow>;
 
-export type Income = {
-  yearEnd: string;
-  term: string;
-  dimension: string;
+type IncomeBase = {
   totalIncome: number;
   totalGrantFunding: number;
   totalSelfGeneratedFunding: number;
@@ -365,10 +376,11 @@ export type Income = {
   receiptsSupplyTeacherInsuranceClaims: number;
   investmentIncome: number;
   otherSelfGeneratedIncome: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
+
+export type IncomeHistoryItem = Partial<IncomeBase> & HistoryBase;
+export type IncomeHistoryRow = Partial<IncomeBase> & HistoryRow;
+export type IncomeHistoryRows = HistoryRows<IncomeHistoryRow>;
 
 export type BudgetForecastReturn = {
   year: number;
