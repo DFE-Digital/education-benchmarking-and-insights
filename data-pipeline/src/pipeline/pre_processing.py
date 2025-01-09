@@ -42,7 +42,11 @@ def prepare_cdc_data(cdc_file_path, current_year):
 
 
 # noinspection PyTypeChecker
-def prepare_census_data(workforce_census_path, pupil_census_path):
+def prepare_census_data(
+    workforce_census_path,
+    pupil_census_path,
+    year: int,
+):
     """
     Prepare workforce- and pupil-census data.
 
@@ -52,41 +56,62 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
 
     :param workforce_census_path: readable source for workforce census
     :param pupil_census_path: readable source for pupil census
+    :param year: financial year in question
     """
-    school_workforce_census = pd.read_excel(
-        workforce_census_path,
-        header=5,
-        usecols=input_schemas.workforce_census.keys(),
-        na_values=["x", "u", "c", "z", ":"],
-        keep_default_na=True,
-    ).drop_duplicates()
-
-    school_workforce_census = school_workforce_census.astype(
-        input_schemas.workforce_census
-    ).set_index(input_schemas.workforce_census_index_col)
-
-    school_pupil_census = pd.read_csv(
-        pupil_census_path,
-        encoding="cp1252",
-        index_col=input_schemas.pupil_census_index_col,
-        usecols=lambda x: x in input_schemas.pupil_census.keys(),
-        dtype=input_schemas.pupil_census,
-        na_values=["x", "u", "c", "z"],
-        keep_default_na=True,
-    ).drop_duplicates()
-
-    if "number_of_dual_subsidiary_registrations" in school_pupil_census.columns:
-        school_pupil_census.rename(
-            columns={
-                "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations"
-            },
-            inplace=True,
+    school_workforce_census = (
+        pd.read_excel(
+            workforce_census_path,
+            header=input_schemas.workforce_census_header_row.get(
+                year, input_schemas.workforce_census_header_row["default"]
+            ),
+            usecols=input_schemas.workforce_census.get(
+                year, input_schemas.workforce_census["default"]
+            ).keys(),
+            dtype=input_schemas.workforce_census.get(
+                year, input_schemas.workforce_census["default"]
+            ),
+            na_values=["x", "u", "c", "z", ":"],
+            keep_default_na=True,
         )
-        school_pupil_census["Pupil Dual Registrations"] = school_pupil_census[
-            "Pupil Dual Registrations"
-        ].fillna(0)
-    else:
-        school_pupil_census["Pupil Dual Registrations"] = 0
+        .drop_duplicates()
+        .rename(
+            columns=input_schemas.workforce_census_column_mappings.get(
+                year, input_schemas.workforce_census_column_mappings["default"]
+            ),
+        )
+        .set_index(input_schemas.workforce_census_index_col)
+    )
+
+    for column, eval_ in input_schemas.workforce_census_column_eval.get(
+        year, input_schemas.workforce_census_column_eval["default"]
+    ).items():
+        school_workforce_census[column] = school_workforce_census.eval(eval_)
+
+    school_pupil_census = (
+        pd.read_csv(
+            pupil_census_path,
+            encoding="cp1252",
+            usecols=input_schemas.pupil_census.get(
+                year, input_schemas.pupil_census["default"]
+            ).keys(),
+            dtype=input_schemas.pupil_census.get(
+                year, input_schemas.pupil_census["default"]
+            ),
+            na_values=["x", "u", "c", "z"],
+            keep_default_na=True,
+        )
+        .drop_duplicates()
+        .rename(
+            columns=input_schemas.pupil_census_column_mappings.get(
+                year, input_schemas.pupil_census_column_mappings["default"]
+            ),
+        )
+        .set_index(input_schemas.pupil_census_index_col)
+    )
+
+    school_pupil_census["Pupil Dual Registrations"] = school_pupil_census.get(
+        "Pupil Dual Registrations", pd.Series(0, index=school_pupil_census.index)
+    ).fillna(0)
 
     census = (
         school_pupil_census.join(

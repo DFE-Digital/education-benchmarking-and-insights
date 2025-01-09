@@ -430,7 +430,7 @@ def prepared_census_data(
     writer.close()
     output.seek(0)
 
-    return prepare_census_data(output, StringIO(pupil_census_data.to_csv()))
+    return prepare_census_data(output, StringIO(pupil_census_data.to_csv()), 2023)
 
 
 @pytest.fixture

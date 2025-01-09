@@ -1,3 +1,17 @@
+from .census_pupils import (  # noqa
+    pupil_census,
+    pupil_census_column_mappings,
+    pupil_census_index_col,
+)
+from .census_workforce import (  # noqa
+    workforce_census,
+    workforce_census_column_eval,
+    workforce_census_column_mappings,
+    workforce_census_header_row,
+    workforce_census_index_col,
+)
+
+
 gias_index_col = "URN"
 gias = {
     "URN": "Int64",
@@ -142,40 +156,6 @@ sen = {
     "SUP_Primary_need_asd": "float",
     "EHC_Primary_need_oth": "float",
     "SUP_Primary_need_oth": "float",
-}
-
-workforce_census_index_col = "URN"
-workforce_census = {
-    "URN": "Int64",
-    "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
-    "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "float",
-    "Teachers with Qualified Teacher Status (%) (Headcount)": "float",
-    "Total Number of Teaching Assistants (Full-Time Equivalent)": "float",
-    "Total Number of Teaching Assistants (Headcount)": "float",
-    "Total School Workforce (Full-Time Equivalent)": "float",
-    "Total Number of Teachers (Full-Time Equivalent)": "float",
-    "Total Number of Teachers (Headcount)": "float",
-    "Total Number of Teachers in the Leadership Group (Headcount)": "float",
-    "Total Number of Teachers in the Leadership Group (Full-time Equivalent)": "float",
-    "Total Number of Auxiliary Staff (Full-Time Equivalent)": "float",
-    "Total Number of Auxiliary Staff (Headcount)": "float",
-    "Total School Workforce (Headcount)": "float",
-}
-
-pupil_census_index_col = "URN"
-pupil_census = {
-    "URN": "Int64",
-    "% of pupils known to be eligible for free school meals": "float",
-    "headcount of pupils": "float",
-    "fte pupils": "float",
-    "ward_name": "string",
-    "Number of early year pupils (years E1 and E2)": "float",
-    "Number of nursery pupils (years N1 and N2)": "float",
-    "Full time boys Year group 12": "float",
-    "Full time girls Year group 12": "float",
-    "Full time boys Year group 13": "float",
-    "Full time girls Year group 13": "float",
-    "number_of_dual_subsidiary_registrations": "float",
 }
 
 cfr_index_col = "URN"
