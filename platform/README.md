@@ -208,6 +208,22 @@ x-ms-version:2024-02-04
 
 if everything is running as expected.
 
+#### Debugging Redis locally
+
+To debug Redis running in a Docker container, connect interactively and enter:
+
+```sh
+redis-cli -a [PASSWORD DEFINED ABOVE IN redis.env]
+```
+
+Redis commands may then be executed, e.g.:
+
+```redis
+SET test:key Hello
+GET test:key
+DEL test:key
+```
+
 ### Running tests
 
 Tests will run when creating new Pull Requests and when code is merged into the main branch.

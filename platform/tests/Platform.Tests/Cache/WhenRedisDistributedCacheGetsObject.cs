@@ -1,10 +1,11 @@
 ﻿using Moq;
 using StackExchange.Redis;
 using Xunit;
+using Xunit.Abstractions;
 // ReSharper disable NotAccessedPositionalProperty.Global
 namespace Platform.Tests.Cache;
 
-public class WhenRedisDistributedCacheGetsObject : RedisDistributedCacheTestBase
+public class WhenRedisDistributedCacheGetsObject(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectFromStringTestDataItems =>
     [

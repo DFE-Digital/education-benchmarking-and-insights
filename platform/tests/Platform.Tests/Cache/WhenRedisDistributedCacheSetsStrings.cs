@@ -1,9 +1,10 @@
 ﻿using Moq;
 using StackExchange.Redis;
 using Xunit;
+using Xunit.Abstractions;
 namespace Platform.Tests.Cache;
 
-public class WhenRedisDistributedCacheSetsStrings : RedisDistributedCacheTestBase
+public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
     [Theory]
     [InlineData("key", "value")]
