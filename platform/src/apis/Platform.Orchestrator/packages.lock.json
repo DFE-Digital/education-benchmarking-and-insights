@@ -2048,6 +2048,9 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
+      "platform.domain": {
+        "type": "Project"
+      },
       "platform.functions": {
         "type": "Project",
         "dependencies": {
@@ -2072,7 +2075,9 @@
         "type": "Project",
         "dependencies": {
           "Dapper": "[2.1.35, )",
-          "Microsoft.Data.SqlClient": "[5.2.2, )"
+          "Dapper.SqlBuilder": "[2.0.78, )",
+          "Microsoft.Data.SqlClient": "[5.2.2, )",
+          "Platform.Domain": "[1.0.0, )"
         }
       },
       "Dapper": {
@@ -2080,6 +2085,15 @@
         "requested": "[2.1.35, )",
         "resolved": "2.1.35",
         "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
+      },
+      "Dapper.SqlBuilder": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.78, )",
+        "resolved": "2.0.78",
+        "contentHash": "07LHm+/YOLyFieN51mjwrrVPKX3q0k7RxG+8zi/5MKjy7mWid/DRlRFNgvcCffEcjLjkbgEdITHkKTKSxSmPnw==",
+        "dependencies": {
+          "Dapper": "2.0.78"
+        }
       },
       "FluentValidation": {
         "type": "CentralTransitive",

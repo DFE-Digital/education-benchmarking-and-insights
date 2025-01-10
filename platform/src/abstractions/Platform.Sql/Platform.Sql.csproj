@@ -10,6 +10,10 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Dapper"/>
+        <PackageReference Include="Dapper.SqlBuilder" />
         <PackageReference Include="Microsoft.Data.SqlClient"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
     </ItemGroup>
 </Project>
