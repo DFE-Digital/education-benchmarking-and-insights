@@ -8,102 +8,172 @@ public class PlatformQueryTests
     [Fact]
     public void ShouldAddUrnEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE URN = @URN\n";
-        var builder = new MockPlatformQuery()
-            .WhereUrnEqual("12345");
+        const string expectedParam = "URN";
+        const string expectedValue = "12345";
+        var expectedSql = BuildExpectedQuery("WHERE URN = @URN");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereUrnEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddUrnInParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE URN IN @URNS\n";
-        var builder = new MockPlatformQuery()
-            .WhereUrnIn(["12345", "12346"]);
+        const string expectedParam = "URNS";
+        var expectedValue = new[] { "12345", "12346" };
+        var expectedSql = BuildExpectedQuery("WHERE URN IN @URNS");
+        var builder = new MockPlatformQuery().WhereUrnIn(expectedValue);
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAdRunIdBetweenParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE RunId BETWEEN @StartYear AND @EndYear\n";
-        var builder = new MockPlatformQuery()
-            .WhereRunIdBetween(0, 1);
+        const string expectedParam1 = "StartYear";
+        const int expectedValue1 = 2020;
+        const string expectedParam2 = "EndYear";
+        const int expectedValue2 = 2025;
+        var expectedSql = BuildExpectedQuery("WHERE RunId BETWEEN @StartYear AND @EndYear");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereRunIdBetween(expectedValue1, expectedValue2);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam1, expectedParam2);
+
+        Assert.Equal(2, parameters.Count);
+        Assert.Contains(expectedParam1, parameters.Keys);
+        Assert.Contains(expectedParam2, parameters.Keys);
+        Assert.Equal(expectedValue1, parameters[expectedParam1]);
+        Assert.Equal(expectedValue2, parameters[expectedParam2]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddRunIdEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE RunId = @RunId\n";
-        var builder = new MockPlatformQuery()
-            .WhereRunIdEqual("12345");
+        const string expectedParam = "RunId";
+        const string expectedValue = "12345";
+        var expectedSql = BuildExpectedQuery("WHERE RunId = @RunId");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereRunIdEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddTrustCompanyNumberEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE TrustCompanyNumber = @CompanyNumber\n";
-        var builder = new MockPlatformQuery()
-            .WhereTrustCompanyNumberEqual("12345");
+        const string expectedParam = "CompanyNumber";
+        const string expectedValue = "12345";
+        var expectedSql = BuildExpectedQuery("WHERE TrustCompanyNumber = @CompanyNumber");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereTrustCompanyNumberEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddCompanyNumberEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE CompanyNumber = @CompanyNumber\n";
-        var builder = new MockPlatformQuery()
-            .WhereCompanyNumberEqual("12345");
+        const string expectedParam = "CompanyNumber";
+        const string expectedValue = "12345";
+        var expectedSql = BuildExpectedQuery("WHERE CompanyNumber = @CompanyNumber");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereCompanyNumberEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddCompanyNumberInParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE CompanyNumber IN @CompanyNumbers\n";
-        var builder = new MockPlatformQuery()
-            .WhereCompanyNumberIn(["12345", "12346"]);
+        const string expectedParam = "CompanyNumbers";
+        var expectedValue = new[] { "12345", "12346" };
+        var expectedSql = BuildExpectedQuery("WHERE CompanyNumber IN @CompanyNumbers");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereCompanyNumberIn(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddLaCodeEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE LaCode = @LaCode\n";
-        var builder = new MockPlatformQuery()
-            .WhereLaCodeEqual("123");
+        const string expectedParam = "LaCode";
+        const string expectedValue = "123";
+        var expectedSql = BuildExpectedQuery("WHERE LaCode = @LaCode");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereLaCodeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddOverallPhaseEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE OverallPhase = @Phase\n";
-        var builder = new MockPlatformQuery()
-            .WhereOverallPhaseEqual("phase");
+        const string expectedParam = "Phase";
+        const string expectedValue = "Primary";
+        var expectedSql = BuildExpectedQuery("WHERE OverallPhase = @Phase");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereOverallPhaseEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
     [Fact]
     public void ShouldAddFinanceTypeEqualParameter()
     {
-        const string expected = "SELECT * FROM Mock WHERE FinanceType = @FinanceType\n";
-        var builder = new MockPlatformQuery()
-            .WhereFinanceTypeEqual("type");
+        const string expectedParam = "FinanceType";
+        const string expectedValue = "Maintained";
+        var expectedSql = BuildExpectedQuery("WHERE FinanceType = @FinanceType");
 
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+        var builder = new MockPlatformQuery().WhereFinanceTypeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
+
+    private static string BuildExpectedQuery(string wherePart) =>
+        $"{MockPlatformQuery.Sql.Replace("/**where**/", wherePart)}\n";
 }
 
-public class MockPlatformQuery() : PlatformQuery("SELECT * FROM Mock /**where**/") { }
+public class MockPlatformQuery() : PlatformQuery(Sql)
+{
+    public const string Sql = "SELECT * FROM Mock /**where**/";
+}
