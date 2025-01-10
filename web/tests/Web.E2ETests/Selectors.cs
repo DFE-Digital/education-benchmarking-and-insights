@@ -64,7 +64,7 @@ public static class Selectors
 
     public const string TotalExpenditureSaveAsImage = "xpath=//*[@id='compare-your-costs']/div[2]/div[2]/button";
     public const string TotalExpenditureDimension = "#total-expenditure-dimension";
-    public const string TotalExpenditureChart = "//*[@id=\"compare-your-costs\"]/div[3]/div/div[1]/div";
+    public const string TotalExpenditureChart = "//*[@aria-label='total expenditure']";
 
     public const string PremisesDimension = "#total-premises-staff-service-costs-dimension";
 
