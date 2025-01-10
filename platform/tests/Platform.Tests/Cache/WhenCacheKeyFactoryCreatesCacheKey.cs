@@ -9,18 +9,18 @@ public class WhenCacheKeyFactoryCreatesCacheKey
     private readonly CacheKeyFactory _factory = new();
 
     [Theory]
-    [InlineData("overall phase", "finance type", "dimension", "census:history:national-average:overall.phase|finance.type|dimension")]
-    public void ShouldReturnKeyForCensusHistory(string overallPhase, string financeType, string dimension, string expected)
+    [InlineData(2000, "overall phase", "finance type", "dimension", "2000:census:history:national-average:overall.phase|finance.type|dimension")]
+    public void ShouldReturnKeyForCensusHistoryNationalAverage(int endYear, string overallPhase, string financeType, string dimension, string expected)
     {
-        var actual = _factory.CreateCensusHistoryCacheKey(overallPhase, financeType, dimension);
+        var actual = _factory.CreateCensusHistoryNationalAverageCacheKey(endYear, overallPhase, financeType, dimension);
         Assert.Equal(expected, actual);
     }
 
     [Theory]
-    [InlineData("overall phase", "finance type", "dimension", "expenditure:history:national-average:overall.phase|finance.type|dimension")]
-    public void ShouldReturnKeyForExpenditureHistory(string overallPhase, string financeType, string dimension, string expected)
+    [InlineData(2000, "overall phase", "finance type", "dimension", "2000:expenditure:history:national-average:overall.phase|finance.type|dimension")]
+    public void ShouldReturnKeyForExpenditureHistoryNationalAverage(int endYear, string overallPhase, string financeType, string dimension, string expected)
     {
-        var actual = _factory.CreateExpenditureHistoryCacheKey(overallPhase, financeType, dimension);
+        var actual = _factory.CreateExpenditureHistoryNationalAverageCacheKey(endYear, overallPhase, financeType, dimension);
         Assert.Equal(expected, actual);
     }
 
