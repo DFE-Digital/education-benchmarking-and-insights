@@ -122,10 +122,29 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         }
     }
 
+    public async Task FlushAsync()
+    {
+        if (!factory.Options.AllowAdmin)
+        {
+            throw new UnauthorizedAccessException("Unable to perform operation on Redis because admin mode is not enabled");
+        }
+
+        var server = await GetServer();
+        logger.LogDebug("Flushing Redis database");
+        await server.FlushDatabaseAsync();
+    }
+
     private async Task<IDatabase> GetDatabase()
     {
         var connection = await Connection.Value;
         return connection.GetDatabase();
+    }
+
+    private async Task<IServer> GetServer()
+    {
+        ArgumentNullException.ThrowIfNull(factory.Options.Host);
+        var connection = await Connection.Value;
+        return connection.GetServer(factory.Options.Host);
     }
 
     private IDisposable? LoggerContext(string key) => logger.BeginScope(new Dictionary<string, object>
