@@ -9,16 +9,18 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Cache;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-
 namespace Platform.Api.Insight.Expenditure;
 
 public class ExpenditureNationalAveFunctions(
     ILogger<ExpenditureNationalAveFunctions> logger,
     IExpenditureService service,
-    IValidator<ExpenditureNationalAvgParameters> expenditureNationalAvgValidator)
+    IValidator<ExpenditureNationalAvgParameters> expenditureNationalAvgValidator,
+    IDistributedCache cache,
+    ICacheKeyFactory cacheKeyFactory)
 {
     [Function(nameof(SchoolExpenditureHistoryAvgNationalAsync))]
     [OpenApiOperation(nameof(SchoolExpenditureHistoryAvgNationalAsync), "Expenditure")]
@@ -52,7 +54,9 @@ public class ExpenditureNationalAveFunctions(
                 return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
 
-            var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token);
+            var (years, rows) = await cache.GetSetAsync(
+                cacheKeyFactory.CreateExpenditureHistoryCacheKey(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension),
+                () => service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token));
             return years == null
                 ? req.CreateNotFoundResponse()
                 : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
