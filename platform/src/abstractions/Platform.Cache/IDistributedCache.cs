@@ -25,6 +25,9 @@ public interface IDistributedCache
     Task<long> DeleteAsync(params string[] keys);
 
     Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter);
+
+    /// <inheritdoc cref="IServer.FlushDatabase(int, CommandFlags)" />
+    Task FlushAsync();
 }
 
 public enum When

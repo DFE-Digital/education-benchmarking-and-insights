@@ -8,6 +8,7 @@ public static class Services
         var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
         var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
         var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
+        var cacheAllowAdmin = Environment.GetEnvironmentVariable("Cache__AllowAdmin");
         ArgumentNullException.ThrowIfNull(cacheHost);
         ArgumentNullException.ThrowIfNull(cachePort);
 
@@ -16,6 +17,7 @@ public static class Services
             x.Host = cacheHost;
             x.Port = cachePort;
             x.Password = cachePassword;
+            x.AllowAdmin = cacheAllowAdmin == "true";
         });
 
         serviceCollection

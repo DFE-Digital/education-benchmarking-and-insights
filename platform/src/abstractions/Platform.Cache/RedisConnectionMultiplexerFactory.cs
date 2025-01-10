@@ -8,10 +8,12 @@ namespace Platform.Cache;
 [ExcludeFromCodeCoverage]
 public class RedisConnectionMultiplexerFactory(ILogger<RedisConnectionMultiplexerFactory> logger, IOptions<RedisCacheOptions> options) : IRedisConnectionMultiplexerFactory
 {
+    public RedisCacheOptions Options => options.Value;
+
     public async Task<IConnectionMultiplexer> CreateAsync()
     {
-        var configurationOptions = ConfigurationOptions.Parse(options.Value.ConnectionString);
-        if (string.IsNullOrWhiteSpace(options.Value.Password))
+        var configurationOptions = ConfigurationOptions.Parse(Options.ConnectionString);
+        if (string.IsNullOrWhiteSpace(Options.Password))
         {
             logger.LogDebug("Password is empty - configuring Redis with system assigned managed identity");
             await configurationOptions.ConfigureForAzureWithSystemAssignedManagedIdentityAsync();
@@ -24,5 +26,6 @@ public class RedisConnectionMultiplexerFactory(ILogger<RedisConnectionMultiplexe
 
 public interface IRedisConnectionMultiplexerFactory
 {
+    RedisCacheOptions Options { get; }
     Task<IConnectionMultiplexer> CreateAsync();
 }
