@@ -23,7 +23,7 @@ public class YearsTrustQuery : PlatformQuery
 public class YearsOverallPhaseQuery : PlatformQuery
 {
     private const string Sql = "SELECT * FROM VW_YearsOverallPhase /**where**/";
-    
+
     public YearsOverallPhaseQuery(string overallPhase, string financeType) : base(Sql)
     {
         WhereOverallPhaseEqual(overallPhase);

@@ -38,7 +38,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         var historyBuilder = new IncomeSchoolDefaultQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<IncomeHistoryModel>(historyBuilder));
     }
 
@@ -56,7 +56,7 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         var historyBuilder = new IncomeTrustDefaultQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<IncomeHistoryModel>(historyBuilder));
     }
 }

@@ -27,7 +27,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureSchoolDefaultCurrentQuery(dimension)
             .WhereUrnEqual(urn);
-        
+
         return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder);
     }
 
@@ -45,7 +45,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         var historyBuilder = new ExpenditureSchoolDefaultQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
     }
 
@@ -56,7 +56,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         if (urns.Length != 0)
         {
             builder.WhereUrnIn(urns);
-            
+
         }
         else if (!string.IsNullOrWhiteSpace(companyNumber))
         {
@@ -84,7 +84,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureSchoolCustomQuery(dimension)
             .WhereUrnEqual(urn);
-        
+
         return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder);
     }
 
@@ -93,7 +93,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureTrustDefaultCurrentQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber);
-        
+
         return await conn.QueryFirstOrDefaultAsync<ExpenditureTrustModel>(builder);
     }
 
@@ -111,7 +111,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         var historyBuilder = new ExpenditureTrustDefaultQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder));
     }
 
@@ -120,7 +120,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureTrustDefaultCurrentQuery(dimension)
             .WhereCompanyNumberIn(companyNumbers);
-        
+
         return await conn.QueryAsync<ExpenditureTrustModel>(builder);
     }
 
@@ -138,7 +138,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
         var historyBuilder = new ExpenditureSchoolDefaultComparatorAvgQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
     }
 
@@ -157,7 +157,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
             .WhereOverallPhaseEqual(overallPhase)
             .WhereFinanceTypeEqual(financeType)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
     }
 }

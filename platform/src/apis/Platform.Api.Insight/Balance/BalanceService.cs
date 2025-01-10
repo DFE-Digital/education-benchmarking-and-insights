@@ -21,7 +21,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
     {
         var builder = new BalanceSchoolDefaultCurrentQuery(BalanceDimensions.Actuals)
             .WhereUrnEqual(urn);
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<BalanceSchoolModel>(builder);
     }
@@ -40,7 +40,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
         var historyBuilder = new BalanceSchoolDefaultQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<BalanceHistoryModel>(historyBuilder));
     }
 
@@ -48,7 +48,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
     {
         var builder = new BalanceTrustDefaultCurrentQuery(BalanceDimensions.Actuals)
             .WhereCompanyNumberEqual(companyNumber);
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<BalanceTrustModel>(builder);
     }
@@ -67,7 +67,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
         var historyBuilder = new BalanceTrustDefaultQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<BalanceHistoryModel>(historyBuilder));
     }
 
@@ -75,7 +75,7 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
     {
         var builder = new BalanceTrustDefaultCurrentQuery(dimension)
             .WhereCompanyNumberIn(companyNumbers);
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryAsync<BalanceTrustModel>(builder);
     }

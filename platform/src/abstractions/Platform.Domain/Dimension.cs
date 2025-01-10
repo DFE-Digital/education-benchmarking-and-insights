@@ -19,7 +19,7 @@ public static class Dimension
 
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
-    
+
     public static class Cost
     {
         public const string Actuals = nameof(Actuals);

@@ -23,7 +23,7 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
     {
         var builder = new CensusSchoolDefaultCurrentQuery(dimension)
             .WhereUrnEqual(urn);
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CensusSchoolModel>(builder);
     }
@@ -38,11 +38,11 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         {
             return (null, Array.Empty<CensusHistoryModel>());
         }
-        
+
         var historyBuilder = new CensusSchoolDefaultQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
     }
 
@@ -51,7 +51,7 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         var builder = new CensusSchoolCustomQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdEqual(identifier);
-        
+
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CensusSchoolModel>(builder);
     }
@@ -88,25 +88,25 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
     {
         using var conn = await dbFactory.GetConnection();
         var yearsBuilder = new YearsSchoolQuery(urn);
-        
+
         var years = await conn.QueryFirstOrDefaultAsync<CensusYearsModel>(yearsBuilder, cancellationToken);
 
         if (years == null)
         {
             return (null, Array.Empty<CensusHistoryModel>());
         }
-        
+
         var historyBuilder = new CensusSchoolDefaultComparatorAveQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
     }
 
     public async Task<(CensusYearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = CensusDimensions.Total, CancellationToken cancellationToken = default)
     {
         var yearBuilder = new YearsOverallPhaseQuery(overallPhase, financeType);
-        
+
         using var conn = await dbFactory.GetConnection();
 
         var years = await conn.QueryFirstOrDefaultAsync<CensusYearsModel>(yearBuilder, cancellationToken);
@@ -115,12 +115,12 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
         {
             return (null, Array.Empty<CensusHistoryModel>());
         }
-        
+
         var historyBuilder = new CensusSchoolDefaultNationalAveQuery(dimension)
             .WhereOverallPhaseEqual(overallPhase)
             .WhereFinanceTypeEqual(financeType)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
-        
+
         return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
     }
 }
