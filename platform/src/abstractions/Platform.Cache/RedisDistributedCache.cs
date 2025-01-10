@@ -8,7 +8,7 @@ namespace Platform.Cache;
 ///     From the
 ///     <a href="https://github.com/StackExchange/StackExchange.Redis/blob/main/docs/Basics.md#using-a-redis-database">docs</a>
 ///     :
-///     The object returned from <c>GetDatabase</c> is a cheap pass-thru object, and does not need to be stored.
+///     The object returned from <c>GetDatabase</c> is a cheap pass-through object, and does not need to be stored.
 /// </remarks>
 public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedisConnectionMultiplexerFactory factory) : IDistributedCache
 {
@@ -26,18 +26,18 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
     }
 
     /// <exception cref="RedisConnectionException"></exception>
-    public async Task<bool> SetStringAsync(string key, string value)
+    public async Task<bool> SetStringAsync(string key, string value, When when = Cache.When.Always)
     {
         using (LoggerContext(key))
         {
             var db = await GetDatabase();
-            logger.LogDebug("Setting string value for key {Key} in Redis", key);
-            return await db.StringSetAsync(key, value);
+            logger.LogDebug("Setting string value for key {Key} in Redis ({When})", key, when);
+            return await db.StringSetAsync(key, value, when: When(when));
         }
     }
 
     /// <exception cref="RedisConnectionException"></exception>
-    public async Task<bool> SetStringsAsync(KeyValuePair<string, string>[] values)
+    public async Task<bool> SetStringsAsync(KeyValuePair<string, string>[] values, When when = Cache.When.Always)
     {
         var filteredValues = values
             .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key))
@@ -48,8 +48,8 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         using (LoggerContext(string.Join(",", filteredKeys)))
         {
             var db = await GetDatabase();
-            logger.LogDebug("Setting string value(s) for key(s) {Keys} in Redis", filteredKeys);
-            return await db.StringSetAsync(filteredValues);
+            logger.LogDebug("Setting string value(s) for key(s) {Keys} in Redis ({When})", filteredKeys, when);
+            return await db.StringSetAsync(filteredValues, When(when));
         }
     }
 
@@ -62,15 +62,15 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         }
     }
 
-    public async Task<bool> SetAsync<T>(string key, T value)
+    public async Task<bool> SetAsync<T>(string key, T value, When when = Cache.When.Always)
     {
         using (LoggerContext(key))
         {
-            return await SetStringAsync(key, ToBson(value));
+            return await SetStringAsync(key, ToBson(value), when);
         }
     }
 
-    public async Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values)
+    public async Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values, When when = Cache.When.Always)
     {
         var filteredValues = values
             .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key))
@@ -80,7 +80,7 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         {
             return await SetStringsAsync(filteredValues
                 .Select(kvp => new KeyValuePair<string, string>(kvp.Key, ToBson(kvp.Value)))
-                .ToArray());
+                .ToArray(), when);
         }
     }
 
@@ -93,7 +93,7 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
             .ToArray();
         if (filteredKeys.Length == 0)
         {
-            return default;
+            return 0;
         }
 
         using (LoggerContext(string.Join(",", filteredKeys)))
@@ -101,6 +101,24 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
             var db = await GetDatabase();
             logger.LogDebug("Deleting key(s) {Keys} from Redis", filteredKeys);
             return await db.KeyDeleteAsync(filteredKeys);
+        }
+    }
+
+    public async Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter)
+    {
+        using (LoggerContext(key))
+        {
+            var cached = await GetAsync<T>(key);
+            if (!EqualityComparer<T>.Default.Equals(cached, default))
+            {
+                logger.LogDebug("Returning cached object for {Key} from Redis", key);
+                return cached!;
+            }
+
+            logger.LogDebug("Cached object for {Key} not found or `null`, so executing getter", key);
+            var result = await getter();
+            await SetAsync(key, result, Cache.When.NotExists);
+            return result;
         }
     }
 
@@ -149,4 +167,6 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
             return default;
         }
     }
+
+    private static StackExchange.Redis.When When(When when) => (StackExchange.Redis.When)when;
 }

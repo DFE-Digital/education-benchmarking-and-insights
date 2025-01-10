@@ -9,16 +9,18 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Cache;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-
 namespace Platform.Api.Insight.Census;
 
 public class CensusNationalAveFunctions(
     ILogger<CensusNationalAveFunctions> logger,
     ICensusService service,
-    IValidator<CensusNationalAvgParameters> validator)
+    IValidator<CensusNationalAvgParameters> validator,
+    IDistributedCache cache,
+    ICacheKeyFactory cacheKeyFactory)
 {
     [Function(nameof(CensusHistoryAvgNationalAsync))]
     [OpenApiOperation(nameof(CensusHistoryAvgNationalAsync), "Census")]
@@ -52,11 +54,12 @@ public class CensusNationalAveFunctions(
                 return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
             }
 
-            var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token);
+            var (years, rows) = await cache.GetSetAsync(
+                cacheKeyFactory.CreateCensusHistoryCacheKey(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension),
+                () => service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token));
             return years == null
                 ? req.CreateNotFoundResponse()
                 : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
-
         }
     }
 }

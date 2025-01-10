@@ -17,8 +17,8 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
-        Service
-            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        DistributedCache
+            .Setup(d => d.GetSetAsync(It.IsAny<string>(), It.IsAny<Func<Task<(CensusYearsModel?, IEnumerable<CensusHistoryModel>)>>>()))
             .ReturnsAsync((new CensusYearsModel(), Array.Empty<CensusHistoryModel>()));
 
         var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
@@ -56,8 +56,8 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
             .ReturnsAsync(new ValidationResult());
 
         var exception = new Exception();
-        Service
-            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        DistributedCache
+            .Setup(d => d.GetSetAsync(It.IsAny<string>(), It.IsAny<Func<Task<(CensusYearsModel?, IEnumerable<CensusHistoryModel>)>>>()))
             .Throws(exception);
 
         // exception handled by middleware

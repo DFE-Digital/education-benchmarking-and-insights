@@ -20,7 +20,8 @@ public static class Services
 
         serviceCollection
             .AddSingleton<IRedisConnectionMultiplexerFactory, RedisConnectionMultiplexerFactory>()
-            .AddSingleton<IDistributedCache, RedisDistributedCache>();
+            .AddSingleton<IDistributedCache, RedisDistributedCache>()
+            .AddSingleton<ICacheKeyFactory, CacheKeyFactory>();
     }
 
     public static void AddRedis(this IHealthChecksBuilder healthChecks)
