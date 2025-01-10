@@ -3,7 +3,6 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Expenditure;
 using Xunit;
-
 namespace Platform.Tests.Insight.Expenditure;
 
 public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : ExpenditureNationalAveFunctionsTestBase
@@ -17,8 +16,8 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
-        Service
-            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        DistributedCache
+            .Setup(d => d.GetSetAsync(It.IsAny<string>(), It.IsAny<Func<Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)>>>()))
             .ReturnsAsync((new ExpenditureYearsModel(), Array.Empty<ExpenditureHistoryModel>()));
 
         var result = await Functions.SchoolExpenditureHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
@@ -56,8 +55,8 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : E
             .ReturnsAsync(new ValidationResult());
 
         var exception = new Exception();
-        Service
-            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        DistributedCache
+            .Setup(d => d.GetSetAsync(It.IsAny<string>(), It.IsAny<Func<Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)>>>()))
             .Throws(exception);
 
         // exception handled by middleware
