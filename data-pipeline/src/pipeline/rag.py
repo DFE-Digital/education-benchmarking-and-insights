@@ -116,7 +116,7 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
-    series = data[category_name]
+    series = _get_series_for_category(data, category_name, urn)
     value = series.loc[urn]
 
     percentile = find_percentile(series, value)
@@ -316,3 +316,19 @@ def compute_user_defined_rag(
                     exc_info=error,
                 )
                 return
+            
+def _get_series_for_category(data: pd.DataFrame, category: str, urn: int) -> pd.Series:
+    """
+    Filters the comparator set data for the specified category, retaining only 
+    positive values or the value for the specified org. (identified by URN).
+
+    This ensures that only positive expenditure values are considered for 
+    rag calculations.
+
+    :param data: A DataFrame containing comparator data for RAG calculations.
+    :param category: The category column to filter on
+    :param urn: The URN of the org. whose value should always be included.
+    :return: A Series containing the filtered values
+    """
+
+    return data.loc[(data[category] > 0) | (data.index == urn), category]
