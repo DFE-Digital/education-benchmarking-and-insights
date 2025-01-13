@@ -137,10 +137,12 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
 
     private static string ToBson<T>(T value)
     {
+        var data = new CacheData<T>(value);
+
         using var ms = new MemoryStream();
         using var dataWriter = new BsonDataWriter(ms);
         var serializer = new JsonSerializer();
-        serializer.Serialize(dataWriter, value);
+        serializer.Serialize(dataWriter, data);
         return Convert.ToBase64String(ms.ToArray());
     }
 
@@ -159,7 +161,8 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
 
         try
         {
-            return serializer.Deserialize<T>(reader);
+            var cached = serializer.Deserialize<CacheData<T>>(reader);
+            return cached == null ? default : cached.Data;
         }
         catch (Exception ex)
         {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Platform.Cache;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
-
 namespace Platform.Api.Insight.Expenditure;
 
 public interface IExpenditureService
@@ -20,7 +20,7 @@ public interface IExpenditureService
     Task<(ExpenditureYearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = ExpenditureDimensions.Actuals, CancellationToken cancellationToken = default);
 }
 
-public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureService
+public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKeyFactory, IDistributedCache cache) : IExpenditureService
 {
     public async Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension = ExpenditureDimensions.Actuals)
     {
@@ -153,11 +153,18 @@ public class ExpenditureService(IDatabaseFactory dbFactory) : IExpenditureServic
             return (null, Array.Empty<ExpenditureHistoryModel>());
         }
 
+        var cacheKey = cacheKeyFactory.CreateExpenditureHistoryNationalAverageCacheKey(years.EndYear, overallPhase, financeType, dimension);
+        var history = await cache.GetSetAsync(cacheKey, () => GetNationalAvgHistoryAsync(conn, years, overallPhase, financeType, dimension, cancellationToken));
+        return (years, history);
+    }
+
+    private static async Task<IEnumerable<ExpenditureHistoryModel>> GetNationalAvgHistoryAsync(IDatabaseConnection conn, ExpenditureYearsModel years, string overallPhase, string financeType, string dimension, CancellationToken cancellationToken)
+    {
         var historyBuilder = new ExpenditureSchoolDefaultNationalAveQuery(dimension)
             .WhereOverallPhaseEqual(overallPhase)
             .WhereFinanceTypeEqual(financeType)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
 
-        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
+        return await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken);
     }
 }

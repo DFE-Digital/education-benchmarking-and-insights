@@ -9,7 +9,7 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
 {
     public static TheoryData<ShouldSetValuesInCacheTestData> ShouldReturnObjectFromStringTestDataItems =>
     [
-        new([("key", new TestObject("value"), "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==")])
+        new([("key", new TestObject("value"), "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA")])
     ];
 
     [Theory]

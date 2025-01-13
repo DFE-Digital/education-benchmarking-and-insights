@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Platform.Cache;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
-
 namespace Platform.Api.Insight.Census;
 
 public interface ICensusService
@@ -17,7 +17,7 @@ public interface ICensusService
     Task<(CensusYearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = CensusDimensions.Total, CancellationToken cancellationToken = default);
 }
 
-public class CensusService(IDatabaseFactory dbFactory) : ICensusService
+public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKeyFactory, IDistributedCache cache) : ICensusService
 {
     public async Task<CensusSchoolModel?> GetAsync(string urn, string dimension = CensusDimensions.Total)
     {
@@ -116,11 +116,18 @@ public class CensusService(IDatabaseFactory dbFactory) : ICensusService
             return (null, Array.Empty<CensusHistoryModel>());
         }
 
+        var cacheKey = cacheKeyFactory.CreateCensusHistoryNationalAverageCacheKey(years.EndYear, overallPhase, financeType, dimension);
+        var history = await cache.GetSetAsync(cacheKey, () => GetNationalAvgHistoryAsync(conn, years, overallPhase, financeType, dimension, cancellationToken));
+        return (years, history);
+    }
+
+    private static async Task<IEnumerable<CensusHistoryModel>> GetNationalAvgHistoryAsync(IDatabaseConnection conn, CensusYearsModel years, string overallPhase, string financeType, string dimension, CancellationToken cancellationToken)
+    {
         var historyBuilder = new CensusSchoolDefaultNationalAveQuery(dimension)
             .WhereOverallPhaseEqual(overallPhase)
             .WhereFinanceTypeEqual(financeType)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
 
-        return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
+        return await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken);
     }
 }

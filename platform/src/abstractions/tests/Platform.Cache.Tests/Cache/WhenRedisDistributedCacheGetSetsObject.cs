@@ -9,26 +9,51 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
 {
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectFromCacheWhenPresentDataItems =>
     [
-        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", new TestObject("Lookup"), new TestObject("value"))
+        new("key", "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA", new TestObject("Lookup"), new TestObject("value"))
+    ];
+
+    public static TheoryData<ShouldReturnExpectedCollectionValueFromCacheTestData> ShouldReturnCollectionObjectFromCacheWhenPresentDataItems =>
+    [
+        new("key", "KQAAAAREYXRhAB4AAAADMAAWAAAAAlZhbHVlAAYAAAB2YWx1ZQAAAAA=", [new TestObject("Lookup")], [new TestObject("value")])
     ];
 
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectGetterTestDataItems =>
     [
         new("key", null, new TestObject("Lookup"), new TestObject("Lookup")),
         new("key", "not base64", new TestObject("Lookup"), new TestObject("Lookup")),
-        new("key", "bm90IGJzb24=", new TestObject("Lookup"), new TestObject("Lookup"))
+        new("key", "bm90IGJzb24=", new TestObject("Lookup"), new TestObject("Lookup")),
+        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", new TestObject("Lookup"), new TestObject("Lookup"))
     ];
 
     public static TheoryData<ShouldSetValueInCacheTestData> ShouldSetObjectTestDataItems =>
     [
-        new("key", null, new TestObject("Lookup"), "FwAAAAJWYWx1ZQAHAAAATG9va3VwAAA="),
-        new("key", "not base64", new TestObject("Lookup"), "FwAAAAJWYWx1ZQAHAAAATG9va3VwAAA="),
-        new("key", "bm90IGJzb24=", new TestObject("Lookup"), "FwAAAAJWYWx1ZQAHAAAATG9va3VwAAA=")
+        new("key", null, new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA=="),
+        new("key", null, new[]
+        {
+            new TestObject("Lookup")
+        }, "KgAAAAREYXRhAB8AAAADMAAXAAAAAlZhbHVlAAcAAABMb29rdXAAAAAA"),
+        new("key", "not base64", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA=="),
+        new("key", "bm90IGJzb24=", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==")
     ];
 
     [Theory]
     [MemberData(nameof(ShouldReturnObjectFromCacheWhenPresentDataItems), MemberType = typeof(WhenRedisDistributedCacheGetSetsObject))]
     public async Task ShouldReturnExpectedValueFromCacheWhenPresent(ShouldReturnExpectedValueFromCacheTestData input)
+    {
+        Database
+            .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
+            .ReturnsAsync(input.Bson)
+            .Verifiable(Times.Once);
+
+        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup));
+
+        Database.Verify();
+        Assert.Equal(input.ExpectedValue, actual);
+    }
+
+    [Theory]
+    [MemberData(nameof(ShouldReturnCollectionObjectFromCacheWhenPresentDataItems), MemberType = typeof(WhenRedisDistributedCacheGetSetsObject))]
+    public async Task ShouldReturnExpectedCollectionValueFromCacheWhenPresent(ShouldReturnExpectedCollectionValueFromCacheTestData input)
     {
         Database
             .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
@@ -92,7 +117,9 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
 
     public record ShouldReturnExpectedValueFromCacheTestData(string Key, string? Bson, TestObject Lookup, TestObject? ExpectedValue);
 
-    public record ShouldSetValueInCacheTestData(string Key, string? Bson, TestObject Lookup, string ExpectedBson);
+    public record ShouldReturnExpectedCollectionValueFromCacheTestData(string Key, string? Bson, IEnumerable<TestObject> Lookup, IEnumerable<TestObject>? ExpectedValue);
+
+    public record ShouldSetValueInCacheTestData(string Key, string? Bson, object Lookup, string ExpectedBson);
 
     public record TestObject(string Value);
 }
