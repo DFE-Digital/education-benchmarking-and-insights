@@ -112,7 +112,12 @@ variable "use-isolated-runtime" {
   default = true
 }
 
-variable "requires-cache" {
+variable "cache-contributor" {
+  type    = bool
+  default = false
+}
+
+variable "cache-owner" {
   type    = bool
   default = false
 }

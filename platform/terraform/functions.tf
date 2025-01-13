@@ -55,7 +55,7 @@ module "insight-fa" {
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
   redis-cache-id      = azurerm_redis_cache.cache.id
-  requires-cache      = true
+  cache-contributor   = true
 }
 
 module "establishment-fa" {
@@ -134,9 +134,13 @@ module "orchestrator-fa" {
     "Sql__ConnectionString"                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "Search__Name"                             = azurerm_search_service.search.name
     "Search__Key"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
+    "Cache__Host"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
+    "Cache__Port"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
   })
   subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+  redis-cache-id      = azurerm_redis_cache.cache.id
+  cache-contributor   = true
 }

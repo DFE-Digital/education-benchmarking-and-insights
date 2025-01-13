@@ -184,10 +184,19 @@ resource "mssql_user" "app-service-user" {
 }
 
 resource "azurerm_redis_cache_access_policy_assignment" "contributor" {
-  count              = var.requires-cache ? 1 : 0
+  count              = var.cache-contributor ? 1 : 0
   name               = "${var.function-name}-contributor"
   redis_cache_id     = var.redis-cache-id
   access_policy_name = "Data Contributor"
   object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
   object_id_alias    = "${var.function-name}-contributor"
+}
+
+resource "azurerm_redis_cache_access_policy_assignment" "owner" {
+  count              = var.cache-owner ? 1 : 0
+  name               = "${var.function-name}-owner"
+  redis_cache_id     = var.redis-cache-id
+  access_policy_name = "Data Owner"
+  object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
+  object_id_alias    = "${var.function-name}-owner"
 }

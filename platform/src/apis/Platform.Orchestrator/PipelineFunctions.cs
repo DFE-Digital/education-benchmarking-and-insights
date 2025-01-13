@@ -6,12 +6,13 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
+using Platform.Cache;
 using Platform.Functions.Extensions;
 using Platform.Functions.Messages;
 using Platform.Orchestrator.Search;
 namespace Platform.Orchestrator;
 
-public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db, IPipelineSearch search)
+public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db, IPipelineSearch search, IDistributedCache cache)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
@@ -106,6 +107,12 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
             Id = message.JobId,
             Success = success
         });
+
+        await context.CallActivityAsync(nameof(ClearCacheTrigger), new PipelineStatus
+        {
+            Id = message.RunId.ToString(),
+            Success = success
+        });
     }
 
     private async Task OrchestrateCustomMessage(TaskOrchestrationContext context, PipelinePendingMessage input)
@@ -181,5 +188,18 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 
         logger.LogInformation("Updating indexers due to success status from {RunId}", status.Id);
         await search.RunIndexerAll();
+    }
+
+    [Function(nameof(ClearCacheTrigger))]
+    public async Task ClearCacheTrigger([ActivityTrigger] PipelineStatus status)
+    {
+        if (!status.Success)
+        {
+            logger.LogInformation("Not clearing keys from distributed cache due to failed status for {RunId}", status.Id);
+            return;
+        }
+
+        logger.LogInformation("Clearing keys from distributed cache after completion of {RunId}", status.Id);
+        await cache.DeleteAsync($"{status.Id}:*");
     }
 }

@@ -20,6 +20,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+        <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <PackageReference Include="Azure.Search.Documents"/>
         <PackageReference Include="Dapper.Contrib"/>
