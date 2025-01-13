@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Platform.Cache;
 using Xunit;
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.CacheKey;
 
 [SuppressMessage("Performance", "CA1861:Avoid constant arrays as arguments")]
 public class WhenCacheKeyFactoryCreatesCacheKey

@@ -2,7 +2,7 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
@@ -14,7 +14,7 @@ public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHe
             .Setup(d => d.StringSetAsync(new[]
             {
                 new KeyValuePair<RedisKey, RedisValue>(key, value)
-            }, When.Always, CommandFlags.None))
+            }, StackExchange.Redis.When.Always, CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 
@@ -30,7 +30,7 @@ public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHe
         const string key = nameof(key);
         const string value = nameof(value);
         Database
-            .Setup(d => d.StringSetAsync(It.IsAny<KeyValuePair<RedisKey, RedisValue>[]>(), When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(It.IsAny<KeyValuePair<RedisKey, RedisValue>[]>(), StackExchange.Redis.When.Always, CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 

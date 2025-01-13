@@ -1,9 +1,8 @@
 ﻿using Moq;
-using Platform.Cache;
-using Platform.Tests.Mocks;
+using Platform.Cache.Tests.Mocks;
 using StackExchange.Redis;
 using Xunit.Abstractions;
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.Cache;
 
 public abstract class RedisDistributedCacheTestBase
 {

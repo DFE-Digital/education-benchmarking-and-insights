@@ -3,7 +3,7 @@ using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
 // ReSharper disable NotAccessedPositionalProperty.Global
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheGetsObject(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {

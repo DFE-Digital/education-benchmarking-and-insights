@@ -3,7 +3,7 @@ using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
 // ReSharper disable NotAccessedPositionalProperty.Global
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
@@ -17,7 +17,7 @@ public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHel
     public async Task ShouldReturnExpectedValueFromCache(ShouldSetValueInCacheTestData input)
     {
         Database
-            .Setup(d => d.StringSetAsync(input.Key, input.ExpectedBson, null, false, When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(input.Key, input.ExpectedBson, null, false, StackExchange.Redis.When.Always, CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 
@@ -33,7 +33,7 @@ public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHel
         const string key = nameof(key);
         var value = new TestObject("value");
         Database
-            .Setup(d => d.StringSetAsync(key, It.IsAny<RedisValue>(), null, false, When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.Always, CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 
