@@ -73,12 +73,13 @@ def prepare_census_data(
             na_values=["x", "u", "c", "z", ":"],
             keep_default_na=True,
         )
-        .drop_duplicates()
         .rename(
             columns=input_schemas.workforce_census_column_mappings.get(
                 year, input_schemas.workforce_census_column_mappings["default"]
             ),
         )
+        .dropna(subset=["URN"])
+        .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
     )
 
@@ -100,12 +101,13 @@ def prepare_census_data(
             na_values=["x", "u", "c", "z"],
             keep_default_na=True,
         )
-        .drop_duplicates()
         .rename(
             columns=input_schemas.pupil_census_column_mappings.get(
                 year, input_schemas.pupil_census_column_mappings["default"]
             ),
         )
+        .dropna(subset=["URN"])
+        .drop_duplicates()
         .set_index(input_schemas.pupil_census_index_col)
     )
 
@@ -113,18 +115,12 @@ def prepare_census_data(
         "Pupil Dual Registrations", pd.Series(0, index=school_pupil_census.index)
     ).fillna(0)
 
-    census = (
-        school_pupil_census.join(
-            school_workforce_census,
-            on="URN",
-            how="outer",
-            rsuffix="_pupil",
-            lsuffix="_workforce",
-        )
-        .rename(columns=config.census_column_map)
-        .reset_index()
-        .set_index("URN")
-    )
+    census = school_pupil_census.join(
+        school_workforce_census,
+        how="outer",
+        rsuffix="_pupil",
+        lsuffix="_workforce",
+    ).rename(columns=config.census_column_map)
 
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
