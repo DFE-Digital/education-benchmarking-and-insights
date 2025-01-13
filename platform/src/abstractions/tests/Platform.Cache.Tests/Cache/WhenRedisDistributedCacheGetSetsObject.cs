@@ -3,7 +3,7 @@ using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
 // ReSharper disable NotAccessedPositionalProperty.Global
-namespace Platform.Tests.Cache;
+namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
@@ -66,7 +66,7 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
             .Verifiable(Times.Once);
 
         Database
-            .Setup(d => d.StringSetAsync(input.Key, input.ExpectedBson, null, false, When.NotExists, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(input.Key, input.ExpectedBson, null, false, StackExchange.Redis.When.NotExists, CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 
