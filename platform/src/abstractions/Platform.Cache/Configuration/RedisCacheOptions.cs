@@ -13,5 +13,7 @@ public class RedisCacheOptions
 
     public bool AllowAdmin { get; set; }
 
-    public string ConnectionString => $"{Host}:{Port}{(string.IsNullOrWhiteSpace(Password) ? string.Empty : $",password={Password}")}{(AllowAdmin ? ",allowAdmin=true" : string.Empty)}";
+    public string Server => $"{Host}:{Port}";
+
+    public string ConnectionString => $"{Server}{(string.IsNullOrWhiteSpace(Password) ? string.Empty : $",password={Password}")}{(AllowAdmin ? ",allowAdmin=true" : string.Empty)}";
 }

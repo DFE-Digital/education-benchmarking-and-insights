@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using StackExchange.Redis;
@@ -10,7 +11,7 @@ namespace Platform.Cache;
 ///     :
 ///     The object returned from <c>GetDatabase</c> is a cheap pass-through object, and does not need to be stored.
 /// </remarks>
-public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedisConnectionMultiplexerFactory factory) : IDistributedCache
+public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedisConnectionMultiplexerFactory factory) : IDistributedCache
 {
     public Lazy<Task<IConnectionMultiplexer>> Connection { get; } = new(factory.CreateAsync);
 
@@ -104,6 +105,23 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         }
     }
 
+    public async Task DeleteAsync(string pattern)
+    {
+        if (InvalidCacheKeyPattern().IsMatch(pattern))
+        {
+            throw new ArgumentException("Invalid cache key pattern", nameof(pattern));
+        }
+
+        using (LoggerContext(pattern))
+        {
+            var db = await GetDatabase();
+            logger.LogDebug("Getting and deleting key(s) matching {Pattern} from Redis", pattern);
+
+            // atomically get all matching KEYS and then DEL all matches
+            await db.ScriptEvaluateAsync($"for _,k in ipairs(redis.call('keys','{pattern}')) do redis.call('del',k) end");
+        }
+    }
+
     public async Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter)
     {
         using (LoggerContext(key))
@@ -134,17 +152,19 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
         await server.FlushDatabaseAsync();
     }
 
+    /// <inheritdoc cref="IConnectionMultiplexer.GetDatabase" />
     private async Task<IDatabase> GetDatabase()
     {
         var connection = await Connection.Value;
         return connection.GetDatabase();
     }
 
+    /// <inheritdoc cref="IConnectionMultiplexer.GetServer(string, object?)" />
     private async Task<IServer> GetServer()
     {
         ArgumentNullException.ThrowIfNull(factory.Options.Host);
         var connection = await Connection.Value;
-        return connection.GetServer(factory.Options.Host);
+        return connection.GetServer(factory.Options.Server);
     }
 
     private IDisposable? LoggerContext(string key) => logger.BeginScope(new Dictionary<string, object>
@@ -191,4 +211,7 @@ public class RedisDistributedCache(ILogger<RedisDistributedCache> logger, IRedis
     }
 
     private static StackExchange.Redis.When When(When when) => (StackExchange.Redis.When)when;
+
+    [GeneratedRegex(@"[^a-zA-Z0-9\-\|:\*]")]
+    private static partial Regex InvalidCacheKeyPattern();
 }

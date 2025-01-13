@@ -24,6 +24,8 @@ public interface IDistributedCache
     /// <inheritdoc cref="IDatabase.KeyDelete(RedisKey[], CommandFlags)" />
     Task<long> DeleteAsync(params string[] keys);
 
+    Task DeleteAsync(string pattern);
+
     Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter);
 
     /// <inheritdoc cref="IServer.FlushDatabase(int, CommandFlags)" />
