@@ -54,10 +54,13 @@ public class TelemetryService(TelemetryClient telemetryClient) : ITelemetryServi
     }
 }
 
+[ExcludeFromCodeCoverage]
 public abstract record SearchTelemetryCommonProperties(Guid SearchId, string SearchServiceName, string IndexName, string? SearchText, long? ResultCount);
 
+[ExcludeFromCodeCoverage]
 public record SearchTelemetryProperties(Guid SearchId, string SearchServiceName, string IndexName, IList<string> Facets, string? Filter, string? SearchText, long? ResultCount)
     : SearchTelemetryCommonProperties(SearchId, SearchServiceName, IndexName, SearchText, ResultCount);
 
+[ExcludeFromCodeCoverage]
 public record SuggestTelemetryProperties(Guid SearchId, string SearchServiceName, string IndexName, string? SuggesterName, IList<string> Fields, string? Filter, string? SearchText, long? ResultCount)
     : SearchTelemetryCommonProperties(SearchId, SearchServiceName, IndexName, SearchText, ResultCount);

@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Platform.Sql.QueryBuilders;
+
 namespace Platform.Sql;
 
 [ExcludeFromCodeCoverage]
@@ -47,8 +49,15 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         => connection.QueryAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
+    public Task<IEnumerable<T>> QueryAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default)
+        => connection.QueryAsync<T>(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken));
+
+
     public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         => connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
+
+    public Task<T?> QueryFirstOrDefaultAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default)
+        => connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken));
 
     public Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         => connection.ExecuteScalarAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
@@ -74,7 +83,7 @@ public interface IDatabaseConnection : IDbConnection
     ///     created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
     /// </returns>
     Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
-
+    Task<IEnumerable<T>> QueryAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
     /// </summary>
@@ -83,7 +92,7 @@ public interface IDatabaseConnection : IDbConnection
     /// <param name="param">The parameters to pass, if any.</param>
     /// <param name="cancellationToken">The cancellation token for this command.</param>
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
-
+    Task<T?> QueryFirstOrDefaultAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
     /// <summary>
     ///     Execute parameterized SQL that selects a single value.
     /// </summary>
