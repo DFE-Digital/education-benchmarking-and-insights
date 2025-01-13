@@ -9,7 +9,8 @@ public class WhenRedisDistributedCacheGetsObject(ITestOutputHelper testOutputHel
 {
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectFromStringTestDataItems =>
     [
-        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", new TestObject("value")),
+        new("key", "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA", new TestObject("value")),
+        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", null),
         new("key", "not base64", null),
         new("key", "bm90IGJzb24=", null)
     ];
