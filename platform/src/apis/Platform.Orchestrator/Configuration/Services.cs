@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Cache.Configuration;
 using Platform.Functions.Extensions;
 using Platform.Orchestrator.Search;
 using Platform.Sql;
@@ -45,5 +46,7 @@ internal static class Services
             x.Name = searchName;
             x.Key = searchKey;
         });
+
+        serviceCollection.AddRedis();
     }
 }

@@ -120,7 +120,10 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "AzureFunctionsJobHost__logging__logLevel__default": "Information",
         "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
         "Search__Name": "s198d01-ebis-search",
-        "Search__Key": "[INSERT KEY VALUE]"
+        "Search__Key": "[INSERT KEY VALUE]",
+        "Cache__Host": "localhost",
+        "Cache__Port": "6379",
+        "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]"
     },
     "Host": {
         "CORS": "*",
