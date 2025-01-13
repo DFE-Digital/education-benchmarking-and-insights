@@ -54,7 +54,7 @@ public class ExpenditureNationalAveFunctions(
 
             var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token);
             return years == null
-                ? req.CreateNotFoundResponse()
+                ? await req.CreateJsonResponseAsync(new ExpenditureHistoryResponse())
                 : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
         }
     }

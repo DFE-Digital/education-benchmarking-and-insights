@@ -26,7 +26,7 @@ public class CensusNationalAveFunctions(
     [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CensusHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CensusHistoryAvgNationalAsync(
@@ -54,7 +54,7 @@ public class CensusNationalAveFunctions(
 
             var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType, queryParams.Dimension, token);
             return years == null
-                ? req.CreateNotFoundResponse()
+                ? await req.CreateJsonResponseAsync(new CensusHistoryResponse())
                 : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
 
         }
