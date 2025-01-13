@@ -9,31 +9,39 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
 {
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectFromCacheWhenPresentDataItems =>
     [
-        new("key", "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA", new TestObject("Lookup"), new TestObject("value"))
+        new("key", "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA", new TestObject("Lookup"), new TestObject("value"), CacheValueEncoding.Bson),
+        new("key", "{\"Data\":{\"Value\":\"value\"}}", new TestObject("Lookup"), new TestObject("value"), CacheValueEncoding.Json)
     ];
 
     public static TheoryData<ShouldReturnExpectedCollectionValueFromCacheTestData> ShouldReturnCollectionObjectFromCacheWhenPresentDataItems =>
     [
-        new("key", "KQAAAAREYXRhAB4AAAADMAAWAAAAAlZhbHVlAAYAAAB2YWx1ZQAAAAA=", [new TestObject("Lookup")], [new TestObject("value")])
+        new("key", "KQAAAAREYXRhAB4AAAADMAAWAAAAAlZhbHVlAAYAAAB2YWx1ZQAAAAA=", [new TestObject("Lookup")], [new TestObject("value")], CacheValueEncoding.Bson),
+        new("key", "{\"Data\":[{\"Value\":\"value\"}]}", [new TestObject("Lookup")], [new TestObject("value")], CacheValueEncoding.Json)
     ];
 
     public static TheoryData<ShouldReturnExpectedValueFromCacheTestData> ShouldReturnObjectGetterTestDataItems =>
     [
-        new("key", null, new TestObject("Lookup"), new TestObject("Lookup")),
-        new("key", "not base64", new TestObject("Lookup"), new TestObject("Lookup")),
-        new("key", "bm90IGJzb24=", new TestObject("Lookup"), new TestObject("Lookup")),
-        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", new TestObject("Lookup"), new TestObject("Lookup"))
+        new("key", null, new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Bson),
+        new("key", "not base64", new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Bson),
+        new("key", "bm90IGJzb24=", new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Bson),
+        new("key", "FgAAAAJWYWx1ZQAGAAAAdmFsdWUAAA==", new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Bson),
+        new("key", null, new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Json),
+        new("key", "not json", new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Json),
+        new("key", "{}", new TestObject("Lookup"), new TestObject("Lookup"), CacheValueEncoding.Json)
     ];
 
     public static TheoryData<ShouldSetValueInCacheTestData> ShouldSetObjectTestDataItems =>
     [
-        new("key", null, new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA=="),
+        new("key", null, new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
         new("key", null, new[]
         {
             new TestObject("Lookup")
-        }, "KgAAAAREYXRhAB8AAAADMAAXAAAAAlZhbHVlAAcAAABMb29rdXAAAAAA"),
-        new("key", "not base64", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA=="),
-        new("key", "bm90IGJzb24=", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==")
+        }, "KgAAAAREYXRhAB8AAAADMAAXAAAAAlZhbHVlAAcAAABMb29rdXAAAAAA", CacheValueEncoding.Bson),
+        new("key", "not base64", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
+        new("key", "bm90IGJzb24=", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
+        new("key", null, new TestObject("Lookup"), "{\"Data\":{\"Value\":\"Lookup\"}}", CacheValueEncoding.Json),
+        new("key", "not json", new TestObject("Lookup"), "{\"Data\":{\"Value\":\"Lookup\"}}", CacheValueEncoding.Json),
+        new("key", "{}", new TestObject("Lookup"), "{\"Data\":{\"Value\":\"Lookup\"}}", CacheValueEncoding.Json)
     ];
 
     [Theory]
@@ -42,10 +50,10 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
     {
         Database
             .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
-            .ReturnsAsync(input.Bson)
+            .ReturnsAsync(input.Encoded)
             .Verifiable(Times.Once);
 
-        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup));
+        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup), input.CacheValueEncoding);
 
         Database.Verify();
         Assert.Equal(input.ExpectedValue, actual);
@@ -57,10 +65,10 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
     {
         Database
             .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
-            .ReturnsAsync(input.Bson)
+            .ReturnsAsync(input.Encoded)
             .Verifiable(Times.Once);
 
-        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup));
+        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup), input.CacheValueEncoding);
 
         Database.Verify();
         Assert.Equal(input.ExpectedValue, actual);
@@ -72,10 +80,10 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
     {
         Database
             .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
-            .ReturnsAsync(input.Bson)
+            .ReturnsAsync(input.Encoded)
             .Verifiable(Times.Once);
 
-        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup));
+        var actual = await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup), input.CacheValueEncoding);
 
         Database.Verify();
         Assert.Equal(input.ExpectedValue, actual);
@@ -87,17 +95,22 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
     {
         Database
             .Setup(d => d.StringGetAsync(input.Key, CommandFlags.None))
-            .ReturnsAsync(input.Bson)
+            .ReturnsAsync(input.Encoded)
             .Verifiable(Times.Once);
 
+        var actualEncoded = string.Empty;
         Database
-            .Setup(d => d.StringSetAsync(input.Key, input.ExpectedBson, null, false, StackExchange.Redis.When.NotExists, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(input.Key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.NotExists, CommandFlags.None))
             .ReturnsAsync(true)
-            .Verifiable(Times.Once);
+            .Callback<RedisKey, RedisValue, TimeSpan?, bool, StackExchange.Redis.When, CommandFlags>((_, value, _, _, _, _) =>
+            {
+                actualEncoded = value;
+            }).Verifiable(Times.Once);
 
-        await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup));
+        await Cache.GetSetAsync(input.Key, () => Task.FromResult(input.Lookup), input.CacheValueEncoding);
 
         Database.Verify();
+        Assert.Equal(input.ExpectedEncoded, actualEncoded);
     }
 
     [Fact]
@@ -115,11 +128,11 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
         Assert.NotNull(actual);
     }
 
-    public record ShouldReturnExpectedValueFromCacheTestData(string Key, string? Bson, TestObject Lookup, TestObject? ExpectedValue);
+    public record ShouldReturnExpectedValueFromCacheTestData(string Key, string? Encoded, TestObject Lookup, TestObject? ExpectedValue, CacheValueEncoding CacheValueEncoding);
 
-    public record ShouldReturnExpectedCollectionValueFromCacheTestData(string Key, string? Bson, IEnumerable<TestObject> Lookup, IEnumerable<TestObject>? ExpectedValue);
+    public record ShouldReturnExpectedCollectionValueFromCacheTestData(string Key, string? Encoded, IEnumerable<TestObject> Lookup, IEnumerable<TestObject>? ExpectedValue, CacheValueEncoding CacheValueEncoding);
 
-    public record ShouldSetValueInCacheTestData(string Key, string? Bson, object Lookup, string ExpectedBson);
+    public record ShouldSetValueInCacheTestData(string Key, string? Encoded, object Lookup, string ExpectedEncoded, CacheValueEncoding CacheValueEncoding);
 
     public record TestObject(string Value);
 }

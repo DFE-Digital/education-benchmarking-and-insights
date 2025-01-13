@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
@@ -54,24 +55,28 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
         }
     }
 
-    public async Task<T?> GetAsync<T>(string key)
+    public async Task<T?> GetAsync<T>(string key, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json)
     {
         using (LoggerContext(key))
         {
             var result = await GetStringAsync(key);
-            return string.IsNullOrWhiteSpace(result) ? default : FromBson<T>(result);
+            return string.IsNullOrWhiteSpace(result)
+                ? default
+                : cacheValueEncoding == CacheValueEncoding.Bson
+                    ? FromBson<T>(result)
+                    : FromJson<T>(result);
         }
     }
 
-    public async Task<bool> SetAsync<T>(string key, T value, When when = Cache.When.Always)
+    public async Task<bool> SetAsync<T>(string key, T value, When when = Cache.When.Always, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json)
     {
         using (LoggerContext(key))
         {
-            return await SetStringAsync(key, ToBson(value), when);
+            return await SetStringAsync(key, cacheValueEncoding == CacheValueEncoding.Bson ? ToBson(value) : ToJson(value), when);
         }
     }
 
-    public async Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values, When when = Cache.When.Always)
+    public async Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values, When when = Cache.When.Always, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json)
     {
         var filteredValues = values
             .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key))
@@ -80,7 +85,7 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
         using (LoggerContext(string.Join(",", filteredValues.Select(v => v.Key))))
         {
             return await SetStringsAsync(filteredValues
-                .Select(kvp => new KeyValuePair<string, string>(kvp.Key, ToBson(kvp.Value)))
+                .Select(kvp => new KeyValuePair<string, string>(kvp.Key, cacheValueEncoding == CacheValueEncoding.Bson ? ToBson(kvp.Value) : ToJson(kvp.Value)))
                 .ToArray(), when);
         }
     }
@@ -122,11 +127,11 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
         }
     }
 
-    public async Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter)
+    public async Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json)
     {
         using (LoggerContext(key))
         {
-            var cached = await GetAsync<T>(key);
+            var cached = await GetAsync<T>(key, cacheValueEncoding);
             if (!EqualityComparer<T>.Default.Equals(cached, default))
             {
                 logger.LogDebug("Returning cached object for {Key} from Redis", key);
@@ -135,7 +140,7 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
 
             logger.LogDebug("Cached object for {Key} not found or `null`, so executing getter", key);
             var result = await getter();
-            await SetAsync(key, result, Cache.When.NotExists);
+            await SetAsync(key, result, Cache.When.NotExists, cacheValueEncoding);
             return result;
         }
     }
@@ -185,6 +190,19 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
         return Convert.ToBase64String(ms.ToArray());
     }
 
+    private static string ToJson<T>(T value)
+    {
+        var data = new CacheData<T>(value);
+
+        using var ms = new MemoryStream();
+        using var streamWriter = new StreamWriter(ms);
+        using var dataWriter = new JsonTextWriter(streamWriter);
+        var serializer = new JsonSerializer();
+        serializer.Serialize(dataWriter, data);
+        streamWriter.Flush();
+        return Encoding.ASCII.GetString(ms.ToArray());
+    }
+
     private T? FromBson<T>(string base64data)
     {
         var data = new byte[base64data.Length];
@@ -196,7 +214,11 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
 
         using var ms = new MemoryStream(data);
         using var reader = new BsonDataReader(ms);
-        var serializer = new JsonSerializer();
+        reader.FloatParseHandling = FloatParseHandling.Decimal;
+        var serializer = new JsonSerializer
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
 
         try
         {
@@ -206,6 +228,29 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
         catch (Exception ex)
         {
             logger.LogWarning("Cached value was not valid Bson. {Message}", ex.Message);
+            return default;
+        }
+    }
+
+    private T? FromJson<T>(string jsonData)
+    {
+        var data = Encoding.ASCII.GetBytes(jsonData);
+        using var ms = new MemoryStream(data);
+        using var streamReader = new StreamReader(ms);
+        using var reader = new JsonTextReader(streamReader);
+        var serializer = new JsonSerializer
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
+
+        try
+        {
+            var cached = serializer.Deserialize<CacheData<T>>(reader);
+            return cached == null ? default : cached.Data;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("Cached value was not valid Json. {Message}", ex.Message);
             return default;
         }
     }
