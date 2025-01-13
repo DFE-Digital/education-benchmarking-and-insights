@@ -99,9 +99,9 @@ public class ExpenditureSchoolDefaultQuery(string dimension) : PlatformQuery(Get
         return dimension switch
         {
             Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit /**where**/",
+            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit /**where**/",
+            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure /**where**/",
+            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

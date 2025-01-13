@@ -191,9 +191,9 @@ public class ExpenditureSchoolDefaultQueryTests
     public static TheoryData<string, string> Data => new()
     {
         { "Actuals", "SELECT * FROM VW_ExpenditureSchoolDefaultActual " },
-        { "PerUnit", "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure " },
-        { "PercentExpenditure", "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome " },
-        { "PercentIncome", "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit " }
+        { "PerUnit", "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit " },
+        { "PercentExpenditure", "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure " },
+        { "PercentIncome", "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome " }
     };
 
     private static ExpenditureSchoolDefaultQuery Create(string dimension) => new(dimension);
