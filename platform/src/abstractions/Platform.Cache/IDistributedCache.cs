@@ -15,18 +15,18 @@ public interface IDistributedCache
     ///     cref="IDatabase.StringSet(KeyValuePair&lt;RedisKey, RedisValue&gt;[], StackExchange.Redis.When, CommandFlags)" />
     Task<bool> SetStringsAsync(KeyValuePair<string, string>[] values, When when = When.Always);
 
-    Task<T?> GetAsync<T>(string key);
+    Task<T?> GetAsync<T>(string key, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json);
 
-    Task<bool> SetAsync<T>(string key, T value, When when = When.Always);
+    Task<bool> SetAsync<T>(string key, T value, When when = When.Always, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json);
 
-    Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values, When when = When.Always);
+    Task<bool> SetAsync<T>(KeyValuePair<string, T>[] values, When when = When.Always, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json);
 
     /// <inheritdoc cref="IDatabase.KeyDelete(RedisKey[], CommandFlags)" />
     Task<long> DeleteAsync(params string[] keys);
 
     Task DeleteAsync(string pattern);
 
-    Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter);
+    Task<T> GetSetAsync<T>(string key, Func<Task<T>> getter, CacheValueEncoding cacheValueEncoding = CacheValueEncoding.Json);
 
     /// <inheritdoc cref="IServer.FlushDatabase(int, CommandFlags)" />
     Task FlushAsync();
@@ -48,4 +48,10 @@ public enum When
     ///     The operation should only occur when there is not an existing value.
     /// </summary>
     NotExists
+}
+
+public enum CacheValueEncoding
+{
+    Json,
+    Bson
 }

@@ -9,7 +9,8 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
 {
     public static TheoryData<ShouldSetValuesInCacheTestData> ShouldReturnObjectFromStringTestDataItems =>
     [
-        new([("key", new TestObject("value"), "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA")])
+        new([("key", new TestObject("value"), "IQAAAANEYXRhABYAAAACVmFsdWUABgAAAHZhbHVlAAAA")], CacheValueEncoding.Bson),
+        new([("key", new TestObject("value"), "{\"Data\":{\"Value\":\"value\"}}")], CacheValueEncoding.Json)
     ];
 
     [Theory]
@@ -29,10 +30,10 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
         var values = input.Values
             .Select(v => new KeyValuePair<string, TestObject>(v.Key, v.Value))
             .ToArray();
-        var actual = await Cache.SetAsync(values);
+        var actual = await Cache.SetAsync(values, When.Always, input.CacheValueEncoding);
 
         var expectedValues = input.Values
-            .Select(v => new KeyValuePair<RedisKey, RedisValue>(v.Key, v.ExpectedBson))
+            .Select(v => new KeyValuePair<RedisKey, RedisValue>(v.Key, v.ExpectedEncoded))
             .ToArray();
 
         Database.Verify();
@@ -56,7 +57,7 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
         Assert.NotNull(actual);
     }
 
-    public record ShouldSetValuesInCacheTestData((string Key, TestObject Value, string ExpectedBson)[] Values);
+    public record ShouldSetValuesInCacheTestData((string Key, TestObject Value, string ExpectedEncoded)[] Values, CacheValueEncoding CacheValueEncoding);
 
     public record TestObject(string Value);
 }
