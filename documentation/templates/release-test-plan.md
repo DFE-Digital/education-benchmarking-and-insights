@@ -21,10 +21,11 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 ## Scope
 >
 >[!NOTE]
->In-scope list should include a link to the ADO ticket.
+>In-scope lists/describes the scope of testing. This shouldn't simply be a list of items from the sprint.
 >Ticket title may be adequate to describe the feature/enhancement/bug fix,
->however if it doesn't than a meaning title should be added here.
->
+>however if it doesn't than a meaning title should be added here. 
+> Link to the ADO ticket should be included in the notes.
+> 
 >Out-of-scope list any other areas that are explicitly out of scope.
 
 **In-scope:**
