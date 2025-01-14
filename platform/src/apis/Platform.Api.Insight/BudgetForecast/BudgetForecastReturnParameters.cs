@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Platform.Domain.Messages;
 using Platform.Functions;
-using Platform.Functions.Messages;
+
 namespace Platform.Api.Insight.BudgetForecast;
 
 public record BudgetForecastReturnParameters : QueryParameters

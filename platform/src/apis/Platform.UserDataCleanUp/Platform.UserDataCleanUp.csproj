@@ -24,9 +24,13 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker" />
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" />
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+    </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
 </Project>

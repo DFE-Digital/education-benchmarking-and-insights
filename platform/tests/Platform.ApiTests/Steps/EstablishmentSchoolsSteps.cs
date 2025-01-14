@@ -5,6 +5,7 @@ using Platform.Api.Establishment.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
+using Platform.Json;
 using Platform.Search.Responses;
 namespace Platform.ApiTests.Steps;
 

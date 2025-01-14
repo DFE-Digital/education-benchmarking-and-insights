@@ -4,6 +4,7 @@ using FluentAssertions;
 using Platform.Api.Benchmark.FinancialPlans;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+using Platform.Json;
 using Xunit;
 namespace Platform.ApiTests.Steps;
 

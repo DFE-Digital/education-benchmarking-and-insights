@@ -13,5 +13,7 @@ public static class RagRating
         Green
     ];
 
+    
+    //TODO: Add unit test coverage
     public static bool IsValid(string? ragRating) => All.Any(a => a.Equals(ragRating, StringComparison.OrdinalIgnoreCase));
 }

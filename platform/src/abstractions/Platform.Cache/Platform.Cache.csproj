@@ -14,5 +14,4 @@
         <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="Newtonsoft.Json.Bson"/>
     </ItemGroup>
-
 </Project>

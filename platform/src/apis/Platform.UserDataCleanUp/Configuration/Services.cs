@@ -5,6 +5,7 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
+using Platform.Json;
 using Platform.Sql;
 namespace Platform.UserDataCleanUp.Configuration;
 
@@ -30,6 +31,6 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 }

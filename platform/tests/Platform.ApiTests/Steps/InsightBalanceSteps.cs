@@ -4,6 +4,8 @@ using Platform.Api.Insight.Balance;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+using Platform.Json;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]

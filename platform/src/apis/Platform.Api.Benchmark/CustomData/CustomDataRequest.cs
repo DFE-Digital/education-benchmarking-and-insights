@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
-using Platform.Functions.Messages;
+using Platform.Json;
+
 namespace Platform.Api.Benchmark.CustomData;
 
 [ExcludeFromCodeCoverage]

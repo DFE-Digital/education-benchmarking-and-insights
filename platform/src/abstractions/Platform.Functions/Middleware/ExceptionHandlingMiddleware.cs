@@ -7,7 +7,7 @@ using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Platform.Functions.Extensions;
-[assembly: InternalsVisibleTo("Platform.Tests")]
+[assembly: InternalsVisibleTo("Platform.Functions.Tests")]
 // ReSharper disable ClassNeverInstantiated.Global
 namespace Platform.Functions.Middleware;
 

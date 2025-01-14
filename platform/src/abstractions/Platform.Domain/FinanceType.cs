@@ -11,5 +11,7 @@ public static class FinanceType
         Maintained
     ];
 
+    
+    //TODO: Add unit test coverage
     public static bool IsValid(string? type) => All.Any(a => a.Equals(type, StringComparison.OrdinalIgnoreCase));
 }

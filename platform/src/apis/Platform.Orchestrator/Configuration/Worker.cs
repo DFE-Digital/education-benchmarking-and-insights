@@ -2,6 +2,8 @@
 using Azure.Core.Serialization;
 using Microsoft.Azure.Functions.Worker;
 using Platform.Functions.Extensions;
+using Platform.Json;
+
 namespace Platform.Orchestrator.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -13,6 +15,6 @@ internal static class Worker
 
     internal static void Options(WorkerOptions options)
     {
-        options.Serializer = new NewtonsoftJsonObjectSerializer(JsonExtensions.Settings);
+        options.Serializer = new NewtonsoftJsonObjectSerializer(NewtonsoftJsonExtensions.Settings);
     }
 }

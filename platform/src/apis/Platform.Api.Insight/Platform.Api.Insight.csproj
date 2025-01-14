@@ -30,6 +30,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
     <ItemGroup>

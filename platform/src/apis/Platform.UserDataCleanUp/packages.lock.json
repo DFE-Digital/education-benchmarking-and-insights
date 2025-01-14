@@ -717,11 +717,6 @@
         "resolved": "2.2.0",
         "contentHash": "gA8H7uQOnM5gb+L0uTNjViHYr+hRDqCdfugheGo/MxQnuHzmhhzCBTIPm19qL1z1Xe0NEMabfcOBGv9QghlZ8g=="
       },
-      "Microsoft.Extensions.Primitives": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "N3qEBzmLMYiASUlKxxFIISP4AiwuPTHF5uCh+2CWSwwzAJiIYx0kBJsS30cp1nvhSySFAVi30jecD307jV+8Kg=="
-      },
       "Microsoft.Identity.Client": {
         "type": "Transitive",
         "resolved": "4.61.3",
@@ -1830,13 +1825,16 @@
         }
       },
       "platform.domain": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "JsonSubTypes": "[2.0.1, )",
+          "Newtonsoft.Json": "[13.0.3, )"
+        }
       },
       "platform.functions": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.11.0, )",
-          "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.0.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
@@ -1845,7 +1843,12 @@
           "Microsoft.Extensions.Configuration.Binder": "[9.0.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.0, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.0, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.0, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.0, )"
+        }
+      },
+      "platform.json": {
+        "type": "Project",
+        "dependencies": {
           "Newtonsoft.Json": "[13.0.3, )"
         }
       },
@@ -2068,6 +2071,12 @@
           "Microsoft.Extensions.Options": "9.0.0",
           "Microsoft.Extensions.Primitives": "9.0.0"
         }
+      },
+      "Microsoft.Extensions.Primitives": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "N3qEBzmLMYiASUlKxxFIISP4AiwuPTHF5uCh+2CWSwwzAJiIYx0kBJsS30cp1nvhSySFAVi30jecD307jV+8Kg=="
       },
       "Newtonsoft.Json": {
         "type": "CentralTransitive",

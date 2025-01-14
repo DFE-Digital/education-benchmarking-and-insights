@@ -10,7 +10,6 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
         <PackageReference Include="FluentValidation"/>
-        <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.Azure.Core.NewtonsoftJson">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
@@ -28,9 +27,6 @@
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
-            <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
-        <PackageReference Include="Newtonsoft.Json">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
     </ItemGroup>

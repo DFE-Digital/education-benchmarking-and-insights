@@ -6,7 +6,8 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <RunSettingsFilePath>$(MSBuildProjectDirectory)\..\coverlet.runsettings</RunSettingsFilePath>
+        <IsTestProject>true</IsTestProject>
+        <RunSettingsFilePath>$(MSBuildProjectDirectory)\..\..\..\..\tests\coverlet.runsettings</RunSettingsFilePath>
     </PropertyGroup>
 
     <ItemGroup>

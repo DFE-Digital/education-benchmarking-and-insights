@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Functions.Messages;
+using Platform.Domain.Messages;
 using Platform.Sql;
 namespace Platform.Api.Insight.MetricRagRatings;
 

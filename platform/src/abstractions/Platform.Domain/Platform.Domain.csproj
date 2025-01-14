@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="JsonSubTypes" />
+      <PackageReference Include="Newtonsoft.Json" />
+    </ItemGroup>
+
 </Project>

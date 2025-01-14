@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using StackExchange.Redis;
+
 namespace Platform.Cache;
 
 /// <remarks>

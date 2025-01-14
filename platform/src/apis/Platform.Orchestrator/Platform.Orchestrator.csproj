@@ -33,6 +33,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer"/>
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
     <ItemGroup>

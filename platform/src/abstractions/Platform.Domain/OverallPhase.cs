@@ -25,5 +25,7 @@ public static class OverallPhase
         UniversityTechnicalCollege
     ];
 
+    
+    //TODO: Add unit test coverage
     public static bool IsValid(string? overallPhase) => All.Any(a => a.Equals(overallPhase, StringComparison.OrdinalIgnoreCase));
 }

@@ -25,5 +25,6 @@ public static class CostCategory
         Other
     ];
 
+    //TODO: Add unit test coverage
     public static bool IsValid(string? category) => All.Any(a => a.Equals(category, StringComparison.OrdinalIgnoreCase));
 }

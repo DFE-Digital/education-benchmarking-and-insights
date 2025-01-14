@@ -6,6 +6,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Cache.Configuration;
 using Platform.Functions.Extensions;
+using Platform.Json;
 using Platform.Orchestrator.Search;
 using Platform.Sql;
 namespace Platform.Orchestrator.Configuration;
@@ -39,7 +40,7 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
 
         serviceCollection.AddOptions<PipelineSearchOptions>().Configure(x =>
         {

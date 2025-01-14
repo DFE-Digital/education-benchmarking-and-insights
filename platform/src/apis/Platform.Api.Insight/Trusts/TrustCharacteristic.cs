@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Platform.Functions.Extensions;
+using Platform.Json;
+
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.Api.Insight.Trusts;

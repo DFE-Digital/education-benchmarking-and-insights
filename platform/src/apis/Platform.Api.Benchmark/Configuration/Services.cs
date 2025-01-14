@@ -9,8 +9,9 @@ using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.CustomData;
 using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Api.Benchmark.UserData;
-using Platform.Functions.Extensions;
+using Platform.Json;
 using Platform.Sql;
+
 namespace Platform.Api.Benchmark.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -46,6 +47,6 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 }

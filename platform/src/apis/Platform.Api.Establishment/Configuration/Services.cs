@@ -12,13 +12,14 @@ using Platform.Api.Establishment.Comparators;
 using Platform.Api.Establishment.LocalAuthorities;
 using Platform.Api.Establishment.Schools;
 using Platform.Api.Establishment.Trusts;
-using Platform.Functions.Extensions;
 using Platform.Infrastructure;
+using Platform.Json;
 using Platform.Search;
 using Platform.Search.Requests;
 using Platform.Search.Telemetry;
 using Platform.Search.Validators;
 using Platform.Sql;
+
 namespace Platform.Api.Establishment.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -88,7 +89,7 @@ internal static class Services
         serviceCollection
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
 
-        serviceCollection.Configure<JsonSerializerOptions>(JsonExtensions.Options);
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 
     internal static class ServiceKeys

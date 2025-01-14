@@ -7,16 +7,17 @@ using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
 using Platform.Cache;
-using Platform.Functions.Extensions;
-using Platform.Functions.Messages;
+using Platform.Domain.Messages;
+using Platform.Json;
 using Platform.Orchestrator.Search;
+
 namespace Platform.Orchestrator;
 
 public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db, IPipelineSearch search, IDistributedCache cache)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
-        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelinePendingMessage message,
+        [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelinePending message,
         [DurableClient] DurableTaskClient client)
     {
         try
@@ -58,7 +59,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
                        }
                    }))
             {
-                var job = message.FromJson<PipelineFinishMessage>();
+                var job = message.FromJson<PipelineFinish>();
                 await db.WriteToLog(job.JobId, message);
 
                 if (!string.IsNullOrEmpty(job.JobId))
@@ -78,7 +79,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly")]
     public async Task PipelineJobOrchestrator([OrchestrationTrigger] TaskOrchestrationContext context)
     {
-        var input = context.GetInput<PipelinePendingMessage>();
+        var input = context.GetInput<PipelinePending>();
         switch (input?.Type)
         {
             case PipelineJobType.ComparatorSet:
@@ -89,13 +90,13 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
                 await OrchestrateDefaultMessage(context, input);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(PipelinePendingMessage.Type));
+                throw new ArgumentOutOfRangeException(nameof(PipelinePending.Type));
         }
     }
 
-    private async Task OrchestrateDefaultMessage(TaskOrchestrationContext context, PipelinePendingMessage input)
+    private async Task OrchestrateDefaultMessage(TaskOrchestrationContext context, PipelinePending input)
     {
-        var message = PipelineStartDefaultMessage.FromPending(input);
+        var message = PipelineStartDefault.FromPending(input);
         await context.CallActivityAsync(nameof(OnStartDefaultJobTrigger), message);
 
         logger.LogInformation("Waiting for finished event for default message {JobId}", message.JobId);
@@ -115,9 +116,9 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
         });
     }
 
-    private async Task OrchestrateCustomMessage(TaskOrchestrationContext context, PipelinePendingMessage input)
+    private async Task OrchestrateCustomMessage(TaskOrchestrationContext context, PipelinePending input)
     {
-        var message = PipelineStartCustomMessage.FromPending(input);
+        var message = PipelineStartCustom.FromPending(input);
         await context.CallActivityAsync(nameof(OnStartCustomJobTrigger), message);
 
         logger.LogInformation("Waiting for finished event for custom message {JobId}", message.JobId);
@@ -133,7 +134,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 
     /// <summary>
     ///     Messages on the <c>data-pipeline-job-default-start</c> queue should already have been scheduled in the Orchestrator
-    ///     and thus have a <see cref="PipelineStartMessage.JobId">JobId</see> in the payload. Without this property the
+    ///     and thus have a <see cref="PipelineStart.JobId">JobId</see> in the payload. Without this property the
     ///     Orchestrator will not raise the 'Finished' event at a later date from a message on the
     ///     <c>data-pipeline-job-finished</c> queue. Messages should therefore be added to the <c>data-pipeline-job-pending</c>
     ///     queue instead of <c>data-pipeline-job-start</c> directly so that this function is triggered to forward the
@@ -141,7 +142,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     /// </summary>
     [Function(nameof(OnStartDefaultJobTrigger))]
     [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-    public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartDefaultMessage message)
+    public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartDefault message)
     {
         logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "default");
         return [message.ToJson()];
@@ -149,7 +150,7 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
 
     [Function(nameof(OnStartCustomJobTrigger))]
     [QueueOutput("%PipelineMessageHub:JobCustomStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-    public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartCustomMessage message)
+    public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartCustom message)
     {
         logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
         return [message.ToJson()];

@@ -3,6 +3,8 @@ using FluentAssertions;
 using Platform.Api.Insight.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
+using Platform.Json;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]

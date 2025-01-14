@@ -7,7 +7,6 @@ namespace Platform.Sql;
 [ExcludeFromCodeCoverage]
 public static class DynamicParametersExtensions
 {
-
     public static Dictionary<string, object> GetTemplateParameters(this object parameters, params string[] names)
     {
         if (parameters is DynamicParameters dynamicParameters)

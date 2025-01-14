@@ -9,8 +9,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
-using Platform.Functions.Messages;
 using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.BudgetForecast;
 

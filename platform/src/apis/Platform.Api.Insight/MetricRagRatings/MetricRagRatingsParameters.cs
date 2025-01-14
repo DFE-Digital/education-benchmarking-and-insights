@@ -5,12 +5,12 @@ namespace Platform.Api.Insight.MetricRagRatings;
 
 public record MetricRagRatingsParameters : QueryParameters
 {
-    public string[] Categories { get; internal set; } = [];
-    public string[] Statuses { get; internal set; } = [];
-    public string[] Urns { get; internal set; } = [];
-    public string? Phase { get; internal set; }
-    public string? CompanyNumber { get; internal set; }
-    public string? LaCode { get; internal set; }
+    public string[] Categories { get; set; } = [];
+    public string[] Statuses { get; set; } = [];
+    public string[] Urns { get; set; } = [];
+    public string? Phase { get; set; }
+    public string? CompanyNumber { get; set; }
+    public string? LaCode { get; set; }
 
     public override void SetValues(IQueryCollection query)
     {

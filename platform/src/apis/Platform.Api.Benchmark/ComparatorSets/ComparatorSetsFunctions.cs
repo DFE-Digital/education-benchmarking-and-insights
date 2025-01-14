@@ -9,9 +9,11 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Api.Benchmark.Responses;
+using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
-using Platform.Functions.Messages;
 using Platform.Functions.OpenApi;
+using Platform.Json;
+
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger,
@@ -211,7 +213,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                         ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
                     var year = await service.CurrentYearAsync();
 
-                    var message = new PipelineStartCustomMessage
+                    var message = new PipelineStartCustom
                     {
                         RunId = comparatorSet.RunId,
                         RunType = comparatorSet.RunType,

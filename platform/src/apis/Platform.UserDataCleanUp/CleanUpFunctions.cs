@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Platform.Functions.Extensions;
+using Platform.Json;
+
 namespace Platform.UserDataCleanUp;
 
 public class CleanUpFunctions(ILogger<CleanUpFunctions> logger, IPlatformDb db)

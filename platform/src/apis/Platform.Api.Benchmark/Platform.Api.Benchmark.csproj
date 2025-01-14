@@ -31,6 +31,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
     <ItemGroup>

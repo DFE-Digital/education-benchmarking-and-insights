@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 namespace Platform.Api.Insight.Income;
 
 [ExcludeFromCodeCoverage]
-internal static class IncomeDimensions
+public static class IncomeDimensions
 {
     public const string Actuals = nameof(Actuals);
     public const string PerUnit = nameof(PerUnit);
@@ -26,7 +26,7 @@ internal static class IncomeDimensions
 }
 
 [ExcludeFromCodeCoverage]
-internal class ExampleIncomeDimension : OpenApiExample<string>
+public class ExampleIncomeDimension : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
     {

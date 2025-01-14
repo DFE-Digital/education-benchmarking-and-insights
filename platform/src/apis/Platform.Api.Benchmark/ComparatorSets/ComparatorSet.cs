@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
-using Platform.Functions.Extensions;
+using Platform.Json;
+
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 [ExcludeFromCodeCoverage]

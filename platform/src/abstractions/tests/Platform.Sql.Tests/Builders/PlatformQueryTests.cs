@@ -11,7 +11,7 @@ public class PlatformQueryTests
         const string expectedParam = "URN";
         const string expectedValue = "12345";
         var expectedSql = BuildExpectedQuery("WHERE URN = @URN");
-
+        
         var builder = new MockPlatformQuery().WhereUrnEqual(expectedValue);
         var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
 
