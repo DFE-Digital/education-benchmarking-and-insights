@@ -15,7 +15,7 @@ failureCriteria:
 - p50(response_time_ms) > 100
 - p95(response_time_ms) > 2000
 - p99(response_time_ms) > 3000
-- percentage(error) > 25
+- percentage(error) > 0.1
 secrets:
 - name: insight-host-key
   value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/insight-host-key
