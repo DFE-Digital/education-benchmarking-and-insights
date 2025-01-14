@@ -141,8 +141,17 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
-      - job: RunApiTests
+      - job: CacheFlush
         dependsOn: [ PlatformDeployment ]
+        displayName: 'Flush cache for API tests'
+        steps:
+          - template: steps\flush-cache.yaml
+            parameters:
+              subscription: 's198d.azdo-deployment'
+              environmentPrefix: 's198d02'
+
+      - job: RunApiTests
+        dependsOn: [ CacheFlush ]
         displayName: 'Run automated api tests'
         steps:
           - template: steps\run-api-tests.yaml

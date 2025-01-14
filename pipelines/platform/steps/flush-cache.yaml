@@ -1,0 +1,16 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+
+steps:
+  - checkout: none
+
+  - download: current
+
+  - task: AzureCLI@1
+    displayName: Flush Redis Cache
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptLocation: inlineScript
+      inlineScript: |
+        (printf "FLUSHALL\r\n"; sleep 10) | nc -v ${{ parameters.environmentPrefix }}-ebis-cache.redis.cache.windows.net 6380
