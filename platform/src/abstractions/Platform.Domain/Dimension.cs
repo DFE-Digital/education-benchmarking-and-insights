@@ -17,7 +17,7 @@ public static class Dimension
             PupilsPerStaffRole
         };
 
-        
+
         //TODO: Add unit test coverage
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
@@ -37,7 +37,7 @@ public static class Dimension
             PercentIncome
         };
 
-        
+
         //TODO: Add unit test coverage
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
