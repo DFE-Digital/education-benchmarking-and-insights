@@ -4,6 +4,7 @@ using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.UserData;
 using Platform.Test;
+
 namespace Platform.Benchmark.Tests;
 
 public class ComparatorSetsFunctionsTestBase : FunctionsTestBase

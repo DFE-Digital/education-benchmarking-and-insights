@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]

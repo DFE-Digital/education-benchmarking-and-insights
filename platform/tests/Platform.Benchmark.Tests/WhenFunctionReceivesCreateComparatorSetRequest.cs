@@ -6,6 +6,7 @@ using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Domain.Messages;
 using Platform.Json;
 using Xunit;
+
 namespace Platform.Benchmark.Tests;
 
 public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunctionsTestBase

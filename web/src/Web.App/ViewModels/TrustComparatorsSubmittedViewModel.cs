@@ -1,5 +1,6 @@
 ﻿using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+
 namespace Web.App.ViewModels;
 
 public class TrustComparatorsSubmittedViewModel(Trust trust, PostComparatorSetUserDefinedRequest request, bool isEdit)
