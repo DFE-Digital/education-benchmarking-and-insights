@@ -213,7 +213,7 @@ public class SpendingCostsPage(IPage page)
             Assert.Equal(expectedValue, actualValue); // Compare values
         }
     }
-    
+
     public async Task IsWarningMessageVisibleForCategory(CostCategoryNames categoryName)
     {
         var warningMessage = categoryName switch
