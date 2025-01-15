@@ -84,6 +84,7 @@ public static class Paths
     public static string SchoolComparatorsCreateByCharacteristic(string? urn) => $"/school/{urn}/comparators/create/by/characteristic";
     public static string SchoolComparatorsCreatePreview(string? urn) => $"/school/{urn}/comparators/create/preview";
     public static string SchoolComparatorsCreateSubmit(string? urn) => $"/school/{urn}/comparators/create/submit";
+    public static string SchoolComparatorsCreateSubmitted(string? urn, bool? isEdit) => $"/school/{urn}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}";
     public static string SchoolComparatorsRevert(string? urn) => $"/school/{urn}/comparators/revert";
 
     public static string TrustComparators(string? companyNumber) => $"/trust/{companyNumber}/comparators";

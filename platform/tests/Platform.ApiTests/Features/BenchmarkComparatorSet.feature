@@ -1,6 +1,6 @@
 ﻿Feature: Benchmark Comparator set Endpoint Testing
 
-    Scenario: Getting a default comparator set's buildings successfully
+    Scenario: Getting a default school comparator set's buildings successfully
         Given I have a valid default comparator set get request for school id '990000'
         When I submit the default comparator set request
         Then the default comparator set result should contain comparator buildings:
@@ -36,7 +36,7 @@
           | 990083 |
           | 990576 |
           
-    Scenario: Getting a default comparator set's pupils successfully
+    Scenario: Getting a default school comparator set's pupils successfully
         Given I have a valid default comparator set get request for school id '990000'
         When I submit the default comparator set request
         Then the default comparator set result should contain comparator pupils:
@@ -72,35 +72,33 @@
           | 990533 |
           | 990086 |
     
-    # skip due to data pipeline dependency
-    @ignore  
-    Scenario: Getting a user defined comparator set's buildings successfully
+    Scenario: Getting a user defined school comparator set successfully
         Given I have a valid user defined comparator set get request for school id '990000' containing:
           | Urn    |  
           | 990683 |
           | 990545 |
           | 990518 |
-        When I submit the user defined comparator set request
-        Then the user defined comparator set result should contain comparator buildings:
+        When I submit the user defined school comparator set request
+        Then the user defined comparator set result should contain comparators:
           | Urn    |  
           | 990683 |
           | 990545 |
           | 990518 |
           | 990000 |
 
-    Scenario: Create a user defined comparator set successfully
+    Scenario: Create a user defined school comparator set successfully
         Given I have a valid user defined comparator set request for school id '990000'
-        When I submit the user defined comparator set request
+        When I submit the user defined school comparator set request
         Then the comparator result should be accepted
 
-    Scenario: Sending a bad user defined comparator set request
+    Scenario: Sending a bad user defined school comparator set request
         Given I have an invalid user defined comparator set request for school id '990000'
-        When I submit the user defined comparator set request
+        When I submit the user defined school comparator set request
         Then the comparator result should be bad request
         
-    Scenario: Deleting a user defined comparator set that does not exist
+    Scenario: Deleting a user defined school comparator set that does not exist
         Given I have an invalid delete user defined comparator set request for school id '990000'
-        When I submit the user defined comparator set request
+        When I submit the user defined school comparator set request
         Then the comparator result should be not found
         
     Scenario: Getting a user defined trust comparator set successfully

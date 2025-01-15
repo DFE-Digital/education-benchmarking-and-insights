@@ -2,7 +2,6 @@ using System.Net;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
 using Xunit;
-
 namespace Platform.Benchmark.Tests;
 
 public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctionsTestBase
@@ -10,7 +9,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task DefaultShouldBeOkOnValidRequest()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetSchool());
 
@@ -24,7 +23,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task DefaultShouldBe500OnError()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
@@ -38,7 +37,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task CustomShouldBeOkOnValidRequest()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetSchool());
 
@@ -52,7 +51,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task CustomShouldBe500OnError()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
@@ -66,7 +65,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task UserDefinedShouldBeOkOnValidRequest()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.UserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetUserDefinedSchool());
 
@@ -80,7 +79,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task UserDefinedShouldBe500OnError()
     {
-        Service
+        ComparatorSetsService
             .Setup(d => d.UserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
@@ -94,7 +93,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task UserDefinedTrustShouldBeOkOnValidRequest()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
@@ -111,7 +110,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task UserDefinedTrustShouldBeNotFoundOnInvalidRequest()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
@@ -128,7 +127,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     [Fact]
     public async Task UserDefinedTrustShould500OnError()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))

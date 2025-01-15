@@ -8,13 +8,13 @@ public class FunctionsTestBase
 {
     protected static HttpRequestData CreateHttpRequestDataWithBody<T>(T item, Dictionary<string, StringValues>? query = null) where T : class
     {
-        var reqMock = MockHttpRequestData.Create(item);
+        var reqMock = MockHttpRequestData.Create(item, query);
         return reqMock;
     }
 
     protected static HttpRequestData CreateHttpRequestData(Dictionary<string, StringValues>? query = null)
     {
-        var reqMock = MockHttpRequestData.Create();
+        var reqMock = MockHttpRequestData.Create(query);
         return reqMock;
     }
 }

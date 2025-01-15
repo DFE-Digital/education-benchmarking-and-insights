@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -12,21 +11,21 @@ namespace Web.App.Controllers.Api;
 public class UserDataProxyController(ILogger<UserDataProxyController> logger, IUserDataService userDataService) : Controller
 {
     [HttpGet]
-    [Route("school/{urn}/{identifier}")]
+    [Route("school/{urn}")]
     [Produces("application/json")]
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> SchoolUserData(string urn, string identifier)
+    public async Task<IActionResult> SchoolUserData(string urn)
     {
         using (logger.BeginScope(new
         {
-            identifier
+            urn
         }))
         {
             try
             {
-                var userSet = await userDataService.GetSchoolComparatorSetAsync(User, identifier, urn);
+                var userSet = await userDataService.GetSchoolComparatorSetActiveAsync(User, urn);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -36,7 +35,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school user data {Id} for {User}", identifier, User.UserId());
+                logger.LogError(e, "An error getting school user data for {User}", User.UserId());
                 return StatusCode(500);
             }
         }

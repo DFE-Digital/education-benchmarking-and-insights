@@ -15,14 +15,16 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
     [InlineData(false)]
     public async Task CanDisplay(bool isEdit)
     {
-        var page = await SetupNavigateInitPage(isEdit);
+        const string urn = "12345";
+        var page = await SetupNavigateInitPage(urn, isEdit);
         AssertPageLayout(page, isEdit);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorsCreateSubmitted(urn, isEdit).ToAbsolute());
     }
 
-    private async Task<IHtmlDocument> SetupNavigateInitPage(bool isEdit)
+    private async Task<IHtmlDocument> SetupNavigateInitPage(string urn, bool isEdit)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, urn)
             .Create();
 
         var key = SessionKeys.ComparatorSetUserDefined(school.URN!);
@@ -38,8 +40,7 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
         };
 
         var page = await Client.SetupEstablishment(school)
-            .SetupSchoolInsight(new[]
-            {
+            .SetupSchoolInsight([
                 new SchoolCharacteristic
                 {
                     URN = "114504",
@@ -47,7 +48,7 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
                     OverallPhase = "Primary",
                     Address = "Forest Row, RH18 5EB"
                 }
-            })
+            ])
             .SetupComparatorSetApi()
             .SetupHttpContextAccessor(sessionState)
             .Navigate(Paths.SchoolComparatorsCreateSubmit(school.URN));

@@ -220,7 +220,7 @@ public class TrustComparatorsCreateByController(
 
                 var isEdit = !string.IsNullOrEmpty(userDefinedSet.RunId);
 
-                var request = new PutComparatorSetUserDefinedRequest
+                var request = new PostComparatorSetUserDefinedRequest
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
                     Set = userDefinedSet.Set,

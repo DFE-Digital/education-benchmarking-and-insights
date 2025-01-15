@@ -421,8 +421,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupComparatorSetApi()
     {
         ComparatorApi.Reset();
-        ComparatorSetApi.Setup(api => api.UpsertUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
-        ComparatorSetApi.Setup(api => api.UpsertUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
+        ComparatorSetApi.Setup(api => api.UpsertUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<PostComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
+        ComparatorSetApi.Setup(api => api.UpsertUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<PostComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
         ComparatorSetApi.Setup(api => api.RemoveUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         ComparatorSetApi.Setup(api => api.RemoveUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         return this;

@@ -2,7 +2,6 @@ using System.Net;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
 using Xunit;
-
 namespace Platform.Benchmark.Tests;
 
 public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunctionsTestBase
@@ -10,13 +9,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedShouldRemoveSuccessfully()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedSchoolAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetUserDefinedSchool());
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
@@ -26,7 +25,7 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Service.Verify(
+        ComparatorSetsService.Verify(
             x => x.DeleteSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Once());
     }
@@ -34,13 +33,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedShouldBeNotFoundWhenInvalid()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedSchoolAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((ComparatorSetUserDefinedSchool?)null);
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
@@ -50,7 +49,7 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Service.Verify(
+        ComparatorSetsService.Verify(
             x => x.DeleteSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Never());
     }
@@ -58,13 +57,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedShouldBe500OnError()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedSchoolAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
@@ -80,13 +79,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedTrustShouldRemoveSuccessfully()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSetUserDefinedTrust());
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteTrustAsync(
                     It.IsAny<ComparatorSetUserDefinedTrust>()));
@@ -96,7 +95,7 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Service.Verify(
+        ComparatorSetsService.Verify(
             x => x.DeleteTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Once);
     }
@@ -104,13 +103,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedTrustShouldBeNotFound()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((ComparatorSetUserDefinedTrust?)null);
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteTrustAsync(
                     It.IsAny<ComparatorSetUserDefinedTrust>()));
@@ -120,7 +119,7 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Service.Verify(
+        ComparatorSetsService.Verify(
             x => x.DeleteTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Never);
     }
@@ -128,13 +127,13 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task RemoveUserDefinedTrustShouldError()
     {
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.UserDefinedTrustAsync(
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
-        Service
+        ComparatorSetsService
             .Setup(
                 d => d.DeleteTrustAsync(
                     It.IsAny<ComparatorSetUserDefinedTrust>()));
@@ -144,7 +143,7 @@ public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-        Service.Verify(
+        ComparatorSetsService.Verify(
             x => x.DeleteTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Never);
     }

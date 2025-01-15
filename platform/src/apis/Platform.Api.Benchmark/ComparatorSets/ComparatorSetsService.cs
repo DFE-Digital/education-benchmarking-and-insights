@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
@@ -14,6 +15,7 @@ public interface IComparatorSetsService
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default);
     Task UpsertUserDataAsync(ComparatorSetUserData userData);
+    Task UpsertUserDataActiveAsync(ComparatorSetUserData userData);
     Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
     Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default);
@@ -108,6 +110,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedSchool>(sql, parameters);
     }
 
+    // todo: deprecate once all consumers switched to use 'Active' logic
     public async Task UpsertUserDataAsync(ComparatorSetUserData userData)
     {
         const string sql = "SELECT * from UserData where Id = @Id";
@@ -135,9 +138,39 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
+    public async Task UpsertUserDataActiveAsync(ComparatorSetUserData userData)
+    {
+        const string sql = "SELECT * from UserData where OrganisationId = @OrganisationId AND OrganisationType = @OrganisationType AND Type = @Type AND UserId = @UserId";
+
+        var parameters = new
+        {
+            userData.OrganisationId,
+            userData.OrganisationType,
+            userData.Type,
+            userData.UserId
+        };
+
+        using var conn = await _dbFactory.GetConnection();
+        using var transaction = conn.BeginTransaction();
+
+        // mark all existing user data for this type and ID as Active = false
+        var existing = await conn.QueryAsync<ComparatorSetUserData>(sql, parameters, transaction);
+        foreach (var item in existing)
+        {
+            item.Active = false;
+            await conn.UpdateAsync(item, transaction);
+        }
+
+        // insert new user data with Active = true
+        userData.Id ??= Guid.NewGuid().ToString();
+        userData.Active = true;
+        await conn.InsertAsync(userData, transaction);
+        transaction.Commit();
+    }
+
     public async Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet)
     {
-        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
+        const string sql = "UPDATE UserData SET Status = 'removed', Active = 0 where Id = @Id";
         var parameters = new
         {
             Id = comparatorSet.RunId
