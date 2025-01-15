@@ -193,7 +193,7 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var userData = (await userDataService.QueryAsync([userId], "comparator-set", null, null, urn, "school", true)).ToArray();
+                var userData = (await userDataService.QueryAsync([userId], "comparator-set", null, null, urn, "school")).ToArray();
                 switch (userData.Length)
                 {
                     case 0:

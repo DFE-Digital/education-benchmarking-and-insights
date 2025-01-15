@@ -23,7 +23,6 @@ public class UserDataFunctions(ILogger<UserDataFunctions> logger, IUserDataServi
     [OpenApiParameter("organisationId", In = ParameterLocation.Query, Description = "Organisation Id", Type = typeof(string), Required = false)]
     [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataStatus))]
     [OpenApiParameter("id", In = ParameterLocation.Query, Description = "Identifier", Type = typeof(string), Required = false)]
-    [OpenApiParameter("active", In = ParameterLocation.Query, Description = "Whether user data is marked as active", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<UserData>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -51,8 +50,7 @@ public class UserDataFunctions(ILogger<UserDataFunctions> logger, IUserDataServi
                     queryParams.Status,
                     queryParams.Id,
                     queryParams.OrganisationId,
-                    queryParams.OrganisationType,
-                    queryParams.Active);
+                    queryParams.OrganisationType);
 
                 return await req.CreateJsonResponseAsync(data);
             }

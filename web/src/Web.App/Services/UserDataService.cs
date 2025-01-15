@@ -35,8 +35,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationSchool)
-            .AddIfNotNull("organisationId", urn)
-            .AddIfNotNull("active", true);
+            .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return userSets?.FirstOrDefault();
