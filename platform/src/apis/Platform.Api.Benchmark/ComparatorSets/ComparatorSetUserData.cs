@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
-using Microsoft.Azure.Functions.Worker;
-
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 [ExcludeFromCodeCoverage]
@@ -18,46 +19,38 @@ public record ComparatorSetUserData
     public string? OrganisationId { get; set; }
     public DateTimeOffset Expiry { get; set; }
     public string? Status { get; set; }
+    public bool Active { get; set; }
 
-    public static ComparatorSetUserData PendingSchool(string? id, string? userId, string? urn)
+    public static ComparatorSetUserData PendingSchool(string? id, string? userId, string? urn) => new()
     {
-        return new ComparatorSetUserData
-        {
-            Id = id,
-            UserId = userId,
-            Type = "comparator-set",
-            OrganisationType = "school",
-            OrganisationId = urn,
-            Expiry = DateTimeOffset.Now.AddDays(30),
-            Status = "pending"
-        };
-    }
+        Id = id,
+        UserId = userId,
+        Type = "comparator-set",
+        OrganisationType = "school",
+        OrganisationId = urn,
+        Expiry = DateTimeOffset.Now.AddDays(30),
+        Status = "pending"
+    };
 
-    public static ComparatorSetUserData CompleteSchool(string? id, string? userId, string? urn)
+    public static ComparatorSetUserData CompleteSchool(string? id, string? userId, string? urn) => new()
     {
-        return new ComparatorSetUserData
-        {
-            Id = id,
-            UserId = userId,
-            Type = "comparator-set",
-            OrganisationType = "school",
-            OrganisationId = urn,
-            Expiry = DateTimeOffset.Now.AddDays(30),
-            Status = "complete"
-        };
-    }
+        Id = id,
+        UserId = userId,
+        Type = "comparator-set",
+        OrganisationType = "school",
+        OrganisationId = urn,
+        Expiry = DateTimeOffset.Now.AddDays(30),
+        Status = "complete"
+    };
 
-    public static ComparatorSetUserData CompleteTrust(string id, string? userId, string companyNumber)
+    public static ComparatorSetUserData CompleteTrust(string id, string? userId, string companyNumber) => new()
     {
-        return new ComparatorSetUserData
-        {
-            Id = id,
-            UserId = userId,
-            Type = "comparator-set",
-            OrganisationType = "trust",
-            OrganisationId = companyNumber,
-            Expiry = DateTimeOffset.Now.AddDays(30),
-            Status = "complete"
-        };
-    }
+        Id = id,
+        UserId = userId,
+        Type = "comparator-set",
+        OrganisationType = "trust",
+        OrganisationId = companyNumber,
+        Expiry = DateTimeOffset.Now.AddDays(30),
+        Status = "complete"
+    };
 }

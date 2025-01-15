@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using Dapper.Contrib.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
@@ -8,5 +7,5 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 public record ComparatorSetUserDefinedRequest
 {
     public string? UserId { get; set; }
-    public string[] Set { get; set; } = Array.Empty<string>();
-};
+    public string[] Set { get; set; } = [];
+}

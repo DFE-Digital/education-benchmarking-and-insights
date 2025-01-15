@@ -39,7 +39,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
                 urn
             })
             .ToArray();
-        PutUserDefinedComparatorRequest(urn, set);
+        PostUserDefinedComparatorRequest(urn, set);
     }
 
     [Given("I have an invalid user defined comparator set request for school id '(.*)'")]
@@ -49,7 +49,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
             .CreateMany<int>(5)
             .Select(i => i.ToString())
             .ToArray();
-        PutUserDefinedComparatorRequest(urn, set);
+        PostUserDefinedComparatorRequest(urn, set);
     }
 
     [Given("I have an invalid delete user defined comparator set request for school id '(.*)'")]
@@ -77,12 +77,12 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
                 urn
             })
             .ToArray();
-        var identifier = PutUserDefinedComparatorRequest(urn, set);
+        PostUserDefinedComparatorRequest(urn, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
 
         api.CreateRequest(UserDefinedComparatorSetKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined/{identifier}", UriKind.Relative),
+            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined/active/{_userGuid}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -188,7 +188,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [When("I submit the default comparator set request")]
-    [When("I submit the user defined comparator set request")]
+    [When("I submit the user defined school comparator set request")]
     [When("I submit the user defined trust comparator set request")]
     public async Task WhenISubmitTheUserDefinedComparatorSetRequest()
     {
@@ -266,18 +266,18 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         table.CompareToDynamicSet(set, false);
     }
 
-    [Then("the user defined comparator set result should contain comparator buildings:")]
-    private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparatorBuildings(DataTable table)
+    [Then("the user defined comparator set result should contain comparators:")]
+    private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparators(DataTable table)
     {
         var response = api[UserDefinedComparatorSetKey].Response;
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ComparatorSetSchool>();
+        var result = content.FromJson<ComparatorSetUserDefinedSchool>();
 
         var set = new List<dynamic>();
-        foreach (var urn in result.Building ?? [])
+        foreach (var urn in result.Set ?? [])
         {
             set.Add(new
             {
@@ -318,9 +318,8 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
             .OfType<string>();
     }
 
-    private Guid PutUserDefinedComparatorRequest(string urn, string[] set)
+    private void PostUserDefinedComparatorRequest(string urn, string[] set)
     {
-        var identifier = Guid.NewGuid();
         var content = new ComparatorSetUserDefinedRequest
         {
             UserId = _userGuid,
@@ -329,12 +328,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
 
         api.CreateRequest(UserDefinedComparatorSetKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Put,
+            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined", UriKind.Relative),
+            Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
-
-        return identifier;
     }
 
     private void DeleteUserDefinedComparatorRequest(string urn, Guid identifier)

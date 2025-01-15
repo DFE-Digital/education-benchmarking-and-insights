@@ -7,13 +7,27 @@ namespace Platform.Api.Benchmark.UserData;
 
 public interface IUserDataService
 {
-    Task<IEnumerable<UserData>> QueryAsync(string[] userIds, string? type = null, string? status = null, string? id = null, string? organisationId = null, string? organisationType = null);
+    Task<IEnumerable<UserData>> QueryAsync(
+        string[] userIds,
+        string? type = null,
+        string? status = null,
+        string? id = null,
+        string? organisationId = null,
+        string? organisationType = null,
+        bool? active = null);
 }
 
 [ExcludeFromCodeCoverage]
 public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
 {
-    public async Task<IEnumerable<UserData>> QueryAsync(string[] userIds, string? type = null, string? status = null, string? id = null, string? organisationId = null, string? organisationType = null)
+    public async Task<IEnumerable<UserData>> QueryAsync(
+        string[] userIds,
+        string? type = null,
+        string? status = null,
+        string? id = null,
+        string? organisationId = null,
+        string? organisationType = null,
+        bool? active = null)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
@@ -60,6 +74,14 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
             builder.Where("Id = @id", new
             {
                 id
+            });
+        }
+
+        if (active.HasValue)
+        {
+            builder.Where("Active = @active", new
+            {
+                active
             });
         }
 

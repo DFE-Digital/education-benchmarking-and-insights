@@ -8,7 +8,7 @@ namespace Web.App.Services;
 
 public interface IUserDataService
 {
-    Task<UserData?> GetSchoolComparatorSetAsync(ClaimsPrincipal user, string identifier, string urn);
+    Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn);
     Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn);
     Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string identifier, string companyNumber);
     Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn);
@@ -22,7 +22,7 @@ public class UserDataService(IUserDataApi api) : IUserDataService
     private const string ComparatorSet = "comparator-set";
     private const string CustomData = "custom-data";
 
-    public async Task<UserData?> GetSchoolComparatorSetAsync(ClaimsPrincipal user, string identifier, string urn)
+    public async Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -32,10 +32,10 @@ public class UserDataService(IUserDataApi api) : IUserDataService
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
-            .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationSchool)
-            .AddIfNotNull("organisationId", urn);
+            .AddIfNotNull("organisationId", urn)
+            .AddIfNotNull("active", true);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return userSets?.FirstOrDefault();
@@ -94,7 +94,8 @@ public class UserDataService(IUserDataApi api) : IUserDataService
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationSchool)
-            .AddIfNotNull("organisationId", urn);
+            .AddIfNotNull("organisationId", urn)
+            .AddIfNotNull("active", true);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,

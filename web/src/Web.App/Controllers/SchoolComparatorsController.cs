@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
@@ -168,10 +167,10 @@ public class SchoolComparatorsController(
                 if (userData.ComparatorSet != null)
                 {
                     await comparatorSetApi.RemoveUserDefinedSchoolAsync(urn, userData.ComparatorSet).EnsureSuccess();
-                    schoolComparatorSetService.ClearUserDefinedComparatorSet(urn, userData.ComparatorSet);
+                    schoolComparatorSetService.ClearUserDefinedComparatorSetFromSession(urn, userData.ComparatorSet);
                 }
 
-                schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
+                schoolComparatorSetService.ClearUserDefinedComparatorSetFromSession(urn);
                 schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
                 return RedirectToAction("Index", "School", new Dictionary<string, string>
                 {
