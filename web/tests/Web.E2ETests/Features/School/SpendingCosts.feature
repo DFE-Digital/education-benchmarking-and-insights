@@ -120,3 +120,4 @@
           | This school spends    | £130 per pupil            |
           | Similar schools spend | £67 per pupil, on average |
           | This school spends    | £30(44.2%) less per pupil |
+        And the message stating reason for less schools is visible for 'Educational ICT'

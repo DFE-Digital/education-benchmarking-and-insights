@@ -128,6 +128,13 @@ public class SpendingCostsSteps(PageDriver driver)
         Assert.NotNull(_spendingCostsPage);
         await _spendingCostsPage.AssertCostCategoryData(CostCategoryFromFriendlyName(costCategory), table);
     }
+    
+    [Then("the message stating reason for less schools is visible for '(.*)'")]
+    public async Task ThenTheMessageStatingReasonForLessSchoolsIsVisible(string categoryName)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsWarningMessageVisibleForCategory(CostCategoryFromFriendlyName(categoryName));
+    }
 
     private static string SpendingCostsUrl(string urn) =>
         $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";

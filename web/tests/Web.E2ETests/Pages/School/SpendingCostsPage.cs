@@ -98,6 +98,7 @@ public class SpendingCostsPage(IPage page)
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator EducationIctCostCategory => page.Locator(Selectors.EducationIctSpendingCosts);
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
+    private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
 
     public async Task IsDisplayed()
     {
@@ -211,6 +212,16 @@ public class SpendingCostsPage(IPage page)
             Assert.Equal(expectedDescription, actualDescription); // Compare descriptions
             Assert.Equal(expectedValue, actualValue); // Compare values
         }
+    }
+    
+    public async Task IsWarningMessageVisibleForCategory(CostCategoryNames categoryName)
+    {
+        var warningMessage = categoryName switch
+        {
+            CostCategoryNames.EducationalIct => EducationIctWarningText,
+            _ => throw new ArgumentOutOfRangeException(nameof(categoryName))
+        };
+        await warningMessage.ShouldBeVisible();
     }
 
     private async Task<List<Dictionary<string, string>>> GetCostCategoryData(CostCategoryNames costCategory)
