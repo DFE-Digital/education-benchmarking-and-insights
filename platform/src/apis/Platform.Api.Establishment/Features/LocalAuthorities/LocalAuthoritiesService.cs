@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Platform.Domain;
 using Platform.Search;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
@@ -15,27 +17,27 @@ public interface ILocalAuthoritiesService
     Task<LocalAuthority?> GetAsync(string code);
 }
 
-//TODO: Update SQL queries to use builders
 [ExcludeFromCodeCoverage]
 public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchConnection, IDatabaseFactory dbFactory) : ILocalAuthoritiesService
 {
     public async Task<LocalAuthority?> GetAsync(string code)
     {
-        const string trustSql = "SELECT * from LocalAuthority where Code = @Code";
-        var parameters = new
-        {
-            Code = code
-        };
+        var laBuilder = new LocalAuthorityQuery()
+            .WhereCodeEqual(code);
 
         using var conn = await dbFactory.GetConnection();
-        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(trustSql, parameters);
+        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(laBuilder);
         if (localAuthority is null)
         {
             return null;
         }
 
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase FROM School WHERE LaCode = @Code AND FinanceType = 'Maintained' AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsSql, parameters);
+        var schoolsBuilder = new SchoolQuery(LocalAuthoritySchool.Fields)
+            .WhereLaCodeEqual(code)
+            .WhereFinanceTypeEqual(FinanceType.Maintained)
+            .WhereUrnInCurrentFinances();
+
+        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsBuilder);
         return localAuthority;
     }
 

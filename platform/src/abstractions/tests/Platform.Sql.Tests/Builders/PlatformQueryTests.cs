@@ -169,6 +169,48 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddFederationLeadUrnEqualParameter()
+    {
+        const string expectedParam = "FederationLeadURN";
+        const string expectedValue = "urn";
+        var expectedSql = BuildExpectedQuery("WHERE FederationLeadURN = @FederationLeadURN");
+
+        var builder = new MockPlatformQuery().WhereFederationLeadUrnEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddCodeEqualParameter()
+    {
+        const string expectedParam = "Code";
+        const string expectedValue = "code";
+        var expectedSql = BuildExpectedQuery("WHERE Code = @Code");
+
+        var builder = new MockPlatformQuery().WhereCodeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddUrnInCurrentFinancesParameter()
+    {
+        var expectedSql = BuildExpectedQuery("WHERE URN IN (SELECT URN FROM Financial WHERE RunType = 'default' AND RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear'))");
+
+        var builder = new MockPlatformQuery().WhereUrnInCurrentFinances();
+
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
     private static string BuildExpectedQuery(string wherePart) =>
         $"{MockPlatformQuery.Sql.Replace("/**where**/", wherePart)}\n";
 }

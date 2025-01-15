@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Platform.Domain;
 using Platform.Search;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
@@ -15,27 +17,28 @@ public interface ITrustsService
     Task<Trust?> GetAsync(string companyNumber);
 }
 
-//TODO: Update SQL queries to use builders
+
 [ExcludeFromCodeCoverage]
 public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseFactory dbFactory) : ITrustsService
 {
     public async Task<Trust?> GetAsync(string companyNumber)
     {
-        const string sql = "SELECT * from Trust where CompanyNumber = @CompanyNumber";
-        var parameters = new
-        {
-            CompanyNumber = companyNumber
-        };
+        var trustBuilder = new TrustQuery()
+            .WhereCompanyNumberEqual(companyNumber);
 
         using var conn = await dbFactory.GetConnection();
-        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
+        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(trustBuilder);
         if (trust is null)
         {
             return null;
         }
 
-        const string schoolsSql = "SELECT URN, SchoolName, OverallPhase from School where TrustCompanyNumber = @CompanyNumber AND URN IN (SELECT URN FROM CurrentDefaultFinancial)";
-        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsSql, parameters);
+        var schoolsBuilder = new SchoolQuery(TrustSchool.Fields)
+            .WhereTrustCompanyNumberEqual(companyNumber)
+            .WhereFinanceTypeEqual(FinanceType.Academy)
+            .WhereUrnInCurrentFinances();
+
+        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsBuilder);
         return trust;
     }
 

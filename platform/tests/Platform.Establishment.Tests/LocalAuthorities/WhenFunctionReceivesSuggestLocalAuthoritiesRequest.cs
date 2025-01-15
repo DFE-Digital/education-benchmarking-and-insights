@@ -15,7 +15,7 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        LocalAuthoritiesService
+        Service
             .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
             .ReturnsAsync(new SuggestResponse<LocalAuthority>());
 
@@ -24,9 +24,15 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
             .ReturnsAsync(new ValidationResult());
 
         var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
-
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
+
+        var body = await result.ReadAsJsonAsync<SuggestResponse<LocalAuthority>>();
+        Assert.NotNull(body);
     }
 
     [Fact]
@@ -35,19 +41,20 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
 
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
-                new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")
-            }));
+            .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
         var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
 
-        var values = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
-        Assert.NotNull(values);
-        Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
+
+        var body = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
+        Assert.NotNull(body);
+        Assert.Contains(body, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
     }
 
     [Fact]

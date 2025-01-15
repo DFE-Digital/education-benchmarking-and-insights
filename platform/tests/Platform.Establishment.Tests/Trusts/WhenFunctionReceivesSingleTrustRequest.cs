@@ -3,6 +3,7 @@ using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
 using Platform.Functions.Extensions;
+using Platform.Functions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;
@@ -38,6 +39,10 @@ public class WhenFunctionReceivesSingleTrustRequest : TrustsFunctionsTestBase
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
 
         var actual = await result.ReadAsJsonAsync<Trust>();
         Assert.NotNull(actual);

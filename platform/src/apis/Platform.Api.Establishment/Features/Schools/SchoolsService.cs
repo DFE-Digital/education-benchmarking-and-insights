@@ -6,6 +6,7 @@ using Platform.Search;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
@@ -15,28 +16,26 @@ public interface ISchoolsService
     Task<School?> GetAsync(string urn);
 }
 
-//TODO: Update SQL queries to use builders
 [ExcludeFromCodeCoverage]
 public class SchoolsService(ISearchConnection<School> searchConnection, IDatabaseFactory dbFactory) : ISchoolsService
 {
     public async Task<School?> GetAsync(string urn)
     {
-        const string schoolSql = "SELECT * FROM School WHERE URN = @URN";
-        const string childSchoolsSql = "SELECT * FROM School WHERE FederationLeadURN = @URN";
+        var schoolBuilder = new SchoolQuery()
+            .WhereUrnEqual(urn);
 
         using var conn = await dbFactory.GetConnection();
-        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolSql, new
-        {
-            URN = urn
-        });
+        var school = await conn.QueryFirstOrDefaultAsync<School>(schoolBuilder);
 
-        if (school != null && !string.IsNullOrEmpty(school.FederationLeadURN))
+        if (school == null || string.IsNullOrEmpty(school.FederationLeadURN))
         {
-            school.FederationSchools = await conn.QueryAsync<School>(childSchoolsSql, new
-            {
-                URN = urn
-            });
+            return school;
         }
+
+        var childSchoolsBuilder = new SchoolQuery()
+            .WhereFederationLeadUrnEqual(urn);
+
+        school.FederationSchools = await conn.QueryAsync<School>(childSchoolsBuilder);
 
         return school;
     }

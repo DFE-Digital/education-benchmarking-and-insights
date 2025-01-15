@@ -10,13 +10,13 @@ namespace Platform.Establishment.Tests.LocalAuthorities;
 public class LocalAuthoritiesFunctionsTestBase : FunctionsTestBase
 {
     protected readonly LocalAuthoritiesFunctions Functions;
-    protected readonly Mock<ILocalAuthoritiesService> LocalAuthoritiesService;
+    protected readonly Mock<ILocalAuthoritiesService> Service;
     protected readonly Mock<IValidator<SuggestRequest>> Validator;
 
     protected LocalAuthoritiesFunctionsTestBase()
     {
-        LocalAuthoritiesService = new Mock<ILocalAuthoritiesService>();
+        Service = new Mock<ILocalAuthoritiesService>();
         Validator = new Mock<IValidator<SuggestRequest>>();
-        Functions = new LocalAuthoritiesFunctions(new NullLogger<LocalAuthoritiesFunctions>(), LocalAuthoritiesService.Object, Validator.Object);
+        Functions = new LocalAuthoritiesFunctions(new NullLogger<LocalAuthoritiesFunctions>(), Service.Object, Validator.Object);
     }
 }

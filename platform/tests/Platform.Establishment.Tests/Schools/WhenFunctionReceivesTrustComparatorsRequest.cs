@@ -2,6 +2,7 @@
 using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.Schools;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Xunit;
 
@@ -33,6 +34,10 @@ public class WhenFunctionReceivesSchoolComparatorsRequest : SchoolComparatorsFun
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
 
         var actual = await result.ReadAsJsonAsync<SchoolComparators>();
         Assert.NotNull(actual);

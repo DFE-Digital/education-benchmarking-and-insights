@@ -1,6 +1,8 @@
 using System.Net;
 using Moq;
 using Platform.Api.Establishment.Features.Schools;
+using Platform.Functions;
+using Platform.Functions.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Schools;
@@ -18,6 +20,13 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
+
+        var body = await result.ReadAsJsonAsync<School>();
+        Assert.NotNull(body);
     }
 
     [Fact]

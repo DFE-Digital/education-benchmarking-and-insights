@@ -83,6 +83,15 @@ public abstract class PlatformQuery : SqlBuilder
         return this;
     }
 
+    public PlatformQuery WhereCodeEqual(string code)
+    {
+        const string sql = "Code = @Code";
+        var parameters = new { Code = code };
+
+        Where(sql, parameters);
+        return this;
+    }
+
     public PlatformQuery WhereOverallPhaseEqual(string? phase)
     {
         const string sql = "OverallPhase = @Phase";
@@ -96,6 +105,23 @@ public abstract class PlatformQuery : SqlBuilder
     {
         const string sql = "FinanceType = @FinanceType";
         var parameters = new { FinanceType = financeType };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereUrnInCurrentFinances()
+    {
+        const string sql = "URN IN (SELECT URN FROM Financial WHERE RunType = 'default' AND RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear'))";
+
+        Where(sql);
+        return this;
+    }
+
+    public PlatformQuery WhereFederationLeadUrnEqual(string urn)
+    {
+        const string sql = "FederationLeadURN = @FederationLeadURN";
+        var parameters = new { FederationLeadURN = urn };
 
         Where(sql, parameters);
         return this;

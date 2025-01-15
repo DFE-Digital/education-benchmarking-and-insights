@@ -2,6 +2,7 @@ using System.Net;
 using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.LocalAuthorities;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Xunit;
 
@@ -30,7 +31,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        LocalAuthoritiesService
+        Service
             .Setup(d => d.GetAsync(_laCode))
             .ReturnsAsync(_localAuthority);
 
@@ -39,15 +40,19 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-        var actual = await result.ReadAsJsonAsync<LocalAuthority>();
-        Assert.NotNull(actual);
-        Assert.Equal(_laCode, actual.Code);
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
+
+        var body = await result.ReadAsJsonAsync<LocalAuthority>();
+        Assert.NotNull(body);
+        Assert.Equal(_laCode, body.Code);
     }
 
     [Fact]
     public async Task ShouldReturn404OnInvalidRequest()
     {
-        LocalAuthoritiesService
+        Service
             .Setup(d => d.GetAsync(_laCode))
             .ReturnsAsync((LocalAuthority?)null);
 
@@ -60,7 +65,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        LocalAuthoritiesService
+        Service
             .Setup(d => d.GetAsync(_laCode))
             .Throws(new Exception());
 

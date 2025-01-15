@@ -28,6 +28,13 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
+
+        var body = await result.ReadAsJsonAsync<SuggestResponse<School>>();
+        Assert.NotNull(body);
     }
 
     [Fact]
@@ -36,15 +43,16 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
 
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
-                new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")
-            }));
+            .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
         var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+
+        result.Headers.TryGetValues("Content-Type", out var header);
+        Assert.NotNull(header);
+        Assert.Contains(ContentType.ApplicationJson, header);
 
         var values = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
         Assert.NotNull(values);
