@@ -249,9 +249,8 @@ Feature: School compare your costs
         Given I am on compare your costs page for school with URN '777042'
         And table view is selected
         And Section 'Teaching and teaching support staff' is visible
-        Then the following is shown for 'Supply teaching staff costs'
+        Then the following is shown in 'Teaching and teaching support staff' sub category 'Supply teaching staff costs'
           | School name             | Local Authority         | School type             | Number of pupils | Amount |
           | Test academy school 456 | Westmorland and Furness | Academy 16-19 converter | 339              | £30    |
           | Test school 102         | Hammersmith and Fulham  | Community school        | 212              | £0     |
-        And the message stating reason for less schools is visible
-        #add implementation once its added on the page
+        And the message stating reason for less schools is visible in 'Supply teaching staff costs' section

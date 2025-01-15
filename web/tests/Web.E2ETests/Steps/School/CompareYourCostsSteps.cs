@@ -104,6 +104,21 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsTableDataForChartDisplayed(ChartNameFromFriendlyName(chartName), expected);
     }
 
+    [Then("the following is shown in '(.*)' sub category '(.*)'")]
+    public async Task ThenTheFollowingIsShownInSubCategory(string chartName, string subCategoryName, Table table)
+    {
+        var expected = new List<List<string>>();
+        {
+            var headers = table.Header.ToList();
+
+            expected.Add(headers);
+            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+        }
+
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsTableDataForChartDisplayed(ChartNameFromFriendlyName(chartName), expected, subCategoryName);
+    }
+
     [Then("save as image buttons are hidden")]
     public async Task ThenSaveAsImageButtonsAreHidden()
     {
@@ -313,6 +328,14 @@ public class CompareYourCostsSteps(PageDriver driver)
         _comparisonPage = new CompareYourCostsPage(page);
     }
 
+    [Then("the message stating reason for less schools is visible in '(.*)' section")]
+    public async Task ThenTheMessageStatingReasonForLessSchoolsIsVisible(string subCategorySection)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsWarningTextVisible(subCategorySection);
+
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);
@@ -334,6 +357,7 @@ public class CompareYourCostsSteps(PageDriver driver)
             "total number of teachers" => ComparisonChartNames.Premises,
             "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
             "catering staff" => ComparisonChartNames.CateringStaffAndServices,
+            "Teaching and teaching support staff" => ComparisonChartNames.TeachingAndTeachingSupplyStaff,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
