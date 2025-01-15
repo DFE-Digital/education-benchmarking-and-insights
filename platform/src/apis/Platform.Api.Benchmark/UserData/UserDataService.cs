@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Sql;
+
 namespace Platform.Api.Benchmark.UserData;
 
 public interface IUserDataService

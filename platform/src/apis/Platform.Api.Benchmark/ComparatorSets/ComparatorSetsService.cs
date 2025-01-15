@@ -5,6 +5,7 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using Platform.Domain;
 using Platform.Sql;
+
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 public interface IComparatorSetsService

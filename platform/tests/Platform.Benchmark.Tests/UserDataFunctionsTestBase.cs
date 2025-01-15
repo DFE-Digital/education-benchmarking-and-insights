@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.UserData;
 using Platform.Test;
+
 namespace Platform.Benchmark.Tests;
 
 public class UserDataFunctionsTestBase : FunctionsTestBase

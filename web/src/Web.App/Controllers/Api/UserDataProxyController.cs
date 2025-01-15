@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Platform.Functions;
 using Platform.Functions.Extensions;
+
 namespace Platform.Api.Benchmark.UserData;
 
 public record UserDataParameters : QueryParameters

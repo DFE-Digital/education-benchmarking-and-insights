@@ -16,6 +16,7 @@ using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Json;
+
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 public class ComparatorSetsFunctions(

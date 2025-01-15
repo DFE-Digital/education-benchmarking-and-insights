@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolComparatorsSubmittedViewModel(School school, bool isEdit)

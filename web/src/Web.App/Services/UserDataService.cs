@@ -4,6 +4,7 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Extensions;
+
 namespace Web.App.Services;
 
 public interface IUserDataService

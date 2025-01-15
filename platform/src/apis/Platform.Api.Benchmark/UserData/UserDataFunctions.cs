@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.OpenApi.Examples;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
+
 namespace Platform.Api.Benchmark.UserData;
 
 public class UserDataFunctions(ILogger<UserDataFunctions> logger, IUserDataService service)

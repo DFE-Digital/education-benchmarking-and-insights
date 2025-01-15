@@ -3,6 +3,7 @@ using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.Benchmark.UserData;
 using Xunit;
+
 namespace Platform.Benchmark.Tests;
 
 public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBase

@@ -2,6 +2,7 @@ using System.Net;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
 using Xunit;
+
 namespace Platform.Benchmark.Tests;
 
 public class WhenFunctionReceivesRemoveComparatorSetRequest : ComparatorSetsFunctionsTestBase
