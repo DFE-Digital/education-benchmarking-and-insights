@@ -1,5 +1,6 @@
 using AutoFixture;
 using Newtonsoft.Json.Linq;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Xunit;
 
@@ -13,7 +14,7 @@ public class WhenPipelineStartDefaultMessageCreatesFromPending
     public void ShouldCreatePipelineStartDefaultMessage()
     {
         const int runId = 2024;
-        const string type = PipelineJobType.Default;
+        const string type = Pipeline.JobType.Default;
         var year = _fixture.Create<PipelineMessageYears>();
 
         var input = new PipelinePending
@@ -36,7 +37,7 @@ public class WhenPipelineStartDefaultMessageCreatesFromPending
     [InlineData(null, null, "Unable to parse `` as `int` (Parameter 'RunId')")]
     public void ShouldNotCreatePipelineStartDefaultMessageIfYearInWrongFormat(object? runId, object? year, string expectedMessage)
     {
-        const string type = PipelineJobType.Default;
+        const string type = Pipeline.JobType.Default;
         var input = new PipelinePending
         {
             RunId = runId,

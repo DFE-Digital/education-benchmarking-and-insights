@@ -5,9 +5,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using Platform.Functions.OpenApi;
+// ReSharper disable UnusedType.Global
+
 namespace Platform.Api.Establishment.OpenApi;
 
-// ReSharper disable once UnusedType.Global
 [ExcludeFromCodeCoverage]
 internal class OpenApiConfigurationOptions : DefaultOpenApiConfigurationOptions
 {

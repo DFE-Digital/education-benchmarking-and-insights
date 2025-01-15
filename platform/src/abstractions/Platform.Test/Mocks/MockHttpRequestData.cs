@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Moq;
 
-namespace Platform.Functions.Tests.Mocks;
+namespace Platform.Test.Mocks;
 
 public abstract class MockHttpRequestData
 {
@@ -37,6 +37,7 @@ public abstract class MockHttpRequestData
         }
 
         var request = new Mock<HttpRequestData>(context.Object);
+        request.Setup(r => r.Url).Returns(new Uri("http://localhost"));
         request.Setup(r => r.Body).Returns(bodyDataStream);
         request.Setup(r => r.Headers).Returns([]);
         request.Setup(r => r.Query).Returns(queryCollection);

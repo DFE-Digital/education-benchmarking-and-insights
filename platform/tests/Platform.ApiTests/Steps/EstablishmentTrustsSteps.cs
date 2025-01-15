@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using FluentAssertions;
-using Platform.Api.Establishment.Trusts;
+using Platform.Api.Establishment.Features.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;

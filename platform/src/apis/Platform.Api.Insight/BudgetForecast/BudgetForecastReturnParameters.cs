@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Platform.Domain.Messages;
+using Platform.Domain;
 using Platform.Functions;
 
 namespace Platform.Api.Insight.BudgetForecast;
 
 public record BudgetForecastReturnParameters : QueryParameters
 {
-    public string RunType { get; private set; } = PipelineRunType.Default;
+    public string RunType { get; private set; } = Pipeline.RunType.Default;
     public string Category { get; private set; } = "Revenue reserve";
     public string RunId { get; private set; } = string.Empty;
 

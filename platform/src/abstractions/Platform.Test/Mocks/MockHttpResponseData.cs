@@ -2,7 +2,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 
-namespace Platform.Functions.Tests.Mocks;
+namespace Platform.Test.Mocks;
 
 public class MockHttpResponseData(FunctionContext functionContext) : HttpResponseData(functionContext)
 {

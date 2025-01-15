@@ -57,7 +57,7 @@ public static class HttpRequestDataExtensions
     {
         var response = req.CreateResponse(statusCode);
         var bytes = Encoding.UTF8.GetBytes(obj.ToString() ?? string.Empty);
-        response.Headers.Add("Content-Type", "text/plain");
+        response.Headers.Add("Content-Type", ContentType.TextPlain);
         await response.WriteBytesAsync(bytes);
         return response;
     }

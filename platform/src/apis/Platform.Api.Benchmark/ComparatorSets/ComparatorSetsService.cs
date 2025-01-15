@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using Platform.Domain.Messages;
+using Platform.Domain;
 using Platform.Sql;
 namespace Platform.Api.Benchmark.ComparatorSets;
 
@@ -12,11 +12,11 @@ public interface IComparatorSetsService
     Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn);
     Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn);
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
-    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = PipelineRunType.Default);
+    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default);
     Task UpsertUserDataAsync(ComparatorSetUserData userData);
     Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
-    Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = PipelineRunType.Default);
+    Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default);
     Task UpsertUserDefinedTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
 }
 
@@ -94,7 +94,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = PipelineRunType.Default)
+    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default)
     {
         const string sql = "SELECT * from UserDefinedSchoolComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
         var parameters = new
@@ -169,7 +169,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = PipelineRunType.Default)
+    public async Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default)
     {
         const string sql = "SELECT * from UserDefinedTrustComparatorSet where CompanyNumber = @CompanyNumber AND RunId = @RunId AND RunType = @RunType";
         var parameters = new

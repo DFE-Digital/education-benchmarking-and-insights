@@ -1,6 +1,5 @@
 ﻿using Web.App.Domain;
 using Web.App.Identity.Models;
-using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 
@@ -46,10 +45,9 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
         var companyNumber = organisation.CompanyRegistrationNumber?.ToString("00000000");
         if (companyNumber != null)
         {
-            var query = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
-            var trustSchools = await api.QuerySchools(query).GetResultOrDefault<School[]>() ?? [];
+            var trust = await api.GetTrust(companyNumber).GetResultOrDefault<Trust>();
             trusts = [companyNumber];
-            schools = trustSchools.Select(x => x.URN).OfType<string>().ToArray();
+            schools = trust?.Schools.Select(x => x.URN).OfType<string>().ToArray() ?? [];
         }
 
         return (schools, trusts);
@@ -62,9 +60,8 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
         var laCode = organisation.EstablishmentNumber?.ToString("000");
         if (laCode != null)
         {
-            var query = new ApiQuery().AddIfNotNull("laCode", laCode);
-            var laSchools = await api.QuerySchools(query).GetResultOrDefault<School[]>() ?? [];
-            schools = laSchools.Select(x => x.URN).OfType<string>().ToArray();
+            var la = await api.GetLocalAuthority(laCode).GetResultOrDefault<LocalAuthority>();
+            schools = la?.Schools.Select(x => x.URN).OfType<string>().ToArray() ?? [];
         }
 
         return schools;

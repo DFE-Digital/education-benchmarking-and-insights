@@ -1,8 +1,11 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Domain.Messages;
 
+[ExcludeFromCodeCoverage]
 public record PipelinePending : PipelineStart
 {
     /// <summary>
@@ -17,5 +20,5 @@ public record PipelinePending : PipelineStart
 
     public string? URN { get; set; }
 
-    public Payload? Payload { get; set; }
+    public PipelinePayload? Payload { get; set; }
 }

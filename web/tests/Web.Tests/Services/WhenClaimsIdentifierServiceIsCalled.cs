@@ -24,15 +24,12 @@ public class WhenClaimsIdentifierServiceIsCalled
             Category = organisationItem,
             CompanyRegistrationNumber = 12345678,
         };
-        var response = new[] {
-            new School { URN = "123456", TrustCompanyNumber = "12345678" },
+        var response = new Trust
+        {
+            Schools = [new TrustSchool { URN = "123456" }],
         };
-        ApiQuery? query = null;
-        _mockApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery>()))
-            .Callback<ApiQuery>(x =>
-            {
-                query = x;
-            })
+
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -42,7 +39,6 @@ public class WhenClaimsIdentifierServiceIsCalled
         Assert.Contains("123456", schools);
         Assert.Single(trusts);
         Assert.Contains("12345678", trusts);
-        Assert.Equal("?companyNumber=12345678", query?.ToQueryString());
     }
 
     [Fact]
@@ -57,16 +53,15 @@ public class WhenClaimsIdentifierServiceIsCalled
             Category = organisationItem,
             CompanyRegistrationNumber = 12345678,
         };
-        var response = new[] {
-            new School { URN = "123456", TrustCompanyNumber = "12345678" },
-            new School { URN = "987654", TrustCompanyNumber = "12345678" }
+        var response = new Trust
+        {
+            Schools = [
+                new TrustSchool { URN = "123456" },
+                new TrustSchool { URN = "987654" }
+            ],
         };
-        ApiQuery? query = null;
-        _mockApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery>()))
-            .Callback<ApiQuery>(x =>
-            {
-                query = x;
-            })
+
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -77,7 +72,6 @@ public class WhenClaimsIdentifierServiceIsCalled
         Assert.Contains("987654", schools);
         Assert.Single(trusts);
         Assert.Contains("12345678", trusts);
-        Assert.Equal("?companyNumber=12345678", query?.ToQueryString());
     }
 
     [Fact]
@@ -92,16 +86,14 @@ public class WhenClaimsIdentifierServiceIsCalled
             Category = organisationItem,
             EstablishmentNumber = 123,
         };
-        var response = new[] {
-            new School { URN = "123456", LACode = "123" },
-            new School { URN = "987654", LACode = "123" }
+        var response = new LocalAuthority
+        {
+            Schools = [
+                new LocalAuthoritySchool { URN = "123456" },
+                new LocalAuthoritySchool { URN = "987654" }
+            ],
         };
-        ApiQuery? query = null;
-        _mockApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery>()))
-            .Callback<ApiQuery>(x =>
-            {
-                query = x;
-            })
+        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -111,7 +103,6 @@ public class WhenClaimsIdentifierServiceIsCalled
         Assert.Contains("123456", schools);
         Assert.Contains("987654", schools);
         Assert.Empty(trusts);
-        Assert.Equal("?laCode=123", query?.ToQueryString());
     }
 
     [Fact]
@@ -172,7 +163,10 @@ public class WhenClaimsIdentifierServiceIsCalled
         _mockApi.Setup(api => api.GetSchool(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok());
 
-        _mockApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery>()))
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
+            .ReturnsAsync(ApiResult.Ok());
+
+        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok());
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -181,6 +175,7 @@ public class WhenClaimsIdentifierServiceIsCalled
         Assert.Empty(schools);
         Assert.Empty(trusts);
         _mockApi.Verify(api => api.GetSchool(It.IsAny<string>()), Times.Never);
-        _mockApi.Verify(api => api.QuerySchools(It.IsAny<ApiQuery>()), Times.Never);
+        _mockApi.Verify(api => api.GetTrust(It.IsAny<string>()), Times.Never);
+        _mockApi.Verify(api => api.GetLocalAuthority(It.IsAny<string>()), Times.Never);
     }
 }

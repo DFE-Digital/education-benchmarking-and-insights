@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.Responses;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
@@ -108,8 +109,8 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
                 var message = new PipelineStartCustom
                 {
                     RunId = data.Id,
-                    RunType = PipelineRunType.Custom,
-                    Type = PipelineJobType.CustomData,
+                    RunType = Pipeline.RunType.Custom,
+                    Type = Pipeline.JobType.CustomData,
                     URN = data.URN,
                     Year = int.Parse(year),
                     Payload = body.CreatePayload()

@@ -38,12 +38,4 @@
         <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj"/>
         <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-        <Compile Update="Features\BenchmarkComparators.feature.cs">
-            <DependentUpon>BenchmarkComparators.feature</DependentUpon>
-            <AutoGen>true</AutoGen>
-            <DesignTime>true</DesignTime>
-            <Visible>true</Visible>
-        </Compile>
-    </ItemGroup>
 </Project>

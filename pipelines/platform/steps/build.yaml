@@ -14,7 +14,7 @@ steps:
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
     displayName: 'Cache nuget packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-platform" | platform/src/abstractions/**/packages.lock.json,platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-platform" | platform/src/abstractions/**/packages.lock.json,platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,!platform/src/abstractions/tests/**/packages.lock.json,!**/bin/**,!**/obj/**'
       path: $(PLATFORM_NUGET_CACHE)
       cacheHitVar: PLATFORM_CACHE_RESTORED
 

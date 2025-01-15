@@ -1,6 +1,6 @@
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Primitives;
-using Platform.Functions.Tests.Mocks;
+using Platform.Test.Mocks;
 
 namespace Platform.Test;
 

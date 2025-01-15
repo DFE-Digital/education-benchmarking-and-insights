@@ -1,12 +1,12 @@
 using System.Net;
 using System.Text;
 using FluentAssertions;
-using Platform.Api.Establishment.Schools;
+using Platform.Api.Establishment.Features.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 using Platform.Json;
 using Platform.Search.Responses;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -14,7 +14,6 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-school";
     private const string SuggestRequestKey = "suggest-school";
-    private const string QueryRequestKey = "query-school";
 
     [Given("a valid school request with id '(.*)'")]
     private void GivenAValidSchoolRequestWithId(string id)
@@ -72,44 +71,6 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("a valid query schools request phase '(.*)' laCode '(.*)' and companyNumber '(.*)'")]
-    private void GivenAValidQuerySchoolsRequestPhaseLaCodeAndCompanyNumber(string phase, string laCode, string companyNumber)
-    {
-        const string baseApiUrl = "/api/schools";
-        var queryString = new StringBuilder();
-
-        if (!string.IsNullOrEmpty(companyNumber))
-        {
-            queryString.Append($"companyNumber={companyNumber}");
-        }
-
-        if (!string.IsNullOrEmpty(laCode))
-        {
-            if (queryString.Length > 0)
-            {
-                queryString.Append('&');
-            }
-            queryString.Append($"laCode={laCode}");
-        }
-
-        if (!string.IsNullOrEmpty(phase))
-        {
-            if (queryString.Length > 0)
-            {
-                queryString.Append('&');
-            }
-            queryString.Append($"phase={phase}");
-        }
-
-        var apiQuery = baseApiUrl + "?" + queryString;
-
-        api.CreateRequest(QueryRequestKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri(apiQuery, UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
     [When("I submit the schools request")]
     private async Task WhenISubmitTheSchoolsRequest()
     {
@@ -154,9 +115,9 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 
         var actual = new
         {
-            result?.Text,
-            result?.Document?.SchoolName,
-            result?.Document?.URN
+            result.Text,
+            result.Document?.SchoolName,
+            result.Document?.URN
         };
 
         table.CompareToInstance(actual);
@@ -214,33 +175,5 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         }
 
         filteredTable.CompareToSet(results);
-    }
-
-    [Then("the schools query result should be ok and have the following values:")]
-    private async Task ThenTheSchoolsQueryResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
-    {
-        var response = api[QueryRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<School[]>();
-
-        table.CompareToSet(results);
-    }
-
-    [Then("the schools query result should be empty")]
-    private async Task ThenTheSchoolsQueryResultShouldBeEmpty()
-    {
-        var response = api[QueryRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<School[]>();
-
-        results.Should().BeEmpty();
     }
 }

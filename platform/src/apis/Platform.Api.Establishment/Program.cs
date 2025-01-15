@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Hosting;
 using Platform.Api.Establishment.Configuration;
+// ReSharper disable ClassNeverInstantiated.Global
 
 var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(Worker.Configure, Worker.Options)
@@ -11,7 +12,5 @@ var hostBuilder = new HostBuilder()
 
 hostBuilder.Build().Run();
 
-
 [ExcludeFromCodeCoverage]
-// ReSharper disable once ClassNeverInstantiated.Global
 public partial class Program;

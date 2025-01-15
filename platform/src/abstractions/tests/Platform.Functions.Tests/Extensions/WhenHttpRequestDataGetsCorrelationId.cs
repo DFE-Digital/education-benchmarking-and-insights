@@ -1,5 +1,5 @@
 ﻿using Platform.Functions.Extensions;
-using Platform.Functions.Tests.Mocks;
+using Platform.Test.Mocks;
 using Xunit;
 
 namespace Platform.Functions.Tests.Extensions;

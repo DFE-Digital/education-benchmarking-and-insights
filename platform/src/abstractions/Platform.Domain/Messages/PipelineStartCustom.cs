@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain.Messages;
 
+[ExcludeFromCodeCoverage]
 public record PipelineStartCustom : PipelineStart
 {
     /// <summary>
@@ -16,7 +17,7 @@ public record PipelineStartCustom : PipelineStart
 
     public string? URN { get; set; }
 
-    public Payload? Payload { get; set; }
+    public PipelinePayload? Payload { get; set; }
 
     [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly")]
     public static PipelineStartCustom FromPending(PipelinePending input)

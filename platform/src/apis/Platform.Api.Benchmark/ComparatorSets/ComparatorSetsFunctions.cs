@@ -9,6 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Api.Benchmark.Responses;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
@@ -193,7 +194,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = new ComparatorSetUserDefinedSchool
                 {
                     RunId = identifier,
-                    RunType = PipelineRunType.Default,
+                    RunType = Pipeline.RunType.Default,
                     Set = ComparatorSetIds.FromCollection(body.Set),
                     URN = urn
                 };
@@ -217,10 +218,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                     {
                         RunId = comparatorSet.RunId,
                         RunType = comparatorSet.RunType,
-                        Type = PipelineJobType.ComparatorSet,
+                        Type = Pipeline.JobType.ComparatorSet,
                         URN = comparatorSet.URN,
                         Year = int.Parse(year),
-                        Payload = new ComparatorSetPayload
+                        Payload = new ComparatorSetPipelinePayload
                         {
                             Set = comparatorSet.Set.ToArray()
                         }
@@ -387,7 +388,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 var comparatorSet = new ComparatorSetUserDefinedTrust
                 {
                     RunId = identifier,
-                    RunType = PipelineRunType.Default,
+                    RunType = Pipeline.RunType.Default,
                     Set = ComparatorSetIds.FromCollection(body.Set),
                     CompanyNumber = companyNumber
                 };

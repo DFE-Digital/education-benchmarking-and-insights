@@ -1,12 +1,14 @@
 ﻿using System.Net;
 using System.Text;
 using FluentAssertions;
-using Platform.Api.Establishment.Comparators;
+using Platform.Api.Establishment.Features.Schools;
+using Platform.Api.Establishment.Features.Trusts;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
-using Platform.Functions.Extensions;
+using Platform.Domain;
 using Platform.Json;
 using Xunit;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -19,7 +21,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     [Given("a valid comparator schools request for school id '(.*)'")]
     public void GivenAValidComparatorSchoolsRequestForSchoolId(string urn)
     {
-        var content = new ComparatorSchoolsRequest
+        var content = new SchoolComparatorsRequest
         {
             FinanceType = new CharacteristicList
             {
@@ -54,12 +56,12 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ComparatorSchools>();
+        var result = content.FromJson<SchoolComparators>();
 
         Assert.Equal(total, result.TotalSchools.ToString());
 
         var set = new List<dynamic>();
-        foreach (var urn in result.Schools ?? [])
+        foreach (var urn in result.Schools)
         {
             set.Add(new
             {
@@ -73,7 +75,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     [Given("a valid comparator trusts request for company number '(.*)'")]
     public void GivenAValidComparatorTrustsRequestForCompanyNumber(string companyNumber)
     {
-        var content = new ComparatorTrustsRequest
+        var content = new TrustComparatorsRequest
         {
             PhasesCovered = new CharacteristicList
             {
@@ -108,12 +110,12 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ComparatorTrusts>();
+        var result = content.FromJson<TrustComparators>();
 
         Assert.Equal(total, result.TotalTrusts.ToString());
 
         var set = new List<dynamic>();
-        foreach (var companyNumber in result.Trusts ?? [])
+        foreach (var companyNumber in result.Trusts)
         {
             set.Add(new
             {

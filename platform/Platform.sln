@@ -47,11 +47,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 		terraform\modules\functions\provider.tf = terraform\modules\functions\provider.tf
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{1D110B5A-02AB-4365-AB94-317241A2C739}"
-	ProjectSection(SolutionItems) = preProject
-		data\local-authorities.json = data\local-authorities.json
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search.Resources", "src\search\Platform.Search.Resources\Platform.Search.Resources.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Functions", "src\abstractions\Platform.Functions\Platform.Functions.csproj", "{AD3DC4F8-B866-40FE-A456-B18BA3158403}"
@@ -105,6 +100,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Orchestrator.Tests", "tests\Platform.Orchestrator.Tests\Platform.Orchestrator.Tests.csproj", "{B0B0A918-EFCC-4D8F-993A-502F5AA88BEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Test", "src\abstractions\Platform.Test\Platform.Test.csproj", "{DD2AD06A-8367-4EC3-84E7-6A4321C238C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Domain.Tests", "src\abstractions\tests\Platform.Domain.Tests\Platform.Domain.Tests.csproj", "{419C9FD2-32E7-4DE4-B580-F9821BCE0422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,6 +209,10 @@ Global
 		{DD2AD06A-8367-4EC3-84E7-6A4321C238C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2AD06A-8367-4EC3-84E7-6A4321C238C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD2AD06A-8367-4EC3-84E7-6A4321C238C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419C9FD2-32E7-4DE4-B580-F9821BCE0422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419C9FD2-32E7-4DE4-B580-F9821BCE0422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419C9FD2-32E7-4DE4-B580-F9821BCE0422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419C9FD2-32E7-4DE4-B580-F9821BCE0422}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -245,5 +246,6 @@ Global
 		{7E484AED-5099-483F-A3B5-637E05768089} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{B0B0A918-EFCC-4D8F-993A-502F5AA88BEB} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{DD2AD06A-8367-4EC3-84E7-6A4321C238C6} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{419C9FD2-32E7-4DE4-B580-F9821BCE0422} = {8106645A-3A8E-41DE-92FF-46D1365846C3}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,34 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
+using Platform.Search;
+
+namespace Platform.Api.Establishment.Features.Trusts;
+
+public interface ITrustComparatorsService
+{
+    Task<TrustComparators> ComparatorsAsync(string companyNumber, TrustComparatorsRequest request);
+}
+
+//TODO : Lookup target trust and add comparators ordering
+[ExcludeFromCodeCoverage]
+public class TrustComparatorsService(ISearchConnection<TrustComparator> connection) : ITrustComparatorsService
+{
+    public async Task<TrustComparators> ComparatorsAsync(string companyNumber, TrustComparatorsRequest request)
+    {
+        //var trust = await connection.LookUpAsync(request.Target);
+
+        var filter = request.FilterExpression(companyNumber);
+        var search = request.SearchExpression();
+        var result = await connection.SearchAsync(search, filter, 100000);
+
+        return new TrustComparators
+        {
+            TotalTrusts = result.Total,
+            Trusts = result.Response
+                //.OrderByDescending(x => CalculateScore(request, x, school))
+                .Select(x => x.Document?.CompanyNumber)
+                .OfType<string>().Take(9) // Comparator set is 10 (target trust + 9 similar trusts)
+        };
+    }
+}

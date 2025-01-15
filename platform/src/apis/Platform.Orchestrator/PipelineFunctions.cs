@@ -7,6 +7,7 @@ using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
 using Platform.Cache;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Json;
 using Platform.Orchestrator.Search;
@@ -82,11 +83,11 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
         var input = context.GetInput<PipelinePending>();
         switch (input?.Type)
         {
-            case PipelineJobType.ComparatorSet:
-            case PipelineJobType.CustomData:
+            case Pipeline.JobType.ComparatorSet:
+            case Pipeline.JobType.CustomData:
                 await OrchestrateCustomMessage(context, input);
                 break;
-            case PipelineJobType.Default:
+            case Pipeline.JobType.Default:
                 await OrchestrateDefaultMessage(context, input);
                 break;
             default:

@@ -8,10 +8,9 @@ using HealthChecks.AzureSearch.DependencyInjection;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Establishment.Comparators;
-using Platform.Api.Establishment.LocalAuthorities;
-using Platform.Api.Establishment.Schools;
-using Platform.Api.Establishment.Trusts;
+using Platform.Api.Establishment.Features.LocalAuthorities;
+using Platform.Api.Establishment.Features.Schools;
+using Platform.Api.Establishment.Features.Trusts;
 using Platform.Infrastructure;
 using Platform.Json;
 using Platform.Search;
@@ -74,16 +73,16 @@ internal static class Services
             .AddSingleton<ISearchConnection<LocalAuthority>>(x => new SearchConnection<LocalAuthority>(x.GetKeyedService<SearchClient>(ServiceKeys.LocalAuthority), x.GetService<ITelemetryService>()))
             .AddSingleton<ISearchConnection<School>>(x => new SearchConnection<School>(x.GetKeyedService<SearchClient>(ServiceKeys.School), x.GetService<ITelemetryService>()))
             .AddSingleton<ISearchConnection<Trust>>(x => new SearchConnection<Trust>(x.GetKeyedService<SearchClient>(ServiceKeys.Trust), x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorSchool>>(x => new SearchConnection<ComparatorSchool>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorSchool), x.GetService<ITelemetryService>()))
-            .AddSingleton<ISearchConnection<ComparatorTrust>>(x => new SearchConnection<ComparatorTrust>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorTrust), x.GetService<ITelemetryService>()));
+            .AddSingleton<ISearchConnection<SchoolComparator>>(x => new SearchConnection<SchoolComparator>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorSchool), x.GetService<ITelemetryService>()))
+            .AddSingleton<ISearchConnection<TrustComparator>>(x => new SearchConnection<TrustComparator>(x.GetKeyedService<SearchClient>(ServiceKeys.ComparatorTrust), x.GetService<ITelemetryService>()));
 
         serviceCollection
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
-            .AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>()
-            .AddSingleton<IComparatorTrustsService, ComparatorTrustsService>()
+            .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>()
+            .AddSingleton<ITrustComparatorsService, TrustComparatorsService>()
             .AddSingleton<ITelemetryService, TelemetryService>();
 
         serviceCollection
@@ -92,7 +91,7 @@ internal static class Services
         serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 
-    internal static class ServiceKeys
+    private static class ServiceKeys
     {
         public const string LocalAuthority = "local-authority";
         public const string School = "school";

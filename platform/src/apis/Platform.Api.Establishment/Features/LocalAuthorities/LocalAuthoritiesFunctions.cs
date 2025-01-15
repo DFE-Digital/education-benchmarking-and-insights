@@ -1,0 +1,115 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using FluentValidation;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using Platform.Functions;
+using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
+using Platform.Search.Requests;
+using Platform.Search.Responses;
+
+namespace Platform.Api.Establishment.Features.LocalAuthorities;
+
+public class LocalAuthoritiesFunctions(
+    ILogger<LocalAuthoritiesFunctions> logger,
+    ILocalAuthoritiesService localAuthoritiesService,
+    IValidator<SuggestRequest> validator)
+{
+    [Function(nameof(SingleLocalAuthorityAsync))]
+    [OpenApiOperation(nameof(SingleLocalAuthorityAsync), Constants.Features.LocalAuthorities)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiSecurityHeader]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SingleLocalAuthorityAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "local-authority/{identifier}")] HttpRequestData req,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   },
+                   {
+                       "Identifier", identifier
+                   }
+               }))
+        {
+            try
+            {
+                var response = await localAuthoritiesService.GetAsync(identifier);
+                if (response == null)
+                {
+                    return req.CreateNotFoundResponse();
+                }
+
+                return await req.CreateJsonResponseAsync(response);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get local authority");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+
+    //TODO: Create specific suggest request
+    //TODO: Add query parameter to new request
+    [Function(nameof(SuggestLocalAuthoritiesAsync))]
+    [OpenApiOperation(nameof(SuggestLocalAuthoritiesAsync), Constants.Features.LocalAuthorities)]
+    [OpenApiParameter("names", In = ParameterLocation.Query, Description = "List of LA names to exclude", Type = typeof(string[]))]
+    [OpenApiSecurityHeader]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SuggestRequest), Description = "The suggest object")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthority>))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
+    public async Task<HttpResponseData> SuggestLocalAuthoritiesAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "local-authorities/suggest")] HttpRequestData req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (logger.BeginScope(new Dictionary<string, object>
+               {
+                   {
+                       "Application", Constants.ApplicationName
+                   },
+                   {
+                       "CorrelationID", correlationId
+                   }
+               }))
+        {
+            try
+            {
+                var body = await req.ReadAsJsonAsync<SuggestRequest>();
+
+                var validationResult = await validator.ValidateAsync(body);
+                if (!validationResult.IsValid)
+                {
+                    return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+                }
+
+                var names = req.Query["names"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var localAuthorities = await localAuthoritiesService.SuggestAsync(body, names);
+                return await req.CreateJsonResponseAsync(localAuthorities);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Failed to get local authority suggestions");
+                return req.CreateErrorResponse();
+            }
+        }
+    }
+}

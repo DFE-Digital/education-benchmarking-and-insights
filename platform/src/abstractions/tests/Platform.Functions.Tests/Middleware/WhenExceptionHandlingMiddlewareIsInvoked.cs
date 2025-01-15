@@ -4,7 +4,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Functions.Middleware;
-using Platform.Functions.Tests.Mocks;
+using Platform.Test.Mocks;
 using Xunit;
 
 namespace Platform.Functions.Tests.Middleware;

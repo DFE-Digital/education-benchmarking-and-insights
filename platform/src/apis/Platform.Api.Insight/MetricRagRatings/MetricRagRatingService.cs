@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Platform.Domain.Messages;
+using Platform.Domain;
 using Platform.Sql;
+
 namespace Platform.Api.Insight.MetricRagRatings;
 
 public interface IMetricRagRatingsService
@@ -15,10 +16,10 @@ public interface IMetricRagRatingsService
         string? companyNumber,
         string? laCode,
         string? phase,
-        string runType = PipelineRunType.Default,
+        string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false);
 
-    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = PipelineRunType.Default, bool includeSubCategories = false);
+    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = Pipeline.RunType.Default, bool includeSubCategories = false);
 }
 
 public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRatingsService
@@ -30,7 +31,7 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         string? companyNumber,
         string? laCode,
         string? phase,
-        string runType = PipelineRunType.Default,
+        string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
@@ -97,7 +98,7 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters);
     }
 
-    public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = PipelineRunType.Default,
+    public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false)
     {
         using var conn = await dbFactory.GetConnection();

@@ -70,10 +70,6 @@ public class LocalAuthorityController(
         }
     }
 
-    private async Task<School[]> LocalAuthoritySchools(string code) => await establishmentApi
-        .QuerySchools(new ApiQuery().AddIfNotNull("laCode", code))
-        .GetResultOrDefault<School[]>() ?? [];
-
     private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
         .GetLocalAuthority(code)
         .GetResultOrThrow<LocalAuthority>();

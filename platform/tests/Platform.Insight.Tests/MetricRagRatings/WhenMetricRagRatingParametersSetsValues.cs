@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Platform.Api.Insight.MetricRagRatings;
-using Platform.Domain.Messages;
+using Platform.Domain;
 using Xunit;
 
 namespace Platform.Insight.Tests.MetricRagRatings;
@@ -9,9 +9,9 @@ namespace Platform.Insight.Tests.MetricRagRatings;
 public class WhenMetricRagRatingParametersSetsValues
 {
     [Theory]
-    [InlineData("true", PipelineRunType.Custom)]
-    [InlineData("false", PipelineRunType.Default)]
-    [InlineData(null, PipelineRunType.Default)]
+    [InlineData("true", Pipeline.RunType.Custom)]
+    [InlineData("false", Pipeline.RunType.Default)]
+    [InlineData(null, Pipeline.RunType.Default)]
     public void ShouldSetValuesFromIQueryCollection(string? useCustomData, string expectedDataContext)
     {
         var parameters = new MetricRagRatingParameters();

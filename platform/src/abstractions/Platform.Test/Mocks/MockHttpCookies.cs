@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Platform.Functions.Tests.Mocks;
+namespace Platform.Test.Mocks;
 
 public class MockHttpCookies : HttpCookies
 {

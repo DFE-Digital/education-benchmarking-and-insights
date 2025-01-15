@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.OpenApi.Examples;
-using Platform.Domain.Messages;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.BudgetForecast;
@@ -88,7 +88,7 @@ public class BudgetForecastFunctions(ILogger<BudgetForecastFunctions> logger, IB
         {
             try
             {
-                var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, PipelineRunType.Default);
+                var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default);
                 return await req.CreateJsonResponseAsync(result.Select(BudgetForecastReturnsResponseFactory.Create));
             }
             catch (Exception e)

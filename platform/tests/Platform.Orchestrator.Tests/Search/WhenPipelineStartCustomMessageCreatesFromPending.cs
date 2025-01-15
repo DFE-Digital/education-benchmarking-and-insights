@@ -1,5 +1,6 @@
 using AutoFixture;
 using Platform.Api.Benchmark.CustomData;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Xunit;
 
@@ -13,8 +14,8 @@ public class WhenPipelineStartCustomMessageCreatesFromPending
     public void ShouldCreatePipelineStartCustomMessage()
     {
         var runId = Guid.NewGuid().ToString();
-        const string runType = PipelineRunType.Custom;
-        const string type = PipelineJobType.CustomData;
+        const string runType = Pipeline.RunType.Custom;
+        const string type = Pipeline.JobType.CustomData;
         const string urn = nameof(urn);
         const int year = 2024;
         var payload = _fixture.Create<CustomDataRequest>().CreatePayload();
@@ -43,8 +44,8 @@ public class WhenPipelineStartCustomMessageCreatesFromPending
     public void ShouldNotCreatePipelineStartCustomMessageIfYearInWrongFormat(object? year, string expectedMessage)
     {
         var runId = Guid.NewGuid().ToString();
-        const string runType = PipelineRunType.Custom;
-        const string type = PipelineJobType.CustomData;
+        const string runType = Pipeline.RunType.Custom;
+        const string type = Pipeline.JobType.CustomData;
         const string urn = nameof(urn);
         var payload = _fixture.Create<CustomDataRequest>().CreatePayload();
 
