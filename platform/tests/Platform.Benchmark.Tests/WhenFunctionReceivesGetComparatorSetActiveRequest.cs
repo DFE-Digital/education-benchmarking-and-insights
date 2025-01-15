@@ -26,7 +26,7 @@ public class WhenFunctionReceivesGetComparatorSetActiveRequest : ComparatorSetsF
             .Setup(u => u.QueryAsync(new[]
             {
                 userId
-            }, "comparator-set", null, null, urn, "school", true))
+            }, "comparator-set", null, null, urn, "school"))
             .ReturnsAsync(userData);
 
         ComparatorSetsService
@@ -50,7 +50,7 @@ public class WhenFunctionReceivesGetComparatorSetActiveRequest : ComparatorSetsF
             .Setup(u => u.QueryAsync(new[]
             {
                 userId
-            }, "comparator-set", null, null, urn, "school", true))
+            }, "comparator-set", null, null, urn, "school"))
             .ReturnsAsync(new List<UserData>());
 
         var response =
@@ -78,7 +78,7 @@ public class WhenFunctionReceivesGetComparatorSetActiveRequest : ComparatorSetsF
             .Setup(u => u.QueryAsync(new[]
             {
                 userId
-            }, "comparator-set", null, null, urn, "school", true))
+            }, "comparator-set", null, null, urn, "school"))
             .ReturnsAsync(userData);
 
         ComparatorSetsService
@@ -109,7 +109,7 @@ public class WhenFunctionReceivesGetComparatorSetActiveRequest : ComparatorSetsF
             .Setup(u => u.QueryAsync(new[]
             {
                 userId
-            }, "comparator-set", null, null, urn, "school", true))
+            }, "comparator-set", null, null, urn, "school"))
             .ReturnsAsync(userData);
 
         ComparatorSetsService

@@ -9,9 +9,8 @@ namespace Platform.Benchmark.Tests;
 public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBase
 {
     [Theory]
-    [InlineData("userId", null, null, null, null, null, null)]
-    [InlineData("userId", null, null, null, null, null, true)]
-    public async Task ShouldReturn200OnValidRequest(string userId, string? type, string? status, string? id, string? organisationId, string? organisationType, bool? active)
+    [InlineData("userId", null, null, null, null, null)]
+    public async Task ShouldReturn200OnValidRequest(string userId, string? type, string? status, string? id, string? organisationId, string? organisationType)
     {
         var query = new Dictionary<string, StringValues>
         {
@@ -32,9 +31,6 @@ public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBas
             },
             {
                 "organisationType", organisationType
-            },
-            {
-                "active", active == true ? "true" : null
             }
         };
 
@@ -42,7 +38,7 @@ public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBas
             .Setup(d => d.QueryAsync(new[]
             {
                 userId
-            }, type, status, id, organisationId, organisationType, active))
+            }, type, status, id, organisationId, organisationType))
             .ReturnsAsync(Array.Empty<UserData>())
             .Verifiable(Times.Once);
 
@@ -57,7 +53,7 @@ public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBas
     public async Task ShouldReturn500OnError()
     {
         Service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<bool?>()))
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .Throws(new Exception());
 
         var result = await Functions.QueryAsync(CreateHttpRequestData());

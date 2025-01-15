@@ -12,7 +12,6 @@ public record UserDataParameters : QueryParameters
     public string? Id { get; private set; }
     public string? OrganisationType { get; private set; }
     public string? OrganisationId { get; private set; }
-    public bool? Active { get; private set; }
 
     public override void SetValues(IQueryCollection query)
     {
@@ -22,6 +21,5 @@ public record UserDataParameters : QueryParameters
         Id = query["id"];
         OrganisationType = query["organisationType"];
         OrganisationId = query["organisationId"];
-        Active = query.ContainsKey("active") ? query.ToBool("active") : null;
     }
 }

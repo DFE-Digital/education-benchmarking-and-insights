@@ -14,8 +14,7 @@ public interface IUserDataService
         string? status = null,
         string? id = null,
         string? organisationId = null,
-        string? organisationType = null,
-        bool? active = null);
+        string? organisationType = null);
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,13 +26,12 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
         string? status = null,
         string? id = null,
         string? organisationId = null,
-        string? organisationType = null,
-        bool? active = null)
+        string? organisationType = null)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
 
-        builder.Where("UserId IN @userIds AND Status IN ('pending','complete')", new
+        builder.Where("UserId IN @userIds AND Status IN ('pending','complete') AND Active = 1", new
         {
             userIds
         });
@@ -75,14 +73,6 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
             builder.Where("Id = @id", new
             {
                 id
-            });
-        }
-
-        if (active.HasValue)
-        {
-            builder.Where("Active = @active", new
-            {
-                active
             });
         }
 
