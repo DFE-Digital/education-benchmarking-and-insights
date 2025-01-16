@@ -92,14 +92,7 @@ public class CompareYourCostsSteps(PageDriver driver)
     [Then("the following is shown for '(.*)'")]
     public async Task ThenTheFollowingIsShownFor(string chartName, Table table)
     {
-        var expected = new List<List<string>>();
-        {
-            var headers = table.Header.ToList();
-
-            expected.Add(headers);
-            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
-        }
-
+        var expected = GetExpectedTableData(table);
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsTableDataForChartDisplayed(ChartNameFromFriendlyName(chartName), expected);
     }
@@ -107,18 +100,11 @@ public class CompareYourCostsSteps(PageDriver driver)
     [Then("the following is shown in '(.*)' sub category '(.*)'")]
     public async Task ThenTheFollowingIsShownInSubCategory(string chartName, string subCategoryName, Table table)
     {
-        var expected = new List<List<string>>();
-        {
-            var headers = table.Header.ToList();
-
-            expected.Add(headers);
-            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
-        }
-
+        var expected = GetExpectedTableData(table);
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsTableDataForChartDisplayed(ChartNameFromFriendlyName(chartName), expected, subCategoryName);
     }
-
+    
     [Then("save as image buttons are hidden")]
     public async Task ThenSaveAsImageButtonsAreHidden()
     {
@@ -348,7 +334,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
     }
-
+    
     private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
     {
         return chartName switch
@@ -361,6 +347,16 @@ public class CompareYourCostsSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
+    
+    private List<List<string>> GetExpectedTableData(Table table)
+    {
+        var expected = new List<List<string>>();
+        var headers = table.Header.ToList();
+        expected.Add(headers);
+        expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
 
+        return expected;
+    }
+    
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
 }
