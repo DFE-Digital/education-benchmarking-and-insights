@@ -70,7 +70,6 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
-        const string identifier = "testIdentifier";
         ComparatorSetsService
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));

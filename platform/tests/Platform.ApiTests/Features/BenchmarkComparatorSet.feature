@@ -79,7 +79,8 @@
           | 990545 |
           | 990518 |
         When I submit the user defined school comparator set request
-        Then the user defined comparator set result should contain comparators:
+        Then new user data should be created for school id '990000'
+        And the user defined comparator set result should contain comparators:
           | Urn    |  
           | 990683 |
           | 990545 |

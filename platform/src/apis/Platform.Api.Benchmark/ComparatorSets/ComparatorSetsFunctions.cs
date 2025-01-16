@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -10,7 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Api.Benchmark.Responses;
-using Platform.Api.Benchmark.UserData;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
@@ -19,10 +17,7 @@ using Platform.Json;
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
-public class ComparatorSetsFunctions(
-    IComparatorSetsService comparatorSetsService,
-    IUserDataService userDataService,
-    ILogger<ComparatorSetsFunctions> logger,
+public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger,
     IValidator<ComparatorSetUserDefinedSchool> schoolValidator,
     IValidator<ComparatorSetUserDefinedTrust> trustValidator)
 {
@@ -54,7 +49,7 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.DefaultSchoolAsync(urn);
+                var comparatorSet = await service.DefaultSchoolAsync(urn);
                 return comparatorSet == null
                     ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
@@ -101,7 +96,7 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.CustomSchoolAsync(identifier, urn);
+                var comparatorSet = await service.CustomSchoolAsync(identifier, urn);
                 return comparatorSet == null
                     ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
@@ -147,69 +142,7 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.UserDefinedSchoolAsync(urn, identifier);
-                return comparatorSet == null
-                    ? req.CreateNotFoundResponse()
-                    : await req.CreateJsonResponseAsync(comparatorSet);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to get user defined school comparator set");
-                return req.CreateErrorResponse();
-            }
-        }
-    }
-
-    [Function(nameof(UserDefinedSchoolComparatorSetActiveAsync))]
-    [OpenApiOperation(nameof(UserDefinedSchoolComparatorSetActiveAsync), "Comparator Sets")]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("userId", Type = typeof(string), Required = true)]
-    [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IComparatorSetUserDefinedSchool))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
-    [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-    public async Task<HttpResponseData> UserDefinedSchoolComparatorSetActiveAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/school/{urn}/user-defined/active/{userId}")] HttpRequestData req,
-        string urn,
-        string userId)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "UserId", userId
-                   }
-               }))
-        {
-            try
-            {
-                var userData = (await userDataService.QueryAsync([userId], "comparator-set", null, null, urn, "school")).ToArray();
-                switch (userData.Length)
-                {
-                    case 0:
-                        return req.CreateNotFoundResponse();
-                    case > 1:
-                        logger.LogWarning(
-                            "Unexpected {Length} active {Type} UserData rows returned for {OrganisationType} {OrganisationId} for user {userId}",
-                            userData.Length,
-                            "comparator-set",
-                            "school",
-                            urn,
-                            userId);
-                        break;
-                }
-
-                var comparatorSet = await comparatorSetsService.UserDefinedSchoolAsync(urn, userData.First().Id!);
+                var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
                 return comparatorSet == null
                     ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
@@ -269,13 +202,13 @@ public class ComparatorSetsFunctions(
                     return response;
                 }
 
-                await comparatorSetsService.UpsertUserDefinedSchoolAsync(comparatorSet);
+                await service.UpsertUserDefinedSchoolAsync(comparatorSet);
 
                 if (comparatorSet.Set.Count >= 10)
                 {
-                    await comparatorSetsService.UpsertUserDataActiveAsync(
+                    await service.UpsertUserDataActiveAsync(
                         ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
-                    var year = await comparatorSetsService.CurrentYearAsync();
+                    var year = await service.CurrentYearAsync();
 
                     var message = new PipelineStartCustom
                     {
@@ -294,7 +227,7 @@ public class ComparatorSetsFunctions(
                 }
                 else
                 {
-                    await comparatorSetsService.UpsertUserDataActiveAsync(
+                    await service.UpsertUserDataActiveAsync(
                         ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
                 }
 
@@ -345,13 +278,13 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.UserDefinedSchoolAsync(urn, identifier);
+                var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
                 if (comparatorSet == null)
                 {
                     return req.CreateNotFoundResponse();
                 }
 
-                await comparatorSetsService.DeleteSchoolAsync(comparatorSet);
+                await service.DeleteSchoolAsync(comparatorSet);
                 return req.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception e)
@@ -398,7 +331,7 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.UserDefinedTrustAsync(companyNumber, identifier);
+                var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
                 return comparatorSet == null
                     ? req.CreateNotFoundResponse()
                     : await req.CreateJsonResponseAsync(comparatorSet);
@@ -462,9 +395,9 @@ public class ComparatorSetsFunctions(
                     return req.CreateResponse(HttpStatusCode.BadRequest);
                 }
 
-                await comparatorSetsService.UpsertUserDefinedTrustAsync(comparatorSet);
+                await service.UpsertUserDefinedTrustAsync(comparatorSet);
 
-                await comparatorSetsService.UpsertUserDataAsync(
+                await service.UpsertUserDataAsync(
                     ComparatorSetUserData.CompleteTrust(identifier, body.UserId, companyNumber));
 
                 return req.CreateResponse(HttpStatusCode.Accepted);
@@ -512,13 +445,13 @@ public class ComparatorSetsFunctions(
         {
             try
             {
-                var comparatorSet = await comparatorSetsService.UserDefinedTrustAsync(companyNumber, identifier);
+                var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
                 if (comparatorSet == null)
                 {
                     return req.CreateNotFoundResponse();
                 }
 
-                await comparatorSetsService.DeleteTrustAsync(comparatorSet);
+                await service.DeleteTrustAsync(comparatorSet);
                 return req.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception e)
