@@ -55,6 +55,7 @@ public record ComparatorSetUserData
         OrganisationType = "trust",
         OrganisationId = companyNumber,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = Pipeline.JobStatus.Complete
+        Status = Pipeline.JobStatus.Complete,
+        Active = true
     };
 }

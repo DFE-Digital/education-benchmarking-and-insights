@@ -6,6 +6,7 @@ using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -15,14 +16,16 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
     [InlineData(false)]
     public async Task CanDisplay(bool isEdit)
     {
-        var page = await SetupNavigateInitPage(isEdit);
+        const string companyNumber = "12345";
+        var page = await SetupNavigateInitPage(companyNumber, isEdit);
         AssertPageLayout(page, isEdit);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateSubmitted(companyNumber, isEdit).ToAbsolute());
     }
 
-    private async Task<IHtmlDocument> SetupNavigateInitPage(bool isEdit)
+    private async Task<IHtmlDocument> SetupNavigateInitPage(string companyNumber, bool isEdit)
     {
         var trust = Fixture.Build<Trust>()
-            .With(x => x.CompanyNumber, "12345")
+            .With(x => x.CompanyNumber, companyNumber)
             .Create();
 
         var key = SessionKeys.TrustComparatorSetUserDefined(trust.CompanyNumber!);
@@ -38,14 +41,13 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
         };
 
         var page = await Client.SetupEstablishment(trust)
-            .SetupTrustInsightApi(new[]
-            {
+            .SetupTrustInsightApi([
                 new TrustCharacteristic
                 {
                     CompanyNumber = "114504",
                     TrustName = "Abbey Academies Trust"
                 }
-            })
+            ])
             .SetupComparatorSetApi()
             .SetupHttpContextAccessor(sessionState)
             .Navigate(Paths.TrustComparatorsCreateSubmit(trust.CompanyNumber));

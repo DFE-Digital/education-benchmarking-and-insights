@@ -1,11 +1,13 @@
 ﻿using Microsoft.Playwright;
 
-namespace Web.E2ETests.Pages.Trust.Benchmarking;
+namespace Web.E2ETests.Pages.Trust.Comparators;
+
 public enum ComparatorsByTypes
 {
     Name,
     Characteristic
 }
+
 public class CreateComparatorsByPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1,

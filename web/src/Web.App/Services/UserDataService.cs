@@ -11,7 +11,7 @@ public interface IUserDataService
 {
     Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn);
     Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn);
-    Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string identifier, string companyNumber);
+    Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber);
     Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn);
     Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber);
 }
@@ -59,7 +59,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             return null;
         }
 
-
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
@@ -72,24 +71,32 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string identifier,
-        string companyNumber)
+    public async Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
             return null;
         }
 
-
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
-            .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        if (userSets?.Length > 1)
+        {
+            logger.LogWarning(
+                "Unexpected {Length} active {Type} UserData rows returned for {OrganisationType} {OrganisationId} for user {userId}",
+                userSets.Length,
+                ComparatorSet,
+                OrganisationTrust,
+                companyNumber,
+                user.UserGuid());
+        }
+
         return userSets?.FirstOrDefault();
     }
 
@@ -119,7 +126,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         {
             return (null, null);
         }
-
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())

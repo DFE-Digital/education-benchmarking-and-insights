@@ -36,15 +36,9 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
                }))
         {
             try
@@ -80,18 +74,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -126,18 +112,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -172,15 +150,9 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
                }))
         {
             try
@@ -262,18 +234,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -315,18 +279,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "CompanyNumber", companyNumber
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber },
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -347,40 +303,30 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
     [Function(nameof(CreateUserDefinedTrustComparatorSetAsync))]
     [OpenApiOperation(nameof(CreateUserDefinedTrustComparatorSetAsync), "Comparator Sets")]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(ComparatorSetUserDefinedRequest), Description = "The user defined set of schools object")]
     [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> CreateUserDefinedTrustComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "put",
-            Route = "comparator-set/trust/{companyNumber}/user-defined/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "post",
+            Route = "comparator-set/trust/{companyNumber}/user-defined")]
         HttpRequestData req,
-        string companyNumber,
-        string identifier)
+        string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "CompanyNumber", companyNumber
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber }
                }))
         {
             try
             {
                 var body = await req.ReadAsJsonAsync<ComparatorSetUserDefinedRequest>();
+                var identifier = Guid.NewGuid().ToString();
                 var comparatorSet = new ComparatorSetUserDefinedTrust
                 {
                     RunId = identifier,
@@ -397,7 +343,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
                 await service.UpsertUserDefinedTrustAsync(comparatorSet);
 
-                await service.UpsertUserDataAsync(
+                await service.InsertNewAndDeactivateExistingUserDataAsync(
                     ComparatorSetUserData.CompleteTrust(identifier, body.UserId, companyNumber));
 
                 return req.CreateResponse(HttpStatusCode.Accepted);
@@ -429,18 +375,10 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "CompanyNumber", companyNumber
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber },
+                   { "Identifier", identifier }
                }))
         {
             try

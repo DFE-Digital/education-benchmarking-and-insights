@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace Web.E2ETests.Pages.Trust.Benchmarking;
+namespace Web.E2ETests.Pages.Trust.Comparators;
 
 public class CreateComparatorsByCharacteristicPage(IPage page) : ICreateComparatorsByPage
 {

@@ -93,6 +93,7 @@ public static class Paths
     public static string TrustComparatorsCreateByCharacteristic(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/characteristic";
     public static string TrustComparatorsCreatePreview(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/preview";
     public static string TrustComparatorsCreateSubmit(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/submit";
+    public static string TrustComparatorsCreateSubmitted(string? companyNumber, bool? isEdit) => $"/trust/{companyNumber}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}";
     public static string TrustComparatorsRevert(string? companyNumber) => $"/trust/{companyNumber}/comparators/revert";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";

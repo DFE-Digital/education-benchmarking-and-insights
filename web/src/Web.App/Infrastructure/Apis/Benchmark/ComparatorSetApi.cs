@@ -8,7 +8,7 @@ public class ComparatorSetApi(HttpClient httpClient, string? key = default) : Ap
     public async Task<ApiResult> UpsertUserDefinedSchoolAsync(string urn, PostComparatorSetUserDefinedRequest request) => await PostAsync(Api.ComparatorSet.SchoolUserDefined(urn), new JsonContent(request));
     public async Task<ApiResult> GetUserDefinedTrustAsync(string companyNumber, string? identifier) => await GetAsync(Api.ComparatorSet.TrustUserDefined(companyNumber, identifier));
     public async Task<ApiResult> RemoveUserDefinedTrustAsync(string companyNumber, string? identifier) => await DeleteAsync(Api.ComparatorSet.TrustUserDefined(companyNumber, identifier));
-    public async Task<ApiResult> UpsertUserDefinedTrustAsync(string companyNumber, PostComparatorSetUserDefinedRequest request) => await PutAsync(Api.ComparatorSet.TrustUserDefined(companyNumber, request.Identifier.ToString()), new JsonContent(request));
+    public async Task<ApiResult> UpsertUserDefinedTrustAsync(string companyNumber, PostComparatorSetUserDefinedRequest request) => await PostAsync(Api.ComparatorSet.TrustUserDefined(companyNumber), new JsonContent(request));
     public async Task<ApiResult> GetUserDefinedSchoolAsync(string urn, string? identifier) => await GetAsync(Api.ComparatorSet.SchoolUserDefined(urn, identifier));
 }
 

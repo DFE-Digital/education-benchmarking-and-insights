@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
@@ -15,7 +14,6 @@ public interface IComparatorSetsService
     Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn);
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default);
-    Task UpsertUserDataAsync(ComparatorSetUserData userData);
     Task InsertNewAndDeactivateExistingUserDataAsync(ComparatorSetUserData userData);
     Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
@@ -111,34 +109,6 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedSchool>(sql, parameters);
     }
 
-    [Obsolete("Deprecate method once all consumers switched to use `InsertActiveAndDeactivateExistingUserDataAsync()`", false)]
-    public async Task UpsertUserDataAsync(ComparatorSetUserData userData)
-    {
-        const string sql = "SELECT * from UserData where Id = @Id";
-
-        var parameters = new
-        {
-            userData.Id
-        };
-
-        using var conn = await _dbFactory.GetConnection();
-        var existing = await conn.QueryFirstOrDefaultAsync<ComparatorSetUserData>(sql, parameters);
-
-        using var transaction = conn.BeginTransaction();
-        if (existing != null)
-        {
-            existing.Expiry = userData.Expiry;
-            existing.Status = userData.Status;
-            await conn.UpdateAsync(existing, transaction);
-        }
-        else
-        {
-            await conn.InsertAsync(userData, transaction);
-        }
-
-        transaction.Commit();
-    }
-
     public async Task InsertNewAndDeactivateExistingUserDataAsync(ComparatorSetUserData userData)
     {
         const string sql = "UPDATE UserData SET Active = 0 where OrganisationId = @OrganisationId AND OrganisationType = @OrganisationType AND Type = @Type AND UserId = @UserId";
@@ -178,10 +148,11 @@ public class ComparatorSetsService : IComparatorSetsService
 
     public async Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet)
     {
-        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
+        const string sql = "UPDATE UserData SET Status = @Removed, Active = 0 where Id = @Id";
         var parameters = new
         {
-            Id = comparatorSet.RunId
+            Id = comparatorSet.RunId,
+            Pipeline.JobStatus.Removed
         };
 
         using var connection = await _dbFactory.GetConnection();

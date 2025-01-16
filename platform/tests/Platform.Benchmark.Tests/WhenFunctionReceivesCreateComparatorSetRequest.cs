@@ -27,17 +27,13 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         Service
-            .Setup(d => d.UpsertUserDataAsync(
-                It.IsAny<ComparatorSetUserData>()));
-
-        Service
             .Setup(d => d.CurrentYearAsync())
             .ReturnsAsync("2024");
 
         SchoolValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedSchool>(), default))
+                    It.IsAny<ComparatorSetUserDefinedSchool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         var response =
@@ -71,10 +67,6 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
-        Service
-            .Setup(d => d.UpsertUserDataAsync(
-                It.IsAny<ComparatorSetUserData>()));
-
         const int year = 2024;
         Service
             .Setup(d => d.CurrentYearAsync())
@@ -83,7 +75,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         SchoolValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedSchool>(), default))
+                    It.IsAny<ComparatorSetUserDefinedSchool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         const string urn = "123321";
@@ -126,17 +118,13 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         Service
-            .Setup(d => d.UpsertUserDataAsync(
-                It.IsAny<ComparatorSetUserData>()));
-
-        Service
             .Setup(d => d.CurrentYearAsync())
             .ReturnsAsync("2024");
 
         SchoolValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedSchool>(), default))
+                    It.IsAny<ComparatorSetUserDefinedSchool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult
             {
                 Errors = [new ValidationFailure("TestName", "test error")]
@@ -155,7 +143,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Never());
         Service.Verify(
-            x => x.UpsertUserDataAsync(
+            x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
     }
 
@@ -193,19 +181,14 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             .Setup(d => d.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()));
 
-        Service
-            .Setup(d => d.UpsertUserDataAsync(
-                It.IsAny<ComparatorSetUserData>()));
-
         TrustValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedTrust>(), default))
+                    It.IsAny<ComparatorSetUserDefinedTrust>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         var response =
-            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313",
-                "testIdentifier");
+            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313");
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
@@ -213,7 +196,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             x => x.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Once());
         Service.Verify(
-            x => x.UpsertUserDataAsync(
+            x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
     }
 
@@ -227,22 +210,17 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             .Setup(d => d.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()));
 
-        Service
-            .Setup(d => d.UpsertUserDataAsync(
-                It.IsAny<ComparatorSetUserData>()));
-
         TrustValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedTrust>(), default))
+                    It.IsAny<ComparatorSetUserDefinedTrust>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult
             {
                 Errors = [new ValidationFailure("TestName", "test error")]
             });
 
         var response =
-            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313",
-                "testIdentifier");
+            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313");
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -250,7 +228,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             x => x.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Never());
         Service.Verify(
-            x => x.UpsertUserDataAsync(
+            x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
     }
 
@@ -268,12 +246,11 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         TrustValidator
             .Setup(
                 d => d.ValidateAsync(
-                    It.IsAny<ComparatorSetUserDefinedTrust>(), default))
+                    It.IsAny<ComparatorSetUserDefinedTrust>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         var response =
-            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313",
-                "testIdentifier");
+            await Functions.CreateUserDefinedTrustComparatorSetAsync(CreateHttpRequestDataWithBody(model), "12313");
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
