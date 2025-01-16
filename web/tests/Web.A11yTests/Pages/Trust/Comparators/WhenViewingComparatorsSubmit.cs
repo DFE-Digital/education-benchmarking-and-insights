@@ -1,6 +1,7 @@
 ﻿using Web.A11yTests.Drivers;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.A11yTests.Pages.Trust.Comparators;
 
 [Trait("Category", "Comparators")]
@@ -19,7 +20,7 @@ public class WhenViewingComparatorsSubmit(ITestOutputHelper testOutputHelper, We
         await Page.Locator("main button[type='submit']").ClickAsync();
         await Page.Locator("#create-set").WaitForAsync();
         await Page.Locator("#create-set").ClickAsync();
-        await Page.WaitForURLAsync("**/submit");
+        await Page.WaitForURLAsync("**/submitted");
         await EvaluatePage();
     }
 }
