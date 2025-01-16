@@ -3,6 +3,7 @@ using AutoFixture;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Benchmark.ComparatorSets;
+using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Json;
 using Xunit;
@@ -97,8 +98,8 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotEmpty(response.Messages);
         var actualMessage = response.Messages.First().FromJson<PipelineStartCustom>();
-        Assert.Equal("comparator-set", actualMessage.Type);
-        Assert.Equal("default", actualMessage.RunType);
+        Assert.Equal(Pipeline.JobType.ComparatorSet, actualMessage.Type);
+        Assert.Equal(Pipeline.RunType.Default, actualMessage.RunType);
         Assert.NotNull(actualMessage.RunId);
         Assert.Equal(year, actualMessage.Year);
         Assert.Equal(urn, actualMessage.URN);

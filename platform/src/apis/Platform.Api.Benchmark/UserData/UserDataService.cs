@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
+using Platform.Domain;
 using Platform.Sql;
 
 namespace Platform.Api.Benchmark.UserData;
@@ -31,9 +32,11 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
 
-        builder.Where("UserId IN @userIds AND Status IN ('pending','complete') AND Active = 1", new
+        builder.Where("UserId IN @userIds AND Status IN (@Pending, @Complete) AND Active = 1", new
         {
-            userIds
+            userIds,
+            Pipeline.JobStatus.Pending,
+            Pipeline.JobStatus.Complete
         });
 
         if (!string.IsNullOrEmpty(organisationId))

@@ -160,10 +160,11 @@ public class ComparatorSetsService : IComparatorSetsService
 
     public async Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet)
     {
-        const string sql = "UPDATE UserData SET Status = 'removed', Active = 0 where Id = @Id";
+        const string sql = "UPDATE UserData SET Status = @Removed, Active = 0 where Id = @Id";
         var parameters = new
         {
-            Id = comparatorSet.RunId
+            Id = comparatorSet.RunId,
+            Pipeline.JobStatus.Removed
         };
 
         using var connection = await _dbFactory.GetConnection();
