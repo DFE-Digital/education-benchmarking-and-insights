@@ -43,8 +43,8 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             logger.LogWarning(
                 "Unexpected {Length} active {Type} UserData rows returned for {OrganisationType} {OrganisationId} for user {userId}",
                 userSets.Length,
-                "comparator-set",
-                "school",
+                ComparatorSet,
+                OrganisationSchool,
                 urn,
                 user.UserGuid());
         }
@@ -105,8 +105,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationSchool)
-            .AddIfNotNull("organisationId", urn)
-            .AddIfNotNull("active", true);
+            .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,

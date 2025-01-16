@@ -3,9 +3,9 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Features.Schools;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Schools;
@@ -28,10 +28,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-
-        result.Headers.TryGetValues("Content-Type", out var header);
-        Assert.NotNull(header);
-        Assert.Contains(ContentType.ApplicationJson, header);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
         var body = await result.ReadAsJsonAsync<SuggestResponse<School>>();
         Assert.NotNull(body);
@@ -40,7 +37,6 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     [Fact]
     public async Task ShouldReturn400OnInvalidRequest()
     {
-
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
@@ -49,10 +45,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-
-        result.Headers.TryGetValues("Content-Type", out var header);
-        Assert.NotNull(header);
-        Assert.Contains(ContentType.ApplicationJson, header);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
         var values = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
         Assert.NotNull(values);

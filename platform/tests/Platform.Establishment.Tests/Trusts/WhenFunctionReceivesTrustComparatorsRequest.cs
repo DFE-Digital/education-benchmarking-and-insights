@@ -3,6 +3,7 @@ using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
 using Platform.Functions.Extensions;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;

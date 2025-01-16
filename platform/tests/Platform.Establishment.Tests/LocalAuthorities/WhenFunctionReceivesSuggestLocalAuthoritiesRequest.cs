@@ -3,9 +3,9 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Features.LocalAuthorities;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.LocalAuthorities;
@@ -26,10 +26,7 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
         var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-
-        result.Headers.TryGetValues("Content-Type", out var header);
-        Assert.NotNull(header);
-        Assert.Contains(ContentType.ApplicationJson, header);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
         var body = await result.ReadAsJsonAsync<SuggestResponse<LocalAuthority>>();
         Assert.NotNull(body);
@@ -47,10 +44,7 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-
-        result.Headers.TryGetValues("Content-Type", out var header);
-        Assert.NotNull(header);
-        Assert.Contains(ContentType.ApplicationJson, header);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
         var body = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
         Assert.NotNull(body);

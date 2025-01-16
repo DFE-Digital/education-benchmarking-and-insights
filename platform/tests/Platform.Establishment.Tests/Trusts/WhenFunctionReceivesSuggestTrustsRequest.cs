@@ -6,6 +6,7 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Search.Requests;
 using Platform.Search.Responses;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;

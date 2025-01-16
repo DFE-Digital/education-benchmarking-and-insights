@@ -1,7 +1,10 @@
 using System.Net;
+using AutoFixture;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.Benchmark.UserData;
+using Platform.Functions;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Benchmark.Tests;
@@ -14,38 +17,30 @@ public class WhenFunctionReceivesQueryUserDataRequest : UserDataFunctionsTestBas
     {
         var query = new Dictionary<string, StringValues>
         {
-            {
-                "userId", userId
-            },
-            {
-                "type", type
-            },
-            {
-                "status", status
-            },
-            {
-                "id", id
-            },
-            {
-                "organisationId", organisationId
-            },
-            {
-                "organisationType", organisationType
-            }
+            { "userId", userId },
+            { "type", type },
+            { "status", status },
+            { "id", id },
+            { "organisationId", organisationId },
+            { "organisationType", organisationType }
         };
 
+        var userData = Fixture.CreateMany<UserData>();
+
         Service
-            .Setup(d => d.QueryAsync(new[]
-            {
-                userId
-            }, type, status, id, organisationId, organisationType))
-            .ReturnsAsync(Array.Empty<UserData>())
+            .Setup(d => d.QueryAsync(new[] { userId }, type, status, id, organisationId, organisationType))
+            .ReturnsAsync(userData)
             .Verifiable(Times.Once);
 
         var result = await Functions.QueryAsync(CreateHttpRequestData(query));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
+
+        var actual = await result.ReadAsJsonAsync<UserData[]>();
+        Assert.NotNull(actual);
+        Assert.Equivalent(userData, actual);
         Service.Verify();
     }
 

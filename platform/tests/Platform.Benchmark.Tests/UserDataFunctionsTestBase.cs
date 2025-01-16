@@ -1,3 +1,4 @@
+using AutoFixture;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.UserData;
@@ -7,6 +8,7 @@ namespace Platform.Benchmark.Tests;
 
 public class UserDataFunctionsTestBase : FunctionsTestBase
 {
+    protected readonly Fixture Fixture = new();
     protected readonly UserDataFunctions Functions;
     protected readonly Mock<IUserDataService> Service;
 
