@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
+using Platform.Domain;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
@@ -26,11 +27,11 @@ public record ComparatorSetUserData
     {
         Id = id,
         UserId = userId,
-        Type = "comparator-set",
+        Type = Pipeline.JobType.ComparatorSet,
         OrganisationType = "school",
         OrganisationId = urn,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = "pending",
+        Status = Pipeline.JobStatus.Pending,
         Active = true
     };
 
@@ -38,11 +39,11 @@ public record ComparatorSetUserData
     {
         Id = id,
         UserId = userId,
-        Type = "comparator-set",
+        Type = Pipeline.JobType.ComparatorSet,
         OrganisationType = "school",
         OrganisationId = urn,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = "complete",
+        Status = Pipeline.JobStatus.Complete,
         Active = true
     };
 
@@ -50,10 +51,10 @@ public record ComparatorSetUserData
     {
         Id = id,
         UserId = userId,
-        Type = "comparator-set",
+        Type = Pipeline.JobType.ComparatorSet,
         OrganisationType = "trust",
         OrganisationId = companyNumber,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = "complete"
+        Status = Pipeline.JobStatus.Complete
     };
 }
