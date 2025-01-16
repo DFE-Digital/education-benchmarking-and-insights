@@ -104,7 +104,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsTableDataForChartDisplayed(ChartNameFromFriendlyName(chartName), expected, subCategoryName);
     }
-    
+
     [Then("save as image buttons are hidden")]
     public async Task ThenSaveAsImageButtonsAreHidden()
     {
@@ -334,7 +334,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
     }
-    
+
     private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
     {
         return chartName switch
@@ -347,7 +347,7 @@ public class CompareYourCostsSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
-    
+
     private List<List<string>> GetExpectedTableData(Table table)
     {
         var expected = new List<List<string>>();
@@ -357,6 +357,6 @@ public class CompareYourCostsSteps(PageDriver driver)
 
         return expected;
     }
-    
+
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
 }

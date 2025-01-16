@@ -249,7 +249,7 @@ public class SpendingCostsPage(IPage page)
 
         return rows;
     }
-    
+
     private async Task<ILocator> GetSelectorForCostCategory(CostCategoryNames costCategoryName)
     {
         var chartSelector = costCategoryName switch
