@@ -23,7 +23,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     phases ? phases[0] : undefined
   );
 
-  const message = "Only displaying schools with expenditure.";
+  const message = "Only displaying schools with positive expenditure.";
 
   useGovUk();
 
