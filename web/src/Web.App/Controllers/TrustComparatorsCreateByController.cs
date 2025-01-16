@@ -101,13 +101,13 @@ public class TrustComparatorsCreateByController(
                 UserDefinedTrustComparatorSet userDefinedSet;
                 if (string.IsNullOrEmpty(identifier))
                 {
-                    userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                    userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSetFromSession(companyNumber);
                 }
                 else
                 {
                     userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber, identifier);
-                    trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber, identifier);
-                    trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, userDefinedSet);
+                    trustComparatorSetService.ClearUserDefinedComparatorSetFromSession(companyNumber, identifier);
+                    trustComparatorSetService.SetUserDefinedComparatorSetInSession(companyNumber, userDefinedSet);
                 }
 
                 var trustsQuery = new ApiQuery();
@@ -141,7 +141,7 @@ public class TrustComparatorsCreateByController(
             return RedirectToAction("Name");
         }
 
-        var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+        var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSetFromSession(companyNumber);
         if (!string.IsNullOrWhiteSpace(viewModel.CompanyNumber) && !userDefinedSet.Set.Contains(viewModel.CompanyNumber))
         {
             var countOthers = userDefinedSet.Set.Count(s => s != companyNumber);
@@ -152,7 +152,7 @@ public class TrustComparatorsCreateByController(
             }
 
             userDefinedSet.Set = userDefinedSet.Set.ToList().Append(viewModel.CompanyNumber).ToArray();
-            trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, userDefinedSet);
+            trustComparatorSetService.SetUserDefinedComparatorSetInSession(companyNumber, userDefinedSet);
         }
 
         return RedirectToAction("Name", new
@@ -173,13 +173,13 @@ public class TrustComparatorsCreateByController(
             });
         }
 
-        var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+        var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSetFromSession(companyNumber);
         if (!string.IsNullOrWhiteSpace(viewModel.CompanyNumber) && userDefinedSet.Set.Contains(viewModel.CompanyNumber))
         {
             var set = userDefinedSet.Set.ToList();
             set.Remove(viewModel.CompanyNumber);
             userDefinedSet.Set = set.ToArray();
-            trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, userDefinedSet);
+            trustComparatorSetService.SetUserDefinedComparatorSetInSession(companyNumber, userDefinedSet);
         }
 
         return RedirectToAction("Name", new
@@ -201,8 +201,8 @@ public class TrustComparatorsCreateByController(
             {
                 ViewData[ViewDataKeys.HiddenNavigation] = true;
 
-                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSetFromSession(companyNumber);
                 if (userDefinedSet.Set.Length == 0)
                 {
                     return RedirectToAction("Index", new
@@ -223,20 +223,47 @@ public class TrustComparatorsCreateByController(
 
                 var request = new PostComparatorSetUserDefinedRequest
                 {
-                    Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
                     Set = userDefinedSet.Set,
                     UserId = User.UserGuid().ToString()
                 };
 
                 await comparatorSetApi.UpsertUserDefinedTrustAsync(companyNumber, request).EnsureSuccess();
-                trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
-                trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
-                var viewModel = new TrustComparatorsSubmittedViewModel(trust, request, isEdit);
-                return View(viewModel);
+                trustComparatorSetService.ClearUserDefinedComparatorSetFromSession(companyNumber);
+                trustComparatorSetService.ClearUserDefinedCharacteristicFromSession(companyNumber);
+
+                return RedirectToAction("Submitted", new
+                {
+                    companyNumber,
+                    updating = isEdit ? bool.TrueString.ToLower() : null
+                });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error submitting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("submitted")]
+    public async Task<IActionResult> Submitted(string companyNumber, bool? updating = null)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.HiddenNavigation] = true;
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var viewModel = new TrustComparatorsSubmittedViewModel(trust, updating == true);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school comparators submission status: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -260,12 +287,11 @@ public class TrustComparatorsCreateByController(
                 }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(new[]
-                {
+                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>([
                     companyNumber
-                });
+                ]);
 
-                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristicFromSession(companyNumber);
                 var viewModel = new TrustComparatorsByCharacteristicViewModel(trust, characteristics?.FirstOrDefault(), userDefinedCharacteristic);
                 return View(viewModel);
             }
@@ -294,7 +320,7 @@ public class TrustComparatorsCreateByController(
                 {
                     logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
-                    trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                    trustComparatorSetService.ClearUserDefinedCharacteristicFromSession(companyNumber);
                     return RedirectToAction(nameof(Characteristic));
                 }
 
@@ -309,8 +335,8 @@ public class TrustComparatorsCreateByController(
                     return RedirectToAction(nameof(Characteristic));
                 }
 
-                trustComparatorSetService.SetUserDefinedCharacteristic(companyNumber, viewModel);
-                trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, new UserDefinedTrustComparatorSet
+                trustComparatorSetService.SetUserDefinedCharacteristicInSession(companyNumber, viewModel);
+                trustComparatorSetService.SetUserDefinedComparatorSetInSession(companyNumber, new UserDefinedTrustComparatorSet
                 {
                     Set = results.Trusts.ToArray(),
                     TotalTrusts = results.TotalTrusts
@@ -346,7 +372,7 @@ public class TrustComparatorsCreateByController(
                 }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSetFromSession(companyNumber);
                 if (userDefinedSet.Set.Length <= 1)
                 {
                     return RedirectToAction(nameof(Characteristic), new
@@ -355,7 +381,7 @@ public class TrustComparatorsCreateByController(
                     });
                 }
 
-                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristicFromSession(companyNumber);
                 var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(userDefinedSet.Set.Where(s => s != companyNumber));
                 var viewModel = new TrustComparatorsPreviewViewModel(
                     trust,

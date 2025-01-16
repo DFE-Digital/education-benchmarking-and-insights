@@ -11,6 +11,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -140,19 +141,15 @@ public class TrustComparatorsController(
                 if (userData.ComparatorSet != null)
                 {
                     await comparatorSetApi.RemoveUserDefinedTrustAsync(companyNumber, userData.ComparatorSet).EnsureSuccess();
-                    trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber, userData.ComparatorSet);
+                    trustComparatorSetService.ClearUserDefinedComparatorSetFromSession(companyNumber, userData.ComparatorSet);
                 }
 
-                trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
-                trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                trustComparatorSetService.ClearUserDefinedComparatorSetFromSession(companyNumber);
+                trustComparatorSetService.ClearUserDefinedCharacteristicFromSession(companyNumber);
                 return RedirectToAction("Index", "Trust", new Dictionary<string, string>
                 {
-                    {
-                        "companyNumber", companyNumber
-                    },
-                    {
-                        "comparator-reverted", "true"
-                    }
+                    { "companyNumber", companyNumber },
+                    { "comparator-reverted", "true" }
                 });
             }
             catch (Exception e)

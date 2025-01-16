@@ -43,18 +43,18 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     }
 
     [HttpGet]
-    [Route("trust/{companyNumber}/{identifier}")]
+    [Route("trust/{companyNumber}")]
     [Produces("application/json")]
-    public async Task<IActionResult> TrustUserData(string companyNumber, string identifier)
+    public async Task<IActionResult> TrustUserData(string companyNumber)
     {
         using (logger.BeginScope(new
         {
-            identifier
+            companyNumber
         }))
         {
             try
             {
-                var userSet = await userDataService.GetTrustComparatorSetAsync(User, identifier, companyNumber);
+                var userSet = await userDataService.GetTrustComparatorSetAsync(User, companyNumber);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -64,7 +64,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting trust user data {Id} for {User}", identifier, User.UserGuid());
+                logger.LogError(e, "An error getting trust user data for {User}", User.UserGuid());
                 return StatusCode(500);
             }
         }

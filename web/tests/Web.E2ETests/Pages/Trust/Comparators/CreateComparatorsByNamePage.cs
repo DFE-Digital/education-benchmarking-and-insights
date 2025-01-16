@@ -1,6 +1,7 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Pages.Trust.Benchmarking;
 
-namespace Web.E2ETests.Pages.Trust.Benchmarking;
+namespace Web.E2ETests.Pages.Trust.Comparators;
 
 public class CreateComparatorsByNamePage(IPage page) : ICreateComparatorsByPage
 {
@@ -20,7 +21,7 @@ public class CreateComparatorsByNamePage(IPage page) : ICreateComparatorsByPage
         await PageH1Heading.ShouldBeVisible();
     }
 
-    public async Task TypeIntoSearchBox(string text)
+    public async Task TypeIntoTrustSearchBox(string text)
     {
         await TrustSearchInputField.PressSequentially(text);
         await TrustSuggestionsDropdown.ShouldBeVisible();
@@ -37,7 +38,7 @@ public class CreateComparatorsByNamePage(IPage page) : ICreateComparatorsByPage
         await ChooseTrustButton.ClickAsync();
     }
 
-    public async Task<Trust.Benchmarking.TrustBenchmarkSpendingPage> ClickCreateSetButton()
+    public async Task<TrustBenchmarkSpendingPage> ClickCreateSetButton()
     {
         await CreateSetButton.ShouldBeVisible();
         await CreateSetButton.ClickAsync();

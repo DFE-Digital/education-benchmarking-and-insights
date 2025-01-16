@@ -35,10 +35,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         var set = _fixture
             .CreateMany<int>(5)
             .Select(i => i.ToString())
-            .Concat(new[]
-            {
-                urn
-            })
+            .Concat([urn])
             .ToArray();
         PostUserDefinedComparatorRequest(urn, set);
     }
@@ -73,19 +70,12 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForSchoolIdContaining(string urn, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[]
-            {
-                urn
-            })
+            .Concat([urn])
             .ToArray();
         PostUserDefinedComparatorRequest(urn, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
 
-        api.CreateRequest(UserDefinedDataKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&status=complete", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+        GetUserDefinedComparatorRequest("school", urn);
     }
 
     [Then("the trust comparator result should be accepted")]
@@ -125,67 +115,65 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     }
 
     [Given("I have a valid user defined comparator set request for company number '(.*)'")]
-    public void GivenIHaveAValidUserDefinedComparatorSetRequestForTrustId(string companyNumber)
+    public void GivenIHaveAValidUserDefinedComparatorSetRequestForCompanyNumber(string companyNumber)
     {
         var set = _fixture
             .CreateMany<int>(5)
             .Select(i => i.ToString())
-            .Concat(new[]
-            {
-                companyNumber
-            })
+            .Concat([companyNumber])
             .ToArray();
-        PutUserDefinedTrustComparatorRequest(companyNumber, set);
+        PostUserDefinedTrustComparatorRequest(companyNumber, set);
     }
 
     [Given("I have an invalid user defined comparator set request for company number '(.*)'")]
-    public void GivenIHaveAnInvalidUserDefinedComparatorSetRequestForTrustId(string companyNumber)
+    public void GivenIHaveAnInvalidUserDefinedComparatorSetRequestForCompanyNumber(string companyNumber)
     {
         var set = _fixture
             .CreateMany<int>(5)
             .Select(i => i.ToString())
             .ToArray();
-        PutUserDefinedTrustComparatorRequest(companyNumber, set);
+        PostUserDefinedTrustComparatorRequest(companyNumber, set);
     }
 
     [Given("I have an invalid delete user defined comparator set request for company number '(.*)'")]
-    public void GivenIHaveAnInvalidDeleteUserDefinedComparatorSetRequestForTrustId(string companyNumber)
+    public void GivenIHaveAnInvalidDeleteUserDefinedComparatorSetRequestForCompanyNumber(string companyNumber)
     {
         DeleteUserDefinedTrustComparatorRequest(companyNumber, Guid.NewGuid());
     }
 
     [Given("I have a valid user defined comparator set get request for company number '(.*)' containing:")]
-    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, DataTable table)
+    public async Task GivenIHaveAValidUserDefinedComparatorSetGetRequestForCompanyNumberContaining(string companyNumber, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[]
-            {
-                companyNumber
-            })
+            .Concat([companyNumber])
             .ToArray();
-        var identifier = PutUserDefinedTrustComparatorRequest(companyNumber, set);
+        PostUserDefinedTrustComparatorRequest(companyNumber, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
 
-        api.CreateRequest(UserDefinedTrustComparatorSetKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/comparator-set/trust/{companyNumber}/user-defined/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+        GetUserDefinedComparatorRequest("trust", companyNumber);
     }
 
     [Given("I have a valid delete user defined comparator set get request for company number '(.*)' containing:")]
-    public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForTrustIdContaining(string companyNumber, DataTable table)
+    public async Task GivenIHaveAValidDeleteUserDefinedComparatorSetGetRequestForCompanyNumberContaining(string companyNumber, DataTable table)
     {
         var set = GetFirstColumnsFromTableRowsAsString(table)
-            .Concat(new[]
-            {
-                companyNumber
-            })
+            .Concat([companyNumber])
             .ToArray();
-        var identifier = PutUserDefinedTrustComparatorRequest(companyNumber, set);
+        PostUserDefinedTrustComparatorRequest(companyNumber, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
 
-        DeleteUserDefinedTrustComparatorRequest(companyNumber, identifier);
+        GetUserDefinedComparatorRequest("trust", companyNumber);
+        await api.Send();
+
+        var response = api[UserDefinedDataKey].Response;
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<UserData[]>();
+        result.Should().NotBeNull().And.HaveCount(1);
+
+        DeleteUserDefinedTrustComparatorRequest(companyNumber, result.Select(r => new Guid(r.Id!)).FirstOrDefault());
     }
 
     [When("I submit the default comparator set request")]
@@ -286,6 +274,25 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         await api.Send();
     }
 
+    [Then("new user data should be created for company number '(.*)'")]
+    public async Task ThenNewUserDataShouldBeCreatedForCompanyNumber(string companyNumber)
+    {
+        var response = api[UserDefinedDataKey].Response;
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<UserData[]>();
+
+        api.CreateRequest(UserDefinedTrustComparatorSetKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/comparator-set/trust/{companyNumber}/user-defined/{result.First().Id}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+
+        await api.Send();
+    }
+
     [Then("the user defined comparator set result should contain comparators:")]
     private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparators(DataTable table)
     {
@@ -363,9 +370,8 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         });
     }
 
-    private Guid PutUserDefinedTrustComparatorRequest(string companyNumber, string[] set)
+    private void PostUserDefinedTrustComparatorRequest(string companyNumber, string[] set)
     {
-        var identifier = Guid.NewGuid();
         var content = new ComparatorSetUserDefinedRequest
         {
             UserId = _userGuid,
@@ -374,12 +380,10 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
 
         api.CreateRequest(UserDefinedTrustComparatorSetKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/comparator-set/trust/{companyNumber}/user-defined/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Put,
+            RequestUri = new Uri($"/api/comparator-set/trust/{companyNumber}/user-defined", UriKind.Relative),
+            Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
-
-        return identifier;
     }
 
     private void DeleteUserDefinedTrustComparatorRequest(string companyNumber, Guid identifier)
@@ -388,6 +392,15 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         {
             RequestUri = new Uri($"/api/comparator-set/trust/{companyNumber}/user-defined/{identifier}", UriKind.Relative),
             Method = HttpMethod.Delete
+        });
+    }
+
+    private void GetUserDefinedComparatorRequest(string type, string identifier)
+    {
+        api.CreateRequest(UserDefinedDataKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={identifier}&organisationType={type}&status=complete", UriKind.Relative),
+            Method = HttpMethod.Get
         });
     }
 }
