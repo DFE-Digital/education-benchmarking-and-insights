@@ -36,7 +36,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school user data for {User}", User.UserId());
+                logger.LogError(e, "An error getting school user data for {User}", User.UserGuid());
                 return StatusCode(500);
             }
         }
@@ -64,7 +64,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting trust user data {Id} for {User}", identifier, User.UserId());
+                logger.LogError(e, "An error getting trust user data {Id} for {User}", identifier, User.UserGuid());
                 return StatusCode(500);
             }
         }
@@ -95,7 +95,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school custom data user data {Id} for {User}", identifier, User.UserId());
+                logger.LogError(e, "An error getting school custom data user data {Id} for {User}", identifier, User.UserGuid());
                 return StatusCode(500);
             }
         }

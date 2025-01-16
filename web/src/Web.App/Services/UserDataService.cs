@@ -16,7 +16,7 @@ public interface IUserDataService
     Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber);
 }
 
-public class UserDataService(IUserDataApi api) : IUserDataService
+public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) : IUserDataService
 {
     private const string OrganisationSchool = "school";
     private const string OrganisationTrust = "trust";
@@ -38,6 +38,17 @@ public class UserDataService(IUserDataApi api) : IUserDataService
             .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        if (userSets?.Length > 1)
+        {
+            logger.LogWarning(
+                "Unexpected {Length} active {Type} UserData rows returned for {OrganisationType} {OrganisationId} for user {userId}",
+                userSets.Length,
+                "comparator-set",
+                "school",
+                urn,
+                user.UserGuid());
+        }
+
         return userSets?.FirstOrDefault();
     }
 

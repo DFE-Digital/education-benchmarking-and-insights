@@ -3,9 +3,9 @@ using System.Text;
 using AutoFixture;
 using FluentAssertions;
 using Platform.Api.Benchmark.ComparatorSets;
+using Platform.Api.Benchmark.UserData;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
-using Platform.Functions.Extensions;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
@@ -16,6 +16,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     private const string DefaultComparatorSetKey = "default-comparator-set";
     private const string UserDefinedComparatorSetKey = "user-defined-comparator-set";
     private const string UserDefinedTrustComparatorSetKey = "user-defined-trust-comparator-set";
+    private const string UserDefinedDataKey = "user-defined-data";
     private readonly Fixture _fixture = new();
     private readonly string _userGuid = Guid.NewGuid().ToString();
 
@@ -80,9 +81,9 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         PostUserDefinedComparatorRequest(urn, set);
         await WhenISubmitTheUserDefinedComparatorSetRequest();
 
-        api.CreateRequest(UserDefinedComparatorSetKey, new HttpRequestMessage
+        api.CreateRequest(UserDefinedDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined/active/{_userGuid}", UriKind.Relative),
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&status=complete", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -264,6 +265,25 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         }
 
         table.CompareToDynamicSet(set, false);
+    }
+
+    [Then("new user data should be created for school id '(.*)'")]
+    public async Task ThenNewUserDataShouldBeCreatedForSchoolId(string urn)
+    {
+        var response = api[UserDefinedDataKey].Response;
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<UserData[]>();
+
+        api.CreateRequest(UserDefinedComparatorSetKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/comparator-set/school/{urn}/user-defined/{result.First().Id}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+
+        await api.Send();
     }
 
     [Then("the user defined comparator set result should contain comparators:")]
