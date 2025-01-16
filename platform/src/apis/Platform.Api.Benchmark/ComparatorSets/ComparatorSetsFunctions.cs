@@ -206,7 +206,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
 
                 if (comparatorSet.Set.Count >= 10)
                 {
-                    await service.UpsertUserDataActiveAsync(
+                    await service.InsertNewAndDeactivateExistingUserDataAsync(
                         ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
                     var year = await service.CurrentYearAsync();
 
@@ -227,7 +227,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                 }
                 else
                 {
-                    await service.UpsertUserDataActiveAsync(
+                    await service.InsertNewAndDeactivateExistingUserDataAsync(
                         ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
                 }
 

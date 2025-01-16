@@ -52,7 +52,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Once());
         ComparatorSetsService.Verify(
-            x => x.UpsertUserDataActiveAsync(
+            x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
 
     }
@@ -109,7 +109,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Once());
         ComparatorSetsService.Verify(
-            x => x.UpsertUserDataActiveAsync(
+            x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
     }
 
