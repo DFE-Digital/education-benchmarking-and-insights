@@ -20,16 +20,16 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.CurrentYearAsync())
             .ReturnsAsync("2024");
 
@@ -48,10 +48,10 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         Assert.NotNull(response.HttpResponse);
         Assert.Equal(HttpStatusCode.Accepted, response.HttpResponse.StatusCode);
         Assert.Empty(response.Messages);
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Once());
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
 
@@ -65,17 +65,17 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
             .With(x => x.Set, set)
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));
 
         const int year = 2024;
-        ComparatorSetsService
+        Service
             .Setup(d => d.CurrentYearAsync())
             .ReturnsAsync(year.ToString());
 
@@ -105,10 +105,10 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         Assert.Equal("ComparatorSetPipelinePayload", actualMessage.Payload?.Kind);
         Assert.Equal(set, (actualMessage.Payload as ComparatorSetPipelinePayload)?.Set);
 
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Once());
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
     }
@@ -119,16 +119,16 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.CurrentYearAsync())
             .ReturnsAsync("2024");
 
@@ -150,10 +150,10 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         Assert.NotNull(response.HttpResponse);
         Assert.Equal(HttpStatusCode.BadRequest, response.HttpResponse.StatusCode);
         Assert.Empty(response.Messages);
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDefinedSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Never());
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
     }
@@ -161,17 +161,13 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
     [Fact]
     public async Task CreateUserDefinedShouldBe500OnError()
     {
-        var set = new[]
-        {
-            "1",
-            "2"
-        };
+        var set = new[] { "1", "2" };
 
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .With(x => x.Set, set)
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(
                 d => d.UpsertUserDefinedSchoolAsync(
                     It.IsAny<ComparatorSetUserDefinedSchool>())).Throws(new Exception());
@@ -192,11 +188,11 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));
 
@@ -212,10 +208,10 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Once());
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
     }
@@ -226,11 +222,11 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()));
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()));
 
@@ -249,10 +245,10 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()), Times.Never());
-        ComparatorSetsService.Verify(
+        Service.Verify(
             x => x.UpsertUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
     }
@@ -263,7 +259,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
-        ComparatorSetsService
+        Service
             .Setup(d => d.UpsertUserDefinedTrustAsync(
                 It.IsAny<ComparatorSetUserDefinedTrust>()))
             .Throws(new Exception());

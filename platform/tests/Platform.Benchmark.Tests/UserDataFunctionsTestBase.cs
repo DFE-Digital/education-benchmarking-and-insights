@@ -10,7 +10,6 @@ public class UserDataFunctionsTestBase : FunctionsTestBase
     protected readonly UserDataFunctions Functions;
     protected readonly Mock<IUserDataService> Service;
 
-
     protected UserDataFunctionsTestBase()
     {
         Service = new Mock<IUserDataService>();
