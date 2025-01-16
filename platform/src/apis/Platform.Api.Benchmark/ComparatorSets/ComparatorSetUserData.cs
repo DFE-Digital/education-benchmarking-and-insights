@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -10,7 +11,7 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 [Table("UserData")]
 public record ComparatorSetUserData
 {
-    [ExplicitKey] public string? Id { get; set; }
+    [ExplicitKey] public string Id { get; set; } = Guid.NewGuid().ToString();
     public string? UserId { get; set; }
     public string? Type { get; set; }
 
@@ -21,7 +22,7 @@ public record ComparatorSetUserData
     public string? Status { get; set; }
     public bool Active { get; set; }
 
-    public static ComparatorSetUserData PendingSchool(string? id, string? userId, string? urn) => new()
+    public static ComparatorSetUserData PendingSchool(string id, string? userId, string? urn) => new()
     {
         Id = id,
         UserId = userId,
@@ -29,10 +30,11 @@ public record ComparatorSetUserData
         OrganisationType = "school",
         OrganisationId = urn,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = "pending"
+        Status = "pending",
+        Active = true
     };
 
-    public static ComparatorSetUserData CompleteSchool(string? id, string? userId, string? urn) => new()
+    public static ComparatorSetUserData CompleteSchool(string id, string? userId, string? urn) => new()
     {
         Id = id,
         UserId = userId,
@@ -40,7 +42,8 @@ public record ComparatorSetUserData
         OrganisationType = "school",
         OrganisationId = urn,
         Expiry = DateTimeOffset.Now.AddDays(30),
-        Status = "complete"
+        Status = "complete",
+        Active = true
     };
 
     public static ComparatorSetUserData CompleteTrust(string id, string? userId, string companyNumber) => new()

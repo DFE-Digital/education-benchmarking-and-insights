@@ -6,6 +6,11 @@ namespace Platform.Api.Benchmark.UserData;
 
 public record UserDataParameters : QueryParameters
 {
+    /// <summary>
+    ///     The User's Guid, Id (email address) or both.
+    ///     This is a collection for historical purposes, before PII was stripped.
+    ///     This will be replaced with a <c>string</c> type for Guid support only at a future date.
+    /// </summary>
     public string[] UserIds { get; private set; } = [];
     public string? Type { get; private set; }
     public string? Status { get; private set; }
