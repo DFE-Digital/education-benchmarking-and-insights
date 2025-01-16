@@ -203,14 +203,11 @@ public class SpendingCostsPage(IPage page)
         {
             var expectedDescription = expectedTable.Rows[i]["Description"];
             var expectedValue = expectedTable.Rows[i]["Value"];
-
             Assert.True(actualData.Count > i, $"Expected more entries in actual data for '{expectedDescription}'.");
-
-            var actualDescription = actualData[i]["Description"];
-            var actualValue = actualData[i]["Value"];
-
-            Assert.Equal(expectedDescription, actualDescription); // Compare descriptions
-            Assert.Equal(expectedValue, actualValue); // Compare values
+            var actualDescription = actualData[i].Description;
+            var actualValue = actualData[i].Value;
+            Assert.Equal(expectedDescription, actualDescription);
+            Assert.Equal(expectedValue, actualValue);
         }
     }
 
@@ -224,7 +221,7 @@ public class SpendingCostsPage(IPage page)
         await warningMessage.ShouldBeVisible();
     }
 
-    private async Task<List<Dictionary<string, string>>> GetCostCategoryData(CostCategoryNames costCategory)
+    private async Task<List<(string Description, string Value)>> GetCostCategoryData(CostCategoryNames costCategory)
     {
         var chartStats = ChartStatsSummary(await GetSelectorForCostCategory(costCategory));
 
@@ -232,8 +229,7 @@ public class SpendingCostsPage(IPage page)
         {
             throw new Exception($"Cost category '{costCategory}' not found on the page.");
         }
-
-        var rows = new List<Dictionary<string, string>>();
+        var rows = new List<(string Description, string Value)>();
         var chartStatWrappers = chartStats.Locator(".chart-stat-wrapper");
         var count = await chartStatWrappers.CountAsync();
         for (int i = 0; i < count; i++)
@@ -247,18 +243,13 @@ public class SpendingCostsPage(IPage page)
             var suffix = (await suffixElement.TextContentAsync())?.Trim();
             if (!string.IsNullOrEmpty(label) && value != null && suffix != null)
             {
-                rows.Add(new Dictionary<string, string>
-                {
-                    { "Description", label },
-                    { "Value", $"{value} {suffix}" }
-                });
+                rows.Add((label, $"{value} {suffix}"));
             }
         }
 
         return rows;
     }
-
-
+    
     private async Task<ILocator> GetSelectorForCostCategory(CostCategoryNames costCategoryName)
     {
         var chartSelector = costCategoryName switch
