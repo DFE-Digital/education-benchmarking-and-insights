@@ -8,18 +8,18 @@ namespace Platform.Benchmark.Tests;
 
 public class ComparatorSetsFunctionsTestBase : FunctionsTestBase
 {
-    protected readonly Mock<IComparatorSetsService> ComparatorSetsService;
     protected readonly ComparatorSetsFunctions Functions;
     protected readonly Mock<IValidator<ComparatorSetUserDefinedSchool>> SchoolValidator;
+    protected readonly Mock<IComparatorSetsService> Service;
     protected readonly Mock<IValidator<ComparatorSetUserDefinedTrust>> TrustValidator;
 
     protected ComparatorSetsFunctionsTestBase()
     {
-        ComparatorSetsService = new Mock<IComparatorSetsService>();
+        Service = new Mock<IComparatorSetsService>();
         SchoolValidator = new Mock<IValidator<ComparatorSetUserDefinedSchool>>();
         TrustValidator = new Mock<IValidator<ComparatorSetUserDefinedTrust>>();
         Functions = new ComparatorSetsFunctions(
-            ComparatorSetsService.Object,
+            Service.Object,
             new NullLogger<ComparatorSetsFunctions>(),
             SchoolValidator.Object,
             TrustValidator.Object);
