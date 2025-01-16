@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Platform.Domain;
+using Platform.Infrastructure;
 using Platform.Search;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -13,12 +12,15 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
 public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null);
+    Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
 }
 
 [ExcludeFromCodeCoverage]
-public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchConnection, IDatabaseFactory dbFactory) : ILocalAuthoritiesService
+public class LocalAuthoritiesService(
+    [FromKeyedServices(ResourceNames.Search.Indexes.LocalAuthority)] IIndexClient client,
+    IDatabaseFactory dbFactory)
+    : SearchService<LocalAuthority>(client), ILocalAuthoritiesService
 {
     public async Task<LocalAuthority?> GetAsync(string code)
     {
@@ -41,7 +43,7 @@ public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchCon
         return localAuthority;
     }
 
-    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null)
+    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request)
     {
         var fields = new[]
         {
@@ -49,22 +51,13 @@ public class LocalAuthoritiesService(ISearchConnection<LocalAuthority> searchCon
             nameof(LocalAuthority.Name)
         };
 
-        return searchConnection.SuggestAsync(request, CreateFilterExpression, fields);
+        return SuggestAsync(request, CreateFilterExpression, fields);
 
         string? CreateFilterExpression()
         {
-            if (excludeLas is not { Length: > 0 })
-            {
-                return null;
-            }
-
-            var filterExpressions = new List<string>();
-            if (excludeLas.Length > 0)
-            {
-                filterExpressions.Add($"({string.Join(") and ( ", excludeLas.Select(a => $"{nameof(LocalAuthority.Name)} ne '{a}'"))})");
-            }
-
-            return string.Join(" and ", filterExpressions);
+            return request.Exclude is not { Length: > 0 }
+                ? null
+                : $"({string.Join(") and ( ", request.Exclude.Select(a => $"{nameof(LocalAuthority.Name)} ne '{a}'"))})";
         }
     }
 }

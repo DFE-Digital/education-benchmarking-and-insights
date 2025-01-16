@@ -16,46 +16,19 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
 {
     public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null)
     {
-        var query = new ApiQuery();
-        if (excludeSchools != null)
-        {
-            foreach (var school in excludeSchools)
-            {
-                query.AddIfNotNull("urns", school);
-            }
-        }
-
-        var suggestions = await establishmentApi.SuggestSchools(search, query).GetResultOrThrow<SuggestOutput<School>>();
+        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools).GetResultOrThrow<SuggestOutput<School>>();
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 
     public async Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
     {
-        var query = new ApiQuery();
-        if (excludeTrusts != null)
-        {
-            foreach (var school in excludeTrusts)
-            {
-                query.AddIfNotNull("companyNumbers", school);
-            }
-        }
-
-        var suggestions = await establishmentApi.SuggestTrusts(search, query).GetResultOrThrow<SuggestOutput<Trust>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts).GetResultOrThrow<SuggestOutput<Trust>>();
         return suggestions.Results.Select(TrustSuggestValue);
     }
 
     public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
     {
-        var query = new ApiQuery();
-        if (excludeLas != null)
-        {
-            foreach (var la in excludeLas)
-            {
-                query.AddIfNotNull("names", la);
-            }
-        }
-
-        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, query).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
+        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, excludeLas).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
 

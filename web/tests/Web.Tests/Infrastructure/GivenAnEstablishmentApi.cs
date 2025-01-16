@@ -1,7 +1,7 @@
-using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.Tests.Infrastructure;
 
 public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)
@@ -53,7 +53,7 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
         VerifyCall(
             HttpMethod.Post,
             "api/schools/suggest",
-            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"school-suggester\"}");
+            "{\"searchText\":\"term\",\"size\":10}");
     }
 
     [Fact]
@@ -62,12 +62,12 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
         var api = new EstablishmentApi(HttpClient);
 
         const string exclude = "exclude";
-        await api.SuggestSchools("term", new ApiQuery().AddIfNotNull("urns", exclude));
+        await api.SuggestSchools("term", [exclude]);
 
         VerifyCall(
             HttpMethod.Post,
-            "api/schools/suggest?urns=" + exclude,
-            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"school-suggester\"}");
+            "api/schools/suggest",
+            "{\"searchText\":\"term\",\"size\":10,\"exclude\":[\"exclude\"]}");
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
         VerifyCall(
             HttpMethod.Post,
             "api/trusts/suggest",
-            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"trust-suggester\"}");
+            "{\"searchText\":\"term\",\"size\":10}");
     }
 
     [Fact]
@@ -89,11 +89,11 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
         var api = new EstablishmentApi(HttpClient);
 
         const string exclude = "exclude";
-        await api.SuggestLocalAuthorities("term", new ApiQuery().AddIfNotNull("names", exclude));
+        await api.SuggestLocalAuthorities("term", [exclude]);
 
         VerifyCall(
             HttpMethod.Post,
-            "api/local-authorities/suggest?names=" + exclude,
-            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"local-authority-suggester\"}");
+            "api/local-authorities/suggest",
+            "{\"searchText\":\"term\",\"size\":10,\"exclude\":[\"exclude\"]}");
     }
 }

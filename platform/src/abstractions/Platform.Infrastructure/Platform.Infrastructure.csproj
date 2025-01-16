@@ -8,5 +8,4 @@
         <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
-
 </Project>

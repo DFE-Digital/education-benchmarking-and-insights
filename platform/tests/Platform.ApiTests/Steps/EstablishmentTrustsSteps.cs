@@ -6,7 +6,8 @@ using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Json;
-using Platform.Search.Responses;
+using Platform.Search;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -42,7 +43,6 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         {
             SearchText = searchText,
             Size = 5,
-            SuggesterName = "trust-suggester"
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -53,12 +53,11 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("an invalid trust suggest request with '(.*)', '(.*)' and '(.*)'")]
-    private void GivenAnInvalidTrustSuggestRequestWithAnd(string suggesterName, string searchText, int size)
+    [Given("an invalid trust suggest request with '(.*)' and '(.*)'")]
+    private void GivenAnInvalidTrustSuggestRequestWithAnd(string searchText, int size)
     {
         var content = new
         {
-            SuggesterName = string.IsNullOrWhiteSpace(suggesterName) ? null : suggesterName,
             SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
             Size = size
         };

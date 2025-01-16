@@ -3,10 +3,8 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
 using Platform.Functions;
-using Platform.Functions.Extensions;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
 using Platform.Test.Extensions;
+using Platform.Search;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;
@@ -17,7 +15,7 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
+            .Setup(d => d.SuggestAsync(It.IsAny<TrustSuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<Trust>());
 
         Validator
@@ -25,7 +23,7 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+            await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -37,12 +35,11 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
 
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
+            .ReturnsAsync(new ValidationResult([
                 new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")
-            }));
+            ]));
 
-        var result = await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -59,7 +56,7 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);

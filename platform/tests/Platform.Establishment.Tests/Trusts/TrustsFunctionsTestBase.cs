@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
-using Platform.Search.Requests;
+using Platform.Search;
 using Platform.Test;
 
 namespace Platform.Establishment.Tests.Trusts;

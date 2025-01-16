@@ -3,9 +3,9 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Features.Schools;
 using Platform.Functions;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
+using Platform.Search;
 using Platform.Test.Extensions;
+
 using Xunit;
 
 namespace Platform.Establishment.Tests.Schools;
@@ -16,7 +16,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
+            .Setup(d => d.SuggestAsync(It.IsAny<SchoolSuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<School>());
 
         Validator
@@ -24,7 +24,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+            await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -41,7 +41,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
-        var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -59,7 +59,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);

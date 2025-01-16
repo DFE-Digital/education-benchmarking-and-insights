@@ -28,7 +28,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -53,7 +53,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -78,7 +78,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -103,7 +103,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -128,7 +128,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -153,7 +153,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -178,7 +178,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
@@ -203,7 +203,7 @@ public class WhenSchoolSuggestionsIsCalled
             Results = [value]
         };
 
-        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(response));
+        _api.Setup(x => x.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(response));
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");

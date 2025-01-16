@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Platform.Infrastructure;
 using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Schools;
@@ -12,14 +14,16 @@ public interface ISchoolComparatorsService
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolComparatorsService(ISearchConnection<SchoolComparator> connection) : ISchoolComparatorsService
+public class SchoolComparatorsService(
+    [FromKeyedServices(ResourceNames.Search.Indexes.SchoolComparators)] IIndexClient client)
+    : SearchService<SchoolComparator>(client), ISchoolComparatorsService
 {
     public async Task<SchoolComparators> ComparatorsAsync(string urn, SchoolComparatorsRequest request)
     {
-        var school = await connection.LookUpAsync(urn);
+        var school = await LookUpAsync(urn);
 
         var filter = request.FilterExpression(urn);
-        var result = await connection.SearchAsync("*", filter, 100000);
+        var result = await SearchWithScoreAsync("*", filter, 100000);
 
         return new SchoolComparators
         {

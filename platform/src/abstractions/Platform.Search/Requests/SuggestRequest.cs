@@ -1,11 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable UnassignedGetOnlyAutoProperty
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
-namespace Platform.Search.Requests;
+// ReSharper disable ClassNeverInstantiated.Global
+namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]
-public record SuggestRequest
+public abstract record SuggestRequest
 {
     public string? SearchText { get; set; }
     public int Size { get; set; } = 10;
-    public string? SuggesterName { get; set; }
+    public virtual string SuggesterName => string.Empty;
 }

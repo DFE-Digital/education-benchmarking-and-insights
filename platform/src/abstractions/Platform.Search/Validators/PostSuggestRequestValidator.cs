@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
-using Platform.Search.Requests;
-namespace Platform.Search.Validators;
+
+namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]
 public class PostSuggestRequestValidator : AbstractValidator<SuggestRequest>

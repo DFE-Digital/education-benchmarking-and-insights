@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Platform.Infrastructure;
 using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Trusts;
@@ -12,7 +14,9 @@ public interface ITrustComparatorsService
 
 //TODO : Lookup target trust and add comparators ordering
 [ExcludeFromCodeCoverage]
-public class TrustComparatorsService(ISearchConnection<TrustComparator> connection) : ITrustComparatorsService
+public class TrustComparatorsService(
+    [FromKeyedServices(ResourceNames.Search.Indexes.TrustComparators)] IIndexClient client)
+    : SearchService<TrustComparator>(client), ITrustComparatorsService
 {
     public async Task<TrustComparators> ComparatorsAsync(string companyNumber, TrustComparatorsRequest request)
     {
@@ -20,7 +24,7 @@ public class TrustComparatorsService(ISearchConnection<TrustComparator> connecti
 
         var filter = request.FilterExpression(companyNumber);
         var search = request.SearchExpression();
-        var result = await connection.SearchAsync(search, filter, 100000);
+        var result = await SearchWithScoreAsync(search, filter, 100000);
 
         return new TrustComparators
         {

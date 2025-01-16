@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Platform.Infrastructure;
 using Platform.Search;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -12,12 +11,15 @@ namespace Platform.Api.Establishment.Features.Schools;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request, string[]? excludeSchools = null);
+    Task<SuggestResponse<School>> SuggestAsync(SchoolSuggestRequest request);
     Task<School?> GetAsync(string urn);
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolsService(ISearchConnection<School> searchConnection, IDatabaseFactory dbFactory) : ISchoolsService
+public class SchoolsService(
+    [FromKeyedServices(ResourceNames.Search.Indexes.School)] IIndexClient client,
+    IDatabaseFactory dbFactory)
+    : SearchService<School>(client), ISchoolsService
 {
     public async Task<School?> GetAsync(string urn)
     {
@@ -40,7 +42,7 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
         return school;
     }
 
-    public Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request, string[]? excludeSchools = null)
+    public Task<SuggestResponse<School>> SuggestAsync(SchoolSuggestRequest request)
     {
         var fields = new[]
         {
@@ -54,22 +56,13 @@ public class SchoolsService(ISearchConnection<School> searchConnection, IDatabas
             nameof(School.AddressPostcode)
         };
 
-        return searchConnection.SuggestAsync(request, CreateFilterExpression, fields);
+        return SuggestAsync(request, CreateFilterExpression, fields);
 
         string? CreateFilterExpression()
         {
-            if (excludeSchools is not { Length: > 0 })
-            {
-                return null;
-            }
-
-            var filterExpressions = new List<string>();
-            if (excludeSchools.Length > 0)
-            {
-                filterExpressions.Add($"({string.Join(") and ( ", excludeSchools.Select(a => $"URN ne '{a}'"))})");
-            }
-
-            return string.Join(" and ", filterExpressions);
+            return request.Exclude is not { Length: > 0 }
+                ? null
+                : $"({string.Join(") and ( ", request.Exclude.Select(a => $"URN ne '{a}'"))})";
         }
     }
 }

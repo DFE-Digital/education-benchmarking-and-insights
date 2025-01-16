@@ -1,5 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ClassNeverInstantiated.Global
 namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]

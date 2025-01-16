@@ -30,8 +30,8 @@ public static class Services
     {
         healthChecks.AddRedis(p =>
         {
-            var cache = p.GetService<IDistributedCache>();
-            return cache!.Connection.Value.GetAwaiter().GetResult();
+            var cache = p.GetRequiredService<IDistributedCache>();
+            return cache.Connection.Value.GetAwaiter().GetResult();
         });
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -12,14 +11,13 @@ using Microsoft.OpenApi.Models;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
+using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
 public class LocalAuthoritiesFunctions(
     ILogger<LocalAuthoritiesFunctions> logger,
-    ILocalAuthoritiesService localAuthoritiesService,
+    ILocalAuthoritiesService service,
     IValidator<SuggestRequest> validator)
 {
     [Function(nameof(SingleLocalAuthorityAsync))]
@@ -50,7 +48,7 @@ public class LocalAuthoritiesFunctions(
         {
             try
             {
-                var response = await localAuthoritiesService.GetAsync(identifier);
+                var response = await service.GetAsync(identifier);
                 if (response == null)
                 {
                     return req.CreateNotFoundResponse();
@@ -66,13 +64,11 @@ public class LocalAuthoritiesFunctions(
         }
     }
 
-    //TODO: Create specific suggest request
-    //TODO: Add query parameter to new request
     [Function(nameof(SuggestLocalAuthoritiesAsync))]
     [OpenApiOperation(nameof(SuggestLocalAuthoritiesAsync), Constants.Features.LocalAuthorities)]
     [OpenApiParameter("names", In = ParameterLocation.Query, Description = "List of LA names to exclude", Type = typeof(string[]))]
     [OpenApiSecurityHeader]
-    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SuggestRequest), Description = "The suggest object")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(LocalAuthoritySuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthority>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -93,7 +89,7 @@ public class LocalAuthoritiesFunctions(
         {
             try
             {
-                var body = await req.ReadAsJsonAsync<SuggestRequest>();
+                var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>();
 
                 var validationResult = await validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
@@ -101,8 +97,7 @@ public class LocalAuthoritiesFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var names = req.Query["names"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var localAuthorities = await localAuthoritiesService.SuggestAsync(body, names);
+                var localAuthorities = await service.SuggestAsync(body);
                 return await req.CreateJsonResponseAsync(localAuthorities);
             }
             catch (Exception e)

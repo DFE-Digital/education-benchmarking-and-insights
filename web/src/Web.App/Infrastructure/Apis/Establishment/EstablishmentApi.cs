@@ -17,33 +17,33 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
         return GetAsync(Api.Establishment.LocalAuthority(identifier));
     }
 
-    public Task<ApiResult> SuggestSchools(string search, ApiQuery? query = null)
+    public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"{Api.Establishment.SchoolSuggest}{query?.ToQueryString()}", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "school-suggester" })
+            RequestUri = new Uri($"{Api.Establishment.SchoolSuggest}", UriKind.Relative),
+            Content = new JsonContent(new { SearchText = search, Size = 10, Exclude = exclude })
         });
     }
 
-    public Task<ApiResult> SuggestTrusts(string search, ApiQuery? query = null)
+    public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"{Api.Establishment.TrustSuggest}{query?.ToQueryString()}", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "trust-suggester" })
+            RequestUri = new Uri($"{Api.Establishment.TrustSuggest}", UriKind.Relative),
+            Content = new JsonContent(new { SearchText = search, Size = 10, Exclude = exclude })
         });
     }
 
-    public Task<ApiResult> SuggestLocalAuthorities(string search, ApiQuery? query = null)
+    public Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"{Api.Establishment.LocalAuthoritySuggest}{query?.ToQueryString()}", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "local-authority-suggester" })
+            RequestUri = new Uri($"{Api.Establishment.LocalAuthoritySuggest}", UriKind.Relative),
+            Content = new JsonContent(new { SearchText = search, Size = 10, Exclude = exclude })
         });
     }
 }
@@ -53,7 +53,7 @@ public interface IEstablishmentApi
     Task<ApiResult> GetSchool(string? identifier);
     Task<ApiResult> GetTrust(string? identifier);
     Task<ApiResult> GetLocalAuthority(string? identifier);
-    Task<ApiResult> SuggestSchools(string search, ApiQuery? query = null);
-    Task<ApiResult> SuggestTrusts(string search, ApiQuery? query = null);
-    Task<ApiResult> SuggestLocalAuthorities(string search, ApiQuery? query = null);
+    Task<ApiResult> SuggestSchools(string search, string[]? exclude = null);
+    Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);
+    Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
 }

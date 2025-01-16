@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]

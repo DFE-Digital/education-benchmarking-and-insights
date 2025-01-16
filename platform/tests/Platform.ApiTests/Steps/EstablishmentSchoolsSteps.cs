@@ -5,7 +5,7 @@ using Platform.Api.Establishment.Features.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Json;
-using Platform.Search.Responses;
+using Platform.Search;
 
 namespace Platform.ApiTests.Steps;
 
@@ -42,7 +42,6 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         {
             SearchText = searchText,
             Size = 5,
-            SuggesterName = "school-suggester"
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -53,12 +52,11 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("an invalid schools suggest request with '(.*)', '(.*)' and '(.*)'")]
-    private void GivenAnInvalidSchoolsSuggestRequestWithAnd(string suggesterName, string searchText, int size)
+    [Given("an invalid schools suggest request with '(.*)' and '(.*)'")]
+    private void GivenAnInvalidSchoolsSuggestRequestWithAnd(string searchText, int size)
     {
         var content = new
         {
-            SuggesterName = string.IsNullOrWhiteSpace(suggesterName) ? null : suggesterName,
             SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
             Size = size
         };

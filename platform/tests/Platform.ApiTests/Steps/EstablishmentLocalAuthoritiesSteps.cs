@@ -6,7 +6,8 @@ using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Json;
-using Platform.Search.Responses;
+using Platform.Search;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -41,8 +42,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         var content = new
         {
             SearchText = searchText,
-            Size = 5,
-            SuggesterName = "local-authority-suggester"
+            Size = 5
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -53,12 +53,11 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("an invalid local authorities suggest request with '(.*)', '(.*)' and '(.*)'")]
-    private void GivenAnInvalidLocalAuthoritiesSuggestRequestWithAnd(string suggesterName, string searchText, int size)
+    [Given("an invalid local authorities suggest request with '(.*)' and '(.*)'")]
+    private void GivenAnInvalidLocalAuthoritiesSuggestRequestWithAnd(string searchText, int size)
     {
         var content = new
         {
-            SuggesterName = string.IsNullOrWhiteSpace(suggesterName) ? null : suggesterName,
             SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
             Size = size
         };

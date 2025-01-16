@@ -3,9 +3,9 @@ using FluentValidation.Results;
 using Moq;
 using Platform.Api.Establishment.Features.LocalAuthorities;
 using Platform.Functions;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
 using Platform.Test.Extensions;
+using Platform.Search;
+
 using Xunit;
 
 namespace Platform.Establishment.Tests.LocalAuthorities;
@@ -16,14 +16,14 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
+            .Setup(d => d.SuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<LocalAuthority>());
 
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
-        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
@@ -40,7 +40,7 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
-        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -58,7 +58,7 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new SuggestRequest()));
+        var result = await Functions.SuggestLocalAuthoritiesAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);

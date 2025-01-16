@@ -12,6 +12,12 @@
         <PackageReference Include="Azure.Search.Documents"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="Microsoft.ApplicationInsights"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+        <PackageReference Include="AspNetCore.HealthChecks.AzureSearch"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

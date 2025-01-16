@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -8,12 +7,10 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
+using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
@@ -66,13 +63,10 @@ public class TrustsFunctions(
         }
     }
 
-    //TODO: Create specific suggest request
-    //TODO: Add query parameter to new request
     [Function(nameof(SuggestTrustsAsync))]
     [OpenApiOperation(nameof(SuggestTrustsAsync), Constants.Features.Trusts)]
-    [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers to exclude", Type = typeof(string[]), Required = false)]
     [OpenApiSecurityHeader]
-    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SuggestRequest), Description = "The suggest object")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<Trust>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -93,7 +87,7 @@ public class TrustsFunctions(
         {
             try
             {
-                var body = await req.ReadAsJsonAsync<SuggestRequest>();
+                var body = await req.ReadAsJsonAsync<TrustSuggestRequest>();
 
                 var validationResult = await validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
@@ -101,8 +95,7 @@ public class TrustsFunctions(
                     return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
                 }
 
-                var numbers = req.Query["companyNumbers"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var trusts = await service.SuggestAsync(body, numbers);
+                var trusts = await service.SuggestAsync(body);
                 return await req.CreateJsonResponseAsync(trusts);
             }
             catch (Exception e)

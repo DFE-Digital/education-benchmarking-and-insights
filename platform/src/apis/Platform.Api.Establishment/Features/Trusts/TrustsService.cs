@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Platform.Domain;
+using Platform.Infrastructure;
 using Platform.Search;
-using Platform.Search.Requests;
-using Platform.Search.Responses;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -13,13 +12,16 @@ namespace Platform.Api.Establishment.Features.Trusts;
 
 public interface ITrustsService
 {
-    Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null);
+    Task<SuggestResponse<Trust>> SuggestAsync(TrustSuggestRequest request);
     Task<Trust?> GetAsync(string companyNumber);
 }
 
 
 [ExcludeFromCodeCoverage]
-public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseFactory dbFactory) : ITrustsService
+public class TrustsService(
+    [FromKeyedServices(ResourceNames.Search.Indexes.Trust)] IIndexClient client,
+    IDatabaseFactory dbFactory)
+    : SearchService<Trust>(client), ITrustsService
 {
     public async Task<Trust?> GetAsync(string companyNumber)
     {
@@ -42,7 +44,7 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
         return trust;
     }
 
-    public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null)
+    public Task<SuggestResponse<Trust>> SuggestAsync(TrustSuggestRequest request)
     {
         var fields = new[]
         {
@@ -50,22 +52,13 @@ public class TrustsService(ISearchConnection<Trust> searchConnection, IDatabaseF
             nameof(Trust.TrustName)
         };
 
-        return searchConnection.SuggestAsync(request, CreateFilterExpression, fields);
+        return SuggestAsync(request, CreateFilterExpression, fields);
 
         string? CreateFilterExpression()
         {
-            if (excludeTrusts is not { Length: > 0 })
-            {
-                return null;
-            }
-
-            var filterExpressions = new List<string>();
-            if (excludeTrusts.Length > 0)
-            {
-                filterExpressions.Add($"({string.Join(") and ( ", excludeTrusts.Select(a => $"{nameof(Trust.CompanyNumber)} ne '{a}'"))})");
-            }
-
-            return string.Join(" and ", filterExpressions);
+            return request.Exclude is not { Length: > 0 }
+                ? null
+                : $"({string.Join(") and ( ", request.Exclude.Select(a => $"{nameof(Trust.CompanyNumber)} ne '{a}'"))})";
         }
     }
 }

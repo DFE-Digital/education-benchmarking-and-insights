@@ -42,16 +42,14 @@ Feature: Establishment trusts endpoints
         Then the trust suggest result should be empty
 
     Scenario: Sending an invalid suggest trust request returns the validation results
-        Given an invalid trust suggest request with '<SuggesterName>', '<SearchText>' and '<Size>'
+        Given an invalid trust suggest request with '<SearchText>' and '<Size>'
         When I submit the trust request
         Then the trust suggest result should be bad request and have the following validation errors:
           | PropertyName  | ErrorMessage                |
-          | SuggesterName | <SuggesterNameErrorMessage> |
           | SearchText    | <SearchTextErrorMessage>    |
           | Size          | <SizeErrorMessage>          |
 
     Examples:
       | SuggesterName | SearchText                                                                                                    | Size | SuggesterNameErrorMessage           | SearchTextErrorMessage                                                                   | SizeErrorMessage                             |
-      |               |                                                                                                               | 0    | 'Suggester Name' must not be empty. | 'Search Text' must not be empty.                                                         | 'Size' must be greater than or equal to '5'. |
       | suggester     | te                                                                                                            | 5    |                                     | The length of 'Search Text' must be at least 3 characters. You entered 2 characters.     |                                              |
       | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                                     | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                                              |

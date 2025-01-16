@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Azure.Search.Documents.Models;
+
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
-namespace Platform.Search.Responses;
+namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]
 public record SuggestResponse<T>
