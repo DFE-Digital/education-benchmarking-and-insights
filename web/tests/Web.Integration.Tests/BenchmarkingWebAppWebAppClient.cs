@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
+
 namespace Web.Integration.Tests;
 
 public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
@@ -73,18 +74,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     private void EnableFeatures(params string[] ignoreFeatures)
     {
-        var features = new[]
-        {
-            FeatureFlags.CurriculumFinancialPlanning,
-            FeatureFlags.CustomData,
-            FeatureFlags.UserDefinedComparators,
-            FeatureFlags.TrustComparison,
-            FeatureFlags.Trusts,
-            FeatureFlags.LocalAuthorities,
-            FeatureFlags.ForecastRisk,
-            FeatureFlags.FinancialBenchmarkingInsightsSummary,
-            FeatureFlags.HistoricalTrends
-        };
+        var features = new[] { FeatureFlags.CurriculumFinancialPlanning, FeatureFlags.CustomData, FeatureFlags.UserDefinedComparators, FeatureFlags.TrustComparison, FeatureFlags.Trusts, FeatureFlags.LocalAuthorities, FeatureFlags.ForecastRisk, FeatureFlags.FinancialBenchmarkingInsightsSummary, FeatureFlags.HistoricalTrends };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
         {
@@ -390,7 +380,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetUpCustomData(CustomDataSchool? customData = null)
     {
         CustomDataApi.Reset();
-        CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
+        CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PostCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
         CustomDataApi.Setup(api => api.GetSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(customData));
         CustomDataApi.Setup(api => api.RemoveSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         return this;

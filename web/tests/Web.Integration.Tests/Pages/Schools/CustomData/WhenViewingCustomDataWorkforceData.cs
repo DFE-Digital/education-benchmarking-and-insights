@@ -4,6 +4,7 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWebAppClient>
@@ -41,30 +42,14 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
 
         _formValues = new Dictionary<string, decimal?>
         {
-            {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.Workforce
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.Teachers
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent), customCensus.PercentTeacherWithQualifiedStatus
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadership
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte), customCensus.TeachingAssistant
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte), customCensus.NonClassroomSupportStaff
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte), customCensus.AuxiliaryStaff
-            },
-            {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceHeadcount), customCensus.WorkforceHeadcount
-            }
+            { nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.Workforce },
+            { nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.Teachers },
+            { nameof(WorkforceDataCustomDataViewModel.QualifiedTeacherPercent), customCensus.PercentTeacherWithQualifiedStatus },
+            { nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadership },
+            { nameof(WorkforceDataCustomDataViewModel.TeachingAssistantsFte), customCensus.TeachingAssistant },
+            { nameof(WorkforceDataCustomDataViewModel.NonClassroomSupportStaffFte), customCensus.NonClassroomSupportStaff },
+            { nameof(WorkforceDataCustomDataViewModel.AuxiliaryStaffFte), customCensus.AuxiliaryStaff },
+            { nameof(WorkforceDataCustomDataViewModel.WorkforceHeadcount), customCensus.WorkforceHeadcount }
         };
     }
 
@@ -89,7 +74,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             f.SetFormValues(_formValues.ToDictionary(k => k.Key, v => v.Value?.ToString() ?? string.Empty));
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmit(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmitted(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -102,7 +87,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmit(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataSubmitted(school.URN).ToAbsolute());
     }
 
     [Fact]

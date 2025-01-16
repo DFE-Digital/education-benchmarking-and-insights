@@ -1,4 +1,5 @@
-﻿@using Web.App.TagHelpers
+﻿@using Web.App.Domain
+@using Web.App.TagHelpers
 @model Web.App.ViewModels.SchoolComparatorsSubmittedViewModel
 @{
     ViewData[ViewDataKeys.Title] = Model.IsEdit
@@ -39,9 +40,9 @@
                 .then(response => response.json())
                 .then(json => {
                     if (json) {
-                        if (json.status === "complete") {
+                        if (json.status === "@Pipeline.JobStatus.Complete") {
                             done = true;
-                        } else if (json.status !== "pending") {
+                        } else if (json.status !== "@Pipeline.JobStatus.Pending") {
                             throw new Error("Unexpected response returned from API call");
                         }
                     }

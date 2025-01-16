@@ -6,6 +6,7 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWebAppClient>
@@ -41,111 +42,41 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 
         _formValues = new Dictionary<string, decimal?>
         {
-            {
-                nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesNonEducationalCosts), _customExpenditure.AdministrativeSuppliesNonEducationalCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.CateringStaffCosts), _customExpenditure.CateringStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.CateringSuppliesCosts), _customExpenditure.CateringSuppliesCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.ExaminationFeesCosts), _customExpenditure.ExaminationFeesCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.LearningResourcesNonIctCosts), _customExpenditure.LearningResourcesNonIctCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.LearningResourcesIctCosts), _customExpenditure.LearningResourcesIctCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.AdministrativeClericalStaffCosts), _customExpenditure.AdministrativeClericalStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.AuditorsCosts), _customExpenditure.AuditorsCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.OtherStaffCosts), _customExpenditure.OtherStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.ProfessionalServicesNonCurriculumCosts), _customExpenditure.ProfessionalServicesNonCurriculumCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.CleaningCaretakingCosts), _customExpenditure.CleaningCaretakingCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.MaintenancePremisesCosts), _customExpenditure.MaintenancePremisesCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.OtherOccupationCosts), _customExpenditure.OtherOccupationCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.PremisesStaffCosts), _customExpenditure.PremisesStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.AgencySupplyTeachingStaffCosts), _customExpenditure.AgencySupplyTeachingStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.EducationSupportStaffCosts), _customExpenditure.EducationSupportStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.EducationalConsultancyCosts), _customExpenditure.EducationalConsultancyCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.SupplyTeachingStaffCosts), _customExpenditure.SupplyTeachingStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.TeachingStaffCosts), _customExpenditure.TeachingStaffCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.EnergyCosts), _customExpenditure.EnergyCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.WaterSewerageCosts), _customExpenditure.WaterSewerageCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.DirectRevenueFinancingCosts), _customExpenditure.DirectRevenueFinancingCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.GroundsMaintenanceCosts), _customExpenditure.GroundsMaintenanceCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.IndirectEmployeeExpenses), _customExpenditure.IndirectEmployeeExpenses
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.InterestChargesLoanBank), _customExpenditure.InterestChargesLoanBank
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.OtherInsurancePremiumsCosts), _customExpenditure.OtherInsurancePremiumsCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.PrivateFinanceInitiativeCharges), _customExpenditure.PrivateFinanceInitiativeCharges
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.RentRatesCosts), _customExpenditure.RentRatesCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.SpecialFacilitiesCosts), _customExpenditure.SpecialFacilitiesCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.StaffDevelopmentTrainingCosts), _customExpenditure.StaffDevelopmentTrainingCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.StaffRelatedInsuranceCosts), _customExpenditure.StaffRelatedInsuranceCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), _customExpenditure.SupplyTeacherInsurableCosts
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.TotalIncome), _customIncome.TotalIncome
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _customExpenditure.TotalExpenditure
-            },
-            {
-                nameof(FinancialDataCustomDataViewModel.RevenueReserve), _balance.RevenueReserve
-            }
+            { nameof(FinancialDataCustomDataViewModel.AdministrativeSuppliesNonEducationalCosts), _customExpenditure.AdministrativeSuppliesNonEducationalCosts },
+            { nameof(FinancialDataCustomDataViewModel.CateringStaffCosts), _customExpenditure.CateringStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.CateringSuppliesCosts), _customExpenditure.CateringSuppliesCosts },
+            { nameof(FinancialDataCustomDataViewModel.ExaminationFeesCosts), _customExpenditure.ExaminationFeesCosts },
+            { nameof(FinancialDataCustomDataViewModel.LearningResourcesNonIctCosts), _customExpenditure.LearningResourcesNonIctCosts },
+            { nameof(FinancialDataCustomDataViewModel.LearningResourcesIctCosts), _customExpenditure.LearningResourcesIctCosts },
+            { nameof(FinancialDataCustomDataViewModel.AdministrativeClericalStaffCosts), _customExpenditure.AdministrativeClericalStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.AuditorsCosts), _customExpenditure.AuditorsCosts },
+            { nameof(FinancialDataCustomDataViewModel.OtherStaffCosts), _customExpenditure.OtherStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.ProfessionalServicesNonCurriculumCosts), _customExpenditure.ProfessionalServicesNonCurriculumCosts },
+            { nameof(FinancialDataCustomDataViewModel.CleaningCaretakingCosts), _customExpenditure.CleaningCaretakingCosts },
+            { nameof(FinancialDataCustomDataViewModel.MaintenancePremisesCosts), _customExpenditure.MaintenancePremisesCosts },
+            { nameof(FinancialDataCustomDataViewModel.OtherOccupationCosts), _customExpenditure.OtherOccupationCosts },
+            { nameof(FinancialDataCustomDataViewModel.PremisesStaffCosts), _customExpenditure.PremisesStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.AgencySupplyTeachingStaffCosts), _customExpenditure.AgencySupplyTeachingStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.EducationSupportStaffCosts), _customExpenditure.EducationSupportStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.EducationalConsultancyCosts), _customExpenditure.EducationalConsultancyCosts },
+            { nameof(FinancialDataCustomDataViewModel.SupplyTeachingStaffCosts), _customExpenditure.SupplyTeachingStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.TeachingStaffCosts), _customExpenditure.TeachingStaffCosts },
+            { nameof(FinancialDataCustomDataViewModel.EnergyCosts), _customExpenditure.EnergyCosts },
+            { nameof(FinancialDataCustomDataViewModel.WaterSewerageCosts), _customExpenditure.WaterSewerageCosts },
+            { nameof(FinancialDataCustomDataViewModel.DirectRevenueFinancingCosts), _customExpenditure.DirectRevenueFinancingCosts },
+            { nameof(FinancialDataCustomDataViewModel.GroundsMaintenanceCosts), _customExpenditure.GroundsMaintenanceCosts },
+            { nameof(FinancialDataCustomDataViewModel.IndirectEmployeeExpenses), _customExpenditure.IndirectEmployeeExpenses },
+            { nameof(FinancialDataCustomDataViewModel.InterestChargesLoanBank), _customExpenditure.InterestChargesLoanBank },
+            { nameof(FinancialDataCustomDataViewModel.OtherInsurancePremiumsCosts), _customExpenditure.OtherInsurancePremiumsCosts },
+            { nameof(FinancialDataCustomDataViewModel.PrivateFinanceInitiativeCharges), _customExpenditure.PrivateFinanceInitiativeCharges },
+            { nameof(FinancialDataCustomDataViewModel.RentRatesCosts), _customExpenditure.RentRatesCosts },
+            { nameof(FinancialDataCustomDataViewModel.SpecialFacilitiesCosts), _customExpenditure.SpecialFacilitiesCosts },
+            { nameof(FinancialDataCustomDataViewModel.StaffDevelopmentTrainingCosts), _customExpenditure.StaffDevelopmentTrainingCosts },
+            { nameof(FinancialDataCustomDataViewModel.StaffRelatedInsuranceCosts), _customExpenditure.StaffRelatedInsuranceCosts },
+            { nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), _customExpenditure.SupplyTeacherInsurableCosts },
+            { nameof(FinancialDataCustomDataViewModel.TotalIncome), _customIncome.TotalIncome },
+            { nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _customExpenditure.TotalExpenditure },
+            { nameof(FinancialDataCustomDataViewModel.RevenueReserve), _balance.RevenueReserve }
         };
     }
 
@@ -407,7 +338,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         return (doc, school);
     }
 
-    private async Task<(IHtmlDocument page, School school, PutCustomDataRequest customData)> SetupNavigateInitPageWithUserData()
+    private async Task<(IHtmlDocument page, School school, PostCustomDataRequest customData)> SetupNavigateInitPageWithUserData()
     {
         var (client, school) = SetupClient();
 
@@ -416,7 +347,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             .Create();
         client.SetupUserData([userData]);
 
-        var customData = Fixture.Build<PutCustomDataRequest>().Create();
+        var customData = Fixture.Build<PostCustomDataRequest>().Create();
         var customDataSchool = new CustomDataSchool
         {
             Data = customData.ToJson()

@@ -5,6 +5,7 @@ using Platform.Api.Benchmark.UserData;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -50,7 +51,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     {
         api.CreateRequest(UserDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&id={identifier}", UriKind.Relative),
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&id={identifier}&type=custom-data", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -74,9 +75,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     {
         var content = new Dictionary<string, object>
         {
-            {
-                "UserId", _userGuid
-            }
+            { "UserId", _userGuid }
         };
         foreach (var row in table.Rows)
         {

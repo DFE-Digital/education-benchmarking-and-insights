@@ -35,18 +35,8 @@ public class SchoolSpendingComparisonController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var customDataId = userData.CustomData;
-                if (string.IsNullOrEmpty(customDataId))
-                {
-                    return RedirectToAction("Index", "School", new
-                    {
-                        urn
-                    });
-                }
-
-                var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
-                if (userCustomData?.Status != "complete")
+                var userCustomData = await userDataService.GetCustomDataActiveAsync(User, urn);
+                if (userCustomData?.Status != Pipeline.JobStatus.Complete)
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -58,7 +48,7 @@ public class SchoolSpendingComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var originalRating = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
-                var customRating = await metricRagRatingApi.CustomAsync(customDataId).GetResultOrThrow<RagRating[]>();
+                var customRating = await metricRagRatingApi.CustomAsync(userCustomData.Id!).GetResultOrThrow<RagRating[]>();
 
                 var viewModel = new SchoolSpendingComparisonViewModel(school, originalRating, customRating);
 

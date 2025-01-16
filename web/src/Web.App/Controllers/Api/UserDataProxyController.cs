@@ -71,21 +71,21 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     }
 
     [HttpGet]
-    [Route("school/custom-data/{urn}/{identifier}")]
+    [Route("school/custom-data/{urn}")]
     [Produces("application/json")]
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> SchoolCustomDataUserData(string urn, string identifier)
+    public async Task<IActionResult> SchoolCustomDataUserData(string urn)
     {
         using (logger.BeginScope(new
         {
-            identifier
+            urn
         }))
         {
             try
             {
-                var userData = await userDataService.GetCustomDataAsync(User, identifier, urn);
+                var userData = await userDataService.GetCustomDataActiveAsync(User, urn);
                 if (userData == null)
                 {
                     return new NotFoundResult();
@@ -95,7 +95,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school custom data user data {Id} for {User}", identifier, User.UserGuid());
+                logger.LogError(e, "An error getting school custom data user data for {User}", User.UserGuid());
                 return StatusCode(500);
             }
         }

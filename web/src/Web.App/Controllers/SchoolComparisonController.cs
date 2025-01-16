@@ -11,6 +11,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -66,19 +67,8 @@ public class SchoolComparisonController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var customDataId = userData.CustomData;
-                if (string.IsNullOrEmpty(customDataId))
-                {
-                    return RedirectToAction("Index", "School", new
-                    {
-                        urn
-                    });
-                }
-
-                //TODO: Remove duplicate call for user data
-                var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
-                if (userCustomData?.Status != "complete")
+                var userCustomData = await userDataService.GetCustomDataActiveAsync(User, urn);
+                if (userCustomData?.Status != Pipeline.JobStatus.Complete)
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -90,7 +80,7 @@ public class SchoolComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var viewModel = new SchoolComparisonViewModel(school, customDataId: customDataId);
+                var viewModel = new SchoolComparisonViewModel(school, customDataId: userCustomData.Id);
 
                 return View(viewModel);
             }

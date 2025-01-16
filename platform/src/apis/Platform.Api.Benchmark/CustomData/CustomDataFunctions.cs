@@ -34,18 +34,10 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -66,43 +58,33 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
     [Function(nameof(CreateSchoolCustomDataAsync))]
     [OpenApiOperation(nameof(CreateSchoolCustomDataAsync), "Custom Data")]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(CustomDataRequest), Description = "The user defined set of schools object")]
     [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<MultiResponse> CreateSchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "custom-data/school/{urn}/{identifier}")] HttpRequestData req,
-        string urn,
-        string identifier)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "custom-data/school/{urn}")] HttpRequestData req,
+        string urn)
     {
         var correlationId = req.GetCorrelationId();
         var response = new MultiResponse();
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
                }))
         {
             try
             {
                 var body = await req.ReadAsJsonAsync<CustomDataRequest>();
+                var identifier = Guid.NewGuid().ToString();
                 var data = body.CreateData(identifier, urn);
 
                 await service.UpsertCustomDataAsync(data);
-                await service.UpsertUserDataAsync(CustomDataUserData.School(identifier, body.UserId, urn));
+                await service.InsertNewAndDeactivateExistingUserDataAsync(CustomDataUserData.School(identifier, body.UserId, urn));
 
                 var year = await service.CurrentYearAsync();
 
@@ -146,18 +128,10 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
 
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   },
-                   {
-                       "CorrelationID", correlationId
-                   },
-                   {
-                       "URN", urn
-                   },
-                   {
-                       "Identifier", identifier
-                   }
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Identifier", identifier }
                }))
         {
             try

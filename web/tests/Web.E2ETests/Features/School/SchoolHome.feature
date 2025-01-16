@@ -53,10 +53,10 @@
     Scenario: Top priority categories have the correct RAG commentary
         Given I am on school homepage for school with urn '777042'
         Then the RAG commentary for each priority category is
-          | Name                                | Commentary                                                                               |
-          | Teaching and Teaching support staff | High priority Spends £6,315 per pupil — Spending is higher than 99% of similar schools.  |
+          | Name                                | Commentary                                                                              |
+          | Teaching and Teaching support staff | High priority Spends £6,315 per pupil — Spending is higher than 99% of similar schools. |
           | Non-educational support staff       | High priority Spends £845 per pupil — Spending is higher than 95.7% of similar schools. |
-          | Administrative supplies             | High priority Spends £429 per pupil — Spending is higher than 99% of similar schools.    |
+          | Administrative supplies             | High priority Spends £429 per pupil — Spending is higher than 99% of similar schools.   |
 
     Scenario: RAG guidance is displayed
         Given I am on school homepage for school with urn '777042'
