@@ -6,12 +6,12 @@ public class CustomDataApi(HttpClient httpClient, string? key = default) : ApiBa
 
     public async Task<ApiResult> RemoveSchoolAsync(string urn, string identifier) => await DeleteAsync(Api.CustomData.School(urn, identifier));
 
-    public async Task<ApiResult> UpsertSchoolAsync(string urn, PutCustomDataRequest request) => await PutAsync(Api.CustomData.School(urn, request.Identifier.ToString()), new JsonContent(request));
+    public async Task<ApiResult> UpsertSchoolAsync(string urn, PostCustomDataRequest request) => await PostAsync(Api.CustomData.School(urn), new JsonContent(request));
 }
 
 public interface ICustomDataApi
 {
     Task<ApiResult> GetSchoolAsync(string urn, string identifier);
     Task<ApiResult> RemoveSchoolAsync(string urn, string identifier);
-    Task<ApiResult> UpsertSchoolAsync(string urn, PutCustomDataRequest request);
+    Task<ApiResult> UpsertSchoolAsync(string urn, PostCustomDataRequest request);
 }

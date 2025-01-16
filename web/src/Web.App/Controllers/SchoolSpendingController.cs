@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -95,9 +96,8 @@ public class SchoolSpendingController(
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var customDataId = userData.CustomData;
-                if (string.IsNullOrEmpty(customDataId))
+                var userCustomData = await userDataService.GetCustomDataActiveAsync(User, urn);
+                if (userCustomData?.Status != Pipeline.JobStatus.Complete)
                 {
                     return RedirectToAction("Index", "School", new
                     {
@@ -105,16 +105,7 @@ public class SchoolSpendingController(
                     });
                 }
 
-                var userCustomData = await userDataService.GetCustomDataAsync(User, customDataId, urn);
-                if (userCustomData?.Status != "complete")
-                {
-                    return RedirectToAction("Index", "School", new
-                    {
-                        urn
-                    });
-                }
-
-
+                var customDataId = userCustomData.Id!;
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();

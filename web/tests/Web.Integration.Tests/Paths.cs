@@ -77,6 +77,7 @@ public static class Paths
     public static string SchoolCustomDataRevert(string? urn) => $"/school/{urn}/custom-data/revert";
     public static string SchoolCustomDataWorkforceData(string? urn) => $"/school/{urn}/custom-data/workforce";
     public static string SchoolCustomDataSubmit(string? urn) => $"/school/{urn}/custom-data/submit";
+    public static string SchoolCustomDataSubmitted(string? urn) => $"/school/{urn}/custom-data/submitted";
     public static string SchoolComparators(string? urn) => $"/school/{urn}/comparators";
     public static string SchoolComparatorsCreate(string? urn) => $"/school/{urn}/comparators/create";
     public static string SchoolComparatorsCreateBy(string? urn) => $"/school/{urn}/comparators/create/by";

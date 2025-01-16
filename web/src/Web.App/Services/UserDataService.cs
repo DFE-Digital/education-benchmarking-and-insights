@@ -10,7 +10,7 @@ namespace Web.App.Services;
 public interface IUserDataService
 {
     Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn);
-    Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn);
+    Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn);
     Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber);
     Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn);
     Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber);
@@ -52,7 +52,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetCustomDataAsync(ClaimsPrincipal user, string identifier, string urn)
+    public async Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -62,12 +62,22 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
             .AddIfNotNull("userId", user.UserId())
-            .AddIfNotNull("id", identifier)
             .AddIfNotNull("type", CustomData)
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        if (userSets?.Length > 1)
+        {
+            logger.LogWarning(
+                "Unexpected {Length} active {Type} UserData rows returned for {OrganisationType} {OrganisationId} for user {userId}",
+                userSets.Length,
+                CustomData,
+                OrganisationSchool,
+                urn,
+                user.UserGuid());
+        }
+
         return userSets?.FirstOrDefault();
     }
 

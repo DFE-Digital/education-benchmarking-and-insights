@@ -22,7 +22,7 @@ public static class Api
 
     public static class CustomData
     {
-        public static string School(string urn, string identifier) => $"api/custom-data/school/{urn}/{identifier}";
+        public static string School(string urn, string? identifier = null) => $"api/custom-data/school/{urn}/{identifier}";
     }
 
     public static class FinancialPlan

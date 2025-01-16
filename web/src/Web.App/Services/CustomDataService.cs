@@ -5,6 +5,7 @@ using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+
 namespace Web.App.Services;
 
 public interface ICustomDataService
@@ -102,14 +103,14 @@ public class CustomDataService(
             return null;
         }
 
-        var parsed = customDataSchool.Data.FromJson<PutCustomDataRequest>();
+        var parsed = customDataSchool.Data.FromJson<PostCustomDataRequest>();
         return parsed == null ? null : CreateCustomData(parsed);
     }
 
     public async Task RemoveCustomData(string urn, string identifier) =>
         await customDataApi.RemoveSchoolAsync(urn, identifier).EnsureSuccess();
 
-    private static PutCustomDataRequest CreateRequest(CustomData data) => new()
+    private static PostCustomDataRequest CreateRequest(CustomData data) => new()
     {
         AdministrativeSuppliesNonEducationalCosts = data.AdministrativeSuppliesNonEducationalCosts,
         CateringStaffCosts = data.CateringStaffCosts,
@@ -160,7 +161,7 @@ public class CustomDataService(
         WorkforceHeadcount = data.WorkforceHeadcount
     };
 
-    private static CustomData CreateCustomData(PutCustomDataRequest data) => new()
+    private static CustomData CreateCustomData(PostCustomDataRequest data) => new()
     {
         AdministrativeSuppliesNonEducationalCosts = data.AdministrativeSuppliesNonEducationalCosts,
         CateringStaffCosts = data.CateringStaffCosts,

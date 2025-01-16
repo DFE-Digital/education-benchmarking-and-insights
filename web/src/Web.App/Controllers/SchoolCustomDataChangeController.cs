@@ -11,6 +11,7 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -238,17 +239,42 @@ public class SchoolCustomDataChangeController(
             {
                 ViewData[ViewDataKeys.HiddenNavigation] = true;
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var customData = userData.CustomData;
                 ArgumentNullException.ThrowIfNull(customData);
 
-                var viewModel = new SchoolCustomDataSubmittedViewModel(school, customData);
-                return View(viewModel);
+                return RedirectToAction("Submitted", new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error submitting school custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("submitted")]
+    public async Task<IActionResult> Submitted(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber = urn
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.HiddenNavigation] = true;
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolCustomDataSubmittedViewModel(school);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school custom data submission status: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

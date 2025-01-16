@@ -11,6 +11,7 @@ using Platform.Json;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
+[Scope(Feature = "Benchmark Comparator set Endpoint Testing")]
 public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
 {
     private const string DefaultComparatorSetKey = "default-comparator-set";
@@ -399,7 +400,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     {
         api.CreateRequest(UserDefinedDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={identifier}&organisationType={type}&status=complete", UriKind.Relative),
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={identifier}&organisationType={type}&status=complete&type=comparator-set", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

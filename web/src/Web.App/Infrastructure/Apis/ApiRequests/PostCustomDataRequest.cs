@@ -1,8 +1,7 @@
 ﻿namespace Web.App.Infrastructure.Apis;
 
-public record PutCustomDataRequest
+public record PostCustomDataRequest
 {
-    public Guid Identifier { get; set; } = Guid.NewGuid();
     public string? UserId { get; set; }
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
@@ -51,4 +50,4 @@ public record PutCustomDataRequest
     public decimal? NonClassroomSupportStaffFTE { get; set; }
     public decimal? AuxiliaryStaffFTE { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
-};
+}
