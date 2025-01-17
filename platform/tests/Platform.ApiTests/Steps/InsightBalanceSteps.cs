@@ -13,17 +13,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
 {
     private const string SchoolBalanceKey = "school-balance";
     private const string TrustBalanceKey = "trust-balance";
-
-    [Given("a valid school balance dimension request")]
-    public void GivenAValidSchoolBalanceDimensionRequest()
-    {
-        api.CreateRequest(SchoolBalanceKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/balance/dimensions", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
+    
     [Given("a valid school balance request with urn '(.*)', dimension '(.*)'")]
     public void GivenAValidSchoolBalanceRequestWithUrnDimension(
         string urn,
@@ -57,18 +47,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
             Method = HttpMethod.Get
         });
     }
-
-    [Given("a valid school balance query request with urns:")]
-    public void GivenAValidSchoolBalanceQueryRequestWithUrns(DataTable table)
-    {
-        var urns = GetFirstColumnsFromTableRowsAsString(table);
-        api.CreateRequest(SchoolBalanceKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/balance/schools?urns={string.Join("&urns=", urns)}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
+    
     [Given("a valid trust balance request with company number '(.*)', dimension '(.*)'")]
     public void GivenAValidTrustBalanceRequestWithCompanyNumberDimension(
         string companyNumber,
@@ -119,30 +98,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     {
         await api.Send();
     }
-
-    [Then("the balance dimensions result should be ok and contain:")]
-    public async Task ThenTheBalanceDimensionsResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Dimension = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
+    
     [Then("the school balance result should be ok and contain:")]
     public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(DataTable table)
     {

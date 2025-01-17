@@ -1,15 +1,5 @@
 ﻿Feature: Insights balance endpoints
 
-    Scenario: Sending a valid school balance dimension request
-        Given a valid school balance dimension request
-        When I submit the insights balance request
-        Then the balance dimensions result should be ok and contain:
-          | Dimension          |
-          | Actuals            |
-          | PerUnit            |
-          | PercentIncome      |
-          | PercentExpenditure |
-
     Scenario: Sending a valid school balance request with dimension
         Given a valid school balance request with urn '990000', dimension 'Actuals'
         When I submit the insights balance request
