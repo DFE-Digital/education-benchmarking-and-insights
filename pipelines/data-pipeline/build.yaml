@@ -86,6 +86,11 @@ stages:
             parameters:
               TerraformFolder: $(TerraformFolder)
               Module: 'data-pipeline'
+      
+      - job: RunLint
+        displayName: 'Run lint'
+        steps:
+          - template: steps\run-lint.yaml
 
       - job: RunTests
         displayName: 'Run unit tests'
