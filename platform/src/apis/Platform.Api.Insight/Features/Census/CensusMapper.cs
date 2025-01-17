@@ -22,14 +22,14 @@ public static class CensusMapper
             SchoolType = model.SchoolType,
             LAName = model.LAName,
             TotalPupils = model.TotalPupils,
-            Workforce = category is null or Categories.Census.WorkforceFte ? model.Workforce : null,
-            WorkforceHeadcount = category is null or Categories.Census.WorkforceHeadcount ? model.WorkforceHeadcount : null,
-            Teachers = category is null or Categories.Census.TeachersFte ? model.Teachers : null,
-            SeniorLeadership = category is null or Categories.Census.SeniorLeadershipFte ? model.SeniorLeadership : null,
-            TeachingAssistant = category is null or Categories.Census.TeachingAssistantsFte ? model.TeachingAssistant : null,
-            NonClassroomSupportStaff = category is null or Categories.Census.NonClassroomSupportStaffFte ? model.NonClassroomSupportStaff : null,
-            AuxiliaryStaff = category is null or Categories.Census.AuxiliaryStaffFte ? model.AuxiliaryStaff : null,
-            PercentTeacherWithQualifiedStatus = category is null or Categories.Census.TeachersQualified ? model.PercentTeacherWithQualifiedStatus : null,
+            Workforce = ShouldDisplay(category, Categories.Census.WorkforceFte) ? model.Workforce : null,
+            WorkforceHeadcount = ShouldDisplay(category, Categories.Census.WorkforceHeadcount) ? model.WorkforceHeadcount : null,
+            Teachers = ShouldDisplay(category, Categories.Census.TeachersFte) ? model.Teachers : null,
+            SeniorLeadership = ShouldDisplay(category, Categories.Census.SeniorLeadershipFte) ? model.SeniorLeadership : null,
+            TeachingAssistant = ShouldDisplay(category, Categories.Census.TeachingAssistantsFte) ? model.TeachingAssistant : null,
+            NonClassroomSupportStaff = ShouldDisplay(category, Categories.Census.NonClassroomSupportStaffFte) ? model.NonClassroomSupportStaff : null,
+            AuxiliaryStaff = ShouldDisplay(category, Categories.Census.AuxiliaryStaffFte) ? model.AuxiliaryStaff : null,
+            PercentTeacherWithQualifiedStatus = ShouldDisplay(category, Categories.Census.TeachersQualified) ? model.PercentTeacherWithQualifiedStatus : null,
         };
     }
 
@@ -66,5 +66,10 @@ public static class CensusMapper
             AuxiliaryStaff = model.AuxiliaryStaff,
             PercentTeacherWithQualifiedStatus = model.PercentTeacherWithQualifiedStatus
         };
+    }
+
+    private static bool ShouldDisplay(string? category, string match)
+    {
+        return string.IsNullOrEmpty(category) || category == match;
     }
 }
