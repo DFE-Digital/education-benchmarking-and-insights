@@ -6,9 +6,9 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.BudgetForecast;
-using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Features.Balance;
+using Platform.Api.Insight.Features.Census;
 using Platform.Api.Insight.Income;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
@@ -53,9 +53,8 @@ internal static class Services
             .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
             .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
-            .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()
-            .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()
-            .AddTransient<IValidator<QuerySchoolCensusParameters>, QuerySchoolCensusParametersValidator>();
+            .AddTransient<ICensusValidator, CensusValidator>();
+
 
         serviceCollection.AddRedis();
 

@@ -49,5 +49,8 @@ public class WhenFunctionReceivesSuggestLocalAuthoritiesRequest : LocalAuthoriti
         var body = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
         Assert.NotNull(body);
         Assert.Contains(body, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
+
+        Service
+            .Verify(d => d.SuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()), Times.Never);
     }
 }

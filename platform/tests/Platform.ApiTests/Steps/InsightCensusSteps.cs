@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Census;
+using Platform.Api.Insight.Features.Census;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;
@@ -12,26 +12,6 @@ namespace Platform.ApiTests.Steps;
 public class InsightCensusSteps(InsightApiDriver api)
 {
     private const string CensusKey = "census";
-
-    [Given("a valid school census dimension request")]
-    public void GivenAValidSchoolCensusDimensionRequest()
-    {
-        api.CreateRequest(CensusKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/census/dimensions", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("a valid school census category request")]
-    public void GivenAValidSchoolCensusCategoryRequest()
-    {
-        api.CreateRequest(CensusKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/census/categories", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
 
     [Given("a valid school census request with urn '(.*)', category '(.*)' and dimension '(.*)'")]
     public void GivenAValidSchoolCensusRequestWithUrnCategoryAndDimension(string urn, string category, string dimension)
@@ -120,52 +100,6 @@ public class InsightCensusSteps(InsightApiDriver api)
     public async Task WhenISubmitTheInsightsCensusRequest()
     {
         await api.Send();
-    }
-
-    [Then("the census dimensions result should be ok and contain:")]
-    public async Task ThenTheCensusDimensionsResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Dimension = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
-    [Then("the census categories result should be ok and contain:")]
-    public async Task ThenTheCensusCategoriesResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Category = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
     }
 
     [Then("the census result should be ok and contain:")]

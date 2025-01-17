@@ -12,6 +12,8 @@ using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Examples;
+
 namespace Platform.Api.Insight.MetricRagRatings;
 
 public class MetricRagRatingsFunctions(

@@ -26,12 +26,12 @@ public static class BalanceMapper
         };
     }
 
-    public static BalanceHistoryResponse MapToApiResponse(this IEnumerable<BalanceHistoryModel> models, int startYear, int endYear)
+    public static BalanceHistoryResponse MapToApiResponse(this BalanceYearsModel years, IEnumerable<BalanceHistoryModel> models)
     {
         return new BalanceHistoryResponse
         {
-            StartYear = startYear,
-            EndYear = endYear,
+            StartYear = years.StartYear,
+            EndYear = years.EndYear,
             Rows = models.Select(x => x.MapToApiResponse())
         };
     }

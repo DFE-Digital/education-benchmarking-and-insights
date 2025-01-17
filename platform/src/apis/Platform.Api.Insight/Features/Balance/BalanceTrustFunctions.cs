@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Examples;
 
 namespace Platform.Api.Insight.Features.Balance;
 
@@ -44,7 +45,7 @@ public class BalanceTrustFunctions(IBalanceService service)
         var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(rows.MapToApiResponse(years.StartYear, years.EndYear));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
     }
 
     //TODO: Consider adding validation for parameters

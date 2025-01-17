@@ -1,29 +1,5 @@
 ﻿Feature: Insights census endpoints
 
-    Scenario: Sending a valid school census dimension request
-        Given a valid school census dimension request
-        When I submit the insights census request
-        Then the census dimensions result should be ok and contain:
-          | Dimension          |
-          | HeadcountPerFte    |
-          | Total              |
-          | PercentWorkforce   |
-          | PupilsPerStaffRole |
-
-    Scenario: Sending a valid school census category request
-        Given a valid school census category request
-        When I submit the insights census request
-        Then the census categories result should be ok and contain:
-          | Category                    |
-          | WorkforceFte                |
-          | TeachersFte                 |
-          | SeniorLeadershipFte         |
-          | TeachingAssistantsFte       |
-          | NonClassroomSupportStaffFte |
-          | AuxiliaryStaffFte           |
-          | WorkforceHeadcount          |
-          | TeachersQualified           |
-
     Scenario: Sending a valid school census request with category and dimension
         Given a valid school census request with urn '990000', category 'WorkforceFte' and dimension 'Total'
         When I submit the insights census request

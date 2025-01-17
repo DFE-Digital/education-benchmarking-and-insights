@@ -16,8 +16,8 @@ namespace Platform.Api.Insight.Features.HealthCheck;
 public class HealthCheckFunctions(HealthCheckService healthCheck)
 {
     [Function(nameof(HealthAsync))]
-    [OpenApiOperation(nameof(HealthAsync), Constants.Features.HealthCheck)]
     [OpenApiSecurityHeader]
+    [OpenApiOperation(nameof(HealthAsync), Constants.Features.HealthCheck)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string))]
     public async Task<HttpResponseData> HealthAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = "health")] HttpRequestData req)

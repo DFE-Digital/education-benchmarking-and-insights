@@ -1,6 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Api.Insight.Census;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable InconsistentNaming
+namespace Platform.Api.Insight.Features.Census;
 
 [ExcludeFromCodeCoverage]
 public record CensusYearsModel

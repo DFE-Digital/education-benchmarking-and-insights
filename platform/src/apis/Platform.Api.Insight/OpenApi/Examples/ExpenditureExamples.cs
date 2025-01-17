@@ -35,20 +35,6 @@ internal class ExampleExpenditureDimension : OpenApiExample<string>
 }
 
 [ExcludeFromCodeCoverage]
-internal class ExampleOverallPhase : OpenApiExample<string>
-{
-    public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-    {
-        foreach (var phase in OverallPhase.All)
-        {
-            Examples.Add(OpenApiExampleResolver.Resolve(phase, phase, namingStrategy));
-        }
-
-        return this;
-    }
-}
-
-[ExcludeFromCodeCoverage]
 internal class ExampleRagStatuses : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)

@@ -15,7 +15,7 @@ public class WhenMetricRagRatingsParametersValidatorValidates
         "urn"
     }, new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
@@ -25,7 +25,7 @@ public class WhenMetricRagRatingsParametersValidatorValidates
         "urn"
     }, new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new string[0], null, null, null)]
     [InlineData(new[]
     {
@@ -33,21 +33,21 @@ public class WhenMetricRagRatingsParametersValidatorValidates
     }, new string[0], new string[0], null, null, null)]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
     }, "12345678", null, null)]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
     }, null, "123", "Pupil referral unit")]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
@@ -75,7 +75,7 @@ public class WhenMetricRagRatingsParametersValidatorValidates
         "urn"
     }, new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         "Invalid"
@@ -92,21 +92,21 @@ public class WhenMetricRagRatingsParametersValidatorValidates
     }, null, null, null)]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
     }, null, null, null)]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red
     }, null, "laCode", null)]
     [InlineData(new string[0], new[]
     {
-        CostCategory.TeachingStaff
+        CostCategories.TeachingStaff
     }, new[]
     {
         RagRating.Red

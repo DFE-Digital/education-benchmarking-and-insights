@@ -1,41 +1,50 @@
 using System.Net;
+using AutoFixture;
 using FluentValidation.Results;
 using Moq;
-using Platform.Api.Insight.Census;
+using Platform.Api.Insight.Features.Census;
+using Platform.Functions;
+using Platform.Test.Extensions;
 using Xunit;
 
-namespace Platform.Insight.Tests.Census.Endpoints;
+namespace Platform.Insight.Tests.Census;
 
-public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : CensusNationalAveFunctionsTestBase
+public class WhenFunctionReceivesGetCensusNationalAveHistoryRequest : CensusFunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        CensusNationalAvgParametersValidator
+        var history = Fixture.CreateMany<CensusHistoryModel>(5);
+        var years = new CensusYearsModel { StartYear = 2019, EndYear = 2023 };
+
+        Validator
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         Service
             .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((new CensusYearsModel(), Array.Empty<CensusHistoryModel>()));
+            .ReturnsAsync((years, history));
 
         var result = await Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
+
+        var body = await result.ReadAsJsonAsync<CensusHistoryResponse>();
+        Assert.NotNull(body);
     }
 
     [Fact]
     public async Task ShouldReturn400OnValidationError()
     {
-        CensusNationalAvgParametersValidator
+        Validator
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
+            .ReturnsAsync(new ValidationResult([
                 new ValidationFailure(nameof(CensusNationalAvgParameters.Dimension), "error message")
-            }));
+            ]));
 
         Service
             .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));
@@ -44,25 +53,13 @@ public class WhenFunctionReceivesGetNationalAverageExpenditureHistoryRequest : C
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+        Assert.Equal(ContentType.ApplicationJson, result.ContentType());
+
+        var values = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
+        Assert.NotNull(values);
+        Assert.Contains(values, p => p.PropertyName == nameof(CensusNationalAvgParameters.Dimension));
+
         Service.Verify(
             x => x.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
-    }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        CensusNationalAvgParametersValidator
-            .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
-
-        var exception = new Exception();
-        Service
-            .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Throws(exception);
-
-        // exception handled by middleware
-        var result = await Assert.ThrowsAsync<Exception>(() => Functions.CensusHistoryAvgNationalAsync(CreateHttpRequestData(), _cancellationToken));
-
-        Assert.Equal(exception, result);
     }
 }

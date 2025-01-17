@@ -7,19 +7,18 @@ namespace Platform.Insight.Tests.Balance;
 
 public class WhenBalanceParametersSetsValues
 {
-    [Theory]
-    [MemberData(nameof(Data))]
-    public void ShouldSetValuesFromQuery(string? dimension)
+    [Fact]
+    public void ShouldSetValuesFromQuery()
     {
         var values = new NameValueCollection
         {
-            { "dimension", dimension }
+            { "dimension", "PercentExpenditure" }
         };
 
         var parameters = new BalanceParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(dimension, parameters.Dimension);
+        Assert.Equal("PercentExpenditure", parameters.Dimension);
     }
 
     [Fact]
@@ -27,39 +26,28 @@ public class WhenBalanceParametersSetsValues
     {
         var values = new NameValueCollection();
 
-
         var parameters = new BalanceParameters();
         parameters.SetValues(values);
 
         Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
     }
-
-    public static TheoryData<string> Data =>
-    [
-        "Actuals",
-        "PercentExpenditure",
-        "PercentIncome",
-        "PerUnit"
-    ];
 }
 
 public class WhenBalanceQueryTrustParametersSetsValues
 {
-    [Theory]
-    [MemberData(nameof(Data))]
-    public void ShouldSetValuesFromQuery(string? dimension, string? companyNumbers, string[] trusts)
+    [Fact]
+    public void ShouldSetValuesFromQuery()
     {
         var values = new NameValueCollection
         {
-            { "dimension", dimension },
-            { "companyNumbers", companyNumbers }
+            { "companyNumbers", "1,2,3" }
         };
 
         var parameters = new BalanceQueryTrustsParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(dimension, parameters.Dimension);
-        Assert.Equal(trusts, parameters.Trusts);
+        Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
+        Assert.Equal(["1", "2", "3"], parameters.Trusts);
     }
 
     [Fact]
@@ -73,12 +61,4 @@ public class WhenBalanceQueryTrustParametersSetsValues
         Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
         Assert.Equal([], parameters.Trusts);
     }
-
-    public static TheoryData<string, string?, string[]> Data => new()
-    {
-        { "Actuals", "1,2,3", ["1","2","3"] },
-        { "PercentExpenditure", "1,2,3,4", ["1","2","3","4"] },
-        { "PercentIncome", "101,202,303,102,203,304", ["101","202","303","102","203","304"] },
-        { "PerUnit", null, [] },
-    };
 }

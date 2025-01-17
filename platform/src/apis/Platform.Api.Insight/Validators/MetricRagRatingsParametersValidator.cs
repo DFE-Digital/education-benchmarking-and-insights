@@ -36,7 +36,7 @@ public class MetricRagRatingsParametersValidator : AbstractValidator<MetricRagRa
             .WithMessage($"{{PropertyName}} must be be specified when {nameof(MetricRagRatingsParameters.LaCode)} is supplied and be one of the supported values: {string.Join(", ", OverallPhase.All)}");
     }
 
-    private static bool ContainValidCategories(string[] categories) => categories.All(CostCategory.IsValid);
+    private static bool ContainValidCategories(string[] categories) => categories.All(CostCategories.IsValid);
     private static bool ContainValidStatuses(string[] statuses) => statuses.All(RagRating.IsValid);
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }

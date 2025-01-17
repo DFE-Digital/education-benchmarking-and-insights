@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Api.Insight.Census;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+namespace Platform.Api.Insight.Features.Census;
 
 [ExcludeFromCodeCoverage]
 public abstract record CensusResponse

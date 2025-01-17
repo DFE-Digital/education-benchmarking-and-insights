@@ -1,6 +1,6 @@
 ﻿namespace Platform.Domain;
 
-public static class CostCategory
+public static class CostCategories
 {
     public const string TeachingStaff = "Teaching and Teaching support staff";
     public const string NonEducationalSupportStaff = "Non-educational support staff and services";

@@ -9,11 +9,12 @@ public class BalanceSchoolFunctionsTestBase : FunctionsTestBase
 {
     protected readonly BalanceSchoolFunctions Functions;
     protected readonly Mock<IBalanceService> Service;
-    protected readonly Fixture Fixture = new();
+    protected readonly Fixture Fixture;
 
     protected BalanceSchoolFunctionsTestBase()
     {
         Service = new Mock<IBalanceService>();
+        Fixture = new Fixture();
         Functions = new BalanceSchoolFunctions(Service.Object);
     }
 }

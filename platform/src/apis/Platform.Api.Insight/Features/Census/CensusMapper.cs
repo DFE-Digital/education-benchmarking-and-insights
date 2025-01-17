@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Platform.Domain;
 
-namespace Platform.Api.Insight.Census;
+namespace Platform.Api.Insight.Features.Census;
 
+//TODO: Consider adding unit test coverage for mapper
+[ExcludeFromCodeCoverage]
 public static class CensusMapper
 {
     public static CensusSchoolResponse MapToApiResponse(this CensusSchoolModel model, string? category = null)
@@ -18,14 +22,14 @@ public static class CensusMapper
             SchoolType = model.SchoolType,
             LAName = model.LAName,
             TotalPupils = model.TotalPupils,
-            Workforce = category is null or CensusCategories.WorkforceFte ? model.Workforce : null,
-            WorkforceHeadcount = category is null or CensusCategories.WorkforceHeadcount ? model.WorkforceHeadcount : null,
-            Teachers = category is null or CensusCategories.TeachersFte ? model.Teachers : null,
-            SeniorLeadership = category is null or CensusCategories.SeniorLeadershipFte ? model.SeniorLeadership : null,
-            TeachingAssistant = category is null or CensusCategories.TeachingAssistantsFte ? model.TeachingAssistant : null,
-            NonClassroomSupportStaff = category is null or CensusCategories.NonClassroomSupportStaffFte ? model.NonClassroomSupportStaff : null,
-            AuxiliaryStaff = category is null or CensusCategories.AuxiliaryStaffFte ? model.AuxiliaryStaff : null,
-            PercentTeacherWithQualifiedStatus = category is null or CensusCategories.TeachersQualified ? model.PercentTeacherWithQualifiedStatus : null,
+            Workforce = category is null or Categories.Census.WorkforceFte ? model.Workforce : null,
+            WorkforceHeadcount = category is null or Categories.Census.WorkforceHeadcount ? model.WorkforceHeadcount : null,
+            Teachers = category is null or Categories.Census.TeachersFte ? model.Teachers : null,
+            SeniorLeadership = category is null or Categories.Census.SeniorLeadershipFte ? model.SeniorLeadership : null,
+            TeachingAssistant = category is null or Categories.Census.TeachingAssistantsFte ? model.TeachingAssistant : null,
+            NonClassroomSupportStaff = category is null or Categories.Census.NonClassroomSupportStaffFte ? model.NonClassroomSupportStaff : null,
+            AuxiliaryStaff = category is null or Categories.Census.AuxiliaryStaffFte ? model.AuxiliaryStaff : null,
+            PercentTeacherWithQualifiedStatus = category is null or Categories.Census.TeachersQualified ? model.PercentTeacherWithQualifiedStatus : null,
         };
     }
 
@@ -34,12 +38,12 @@ public static class CensusMapper
         return models.Select(m => MapToApiResponse(m, category));
     }
 
-    public static CensusHistoryResponse MapToApiResponse(this IEnumerable<CensusHistoryModel> models, int startYear, int endYear)
+    public static CensusHistoryResponse MapToApiResponse(this CensusYearsModel years, IEnumerable<CensusHistoryModel> models)
     {
         return new CensusHistoryResponse
         {
-            StartYear = startYear,
-            EndYear = endYear,
+            StartYear = years.StartYear,
+            EndYear = years.EndYear,
             Rows = models.Select(x => x.MapToApiResponse())
         };
     }

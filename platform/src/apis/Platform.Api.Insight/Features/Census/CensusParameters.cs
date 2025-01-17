@@ -1,66 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Specialized;
+using Platform.Domain;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 
-namespace Platform.Api.Insight.Census;
+namespace Platform.Api.Insight.Features.Census;
 
 public record CensusParameters : QueryParameters
 {
-    public string? Category { get; set; }
-    public string Dimension { get; set; } = CensusDimensions.Total;
+    public string? Category { get; private set; }
+    public string Dimension { get; private set; } = Dimensions.Census.Total;
 
-    public override void SetValues(IQueryCollection query)
+    public override void SetValues(NameValueCollection query)
     {
-        if (query.TryGetValue("category", out var category) && !string.IsNullOrWhiteSpace(category))
-        {
-            Category = category.ToString();
-        }
-
-        if (query.TryGetValue("dimension", out var dimension) && !string.IsNullOrWhiteSpace(dimension))
-        {
-            Dimension = dimension.ToString();
-        }
+        Dimension = query["dimension"] ?? Dimensions.Census.Total;
+        Category = query["category"];
     }
 }
 
-public record CensusNationalAvgParameters : QueryParameters
+public record CensusQuerySchoolsParameters : CensusParameters
 {
-    public string Dimension { get; set; } = CensusDimensions.Total;
-    public string FinanceType { get; set; } = string.Empty;
-    public string OverallPhase { get; set; } = string.Empty;
+    public string[] Urns { get; private set; } = [];
+    public string? Phase { get; private set; }
+    public string? CompanyNumber { get; private set; }
+    public string? LaCode { get; private set; }
 
-    public override void SetValues(IQueryCollection query)
-    {
-        if (query.TryGetValue("dimension", out var dimension) && !string.IsNullOrWhiteSpace(dimension))
-        {
-            Dimension = dimension.ToString();
-        }
-
-        if (query.TryGetValue("financeType", out var financeType) && !string.IsNullOrWhiteSpace(financeType))
-        {
-            FinanceType = financeType.ToString();
-        }
-
-        if (query.TryGetValue("phase", out var overallPhase) && !string.IsNullOrWhiteSpace(overallPhase))
-        {
-            OverallPhase = overallPhase.ToString();
-        }
-    }
-}
-
-public record QuerySchoolCensusParameters : CensusParameters
-{
-    public string[] Urns { get; set; } = [];
-    public string? Phase { get; set; }
-    public string? CompanyNumber { get; set; }
-    public string? LaCode { get; set; }
-
-    public override void SetValues(IQueryCollection query)
+    public override void SetValues(NameValueCollection query)
     {
         base.SetValues(query);
-        Urns = query.ToStringArray("urns");
-        CompanyNumber = query["companyNumber"].ToString();
-        Phase = query["phase"].ToString();
-        LaCode = query["laCode"].ToString();
+
+        Urns = query["urns"]?.Split(',') ?? [];
+        CompanyNumber = query["companyNumber"];
+        Phase = query["phase"];
+        LaCode = query["laCode"];
     }
 }
+
+public record CensusNationalAvgParameters : CensusParameters
+{
+    public string FinanceType { get; private set; } = string.Empty;
+    public string OverallPhase { get; private set; } = string.Empty;
+
+    public override void SetValues(NameValueCollection query)
+    {
+        base.SetValues(query);
+
+        FinanceType = query["financeType"] ?? string.Empty;
+        OverallPhase = query["phase"] ?? string.Empty;
+    }
+}
+

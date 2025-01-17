@@ -20,7 +20,8 @@ public record BalanceQueryTrustsParameters : BalanceParameters
 
     public override void SetValues(NameValueCollection query)
     {
-        Trusts = query["companyNumbers"]?.Split(',') ?? [];
         base.SetValues(query);
+
+        Trusts = query["companyNumbers"]?.Split(',') ?? [];
     }
 }

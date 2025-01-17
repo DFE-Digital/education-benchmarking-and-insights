@@ -50,5 +50,8 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
         var values = await result.ReadAsJsonAsync<IEnumerable<ValidationError>>();
         Assert.NotNull(values);
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
+
+        Service
+            .Verify(d => d.SuggestAsync(It.IsAny<SchoolSuggestRequest>()), Times.Never);
     }
 }

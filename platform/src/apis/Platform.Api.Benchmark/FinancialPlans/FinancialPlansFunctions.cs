@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Examples;
+
 namespace Platform.Api.Benchmark.FinancialPlans;
 
 public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IFinancialPlansService service)
