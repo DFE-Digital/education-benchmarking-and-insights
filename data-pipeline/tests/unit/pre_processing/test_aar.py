@@ -3,6 +3,7 @@ import io
 import pandas as pd
 
 from pipeline import pre_processing
+from pipeline.pre_processing.academies.academies import prepare_aar_data
 
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
@@ -106,7 +107,7 @@ def test_empty_lines_stripped(aar_data: pd.DataFrame):
 
     result = pre_processing.prepare_aar_data(
         aar_path=io.StringIO(csv_with_empty_lines),
-        current_year=2022,
+        year=2022,
     )
 
     assert len(csv_with_empty_lines.splitlines()) > len(aar_data.index)
@@ -119,3 +120,78 @@ def test_aar_transitioned_academies_not_removed(
 ):
     assert sorted(aar_data["URN"]) == [100150, 100152, 100152, 100153]
     assert sorted(prepared_aar_data.index) == [100150, 100152, 100152, 100153]
+
+
+def test_aar_new_codes():
+    aar_data = pd.DataFrame(
+        {
+            "LA": [100],
+            "Estab": [100],
+            "URN": [100],
+            "ACADEMYUPIN": [100],
+            "Company_Number": ["Company_Number"],
+            "Company_Name": ["Company_Name"],
+            "ACADEMYTRUSTSTATUS": [100.00],
+            "Date left or closed if in period:": [100.00],
+            "Date joined or opened if in period:": [100.00],
+            "Valid To": [100.00],
+            "BAI050-T": [100.00],
+            "BAI010-T": [100.00],
+            "BAI020-T": [100.00],
+            "BAI030-T": [100.00],
+            "BAI040-T": [100.00],
+            "BAI060-T": [100.00],
+            "BAI070-T": [100.00],
+            "BAI080-T": [100.00],
+            "BAI090-T": [100.00],
+            "BAI100-T": [100.00],
+            "BAI110-T": [100.00],
+            "BAI120-T": [100.00],
+            "BAI130-T": [100.00],
+            "BAI140-T": [100.00],
+            "BAI150-T": [100.00],
+            "BAE010-T": [100.00],
+            "BAE020-T": [100.00],
+            "BAE030-T": [100.00],
+            "BAE040-T": [100.00],
+            "BAE050-T": [100.00],
+            "BAE060-T": [100.00],
+            "BAE070-T": [100.00],
+            "BAE080-T": [100.00],
+            "BAE090-T": [100.00],
+            "BAE110-T": [100.00],
+            "BAE100-T": [100.00],
+            "BAE120-T": [100.00],
+            "BAE130-T": [100.00],
+            "BAE140-T": [100.00],
+            "BAE150-T": [100.00],
+            "BAE160-T": [100.00],
+            "BAE170-T": [100.00],
+            "BAE180-T": [100.00],
+            "BAE190-T": [100.00],
+            "BAE200-T": [100.00],
+            "BAE210-T": [100.00],
+            "BAE220-T": [100.00],
+            "BAE230-T": [100.00],
+            "BAE240-T": [100.00],
+            "BAE250-T": [100.00],
+            "BAE300-T": [100.00],
+            "BAE260-T": [100.00],
+            "BAE270-T": [100.00],
+            "BAE280-T": [100.00],
+            "BAE290-T": [100.00],
+            "BAE320-T": [100.00],
+            "BAE310-T": [100.00],
+            "BAI160-T": [100.00],
+            "BAI170-T": [100.00],
+            "BAB030-T": [100.00],
+            "BAI061-T": [100.00],
+            "BAI101-T": [100.00],
+            "BAI011-A": [100.00],
+        }
+    )
+    aar_data = io.StringIO(aar_data.to_csv())
+
+    result = prepare_aar_data(aar_path=aar_data, year=2024)
+
+    assert len(result.index) == 1

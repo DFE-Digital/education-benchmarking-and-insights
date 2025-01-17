@@ -1,3 +1,9 @@
+from .aar_academies import (  # noqa
+    aar_academies,
+    aar_academies_column_eval,
+    aar_academies_column_mappings,
+    aar_academies_index_col,
+)
 from .census_pupils import (  # noqa
     pupil_census,
     pupil_census_column_mappings,
@@ -170,68 +176,6 @@ ks2 = {
 
 ks4_index_col = "URN"
 ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "string"}
-
-aar_academies_index_col = "ACADEMYUPIN"
-aar_academies = {
-    "LA": "Int64",
-    "Estab": "Int64",
-    "URN": "Int64",
-    "ACADEMYUPIN": "Int64",
-    "ACADEMYTRUSTSTATUS": "string",
-    "Company_Number": "string",
-    "Date joined or opened if in period:": "string",
-    "Date left or closed if in period:": "string",
-    "BNCH11110T (EFA Revenue Grants)": "float",
-    "BNCH11131 (DfE Family Revenue Grants)": "float",
-    "BNCH11141 (SEN)": "float",
-    "BNCH11142 (Other Revenue)": "float",
-    "BNCH11151 (Other Government Revenue Grants)": "float",
-    "BNCH11161 (Government source (non-grant))": "float",
-    "BNCH11162 (Academies)": "float",
-    "BNCH11163 (Non- Government)": "float",
-    "BNCH11123-BAI011-A (Academies - Income)": "float",
-    "BNCH11201 (Income from facilities and services)": "float",
-    "BNCH11202 (Income from catering)": "float",
-    "BNCH11203 (Receipts from supply teacher insurance claims)": "float",
-    "BNCH11300T (Voluntary income)": "float",
-    "BNCH11204 (Other income - revenue)": "float",
-    "BNCH11205 (Other Income from facilities and services)": "float",
-    "BNCH11400T (Investment income)": "float",
-    "BNCH21706 (Administrative supplies - non educational)": "float",
-    "BNCH21106 (Catering staff)": "float",
-    "BNCH21701 (Catering supplies)": "float",
-    "BNCH21707 (Direct revenue financing (Revenue contributions to capital))": "float",
-    "BNCH21602 (ICT learning resources)": "float",
-    "BNCH21603 (Examination fees)": "float",
-    "BNCH21601 (Learning resources (not ICT equipment))": "float",
-    "BNCH21104 (Administrative and clerical staff)": "float",
-    "BNCH21107 (Other staff)": "float",
-    "BNCH44001 (Closing Balance (Restricted and Unrestricted Funds))": "float",
-    "BNCH21702 (Professional Services - non-curriculum)": "float",
-    "BNCH21703 (Auditor costs)": "float",
-    "BNCH21301 (Maintenance of premises)": "float",
-    "BNCH21405 (Grounds maintenance)": "float",
-    "BNCH21201 (Indirect employee expenses)": "float",
-    "BNCH21801 (Interest charges for Loan and bank)": "float",
-    "BNCH21705 (Other insurance premiums)": "float",
-    "BNCH21802 (PFI Charges)": "float",
-    "BNCH21404 (Rent and rates)": "float",
-    "BNCH21501 (Special facilities)": "float",
-    "BNCH21202 (Staff development and training)": "float",
-    "BNCH21203 (Staff-related insurance)": "float",
-    "BNCH21204 (Supply teacher insurance)": "float",
-    "BNCH21401 (Cleaning and caretaking)": "float",
-    "BNCH21406 (Other occupation costs)": "float",
-    "BNCH21105 (Premises staff)": "float",
-    "BNCH21101 (Teaching staff)": "float",
-    "BNCH21102 (Supply teaching staff - extra note in guidance)": "float",
-    "BNCH21103 (Education support staff)": "float",
-    "BNCH21604 (Educational Consultancy)": "float",
-    "BNCH21606 (Agency supply teaching staff)": "float",
-    "BNCH21403 (Energy)": "float",
-    "BNCH21402 (Water and sewerage)": "float",
-    "Valid To": "string",
-}
 
 aar_central_services_index_col = "Lead_UPIN"
 aar_central_services = {

@@ -348,7 +348,7 @@ def prepared_central_services_data(
 
 @pytest.fixture
 def prepared_aar_data(aar_data: pd.DataFrame) -> pd.DataFrame:
-    return prepare_aar_data(StringIO(aar_data.to_csv()), 2022)
+    return prepare_aar_data(StringIO(aar_data.to_csv()), 2023)
 
 
 @pytest.fixture
