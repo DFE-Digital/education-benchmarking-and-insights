@@ -13,7 +13,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
 {
     private const string SchoolBalanceKey = "school-balance";
     private const string TrustBalanceKey = "trust-balance";
-    
+
     [Given("a valid school balance request with urn '(.*)', dimension '(.*)'")]
     public void GivenAValidSchoolBalanceRequestWithUrnDimension(
         string urn,
@@ -47,7 +47,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
             Method = HttpMethod.Get
         });
     }
-    
+
     [Given("a valid trust balance request with company number '(.*)', dimension '(.*)'")]
     public void GivenAValidTrustBalanceRequestWithCompanyNumberDimension(
         string companyNumber,
@@ -98,7 +98,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     {
         await api.Send();
     }
-    
+
     [Then("the school balance result should be ok and contain:")]
     public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(DataTable table)
     {
