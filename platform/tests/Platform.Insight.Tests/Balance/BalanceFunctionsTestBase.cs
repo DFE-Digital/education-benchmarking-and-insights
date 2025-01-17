@@ -1,29 +1,20 @@
-using Microsoft.Extensions.Logging.Abstractions;
+using AutoFixture;
 using Moq;
-using Platform.Api.Insight.Balance;
+using Platform.Api.Insight.Features.Balance;
 using Platform.Test;
 
-namespace Platform.Insight.Tests.Balance.Endpoints;
-
-public class BalanceFunctionsTestBase : FunctionsTestBase
-{
-    protected readonly BalanceFunctions Functions;
-
-    protected BalanceFunctionsTestBase()
-    {
-        Functions = new BalanceFunctions(new NullLogger<BalanceFunctions>());
-    }
-}
+namespace Platform.Insight.Tests.Balance;
 
 public class BalanceSchoolFunctionsTestBase : FunctionsTestBase
 {
     protected readonly BalanceSchoolFunctions Functions;
     protected readonly Mock<IBalanceService> Service;
+    protected readonly Fixture Fixture = new();
 
     protected BalanceSchoolFunctionsTestBase()
     {
         Service = new Mock<IBalanceService>();
-        Functions = new BalanceSchoolFunctions(new NullLogger<BalanceSchoolFunctions>(), Service.Object);
+        Functions = new BalanceSchoolFunctions(Service.Object);
     }
 }
 
@@ -31,10 +22,11 @@ public class BalanceTrustFunctionsTestBase : FunctionsTestBase
 {
     protected readonly BalanceTrustFunctions Functions;
     protected readonly Mock<IBalanceService> Service;
+    protected readonly Fixture Fixture = new();
 
     protected BalanceTrustFunctionsTestBase()
     {
         Service = new Mock<IBalanceService>();
-        Functions = new BalanceTrustFunctions(new NullLogger<BalanceTrustFunctions>(), Service.Object);
+        Functions = new BalanceTrustFunctions(Service.Object);
     }
 }

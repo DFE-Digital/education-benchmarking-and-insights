@@ -16,6 +16,8 @@ internal static class Worker
             // We want to use this middleware only for http trigger invocations.
             return context.FunctionDefinition.InputBindings.Values.First(a => a.Type.EndsWith("Trigger")).Type == "httpTrigger";
         });
+
+        builder.UseMiddleware<ExceptionHandlingMiddleware>();
     }
 
     internal static void Options(WorkerOptions options)

@@ -5,19 +5,20 @@ using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.BudgetForecast;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Expenditure;
+using Platform.Api.Insight.Features.Balance;
 using Platform.Api.Insight.Income;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
 using Platform.Cache.Configuration;
-using Platform.Functions.Extensions;
+using Platform.Functions.Middleware;
 using Platform.Json;
 using Platform.Sql;
+
 namespace Platform.Api.Insight.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -34,6 +35,7 @@ internal static class Services
             .AddRedis();
 
         serviceCollection
+            .AddSingleton<IExceptionHandlingDataProvider, ExceptionHandlingDataProvider>()
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
             .AddSingleton<ICensusService, CensusService>()

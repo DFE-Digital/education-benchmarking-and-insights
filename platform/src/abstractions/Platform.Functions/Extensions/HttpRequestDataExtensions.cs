@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 using FluentValidation.Results;
 using Microsoft.Azure.Functions.Worker.Http;
+
 namespace Platform.Functions.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class HttpRequestDataExtensions
 {
     public static Guid GetCorrelationId(this HttpRequestData req)
@@ -12,10 +15,17 @@ public static class HttpRequestDataExtensions
         {
             return Guid.TryParse(values.FirstOrDefault(), out var guid)
                 ? guid
-                : Guid.NewGuid();
+                : Guid.Empty;
         }
 
-        return Guid.NewGuid();
+        return req.SetCorrelationId();
+    }
+
+    private static Guid SetCorrelationId(this HttpRequestData req)
+    {
+        var guid = Guid.NewGuid();
+        req.Headers.Add(Constants.CorrelationIdHeader, guid.ToString());
+        return guid;
     }
 
     public static async Task<T> ReadAsJsonAsync<T>(this HttpRequestData req)

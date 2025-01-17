@@ -1,5 +1,4 @@
 using FluentValidation;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
 using Platform.Search;
@@ -17,7 +16,7 @@ public class TrustsFunctionsTestBase : FunctionsTestBase
     {
         Service = new Mock<ITrustsService>();
         Validator = new Mock<IValidator<SuggestRequest>>();
-        Functions = new TrustsFunctions(new NullLogger<TrustsFunctions>(), Service.Object, Validator.Object);
+        Functions = new TrustsFunctions(Service.Object, Validator.Object);
     }
 }
 
@@ -29,6 +28,6 @@ public class TrustComparatorsFunctionsTestBase : FunctionsTestBase
     protected TrustComparatorsFunctionsTestBase()
     {
         Service = new Mock<ITrustComparatorsService>();
-        Functions = new TrustComparatorsFunctions(new NullLogger<TrustComparatorsFunctions>(), Service.Object);
+        Functions = new TrustComparatorsFunctions(Service.Object);
     }
 }

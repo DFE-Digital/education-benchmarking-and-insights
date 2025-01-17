@@ -1,15 +1,19 @@
 ﻿using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 namespace Platform.Functions;
 
+[ExcludeFromCodeCoverage]
 public abstract record QueryParameters
 {
-    // ReSharper disable once MemberCanBeProtected.Global
-    public abstract void SetValues(IQueryCollection query);
+    public virtual void SetValues(IQueryCollection query)
+    {
+        throw new NotImplementedException();
+    }
 
-    public void SetValues(NameValueCollection query)
+    public virtual void SetValues(NameValueCollection query)
     {
         var queryParameters = new Dictionary<string, StringValues>();
 

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Balance;
+using Platform.Api.Insight.Features.Balance;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Functions.Extensions;

@@ -30,4 +30,7 @@
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
+    </ItemGroup>
 </Project>

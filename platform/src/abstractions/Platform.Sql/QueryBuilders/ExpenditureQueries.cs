@@ -8,10 +8,10 @@ public class ExpenditureSchoolDefaultCurrentQuery(string dimension) : PlatformQu
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentActual /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentIncome /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPerUnit /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentActual /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPercentIncome /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultCurrentPerUnit /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -23,10 +23,10 @@ public class ExpenditureSchoolCustomQuery(string dimension) : PlatformQuery(GetS
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolCustomActual /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolCustomPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolCustomPercentIncome /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolCustomPerUnit /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureSchoolCustomActual /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolCustomPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolCustomPercentIncome /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureSchoolCustomPerUnit /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -38,10 +38,10 @@ public class ExpenditureSchoolDefaultComparatorAvgQuery(string dimension) : Plat
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPerUnit /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentIncome /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultComparatorAvgPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -53,10 +53,10 @@ public class ExpenditureSchoolDefaultNationalAveQuery(string dimension) : Platfo
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAveActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePerUnit /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentIncome /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAveActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultNationalAvePercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -68,10 +68,10 @@ public class ExpenditureTrustDefaultCurrentQuery(string dimension) : PlatformQue
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPerUnit /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentIncome /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultCurrentPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -83,10 +83,10 @@ public class ExpenditureTrustDefaultQuery(string dimension) : PlatformQuery(GetS
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultPerUnit /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultPercentIncome /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureTrustDefaultActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureTrustDefaultPerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureTrustDefaultPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureTrustDefaultPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
@@ -98,10 +98,10 @@ public class ExpenditureSchoolDefaultQuery(string dimension) : PlatformQuery(Get
     {
         return dimension switch
         {
-            Dimension.Cost.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultActual /**where**/",
-            Dimension.Cost.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit /**where**/",
-            Dimension.Cost.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure /**where**/",
-            Dimension.Cost.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome /**where**/",
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_ExpenditureSchoolDefaultActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_ExpenditureSchoolDefaultPerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_ExpenditureSchoolDefaultPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

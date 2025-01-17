@@ -40,17 +40,4 @@ public class WhenFunctionReceivesSchoolComparatorsRequest : SchoolComparatorsFun
         Assert.NotNull(actual);
         Assert.Equivalent(_comparators, actual);
     }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Service
-            .Setup(d => d.ComparatorsAsync(_companyNumber, It.IsAny<SchoolComparatorsRequest>()))
-            .Throws(new Exception());
-
-        var result = await Functions.SchoolComparatorsAsync(CreateHttpRequestDataWithBody(_request), _companyNumber);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

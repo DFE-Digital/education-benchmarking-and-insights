@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.LocalAuthorities;
 using Platform.Api.Establishment.Features.Schools;
 using Platform.Api.Establishment.Features.Trusts;
+using Platform.Functions.Middleware;
 using Platform.Json;
 using Platform.Search;
 using Platform.Sql;
@@ -42,6 +43,7 @@ internal static class Services
             });
 
         serviceCollection
+            .AddSingleton<IExceptionHandlingDataProvider, ExceptionHandlingDataProvider>()
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()

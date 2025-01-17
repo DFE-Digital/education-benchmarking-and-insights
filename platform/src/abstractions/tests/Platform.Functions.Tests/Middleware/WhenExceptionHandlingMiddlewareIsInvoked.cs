@@ -11,22 +11,30 @@ namespace Platform.Functions.Tests.Middleware;
 
 public class WhenExceptionHandlingMiddlewareIsInvoked
 {
-    private readonly Mock<FunctionContextWrapper> _context;
+    private readonly Mock<FunctionContext> _context;
     private readonly ExceptionHandlingMiddleware _middleware;
     private HttpResponseData? _actual;
 
     public WhenExceptionHandlingMiddlewareIsInvoked()
     {
         var logger = NullLogger<ExceptionHandlingMiddleware>.Instance;
-        _middleware = new ExceptionHandlingMiddleware(logger);
+        var provider = new Mock<IExceptionHandlingDataProvider>();
 
-        _context = new Mock<FunctionContextWrapper>(new Mock<FunctionContext>().Object);
+        _context = new Mock<FunctionContext>();
+        _middleware = new ExceptionHandlingMiddleware(logger, provider.Object);
+
         var request = MockHttpRequestData.Create();
-        _context.Setup(c => c.GetHttpRequestDataAsync()).ReturnsAsync(request);
-        _context.Setup(c => c.SetInvocationResult(It.IsAny<HttpResponseData>())).Callback((HttpResponseData value) =>
-        {
-            _actual = value;
-        });
+
+        provider
+            .Setup(c => c.GetHttpRequestDataAsync(It.IsAny<FunctionContext>()))
+            .ReturnsAsync(request);
+
+        provider
+            .Setup(c => c.SetInvocationResult(It.IsAny<FunctionContext>(), It.IsAny<HttpResponseData>()))
+            .Callback((FunctionContext _, HttpResponseData value) =>
+            {
+                _actual = value;
+            });
     }
 
     [Fact]
@@ -70,7 +78,7 @@ public class WhenExceptionHandlingMiddlewareIsInvoked
 
         Task Next(FunctionContext _)
         {
-            throw TestDatabase.MakeSqlException("Operation cancelled by user");
+            throw DatabaseHelper.SimulateSqlException("Operation cancelled by user");
         }
     }
 

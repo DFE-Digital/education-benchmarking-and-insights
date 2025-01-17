@@ -58,17 +58,4 @@ public class WhenFunctionReceivesSingleTrustRequest : TrustsFunctionsTestBase
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Service
-            .Setup(d => d.GetAsync(_companyNumber))
-            .Throws(new Exception());
-
-        var result = await Functions.SingleTrustAsync(CreateHttpRequestData(), _companyNumber);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

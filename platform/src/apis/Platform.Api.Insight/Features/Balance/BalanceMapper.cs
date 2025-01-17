@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Platform.Api.Insight.Balance;
+namespace Platform.Api.Insight.Features.Balance;
 
-//TODO: Add unit test coverage for mapper
+//TODO: Consider adding unit test coverage for mapper
 [ExcludeFromCodeCoverage]
 public static class BalanceMapper
 {

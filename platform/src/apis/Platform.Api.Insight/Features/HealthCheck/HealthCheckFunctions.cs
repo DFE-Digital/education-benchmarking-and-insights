@@ -6,19 +6,21 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-namespace Platform.Api.Insight;
+
+namespace Platform.Api.Insight.Features.HealthCheck;
 
 [ExcludeFromCodeCoverage]
 public class HealthCheckFunctions(HealthCheckService healthCheck)
 {
     [Function(nameof(HealthAsync))]
-    [OpenApiOperation(nameof(HealthAsync), "Health Check")]
+    [OpenApiOperation(nameof(HealthAsync), Constants.Features.HealthCheck)]
     [OpenApiSecurityHeader]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, "text/plain", typeof(string))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string))]
     public async Task<HttpResponseData> HealthAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = "health")] HttpRequestData req)
     {
         var healthStatus = await healthCheck.CheckHealthAsync();
         return await req.CreateObjectResponseAsync(Enum.GetName(typeof(HealthStatus), healthStatus.Status) ?? string.Empty);

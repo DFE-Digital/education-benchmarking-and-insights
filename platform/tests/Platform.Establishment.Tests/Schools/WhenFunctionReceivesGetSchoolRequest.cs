@@ -40,16 +40,4 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
 
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Service
-            .Setup(d => d.GetAsync(It.IsAny<string>()))
-            .Throws(new Exception());
-
-        var result = await Functions.SingleSchoolAsync(CreateHttpRequestData(), "1");
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

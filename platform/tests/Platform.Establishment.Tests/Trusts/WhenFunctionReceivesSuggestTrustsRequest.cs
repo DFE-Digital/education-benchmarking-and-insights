@@ -48,17 +48,4 @@ public class WhenFunctionReceivesSuggestTrustsRequest : TrustsFunctionsTestBase
         Assert.NotNull(values);
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
     }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
-            .Throws(new Exception());
-
-        var result = await Functions.SuggestTrustsAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

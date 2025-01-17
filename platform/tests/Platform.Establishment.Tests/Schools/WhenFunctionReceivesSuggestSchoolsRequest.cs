@@ -51,17 +51,4 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
         Assert.NotNull(values);
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
     }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
-            .Throws(new Exception());
-
-        var result = await Functions.SuggestSchoolsAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

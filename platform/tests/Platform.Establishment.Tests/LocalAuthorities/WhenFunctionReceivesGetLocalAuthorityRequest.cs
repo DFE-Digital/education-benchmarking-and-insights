@@ -58,17 +58,4 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
     }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Service
-            .Setup(d => d.GetAsync(_laCode))
-            .Throws(new Exception());
-
-        var result = await Functions.SingleLocalAuthorityAsync(CreateHttpRequestData(), _laCode);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
-    }
 }

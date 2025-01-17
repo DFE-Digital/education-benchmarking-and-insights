@@ -1,6 +1,6 @@
 ﻿namespace Platform.Domain;
 
-public static class Dimension
+public static class Dimensions
 {
     public static class Census
     {
@@ -22,7 +22,7 @@ public static class Dimension
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
 
-    public static class Cost
+    public static class Finance
     {
         public const string Actuals = nameof(Actuals);
         public const string PerUnit = nameof(PerUnit);

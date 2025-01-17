@@ -29,6 +29,6 @@ public class SchoolComparatorsFunctionsTestBase : FunctionsTestBase
     protected SchoolComparatorsFunctionsTestBase()
     {
         Service = new Mock<ISchoolComparatorsService>();
-        Functions = new SchoolComparatorsFunctions(new NullLogger<SchoolComparatorsFunctions>(), Service.Object);
+        Functions = new SchoolComparatorsFunctions(Service.Object);
     }
 }

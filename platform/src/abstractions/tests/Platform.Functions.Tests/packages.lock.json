@@ -1792,6 +1792,13 @@
           "xunit.extensibility.core": "[2.9.3]"
         }
       },
+      "platform.domain": {
+        "type": "Project",
+        "dependencies": {
+          "JsonSubTypes": "[2.0.1, )",
+          "Newtonsoft.Json": "[13.0.3, )"
+        }
+      },
       "platform.functions": {
         "type": "Project",
         "dependencies": {
@@ -1804,7 +1811,8 @@
           "Microsoft.Extensions.Configuration.Binder": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.1, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.1, )"
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.1, )",
+          "Platform.Domain": "[1.0.0, )"
         }
       },
       "platform.json": {
@@ -1826,6 +1834,15 @@
         "requested": "[11.11.0, )",
         "resolved": "11.11.0",
         "contentHash": "cyIVdQBwSipxWG8MA3Rqox7iNbUNUTK5bfJi9tIdm4CAfH71Oo5ABLP4/QyrUwuakqpUEPGtE43BDddvEehuYw=="
+      },
+      "JsonSubTypes": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.1, )",
+        "resolved": "2.0.1",
+        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        }
       },
       "Microsoft.Azure.Core.NewtonsoftJson": {
         "type": "CentralTransitive",

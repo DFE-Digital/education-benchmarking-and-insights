@@ -2,7 +2,6 @@
 using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
-using Platform.Functions.Extensions;
 using Platform.Test.Extensions;
 using Xunit;
 
@@ -38,18 +37,5 @@ public class WhenFunctionReceivesTrustComparatorsRequest : TrustComparatorsFunct
         var actual = await result.ReadAsJsonAsync<TrustComparators>();
         Assert.NotNull(actual);
         Assert.Equivalent(_comparators, actual);
-    }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        Service
-            .Setup(d => d.ComparatorsAsync(_companyNumber, It.IsAny<TrustComparatorsRequest>()))
-            .Throws(new Exception());
-
-        var result = await Functions.TrustComparatorsAsync(CreateHttpRequestDataWithBody(_request), _companyNumber);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

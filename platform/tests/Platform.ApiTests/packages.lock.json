@@ -2098,7 +2098,8 @@
           "Microsoft.Extensions.Configuration.Binder": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.1, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.1, )"
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.1, )",
+          "Platform.Domain": "[1.0.0, )"
         }
       },
       "platform.infrastructure": {

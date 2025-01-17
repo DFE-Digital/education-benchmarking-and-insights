@@ -28,7 +28,7 @@ public class WhenHttpRequestDataGetsCorrelationId
         var result = request.GetCorrelationId();
 
         Assert.IsType<Guid>(result);
-        Assert.NotEqual(Guid.Empty, result);
+        Assert.Equal(Guid.Empty, result);
     }
 
     [Fact]

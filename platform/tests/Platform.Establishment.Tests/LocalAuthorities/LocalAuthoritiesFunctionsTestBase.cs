@@ -1,5 +1,4 @@
 using FluentValidation;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Establishment.Features.LocalAuthorities;
 using Platform.Search;
@@ -17,6 +16,6 @@ public class LocalAuthoritiesFunctionsTestBase : FunctionsTestBase
     {
         Service = new Mock<ILocalAuthoritiesService>();
         Validator = new Mock<IValidator<SuggestRequest>>();
-        Functions = new LocalAuthoritiesFunctions(new NullLogger<LocalAuthoritiesFunctions>(), Service.Object, Validator.Object);
+        Functions = new LocalAuthoritiesFunctions(Service.Object, Validator.Object);
     }
 }

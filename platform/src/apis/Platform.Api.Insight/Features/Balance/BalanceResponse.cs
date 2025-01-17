@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Api.Insight.Balance;
-
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+namespace Platform.Api.Insight.Features.Balance;
 
 [ExcludeFromCodeCoverage]
 public abstract record BalanceResponse

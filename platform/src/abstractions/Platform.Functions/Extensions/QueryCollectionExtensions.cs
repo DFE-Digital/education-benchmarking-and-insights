@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 
 namespace Platform.Functions.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class QueryCollectionExtensions
 {
     public static string[] ToStringArray(this IQueryCollection query, string parameterName)

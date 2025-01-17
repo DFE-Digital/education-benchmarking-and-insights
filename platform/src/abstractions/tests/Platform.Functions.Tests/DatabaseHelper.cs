@@ -3,9 +3,9 @@ using Microsoft.Data.SqlClient;
 
 namespace Platform.Functions.Tests;
 
-public static class TestDatabase
+public static class DatabaseHelper
 {
-    public static SqlException MakeSqlException(string? message = null)
+    public static SqlException SimulateSqlException(string? message = null)
     {
         SqlException? exception = null;
         try
