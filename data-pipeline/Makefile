@@ -30,6 +30,10 @@ lint:
 	poetry run black --config ./pyproject.toml src/ tests/;\
 	poetry run isort --settings-path ./pyproject.toml src/ tests/
 
+lint-check:
+	poetry run black --config ./pyproject.toml --check --diff src/ tests/;\
+    poetry run isort --settings-path ./pyproject.toml --check-only --diff src/ tests/
+
 lint-tf: 
 	terraform fmt --diff --recursive
 
