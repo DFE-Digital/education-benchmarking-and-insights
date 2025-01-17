@@ -110,8 +110,7 @@ public class SpendingCostsPage(IPage page)
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
     }
-
-
+    
     public async Task AssertOrderOfCharts(List<string[]> expectedOrder)
     {
         var actualOrder = new List<string[]>();
