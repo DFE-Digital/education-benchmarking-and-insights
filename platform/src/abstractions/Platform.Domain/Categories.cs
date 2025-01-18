@@ -2,6 +2,7 @@
 
 namespace Platform.Domain;
 
+//TODO: Consider converting these to enums
 [ExcludeFromCodeCoverage]
 public static class Categories
 {

@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using FluentAssertions;
 using Platform.Api.Establishment.Features.Schools;
+using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Json;

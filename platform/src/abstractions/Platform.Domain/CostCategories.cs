@@ -1,5 +1,6 @@
 ﻿namespace Platform.Domain;
 
+//TODO: Consider converting these to enums
 public static class CostCategories
 {
     public const string TeachingStaff = "Teaching and Teaching support staff";

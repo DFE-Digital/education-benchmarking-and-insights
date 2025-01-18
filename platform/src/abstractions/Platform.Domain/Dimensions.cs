@@ -1,5 +1,6 @@
 ﻿namespace Platform.Domain;
 
+//TODO: Consider converting these to enums
 public static class Dimensions
 {
     public static class Census
