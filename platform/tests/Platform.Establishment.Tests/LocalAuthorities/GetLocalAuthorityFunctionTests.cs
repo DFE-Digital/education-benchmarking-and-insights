@@ -15,13 +15,13 @@ public class GetLocalAuthorityFunctionTests : FunctionsTestBase
 {
     private readonly string _laCode;
     private readonly LocalAuthority _localAuthority;
-    private readonly GetLocalAuthorityFunction _functions;
+    private readonly GetLocalAuthorityFunction _function;
     private readonly Mock<ILocalAuthoritiesService> _service;
 
     public GetLocalAuthorityFunctionTests()
     {
         _service = new Mock<ILocalAuthoritiesService>();
-        _functions = new GetLocalAuthorityFunction(_service.Object);
+        _function = new GetLocalAuthorityFunction(_service.Object);
 
         var fixture = new Fixture();
         _laCode = fixture.Create<string>();
@@ -43,7 +43,7 @@ public class GetLocalAuthorityFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(_laCode))
             .ReturnsAsync(_localAuthority);
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), _laCode);
+        var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -61,7 +61,7 @@ public class GetLocalAuthorityFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(_laCode))
             .ReturnsAsync((LocalAuthority?)null);
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), _laCode);
+        var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);

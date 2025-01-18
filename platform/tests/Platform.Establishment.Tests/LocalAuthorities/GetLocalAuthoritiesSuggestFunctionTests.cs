@@ -16,7 +16,7 @@ namespace Platform.Establishment.Tests.LocalAuthorities;
 
 public class GetLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetLocalAuthoritiesSuggestFunction _functions;
+    private readonly GetLocalAuthoritiesSuggestFunction _function;
     private readonly Mock<ILocalAuthoritiesService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
@@ -24,7 +24,7 @@ public class GetLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
     {
         _service = new Mock<ILocalAuthoritiesService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _functions = new GetLocalAuthoritiesSuggestFunction(_service.Object, _validator.Object);
+        _function = new GetLocalAuthoritiesSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class GetLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -56,7 +56,7 @@ public class GetLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new LocalAuthoritySuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);

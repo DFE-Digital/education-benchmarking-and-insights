@@ -16,7 +16,7 @@ namespace Platform.Establishment.Tests.Schools;
 
 public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetSchoolsSuggestFunction _functions;
+    private readonly GetSchoolsSuggestFunction _function;
     private readonly Mock<ISchoolsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
@@ -24,7 +24,7 @@ public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
     {
         _service = new Mock<ISchoolsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _functions = new GetSchoolsSuggestFunction(_service.Object, _validator.Object);
+        _function = new GetSchoolsSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await _functions.RunAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
+            await _function.RunAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -56,7 +56,7 @@ public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new SchoolSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);

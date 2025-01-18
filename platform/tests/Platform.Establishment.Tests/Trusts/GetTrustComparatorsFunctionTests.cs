@@ -16,7 +16,7 @@ public class GetTrustComparatorsFunctionTests : FunctionsTestBase
     private readonly string _companyNumber;
     private readonly TrustComparators _comparators;
     private readonly TrustComparatorsRequest _request;
-    private readonly GetTrustComparatorsFunction _functions;
+    private readonly GetTrustComparatorsFunction _function;
     private readonly Mock<ITrustComparatorsService> _service;
 
     public GetTrustComparatorsFunctionTests()
@@ -28,7 +28,7 @@ public class GetTrustComparatorsFunctionTests : FunctionsTestBase
         _request = fixture.Create<TrustComparatorsRequest>();
 
         _service = new Mock<ITrustComparatorsService>();
-        _functions = new GetTrustComparatorsFunction(_service.Object);
+        _function = new GetTrustComparatorsFunction(_service.Object);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class GetTrustComparatorsFunctionTests : FunctionsTestBase
             .Setup(d => d.ComparatorsAsync(_companyNumber, It.IsAny<TrustComparatorsRequest>()))
             .ReturnsAsync(_comparators);
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(_request), _companyNumber);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(_request), _companyNumber);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);

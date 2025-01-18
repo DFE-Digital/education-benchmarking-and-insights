@@ -17,7 +17,7 @@ public class GetSchoolComparatorsFunctionTests : FunctionsTestBase
     private readonly string _urn;
     private readonly SchoolComparators _comparators;
     private readonly SchoolComparatorsRequest _request;
-    private readonly GetSchoolComparatorsFunction _functions;
+    private readonly GetSchoolComparatorsFunction _function;
     private readonly Mock<ISchoolComparatorsService> _service;
 
     public GetSchoolComparatorsFunctionTests()
@@ -29,7 +29,7 @@ public class GetSchoolComparatorsFunctionTests : FunctionsTestBase
         _request = fixture.Create<SchoolComparatorsRequest>();
 
         _service = new Mock<ISchoolComparatorsService>();
-        _functions = new GetSchoolComparatorsFunction(_service.Object);
+        _function = new GetSchoolComparatorsFunction(_service.Object);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class GetSchoolComparatorsFunctionTests : FunctionsTestBase
             .Setup(d => d.ComparatorsAsync(_urn, It.IsAny<SchoolComparatorsRequest>()))
             .ReturnsAsync(_comparators);
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(_request), _urn);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(_request), _urn);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);

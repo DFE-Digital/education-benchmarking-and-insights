@@ -15,7 +15,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
 {
     private readonly string _companyNumber;
     private readonly Trust _trust;
-    private readonly GetTrustFunction _functions;
+    private readonly GetTrustFunction _function;
     private readonly Mock<ITrustsService> _service;
 
     public GetTrustFunctionTests()
@@ -33,7 +33,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
             .Create();
 
         _service = new Mock<ITrustsService>();
-        _functions = new GetTrustFunction(_service.Object);
+        _function = new GetTrustFunction(_service.Object);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(_companyNumber))
             .ReturnsAsync(_trust);
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), _companyNumber);
+        var result = await _function.RunAsync(CreateHttpRequestData(), _companyNumber);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -61,7 +61,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(_companyNumber))
             .ReturnsAsync((Trust?)null);
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), _companyNumber);
+        var result = await _function.RunAsync(CreateHttpRequestData(), _companyNumber);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);

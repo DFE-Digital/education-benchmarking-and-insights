@@ -12,13 +12,13 @@ namespace Platform.Establishment.Tests.Schools;
 
 public class GetSchoolFunctionTests : FunctionsTestBase
 {
-    private readonly GetSchoolFunction _functions;
+    private readonly GetSchoolFunction _function;
     private readonly Mock<ISchoolsService> _service;
 
     public GetSchoolFunctionTests()
     {
         _service = new Mock<ISchoolsService>();
-        _functions = new GetSchoolFunction(_service.Object);
+        _function = new GetSchoolFunction(_service.Object);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class GetSchoolFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new School());
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), "1");
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -46,7 +46,7 @@ public class GetSchoolFunctionTests : FunctionsTestBase
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((School?)null);
 
-        var result = await _functions.RunAsync(CreateHttpRequestData(), "1");
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);

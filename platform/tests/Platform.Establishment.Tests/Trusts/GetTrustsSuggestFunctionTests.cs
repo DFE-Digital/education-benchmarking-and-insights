@@ -16,7 +16,7 @@ namespace Platform.Establishment.Tests.Trusts;
 
 public class GetTrustsSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetTrustsSuggestFunction _functions;
+    private readonly GetTrustsSuggestFunction _function;
     private readonly Mock<ITrustsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
@@ -24,7 +24,7 @@ public class GetTrustsSuggestFunctionTests : FunctionsTestBase
     {
         _service = new Mock<ITrustsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _functions = new GetTrustsSuggestFunction(_service.Object, _validator.Object);
+        _function = new GetTrustsSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class GetTrustsSuggestFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await _functions.RunAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
+            await _function.RunAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -59,7 +59,7 @@ public class GetTrustsSuggestFunctionTests : FunctionsTestBase
                 new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")
             ]));
 
-        var result = await _functions.RunAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new TrustSuggestRequest()));
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
