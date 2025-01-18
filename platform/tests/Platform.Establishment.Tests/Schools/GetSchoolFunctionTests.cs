@@ -15,7 +15,7 @@ public class GetSchoolFunctionTests : FunctionsTestBase
     private readonly GetSchoolFunction _functions;
     private readonly Mock<ISchoolsService> _service;
 
-    protected GetSchoolFunctionTests()
+    public GetSchoolFunctionTests()
     {
         _service = new Mock<ISchoolsService>();
         _functions = new GetSchoolFunction(_service.Object);

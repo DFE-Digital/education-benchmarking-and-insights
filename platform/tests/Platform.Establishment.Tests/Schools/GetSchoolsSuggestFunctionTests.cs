@@ -20,7 +20,7 @@ public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
     private readonly Mock<ISchoolsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
-    protected GetSchoolsSuggestFunctionTests()
+    public GetSchoolsSuggestFunctionTests()
     {
         _service = new Mock<ISchoolsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();

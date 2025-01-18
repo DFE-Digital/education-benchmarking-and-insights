@@ -20,7 +20,7 @@ public class GetTrustsSuggestFunctionTests : FunctionsTestBase
     private readonly Mock<ITrustsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
-    protected GetTrustsSuggestFunctionTests()
+    public GetTrustsSuggestFunctionTests()
     {
         _service = new Mock<ITrustsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
