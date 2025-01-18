@@ -1,15 +1,5 @@
 ﻿Feature: Insights income endpoints
 
-    Scenario: Sending a valid school income dimension request
-        Given a valid school income dimension request
-        When I submit the insights income request
-        Then the income dimensions result should be ok and contain:
-          | Dimension          |
-          | Actuals            |
-          | PerUnit            |
-          | PercentIncome      |
-          | PercentExpenditure |
-
     Scenario: Sending a valid school income request with category
         Given a valid school income request with urn '990000'
         When I submit the insights income request

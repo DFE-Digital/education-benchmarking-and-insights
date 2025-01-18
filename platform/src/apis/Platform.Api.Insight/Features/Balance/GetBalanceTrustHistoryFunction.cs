@@ -22,9 +22,10 @@ public class GetBalanceTrustHistoryFunction(IBalanceService service)
     [OpenApiOperation(nameof(GetBalanceTrustHistoryFunction), Constants.Features.Balance)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trust/{companyNumber}/history")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trust/{companyNumber}/history")]
+        HttpRequestData req,
         string companyNumber)
     {
         var queryParams = req.GetParameters<BalanceParameters>();

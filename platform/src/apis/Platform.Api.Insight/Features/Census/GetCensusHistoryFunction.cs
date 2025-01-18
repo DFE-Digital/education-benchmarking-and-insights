@@ -27,7 +27,8 @@ public class GetCensusHistoryFunction(ICensusService service, IValidator<CensusP
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}/history")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}/history")]
+        HttpRequestData req,
         string urn,
         CancellationToken token)
     {

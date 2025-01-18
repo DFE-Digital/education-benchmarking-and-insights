@@ -25,7 +25,8 @@ public class GetBalanceTrustsFunction(IBalanceService service)
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trusts")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trusts")]
+        HttpRequestData req)
     {
         var queryParams = req.GetParameters<BalanceQueryTrustsParameters>();
 

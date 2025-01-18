@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net;
+﻿using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Functions.Worker.Middleware;
@@ -9,7 +8,7 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Functions.Middleware;
 
-public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger, IExceptionHandlingDataProvider provider) : IFunctionsWorkerMiddleware
+public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger, IFunctionContextDataProvider provider) : IFunctionsWorkerMiddleware
 {
     public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
     {
@@ -58,22 +57,3 @@ public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddlew
     }
 }
 
-public interface IExceptionHandlingDataProvider
-{
-    ValueTask<HttpRequestData?> GetHttpRequestDataAsync(FunctionContext context);
-    void SetInvocationResult(FunctionContext context, HttpResponseData result);
-}
-
-[ExcludeFromCodeCoverage]
-public class ExceptionHandlingDataProvider : IExceptionHandlingDataProvider
-{
-    public ValueTask<HttpRequestData?> GetHttpRequestDataAsync(FunctionContext context)
-    {
-        return context.GetHttpRequestDataAsync();
-    }
-
-    public void SetInvocationResult(FunctionContext context, HttpResponseData result)
-    {
-        context.GetInvocationResult().Value = result;
-    }
-}

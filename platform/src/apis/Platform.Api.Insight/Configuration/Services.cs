@@ -11,13 +11,15 @@ using Platform.Api.Insight.Features.Balance.Services;
 using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Api.Insight.Features.Census.Validators;
-using Platform.Api.Insight.Income;
+using Platform.Api.Insight.Features.Income.Parameters;
+using Platform.Api.Insight.Features.Income.Services;
+using Platform.Api.Insight.Features.Income.Validators;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
 using Platform.Cache.Configuration;
-using Platform.Functions.Middleware;
+using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
 
@@ -37,7 +39,7 @@ internal static class Services
             .AddRedis();
 
         serviceCollection
-            .AddSingleton<IExceptionHandlingDataProvider, ExceptionHandlingDataProvider>()
+            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>()
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
             .AddSingleton<ICensusService, CensusService>()

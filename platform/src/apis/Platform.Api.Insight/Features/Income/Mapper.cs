@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Platform.Api.Insight.Features.Income.Models;
+using Platform.Api.Insight.Features.Income.Responses;
+using Platform.Api.Insight.Shared;
 
-namespace Platform.Api.Insight.Income;
+namespace Platform.Api.Insight.Features.Income;
 
 //TODO: Add unit test coverage for mapper
 [ExcludeFromCodeCoverage]
-public static class IncomeMapper
+public static class Mapper
 {
     public static IncomeSchoolResponse MapToApiResponse(this IncomeSchoolModel model)
     {
@@ -41,12 +44,12 @@ public static class IncomeMapper
         };
     }
 
-    public static IncomeHistoryResponse MapToApiResponse(this IEnumerable<IncomeHistoryModel> models, int startYear, int endYear)
+    public static IncomeHistoryResponse MapToApiResponse(this YearsModel years, IEnumerable<IncomeHistoryModel> models)
     {
         return new IncomeHistoryResponse
         {
-            StartYear = startYear,
-            EndYear = endYear,
+            StartYear = years.StartYear,
+            EndYear = years.EndYear,
             Rows = models.Select(x => x.MapToApiResponse())
         };
     }

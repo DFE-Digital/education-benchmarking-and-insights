@@ -1,10 +1,7 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Features.Census;
 using Platform.Api.Insight.Features.Census.Responses;
-using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
-using Platform.Functions.Extensions;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;

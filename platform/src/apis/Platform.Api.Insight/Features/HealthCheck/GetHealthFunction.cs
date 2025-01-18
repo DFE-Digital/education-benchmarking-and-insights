@@ -13,13 +13,13 @@ using Platform.Functions.OpenApi;
 namespace Platform.Api.Insight.Features.HealthCheck;
 
 [ExcludeFromCodeCoverage]
-public class HealthCheckFunctions(HealthCheckService healthCheck)
+public class GetHealthFunction(HealthCheckService healthCheck)
 {
-    [Function(nameof(HealthAsync))]
+    [Function(nameof(GetHealthFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(HealthAsync), Constants.Features.HealthCheck)]
+    [OpenApiOperation(nameof(GetHealthFunction), Constants.Features.HealthCheck)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string))]
-    public async Task<HttpResponseData> HealthAsync(
+    public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = "health")] HttpRequestData req)
     {
         var healthStatus = await healthCheck.CheckHealthAsync();

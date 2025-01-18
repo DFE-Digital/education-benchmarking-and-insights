@@ -25,7 +25,8 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/school/{urn}/history")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/school/{urn}/history")]
+        HttpRequestData req,
         string urn)
     {
         var queryParams = req.GetParameters<BalanceParameters>();

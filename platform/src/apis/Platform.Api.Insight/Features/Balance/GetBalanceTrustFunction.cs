@@ -20,7 +20,8 @@ public class GetBalanceTrustFunction(IBalanceService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trust/{companyNumber}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "balance/trust/{companyNumber}")]
+        HttpRequestData req,
         string companyNumber)
     {
         var result = await service.GetTrustAsync(companyNumber);

@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using System.Text;
 using FluentAssertions;
-using Platform.Api.Establishment.Features.Schools;
 using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.Api.Establishment.Features.Schools.Requests;
-using Platform.Api.Establishment.Features.Trusts;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Api.Establishment.Features.Trusts.Requests;
 using Platform.ApiTests.Assist;

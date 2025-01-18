@@ -5,13 +5,10 @@ using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Establishment.Features.LocalAuthorities;
 using Platform.Api.Establishment.Features.LocalAuthorities.Services;
-using Platform.Api.Establishment.Features.Schools;
 using Platform.Api.Establishment.Features.Schools.Services;
-using Platform.Api.Establishment.Features.Trusts;
 using Platform.Api.Establishment.Features.Trusts.Services;
-using Platform.Functions.Middleware;
+using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
 using Platform.Sql;
@@ -46,7 +43,7 @@ internal static class Services
             });
 
         serviceCollection
-            .AddSingleton<IExceptionHandlingDataProvider, ExceptionHandlingDataProvider>()
+            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>()
             .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ITrustsService, TrustsService>()

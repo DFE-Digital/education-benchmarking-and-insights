@@ -28,7 +28,8 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}/custom/{identifier}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}/custom/{identifier}")]
+        HttpRequestData req,
         string urn,
         string identifier)
     {

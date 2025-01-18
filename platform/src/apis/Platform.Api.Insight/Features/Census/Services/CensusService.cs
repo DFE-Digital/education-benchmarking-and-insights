@@ -14,27 +14,27 @@ namespace Platform.Api.Insight.Features.Census.Services;
 
 public interface ICensusService
 {
-    Task<CensusSchoolModel?> GetAsync(string urn, string dimension = Dimensions.Census.Total);
-    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default);
-    Task<CensusSchoolModel?> GetCustomAsync(string urn, string identifier, string dimension = Dimensions.Census.Total);
-    Task<IEnumerable<CensusSchoolModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension = Dimensions.Census.Total);
-    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default);
-    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default);
+    Task<CensusSchoolModel?> GetAsync(string urn);
+    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
+    Task<CensusSchoolModel?> GetCustomAsync(string urn, string identifier, string dimension);
+    Task<IEnumerable<CensusSchoolModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension);
+    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
+    Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
 public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKeyFactory, IDistributedCache cache) : ICensusService
 {
-    public async Task<CensusSchoolModel?> GetAsync(string urn, string dimension = Dimensions.Census.Total)
+    public async Task<CensusSchoolModel?> GetAsync(string urn)
     {
-        var builder = new CensusSchoolDefaultCurrentQuery(dimension)
+        var builder = new CensusSchoolDefaultCurrentQuery(Dimensions.Finance.Actuals)
             .WhereUrnEqual(urn);
 
         using var conn = await dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<CensusSchoolModel>(builder);
     }
 
-    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default)
+    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var years = await conn.QueryYearsSchoolAsync(urn, cancellationToken);
@@ -51,7 +51,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
     }
 
-    public async Task<CensusSchoolModel?> GetCustomAsync(string urn, string identifier, string dimension = Dimensions.Census.Total)
+    public async Task<CensusSchoolModel?> GetCustomAsync(string urn, string identifier, string dimension)
     {
         var builder = new CensusSchoolCustomQuery(dimension)
             .WhereUrnEqual(urn)
@@ -61,7 +61,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         return await conn.QueryFirstOrDefaultAsync<CensusSchoolModel>(builder);
     }
 
-    public async Task<IEnumerable<CensusSchoolModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension = Dimensions.Census.Total)
+    public async Task<IEnumerable<CensusSchoolModel>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension)
     {
         var builder = new CensusSchoolDefaultCurrentQuery(dimension);
         if (urns.Length != 0)
@@ -89,7 +89,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         return await conn.QueryAsync<CensusSchoolModel>(builder);
     }
 
-    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default)
+    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var years = await conn.QueryYearsSchoolAsync(urn, cancellationToken);
@@ -106,7 +106,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         return (years, await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken));
     }
 
-    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension = Dimensions.Census.Total, CancellationToken cancellationToken = default)
+    public async Task<(YearsModel?, IEnumerable<CensusHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var years = await conn.QueryYearsOverallPhaseAsync(overallPhase, financeType, cancellationToken);

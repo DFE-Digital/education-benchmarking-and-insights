@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.ApiTests.Drivers;
-using Platform.Functions.Extensions;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;

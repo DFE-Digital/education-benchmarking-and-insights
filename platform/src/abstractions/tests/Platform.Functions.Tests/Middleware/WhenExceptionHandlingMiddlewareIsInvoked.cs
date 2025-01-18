@@ -18,7 +18,7 @@ public class WhenExceptionHandlingMiddlewareIsInvoked
     public WhenExceptionHandlingMiddlewareIsInvoked()
     {
         var logger = NullLogger<ExceptionHandlingMiddleware>.Instance;
-        var provider = new Mock<IExceptionHandlingDataProvider>();
+        var provider = new Mock<IFunctionContextDataProvider>();
 
         _context = new Mock<FunctionContext>();
         _middleware = new ExceptionHandlingMiddleware(logger, provider.Object);
