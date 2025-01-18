@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using FluentValidation;
 using Platform.Domain;
-using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.MetricRagRatings;
 namespace Platform.Api.Insight.Validators;
 
@@ -11,7 +10,7 @@ public class MetricRagRatingsParametersValidator : AbstractValidator<MetricRagRa
     {
         RuleFor(x => x.Categories)
             .Must(ContainValidCategories)
-            .WithMessage($"{{PropertyName}} must only contain the supported values: {string.Join(", ", ExpenditureCategories.All)}");
+            .WithMessage($"{{PropertyName}} must only contain the supported values: {string.Join(", ", CostCategories.All)}");
 
         RuleFor(x => x.Statuses)
             .Must(ContainValidStatuses)

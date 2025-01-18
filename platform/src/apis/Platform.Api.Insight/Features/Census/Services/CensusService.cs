@@ -27,7 +27,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
 {
     public async Task<CensusSchoolModel?> GetAsync(string urn)
     {
-        var builder = new CensusSchoolDefaultCurrentQuery(Dimensions.Finance.Actuals)
+        var builder = new CensusSchoolDefaultCurrentQuery(Dimensions.Census.Total)
             .WhereUrnEqual(urn);
 
         using var conn = await dbFactory.GetConnection();

@@ -6,11 +6,13 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.BudgetForecast;
-using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Features.Balance.Services;
 using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Api.Insight.Features.Census.Validators;
+using Platform.Api.Insight.Features.Expenditure.Parameters;
+using Platform.Api.Insight.Features.Expenditure.Services;
+using Platform.Api.Insight.Features.Expenditure.Validators;
 using Platform.Api.Insight.Features.Income.Parameters;
 using Platform.Api.Insight.Features.Income.Services;
 using Platform.Api.Insight.Features.Income.Validators;
@@ -53,8 +55,8 @@ internal static class Services
         serviceCollection
             .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
             .AddTransient<IValidator<ExpenditureNationalAvgParameters>, ExpenditureNationalAvgParametersValidator>()
-            .AddTransient<IValidator<QuerySchoolExpenditureParameters>, QuerySchoolExpenditureParametersValidator>()
-            .AddTransient<IValidator<QueryTrustExpenditureParameters>, QueryTrustExpenditureParametersValidator>()
+            .AddTransient<IValidator<ExpenditureQuerySchoolParameters>, ExpenditureQuerySchoolParametersValidator>()
+            .AddTransient<IValidator<ExpenditureQueryTrustParameters>, ExpenditureQueryTrustParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
             .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
             .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()

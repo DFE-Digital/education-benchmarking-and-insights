@@ -1,26 +1,7 @@
 ﻿Feature: Insights census endpoints
 
-    Scenario: Sending a valid school census request with category and dimension
-        Given a valid school census request with urn '990000', category 'WorkforceFte' and dimension 'Total'
-        When I submit the insights census request
-        Then the census result should be ok and contain:
-          | Field                             | Value                  |
-          | AuxiliaryStaff                    |                        |
-          | LAName                            | Test Local Authority   |
-          | NonClassroomSupportStaff          |                        |
-          | PercentTeacherWithQualifiedStatus |                        |
-          | SchoolName                        | Test school 176        |
-          | SchoolType                        | Voluntary aided school |
-          | SeniorLeadership                  |                        |
-          | Teachers                          |                        |
-          | TeachingAssistant                 |                        |
-          | TotalPupils                       | 337.00                 |
-          | URN                               | 990000                 |
-          | Workforce                         | 29.00                  |
-          | WorkforceHeadcount                |                        |
-
     Scenario: Sending a valid school census request with dimension
-        Given a valid school census request with urn '990000', category '' and dimension 'Total'
+        Given a valid school census request with urn '990000'
         When I submit the insights census request
         Then the census result should be ok and contain:
           | Field                             | Value                  |

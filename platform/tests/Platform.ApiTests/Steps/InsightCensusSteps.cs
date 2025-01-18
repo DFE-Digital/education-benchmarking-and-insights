@@ -11,12 +11,12 @@ public class InsightCensusSteps(InsightApiDriver api)
 {
     private const string CensusKey = "census";
 
-    [Given("a valid school census request with urn '(.*)', category '(.*)' and dimension '(.*)'")]
-    public void GivenAValidSchoolCensusRequestWithUrnCategoryAndDimension(string urn, string category, string dimension)
+    [Given("a valid school census request with urn '(.*)'")]
+    public void GivenAValidSchoolCensusRequestWithUrn(string urn)
     {
         api.CreateRequest(CensusKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/census/{urn}?category={category}&dimension={dimension}", UriKind.Relative),
+            RequestUri = new Uri($"/api/census/{urn}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

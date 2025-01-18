@@ -1,31 +1,5 @@
 ﻿Feature: Insights expenditure endpoints
 
-    Scenario: Sending a valid school expenditure dimension request
-        Given a valid school expenditure dimension request
-        When I submit the insights expenditure request
-        Then the expenditure dimensions result should be ok and contain:
-          | Dimension          |
-          | Actuals            |
-          | PerUnit            |
-          | PercentIncome      |
-          | PercentExpenditure |
-
-    Scenario: Sending a valid school expenditure category request
-        Given a valid school expenditure category request
-        When I submit the insights expenditure request
-        Then the expenditure categories result should be ok and contain:
-          | Category                     |
-          | TotalExpenditure             |
-          | TeachingTeachingSupportStaff |
-          | NonEducationalSupportStaff   |
-          | EducationalSupplies          |
-          | EducationalIct               |
-          | PremisesStaffServices        |
-          | Utilities                    |
-          | AdministrationSupplies       |
-          | CateringStaffServices        |
-          | Other                        |
-
     Scenario: Sending a valid school expenditure request with category and dimension
         Given a school expenditure request with urn '990000', category 'TotalExpenditure' and dimension 'Actuals'
         When I submit the insights expenditure request

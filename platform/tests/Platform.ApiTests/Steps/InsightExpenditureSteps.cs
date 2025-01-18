@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Expenditure;
+using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
