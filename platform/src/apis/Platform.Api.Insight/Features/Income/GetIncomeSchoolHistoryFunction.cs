@@ -26,7 +26,7 @@ public class GetIncomeSchoolHistoryFunction(IIncomeService service, IValidator<I
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "income/school/{urn}/history")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistory)]
         HttpRequestData req,
         string urn)
     {

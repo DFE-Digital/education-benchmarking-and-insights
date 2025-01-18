@@ -30,7 +30,7 @@ public class GetCensusQueryFunction(ICensusService service, IValidator<CensusQue
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolsQuery)]
         HttpRequestData req)
     {
         var queryParams = req.GetParameters<CensusQuerySchoolsParameters>();

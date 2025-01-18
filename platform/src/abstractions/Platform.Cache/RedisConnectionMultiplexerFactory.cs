@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Platform.Cache.Configuration;
 using StackExchange.Redis;
 namespace Platform.Cache;
 

@@ -23,7 +23,7 @@ public class GetTrustsSuggestFunction(ITrustsService service, IValidator<Suggest
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<Trust>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "trusts/suggest")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSuggest)]
         HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<TrustSuggestRequest>();

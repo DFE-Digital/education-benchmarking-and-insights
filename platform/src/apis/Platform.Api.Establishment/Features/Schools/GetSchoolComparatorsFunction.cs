@@ -22,7 +22,7 @@ public class GetSchoolComparatorsFunction(ISchoolComparatorsService service)
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolComparators))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "school/{identifier}/comparators")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolComparators)]
         HttpRequestData req,
         string identifier)
     {

@@ -20,7 +20,7 @@ public class GetCensusFunction(ICensusService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
         HttpRequestData req,
         string urn)
     {

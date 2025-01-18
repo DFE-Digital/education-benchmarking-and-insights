@@ -19,7 +19,7 @@ public class GetCurrentReturnYearsFunction(IDatabaseFactory dbFactory)
     [OpenApiOperation(nameof(GetCurrentReturnYearsFunction), Constants.Features.Years)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(object))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "current-return-years")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.CurrentReturn)]
         HttpRequestData req)
     {
         using var conn = await dbFactory.GetConnection();

@@ -26,7 +26,7 @@ public class GetCensusHistoryComparatorSetAverageFunctions(ICensusService servic
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "census/{urn}/history/comparator-set-average")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryComparatorSetAverage)]
         HttpRequestData req,
         string urn,
         CancellationToken token)

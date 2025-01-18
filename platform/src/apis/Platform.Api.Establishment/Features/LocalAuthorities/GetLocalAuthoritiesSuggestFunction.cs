@@ -23,7 +23,7 @@ public class GetLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService service
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthority>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "local-authorities/suggest")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)]
         HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>();

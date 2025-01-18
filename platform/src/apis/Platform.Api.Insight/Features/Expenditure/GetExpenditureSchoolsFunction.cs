@@ -29,7 +29,7 @@ public class GetExpenditureSchoolsFunction(IExpenditureService service, IValidat
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureSchoolResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "expenditure/schools")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Schools)]
         HttpRequestData req)
     {
         var queryParams = req.GetParameters<ExpenditureQuerySchoolParameters>();

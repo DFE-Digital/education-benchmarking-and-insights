@@ -26,7 +26,7 @@ public class GetExpenditureTrustHistoryFunction(IExpenditureService service, IVa
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "expenditure/trust/{companyNumber}/history")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustHistory)]
         HttpRequestData req,
         string companyNumber)
     {

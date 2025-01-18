@@ -22,7 +22,7 @@ public class GetTrustComparatorsFunction(ITrustComparatorsService service)
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(TrustComparators))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "trust/{identifier}/comparators")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustComparators)]
         HttpRequestData req,
         string identifier)
     {

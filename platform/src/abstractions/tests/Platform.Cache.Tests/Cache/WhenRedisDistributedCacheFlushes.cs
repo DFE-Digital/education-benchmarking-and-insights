@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Platform.Cache.Configuration;
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;

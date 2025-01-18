@@ -20,7 +20,7 @@ public class GetTrustFunction(ITrustsService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Trust))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "trust/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trust)]
         HttpRequestData req,
         string identifier)
     {

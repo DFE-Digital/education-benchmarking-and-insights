@@ -27,7 +27,7 @@ public class GetExpenditureSchoolFunction(IExpenditureService service, IValidato
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "expenditure/school/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
         HttpRequestData req,
         string urn)
     {

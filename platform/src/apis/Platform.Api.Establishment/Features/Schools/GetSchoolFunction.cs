@@ -20,7 +20,7 @@ public class GetSchoolFunction(ISchoolsService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(School))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "school/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
         HttpRequestData req,
         string identifier)
     {

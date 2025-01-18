@@ -27,7 +27,7 @@ public class GetExpenditureSchoolHistoryComparatorSetAverageFunction(IExpenditur
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "expenditure/school/{urn}/history/comparator-set-average")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryComparatorSetAverage)]
         HttpRequestData req,
         string urn,
         CancellationToken token)

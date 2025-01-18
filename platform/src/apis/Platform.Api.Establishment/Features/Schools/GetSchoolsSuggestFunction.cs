@@ -23,7 +23,7 @@ public class GetSchoolsSuggestFunction(ISchoolsService service, IValidator<Sugge
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<School>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = "schools/suggest")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSuggest)]
         HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<SchoolSuggestRequest>();

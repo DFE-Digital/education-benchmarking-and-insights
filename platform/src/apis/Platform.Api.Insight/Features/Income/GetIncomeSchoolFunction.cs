@@ -20,7 +20,7 @@ public class GetIncomeSchoolFunction(IIncomeService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeSchoolResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "income/school/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
         HttpRequestData req,
         string urn)
     {

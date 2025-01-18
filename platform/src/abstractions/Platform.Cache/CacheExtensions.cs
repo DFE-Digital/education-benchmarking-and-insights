@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-namespace Platform.Cache.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 
-public static class Services
+namespace Platform.Cache;
+
+[ExcludeFromCodeCoverage]
+public static class CacheExtensions
 {
-    public static void AddRedis(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddRedis(this IServiceCollection serviceCollection)
     {
         var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
         var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
@@ -24,14 +27,18 @@ public static class Services
             .AddSingleton<IRedisConnectionMultiplexerFactory, RedisConnectionMultiplexerFactory>()
             .AddSingleton<IDistributedCache, RedisDistributedCache>()
             .AddSingleton<ICacheKeyFactory, CacheKeyFactory>();
+
+        return serviceCollection;
     }
 
-    public static void AddRedis(this IHealthChecksBuilder healthChecks)
+    public static IHealthChecksBuilder AddRedis(this IHealthChecksBuilder healthChecks)
     {
         healthChecks.AddRedis(p =>
         {
             var cache = p.GetRequiredService<IDistributedCache>();
             return cache.Connection.Value.GetAwaiter().GetResult();
         });
+
+        return healthChecks;
     }
 }

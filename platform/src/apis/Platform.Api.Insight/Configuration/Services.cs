@@ -20,7 +20,7 @@ using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Api.Insight.Validators;
-using Platform.Cache.Configuration;
+using Platform.Cache;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;

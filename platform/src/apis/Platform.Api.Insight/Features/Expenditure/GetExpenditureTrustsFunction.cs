@@ -27,7 +27,7 @@ public class GetExpenditureTrustsFunction(IExpenditureService service, IValidato
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = "expenditure/trusts")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)] HttpRequestData req)
     {
         var queryParams = req.GetParameters<ExpenditureQueryTrustParameters>();
 
