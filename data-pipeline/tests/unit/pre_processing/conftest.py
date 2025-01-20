@@ -532,7 +532,7 @@ def prepared_schools_data(
     gias_data: pd.DataFrame, gias_links: pd.DataFrame
 ) -> pd.DataFrame:
     return prepare_schools_data(
-        StringIO(gias_data.to_csv()), StringIO(gias_links.to_csv())
+        StringIO(gias_data.to_csv()), StringIO(gias_links.to_csv()), 2023
     )
 
 

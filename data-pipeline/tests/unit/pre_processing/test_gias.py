@@ -1,5 +1,9 @@
+from io import StringIO
+
 import pandas as pd
 import pytest
+
+from pipeline.pre_processing import prepare_schools_data
 
 
 def test_prepare_school_data_has_correct_output_columns(
@@ -43,6 +47,81 @@ def test_prepare_school_data_has_correct_output_columns(
         "Has Nursery",
         "Has Sixth Form",
     ]
+
+
+def test_prepare_school_data_has_correct_output_columns_without_ofsted_cols(
+    gias_data, gias_links
+):
+    """
+    For 2024 submissions GIAS data will not include "OfstedRating (name)" or "OfstedLastInsp"
+    This test confirms these columns are created as they are required for downsteam processing.
+    """
+    gias_without_ofsted = gias_data.copy().drop(
+        columns=["OfstedRating (name)", "OfstedLastInsp"]
+    )
+
+    actual = prepare_schools_data(
+        StringIO(gias_without_ofsted.to_csv()), StringIO(gias_links.to_csv()), 2024
+    )
+
+    assert list(actual.columns) == [
+        "UKPRN",
+        "LA (code)",
+        "LA (name)",
+        "EstablishmentNumber",
+        "EstablishmentName",
+        "TypeOfEstablishment (code)",
+        "TypeOfEstablishment (name)",
+        "OpenDate",
+        "CloseDate",
+        "PhaseOfEducation (code)",
+        "PhaseOfEducation (name)",
+        "Boarders (code)",
+        "Boarders (name)",
+        "NurseryProvision (name)",
+        "OfficialSixthForm (code)",
+        "OfficialSixthForm (name)",
+        "AdmissionsPolicy (code)",
+        "AdmissionsPolicy (name)",
+        "Postcode",
+        "SchoolWebsite",
+        "TelephoneNum",
+        "GOR (name)",
+        "MSOA (code)",
+        "LSOA (code)",
+        "StatutoryLowAge",
+        "StatutoryHighAge",
+        "Street",
+        "Locality",
+        "Address3",
+        "Town",
+        "County (name)",
+        "LA Establishment Number",
+        "OfstedRating (name)",
+        "OfstedLastInsp",
+        "Has Nursery",
+        "Has Sixth Form",
+    ]
+
+
+def test_prepare_school_data_has_correct_output_ofsted_values_without_submission(
+    gias_data, gias_links
+):
+    """
+    For 2024 submissions GIAS data will not include "OfstedRating (name)" or
+    "OfstedLastInsp". These columns should still be created as they are required for downstream processing.
+    This test confirms these are set with default values.
+    """
+    gias_without_ofsted = gias_data.copy().drop(
+        columns=["OfstedRating (name)", "OfstedLastInsp"]
+    )
+
+    actual = prepare_schools_data(
+        StringIO(gias_without_ofsted.to_csv()), StringIO(gias_links.to_csv()), 2024
+    )
+
+    assert (actual["OfstedRating (name)"] == "").all()
+    assert actual["OfstedLastInsp"].isna().all()
 
 
 def test_la_establishment_number_computed(prepared_schools_data: pd.DataFrame):

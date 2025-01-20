@@ -181,7 +181,7 @@ def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
         raw_container, f"{run_type}/{year}/gias_links.csv", encoding="cp1252"
     )
 
-    schools = prepare_schools_data(gias_data, gias_links_data)
+    schools = prepare_schools_data(gias_data, gias_links_data, year)
 
     write_blob(
         "pre-processed",
