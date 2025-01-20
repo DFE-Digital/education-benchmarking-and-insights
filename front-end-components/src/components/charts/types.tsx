@@ -1,4 +1,5 @@
-import { Ref, SVGProps } from "react";
+import { PureComponent, Ref, SVGProps } from "react";
+import { CategoricalChartState } from "recharts/types/chart/types";
 import {
   HorizontalAlignmentType,
   IconType,
@@ -98,3 +99,12 @@ export type ValueFormatterType = (
 ) => string;
 
 export type SpecialItemFlag = "partYear";
+
+export type CategoricalChartWrapper = PureComponent<
+  unknown,
+  CategoricalChartState
+> & {
+  container?: HTMLElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleItemMouseEnter: (el: any) => void;
+};

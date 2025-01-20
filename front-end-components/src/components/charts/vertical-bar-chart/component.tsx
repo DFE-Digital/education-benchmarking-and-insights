@@ -5,6 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { VerticalBarChartProps } from "src/components/charts/vertical-bar-chart";
@@ -23,7 +24,12 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
-import { ChartDataSeries, ChartHandler, TickProps } from "src/components";
+import {
+  CategoricalChartWrapper,
+  ChartDataSeries,
+  ChartHandler,
+  TickProps,
+} from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
@@ -51,9 +57,12 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     valueUnit,
   } = props;
 
-  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+  const rechartsRef = useRef<CategoricalChartWrapper>(null);
+  const downloadPng = useDownloadPngImage({
+    ref: rechartsRef,
     fileName: `${chartName}.png`,
     onImageLoading,
+    elementSelector: ({ container }) => container,
   });
 
   useImperativeHandle(ref, () => ({
@@ -137,7 +146,10 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             left: margin,
           }}
           onMouseMove={handleBarChartMouseMove}
-          ref={rechartsRef}
+          ref={
+            // https://github.com/recharts/recharts/issues/2665
+            rechartsRef as never
+          }
           className="recharts-wrapper-vertical-bar-chart"
         >
           {grid && (

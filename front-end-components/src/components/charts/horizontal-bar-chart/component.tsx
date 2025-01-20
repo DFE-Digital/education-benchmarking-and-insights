@@ -6,6 +6,7 @@ import {
   useCallback,
   useImperativeHandle,
   useMemo,
+  useRef,
   useState,
   useContext,
 } from "react";
@@ -38,6 +39,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
 import {
+  CategoricalChartWrapper,
   ChartDataSeries,
   ChartHandler,
   ChartSeriesConfigItem,
@@ -94,9 +96,18 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   }, [data, suppressNegativeOrZero, dataPointKey, keyField, selectedSchool]);
 
-  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+  const rechartsRef = useRef<CategoricalChartWrapper>(null);
+  const downloadPng = useDownloadPngImage({
+    ref: rechartsRef,
     fileName: `${chartName}.png`,
     onImageLoading,
+    elementSelector: ({ container }) => container,
+    filter: (node) => {
+      const exclusionClasses = ["recharts-tooltip-wrapper"];
+      return !exclusionClasses.some((classname) =>
+        node.classList?.contains(classname)
+      );
+    },
   });
 
   useImperativeHandle(ref, () => ({
@@ -253,7 +264,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 left: hasSomeNegativeValues ? margin + 48 : margin,
               }}
               onMouseMove={handleBarChartMouseMove}
-              ref={rechartsRef}
+              ref={
+                // https://github.com/recharts/recharts/issues/2665
+                rechartsRef as never
+              }
               className="recharts-wrapper-horizontal-bar-chart"
             >
               {grid && <CartesianGrid />}

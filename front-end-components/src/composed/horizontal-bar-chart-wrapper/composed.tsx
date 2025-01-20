@@ -153,6 +153,8 @@ export function HorizontalBarChartWrapper<
     setTickFocused(Object.assign(tickFocused, { [key]: focused }));
   };
 
+  const hasData = sortedDataPoints.length > 0;
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -164,8 +166,8 @@ export function HorizontalBarChartWrapper<
               data-module="govuk-button"
               data-prevent-double-click="true"
               onClick={() => chartRef.current?.download()}
-              disabled={imageLoading}
-              aria-disabled={imageLoading}
+              disabled={imageLoading || !hasData}
+              aria-disabled={imageLoading || !hasData}
               data-custom-event-id="save-chart-as-image"
               data-custom-event-chart-name={chartName}
             >
@@ -177,7 +179,7 @@ export function HorizontalBarChartWrapper<
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          {sortedDataPoints.length > 0 ? (
+          {hasData ? (
             <>
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart

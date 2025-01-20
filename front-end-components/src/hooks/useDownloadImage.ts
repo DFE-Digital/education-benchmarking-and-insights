@@ -1,29 +1,46 @@
 import saveAs from "file-saver";
-import { useEffect, useCallback } from "react";
-import { useCurrentPng } from "recharts-to-png";
+import { useCallback } from "react";
+import { toBlob } from "html-to-image";
+import { Options } from "html-to-image/lib/types";
 
-export function useDownloadPngImage({
-  fileName,
-  onImageLoading,
-}: {
+type DownloadPngImageOptions<T> = {
+  ref?: React.RefObject<T>;
   fileName: string;
   onImageLoading?: (loading: boolean) => void;
-}) {
-  const [getPng, { ref, isLoading }] = useCurrentPng({
-    backgroundColor: "#fff",
-  });
+  elementSelector: (ref: T) => HTMLElement | undefined;
+} & Pick<Options, "filter">;
 
-  useEffect(() => {
-    if (onImageLoading) {
-      onImageLoading(isLoading);
-    }
-  }, [isLoading, onImageLoading]);
-
+export function useDownloadPngImage<T>({
+  ref,
+  fileName,
+  onImageLoading,
+  elementSelector,
+  filter,
+}: DownloadPngImageOptions<T>) {
   const downloadPng = useCallback(async () => {
+    if (!ref?.current) {
+      return;
+    }
+
+    const element = elementSelector(ref.current);
+    if (!element) {
+      return;
+    }
+
     const download = async () => {
-      const png = await getPng();
-      if (png) {
-        saveAs(png, fileName);
+      const blob = await toBlob(element, {
+        cacheBust: true,
+        backgroundColor: "#fff",
+        type: "image/png",
+        filter,
+      });
+
+      if (blob) {
+        if (window.saveAs) {
+          window.saveAs(blob, fileName);
+        } else {
+          saveAs.saveAs(blob, fileName);
+        }
       }
     };
 
@@ -36,6 +53,8 @@ export function useDownloadPngImage({
       setTimeout(async () => {
         try {
           await download();
+        } catch (err) {
+          console.error(`Unable to download image ${fileName}`, err);
         } finally {
           onImageLoading(false);
         }
@@ -43,7 +62,7 @@ export function useDownloadPngImage({
     } else {
       await download();
     }
-  }, [getPng, fileName, onImageLoading]);
+  }, [ref, fileName, onImageLoading, elementSelector, filter]);
 
-  return { downloadPng, ref };
+  return downloadPng;
 }
