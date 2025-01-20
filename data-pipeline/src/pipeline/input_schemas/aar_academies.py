@@ -132,7 +132,7 @@ aar_academies = {
         "ACADEMYTRUSTSTATUS": "string",
         "Date left or closed if in period:": "string",
         "Date joined or opened if in period:": "string",
-        "Valid To": "float",
+        "Valid To": "string",
         "BAI050-T": "float",
         "BAI010-T": "float",
         "BAI020-T": "float",
