@@ -17,9 +17,9 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     [Given("I have a valid user data get request for school id '(.*)' containing custom data:")]
     public async Task GivenIHaveAValidUserDataGetRequestForSchoolIdContainingCustomData(string urn, DataTable table)
     {
-        var identifier = PutCustomDataRequest(urn, table);
+        PostCustomDataRequest(urn, table);
         await WhenISubmitTheUserDataRequest();
-        GetUserDataRequest(urn, identifier);
+        GetUserDataRequest(urn);
     }
 
     [When("I submit the user data request")]
@@ -47,28 +47,25 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
         Assert.Equal("pending", row.Status);
     }
 
-    private void GetUserDataRequest(string urn, Guid identifier)
+    private void GetUserDataRequest(string urn)
     {
         api.CreateRequest(UserDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&id={identifier}&type=custom-data", UriKind.Relative),
+            RequestUri = new Uri($"/api/user-data?userId={_userGuid}&organisationId={urn}&organisationType=school&type=custom-data", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    private Guid PutCustomDataRequest(string urn, DataTable table)
+    private void PostCustomDataRequest(string urn, DataTable table)
     {
-        var identifier = Guid.NewGuid();
         var json = GetJsonFromTable(table);
 
         api.CreateRequest(UserDataKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/custom-data/school/{urn}/{identifier}", UriKind.Relative),
-            Method = HttpMethod.Put,
+            RequestUri = new Uri($"/api/custom-data/school/{urn}", UriKind.Relative),
+            Method = HttpMethod.Post,
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         });
-
-        return identifier;
     }
 
     private string GetJsonFromTable(DataTable table)
