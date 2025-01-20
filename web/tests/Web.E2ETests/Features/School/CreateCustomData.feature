@@ -2,7 +2,7 @@ Feature: School create custom data
 
     Background:
         Given I am on create custom data page for school with URN '990234'
-        And I have signed in with organisation '01: FBIT TEST - Community School (Open)'
+        And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
 
     Scenario: Can view create custom data page
         When I click start now
