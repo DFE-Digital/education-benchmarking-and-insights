@@ -13,6 +13,7 @@ using Platform.Api.Insight.Features.Census.Validators;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Api.Insight.Features.Expenditure.Services;
 using Platform.Api.Insight.Features.Expenditure.Validators;
+using Platform.Api.Insight.Features.Files.Services;
 using Platform.Api.Insight.Features.Income.Parameters;
 using Platform.Api.Insight.Features.Income.Services;
 using Platform.Api.Insight.Features.Income.Validators;
@@ -50,7 +51,8 @@ internal static class Services
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<IExpenditureService, ExpenditureService>()
             .AddSingleton<IIncomeService, IncomeService>()
-            .AddSingleton<IBudgetForecastService, BudgetForecastService>();
+            .AddSingleton<IBudgetForecastService, BudgetForecastService>()
+            .AddSingleton<IFilesService, FilesService>();
 
         serviceCollection
             .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
