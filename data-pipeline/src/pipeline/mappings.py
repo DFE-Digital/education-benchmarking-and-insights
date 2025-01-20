@@ -119,6 +119,7 @@ def map_admission_policy(admission_policy: str):
         case _:
             return "Unknown"
 
+
 def map_school_website(url: str):
     if url is None or url == "":
         return None

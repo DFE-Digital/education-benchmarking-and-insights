@@ -3,6 +3,7 @@ import pytest
 
 from pipeline import comparator_sets
 
+
 @pytest.mark.parametrize(
     "series,expected",
     [
@@ -37,14 +38,14 @@ from pipeline import comparator_sets
             False,
         ),
         (
-                pd.Series(
-                    {
-                        "Financial Data Present": False,
-                        "Pupil Comparator Data Present": False,
-                        "Did Not Submit": False,
-                    }
-                ),
-                False,
+            pd.Series(
+                {
+                    "Financial Data Present": False,
+                    "Pupil Comparator Data Present": False,
+                    "Did Not Submit": False,
+                }
+            ),
+            False,
         ),
     ],
 )
@@ -113,37 +114,37 @@ def test_map_pupil_comparator_set(series: pd.Series, expected: bool):
             False,
         ),
         (
-                pd.Series(
-                    {
-                        "Financial Data Present": True,
-                        "Pupil Comparator Data Present": True,
-                        "Building Comparator Data Present": False,
-                        "Did Not Submit": False,
-                    }
-                ),
-                False,
+            pd.Series(
+                {
+                    "Financial Data Present": True,
+                    "Pupil Comparator Data Present": True,
+                    "Building Comparator Data Present": False,
+                    "Did Not Submit": False,
+                }
+            ),
+            False,
         ),
         (
-                pd.Series(
-                    {
-                        "Financial Data Present": False,
-                        "Pupil Comparator Data Present": True,
-                        "Building Comparator Data Present": True,
-                        "Did Not Submit": False,
-                    }
-                ),
-                False,
+            pd.Series(
+                {
+                    "Financial Data Present": False,
+                    "Pupil Comparator Data Present": True,
+                    "Building Comparator Data Present": True,
+                    "Did Not Submit": False,
+                }
+            ),
+            False,
         ),
         (
-                pd.Series(
-                    {
-                        "Financial Data Present": True,
-                        "Pupil Comparator Data Present": False,
-                        "Building Comparator Data Present": True,
-                        "Did Not Submit": False,
-                    }
-                ),
-                False,
+            pd.Series(
+                {
+                    "Financial Data Present": True,
+                    "Pupil Comparator Data Present": False,
+                    "Building Comparator Data Present": True,
+                    "Did Not Submit": False,
+                }
+            ),
+            False,
         ),
     ],
 )

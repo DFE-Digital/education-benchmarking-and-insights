@@ -77,8 +77,6 @@ def map_partial_year_present(academies: pd.DataFrame) -> pd.DataFrame:
     :param academies: academy data
     :return: updated DataFrame
     """
-    academies["Partial Years Present"] = (
-        academies["Period covered by return"] != 12
-    )
+    academies["Partial Years Present"] = academies["Period covered by return"] != 12
 
     return academies
