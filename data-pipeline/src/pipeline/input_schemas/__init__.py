@@ -11,7 +11,6 @@ from .census_workforce import (  # noqa
     workforce_census_index_col,
 )
 
-
 gias_index_col = "URN"
 gias = {
     "URN": "Int64",

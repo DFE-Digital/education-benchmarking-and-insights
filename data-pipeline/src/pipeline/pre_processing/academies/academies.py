@@ -4,8 +4,8 @@ from warnings import simplefilter
 import numpy as np
 import pandas as pd
 
-import pipeline.input_schemas as input_schemas
 import pipeline.config as config
+import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
 from pipeline import part_year
 

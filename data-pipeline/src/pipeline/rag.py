@@ -316,13 +316,14 @@ def compute_user_defined_rag(
                     exc_info=error,
                 )
                 return
-            
+
+
 def _get_series_for_category(data: pd.DataFrame, category: str, urn: int) -> pd.Series:
     """
-    Filters the comparator set data for the specified category, retaining only 
+    Filters the comparator set data for the specified category, retaining only
     positive values or the value for the specified org. (identified by URN).
 
-    This ensures that only positive expenditure values are considered for 
+    This ensures that only positive expenditure values are considered for
     rag calculations.
 
     :param data: A DataFrame containing comparator data for RAG calculations.

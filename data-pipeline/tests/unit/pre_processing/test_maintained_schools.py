@@ -114,7 +114,9 @@ def test_calc_base_financials(
 
 
 def test_map_cost_income_categories(maintained_schools_master_list: pd.DataFrame):
-    income_mappings = {"I06  Other government grants": "Income_Other DFE grants",}
+    income_mappings = {
+        "I06  Other government grants": "Income_Other DFE grants",
+    }
 
     cost_mappings = {"E06 Catering staff": "Catering staff and supplies_Catering staff"}
 

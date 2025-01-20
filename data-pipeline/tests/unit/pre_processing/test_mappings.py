@@ -208,19 +208,16 @@ def test_map_company_number(company_number: str, expected: str):
         (date(2024, 7, 1), 2),
         (date(2024, 7, 31), 2),
         (date(2024, 8, 1), 1),
-        (date(2024, 8, 31), 1)
+        (date(2024, 8, 31), 1),
     ],
 )
-def test_map_academy_period_return_opening(
-    start_date: date,
-    expected: int
-):
+def test_map_academy_period_return_opening(start_date: date, expected: int):
     result = mappings.map_academy_period_return(
-        opened_in_period=start_date,
-        closed_in_period=None
+        opened_in_period=start_date, closed_in_period=None
     )
 
     assert result == expected
+
 
 @pytest.mark.parametrize(
     "end_date,expected",
@@ -248,16 +245,12 @@ def test_map_academy_period_return_opening(
         (date(2024, 7, 1), 10),
         (date(2024, 7, 31), 10),
         (date(2024, 8, 1), 11),
-        (date(2024, 8, 31), 11)
+        (date(2024, 8, 31), 11),
     ],
 )
-def test_map_academy_period_return_closing(
-    end_date: date,
-    expected: int
-):
+def test_map_academy_period_return_closing(end_date: date, expected: int):
     result = mappings.map_academy_period_return(
-        opened_in_period=None,
-        closed_in_period=end_date
+        opened_in_period=None, closed_in_period=end_date
     )
 
     assert result == expected
