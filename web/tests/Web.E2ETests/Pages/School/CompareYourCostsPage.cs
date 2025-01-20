@@ -42,6 +42,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator PremisesDimension => page.Locator(Selectors.PremisesDimension);
     private ILocator CateringStaffAndServicesDimension => page.Locator(Selectors.CateringStaffAndServicesDimension);
     private ILocator CateringStaffAndServicesTables => page.Locator(Selectors.CateringStaffAndServicesTables);
+    private ILocator TeachingAndTeachingSupportStaffTables => page.Locator(Selectors.TeachingAndTeachingSupportStaffTables);
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
     private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
@@ -84,7 +85,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ChartTicks => page.Locator(Selectors.ChartYTicks);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
-
+    private ILocator TeachingSupportStaffWarning => page.Locator($"{Selectors.TeachingAndTeachingSupportStaff} {Selectors.GovWarning}");
     public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
         await PageH1Heading.ShouldBeVisible();
@@ -146,10 +147,22 @@ public class CompareYourCostsPage(IPage page)
         await ViewAsTableRadio.Click();
     }
 
-    public async Task IsTableDataForChartDisplayed(ComparisonChartNames chartName, List<List<string>> expectedData)
+    public async Task IsTableDataForChartDisplayed(ComparisonChartNames chartName, List<List<string>> expectedData, string? subCategory = null)
     {
-        await ChartTable(chartName).ShouldBeVisible();
-        await ChartTable(chartName).ShouldHaveTableContent(expectedData, true);
+        if (subCategory == null)
+        {
+            await ChartTable(chartName).ShouldBeVisible();
+            await ChartTable(chartName).ShouldHaveTableContent(expectedData, true);
+        }
+        else if (subCategory == "Supply teaching staff costs")
+        {
+            await ChartTable(chartName).Nth(2).ShouldBeVisible();
+            await ChartTable(chartName).Nth(2).ShouldHaveTableContent(expectedData, true);
+        }
+        else
+        {
+            throw new ArgumentException($"Unsupported subCategory: {subCategory}");
+        }
     }
 
     public async Task AreSaveAsImageButtonsDisplayed(bool isVisible = true)
@@ -306,6 +319,17 @@ public class CompareYourCostsPage(IPage page)
         return new CreateComparatorsPage(page);
     }
 
+    public async Task IsWarningTextVisible(string subCategoryName)
+    {
+        var subCategory = subCategoryName switch
+        {
+            "Supply teaching staff costs" => TeachingSupportStaffWarning.First,
+            _ => throw new ArgumentOutOfRangeException(nameof(subCategoryName))
+        };
+        await subCategory.ShouldBeVisible();
+
+    }
+
     private ILocator SectionLink(ComparisonChartNames chartName)
     {
         var link = chartName switch
@@ -368,6 +392,7 @@ public class CompareYourCostsPage(IPage page)
         {
             ComparisonChartNames.TotalExpenditure => TotalExpenditureTable,
             ComparisonChartNames.CateringStaffAndServices => CateringStaffAndServicesTables.First,
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => TeachingAndTeachingSupportStaffTables,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

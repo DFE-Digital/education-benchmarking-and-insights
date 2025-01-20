@@ -146,6 +146,8 @@ public static class Selectors
     public const string TypeNet = "#type-net";
     public const string CateringStaffAndServicesDimension = "#total-catering-costs-dimension";
     public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
+    public const string TeachingAndTeachingSupportStaffTables = "#teaching-and-teaching-support-staff table";
+    public const string TeachingAndTeachingSupportStaff = "#teaching-and-teaching-support-staff";
 
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
     public const string RunningCostCategoriesTab = "#tab_running";
@@ -169,4 +171,5 @@ public static class Selectors
     public const string TrustBenchmarkingBalanceTab = "#tab_balance";
     public const string AccordionSchoolContent = "#accordion-schools-content-";
     public const string ForecastRisksDimension = "#year-end-reserves-dimension";
+    public const string EducationIctSpendingCosts = "#spending-priorities-educational-ict";
 }

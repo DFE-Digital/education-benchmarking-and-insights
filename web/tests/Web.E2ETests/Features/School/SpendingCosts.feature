@@ -16,14 +16,14 @@
     Scenario: Categories have the correct RAG commentary
         Given I am on spending and costs page for school with URN '777042'
         Then the RAG commentary for each category is
-          | Name                                | Commentary                                         |
-          | Teaching and Teaching support staff | Spending is higher than 99% of similar schools.    |
+          | Name                                | Commentary                                        |
+          | Teaching and Teaching support staff | Spending is higher than 99% of similar schools.   |
           | Non-educational support staff       | Spending is higher than 95.7% of similar schools. |
-          | Administrative supplies             | Spending is higher than 99% of similar schools.    |
-          | Educational supplies                | Spending is higher than 99% of similar schools.    |
+          | Administrative supplies             | Spending is higher than 99% of similar schools.   |
+          | Educational supplies                | Spending is higher than 99% of similar schools.   |
           | Catering staff and supplies         | Spending is higher than 92.3% of similar schools. |
-          | Premises staff and services         | Spending is higher than 99% of similar schools.    |
-          | Utilities                           | Spending is higher than 39% of similar schools.    |
+          | Premises staff and services         | Spending is higher than 99% of similar schools.   |
+          | Utilities                           | Spending is higher than 39% of similar schools.   |
           | Educational ICT                     | Spending is less than 77.7% of similar schools.   |
 
     Scenario: Categories have the correct commercial resources
@@ -112,3 +112,12 @@
         Given I am on spending and costs page for school with URN '777042'
         When I click on View more details on cost categories link
         Then I am directed to cost categories guidance page
+
+    Scenario: School with zero for a cost category in comparator set are not consumed when computing
+        Given I am on spending and costs page for school with URN '777042'
+        Then the 'Educational ICT' category should display:
+          | Description           | Value                     |
+          | This school spends    | £130 per pupil            |
+          | Similar schools spend | £67 per pupil, on average |
+          | This school spends    | £30(44.2%) less per pupil |
+        And the message stating reason for less schools is visible for 'Educational ICT'
