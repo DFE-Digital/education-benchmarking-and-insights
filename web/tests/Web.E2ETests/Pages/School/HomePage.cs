@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public class HomePage(IPage page)
@@ -56,7 +57,12 @@ public class HomePage(IPage page)
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator RagGuidance => page.Locator("#rag-guidance");
 
-    public async Task IsDisplayed(bool isPartYear = false, string? trustName = null, bool isUserDefinedComparator = false, bool isMissingRags = false)
+    public async Task IsDisplayed(
+        bool isPartYear = false,
+        string? trustName = null,
+        bool isUserDefinedComparator = false,
+        bool isMissingRags = false,
+        bool isCustomData = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
