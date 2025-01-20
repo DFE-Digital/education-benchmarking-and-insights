@@ -15,5 +15,6 @@ public static class Constants
         public const string Expenditure = "Expenditure";
         public const string Years = "Years";
         public const string HealthCheck = "Health Check";
+        public const string Files = "Files";
     }
 }
