@@ -1,10 +1,12 @@
 ﻿@using Web.App.Extensions
+@model Web.App.ViewModels.DataSourceViewModel
 <h2 class="govuk-heading-l">Data Sources</h2>
 
 <h3 class="govuk-heading-m">Types of schools you can get data for</h3>
 
 <p class="govuk-body">
-    The data on the site is for maintained schools and academies in England. It's based on schools' Consistent Financial Reporting (CFR) returns and academies' accounts returns (AAR).
+    The data on the site is for maintained schools and academies in England. It's based on schools' Consistent Financial
+    Reporting (CFR) returns and academies' accounts returns (AAR).
 </p>
 
 <p class="govuk-body">
@@ -14,38 +16,52 @@
 <h3 class="govuk-heading-m">Financial returns</h3>
 
 <p class="govuk-body">
-    This data is based on schools' Consistent Financial Reporting (CFR) returns for Local Authority (LA) maintained schools and academies' accounts returns (AARs).
+    This data is based on schools' Consistent Financial Reporting (CFR) returns for Local Authority (LA) maintained
+    schools and academies' accounts returns (AARs).
 </p>
 
-<section id="data-sources-cfr">
-    <h4 class="govuk-heading-s">LA Maintained Schools</h4>
-    <ul class="govuk-list">
-        @foreach (var dataSourceFile in Model.MaintainedSchools)
-        {
-            <li>
-                <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
-                @dataSourceFile.DisplayText
-                <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
-            </a>
-            </li>
-        }
-    </ul>
-</section>
+@if (Model.MissingFiles)
+{
+    <p class="govuk-body">
+        Transparency files are unavailable for download at this time. Please try again later.
+    </p>
+}
 
-<section id="data-sources-aar">
-    <h4 class="govuk-heading-s">Academies</h4>
-    <ul class="govuk-list">
-        @foreach (var dataSourceFile in Model.Academies)
-        {
-            <li>
-                <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
-                @dataSourceFile.DisplayText
-                <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
-            </a>
-            </li>
-        }
-    </ul>
-</section>
+@if (Model.MaintainedSchools.Any())
+{
+    <section id="data-sources-cfr">
+        <h4 class="govuk-heading-s">LA Maintained Schools</h4>
+        <ul class="govuk-list">
+            @foreach (var dataSourceFile in Model.MaintainedSchools)
+            {
+                <li>
+                    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
+                        @dataSourceFile.DisplayText
+                        <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
+}
+
+@if (Model.Academies.Any())
+{
+    <section id="data-sources-aar">
+        <h4 class="govuk-heading-s">Academies</h4>
+        <ul class="govuk-list">
+            @foreach (var dataSourceFile in Model.Academies)
+            {
+                <li>
+                    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
+                        @dataSourceFile.DisplayText
+                        <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
+}
 
 <h3 class="govuk-heading-m">Performance tables</h3>
 

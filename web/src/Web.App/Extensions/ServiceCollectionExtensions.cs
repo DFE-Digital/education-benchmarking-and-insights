@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using Web.App.Domain;
 using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
-using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
 
@@ -78,6 +76,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>().Configure<HealthApi>(section);
+        services.AddHttpClient<IFilesApi, FilesApi>().Configure<FilesApi>(section);
 
         return services;
     }
