@@ -10,44 +10,7 @@ from .census_workforce import (  # noqa
     workforce_census_header_row,
     workforce_census_index_col,
 )
-
-gias_index_col = "URN"
-gias = {
-    "URN": "Int64",
-    "UKPRN": "Int64",
-    "LA (code)": "Int64",
-    "LA (name)": "string",
-    "EstablishmentNumber": "Int64",
-    "EstablishmentName": "string",
-    "TypeOfEstablishment (code)": "Int64",
-    "TypeOfEstablishment (name)": "string",
-    "OpenDate": "string",
-    "CloseDate": "string",
-    "PhaseOfEducation (code)": "Int64",
-    "PhaseOfEducation (name)": "string",
-    "Boarders (code)": "Int64",
-    "Boarders (name)": "string",
-    "NurseryProvision (name)": "string",
-    "OfficialSixthForm (code)": "Int64",
-    "OfficialSixthForm (name)": "string",
-    "AdmissionsPolicy (code)": "Int64",
-    "AdmissionsPolicy (name)": "string",
-    "OfstedLastInsp": "string",
-    "Postcode": "string",
-    "SchoolWebsite": "string",
-    "TelephoneNum": "string",
-    "GOR (name)": "string",
-    "OfstedRating (name)": "string",
-    "MSOA (code)": "string",
-    "LSOA (code)": "string",
-    "StatutoryLowAge": "Int64",
-    "StatutoryHighAge": "Int64",
-    "Street": "string",
-    "Locality": "string",
-    "Address3": "string",
-    "Town": "string",
-    "County (name)": "string",
-}
+from .gias import gias, gias_index_col
 
 gias_links_index_col = "URN"
 gias_links = {

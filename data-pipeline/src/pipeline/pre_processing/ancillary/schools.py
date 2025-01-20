@@ -4,13 +4,20 @@ import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
 
 
-def prepare_schools_data(base_data_path, links_data_path):
+def prepare_schools_data(base_data_path, links_data_path, year: int):
+    """
+    Prepare school data derived from GIAS and GIAS links.
+
+    :param base_data_path: readable source for GIAS
+    :param pupil_census_path: readable source for GIAS links
+    :param year: financial year in question
+    """
     gias = pd.read_csv(
         base_data_path,
         encoding="cp1252",
         index_col=input_schemas.gias_index_col,
-        usecols=input_schemas.gias.keys(),
-        dtype=input_schemas.gias,
+        usecols=input_schemas.gias.get(year, input_schemas.gias["default"]).keys(),
+        dtype=input_schemas.gias.get(year, input_schemas.gias["default"]),
     )
 
     gias_links = pd.read_csv(
@@ -39,9 +46,7 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["Boarders (name)"].fillna("").map(mappings.map_boarders)
     )
 
-    gias["OfstedRating (name)"] = (
-        gias["OfstedRating (name)"].fillna("").map(mappings.map_ofsted_rating)
-    )
+    gias = _optional_ofsted_cols(gias)
 
     gias["TypeOfEstablishment (name)"] = (
         gias["TypeOfEstablishment (name)"].fillna("").map(lambda x: x.strip())
@@ -93,3 +98,33 @@ def prepare_schools_data(base_data_path, links_data_path):
     return schools[(schools["Rank"] == 1) | (schools["Rank"].isna())].drop(
         columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"]
     )
+
+
+def _optional_ofsted_cols(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Ensure that "OfstedRating (name)" and "OfstedLastInsp" columns are present in the DataFrame,
+    even if they are missing from the original submission. Missing columns are created with defaults
+    to ensure compatibility with downstream processing.
+
+    These columns are required to write to the db and "OfstedRating (name)" is required for rag
+    calculations.
+
+    If the columns exist, they are either preserved or mapped as necessary.
+    If they do not exist, new columns are created: an empty string column for
+    "OfstedRating (name)" and a `None` column for "OfstedLastInsp".
+
+    :param df: The GIAS DataFrame to process.
+
+    :return: The DataFrame with the "OfstedRating (name)" and "OfstedLastInsp" columns added or modified.
+    """
+    df["OfstedRating (name)"] = (
+        df.get("OfstedRating (name)", pd.Series([""] * len(df), index=df.index)).fillna(
+            ""
+        )
+    ).map(mappings.map_ofsted_rating)
+
+    df["OfstedLastInsp"] = df.get(
+        "OfstedLastInsp", pd.Series([None] * len(df), index=df.index)
+    )
+
+    return df

@@ -114,7 +114,7 @@ def test_find_percentile():
 
 
 @pytest.mark.parametrize(
-    "value,data,diff_median,percent_diff,percentile,decile,expected_rag",
+    "value,data,diff_median,percent_diff,percentile,decile,expected_rag,ofsted,key",
     [
         (
             20,
@@ -124,6 +124,8 @@ def test_find_percentile():
             60.0,
             6,
             "amber",
+            "outstanding",
+            "outstanding",
         ),
         (
             150,
@@ -133,6 +135,8 @@ def test_find_percentile():
             100.0,
             10,
             "red",
+            "outstanding",
+            "outstanding",
         ),
         (
             15,
@@ -142,11 +146,32 @@ def test_find_percentile():
             30.0,
             3,
             "green",
+            "outstanding",
+            "outstanding",
+        ),
+        (
+            15,
+            [15, 5, 6, 150, 16, 19, 22, 25, 76, 20],
+            -4.5,
+            -23.076923076923077,
+            30.0,
+            3,
+            "green",
+            "",
+            "other",
         ),
     ],
 )
 def test_category_stats(
-    value, data, diff_median, percent_diff, percentile, decile, expected_rag
+    value,
+    data,
+    diff_median,
+    percent_diff,
+    percentile,
+    decile,
+    expected_rag,
+    ofsted,
+    key,
 ):
     category = "Teaching and Teaching support staff_Sub Cat"
     data = pd.DataFrame(
@@ -161,7 +186,7 @@ def test_category_stats(
         "Value": value,
         "Median": 19.5,
         "DiffMedian": diff_median,
-        "Key": "outstanding",
+        "Key": key,
         "PercentDiff": percent_diff,
         "Percentile": percentile,
         "Decile": decile,
@@ -170,6 +195,5 @@ def test_category_stats(
 
     rag_settings = config.rag_category_settings["Teaching and Teaching support staff"]
     assert (
-        rag.category_stats(100000, category, data, "outstanding", rag_settings, 10)
-        == expected
+        rag.category_stats(100000, category, data, ofsted, rag_settings, 10) == expected
     )
