@@ -6,6 +6,7 @@ public record DataSourceViewModel(
 {
     public IEnumerable<DataSourceFileViewModel> Academies { get; set; } = Academies;
     public IEnumerable<DataSourceFileViewModel> MaintainedSchools { get; set; } = MaintainedSchools;
+    public bool MissingFiles => !Academies.Any() || !MaintainedSchools.Any();
 }
 
 public record DataSourceFileViewModel

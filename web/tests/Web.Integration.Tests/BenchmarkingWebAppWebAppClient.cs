@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
+using File = Web.App.Domain.File;
 
 namespace Web.Integration.Tests;
 
@@ -45,6 +46,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
     public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
     public Mock<IFeatureManager> FeatureManager { get; } = new();
+    public Mock<IFilesApi> FilesApi { get; } = new();
 
 
     protected override void Configure(IServiceCollection services)
@@ -68,6 +70,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(HttpContextAccessor.Object);
         services.AddSingleton(DataSourceStorage.Object);
         services.AddSingleton(FeatureManager.Object);
+        services.AddSingleton(FilesApi.Object);
 
         EnableFeatures();
     }
@@ -109,6 +112,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         DataSourceStorage.Reset();
         DataSourceStorage.Setup(storage => storage.GetAccessToken()).Returns(sharedAccessTokenModel);
 
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupFiles(File[]? aarFiles = null, File[]? cfrFiles = null)
+    {
+        FilesApi.Reset();
+        FilesApi.Setup(api => api.GetAarTransparencyFiles()).ReturnsAsync(ApiResult.Ok(aarFiles));
+        FilesApi.Setup(api => api.GetCfrTransparencyFiles()).ReturnsAsync(ApiResult.Ok(cfrFiles));
         return this;
     }
 

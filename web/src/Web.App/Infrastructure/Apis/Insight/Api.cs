@@ -38,6 +38,12 @@ public static class Api
         public static string TrustHistory(string? companyNo) => $"api/expenditure/trust/{companyNo}/history";
     }
 
+    public static class Files
+    {
+        public static string TransparencyAar => "api/files/transparency/aar";
+        public static string TransparencyCfr => "api/files/transparency/cfr";
+    }
+
     public static class Income
     {
         public static string School(string? urn) => $"api/income/school/{urn}";
