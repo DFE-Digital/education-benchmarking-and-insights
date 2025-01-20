@@ -83,6 +83,7 @@ export const YearEnd: React.FC<{
   };
 
   const chartName = "Year-end revenue reserves";
+  const hasData = chartData.length > 0;
 
   return (
     <div className="govuk-grid-row govuk-!-margin-top-5">
@@ -94,8 +95,8 @@ export const YearEnd: React.FC<{
           <button
             className="govuk-button govuk-button--secondary"
             data-module="govuk-button"
-            disabled={imageLoading}
-            aria-disabled={imageLoading}
+            disabled={imageLoading || !hasData}
+            aria-disabled={imageLoading || !hasData}
             onClick={() => chartRef?.current?.download()}
             data-custom-event-id="save-chart-as-image"
             data-custom-event-chart-name={chartName.toLowerCase()}

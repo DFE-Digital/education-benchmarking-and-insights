@@ -5,6 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
   useMemo,
+  useRef,
 } from "react";
 import { LineChartProps } from "src/components/charts/line-chart";
 import {
@@ -18,7 +19,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartDataSeries, ChartHandler } from "src/components";
+import {
+  CategoricalChartWrapper,
+  ChartDataSeries,
+  ChartHandler,
+} from "src/components";
 import classNames from "classnames";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { LineChartDot } from "../line-chart-dot";
@@ -54,9 +59,12 @@ function LineChartInner<TData extends ChartDataSeries>(
   }: LineChartProps<TData>,
   ref: ForwardedRef<ChartHandler>
 ) {
-  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+  const rechartsRef = useRef<CategoricalChartWrapper>(null);
+  const downloadPng = useDownloadPngImage({
+    ref: rechartsRef,
     fileName: `${chartName}.png`,
     onImageLoading,
+    elementSelector: ({ container }) => container,
   });
 
   useImperativeHandle(ref, () => ({
@@ -200,7 +208,10 @@ function LineChartInner<TData extends ChartDataSeries>(
               margin + (seriesLabel ? 10 : 0) + (multiLineAxisLabel ? 10 : 0),
             left: margin,
           }}
-          ref={rechartsRef}
+          ref={
+            // https://github.com/recharts/recharts/issues/2665
+            rechartsRef as never
+          }
           className={classNames("recharts-wrapper-line-chart", className)}
         >
           {grid && <CartesianGrid vertical={false} />}
