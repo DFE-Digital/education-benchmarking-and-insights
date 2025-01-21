@@ -1,24 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TotalExpenditureData } from "src/views/compare-your-trust/partials";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
+import { useCentralServicesBreakdownContext } from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
-  ChartDimensions,
   PercentageExpenditure,
 } from "src/components";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, TotalExpenditureTrustExpenditure } from "src/services";
 import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { DimensionedChart } from "src/composed/dimensioned-chart";
 
 export const TotalExpenditure: React.FC<{
   id: string;
@@ -68,32 +62,22 @@ export const TotalExpenditure: React.FC<{
       };
     }, [dimension, data, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="total expenditure"
-        trust
-      >
-        <h2 className="govuk-heading-m">Total expenditure</h2>
-        <ChartDimensions
-          dimensions={CostCategories.filter(function (category) {
-            return category !== PercentageExpenditure;
-          })}
-          handleChange={handleSelectChange}
-          elementId="total-expenditure"
-          value={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <DimensionedChart
+      charts={[{ data: chartData, title: "Total expenditure" }]}
+      dimension={dimension}
+      dimensions={CostCategories.filter(function (category) {
+        return category !== PercentageExpenditure;
+      })}
+      handleDimensionChange={handleDimensionChange}
+      topLevel
+      trust
+    />
   );
 };

@@ -1,25 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { UtilitiesData } from "src/views/compare-your-trust/partials/accordion-sections/types";
-import {
-  PoundsPerMetreSq,
-  PremisesCategories,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { PoundsPerMetreSq, PremisesCategories } from "src/components";
+import { useCentralServicesBreakdownContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, UtilitiesTrustExpenditure } from "src/services";
 import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const Utilities: React.FC<{
   id: string;
@@ -54,12 +43,9 @@ export const Utilities: React.FC<{
     return headings;
   }, [dimension, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      PremisesCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerMetreSq;
+      PremisesCategories.find((x) => x.value === value) ?? PoundsPerMetreSq;
     setDimension(dimension);
   };
 
@@ -117,62 +103,24 @@ export const Utilities: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "utilities";
-  const [hash] = useHash();
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-6"
-            >
-              Utilities
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-6"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-6"
-          role="region"
-        >
-          <HorizontalBarChartWrapper
-            data={totalUtilitiesCostsBarData}
-            chartName="total utilities costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Total utilities costs</h3>
-            <ChartDimensions
-              dimensions={PremisesCategories}
-              handleChange={handleSelectChange}
-              elementId="total-utilities-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={energyBarData}
-            chartName="energy costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Energy costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={waterSewerageBarData}
-            chartName="water and sewerage costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Water and sewerage costs</h3>
-          </HorizontalBarChartWrapper>
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        { data: totalUtilitiesCostsBarData, title: "Total utilities costs" },
+        {
+          data: energyBarData,
+          title: "Energy costs",
+        },
+        {
+          data: waterSewerageBarData,
+          title: "Water and sewerage costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={6}
+      title="Utilities"
+    />
   );
 };
