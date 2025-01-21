@@ -14,24 +14,15 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import {
-  ChartDimensionContext,
-  CustomDataContext,
-  PhaseContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CustomDataContext, PhaseContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
   CateringStaffServicesExpenditure,
   TotalCateringCostsField,
 } from "src/services";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
-import { ErrorBanner } from "src/components/error-banner";
+import { AccordionSection } from "./accordion-section";
 
 export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
   type,
@@ -126,80 +117,44 @@ export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
       };
     }, [data, tableHeadings]);
 
-  const elementId = "catering-staff-and-supplies";
-  const [hash] = useHash();
-
-  const hasNoData = data?.length === 0;
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-8"
-            >
-              Catering staff and services
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-8"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-8"
-          role="region"
-        >
-          {hasNoData ? (
-            <ErrorBanner
-              isRendered={hasNoData}
-              message="There isn't enough information available to create a set of similar schools."
+    <AccordionSection
+      charts={[
+        {
+          data: totalCateringBarData,
+          title: `Total catering costs (${totalCateringCostsField === "totalGrossCateringCosts" ? "gross" : "net"})`,
+        },
+        {
+          data: cateringStaffBarData,
+          title: "Catering staff costs",
+        },
+        {
+          data: cateringSuppliesBarData,
+          title: "Catering supplies costs",
+        },
+      ]}
+      dimension={dimension}
+      hasNoData={data?.length === 0}
+      index={8}
+      options={
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-one-half">
+            <ChartDimensions
+              dimensions={CostCategories}
+              handleChange={handleSelectChange}
+              elementId="total-catering-costs"
+              value={dimension.value}
             />
-          ) : (
-            <>
-              <HorizontalBarChartWrapper
-                data={totalCateringBarData}
-                chartName="total catering costs"
-              >
-                <h3 className="govuk-heading-s">Total catering costs</h3>
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-column-one-half">
-                    <ChartDimensions
-                      dimensions={CostCategories}
-                      handleChange={handleSelectChange}
-                      elementId="total-catering-costs"
-                      value={dimension.value}
-                    />
-                  </div>
-                  <div className="govuk-grid-column-one-half">
-                    <TotalCateringCostsType
-                      field={totalCateringCostsField}
-                      onChange={setTotalCateringCostsField}
-                    />
-                  </div>
-                </div>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={cateringStaffBarData}
-                chartName="catering staff costs"
-              >
-                <h3 className="govuk-heading-s">Catering staff costs</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={cateringSuppliesBarData}
-                chartName="catering supplies costs"
-              >
-                <h3 className="govuk-heading-s">Catering supplies costs</h3>
-              </HorizontalBarChartWrapper>
-            </>
-          )}
+          </div>
+          <div className="govuk-grid-column-one-half">
+            <TotalCateringCostsType
+              field={totalCateringCostsField}
+              onChange={setTotalCateringCostsField}
+            />
+          </div>
         </div>
-      </div>
-    </ChartDimensionContext.Provider>
+      }
+      title="Catering staff and supplies"
+    />
   );
 };

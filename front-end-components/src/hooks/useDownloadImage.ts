@@ -1,14 +1,16 @@
 import saveAs from "file-saver";
 import { useCallback } from "react";
-import { toBlob } from "html-to-image";
-import { Options } from "html-to-image/lib/types";
+import { ImageOptions, ImageService } from "src/services";
 
 type DownloadPngImageOptions<T> = {
   ref?: React.RefObject<T>;
   fileName: string;
   onImageLoading?: (loading: boolean) => void;
   elementSelector: (ref: T) => HTMLElement | undefined;
-} & Pick<Options, "filter">;
+  title?: string;
+} & Pick<ImageOptions, "filter">;
+
+const imageTitleHeight = 50;
 
 export function useDownloadPngImage<T>({
   ref,
@@ -16,6 +18,7 @@ export function useDownloadPngImage<T>({
   onImageLoading,
   elementSelector,
   filter,
+  title,
 }: DownloadPngImageOptions<T>) {
   const downloadPng = useCallback(async () => {
     if (!ref?.current) {
@@ -27,12 +30,34 @@ export function useDownloadPngImage<T>({
       return;
     }
 
+    let height = element.clientHeight;
+
+    // use customised onCloned() callback to add additional elements to the DOM once already
+    // cloned for the purpose of generating the image (so as to not affect the original DOM,
+    // but still be able to apply styles and fonts as resolved from class names).
+    let onCloned: (node: HTMLElement) => void | undefined;
+    if (title) {
+      height += imageTitleHeight;
+      onCloned = (node) => {
+        const child = document.createElement("h2");
+        child.innerText = title;
+        child.classList.add("govuk-heading-s");
+        child.style.height = `${imageTitleHeight}px`;
+        child.style.margin = `${imageTitleHeight / 2}px 0 -${imageTitleHeight / 2}px ${imageTitleHeight / 2}px`;
+        child.style.padding = "0";
+        node.insertBefore(child, node.firstChild);
+      };
+    }
+
     const download = async () => {
-      const blob = await toBlob(element, {
+      const blob = await ImageService.toBlob(element, {
         cacheBust: true,
         backgroundColor: "#fff",
         type: "image/png",
         filter,
+        width: element.clientWidth,
+        height,
+        onCloned,
       });
 
       if (blob) {
@@ -62,7 +87,7 @@ export function useDownloadPngImage<T>({
     } else {
       await download();
     }
-  }, [ref, fileName, onImageLoading, elementSelector, filter]);
+  }, [ref, fileName, onImageLoading, elementSelector, filter, title]);
 
   return downloadPng;
 }

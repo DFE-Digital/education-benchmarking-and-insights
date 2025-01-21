@@ -9,24 +9,11 @@ import {
   CompareYourCostsProps,
   EducationalIctData,
 } from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  PhaseContext,
-  CustomDataContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { PhaseContext, CustomDataContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, EducationalIctExpenditure } from "src/services";
-import { ErrorBanner } from "src/components/error-banner";
+import { AccordionSection } from "./accordion-section";
 
 export const EducationalIct: React.FC<CompareYourCostsProps> = ({
   type,
@@ -54,12 +41,9 @@ export const EducationalIct: React.FC<CompareYourCostsProps> = ({
     });
   }, [getData]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -85,60 +69,19 @@ export const EducationalIct: React.FC<CompareYourCostsProps> = ({
       };
     }, [dimension, data]);
 
-  const elementId = "educational-ict";
-  const [hash] = useHash();
-
-  const hasNoData = data?.length === 0;
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-4"
-            >
-              Educational ICT
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-4"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-4"
-          role="region"
-        >
-          {hasNoData ? (
-            <ErrorBanner
-              isRendered={hasNoData}
-              message="There isn't enough information available to create a set of similar schools."
-            />
-          ) : (
-            <>
-              <HorizontalBarChartWrapper
-                data={learningResourcesBarData}
-                chartName="eductional learning resources costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Educational learning resources costs
-                </h3>
-                <ChartDimensions
-                  dimensions={CostCategories}
-                  handleChange={handleSelectChange}
-                  elementId="eductional-learning-resources-costs"
-                  value={dimension.value}
-                />
-              </HorizontalBarChartWrapper>
-            </>
-          )}
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        {
+          data: learningResourcesBarData,
+          title: "Educational learning resources costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={4}
+      title="Educational ICT"
+    />
   );
 };

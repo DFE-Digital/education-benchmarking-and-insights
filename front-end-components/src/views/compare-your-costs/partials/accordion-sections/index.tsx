@@ -8,3 +8,4 @@ export * from "src/views/compare-your-costs/partials/accordion-sections/educatio
 export * from "src/views/compare-your-costs/partials/accordion-sections/educational-ict";
 export * from "src/views/compare-your-costs/partials/accordion-sections/catering-staff-services";
 export * from "src/views/compare-your-costs/partials/accordion-sections/administrative-supplies";
+export * from "src/views/compare-your-costs/partials/accordion-sections/accordion-section";
