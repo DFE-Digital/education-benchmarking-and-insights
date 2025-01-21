@@ -48,6 +48,9 @@ public class BalanceTrustDefaultCurrentQueryTests
     public static TheoryData<string, string> Data => new()
     {
         { "Actuals", "SELECT * FROM VW_BalanceTrustDefaultCurrentActual " },
+        { "PerUnit", "SELECT * FROM VW_BalanceTrustDefaultCurrentPerUnit " },
+        { "PercentExpenditure", "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentExpenditure " },
+        { "PercentIncome", "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentIncome " },
     };
 
     private static BalanceTrustDefaultCurrentQuery Create(string dimension) => new(dimension);
