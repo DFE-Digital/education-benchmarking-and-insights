@@ -8,52 +8,115 @@ public class WhenViewingDataSources(SchoolBenchmarkingWebAppClient client) : Pag
     [Fact]
     public async Task CanDisplay()
     {
-        var cfrFiles = new File[]
+        var files = new File[]
         {
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2022/23",
                 FileName = "CFR_2022-23_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2021/22",
                 FileName = "CFR_2021-22_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2020/21",
                 FileName = "CFR_2020-21_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2019/20",
                 FileName = "CFR_2019-20_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2018/19",
                 FileName = "CFR_2018-19_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2017/18",
                 FileName = "CFR_2017-18_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2016/17",
                 FileName = "CFR_2016-17_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2015/16",
                 FileName = "CFR_2015-16_Full_Data_Workbook.xlsx"
             },
             new()
             {
+                Type = "transparency-cfr",
                 Label = "CFR 2014/15",
                 FileName = "CFR_2014-15_Full_Data_Workbook.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2022/23",
+                FileName = "AAR_2022-23_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2021/22",
+                FileName = "AAR_2021-22_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2020/21",
+                FileName = "AAR_2020-21_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2019/20",
+                FileName = "AAR_2019-20_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2018/19",
+                FileName = "AAR_2018-19_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2017/18",
+                FileName = "AAR_2017-18_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2016/17",
+                FileName = "AAR_2016-17_download.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2015/16",
+                FileName = "SFR32_2017_Main_Tables.xlsx"
+            },
+            new()
+            {
+                Type = "transparency-aar",
+                Label = "AAR 2014/15",
+                FileName = "SFR27_2016_Main_Tables.xlsx"
             }
         };
 
@@ -103,55 +166,6 @@ public class WhenViewingDataSources(SchoolBenchmarkingWebAppClient client) : Pag
             {
                 DisplayText = "CFR 2014/15",
                 Link = "https://teststorageaccount.net/testcontainer/CFR_2014-15_Full_Data_Workbook.xlsx"
-            }
-        };
-
-        var aarFiles = new File[]
-        {
-            new()
-            {
-                Label = "AAR 2022/23",
-                FileName = "AAR_2022-23_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2021/22",
-                FileName = "AAR_2021-22_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2020/21",
-                FileName = "AAR_2020-21_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2019/20",
-                FileName = "AAR_2019-20_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2018/19",
-                FileName = "AAR_2018-19_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2017/18",
-                FileName = "AAR_2017-18_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2016/17",
-                FileName = "AAR_2016-17_download.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2015/16",
-                FileName = "SFR32_2017_Main_Tables.xlsx"
-            },
-            new()
-            {
-                Label = "AAR 2014/15",
-                FileName = "SFR27_2016_Main_Tables.xlsx"
             }
         };
 
@@ -206,7 +220,7 @@ public class WhenViewingDataSources(SchoolBenchmarkingWebAppClient client) : Pag
 
         var page = await Client
             .SetupStorage()
-            .SetupFiles(aarFiles, cfrFiles)
+            .SetupFiles(files)
             .Navigate(Paths.DataSources);
 
         var laHeading = page.QuerySelectorAll("h4.govuk-heading-s")

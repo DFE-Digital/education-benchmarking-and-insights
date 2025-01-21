@@ -12,22 +12,12 @@ public class InsightFilesSteps(InsightApiDriver api)
 {
     private const string FilesKey = "files";
 
-    [Given("an AAR transparency files request")]
-    public void GivenAnAarTransparencyFilesRequest()
+    [Given("a transparency files request")]
+    public void GivenATransparencyFilesRequest()
     {
         api.CreateRequest(FilesKey, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/files/transparency/aar", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("an CFR transparency files request")]
-    public void GivenAnCfrTransparencyFilesRequest()
-    {
-        api.CreateRequest(FilesKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri("/api/files/transparency/cfr", UriKind.Relative),
+            RequestUri = new Uri("/api/files/transparency", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

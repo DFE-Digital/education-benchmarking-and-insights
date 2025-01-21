@@ -25,13 +25,14 @@ public class DataSourceController(ILogger<DataSourceController> logger, IDataSou
 
             var sas = storage.GetAccessToken();
 
-            var aarFiles = await filesApi.GetAarTransparencyFiles().GetResultOrDefault<File[]>() ?? [];
-            academies = aarFiles
+            var files = await filesApi.GetTransparencyFiles().GetResultOrDefault<File[]>() ?? [];
+            academies = files
+                .Where(f => f.Type == "transparency-aar")
                 .OrderByDescending(x => x.Label)
                 .Select(x => BuildViewModel(x.Label, x.FileName, sas));
 
-            var cfrFiles = await filesApi.GetCfrTransparencyFiles().GetResultOrDefault<File[]>() ?? [];
-            maintainedSchools = cfrFiles
+            maintainedSchools = files
+                .Where(f => f.Type == "transparency-cfr")
                 .OrderByDescending(x => x.Label)
                 .Select(x => BuildViewModel(x.Label, x.FileName, sas));
         }

@@ -2,12 +2,10 @@
 
 public interface IFilesApi
 {
-    Task<ApiResult> GetAarTransparencyFiles();
-    Task<ApiResult> GetCfrTransparencyFiles();
+    Task<ApiResult> GetTransparencyFiles();
 }
 
 public class FilesApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IFilesApi
 {
-    public async Task<ApiResult> GetAarTransparencyFiles() => await GetAsync(Api.Files.TransparencyAar);
-    public async Task<ApiResult> GetCfrTransparencyFiles() => await GetAsync(Api.Files.TransparencyCfr);
+    public async Task<ApiResult> GetTransparencyFiles() => await GetAsync(Api.Files.Transparency);
 }

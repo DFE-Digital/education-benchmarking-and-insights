@@ -126,4 +126,13 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereTypeIn(string[] types)
+    {
+        const string sql = "Type IN @Types";
+        var parameters = new { Types = types };
+
+        Where(sql, parameters);
+        return this;
+    }
 }
