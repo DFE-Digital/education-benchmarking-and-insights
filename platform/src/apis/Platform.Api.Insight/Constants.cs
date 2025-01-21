@@ -16,5 +16,6 @@ public static class Constants
         public const string Years = "Years";
         public const string HealthCheck = "Health Check";
         public const string Files = "Files";
+        public const string Trust = "Trust";
     }
 }

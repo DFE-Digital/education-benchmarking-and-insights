@@ -2,12 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Serialization;
-using Platform.Functions.Extensions;
 using Platform.Json;
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
-namespace Platform.Api.Insight.Trusts;
+namespace Platform.Api.Insight.Features.Trusts.Models;
 
 [ExcludeFromCodeCoverage]
 public record TrustCharacteristic
@@ -32,11 +31,4 @@ public record TrustCharacteristic
             {
                 Phase = p
             }).ToArray();
-}
-
-[ExcludeFromCodeCoverage]
-public record TrustPhase
-{
-    public string? Phase { get; set; }
-    public int? Count { get; set; }
 }

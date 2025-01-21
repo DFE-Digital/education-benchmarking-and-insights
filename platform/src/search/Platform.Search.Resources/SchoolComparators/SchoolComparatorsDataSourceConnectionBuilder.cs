@@ -5,15 +5,10 @@ using Platform.Search.Resources.Builders;
 
 namespace Platform.Search.Resources.SchoolComparators;
 
-public class SchoolComparatorsDataSourceConnectionBuilder : DataSourceConnectionBuilder
+public class SchoolComparatorsDataSourceConnectionBuilder(string? connectionString) : DataSourceConnectionBuilder
 {
     public override string Name => ResourceNames.Search.DataSources.SchoolComparators;
-    private readonly string _connectionString;
-
-    public SchoolComparatorsDataSourceConnectionBuilder(string? connectionString)
-    {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-    }
+    private readonly string _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
 
     public override async Task Build(SearchIndexerClient client)
     {

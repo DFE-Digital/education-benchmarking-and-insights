@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using Platform.Api.Insight.Trusts;
+using Platform.Api.Insight.Features.Trusts.Models;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -63,7 +63,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
-    private record TrustCharacteristic : Api.Insight.Trusts.TrustCharacteristic
+    private record TrustCharacteristic : Api.Insight.Features.Trusts.Models.TrustCharacteristic
     {
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
         public new TrustPhase[] Phases { get; set; } = [];

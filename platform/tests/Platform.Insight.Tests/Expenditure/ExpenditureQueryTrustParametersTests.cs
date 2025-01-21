@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.Insight.Tests.Expenditure;
 
-public class ExpenditureQueryTrustParametersParametersTests
+public class ExpenditureQueryTrustParametersTests
 {
     [Fact]
     public void ShouldSetValuesFromQuery()

@@ -15,3 +15,16 @@ public class TrustQueryTests
 
     private static TrustQuery Create() => new();
 }
+
+public class TrustCharacteristicsQueryTests
+{
+    [Fact]
+    public void ShouldReturnSql()
+    {
+        var builder = Create();
+        Assert.Equal("SELECT * FROM VW_TrustCharacteristics ", builder.QueryTemplate.RawSql);
+    }
+
+
+    private static TrustCharacteristicsQuery Create() => new();
+}

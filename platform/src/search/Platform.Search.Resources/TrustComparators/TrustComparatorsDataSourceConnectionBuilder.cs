@@ -5,15 +5,10 @@ using Platform.Search.Resources.Builders;
 
 namespace Platform.Search.Resources.TrustComparators;
 
-public class TrustComparatorsDataSourceConnectionBuilder : DataSourceConnectionBuilder
+public class TrustComparatorsDataSourceConnectionBuilder(string? connectionString) : DataSourceConnectionBuilder
 {
     public override string Name => ResourceNames.Search.DataSources.TrustComparators;
-    private readonly string _connectionString;
-
-    public TrustComparatorsDataSourceConnectionBuilder(string? connectionString)
-    {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-    }
+    private readonly string _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
 
     public override async Task Build(SearchIndexerClient client)
     {
@@ -21,7 +16,7 @@ public class TrustComparatorsDataSourceConnectionBuilder : DataSourceConnectionB
             name: Name,
             type: SearchIndexerDataSourceType.AzureSql,
             connectionString: _connectionString,
-            container: new SearchIndexerDataContainer("TrustCharacteristic"));
+            container: new SearchIndexerDataContainer("VW_TrustCharacteristics"));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }
