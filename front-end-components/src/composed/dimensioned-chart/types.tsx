@@ -12,6 +12,7 @@ type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
 > & {
   selector?: boolean;
   title: string;
+  dimensions?: Dimension[];
 };
 
 export type DimensionedChartProps<

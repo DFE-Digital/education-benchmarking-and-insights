@@ -1,6 +1,5 @@
 Feature: Local Authority compare your costs
 
-    @ignore
     Scenario: Download total expenditure chart
         Given I am on compare your costs page for local authority with code '201'
         When I click on save as image for 'total expenditure'

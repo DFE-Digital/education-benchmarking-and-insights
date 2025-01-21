@@ -66,17 +66,17 @@ public static class Selectors
     public const string TotalExpenditureDimension = "#total-expenditure-dimension";
     public const string TotalExpenditureChart = "//*[@aria-label='Total expenditure']";
 
-    public const string PremisesDimension = "#total-premises-staff-service-costs-dimension";
+    public const string PremisesDimension = "#total-premises-staff-and-service-costs-dimension";
 
-    public const string SchoolWorkforceDimension = "#school-workforce-dimension";
+    public const string SchoolWorkforceDimension = "#school-workforce-full-time-equivalent-dimension";
     public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-census']/div[2]/div[2]/button";
 
-    public const string TotalNumberOfTeacherDimension = "#total-teachers-dimension";
-    public const string SeniorLeadershipDimension = "#senior-leadership-dimension";
-    public const string TeachingAssistantDimension = "#teaching-assistants-dimension";
-    public const string NonClassRoomSupportStaffDimension = "#nonclassroom-support-dimension";
-    public const string AuxiliaryStaffDimension = "#auxiliary-staff-dimension";
-    public const string SchoolWorkforceHeadcountDimension = "#headcount-dimension";
+    public const string TotalNumberOfTeacherDimension = "#total-number-of-teachers-full-time-equivalent-dimension";
+    public const string SeniorLeadershipDimension = "#senior-leadership-full-time-equivalent-dimension";
+    public const string TeachingAssistantDimension = "#teaching-assistants-full-time-equivalent-dimension";
+    public const string NonClassRoomSupportStaffDimension = "#non-classroom-support-staff-excluding-auxiliary-staff-full-time-equivalent-dimension";
+    public const string AuxiliaryStaffDimension = "#auxiliary-staff-full-time-equivalent-dimension";
+    public const string SchoolWorkforceHeadcountDimension = "#school-workforce-headcount-dimension";
     public const string SchoolGiasPageLink = "a[data-id='gias-school-details']";
 
     public const string SchoolDetailsEmailAddress = ".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value";

@@ -147,7 +147,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
         Assert.NotNull(_download);
         var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
         {
-            CensusChartNames.SchoolWorkforce => "school workforce (full time equivalent)",
+            CensusChartNames.SchoolWorkforce => "school-workforce-full-time-equivalent",
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

@@ -3,6 +3,7 @@ using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.LocalAuthority;
 using Xunit;
 using HomePage = Web.E2ETests.Pages.School.HomePage;
+
 namespace Web.E2ETests.Steps.LocalAuthority;
 
 [Binding]
@@ -147,7 +148,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
         Assert.NotNull(_download);
         var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
         {
-            CensusChartNames.SchoolWorkforce => "school workforce (full time equivalent)",
+            CensusChartNames.SchoolWorkforce => "school-workforce-full-time-equivalent",
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
