@@ -19,6 +19,7 @@ export function DimensionedChart<
   hasNoData,
   options,
   topLevel,
+  trust,
 }: DimensionedChartProps<TData>) {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -34,7 +35,7 @@ export function DimensionedChart<
       message="There isn't enough information available to create a set of similar schools."
     />
   ) : (
-    charts.map(({ title, data }, i) => {
+    charts.map(({ data, selector, title }, i) => {
       const chartName = title.toLowerCase().replace(/\W/g, " ").trim();
       const chartId = chartName.replace(/\s/g, "-");
 
@@ -44,13 +45,14 @@ export function DimensionedChart<
             chartName={chartName}
             chartTitle={title}
             data={data}
+            trust={trust}
           >
             {topLevel ? (
               <h2 className="govuk-heading-m">{title}</h2>
             ) : (
               <h3 className="govuk-heading-s">{title}</h3>
             )}
-            {i === 0 &&
+            {(i === 0 || selector) &&
               (options ?? (
                 <ChartDimensions
                   dimensions={dimensions || CostCategories}

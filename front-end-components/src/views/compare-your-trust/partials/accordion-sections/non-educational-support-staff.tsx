@@ -1,20 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { NonEducationalSupportStaffData } from "src/views/compare-your-trust/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import classNames from "classnames";
-import { useHash } from "src/hooks/useHash";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { useCentralServicesBreakdownContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
   NonEducationalSupportStaffTrustExpenditure,
@@ -23,6 +11,7 @@ import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const NonEducationalSupportStaff: React.FC<{
   id: string;
@@ -59,12 +48,9 @@ export const NonEducationalSupportStaff: React.FC<{
     return headings;
   }, [dimension, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -164,82 +150,35 @@ export const NonEducationalSupportStaff: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "non-educational-support-staff-and-services";
-  const [hash] = useHash();
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-2"
-            >
-              Non-educational support staff
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-2"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-2"
-          role="region"
-        >
-          <HorizontalBarChartWrapper
-            data={totalNonEducationalBarData}
-            chartName="total non-educational support staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Total non-educational support staff costs
-            </h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-non-educational-support-staff-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={administrativeClericalBarData}
-            chartName="administrative and clerical staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Administrative and clerical staff costs
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={auditorsCostsBarData}
-            chartName="auditors costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Auditors costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={otherStaffCostsBarData}
-            chartName="other staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Other staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={professionalServicesBarData}
-            chartName="profession services (non-curriculum) costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Professional services (non-curriculum) costs
-            </h3>
-          </HorizontalBarChartWrapper>
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        {
+          data: totalNonEducationalBarData,
+          title: "Total non-educational support staff costs",
+        },
+        {
+          data: administrativeClericalBarData,
+          title: "Administrative and clerical staff costs",
+        },
+        {
+          data: auditorsCostsBarData,
+          title: "Auditors costs",
+        },
+        {
+          data: otherStaffCostsBarData,
+          title: "Other staff costs",
+        },
+        {
+          data: professionalServicesBarData,
+          title: "Professional services (non-curriculum) costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={2}
+      title="Non-educational support staff and services"
+    />
   );
 };

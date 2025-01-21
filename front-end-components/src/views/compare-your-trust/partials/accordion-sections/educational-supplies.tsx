@@ -1,20 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { EducationalSuppliesData } from "src/views/compare-your-trust/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { useCentralServicesBreakdownContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
   EducationalSuppliesTrustExpenditure,
@@ -23,6 +11,7 @@ import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const EducationalSupplies: React.FC<{
   id: string;
@@ -59,12 +48,9 @@ export const EducationalSupplies: React.FC<{
     return headings;
   }, [dimension, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -122,66 +108,27 @@ export const EducationalSupplies: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "educational-supplies";
-  const [hash] = useHash();
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-3"
-            >
-              Educational supplies
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-3"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-3"
-          role="region"
-        >
-          <HorizontalBarChartWrapper
-            data={totalEducationalSuppliesBarData}
-            chartName="total educational supplies costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Total educational supplies costs
-            </h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-educational-supplies-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={examinationFeesBarData}
-            chartName="examination fees costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Examination fees costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={learningResourcesBarData}
-            chartName="learning resource (not ICT equipment) costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Learning resources (not ICT equipment) costs
-            </h3>
-          </HorizontalBarChartWrapper>
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        {
+          data: totalEducationalSuppliesBarData,
+          title: "Total educational supplies costs",
+        },
+        {
+          data: examinationFeesBarData,
+          title: "Examination fees costs",
+        },
+        {
+          data: learningResourcesBarData,
+          title: "Learning resources (not ICT equipment) costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={3}
+      title="Educational supplies"
+    />
   );
 };

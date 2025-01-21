@@ -1,25 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { OtherCostsData } from "src/views/compare-your-trust/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { useCentralServicesBreakdownContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, OtherCostsDataTrustExpenditure } from "src/services";
 import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const OtherCosts: React.FC<{
   id: string;
@@ -54,12 +43,9 @@ export const OtherCosts: React.FC<{
     return headings;
   }, [dimension, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -280,129 +266,54 @@ export const OtherCosts: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const elementId = "other-costs";
-  const [hash] = useHash();
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-9"
-            >
-              Other costs
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-9"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-9"
-          role="region"
-        >
-          <HorizontalBarChartWrapper
-            data={totalOtherCostsBarData}
-            chartName="total other costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Total other costs</h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-otehr-costs"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={otherInsurancePremiumsCostsBarData}
-            chartName="other insurance premiums costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={directRevenueFinancingCostsBarData}
-            chartName="direct revenue financing costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={groundsMaintenanceCostsBarData}
-            chartName="ground maintenance costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Ground maintenance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={indirectEmployeeExpensesBarData}
-            chartName="indirect employee expenses"
-            trust
-          >
-            <h3 className="govuk-heading-s">Indirect employee expenses</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={interestChargesLoanBankBarData}
-            chartName="interest charges for loan and bank"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Interest charges for loan and bank
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={privateFinanceInitiativeChargesBarData}
-            chartName="PFI charges"
-            trust
-          >
-            <h3 className="govuk-heading-s">PFI charges</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={rentRatesCostsBarData}
-            chartName="rent and rates costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Rent and rates costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={specialFacilitiesCostsBarData}
-            chartName="special facilities costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Special facilities costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={staffDevelopmentTrainingCostsBarData}
-            chartName="staff development and training costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Staff development and training costs
-            </h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={staffRelatedInsuranceCostsBarData}
-            chartName="staff-related insurance costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={supplyTeacherInsurableCostsBarData}
-            chartName="supply teacher insurance costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
-          </HorizontalBarChartWrapper>
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        { data: totalOtherCostsBarData, title: "Total other costs" },
+        {
+          data: otherInsurancePremiumsCostsBarData,
+          title: "Other insurance premiums costs",
+        },
+        {
+          data: directRevenueFinancingCostsBarData,
+          title: "Direct revenue financing costs",
+        },
+        {
+          data: groundsMaintenanceCostsBarData,
+          title: "Ground maintenance costs",
+        },
+        {
+          data: indirectEmployeeExpensesBarData,
+          title: "Indirect employee expenses",
+        },
+        {
+          data: interestChargesLoanBankBarData,
+          title: "Interest charges for loan and bank",
+        },
+        { data: privateFinanceInitiativeChargesBarData, title: "PFI charges" },
+        { data: rentRatesCostsBarData, title: "Rent and rates costs" },
+        {
+          data: specialFacilitiesCostsBarData,
+          title: "Special facilities costs",
+        },
+        {
+          data: staffDevelopmentTrainingCostsBarData,
+          title: "Staff development and training costs",
+        },
+        {
+          data: staffRelatedInsuranceCostsBarData,
+          title: "Staff-related insurance costs",
+        },
+        {
+          data: supplyTeacherInsurableCostsBarData,
+          title: "Supply teacher insurance costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={9}
+      title="Other costs"
+    />
   );
 };

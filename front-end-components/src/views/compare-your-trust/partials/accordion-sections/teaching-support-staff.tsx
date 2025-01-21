@@ -1,20 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TeachingSupportStaffData } from "src/views/compare-your-trust/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  useCentralServicesBreakdownContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { useCentralServicesBreakdownContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
   TeachingSupportStaffTrustExpenditure,
@@ -23,6 +11,7 @@ import {
   BreakdownExclude,
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
@@ -57,12 +46,9 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
     return headings;
   }, [dimension, breakdown]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -176,87 +162,40 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
       };
     }, [data, tableHeadings]);
 
-  const elementId = "teaching-and-teaching-support-staff";
-  const [hash] = useHash();
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-1"
-            >
-              Teaching and teaching support staff
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-1"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-1"
-          role="region"
-        >
-          <HorizontalBarChartWrapper
-            data={totalTeachingBarData}
-            chartName="total teaching and support staff cost"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Total teaching and teaching support staff costs
-            </h3>
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="total-teaching-support-staff-cost"
-              value={dimension.value}
-            />
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={teachingStaffBarData}
-            chartName="teaching staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Teaching staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={supplyTeachingBarData}
-            chartName="supply teaching staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={educationalConsultancyBarData}
-            chartName="educational consultancy costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Educational consultancy costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={educationSupportStaffBarData}
-            chartName="educational support staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">Educational support staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={agencySupplyBarData}
-            chartName="agency supply teaching staff costs"
-            trust
-          >
-            <h3 className="govuk-heading-s">
-              Agency supply teaching staff costs
-            </h3>
-          </HorizontalBarChartWrapper>
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        {
+          data: totalTeachingBarData,
+          title: "Total teaching and teaching support staff costs",
+        },
+        {
+          data: teachingStaffBarData,
+          title: "Teaching staff costs",
+        },
+        {
+          data: supplyTeachingBarData,
+          title: "Supply teaching staff costs",
+        },
+        {
+          data: educationalConsultancyBarData,
+          title: "Educational consultancy costs",
+        },
+        {
+          data: educationSupportStaffBarData,
+          title: "Educational support staff costs",
+        },
+        {
+          data: agencySupplyBarData,
+          title: "Agency supply teaching staff costs",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={1}
+      title="Teaching and teaching support staff"
+      trust
+    />
   );
 };

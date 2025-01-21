@@ -6,16 +6,23 @@ import {
 } from "src/components/charts/table-chart";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 
+type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
+  HorizontalBarChartWrapperProps<TData>,
+  "data"
+> & {
+  selector?: boolean;
+  title: string;
+};
+
 export type DimensionedChartProps<
   TData extends SchoolChartData | TrustChartData,
 > = {
-  charts: (Pick<HorizontalBarChartWrapperProps<TData>, "data"> & {
-    title: string;
-  })[];
+  charts: DimensionedChart<TData>[];
   dimension: Dimension;
   dimensions?: Dimension[];
   handleDimensionChange?: (dimension: string) => void;
-  hasNoData: boolean;
+  hasNoData?: boolean;
   options?: ReactNode;
   topLevel?: boolean;
+  trust?: boolean;
 };
