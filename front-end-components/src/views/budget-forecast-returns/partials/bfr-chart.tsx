@@ -12,7 +12,7 @@ export const BfrChart = forwardRef<ChartHandler, BfrChartProps>(
       <div className="govuk-grid-column-full" style={{ height: 400 }}>
         {data.length > 0 ? (
           <LineChart
-            chartName="Year-end revenue reserves"
+            chartTitle="Year-end revenue reserves"
             data={data}
             grid
             highlightActive

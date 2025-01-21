@@ -56,7 +56,6 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 ) {
   const {
     barCategoryGap,
-    chartName,
     chartTitle,
     data,
     grid,
@@ -100,7 +99,6 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const rechartsRef = useRef<CategoricalChartWrapper>(null);
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
-    fileName: `${chartName.replace(/\s/g, "-")}.png`,
     onImageLoading,
     elementSelector: ({ container }) => container,
     filter: (node) => {
@@ -250,7 +248,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
       />
       <div style={{ height: 22 * filteredData.length + 75 }}>
         <div
-          aria-label={chartTitle ?? chartName}
+          aria-label={chartTitle}
           className="govuk-body-s govuk-!-font-size-14 full-height-width"
           role="img"
         >

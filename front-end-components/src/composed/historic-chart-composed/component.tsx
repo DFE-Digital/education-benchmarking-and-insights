@@ -33,7 +33,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
               <LineChart
-                chartName={chartName}
+                chartTitle={chartName}
                 data={data}
                 grid
                 highlightActive
@@ -59,7 +59,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
           </div>
           <aside className="govuk-grid-column-one-quarter">
             <ResolvedStat
-              chartName={`Most recent ${chartName.toLowerCase()}`}
+              chartTitle={`Most recent ${chartName.toLowerCase()}`}
               className="chart-stat-line-chart"
               compactValue
               data={data}

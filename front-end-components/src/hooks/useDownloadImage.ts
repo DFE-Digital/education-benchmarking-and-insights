@@ -4,7 +4,7 @@ import { ImageOptions, ImageService } from "src/services";
 
 type DownloadPngImageOptions<T> = {
   ref?: React.RefObject<T>;
-  fileName: string;
+  fileName?: string;
   onImageLoading?: (loading: boolean) => void;
   elementSelector: (ref: T) => HTMLElement | undefined;
   title?: string;
@@ -14,12 +14,23 @@ const imageTitleHeight = 50;
 
 export function useDownloadPngImage<T>({
   ref,
-  fileName,
+  fileName: fileNameProp,
   onImageLoading,
   elementSelector,
   filter,
   title,
 }: DownloadPngImageOptions<T>) {
+  const fileName = title
+    ? `${title
+        .toLowerCase()
+        .replace(/\W/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim()
+        .replace(/\s/g, "-")}.png`
+    : fileNameProp
+      ? fileNameProp
+      : "download.png";
+
   const downloadPng = useCallback(async () => {
     if (!ref?.current) {
       return;
