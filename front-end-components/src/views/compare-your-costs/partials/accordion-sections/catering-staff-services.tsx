@@ -22,7 +22,7 @@ import {
   TotalCateringCostsField,
 } from "src/services";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
-import { AccordionSection } from "./accordion-section";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
   type,

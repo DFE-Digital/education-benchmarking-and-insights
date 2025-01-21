@@ -7,9 +7,11 @@ import {
   SchoolChartData,
   TrustChartData,
 } from "src/components/charts/table-chart";
-import { SectionProps } from "./types";
+import { DimensionedChartProps } from "./types";
 
-export function Section<TData extends SchoolChartData | TrustChartData>({
+export function DimensionedChart<
+  TData extends SchoolChartData | TrustChartData,
+>({
   charts,
   dimension,
   dimensions,
@@ -17,7 +19,7 @@ export function Section<TData extends SchoolChartData | TrustChartData>({
   hasNoData,
   options,
   topLevel,
-}: SectionProps<TData>) {
+}: DimensionedChartProps<TData>) {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {

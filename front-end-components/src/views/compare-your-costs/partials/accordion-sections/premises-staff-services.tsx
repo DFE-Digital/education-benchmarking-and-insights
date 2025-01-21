@@ -13,7 +13,7 @@ import { PoundsPerMetreSq, PremisesCategories } from "src/components";
 import { PhaseContext, CustomDataContext } from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, PremisesStaffServicesExpenditure } from "src/services";
-import { AccordionSection } from "./accordion-section";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const PremisesStaffServices: React.FC<CompareYourCostsProps> = ({
   type,

@@ -1,11 +1,11 @@
-import { AccordionSectionProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import { AccordionSectionProps } from "./types";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import {
   SchoolChartData,
   TrustChartData,
 } from "src/components/charts/table-chart";
-import { Section } from "..";
+import { DimensionedChart } from "../dimensioned-chart";
 
 export function AccordionSection<
   TData extends SchoolChartData | TrustChartData,
@@ -36,7 +36,7 @@ export function AccordionSection<
         aria-labelledby={`accordion-heading-${index}`}
         role="region"
       >
-        <Section {...rest} />
+        <DimensionedChart {...rest} />
       </div>
     </div>
   );
