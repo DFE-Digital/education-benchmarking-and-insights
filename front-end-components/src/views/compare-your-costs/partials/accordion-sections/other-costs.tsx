@@ -13,7 +13,7 @@ import { CostCategories, PoundsPerPupil } from "src/components";
 import { PhaseContext, CustomDataContext } from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, OtherCostsDataExpenditure } from "src/services";
-import { AccordionSection } from "./accordion-section";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);

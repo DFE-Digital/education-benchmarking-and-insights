@@ -5,10 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  Section,
-  TotalExpenditureData,
-} from "src/views/compare-your-costs/partials";
+import { TotalExpenditureData } from "src/views/compare-your-costs/partials";
 import { CustomDataContext, PhaseContext } from "src/contexts";
 import {
   CostCategories,
@@ -18,6 +15,7 @@ import {
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, TotalExpenditureExpenditure } from "src/services";
 import { CompareYourCostsProps } from "./accordion-sections/types";
+import { DimensionedChart } from "src/composed/dimensioned-chart";
 
 export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   type,
@@ -74,7 +72,7 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   };
 
   return (
-    <Section
+    <DimensionedChart
       charts={[{ data: chartData, title: "Total expenditure" }]}
       dimension={dimension}
       dimensions={CostCategories.filter(function (category) {

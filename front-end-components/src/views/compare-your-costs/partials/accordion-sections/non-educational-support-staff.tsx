@@ -16,7 +16,7 @@ import {
   ExpenditureApi,
   NonEducationalSupportStaffExpenditure,
 } from "src/services";
-import { AccordionSection } from "./accordion-section";
+import { AccordionSection } from "src/composed/accordion-section";
 
 export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
   type,
