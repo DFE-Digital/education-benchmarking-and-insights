@@ -5,3 +5,4 @@ export * from "src/services/balance-api";
 export * from "src/services/expenditure-api";
 export * from "src/services/types";
 export * from "src/services/history-service";
+export * from "src/services/image-service";

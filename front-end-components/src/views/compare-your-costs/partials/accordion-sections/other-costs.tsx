@@ -9,24 +9,11 @@ import {
   CompareYourCostsProps,
   OtherCostsData,
 } from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CostCategories,
-  PoundsPerPupil,
-  ChartDimensions,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  PhaseContext,
-  CustomDataContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
-import classNames from "classnames";
+import { CostCategories, PoundsPerPupil } from "src/components";
+import { PhaseContext, CustomDataContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, OtherCostsDataExpenditure } from "src/services";
-import { ErrorBanner } from "src/components/error-banner";
+import { AccordionSection } from "./accordion-section";
 
 export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
@@ -62,12 +49,9 @@ export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
     [dimension]
   );
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CostCategories.find((x) => x.value === event.target.value) ??
-      PoundsPerPupil;
+      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);
   };
 
@@ -267,152 +251,62 @@ export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
       };
     }, [data, tableHeadings]);
 
-  const elementId = "other-costs";
-  const [hash] = useHash();
-
-  const hasNoData = data?.length === 0;
-
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <div
-        className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${elementId}`,
-        })}
-        id={elementId}
-      >
-        <div className="govuk-accordion__section-header">
-          <h2 className="govuk-accordion__section-heading">
-            <span
-              className="govuk-accordion__section-button"
-              id="accordion-heading-9"
-            >
-              Other costs
-            </span>
-          </h2>
-        </div>
-        <div
-          id="accordion-content-9"
-          className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-9"
-          role="region"
-        >
-          {hasNoData ? (
-            <ErrorBanner
-              isRendered={hasNoData}
-              message="There isn't enough information available to create a set of similar schools."
-            />
-          ) : (
-            <>
-              <HorizontalBarChartWrapper
-                data={totalOtherCostsBarData}
-                chartName="total other costs"
-              >
-                <h3 className="govuk-heading-s">Total other costs</h3>
-                <ChartDimensions
-                  dimensions={CostCategories}
-                  handleChange={handleSelectChange}
-                  elementId="total-otehr-costs"
-                  value={dimension.value}
-                />
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={otherInsurancePremiumsCostsBarData}
-                chartName="other insurance premiums costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Other insurance premiums costs
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={directRevenueFinancingCostsBarData}
-                chartName="direct revenue financing costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Direct revenue financing costs
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={groundsMaintenanceCostsBarData}
-                chartName="ground maintenance costs"
-              >
-                <h3 className="govuk-heading-s">Ground maintenance costs</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={indirectEmployeeExpensesBarData}
-                chartName="indirect employee expenses"
-              >
-                <h3 className="govuk-heading-s">Indirect employee expenses</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={interestChargesLoanBankBarData}
-                chartName="interest charges for loan and bank"
-              >
-                <h3 className="govuk-heading-s">
-                  Interest charges for loan and bank
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={privateFinanceInitiativeChargesBarData}
-                chartName="PFI charges"
-              >
-                <h3 className="govuk-heading-s">PFI charges</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={rentRatesCostsBarData}
-                chartName="rent and rates costs"
-              >
-                <h3 className="govuk-heading-s">Rent and rates costs</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={specialFacilitiesCostsBarData}
-                chartName="special facilities costs"
-              >
-                <h3 className="govuk-heading-s">Special facilities costs</h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={staffDevelopmentTrainingCostsBarData}
-                chartName="staff development and training costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Staff development and training costs
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={staffRelatedInsuranceCostsBarData}
-                chartName="staff-related insurance costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Staff-related insurance costs
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={supplyTeacherInsurableCostsBarData}
-                chartName="supply teacher insurance costs"
-              >
-                <h3 className="govuk-heading-s">
-                  Supply teacher insurance costs
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={communityFocusedSchoolStaffBarData}
-                chartName="community focused school staff (maintained schools only)"
-              >
-                <h3 className="govuk-heading-s">
-                  Community focused school staff (maintained schools only)
-                </h3>
-              </HorizontalBarChartWrapper>
-              <HorizontalBarChartWrapper
-                data={communityFocusedSchoolCostsBarData}
-                chartName="community focused school costs (maintained schools only)"
-              >
-                <h3 className="govuk-heading-s">
-                  Community focused school costs (maintained schools only)
-                </h3>
-              </HorizontalBarChartWrapper>
-            </>
-          )}
-        </div>
-      </div>
-    </ChartDimensionContext.Provider>
+    <AccordionSection
+      charts={[
+        { data: totalOtherCostsBarData, title: "Total other costs" },
+        {
+          data: otherInsurancePremiumsCostsBarData,
+          title: "Other insurance premiums costs",
+        },
+        {
+          data: directRevenueFinancingCostsBarData,
+          title: "Direct revenue financing costs",
+        },
+        {
+          data: groundsMaintenanceCostsBarData,
+          title: "Ground maintenance costs",
+        },
+        {
+          data: indirectEmployeeExpensesBarData,
+          title: "Indirect employee expenses",
+        },
+        {
+          data: interestChargesLoanBankBarData,
+          title: "Interest charges for loan and bank",
+        },
+        { data: privateFinanceInitiativeChargesBarData, title: "PFI charges" },
+        { data: rentRatesCostsBarData, title: "Rent and rates costs" },
+        {
+          data: specialFacilitiesCostsBarData,
+          title: "Special facilities costs",
+        },
+        {
+          data: staffDevelopmentTrainingCostsBarData,
+          title: "Staff development and training costs",
+        },
+        {
+          data: staffRelatedInsuranceCostsBarData,
+          title: "Staff-related insurance costs",
+        },
+        {
+          data: supplyTeacherInsurableCostsBarData,
+          title: "Supply teacher insurance costs",
+        },
+        {
+          data: communityFocusedSchoolStaffBarData,
+          title: "Community focused school staff (maintained schools only)",
+        },
+        {
+          data: communityFocusedSchoolCostsBarData,
+          title: "Community focused school costs (maintained schools only)",
+        },
+      ]}
+      dimension={dimension}
+      handleDimensionChange={handleDimensionChange}
+      hasNoData={data?.length === 0}
+      index={9}
+      title="Other costs"
+    />
   );
 };

@@ -327,7 +327,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         Assert.NotNull(_download);
         var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
         {
-            ComparisonChartNames.TotalExpenditure => "total expenditure",
+            ComparisonChartNames.TotalExpenditure => "total-expenditure",
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

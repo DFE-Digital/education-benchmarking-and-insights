@@ -1,3 +1,16 @@
+import {
+  SchoolChartData,
+  TrustChartData,
+} from "src/components/charts/table-chart";
+import { SectionProps } from "../types";
+
+export type AccordionSectionProps<
+  TData extends SchoolChartData | TrustChartData,
+> = Omit<SectionProps<TData>, "dimensions" | "topLevel"> & {
+  index: number;
+  title: string;
+};
+
 export type TeachingSupportStaffData = {
   urn: string;
   schoolType: string;
