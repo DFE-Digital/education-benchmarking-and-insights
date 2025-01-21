@@ -21,6 +21,9 @@ public class BalanceTrustDefaultCurrentQuery(string dimension) : PlatformQuery(G
         return dimension switch
         {
             Dimensions.Finance.Actuals => "SELECT * FROM VW_BalanceTrustDefaultCurrentActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_BalanceTrustDefaultCurrentPerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_BalanceTrustDefaultCurrentPercentIncome /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }
