@@ -34,8 +34,8 @@ WITH currentSchools AS (SELECT URN
                        AND nf.RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
                        AND nf.RunType = 'default'
                      GROUP BY s.TrustCompanyNumber),
-     income AS (SELECT CompanyNumber, 
-                       TotalIncome
+     income AS (SELECT CompanyNumber,
+                       CONVERT(float, TotalIncome) AS 'TotalIncome'
                 FROM TrustFinancial f
                 WHERE f.RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
                   AND f.RunType = 'default')
