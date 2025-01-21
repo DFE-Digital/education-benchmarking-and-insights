@@ -40,8 +40,7 @@ public static class Api
 
     public static class Files
     {
-        public static string TransparencyAar => "api/files/transparency/aar";
-        public static string TransparencyCfr => "api/files/transparency/cfr";
+        public static string Transparency => "api/files/transparency";
     }
 
     public static class Income

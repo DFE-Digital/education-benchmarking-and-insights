@@ -21,6 +21,7 @@ public static class Mapper
 
         return new FileResponse
         {
+            Type = model.Type,
             Label = model.Label,
             FileName = model.FileName
         };

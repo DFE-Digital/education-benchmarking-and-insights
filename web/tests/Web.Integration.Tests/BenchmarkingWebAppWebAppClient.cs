@@ -115,11 +115,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupFiles(File[]? aarFiles = null, File[]? cfrFiles = null)
+    public BenchmarkingWebAppClient SetupFiles(File[]? files = null)
     {
         FilesApi.Reset();
-        FilesApi.Setup(api => api.GetAarTransparencyFiles()).ReturnsAsync(ApiResult.Ok(aarFiles));
-        FilesApi.Setup(api => api.GetCfrTransparencyFiles()).ReturnsAsync(ApiResult.Ok(cfrFiles));
+        FilesApi.Setup(api => api.GetTransparencyFiles()).ReturnsAsync(ApiResult.Ok(files));
         return this;
     }
 

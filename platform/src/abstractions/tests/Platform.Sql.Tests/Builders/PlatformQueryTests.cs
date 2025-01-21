@@ -211,6 +211,22 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddTypeInParameter()
+    {
+        const string expectedParam = "Types";
+        var expectedValue = new[] { "transparency-aar", "transparency-cfr" };
+        var expectedSql = BuildExpectedQuery("WHERE Type IN @Types");
+
+        var builder = new MockPlatformQuery().WhereTypeIn(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
     private static string BuildExpectedQuery(string wherePart) =>
         $"{MockPlatformQuery.Sql.Replace("/**where**/", wherePart)}\n";
 }

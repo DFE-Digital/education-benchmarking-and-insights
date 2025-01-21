@@ -12,17 +12,17 @@ using Xunit;
 
 namespace Platform.Insight.Tests.Files;
 
-public class GetCfrTransparencyFilesFunctionTests : FunctionsTestBase
+public class GetTransparencyFilesFunctionTests : FunctionsTestBase
 {
     private readonly Fixture _fixture;
-    private readonly GetCfrTransparencyFilesFunction _function;
+    private readonly GetTransparencyFilesFunction _function;
     private readonly Mock<IFilesService> _service;
 
-    public GetCfrTransparencyFilesFunctionTests()
+    public GetTransparencyFilesFunctionTests()
     {
         _service = new Mock<IFilesService>();
         _fixture = new Fixture();
-        _function = new GetCfrTransparencyFilesFunction(_service.Object);
+        _function = new GetTransparencyFilesFunction(_service.Object);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class GetCfrTransparencyFilesFunctionTests : FunctionsTestBase
         var models = _fixture.CreateMany<FileModel>();
 
         _service
-            .Setup(d => d.GetCfrTransparencyFiles())
+            .Setup(d => d.GetActiveFilesByType("transparency-aar", "transparency-cfr"))
             .ReturnsAsync(models);
 
         var result = await _function.RunAsync(CreateHttpRequestData());

@@ -11,16 +11,16 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Insight.Features.Files;
 
-public class GetCfrTransparencyFilesFunction(IFilesService service)
+public class GetTransparencyFilesFunction(IFilesService service)
 {
-    [Function(nameof(GetCfrTransparencyFilesFunction))]
+    [Function(nameof(GetTransparencyFilesFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCfrTransparencyFilesFunction), Constants.Features.Files)]
+    [OpenApiOperation(nameof(GetTransparencyFilesFunction), Constants.Features.Files)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(FileResponse[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TransparencyCfr)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Transparency)] HttpRequestData req)
     {
-        var result = await service.GetCfrTransparencyFiles();
+        var result = await service.GetActiveFilesByType("transparency-aar", "transparency-cfr");
         return await req.CreateJsonResponseAsync(result.MapToApiResponse());
     }
 }
