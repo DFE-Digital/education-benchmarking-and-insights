@@ -105,7 +105,7 @@ export function HistoricChart2<TData extends HistoryBase>({
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
               <LineChart
-                chartName={chartName}
+                chartTitle={chartName}
                 className="historic-chart-2"
                 data={mergedData}
                 grid
@@ -147,7 +147,7 @@ export function HistoricChart2<TData extends HistoryBase>({
           </div>
           <aside className="govuk-grid-column-one-quarter">
             <ResolvedStat
-              chartName={`Most recent ${chartName.toLowerCase()}`}
+              chartTitle={`Most recent ${chartName.toLowerCase()}`}
               className="chart-stat-line-chart"
               compactValue
               data={data.school || []}

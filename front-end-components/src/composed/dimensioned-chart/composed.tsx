@@ -36,17 +36,16 @@ export function DimensionedChart<
     />
   ) : (
     charts.map(({ data, selector, title, ...chart }, i) => {
-      const chartName = title
+      const chartId = title
         .toLowerCase()
         .replace(/\W/g, " ")
         .replace(/\s{2,}/g, " ")
-        .trim();
-      const chartId = chartName.replace(/\s/g, "-");
+        .trim()
+        .replace(/\s/g, "-");
 
       return (
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
           <HorizontalBarChartWrapper
-            chartName={chartName}
             chartTitle={title}
             data={data}
             trust={trust}

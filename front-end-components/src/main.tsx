@@ -236,7 +236,7 @@ const HorizontalChart1Series = ({
       <div className="govuk-grid-column-two-thirds" style={{ height: 800 }}>
         <HorizontalBarChart
           barCategoryGap={2}
-          chartName="School workforce (Full Time Equivalent)"
+          chartTitle="School workforce (Full Time Equivalent)"
           data={sortedData}
           highlightActive
           highlightedItemKeys={
@@ -373,7 +373,7 @@ const HorizontalChartTrustFinancial = ({
       <div className="govuk-grid-column-two-thirds" style={{ height }}>
         <HorizontalBarChart
           barCategoryGap={2}
-          chartName="School workforce (Full Time Equivalent)"
+          chartTitle="School workforce (Full Time Equivalent)"
           data={sortedData}
           highlightActive
           highlightedItemKeys={
@@ -479,7 +479,7 @@ const VerticalChart2Series = ({
       </button>
       <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
         <VerticalBarChart
-          chartName="Percentage of pupils on roll and teacher cost"
+          chartTitle="Percentage of pupils on roll and teacher cost"
           data={data}
           grid
           highlightActive
@@ -551,7 +551,7 @@ if (verticalChart3SeriesElement) {
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
             <VerticalBarChart
-              chartName="Percentage of pupils on roll and teacher cost"
+              chartTitle="Percentage of pupils on roll and teacher cost"
               data={data}
               grid
               highlightActive
@@ -613,7 +613,7 @@ const LineChart1Series = ({
           style={{ height: 400 }}
         >
           <LineChart
-            chartName="In-year balance"
+            chartTitle="In-year balance"
             data={data}
             grid
             highlightActive
@@ -643,7 +643,7 @@ const LineChart1Series = ({
         </div>
         <aside className="govuk-grid-column-one-quarter desktop">
           <ResolvedStat
-            chartName="Most recent in-year balance"
+            chartTitle="Most recent in-year balance"
             className="chart-stat-line-chart"
             compactValue
             data={data}
@@ -707,7 +707,7 @@ const LineChart2Series = ({
       </button>
       <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
         <LineChart
-          chartName="In-year balance"
+          chartTitle="In-year balance"
           data={data}
           grid
           highlightActive
@@ -785,7 +785,7 @@ if (spendingAndCostsComposedElements) {
       root.render(
         <React.StrictMode>
           <ComparisonChartSummary
-            chartName="Percentage of pupils on roll and teacher cost"
+            chartTitle="Percentage of pupils on roll and teacher cost"
             data={data}
             chartStats={statData}
             highlightedItemKey={highlight}

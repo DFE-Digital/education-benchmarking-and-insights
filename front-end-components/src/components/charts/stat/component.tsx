@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
   const {
-    chartName,
+    chartTitle,
     className,
     compactValue,
     label,
@@ -18,7 +18,7 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
   return (
     <div
       className={classNames(className, "chart-stat-wrapper")}
-      aria-label={chartName}
+      aria-label={chartTitle}
       role="note"
     >
       <div className="chart-stat-label">

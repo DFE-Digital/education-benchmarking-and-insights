@@ -68,7 +68,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
         </div>
         <div className="chart-stat-summary">
           <ResolvedStat
-            chartName="This school spends"
+            chartTitle="This school spends"
             className="chart-stat-highlight"
             data={data}
             displayIndex={highlightedItemIndex}
@@ -80,7 +80,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
             valueUnit="currency"
           />
           <Stat
-            chartName="Similar schools spend"
+            chartTitle="Similar schools spend"
             label="Similar schools spend"
             suffix={suffix && `${suffix}, on average`}
             value={chartStats.average}
@@ -89,7 +89,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
           />
           {!isNaN(chartStats.difference) && (
             <Stat
-              chartName="This school spends"
+              chartTitle="This school spends"
               label="This school spends"
               suffix={
                 <span>

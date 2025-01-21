@@ -10,7 +10,7 @@ export const DeploymentPlan: React.FC<DeploymentPlanViewProps> = (props) => {
   return (
     <div style={{ height: 500 }}>
       <VerticalBarChart
-        chartName="Percentage of pupils on roll and teacher cost"
+        chartTitle="Percentage of pupils on roll and teacher cost"
         data={data}
         grid
         keyField="id"

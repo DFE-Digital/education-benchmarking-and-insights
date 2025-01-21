@@ -37,8 +37,7 @@ import { SchoolExpenditure } from "src/services";
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartName, chartTitle, children, data, sort, trust, valueUnit } =
-    props;
+  const { chartTitle, children, data, sort, trust, valueUnit } = props;
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -170,12 +169,9 @@ export function HorizontalBarChartWrapper<
               disabled={imageLoading || !hasData}
               aria-disabled={imageLoading || !hasData}
               data-custom-event-id="save-chart-as-image"
-              data-custom-event-chart-name={chartName}
+              data-custom-event-chart-name={chartTitle}
             >
-              Save{" "}
-              <span className="govuk-visually-hidden">
-                {chartTitle ?? chartName}
-              </span>{" "}
+              Save <span className="govuk-visually-hidden">{chartTitle}</span>{" "}
               as image
             </button>
           </div>
@@ -188,7 +184,6 @@ export function HorizontalBarChartWrapper<
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={3}
-                  chartName={chartName}
                   chartTitle={chartTitle}
                   data={sortedDataPoints}
                   highlightActive

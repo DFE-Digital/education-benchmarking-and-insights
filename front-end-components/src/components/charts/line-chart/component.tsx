@@ -30,7 +30,7 @@ import { LineChartDot } from "../line-chart-dot";
 
 function LineChartInner<TData extends ChartDataSeries>(
   {
-    chartName,
+    chartTitle,
     className,
     curveType,
     data,
@@ -62,9 +62,9 @@ function LineChartInner<TData extends ChartDataSeries>(
   const rechartsRef = useRef<CategoricalChartWrapper>(null);
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
-    fileName: `${chartName}.png`,
     onImageLoading,
     elementSelector: ({ container }) => container,
+    title: chartTitle,
   });
 
   useImperativeHandle(ref, () => ({
@@ -193,7 +193,7 @@ function LineChartInner<TData extends ChartDataSeries>(
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
-      aria-label={chartName}
+      aria-label={chartTitle}
       className="govuk-body-s govuk-!-font-size-14 full-height-width"
       role="img"
     >
