@@ -3,6 +3,7 @@ using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.LocalAuthority;
 using Xunit;
 using HomePage = Web.E2ETests.Pages.School.HomePage;
+
 namespace Web.E2ETests.Steps.LocalAuthority;
 
 [Binding]
@@ -237,7 +238,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         Assert.NotNull(_download);
         var downloadedFileName = ChartNameFromFriendlyName(chartName) switch
         {
-            ComparisonChartNames.TotalExpenditure => "total expenditure",
+            ComparisonChartNames.TotalExpenditure => "total-expenditure",
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

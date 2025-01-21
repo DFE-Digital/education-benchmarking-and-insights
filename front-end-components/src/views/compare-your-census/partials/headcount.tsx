@@ -6,23 +6,16 @@ import React, {
   useState,
 } from "react";
 import {
-  ChartDimensions,
   HeadcountPerFTE,
   PercentageOfWorkforce,
   PupilsPerStaffRole,
   CensusCategories,
 } from "src/components";
-import {
-  ChartDimensionContext,
-  PhaseContext,
-  CustomDataContext,
-} from "src/contexts";
+import { PhaseContext, CustomDataContext } from "src/contexts";
 import { HeadcountData } from "src/views/compare-your-census/partials";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { Census, CensusApi } from "src/services";
+import { DimensionedChart } from "src/composed/dimensioned-chart";
 
 export const Headcount: React.FC<{ type: string; id: string }> = ({
   type,
@@ -72,32 +65,22 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
       };
     }, [dimension, data]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CensusCategories.find((x) => x.value === event.target.value) ??
-      PupilsPerStaffRole;
+      CensusCategories.find((x) => x.value === value) ?? PupilsPerStaffRole;
     setDimension(dimension);
   };
 
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="school workforce (headcount)"
-      >
-        <h2 className="govuk-heading-m">School workforce (Headcount)</h2>
-        <ChartDimensions
-          dimensions={CensusCategories.filter(
-            (category) =>
-              category !== HeadcountPerFTE && category !== PercentageOfWorkforce
-          )}
-          handleChange={handleSelectChange}
-          elementId="headcount"
-          value={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <DimensionedChart
+      charts={[{ data: chartData, title: "School workforce (Headcount)" }]}
+      dimension={dimension}
+      dimensions={CensusCategories.filter(
+        (category) =>
+          category !== HeadcountPerFTE && category !== PercentageOfWorkforce
+      )}
+      handleDimensionChange={handleDimensionChange}
+      topLevel
+    />
   );
 };

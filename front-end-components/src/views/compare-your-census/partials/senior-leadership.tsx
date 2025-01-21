@@ -5,22 +5,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  ChartDimensions,
-  PupilsPerStaffRole,
-  CensusCategories,
-} from "src/components";
-import {
-  ChartDimensionContext,
-  PhaseContext,
-  CustomDataContext,
-} from "src/contexts";
+import { PupilsPerStaffRole, CensusCategories } from "src/components";
+import { PhaseContext, CustomDataContext } from "src/contexts";
 import { SeniorLeadershipData } from "src/views/compare-your-census/partials";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { Census, CensusApi } from "src/services";
+import { DimensionedChart } from "src/composed/dimensioned-chart";
 
 export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
   type,
@@ -70,31 +60,21 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
       };
     }, [dimension, data]);
 
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleDimensionChange = (value: string) => {
     const dimension =
-      CensusCategories.find((x) => x.value === event.target.value) ??
-      PupilsPerStaffRole;
+      CensusCategories.find((x) => x.value === value) ?? PupilsPerStaffRole;
     setDimension(dimension);
   };
 
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="senior leadership (full time equivalent)"
-      >
-        <h2 className="govuk-heading-m">
-          Senior Leadership (Full Time Equivalent)
-        </h2>
-        <ChartDimensions
-          dimensions={CensusCategories}
-          handleChange={handleSelectChange}
-          elementId="senior-leadership"
-          value={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <DimensionedChart
+      charts={[
+        { data: chartData, title: "Senior Leadership (Full Time Equivalent)" },
+      ]}
+      dimension={dimension}
+      dimensions={CensusCategories}
+      handleDimensionChange={handleDimensionChange}
+      topLevel
+    />
   );
 };

@@ -1,6 +1,5 @@
 Feature: Trust compare your costs
 
-    @ignore
     Scenario: Download total expenditure chart
         Given I am on compare your costs page for trust with company number '10074054'
         When I click on save as image for 'total expenditure'

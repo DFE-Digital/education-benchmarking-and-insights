@@ -35,8 +35,12 @@ export function DimensionedChart<
       message="There isn't enough information available to create a set of similar schools."
     />
   ) : (
-    charts.map(({ data, selector, title }, i) => {
-      const chartName = title.toLowerCase().replace(/\W/g, " ").trim();
+    charts.map(({ data, selector, title, ...chart }, i) => {
+      const chartName = title
+        .toLowerCase()
+        .replace(/\W/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
       const chartId = chartName.replace(/\s/g, "-");
 
       return (
@@ -55,7 +59,7 @@ export function DimensionedChart<
             {(i === 0 || selector) &&
               (options ?? (
                 <ChartDimensions
-                  dimensions={dimensions || CostCategories}
+                  dimensions={chart.dimensions || dimensions || CostCategories}
                   elementId={chartId}
                   handleChange={handleSelectChange}
                   value={dimension.value}
