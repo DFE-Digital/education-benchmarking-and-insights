@@ -48,10 +48,9 @@ public class GetExpenditureSchoolHistoryNationalAverageFunctionTests : Functions
     {
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureNationalAvgParameters>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
+            .ReturnsAsync(new ValidationResult([
                 new ValidationFailure(nameof(ExpenditureParameters.Dimension), "error message")
-            }));
+            ]));
 
         _service
             .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()));

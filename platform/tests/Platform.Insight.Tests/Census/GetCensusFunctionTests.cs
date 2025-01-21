@@ -3,6 +3,7 @@ using AutoFixture;
 using Moq;
 using Platform.Api.Insight.Features.Census;
 using Platform.Api.Insight.Features.Census.Models;
+using Platform.Api.Insight.Features.Census.Responses;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Functions;
 using Platform.Test;
@@ -40,7 +41,7 @@ public class GetCensusFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<CensusSchoolModel>();
+        var body = await result.ReadAsJsonAsync<CensusSchoolResponse>();
         Assert.NotNull(body);
     }
 

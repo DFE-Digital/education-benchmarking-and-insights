@@ -15,18 +15,17 @@ using Xunit;
 
 namespace Platform.Insight.Tests.Expenditure;
 
-public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
+public class GetExpenditureTrustHistoryFunctionTests : FunctionsTestBase
 {
-    private readonly CancellationToken _cancellationToken = CancellationToken.None;
-    private readonly GetExpenditureSchoolHistoryFunction _function;
+    private readonly GetExpenditureTrustHistoryFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureParameters>> _validator;
 
-    public GetExpenditureSchoolHistoryFunctionTests()
+    public GetExpenditureTrustHistoryFunctionTests()
     {
         _validator = new Mock<IValidator<ExpenditureParameters>>();
         _service = new Mock<IExpenditureService>();
-        _function = new GetExpenditureSchoolHistoryFunction(_service.Object, _validator.Object);
+        _function = new GetExpenditureTrustHistoryFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
@@ -37,10 +36,10 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((new YearsModel(), Array.Empty<ExpenditureHistoryModel>()));
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -58,10 +57,10 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((null, Array.Empty<ExpenditureHistoryModel>()));
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
@@ -76,7 +75,7 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
                 new ValidationFailure(nameof(ExpenditureParameters.Dimension), "error message")
             ]));
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);

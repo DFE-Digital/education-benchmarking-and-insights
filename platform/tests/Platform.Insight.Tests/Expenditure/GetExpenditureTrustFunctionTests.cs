@@ -1,4 +1,5 @@
 using System.Net;
+using AutoFixture;
 using FluentValidation;
 using FluentValidation.Results;
 using Moq;
@@ -7,7 +8,6 @@ using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.Api.Insight.Features.Expenditure.Services;
-using Platform.Api.Insight.Shared;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -15,38 +15,40 @@ using Xunit;
 
 namespace Platform.Insight.Tests.Expenditure;
 
-public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
+public class GetExpenditureTrustFunctionTests : FunctionsTestBase
 {
-    private readonly CancellationToken _cancellationToken = CancellationToken.None;
-    private readonly GetExpenditureSchoolHistoryFunction _function;
+    private readonly GetExpenditureTrustFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureParameters>> _validator;
+    private readonly Fixture _fixture;
 
-    public GetExpenditureSchoolHistoryFunctionTests()
+    public GetExpenditureTrustFunctionTests()
     {
-        _validator = new Mock<IValidator<ExpenditureParameters>>();
         _service = new Mock<IExpenditureService>();
-        _function = new GetExpenditureSchoolHistoryFunction(_service.Object, _validator.Object);
+        _validator = new Mock<IValidator<ExpenditureParameters>>();
+        _fixture = new Fixture();
+        _function = new GetExpenditureTrustFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        var model = _fixture.Build<ExpenditureTrustModel>().Create();
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<ExpenditureParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((new YearsModel(), Array.Empty<ExpenditureHistoryModel>()));
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(model);
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<ExpenditureHistoryResponse>();
+        var body = await result.ReadAsJsonAsync<ExpenditureTrustResponse>();
         Assert.NotNull(body);
     }
 
@@ -58,10 +60,10 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((null, Array.Empty<ExpenditureHistoryModel>()));
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((ExpenditureTrustModel?)null);
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
@@ -76,7 +78,7 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
                 new ValidationFailure(nameof(ExpenditureParameters.Dimension), "error message")
             ]));
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -87,6 +89,6 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(ExpenditureParameters.Dimension));
 
         _service.Verify(
-            x => x.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
+            x => x.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
     }
 }
