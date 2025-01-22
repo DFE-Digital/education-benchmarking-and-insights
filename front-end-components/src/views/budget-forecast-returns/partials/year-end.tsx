@@ -16,6 +16,7 @@ import {
 } from "src/components";
 import { BfrChart } from "./bfr-chart";
 import { BfrTable } from "./bfr-table";
+import { ShareContent } from "src/components/share-content";
 
 export const YearEnd: React.FC<{
   id: string;
@@ -92,21 +93,12 @@ export const YearEnd: React.FC<{
       </div>
       <div className="govuk-grid-column-one-half">
         <div>
-          <button
-            className="govuk-button govuk-button--secondary"
-            data-module="govuk-button"
+          <ShareContent
             disabled={imageLoading || !hasData}
-            aria-disabled={imageLoading || !hasData}
-            onClick={() => chartRef?.current?.download()}
-            data-custom-event-id="save-chart-as-image"
-            data-custom-event-chart-name={chartName.toLowerCase()}
-          >
-            Save{" "}
-            <span className="govuk-visually-hidden">
-              {chartName.toLowerCase()}
-            </span>{" "}
-            as image
-          </button>
+            onSaveClick={() => chartRef.current?.download()}
+            saveEventId="save-chart-as-image"
+            title={chartName}
+          />
         </div>
         <div>
           <ChartDimensions
