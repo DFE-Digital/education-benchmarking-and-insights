@@ -48,10 +48,10 @@ public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
         Assert.NotNull(actualMessage.RunId);
         Assert.Equal(year, actualMessage.Year);
         Assert.Equal(urn, actualMessage.URN);
-        Assert.Equal("CustomDataPipelinePayload", actualMessage.Payload?.Kind);
+        Assert.Equal("CustomDataPayload", actualMessage.Payload?.Kind);
         Assert.Equal(
             model.AdministrativeSuppliesNonEducationalCosts,
-            (actualMessage.Payload as CustomDataPipelinePayload)?.AdministrativeSuppliesNonEducationalCosts);
+            (actualMessage.Payload as CustomDataPayload)?.AdministrativeSuppliesNonEducationalCosts);
 
         _service.Verify(x => x.UpsertCustomDataAsync(It.IsAny<CustomDataSchool>()), Times.Once());
         _service.Verify(x => x.InsertNewAndDeactivateExistingUserDataAsync(It.IsAny<CustomDataUserData>()), Times.Once());

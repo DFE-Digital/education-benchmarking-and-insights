@@ -56,7 +56,7 @@ public record CustomDataRequest
     public decimal? AuxiliaryStaffFTE { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
 
-    public CustomDataPipelinePayload CreatePayload() => new()
+    public CustomDataPayload CreatePayload() => new()
     {
         AdministrativeSuppliesNonEducationalCosts = AdministrativeSuppliesNonEducationalCosts,
         CateringStaffCosts = CateringStaffCosts,

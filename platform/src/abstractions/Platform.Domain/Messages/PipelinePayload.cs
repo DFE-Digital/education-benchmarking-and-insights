@@ -15,16 +15,16 @@ public record PipelinePayload
 }
 
 [ExcludeFromCodeCoverage]
-public record ComparatorSetPipelinePayload : PipelinePayload
+public record ComparatorSetPayload : PipelinePayload
 {
-    public override string Kind => nameof(ComparatorSetPipelinePayload);
+    public override string Kind => nameof(ComparatorSetPayload);
     public string[] Set { get; set; } = [];
 }
 
 [ExcludeFromCodeCoverage]
-public record CustomDataPipelinePayload : PipelinePayload
+public record CustomDataPayload : PipelinePayload
 {
-    public override string Kind => nameof(CustomDataPipelinePayload);
+    public override string Kind => nameof(CustomDataPayload);
 
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
