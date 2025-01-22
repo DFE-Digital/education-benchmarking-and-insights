@@ -31,6 +31,7 @@ import {
   CompareTrustElementId,
   LineChart2SeriesElementId,
   BudgetForecastReturnsElementId,
+  ShareContentByElementIdDataAttr,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -58,6 +59,7 @@ import TrustInput from "./views/find-organisation/partials/trust-input";
 import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
+import { ShareContentByElement } from "./components/share-content-by-element";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -861,4 +863,31 @@ if (budgetForecastReturnsElement) {
       </React.StrictMode>
     );
   }
+}
+
+const shareContentByElementIdElements = document.querySelectorAll<HTMLElement>(
+  `[data-${ShareContentByElementIdDataAttr}]`
+);
+
+if (shareContentByElementIdElements) {
+  shareContentByElementIdElements.forEach((element) => {
+    const { elementId, showTitle, title } = element.dataset;
+    if (elementId && title) {
+      const el = document.getElementById(elementId);
+      if (el) {
+        const root = ReactDOM.createRoot(element);
+        root.render(
+          <React.StrictMode>
+            <ShareContentByElement
+              elementSelector={() =>
+                document.getElementById(elementId) ?? undefined
+              }
+              showTitle={showTitle === "true"}
+              title={title}
+            />
+          </React.StrictMode>
+        );
+      }
+    }
+  });
 }

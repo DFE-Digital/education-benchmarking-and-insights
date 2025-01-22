@@ -65,6 +65,7 @@ function LineChartInner<TData extends ChartDataSeries>(
     onImageLoading,
     elementSelector: ({ container }) => container,
     title: chartTitle,
+    showTitle: true,
   });
 
   useImperativeHandle(ref, () => ({

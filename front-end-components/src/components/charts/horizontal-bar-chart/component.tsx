@@ -108,6 +108,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
       );
     },
     title: chartTitle,
+    showTitle: true,
   });
 
   useImperativeHandle(ref, () => ({
