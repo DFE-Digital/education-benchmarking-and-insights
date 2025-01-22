@@ -95,8 +95,8 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetsFunc
         Assert.NotNull(actualMessage.RunId);
         Assert.Equal(year, actualMessage.Year);
         Assert.Equal(urn, actualMessage.URN);
-        Assert.Equal("ComparatorSetPipelinePayload", actualMessage.Payload?.Kind);
-        Assert.Equal(set, (actualMessage.Payload as ComparatorSetPipelinePayload)?.Set);
+        Assert.Equal("ComparatorSetPayload", actualMessage.Payload?.Kind);
+        Assert.Equal(set, (actualMessage.Payload as ComparatorSetPayload)?.Set);
 
         Service.Verify(
             x => x.UpsertUserDefinedSchoolAsync(
