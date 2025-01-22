@@ -12,7 +12,6 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
 }) => {
   const [imageLoading, setImageLoading] = useState<boolean>();
   const downloadPng = useDownloadPngImage({
-    ref: nullRef,
     elementSelector,
     onImageLoading: setImageLoading,
     title,
@@ -27,8 +26,4 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
       {...props}
     />
   );
-};
-
-const nullRef: React.RefObject<HTMLElement> = {
-  current: (<div />) as unknown as HTMLElement,
 };

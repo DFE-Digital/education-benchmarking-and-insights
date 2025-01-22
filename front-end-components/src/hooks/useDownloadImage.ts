@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { ImageOptions, ImageService } from "src/services";
 
 export type DownloadPngImageOptions<T> = {
-  elementSelector: (ref: T) => HTMLElement | undefined;
+  elementSelector: (ref?: T) => HTMLElement | undefined;
   fileName?: string;
   onImageLoading?: (loading: boolean) => void;
   ref?: React.RefObject<T>;
@@ -34,11 +34,7 @@ export function useDownloadPngImage<T>({
       : "download.png";
 
   const downloadPng = useCallback(async () => {
-    if (!ref?.current) {
-      return;
-    }
-
-    const element = elementSelector(ref.current);
+    const element = elementSelector(ref?.current || undefined);
     if (!element) {
       return;
     }
