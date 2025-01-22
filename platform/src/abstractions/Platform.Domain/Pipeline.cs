@@ -21,5 +21,12 @@ public static class Pipeline
         public const string Complete = "complete";
         public const string Pending = "pending";
         public const string Removed = "removed";
+        public const string Failed = "failed";
+    }
+
+    public static class PayloadKind
+    {
+        public const string ComparatorSetPayload = nameof(ComparatorSetPayload);
+        public const string CustomDataPayload = nameof(CustomDataPayload);
     }
 }

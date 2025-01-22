@@ -2,29 +2,41 @@
 using JsonSubTypes;
 using Newtonsoft.Json;
 
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
-
 namespace Platform.Domain.Messages;
 
 [ExcludeFromCodeCoverage]
-[JsonConverter(typeof(JsonSubtypes), "Kind")]
+[JsonConverter(typeof(JsonSubtypes), "_type")]
 public record PipelinePayload
 {
+    /// <summary>
+    ///     Used to discriminate type during deserialization (not used by data pipeline).
+    /// </summary>
+    [JsonProperty("_type")]
+    public virtual string? Type { get; }
+
+    /// <summary>
+    ///     Data pipeline has a dependency on <see cref="Pipeline.PayloadKind">specific values</see> for `kind`.
+    /// </summary>
     [JsonProperty(nameof(Kind))]
     public virtual string? Kind { get; }
 }
 
 [ExcludeFromCodeCoverage]
-public record ComparatorSetPayload : PipelinePayload
+public record ComparatorSetPipelinePayload : PipelinePayload
 {
-    public override string Kind => nameof(ComparatorSetPayload);
+    public override string Type => nameof(ComparatorSetPipelinePayload);
+    public override string Kind => Pipeline.PayloadKind.ComparatorSetPayload;
+
     public string[] Set { get; set; } = [];
 }
 
 [ExcludeFromCodeCoverage]
-public record CustomDataPayload : PipelinePayload
+public record CustomDataPipelinePayload : PipelinePayload
 {
-    public override string Kind => nameof(CustomDataPayload);
+    public override string Type => nameof(CustomDataPipelinePayload);
+    public override string Kind => Pipeline.PayloadKind.CustomDataPayload;
 
     public decimal? AdministrativeSuppliesNonEducationalCosts { get; set; }
     public decimal? CateringStaffCosts { get; set; }
