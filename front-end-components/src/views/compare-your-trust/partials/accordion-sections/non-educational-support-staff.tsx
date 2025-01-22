@@ -179,6 +179,7 @@ export const NonEducationalSupportStaff: React.FC<{
       hasNoData={data?.length === 0}
       index={2}
       title="Non-educational support staff and services"
+      trust
     />
   );
 };

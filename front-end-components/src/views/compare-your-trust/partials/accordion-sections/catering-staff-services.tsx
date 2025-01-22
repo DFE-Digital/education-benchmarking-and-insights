@@ -166,6 +166,7 @@ export const CateringStaffServices: React.FC<{
         </div>
       }
       title="Catering staff and supplies"
+      trust
     />
   );
 };

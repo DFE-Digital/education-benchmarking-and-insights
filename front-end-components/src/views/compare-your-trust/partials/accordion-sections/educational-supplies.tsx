@@ -129,6 +129,7 @@ export const EducationalSupplies: React.FC<{
       hasNoData={data?.length === 0}
       index={3}
       title="Educational supplies"
+      trust
     />
   );
 };

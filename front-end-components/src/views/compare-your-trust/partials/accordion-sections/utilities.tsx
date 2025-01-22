@@ -121,6 +121,7 @@ export const Utilities: React.FC<{
       hasNoData={data?.length === 0}
       index={6}
       title="Utilities"
+      trust
     />
   );
 };

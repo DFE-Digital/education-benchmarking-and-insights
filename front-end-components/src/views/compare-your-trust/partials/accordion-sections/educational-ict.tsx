@@ -77,6 +77,7 @@ export const EducationalIct: React.FC<{
       hasNoData={data?.length === 0}
       index={4}
       title="Educational ICT"
+      trust
     />
   );
 };
