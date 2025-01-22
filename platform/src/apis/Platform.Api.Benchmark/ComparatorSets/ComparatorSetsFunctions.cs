@@ -189,7 +189,7 @@ public class ComparatorSetsFunctions(IComparatorSetsService service, ILogger<Com
                         Type = Pipeline.JobType.ComparatorSet,
                         URN = comparatorSet.URN,
                         Year = int.Parse(year),
-                        Payload = new ComparatorSetPayload
+                        Payload = new ComparatorSetPipelinePayload
                         {
                             Set = comparatorSet.Set.ToArray()
                         }
