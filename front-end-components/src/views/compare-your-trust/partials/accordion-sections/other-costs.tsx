@@ -314,6 +314,7 @@ export const OtherCosts: React.FC<{
       hasNoData={data?.length === 0}
       index={9}
       title="Other costs"
+      trust
     />
   );
 };

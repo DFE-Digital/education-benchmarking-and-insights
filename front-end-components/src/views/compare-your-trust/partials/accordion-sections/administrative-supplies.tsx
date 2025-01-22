@@ -84,6 +84,7 @@ export const AdministrativeSupplies: React.FC<{
       hasNoData={data?.length === 0}
       index={7}
       title="Administrative supplies"
+      trust
     />
   );
 };

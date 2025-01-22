@@ -165,6 +165,7 @@ export const PremisesStaffServices: React.FC<{
       hasNoData={data?.length === 0}
       index={5}
       title="Premises staff and services"
+      trust
     />
   );
 };
