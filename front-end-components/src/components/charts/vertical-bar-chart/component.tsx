@@ -61,7 +61,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
     onImageLoading,
-    elementSelector: ({ container }) => container,
+    elementSelector: (ref) => ref?.container,
     title: chartTitle,
     showTitle: true,
   });

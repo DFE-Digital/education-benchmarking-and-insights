@@ -100,7 +100,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
     onImageLoading,
-    elementSelector: ({ container }) => container,
+    elementSelector: (ref) => ref?.container,
     filter: (node) => {
       const exclusionClasses = ["recharts-tooltip-wrapper"];
       return !exclusionClasses.some((classname) =>
