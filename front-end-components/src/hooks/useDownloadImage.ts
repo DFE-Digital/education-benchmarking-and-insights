@@ -2,22 +2,24 @@ import saveAs from "file-saver";
 import { useCallback } from "react";
 import { ImageOptions, ImageService } from "src/services";
 
-type DownloadPngImageOptions<T> = {
-  ref?: React.RefObject<T>;
+export type DownloadPngImageOptions<T> = {
+  elementSelector: (ref: T) => HTMLElement | undefined;
   fileName?: string;
   onImageLoading?: (loading: boolean) => void;
-  elementSelector: (ref: T) => HTMLElement | undefined;
+  ref?: React.RefObject<T>;
+  showTitle?: boolean;
   title?: string;
 } & Pick<ImageOptions, "filter">;
 
 const imageTitleHeight = 50;
 
 export function useDownloadPngImage<T>({
-  ref,
   fileName: fileNameProp,
-  onImageLoading,
   elementSelector,
   filter,
+  onImageLoading,
+  showTitle,
+  ref,
   title,
 }: DownloadPngImageOptions<T>) {
   const fileName = title
@@ -47,7 +49,7 @@ export function useDownloadPngImage<T>({
     // cloned for the purpose of generating the image (so as to not affect the original DOM,
     // but still be able to apply styles and fonts as resolved from class names).
     let onCloned: (node: HTMLElement) => void | undefined;
-    if (title) {
+    if (title && showTitle) {
       height += imageTitleHeight;
       onCloned = (node) => {
         const child = document.createElement("h2");
@@ -98,7 +100,15 @@ export function useDownloadPngImage<T>({
     } else {
       await download();
     }
-  }, [ref, fileName, onImageLoading, elementSelector, filter, title]);
+  }, [
+    elementSelector,
+    fileName,
+    filter,
+    onImageLoading,
+    ref,
+    showTitle,
+    title,
+  ]);
 
   return downloadPng;
 }

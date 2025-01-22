@@ -19,3 +19,4 @@ export const SchoolSuggesterId = "school-suggester";
 export const LaSuggesterId = "la-suggester";
 export const TrustSuggesterId = "trust-suggester";
 export const BudgetForecastReturnsElementId = "budget-forecast-returns";
+export const ShareContentByElementIdDataAttr = "share-content-by-element-id";
