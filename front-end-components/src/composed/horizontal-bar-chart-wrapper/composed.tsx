@@ -33,6 +33,7 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { SchoolExpenditure } from "src/services";
+import { ShareContent } from "src/components/share-content";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -161,19 +162,12 @@ export function HorizontalBarChartWrapper<
         <div className="govuk-grid-column-two-thirds">{children}</div>
         {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-third">
-            <button
-              className="govuk-button govuk-button--secondary"
-              data-module="govuk-button"
-              data-prevent-double-click="true"
-              onClick={() => chartRef.current?.download()}
+            <ShareContent
               disabled={imageLoading || !hasData}
-              aria-disabled={imageLoading || !hasData}
-              data-custom-event-id="save-chart-as-image"
-              data-custom-event-chart-name={chartTitle}
-            >
-              Save <span className="govuk-visually-hidden">{chartTitle}</span>{" "}
-              as image
-            </button>
+              onSaveClick={() => chartRef.current?.download()}
+              saveEventId="save-chart-as-image"
+              title={chartTitle}
+            />
           </div>
         )}
       </div>
