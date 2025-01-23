@@ -176,7 +176,11 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             />
           )}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (
-            <Bar key={seriesName as string} dataKey={seriesName as string}>
+            <Bar
+              key={seriesName as string}
+              dataKey={seriesName as string}
+              isAnimationActive={false}
+            >
               {data.map((entry, dataIndex) =>
                 renderCell(entry, dataIndex, seriesName, seriesIndex)
               )}

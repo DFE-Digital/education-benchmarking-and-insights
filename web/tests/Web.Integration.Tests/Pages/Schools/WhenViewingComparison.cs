@@ -127,7 +127,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
-        var toolsListSection = page.Body.SelectSingleNode("//main/div/div[5]");
+        var toolsListSection = page.Body.SelectSingleNode("//main/div/div[6]");
         DocumentAssert.Heading2(toolsListSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

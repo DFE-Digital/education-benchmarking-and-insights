@@ -10,6 +10,7 @@ export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
   showProgress,
   showTitles,
   label,
+  onClick,
   ...props
 }) => {
   const [imagesLoading, setImagesLoading] = useState<boolean>();
@@ -31,7 +32,13 @@ export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
   return (
     <ShareContent
       disabled={imagesLoading || disabled}
-      onSaveClick={async () => await downloadPngs()}
+      onSaveClick={async () => {
+        if (onClick) {
+          await onClick();
+        }
+
+        await downloadPngs();
+      }}
       {...props}
     >
       <>

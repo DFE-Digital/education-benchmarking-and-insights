@@ -280,6 +280,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                     key={seriesName as string}
                     dataKey={seriesName as string}
                     stackId={config?.stackId}
+                    isAnimationActive={false}
                   >
                     {filteredData.map((entry, dataIndex) =>
                       renderCell(entry, dataIndex, seriesIndex, config)
