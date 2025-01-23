@@ -20,6 +20,7 @@ type ElementAndTitle = {
 export type DownloadPngImagesOptions = {
   elementsSelector: () => ElementAndTitle[];
   onImagesLoading?: (loading: boolean) => void;
+  onProgress?: (percentage: number) => void;
   showTitles?: boolean;
 } & Pick<ImageOptions, "filter">;
 
@@ -92,6 +93,7 @@ export function useDownloadPngImages({
   elementsSelector,
   filter,
   onImagesLoading,
+  onProgress,
   showTitles,
 }: DownloadPngImagesOptions) {
   const fileName = "download.zip";
@@ -107,6 +109,9 @@ export function useDownloadPngImages({
 
       for (let i = 0; i < elements.length; i++) {
         const { element, title } = elements[i];
+        if (onProgress) {
+          onProgress(((i + 1) / elements.length) * 100);
+        }
 
         const blob = await ImageService.toBlob(
           element,
@@ -149,7 +154,7 @@ export function useDownloadPngImages({
     } else {
       await download();
     }
-  }, [elementsSelector, filter, onImagesLoading, showTitles]);
+  }, [elementsSelector, filter, onImagesLoading, onProgress, showTitles]);
 
   return downloadPng;
 }

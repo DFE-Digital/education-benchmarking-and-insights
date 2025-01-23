@@ -250,7 +250,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
       <div style={{ height: 22 * filteredData.length + 75 }}>
         <div
           aria-label={chartTitle}
-          className="govuk-body-s govuk-!-font-size-14 full-height-width"
+          className="govuk-body-s govuk-!-font-size-14 full-height-width chart-wrapper"
           role="img"
         >
           <ResponsiveContainer>

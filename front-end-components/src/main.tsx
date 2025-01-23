@@ -901,36 +901,39 @@ const shareContentByElementClassNameElements =
 
 if (shareContentByElementClassNameElements) {
   shareContentByElementClassNameElements.forEach((element) => {
-    const { elementClassName, elementTitleAttr, label, showTitles } =
-      element.dataset;
+    const {
+      elementClassName,
+      elementTitleAttr,
+      label,
+      showProgress,
+      showTitles,
+    } = element.dataset;
     if (elementClassName && label) {
-      const el = document.getElementsByClassName(elementClassName);
-      if (el.length > 0) {
-        const root = ReactDOM.createRoot(element);
-        root.render(
-          <React.StrictMode>
-            <ShareContentByElements
-              elementsSelector={() => {
-                const results = [];
-                const elements =
-                  document.getElementsByClassName(elementClassName);
+      const root = ReactDOM.createRoot(element);
+      root.render(
+        <React.StrictMode>
+          <ShareContentByElements
+            elementsSelector={() => {
+              const results = [];
+              const elements =
+                document.getElementsByClassName(elementClassName);
 
-                for (let i = 0; i < elements.length; i++) {
-                  const element = elements[i] as HTMLElement;
-                  const title = elementTitleAttr
-                    ? element.getAttribute(elementTitleAttr) || undefined
-                    : undefined;
-                  results.push({ element, title });
-                }
+              for (let i = 0; i < elements.length; i++) {
+                const element = elements[i] as HTMLElement;
+                const title = elementTitleAttr
+                  ? element.getAttribute(elementTitleAttr) || undefined
+                  : undefined;
+                results.push({ element, title });
+              }
 
-                return results;
-              }}
-              label={label}
-              showTitles={showTitles === "true"}
-            />
-          </React.StrictMode>
-        );
-      }
+              return results;
+            }}
+            label={label}
+            showProgress={showProgress === "true"}
+            showTitles={showTitles === "true"}
+          />
+        </React.StrictMode>
+      );
     }
   });
 }

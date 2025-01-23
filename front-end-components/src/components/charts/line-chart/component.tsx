@@ -195,7 +195,7 @@ function LineChartInner<TData extends ChartDataSeries>(
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
       aria-label={chartTitle}
-      className="govuk-body-s govuk-!-font-size-14 full-height-width"
+      className="govuk-body-s govuk-!-font-size-14 full-height-width chart-wrapper"
       role="img"
     >
       <ResponsiveContainer>
