@@ -1,51 +1,71 @@
-﻿# Release Test Plan - 2025.01.01
+﻿# Release Test Plan - [TBC]
 
 **Release Date:** TBC  
-**Release Label:** 2025.01.01
+**Release Label:** [TBC]
 
 ## Introduction
 
-This plan outlines the approach for testing the `2025.01.01` release, ensuring enhancements and critical bug fixes are validated and do not adversely impact existing functionalities.
+## Introduction
+>
+>[!NOTE]
+>Update the below to reflect the purpose/objective for this plan, so that it is specific to the release.
+
+This plan defines the approach for testing release `[release label]`, covering all functional, non-functional, and regression testing necessary.
+Ensure that all new features, enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
 
 ## Scope
+>
+>[!NOTE]
+>In-scope list should include a link to the ADO ticket.
+>Ticket title may be adequate to describe the feature/enhancement/bug fix,
+>however if it doesn't than a meaning title should be added here.
+>
+>Out-of-scope list any other areas that are explicitly out of scope.
 
-### **In-Scope:**
+**In-scope:**
 
-- **Enhancements**:
-    - A02: Hover over information for line charts needs to be available for keyboard
-    - Analytics - View which schools have been accessed
+- New features
+  - [List new features]
+- Enhancements
+  - [List enhancements]
+- Bug fixes
+  - [List bug fixes]
 
-- **Bug Fixes**:
-    - Spinner when no data submitted
-    - Multi-selection of LA's not working
-    - Benchmarking historical trends
-    - Suppressing negative and zero values
-    - Federation per unit RAG values incorrect
-    - Federation per unit RAG values incorrect
-    - Handle custom-data/part-year RAG
+**Out-of-Scope:**
 
-- **Dependencies**:
-    - January 2025 - Dependent bot updates
-
-### **Out-of-Scope:**
-- Any functionality not included in this release's work items.
-
+- Any new functionality not targeted for this release
 
 ## Test Strategy
+>
+>[!NOTE]
+>Add/remove/update where necessary to reflect the types of testings for this release.
 
-- **Sanity Testing**: Verify bug fixes are resolved.
-- **Smoke Testing**: Validate basic application functionality after deployment.
-- **Regression Testing**: Focus on areas affected by enhancements and bug fixes.
+- Functional Testing:
+  - Features: Test new and updated features for correct functionality.
+  - Regression: Verify that existing functionality remains intact with new changes.
+- Non-Functional Testing:
+  - Performance: Load testing on peak usage scenarios.
+  - Security: Test for SQL injection, XSS, and other vulnerabilities.
+- Exploratory Testing: Explore features and functionality without predefined scripts, to uncover issues and assess quality.
+- User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
+- Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
+- Sanity Testing: Perform sanity checks on bug fixes to confirm their resolution.
 
 ## Entry and Exit Criteria
+>
+>[!NOTE]
+>Add/remove/update where necessary to reflect the criteria for this release.
 
-### **Entry Criteria:**
-- All code changes are merged and deployed to the pre-production environment.
-- Pipeline run completed in pre-production environment.
-### **Exit Criteria:**
-- All high-priority test cases have passed.
+**Entry Criteria:**
+
+- All code changes for release are completed and deployed to the pre-production environment.
+- Pre-production environment is set up with required data.
+
+**Exit Criteria:**
+
+- All high-priority test cases pass.
 - No critical defects remain open.
-- Stakeholders approve release readiness.
+- Signed off by stakeholders.
 
 
 ## Roles and Responsibilities
@@ -57,25 +77,41 @@ This plan outlines the approach for testing the `2025.01.01` release, ensuring e
 - **Project lead:** Go/no-go decisions.
 
 ## Risk Analysis
+>
+>[!NOTE]
+>Add risks (with mitigation) for this release.
 
-n/a
-
+- **Risk:**
+  - **Mitigation:**
 
 ## Test Deliverables
+>
+>[!NOTE]
+>Add/remove/update where necessary to reflect the deliverables for this release.
 
-- Test plan document.
-- Test summary report, including test results and outstanding issues.
+- Test plan document
+- Test cases (Functional, Regression, Non-Functional)
+- Test charters
+- Test summary report outlining test results, pass/fail rates, and any outstanding issues
 
+## Approval
 
-## Azure DevOps Tickets
+- Stakeholders
+- Project lead
+- QA Lead
+- Technical lead
 
-- **[236233 - Spinner when no data submitted](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/236233)**
-- **[225945 - A02: Hover over information for line charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225945)**
-- **[241720 - Multi-selection of LA's not working](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241720)**
-- **[237633 - Benchmarking historical trends](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/237633)**
-- **[235748 - Suppressing negative and zero values](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/235748)**
-- **[241716 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241716)**
-- **[241759 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241759)**
-- **[241954 - Handle custom-data/part-year RAG](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241954)**
-- **[242081 - Analytics - View which schools have been accessed](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242081)**
-- **[243084 - Dependencies - January 2025](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243084)**  
+## Notes
+
+**Azure DevOps tickets:**
+
+- [236233 - Spinner when no data submitted](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/236233)
+- [225945 - A02: Hover over information for line charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225945)
+- [241720 - Multi-selection of LA's not working](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241720)
+- [237633 - Benchmarking historical trends](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/237633)
+- [235748 - Suppressing negative and zero values](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/235748)
+- [241716 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241716)
+- [241759 - Federation per unit RAG values incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241759)
+- [241954 - Handle custom-data/part-year RAG](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241954)
+- [242081 - Analytics - View which schools have been accessed](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242081)
+- [243084 - Dependencies - January 2025](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243084)  
