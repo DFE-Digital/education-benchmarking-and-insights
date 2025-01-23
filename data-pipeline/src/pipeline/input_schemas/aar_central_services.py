@@ -1,3 +1,13 @@
+"""
+Defines the expected format of AAR Central Services data.
+
+Note: there was a significant change from earlier columns, prefixed with
+`BNCH` to later columns prefixed with `BTI` or `BTE`, which was
+accommodated by the service for the 2024 academic year. However, as these
+changes largely map one-to-one (or can be easily derived), the data are
+normalised to the earlier `BNCH` prefix for processing.
+"""
+
 aar_central_services_index_col = "Lead_UPIN"
 
 aar_central_services = {

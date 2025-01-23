@@ -199,6 +199,27 @@ def build_academy_data(
     cfo,
     central_services,
 ):
+    """
+    Build the Academy dataset.
+
+    There are some assumptions made in the way the dataset is derived:
+
+    - that the `Company Registration Number` values in the `aar` data
+      are a subset of those in the `central_services` data (i.e. that
+      trusts referenced in the AAR data will exist in the Central
+      Services data).
+
+    :param schools: combined schools data
+    :param census: pupil-/workforce-census data
+    :param sen: SEN (Special Education Needs) data
+    :param cdc: Condition Data Collection (CDC) data
+    :param aar: Academies Accounts Return (AAR) data
+    :param ks2: Key Stage 2 data
+    :param ks4: Key Stage 4 data
+    :param cfo: Chief Financial Officer (CFO)
+    :param central_services: AAR Central Services data
+    :return: Academy data
+    """
     aar.rename(
         columns={
             "Date joined or opened if in period:": "Date joined or opened if in period",

@@ -1,3 +1,13 @@
+"""
+Defines the expected format of Academies Accounts Return (AAR) data.
+
+Note: there was a significant change from earlier columns, prefixed with
+`BNCH` to later columns prefixed with `BAI` or `BAE`, which was
+accommodated by the service for the 2024 academic year. However, as these
+changes largely map one-to-one (or can be easily derived), the data are
+normalised to the earlier `BNCH` prefix for processing.
+"""
+
 aar_academies_index_col = "URN"
 
 aar_academies = {
