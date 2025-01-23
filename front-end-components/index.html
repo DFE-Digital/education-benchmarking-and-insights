@@ -121,9 +121,19 @@
         data-trust-input=""
         data-urn=""
       >-->
-    <div data-share-content-by-element-id data-element-id="test-element-id" data-title="Test title"></div>
+    <!-- <div data-share-content-by-element-id data-element-id="test-element-id" data-title="Test title"></div>
     <svg id="test-element-id" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
       <circle r="45" cx="50" cy="50" fill="red" />
+    </svg> -->
+    <div data-share-content-by-element-class-name data-element-class-name="test-element-class" data-label="Save all" data-element-title-attr="aria-label"></div>
+    <svg class="test-element-class" aria-label="Red" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+      <circle r="45" cx="50" cy="50" fill="red" />
+    </svg>
+    <svg class="test-element-class" aria-label="Green" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+      <circle r="45" cx="50" cy="50" fill="green" />
+    </svg>
+    <svg class="test-element-class" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+      <circle r="45" cx="50" cy="50" fill="blue" />
     </svg>
     <script type="module" src="/src/main.tsx"></script>
     <script

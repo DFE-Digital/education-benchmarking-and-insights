@@ -1,8 +1,9 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import "src/components/share-content/styles.css";
 import { ShareContentProps } from "./types";
 
-export const ShareContent: React.FC<ShareContentProps> = ({
+export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
+  children,
   disabled,
   onSaveClick,
   saveEventId,
@@ -20,7 +21,13 @@ export const ShareContent: React.FC<ShareContentProps> = ({
         data-custom-event-id={saveEventId}
         data-custom-event-chart-name={saveEventId && title}
       >
-        Save <span className="govuk-visually-hidden">{title}</span> as image
+        {children ? (
+          children
+        ) : (
+          <>
+            Save <span className="govuk-visually-hidden">{title}</span> as image
+          </>
+        )}
       </button>
     </div>
   );

@@ -531,7 +531,7 @@ ul.autocomplete__menu {
   padding-left: 12px;
 }
 
-div[data-share-content-by-element-id] {
+div[data-share-content-by-element-id], div[data-share-content-by-element-class-name] {
   min-height: 40px;
 }
 
