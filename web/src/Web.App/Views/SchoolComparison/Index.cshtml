@@ -11,6 +11,11 @@
     @await Html.PartialAsync("_IncompleteFinances")
 }
 
+@if (!hasMissingComparatorSet)
+{
+    @await Html.PartialAsync("_SaveChartsButton")
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],
