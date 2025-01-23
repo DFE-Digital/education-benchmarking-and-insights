@@ -179,7 +179,7 @@ export function HistoricChart2<TData extends HistoryBase>({
       ) : (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-full">
-            <table className="govuk-table">
+            <table className="govuk-table" data-testid={`${chartName}-table`}>
               <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                   <th className="govuk-table__header govuk-!-width-one-quarter">

@@ -419,8 +419,7 @@ public class HistoricDataPage(IPage page)
 
     public async Task ChartTableContains(string chartName, DataTable expected)
     {
-        var parent = page.Locator($"h2:has-text('{chartName}') + div");
-        var table = parent.Locator(Tables);
+        var table = page.GetByTestId($"{chartName}-table");
         await table.ShouldBeVisible();
 
         var set = new List<dynamic>();
