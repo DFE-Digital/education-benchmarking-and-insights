@@ -530,3 +530,12 @@ ul.autocomplete__menu {
   border-left: 10px solid var(--warning-colour);
   padding-left: 12px;
 }
+
+div[data-share-content-by-element-id] {
+  min-height: 40px;
+}
+
+button.govuk-button.share-button {
+  margin: 0;
+  width: auto;
+}
