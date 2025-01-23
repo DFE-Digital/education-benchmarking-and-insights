@@ -11,5 +11,6 @@ export type ShareContentByElementsProps = Omit<
 > & {
   elementsSelector: () => ElementAndTitle[];
   label: string;
+  showProgress?: boolean;
   showTitles?: boolean;
 };
