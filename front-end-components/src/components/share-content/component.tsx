@@ -11,7 +11,7 @@ export const ShareContent: React.FC<ShareContentProps> = ({
   return (
     <div>
       <button
-        className="govuk-button govuk-button--secondary"
+        className="govuk-button govuk-button--secondary share-button share-button--save"
         data-module="govuk-button"
         data-prevent-double-click="true"
         onClick={onSaveClick}
