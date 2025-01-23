@@ -15,7 +15,7 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
           <h2 className="govuk-fieldset__heading">View as</h2>
         </legend>
         <div
-          className="govuk-radios govuk-radios--small govuk-radios--inline"
+          className="govuk-radios govuk-radios--small govuk-radios--inline chart-mode-radios"
           data-module="govuk-radios"
         >
           <div className="govuk-radios__item">

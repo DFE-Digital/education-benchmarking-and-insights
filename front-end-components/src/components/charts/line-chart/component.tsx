@@ -187,6 +187,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             true
           )
         }
+        isAnimationActive={false}
       ></Line>
     );
   };
