@@ -10,6 +10,7 @@ export type ShareContentByElementsProps = Omit<
   "elementSelector" | "title" | "showTitle"
 > & {
   elementsSelector: () => ElementAndTitle[];
+  fileName?: string;
   label: string;
   onClick: () => Promise<void>;
   showProgress?: boolean;

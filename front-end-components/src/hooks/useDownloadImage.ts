@@ -19,6 +19,7 @@ type ElementAndTitle = {
 
 export type DownloadPngImagesOptions = {
   elementsSelector: () => ElementAndTitle[];
+  fileName?: string;
   onImagesLoading?: (loading: boolean) => void;
   onProgress?: (percentage: number) => void;
   showTitles?: boolean;
@@ -91,12 +92,13 @@ export function useDownloadPngImage<T>({
 
 export function useDownloadPngImages({
   elementsSelector,
+  fileName: fileNameProp,
   filter,
   onImagesLoading,
   onProgress,
   showTitles,
 }: DownloadPngImagesOptions) {
-  const fileName = "download.zip";
+  const fileName = fileNameProp ?? "download.zip";
 
   const downloadPng = useCallback(async () => {
     const elements = elementsSelector();
@@ -154,7 +156,14 @@ export function useDownloadPngImages({
     } else {
       await download();
     }
-  }, [elementsSelector, filter, onImagesLoading, onProgress, showTitles]);
+  }, [
+    elementsSelector,
+    fileName,
+    filter,
+    onImagesLoading,
+    onProgress,
+    showTitles,
+  ]);
 
   return downloadPng;
 }

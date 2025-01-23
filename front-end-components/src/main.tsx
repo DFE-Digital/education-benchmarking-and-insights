@@ -904,6 +904,7 @@ if (shareContentByElementClassNameElements) {
     const {
       elementClassName,
       elementTitleAttr,
+      fileName,
       label,
       showProgress,
       showTitles,
@@ -941,6 +942,7 @@ if (shareContentByElementClassNameElements) {
 
               return results;
             }}
+            fileName={fileName}
             label={label}
             showProgress={showProgress === "true"}
             showTitles={showTitles === "true"}

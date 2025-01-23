@@ -5,7 +5,10 @@
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparison;
 }
 
-@await Html.PartialAsync("_SaveChartsButton")
+@await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+{
+    { "FileName", $"benchmark-spending-{Model.CompanyNumber}.zip" }
+})
 
 @await Component.InvokeAsync("EstablishmentHeading", new
 {

@@ -7,6 +7,7 @@ import { Progress } from "../progress";
 export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
   disabled,
   elementsSelector,
+  fileName,
   showProgress,
   showTitles,
   label,
@@ -18,6 +19,7 @@ export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
 
   const downloadPngs = useDownloadPngImages({
     elementsSelector,
+    fileName,
     onImagesLoading: setImagesLoading,
     onProgress: setProgress,
     showTitles,
