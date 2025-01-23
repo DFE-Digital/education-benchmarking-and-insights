@@ -16,6 +16,7 @@ export interface HistoricChart2Props<T extends HistoryBase>
     | "legendIconType"
     | "legendHorizontalAlign"
     | "legendVerticalAlign"
+    | "legendWrapperStyle"
   > {
   chartTitle: string;
   data: SchoolHistoryComparison<T>;

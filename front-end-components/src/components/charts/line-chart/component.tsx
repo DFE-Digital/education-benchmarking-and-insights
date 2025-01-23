@@ -45,6 +45,7 @@ function LineChartInner<TData extends ChartDataSeries>(
     legendIconType,
     legendHorizontalAlign,
     legendVerticalAlign,
+    legendWrapperStyle,
     margin: _margin,
     multiLineAxisLabel,
     onImageLoading,
@@ -271,6 +272,7 @@ function LineChartInner<TData extends ChartDataSeries>(
                     : legendIconType
                   : "plainline"
               }
+              wrapperStyle={legendWrapperStyle}
             />
           )}
         </RechartsLineChart>
