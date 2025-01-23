@@ -12,12 +12,16 @@
     {
         var category = costs[i];
 
-        var data = category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray();
+        var data = category.Values.Select(x => new
+        {
+            urn = x.Key,
+            amount = x.Value.Value
+        }).ToArray();
 
         var filteredData = data.Where(x => x.urn == Model.Urn || x.amount > 0).ToArray();
 
         var hasNegativeOrZeroValues = data.Length > filteredData.Length;
-        
+
         var categoryHeading = category.Rating.Category == Category.NonEducationalSupportStaff
             ? "Non-educational support staff"
             : category.Rating.Category;
@@ -55,27 +59,30 @@
 
                     @if (hasNegativeOrZeroValues)
                     {
-                    <div class="govuk-warning-text">
-                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                        <strong class="govuk-warning-text__text">
-                            <span class="govuk-visually-hidden">Warning</span>
-                            Only displaying schools with positive expenditure.
-                        </strong>
-                    </div>
+                        <div class="govuk-warning-text">
+                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                            <strong class="govuk-warning-text__text">
+                                <span class="govuk-visually-hidden">Warning</span>
+                                Only displaying schools with positive expenditure.
+                            </strong>
+                        </div>
                     }
 
-                    <div class="govuk-!-margin-bottom-2 composed-container"
+                    <div class="govuk-!-margin-bottom-2 composed-container costs-chart-wrapper"
                          data-spending-and-costs-composed
                          data-json="@filteredData.ToJson(Formatting.None)"
                          data-highlight="@Model.Urn"
                          data-suffix="@category.Rating.Unit"
                          data-sort-direction="asc"
                          data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
-                         data-has-incomplete-data="@Model.HasIncompleteData">
+                         data-has-incomplete-data="@Model.HasIncompleteData"
+                         data-title="@categoryHeading">
                     </div>
 
                     <p class="govuk-body category-commentary">
-                        <a href="@categoryUri#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower(true) costs</a>@(category.SubCategories.Any() ? ". " : string.Empty)
+                        <a href="@categoryUri#@category.Rating.CostCategoryAnchorId"
+                           class="govuk-link govuk-link--no-visited-state">View
+                            all @category.Rating.Category?.ToLower(true) costs</a>@(category.SubCategories.Any() ? ". " : string.Empty)
                         @if (category.SubCategories.Any())
                         {
                             @:This includes
