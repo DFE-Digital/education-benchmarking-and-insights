@@ -1,5 +1,5 @@
-import { useContext, useMemo } from "react";
-import { ChartModeChart } from "src/components";
+import { useContext, useMemo, useRef, useState } from "react";
+import { ChartModeChart, ChartHandler } from "src/components";
 import {
   HistoricChart2Props,
   SchoolHistoryValue,
@@ -15,6 +15,7 @@ import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
+import { ShareContent } from "src/components/share-content";
 
 export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
@@ -33,6 +34,8 @@ export function HistoricChart2<TData extends HistoryBase>({
 }: HistoricChart2Props<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
+  const chartRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
 
   const mergedData = useMemo(() => {
     const result: SchoolHistoryValue[] = [];
@@ -99,7 +102,19 @@ export function HistoricChart2<TData extends HistoryBase>({
 
   return (
     <>
-      {children}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">{children}</div>
+        {chartMode == ChartModeChart && (
+          <div className="govuk-grid-column-one-quarter">
+            <ShareContent
+              disabled={imageLoading}
+              onSaveClick={() => chartRef.current?.download()}
+              saveEventId="save-chart-as-image"
+              title={chartName}
+            />
+          </div>
+        )}
+      </div>
       {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
@@ -116,6 +131,8 @@ export function HistoricChart2<TData extends HistoryBase>({
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
+                ref={chartRef}
+                onImageLoading={setImageLoading}
                 tooltip={(t) => (
                   <HistoricDataTooltip
                     {...t}

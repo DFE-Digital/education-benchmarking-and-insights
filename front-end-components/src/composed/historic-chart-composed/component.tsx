@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { ChartModeChart } from "src/components";
+import { useContext, useRef, useState } from "react";
+import { ChartModeChart, ChartHandler } from "src/components";
 import { HistoricChartProps } from "src/composed/historic-chart-composed";
 import { LineChart } from "src/components/charts/line-chart";
 import {
@@ -11,6 +11,7 @@ import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
+import { ShareContent } from "src/components/share-content";
 
 export function HistoricChart<TData extends ChartDataSeries>({
   chartName,
@@ -24,10 +25,24 @@ export function HistoricChart<TData extends ChartDataSeries>({
 }: HistoricChartProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
+  const chartRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
 
   return (
     <>
-      {children}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">{children}</div>
+        {chartMode == ChartModeChart && (
+          <div className="govuk-grid-column-one-quarter">
+            <ShareContent
+              disabled={imageLoading}
+              onSaveClick={() => chartRef.current?.download()}
+              saveEventId="save-chart-as-image"
+              title={chartName}
+            />
+          </div>
+        )}
+      </div>
       {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
@@ -44,6 +59,8 @@ export function HistoricChart<TData extends ChartDataSeries>({
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
+                ref={chartRef}
+                onImageLoading={setImageLoading}
                 tooltip={(t) => (
                   <LineChartTooltip
                     {...t}
