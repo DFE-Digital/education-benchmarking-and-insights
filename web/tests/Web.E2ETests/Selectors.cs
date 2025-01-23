@@ -62,14 +62,14 @@ public static class Selectors
     public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";
 
-    public const string TotalExpenditureSaveAsImage = "xpath=//*[@id='compare-your-costs']/div[2]/div[2]/button";
+    public const string TotalExpenditureSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Total expenditure']";
     public const string TotalExpenditureDimension = "#total-expenditure-dimension";
     public const string TotalExpenditureChart = "//*[@aria-label='Total expenditure']";
 
     public const string PremisesDimension = "#total-premises-staff-and-service-costs-dimension";
 
     public const string SchoolWorkforceDimension = "#school-workforce-full-time-equivalent-dimension";
-    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-census']/div[2]/div[2]/button";
+    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@data-custom-event-chart-name='School workforce (Full Time Equivalent)']";
 
     public const string TotalNumberOfTeacherDimension = "#total-number-of-teachers-full-time-equivalent-dimension";
     public const string SeniorLeadershipDimension = "#senior-leadership-full-time-equivalent-dimension";
