@@ -2,6 +2,7 @@
 @using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.CostsViewModel
 
 @if (Model.Costs.Any())
@@ -55,13 +56,13 @@
 
                     @if (hasNegativeOrZeroValues)
                     {
-                    <div class="govuk-warning-text">
-                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                        <strong class="govuk-warning-text__text">
-                            <span class="govuk-visually-hidden">Warning</span>
-                            Only displaying schools with positive expenditure.
-                        </strong>
-                    </div>
+                        <div class="govuk-warning-text">
+                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                            <strong class="govuk-warning-text__text">
+                                <span class="govuk-visually-hidden">Warning</span>
+                                Only displaying schools with positive expenditure.
+                            </strong>
+                        </div>
                     }
 
                     <div class="govuk-!-margin-bottom-2 composed-container"
@@ -109,5 +110,12 @@
                 </div>
             </div>
         </section>
+        <distributed-cache name="@Model.Urn-spending-priorities-@category.Rating.CostCategoryAnchorId" expires-after="@TimeSpan.FromMinutes(5)">
+            <div class="govuk-grid-row" id="@Model.Urn-spending-priorities-@category.Rating.CostCategoryAnchorId">
+                <div class="govuk-grid-column-two-thirds">
+                    @await Component.InvokeAsync("Charting", new ChartingViewModel())
+                </div>
+            </div>
+        </distributed-cache>
     }
 }
