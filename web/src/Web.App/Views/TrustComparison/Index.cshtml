@@ -1,27 +1,35 @@
-﻿@using Web.App.Extensions
-@using Newtonsoft.Json
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
 @model Web.App.ViewModels.TrustComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparison;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
+@await Html.PartialAsync("_SaveChartsButton")
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
 
 @await Component.InvokeAsync("DataSource", new
 {
     organisationType = OrganisationTypes.Trust,
     sourceType = DataSourceTypes.Spending,
-    isPartOfTrust = true, 
+    isPartOfTrust = true,
     additionText = new[] { "View the spending between schools in this trust." }
 })
 
 @if (Model.NumberOfSchools > 0)
 {
-    <div id="compare-your-costs" 
-         data-type="@OrganisationTypes.Trust" 
-         data-id="@Model.CompanyNumber" 
+    <div id="compare-your-costs"
+         data-type="@OrganisationTypes.Trust"
+         data-id="@Model.CompanyNumber"
          data-phases="@Model.Phases.ToJson(Formatting.None)">
-    </div>    
+    </div>
 }
 
 @await Component.InvokeAsync("TrustFinanceTools", new

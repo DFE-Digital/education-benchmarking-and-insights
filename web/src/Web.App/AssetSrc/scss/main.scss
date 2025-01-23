@@ -393,7 +393,7 @@ hr.govuk-section-break--print {
 
 .app-resources {
   margin-top: govuk-spacing(6);
-  
+
   @include govuk-media-query('tablet') {
     margin-top: 0;
   }
@@ -405,4 +405,8 @@ hr.govuk-section-break--print {
   @include govuk-media-query('tablet') {
     padding-top: govuk-spacing(2);
   }
+}
+
+.save-charts {
+  float: right;
 }
