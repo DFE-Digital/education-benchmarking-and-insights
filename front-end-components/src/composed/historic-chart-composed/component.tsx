@@ -14,7 +14,7 @@ import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { ShareContent } from "src/components/share-content";
 
 export function HistoricChart<TData extends ChartDataSeries>({
-  chartName,
+  chartTitle,
   data,
   seriesConfig,
   valueField,
@@ -38,7 +38,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
               disabled={imageLoading}
               onSaveClick={() => chartRef.current?.download()}
               saveEventId="save-chart-as-image"
-              title={chartName}
+              title={chartTitle}
             />
           </div>
         )}
@@ -48,7 +48,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
               <LineChart
-                chartTitle={chartName}
+                chartTitle={chartTitle}
                 data={data}
                 grid
                 highlightActive
@@ -76,7 +76,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
           </div>
           <aside className="govuk-grid-column-one-quarter">
             <ResolvedStat
-              chartTitle={`Most recent ${chartName.toLowerCase()}`}
+              chartTitle={`Most recent ${chartTitle.toLowerCase()}`}
               className="chart-stat-line-chart"
               compactValue
               data={data}

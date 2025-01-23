@@ -10,7 +10,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total teaching and teaching support staff costs"
+            chartTitle="Total teaching and teaching support staff costs"
             data={data}
             seriesConfig={{
               totalTeachingSupportStaffCosts: {
@@ -26,7 +26,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Teaching staff costs"
+            chartTitle="Teaching staff costs"
             data={data}
             seriesConfig={{
               teachingStaffCosts: {
@@ -40,7 +40,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Supply teaching staff"
+            chartTitle="Supply teaching staff"
             data={data}
             seriesConfig={{
               supplyTeachingStaffCosts: {
@@ -54,7 +54,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Educational consultancy"
+            chartTitle="Educational consultancy"
             data={data}
             seriesConfig={{
               educationalConsultancyCosts: {
@@ -68,7 +68,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Education support staff"
+            chartTitle="Education support staff"
             data={data}
             seriesConfig={{
               educationSupportStaffCosts: {
@@ -82,7 +82,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Agency supply teaching staff"
+            chartTitle="Agency supply teaching staff"
             data={data}
             seriesConfig={{
               agencySupplyTeachingStaffCosts: {

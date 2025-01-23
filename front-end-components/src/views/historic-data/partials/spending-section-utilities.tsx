@@ -10,7 +10,7 @@ export const SpendingSectionUtilities: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total utilities costs"
+            chartTitle="Total utilities costs"
             data={data}
             seriesConfig={{
               totalUtilitiesCosts: {
@@ -24,7 +24,7 @@ export const SpendingSectionUtilities: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Energy costs"
+            chartTitle="Energy costs"
             data={data}
             seriesConfig={{
               energyCosts: {
@@ -38,7 +38,7 @@ export const SpendingSectionUtilities: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Water and sewerage costs"
+            chartTitle="Water and sewerage costs"
             data={data}
             seriesConfig={{
               waterSewerageCosts: {

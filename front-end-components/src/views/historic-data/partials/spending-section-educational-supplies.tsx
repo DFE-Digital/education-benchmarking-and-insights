@@ -10,7 +10,7 @@ export const SpendingSectionEducationalSupplies: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total educational supplies costs"
+            chartTitle="Total educational supplies costs"
             data={data}
             seriesConfig={{
               totalEducationalSuppliesCosts: {
@@ -26,7 +26,7 @@ export const SpendingSectionEducationalSupplies: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Examination fees costs"
+            chartTitle="Examination fees costs"
             data={data}
             seriesConfig={{
               examinationFeesCosts: {
@@ -40,7 +40,7 @@ export const SpendingSectionEducationalSupplies: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Learning resources (non ICT equipment) costs"
+            chartTitle="Learning resources (non ICT equipment) costs"
             data={data}
             seriesConfig={{
               learningResourcesNonIctCosts: {

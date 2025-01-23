@@ -65,7 +65,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Pupils on roll"
+            chartTitle="Pupils on roll"
             data={data}
             seriesConfig={{
               totalPupils: {
@@ -82,7 +82,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
           </HistoricChart>
 
           <HistoricChart
-            chartName="School workforce (full time equivalent)"
+            chartTitle="School workforce (full time equivalent)"
             data={data}
             seriesConfig={{
               workforce: {
@@ -116,7 +116,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Total number of teachers (full time equivalent)"
+            chartTitle="Total number of teachers (full time equivalent)"
             data={data}
             seriesConfig={{
               teachers: {
@@ -145,7 +145,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Teachers with qualified teacher status (%)"
+            chartTitle="Teachers with qualified teacher status (%)"
             data={data}
             seriesConfig={{
               percentTeacherWithQualifiedStatus: {
@@ -177,7 +177,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Senior leadership (full time equivalent)"
+            chartTitle="Senior leadership (full time equivalent)"
             data={data}
             seriesConfig={{
               seniorLeadership: {
@@ -211,7 +211,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Teaching assistants (full time equivalent)"
+            chartTitle="Teaching assistants (full time equivalent)"
             data={data}
             seriesConfig={{
               teachingAssistant: {
@@ -245,7 +245,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Non-classroom support staff - excluding auxiliary staff (full time
+            chartTitle="Non-classroom support staff - excluding auxiliary staff (full time
             equivalent)"
             data={data}
             seriesConfig={{
@@ -280,7 +280,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="Auxiliary staff (full time equivalent)"
+            chartTitle="Auxiliary staff (full time equivalent)"
             data={data}
             seriesConfig={{
               auxiliaryStaff: {
@@ -312,7 +312,7 @@ export const CensusSection: React.FC<{ id: string; load: boolean }> = ({
             </div>
           </details>
           <HistoricChart
-            chartName="School workforce (headcount)"
+            chartTitle="School workforce (headcount)"
             data={data}
             seriesConfig={{
               workforceHeadcount: {

@@ -9,7 +9,7 @@ export const SpendingSectionEducationalIct: React.FC<{
     <>
       {data.length > 0 ? (
         <HistoricChart
-          chartName="ICT learning resources costs"
+          chartTitle="ICT learning resources costs"
           data={data}
           seriesConfig={{
             learningResourcesIctCosts: {

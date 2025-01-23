@@ -10,7 +10,7 @@ export const SpendingSectionPremisesServices: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total premises staff and services costs"
+            chartTitle="Total premises staff and services costs"
             data={data}
             seriesConfig={{
               totalPremisesStaffServiceCosts: {
@@ -26,7 +26,7 @@ export const SpendingSectionPremisesServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Cleaning and caretaking costs"
+            chartTitle="Cleaning and caretaking costs"
             data={data}
             seriesConfig={{
               cleaningCaretakingCosts: {
@@ -40,7 +40,7 @@ export const SpendingSectionPremisesServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Maintenance of premises costs"
+            chartTitle="Maintenance of premises costs"
             data={data}
             seriesConfig={{
               maintenancePremisesCosts: {
@@ -54,7 +54,7 @@ export const SpendingSectionPremisesServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Other occupation costs"
+            chartTitle="Other occupation costs"
             data={data}
             seriesConfig={{
               otherOccupationCosts: {
@@ -68,7 +68,7 @@ export const SpendingSectionPremisesServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Premises staff costs"
+            chartTitle="Premises staff costs"
             data={data}
             seriesConfig={{
               premisesStaffCosts: {

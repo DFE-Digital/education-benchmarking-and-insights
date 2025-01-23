@@ -15,7 +15,7 @@ export const SpendingSectionCateringServices: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total catering costs"
+            chartTitle="Total catering costs"
             data={data}
             seriesConfig={{
               totalGrossCateringCosts: {
@@ -37,7 +37,7 @@ export const SpendingSectionCateringServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Catering staff costs"
+            chartTitle="Catering staff costs"
             data={data}
             seriesConfig={{
               cateringStaffCosts: {
@@ -51,7 +51,7 @@ export const SpendingSectionCateringServices: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Catering supplies costs"
+            chartTitle="Catering supplies costs"
             data={data}
             seriesConfig={{
               cateringSuppliesCosts: {

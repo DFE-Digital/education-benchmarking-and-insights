@@ -7,14 +7,17 @@ import { useState } from "react";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 
 export function CateringCostsHistoryChart<T extends HistoryBase>(
-  props: Pick<HistoricChart2Props<T>, "data" | "chartName" | "perUnitDimension">
+  props: Pick<
+    HistoricChart2Props<T>,
+    "data" | "chartTitle" | "perUnitDimension"
+  >
 ) {
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");
 
   return (
     <HistoricChart2 valueField={totalCateringCostsField as keyof T} {...props}>
-      <h3 className="govuk-heading-s">{props.chartName}</h3>
+      <h3 className="govuk-heading-s">{props.chartTitle}</h3>
       <TotalCateringCostsType
         field={totalCateringCostsField}
         onChange={setTotalCateringCostsField}

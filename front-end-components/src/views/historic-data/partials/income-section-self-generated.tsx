@@ -10,7 +10,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Self-generated funding total"
+            chartTitle="Self-generated funding total"
             data={data}
             seriesConfig={{
               totalSelfGeneratedFunding: {
@@ -24,7 +24,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Income from facilities and services"
+            chartTitle="Income from facilities and services"
             data={data}
             seriesConfig={{
               incomeFacilitiesServices: {
@@ -102,7 +102,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
             </div>
           </details>
           <HistoricChart
-            chartName="Income from catering"
+            chartTitle="Income from catering"
             data={data}
             seriesConfig={{
               incomeCatering: {
@@ -142,7 +142,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
             </div>
           </details>
           <HistoricChart
-            chartName="Donations and/or voluntary funds"
+            chartTitle="Donations and/or voluntary funds"
             data={data}
             seriesConfig={{
               donationsVoluntaryFunds: {
@@ -192,7 +192,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
             </div>
           </details>
           <HistoricChart
-            chartName="Receipts from supply teacher insurance claims"
+            chartTitle="Receipts from supply teacher insurance claims"
             data={data}
             seriesConfig={{
               receiptsSupplyTeacherInsuranceClaims: {
@@ -234,7 +234,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
             </div>
           </details>
           <HistoricChart
-            chartName="Investment income"
+            chartTitle="Investment income"
             data={data}
             seriesConfig={{
               investmentIncome: {
@@ -264,7 +264,7 @@ export const IncomeSectionSelfGenerated: React.FC<{
           </details>
 
           <HistoricChart
-            chartName="Other self-generated income"
+            chartTitle="Other self-generated income"
             data={data}
             seriesConfig={{
               otherSelfGeneratedIncome: {

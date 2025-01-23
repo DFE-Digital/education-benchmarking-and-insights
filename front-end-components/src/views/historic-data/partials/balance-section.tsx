@@ -66,7 +66,7 @@ export const BalanceSection: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="In-year balance"
+            chartTitle="In-year balance"
             data={data}
             seriesConfig={{
               inYearBalance: {
@@ -80,7 +80,7 @@ export const BalanceSection: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Revenue reserve"
+            chartTitle="Revenue reserve"
             data={data}
             seriesConfig={{
               revenueReserve: {

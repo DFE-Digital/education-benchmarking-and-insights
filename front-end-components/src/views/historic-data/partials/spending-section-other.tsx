@@ -11,7 +11,7 @@ export const SpendingSectionOther: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total other costs"
+            chartTitle="Total other costs"
             data={data}
             seriesConfig={{
               totalOtherCosts: {
@@ -25,7 +25,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Direct revenue financing costs"
+            chartTitle="Direct revenue financing costs"
             data={data}
             seriesConfig={{
               directRevenueFinancingCosts: {
@@ -39,7 +39,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Grounds maintenance costs"
+            chartTitle="Grounds maintenance costs"
             data={data}
             seriesConfig={{
               groundsMaintenanceCosts: {
@@ -53,7 +53,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Indirect employee expenses costs"
+            chartTitle="Indirect employee expenses costs"
             data={data}
             seriesConfig={{
               indirectEmployeeExpenses: {
@@ -69,7 +69,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Interest changes for loan and bank costs"
+            chartTitle="Interest changes for loan and bank costs"
             data={data}
             seriesConfig={{
               interestChargesLoanBank: {
@@ -85,7 +85,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Other insurance premiums costs"
+            chartTitle="Other insurance premiums costs"
             data={data}
             seriesConfig={{
               otherInsurancePremiumsCosts: {
@@ -99,7 +99,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="PFI charges costs"
+            chartTitle="PFI charges costs"
             data={data}
             seriesConfig={{
               privateFinanceInitiativeCharges: {
@@ -113,7 +113,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Rents and rates costs"
+            chartTitle="Rents and rates costs"
             data={data}
             seriesConfig={{
               rentRatesCosts: {
@@ -127,7 +127,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Special facilities costs"
+            chartTitle="Special facilities costs"
             data={data}
             seriesConfig={{
               specialFacilitiesCosts: {
@@ -141,7 +141,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Staff development and training costs"
+            chartTitle="Staff development and training costs"
             data={data}
             seriesConfig={{
               staffDevelopmentTrainingCosts: {
@@ -157,7 +157,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Staff-related insurance costs"
+            chartTitle="Staff-related insurance costs"
             data={data}
             seriesConfig={{
               staffRelatedInsuranceCosts: {
@@ -171,7 +171,7 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Supply teacher insurance costs"
+            chartTitle="Supply teacher insurance costs"
             data={data}
             seriesConfig={{
               supplyTeacherInsurableCosts: {
@@ -187,7 +187,7 @@ export const SpendingSectionOther: React.FC<{
           {type === "school" && (
             <>
               <HistoricChart
-                chartName="Community focused school staff (maintained schools only)"
+                chartTitle="Community focused school staff (maintained schools only)"
                 data={data}
                 seriesConfig={{
                   communityFocusedSchoolStaff: {
@@ -203,7 +203,7 @@ export const SpendingSectionOther: React.FC<{
                 </h3>
               </HistoricChart>
               <HistoricChart
-                chartName="Community focused school staff (maintained schools only)"
+                chartTitle="Community focused school staff (maintained schools only)"
                 data={data}
                 seriesConfig={{
                   communityFocusedSchoolCosts: {
