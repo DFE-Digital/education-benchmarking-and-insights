@@ -32,6 +32,7 @@ import {
   LineChart2SeriesElementId,
   BudgetForecastReturnsElementId,
   ShareContentByElementIdDataAttr,
+  ShareContentByElementClassNameDataAttr,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -60,6 +61,7 @@ import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
+import { ShareContentByElements } from "./components/share-content-by-elements";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -884,6 +886,47 @@ if (shareContentByElementIdElements) {
               }
               showTitle={showTitle === "true"}
               title={title}
+            />
+          </React.StrictMode>
+        );
+      }
+    }
+  });
+}
+
+const shareContentByElementClassNameElements =
+  document.querySelectorAll<HTMLElement>(
+    `[data-${ShareContentByElementClassNameDataAttr}]`
+  );
+
+if (shareContentByElementClassNameElements) {
+  shareContentByElementClassNameElements.forEach((element) => {
+    const { elementClassName, elementTitleAttr, label, showTitles } =
+      element.dataset;
+    if (elementClassName && label) {
+      const el = document.getElementsByClassName(elementClassName);
+      if (el.length > 0) {
+        const root = ReactDOM.createRoot(element);
+        root.render(
+          <React.StrictMode>
+            <ShareContentByElements
+              elementsSelector={() => {
+                const results = [];
+                const elements =
+                  document.getElementsByClassName(elementClassName);
+
+                for (let i = 0; i < elements.length; i++) {
+                  const element = elements[i] as HTMLElement;
+                  const title = elementTitleAttr
+                    ? element.getAttribute(elementTitleAttr) || undefined
+                    : undefined;
+                  results.push({ element, title });
+                }
+
+                return results;
+              }}
+              label={label}
+              showTitles={showTitles === "true"}
             />
           </React.StrictMode>
         );
