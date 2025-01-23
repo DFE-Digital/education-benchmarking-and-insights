@@ -7,7 +7,7 @@ import {
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
 
 export interface HistoricChartProps<T extends ChartDataSeries> {
-  chartName: string;
+  chartTitle: string;
   data: T[];
   seriesConfig: ChartProps<T>["seriesConfig"];
   valueField: ResolvedStatProps<T>["valueField"];

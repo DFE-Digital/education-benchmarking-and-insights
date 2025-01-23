@@ -17,7 +17,7 @@ export interface HistoricChart2Props<T extends HistoryBase>
     | "legendHorizontalAlign"
     | "legendVerticalAlign"
   > {
-  chartName: string;
+  chartTitle: string;
   data: SchoolHistoryComparison<T>;
   valueField: ResolvedStatProps<T>["valueField"];
   children?: ReactNode;

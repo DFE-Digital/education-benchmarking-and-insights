@@ -11,7 +11,7 @@ export const IncomeSectionDirectRevenue: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Direct revenue financing (capital reserves transfers)"
+            chartTitle="Direct revenue financing (capital reserves transfers)"
             data={data}
             seriesConfig={{
               directRevenueFinancing: {

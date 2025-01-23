@@ -68,7 +68,7 @@ export const IncomeSection: React.FC<{
       <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       {data.length > 0 ? (
         <HistoricChart
-          chartName="Total income"
+          chartTitle="Total income"
           data={data}
           seriesConfig={{
             totalIncome: {

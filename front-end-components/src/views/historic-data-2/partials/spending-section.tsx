@@ -117,7 +117,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
       {data.school?.length ? (
         <section>
           <HistoricChart2
-            chartName="Total expenditure"
+            chartTitle="Total expenditure"
             data={data}
             valueField="totalExpenditure"
             perUnitDimension={PoundsPerPupil}
@@ -159,13 +159,13 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
                   <section key={chart.field}>
                     {(chart.field as string) === "totalCateringCostsField" ? (
                       <CateringCostsHistoryChart
-                        chartName={chart.name}
+                        chartTitle={chart.name}
                         data={data}
                         perUnitDimension={chart.perUnitDimension}
                       />
                     ) : (
                       <HistoricChart2
-                        chartName={chart.name}
+                        chartTitle={chart.name}
                         data={data}
                         valueField={chart.field}
                         perUnitDimension={chart.perUnitDimension}

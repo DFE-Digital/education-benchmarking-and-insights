@@ -78,7 +78,7 @@ export const SpendingSection: React.FC<{
       <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       {data.length > 0 ? (
         <HistoricChart
-          chartName="Total expenditure"
+          chartTitle="Total expenditure"
           data={data}
           seriesConfig={{
             totalExpenditure: {

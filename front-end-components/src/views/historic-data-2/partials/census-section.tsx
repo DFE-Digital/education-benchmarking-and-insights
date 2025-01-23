@@ -116,7 +116,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
             return (
               <section key={chart.field}>
                 <HistoricChart2
-                  chartName={chart.name}
+                  chartTitle={chart.name}
                   data={data}
                   valueField={chart.field}
                   key={chart.field}

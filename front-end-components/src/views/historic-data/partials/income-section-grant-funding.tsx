@@ -10,7 +10,7 @@ export const IncomeSectionGrantFunding: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Grant funding total"
+            chartTitle="Grant funding total"
             data={data}
             seriesConfig={{
               totalGrantFunding: {
@@ -24,7 +24,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Direct grants"
+            chartTitle="Direct grants"
             data={data}
             seriesConfig={{
               directGrants: {
@@ -61,7 +61,7 @@ export const IncomeSectionGrantFunding: React.FC<{
             </div>
           </details>
           <HistoricChart
-            chartName="Pre-16 and post-16 funding"
+            chartTitle="Pre-16 and post-16 funding"
             data={data}
             seriesConfig={{
               prePost16Funding: {
@@ -75,7 +75,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Other DfE/EFA revenue grants"
+            chartTitle="Other DfE/EFA revenue grants"
             data={data}
             seriesConfig={{
               otherDfeGrants: {
@@ -89,7 +89,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Other income (local authority and other government grants)"
+            chartTitle="Other income (local authority and other government grants)"
             data={data}
             seriesConfig={{
               otherIncomeGrants: {
@@ -106,7 +106,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Government source (non-grant)"
+            chartTitle="Government source (non-grant)"
             data={data}
             seriesConfig={{
               governmentSource: {
@@ -120,7 +120,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Community grants"
+            chartTitle="Community grants"
             data={data}
             seriesConfig={{
               communityGrants: {
@@ -134,7 +134,7 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Academies"
+            chartTitle="Academies"
             data={data}
             seriesConfig={{
               academies: {

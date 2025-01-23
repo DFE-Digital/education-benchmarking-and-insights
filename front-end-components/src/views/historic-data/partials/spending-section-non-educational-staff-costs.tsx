@@ -10,7 +10,7 @@ export const SpendingSectionNonEducationalStaffCosts: React.FC<{
       {data.length > 0 ? (
         <>
           <HistoricChart
-            chartName="Total non-educational support staff costs"
+            chartTitle="Total non-educational support staff costs"
             data={data}
             seriesConfig={{
               totalNonEducationalSupportStaffCosts: {
@@ -26,7 +26,7 @@ export const SpendingSectionNonEducationalStaffCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Administrative and clerical staff costs"
+            chartTitle="Administrative and clerical staff costs"
             data={data}
             seriesConfig={{
               administrativeClericalStaffCosts: {
@@ -42,7 +42,7 @@ export const SpendingSectionNonEducationalStaffCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Auditor costs"
+            chartTitle="Auditor costs"
             data={data}
             seriesConfig={{
               auditorsCosts: {
@@ -56,7 +56,7 @@ export const SpendingSectionNonEducationalStaffCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Other staff costs"
+            chartTitle="Other staff costs"
             data={data}
             seriesConfig={{
               otherStaffCosts: {
@@ -70,7 +70,7 @@ export const SpendingSectionNonEducationalStaffCosts: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartName="Professional services (non-curriculum) cost"
+            chartTitle="Professional services (non-curriculum) cost"
             data={data}
             seriesConfig={{
               professionalServicesNonCurriculumCosts: {

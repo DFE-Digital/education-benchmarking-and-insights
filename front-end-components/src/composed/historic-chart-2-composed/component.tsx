@@ -19,7 +19,7 @@ import { ShareContent } from "src/components/share-content";
 
 export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
-  chartName,
+  chartTitle,
   children,
   columnHeading,
   data,
@@ -110,7 +110,7 @@ export function HistoricChart2<TData extends HistoryBase>({
               disabled={imageLoading}
               onSaveClick={() => chartRef.current?.download()}
               saveEventId="save-chart-as-image"
-              title={chartName}
+              title={chartTitle}
             />
           </div>
         )}
@@ -120,7 +120,7 @@ export function HistoricChart2<TData extends HistoryBase>({
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
               <LineChart
-                chartTitle={chartName}
+                chartTitle={chartTitle}
                 className="historic-chart-2"
                 data={mergedData}
                 grid
@@ -164,7 +164,7 @@ export function HistoricChart2<TData extends HistoryBase>({
           </div>
           <aside className="govuk-grid-column-one-quarter">
             <ResolvedStat
-              chartTitle={`Most recent ${chartName.toLowerCase()}`}
+              chartTitle={`Most recent ${chartTitle.toLowerCase()}`}
               className="chart-stat-line-chart"
               compactValue
               data={data.school || []}
@@ -179,7 +179,7 @@ export function HistoricChart2<TData extends HistoryBase>({
       ) : (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-full">
-            <table className="govuk-table" data-testid={`${chartName}-table`}>
+            <table className="govuk-table" data-testid={`${chartTitle}-table`}>
               <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                   <th className="govuk-table__header govuk-!-width-one-quarter">

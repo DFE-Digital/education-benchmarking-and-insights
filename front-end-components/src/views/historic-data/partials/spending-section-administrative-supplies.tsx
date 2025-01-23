@@ -9,7 +9,7 @@ export const SpendingSectionAdministrativeSupplies: React.FC<{
     <>
       {data.length > 0 ? (
         <HistoricChart
-          chartName="Administration supplies (non educational) costs"
+          chartTitle="Administration supplies (non educational) costs"
           data={data}
           seriesConfig={{
             administrativeSuppliesNonEducationalCosts: {
