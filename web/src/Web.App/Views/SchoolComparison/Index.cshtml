@@ -13,7 +13,10 @@
 
 @if (!hasMissingComparatorSet)
 {
-    @await Html.PartialAsync("_SaveChartsButton")
+    @await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+    {
+        { "FileName", $"benchmark-spending-{Model.Urn}.zip" }
+    })
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new

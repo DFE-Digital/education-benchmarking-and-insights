@@ -1,5 +1,6 @@
 @{
     var className = ViewData["ClassName"] ?? "chart-wrapper";
+    var fileName = ViewData["FileName"] ?? "charts.zip";
     var titleAttr = ViewData["TitleAttribute"] ?? "aria-label";
 }
 
@@ -10,5 +11,6 @@
         data-label="Save all chart images"
         data-element-title-attr="@titleAttr"
         data-show-titles="true"
-        data-show-progress="true"></div>
+        data-show-progress="true"
+        data-file-name="@fileName"></div>
 </div>
