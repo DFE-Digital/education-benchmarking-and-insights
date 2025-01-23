@@ -1,9 +1,14 @@
+@{
+    var className = ViewData["ClassName"] ?? "chart-wrapper";
+    var titleAttr = ViewData["TitleAttribute"] ?? "aria-label";
+}
+
 <div class="save-charts">
     <div
         data-share-content-by-element-class-name
-        data-element-class-name="chart-wrapper"
+        data-element-class-name="@className"
         data-label="Save all chart images"
-        data-element-title-attr="aria-label"
+        data-element-title-attr="@titleAttr"
         data-show-titles="true"
         data-show-progress="true"></div>
 </div>

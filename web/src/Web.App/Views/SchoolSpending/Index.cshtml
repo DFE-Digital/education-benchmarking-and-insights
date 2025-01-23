@@ -4,6 +4,15 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
 
+@if (Model.HighPriorityCosts.Any() || Model.MediumPriorityCosts.Any())
+{
+    @await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+    {
+        { "ClassName", "costs-chart-wrapper" },
+        { "TitleAttribute", "data-title" }
+    })
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],
