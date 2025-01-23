@@ -1,4 +1,4 @@
-import { PureComponent, Ref, SVGProps } from "react";
+import { CSSProperties, PureComponent, Ref, SVGProps } from "react";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import {
   HorizontalAlignmentType,
@@ -31,6 +31,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   legendIconType?: IconType | "default";
   legendHorizontalAlign?: HorizontalAlignmentType;
   legendVerticalAlign?: VerticalAlignmentType;
+  legendWrapperStyle?: CSSProperties;
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageLoading?: (loading: boolean) => void;

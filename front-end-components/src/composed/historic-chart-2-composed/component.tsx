@@ -28,6 +28,7 @@ export function HistoricChart2<TData extends HistoryBase>({
   legendIconSize,
   legendIconType,
   legendVerticalAlign,
+  legendWrapperStyle,
   perUnitDimension,
   valueField,
   valueUnit,
@@ -158,6 +159,16 @@ export function HistoricChart2<TData extends HistoryBase>({
                   legendVerticalAlign === undefined
                     ? "bottom"
                     : legendVerticalAlign
+                }
+                legendWrapperStyle={
+                  (legendWrapperStyle ?? legendVerticalAlign === undefined)
+                    ? {
+                        position: "relative",
+                        left: "inherit",
+                        bottom: "inherit",
+                        marginTop: -40,
+                      }
+                    : undefined
                 }
               />
             </div>

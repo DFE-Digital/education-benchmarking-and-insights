@@ -199,10 +199,14 @@
   color: var(--label-colour) !important;
 }
 
-.recharts-wrapper.historic-chart-2 .recharts-default-legend{
+.recharts-wrapper.historic-chart-2 .recharts-default-legend {
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
+}
+
+.recharts-wrapper.historic-chart-2 .recharts-default-legend .recharts-legend-item {
+  white-space: nowrap;
 }
 
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0,
