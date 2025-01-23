@@ -913,6 +913,19 @@ if (shareContentByElementClassNameElements) {
       root.render(
         <React.StrictMode>
           <ShareContentByElements
+            onClick={async () => {
+              const radio = document.getElementById(
+                "mode-chart"
+              ) as HTMLInputElement;
+              if (radio && radio.checked === false) {
+                radio.click();
+                await new Promise<void>((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                  }, 1000);
+                });
+              }
+            }}
             elementsSelector={() => {
               const results = [];
               const elements =
