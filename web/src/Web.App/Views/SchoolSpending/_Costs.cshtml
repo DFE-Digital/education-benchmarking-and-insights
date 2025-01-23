@@ -39,8 +39,24 @@
         <section id="spending-priorities-@category.Rating.CostCategoryAnchorId">
             <div class="govuk-grid-row govuk-!-margin-bottom-2"
                  @(i == 0 ? $"id={Model.Id}" : "")>
-                <div class="govuk-grid-column-full">
+                <div class="govuk-grid-column-two-thirds">
                     <h3 class="govuk-heading-s govuk-!-font-size-27">@categoryHeading</h3>
+                </div>
+                @if (!Model.IsCustomData)
+                {
+                    <div class="govuk-grid-column-one-third">
+                        <div class="app-priorities-save-chart">
+                            <div
+                                data-share-content-by-element-id
+                                data-element-id="@categoryHeading"
+                                data-title="@categoryHeading"
+                                data-show-title="true"
+                                data-save-event-id="save-chart-as-image">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="govuk-grid-column-full">
                     <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
                         @await Component.InvokeAsync("Tag", new
                         {
@@ -56,27 +72,28 @@
 
             <div class="govuk-grid-row govuk-!-margin-bottom-4">
                 <div class="govuk-grid-column-two-thirds">
+                    <div id="@categoryHeading">
+                        @if (hasNegativeOrZeroValues)
+                        {
+                            <div class="govuk-warning-text">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                    <span class="govuk-visually-hidden">Warning</span>
+                                    Only displaying schools with positive expenditure.
+                                </strong>
+                            </div>
+                        }
 
-                    @if (hasNegativeOrZeroValues)
-                    {
-                        <div class="govuk-warning-text">
-                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                            <strong class="govuk-warning-text__text">
-                                <span class="govuk-visually-hidden">Warning</span>
-                                Only displaying schools with positive expenditure.
-                            </strong>
+                        <div class="govuk-!-margin-bottom-2 composed-container costs-chart-wrapper"
+                             data-spending-and-costs-composed
+                             data-json="@filteredData.ToJson(Formatting.None)"
+                             data-highlight="@Model.Urn"
+                             data-suffix="@category.Rating.Unit"
+                             data-sort-direction="asc"
+                             data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
+                             data-has-incomplete-data="@Model.HasIncompleteData"
+                             data-title="@categoryHeading">
                         </div>
-                    }
-
-                    <div class="govuk-!-margin-bottom-2 composed-container costs-chart-wrapper"
-                         data-spending-and-costs-composed
-                         data-json="@filteredData.ToJson(Formatting.None)"
-                         data-highlight="@Model.Urn"
-                         data-suffix="@category.Rating.Unit"
-                         data-sort-direction="asc"
-                         data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
-                         data-has-incomplete-data="@Model.HasIncompleteData"
-                         data-title="@categoryHeading">
                     </div>
 
                     <p class="govuk-body category-commentary">
