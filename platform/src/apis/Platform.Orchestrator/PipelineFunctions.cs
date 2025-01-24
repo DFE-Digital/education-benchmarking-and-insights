@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
@@ -14,22 +16,23 @@ using Platform.Orchestrator.Search;
 
 namespace Platform.Orchestrator;
 
-public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db, IPipelineSearch search, IDistributedCache cache)
+public class PipelineFunctions(
+    ILogger<PipelineFunctions> logger,
+    IPipelineDb db,
+    IPipelineSearch search,
+    IDistributedCache cache,
+    TelemetryClient telemetry)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
         [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelinePending message,
         [DurableClient] DurableTaskClient client)
     {
-        try
+        using (GetLoggerScope())
         {
-            using (logger.BeginScope(new Dictionary<string, object>
-                   {
-                       {
-                           "Application", Constants.ApplicationName
-                       }
-                   }))
+            try
             {
+                TrackEvent(Pipeline.Events.PipelinePendingMessageReceived, message.JobId);
                 var status = await client.GetInstanceAsync(message.JobId!);
 
                 if (status is not
@@ -38,11 +41,11 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
                     await client.ScheduleNewOrchestrationInstanceAsync(nameof(PipelineJobOrchestrator), message, new StartOrchestrationOptions(message.JobId));
                 }
             }
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "Initiating pipeline job");
-            throw;
+            catch (Exception e)
+            {
+                logger.LogError(e, "Initiating pipeline job");
+                throw;
+            }
         }
     }
 
@@ -51,16 +54,15 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
         [QueueTrigger("%PipelineMessageHub:JobFinishedQueue%", Connection = "PipelineMessageHub:ConnectionString")] string message,
         [DurableClient] DurableTaskClient client)
     {
-        try
+        using (GetLoggerScope())
         {
-            using (logger.BeginScope(new Dictionary<string, object>
-                   {
-                       {
-                           "Application", Constants.ApplicationName
-                       }
-                   }))
+            try
             {
                 var job = message.FromJson<PipelineFinish>();
+                TrackEvent(Pipeline.Events.PipelineFinishedMessageReceived, job.JobId, new Dictionary<string, string?>
+                {
+                    { nameof(job.Success), job.Success.ToString() }
+                });
                 await db.WriteToLog(job.JobId, message);
 
                 if (!string.IsNullOrEmpty(job.JobId))
@@ -68,11 +70,11 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
                     await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished), job.Success);
                 }
             }
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "Finished pipeline job");
-            throw;
+            catch (Exception e)
+            {
+                logger.LogError(e, "Finished pipeline job");
+                throw;
+            }
         }
     }
 
@@ -80,18 +82,29 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     [SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly")]
     public async Task PipelineJobOrchestrator([OrchestrationTrigger] TaskOrchestrationContext context)
     {
-        var input = context.GetInput<PipelinePending>();
-        switch (input?.Type)
+        using (GetLoggerScope())
         {
-            case Pipeline.JobType.ComparatorSet:
-            case Pipeline.JobType.CustomData:
-                await OrchestrateCustomMessage(context, input);
-                break;
-            case Pipeline.JobType.Default:
-                await OrchestrateDefaultMessage(context, input);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(PipelinePending.Type));
+            var input = context.GetInput<PipelinePending>();
+            if (!context.IsReplaying)
+            {
+                TrackEvent(Pipeline.Events.PipelinePendingMessageOrchestrated, input?.JobId, new Dictionary<string, string?>
+                {
+                    { nameof(input.Type), input?.Type }
+                });
+            }
+
+            switch (input?.Type)
+            {
+                case Pipeline.JobType.ComparatorSet:
+                case Pipeline.JobType.CustomData:
+                    await OrchestrateCustomMessage(context, input);
+                    break;
+                case Pipeline.JobType.Default:
+                    await OrchestrateDefaultMessage(context, input);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(PipelinePending.Type));
+            }
         }
     }
 
@@ -145,23 +158,39 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
     public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartDefault message)
     {
-        logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "default");
-        return [message.ToJson()];
+        using (GetLoggerScope())
+        {
+            TrackEvent(Pipeline.Events.PipelineStartDefaultMessageReceived, message.JobId);
+            logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "default");
+            return [message.ToJson()];
+        }
     }
 
     [Function(nameof(OnStartCustomJobTrigger))]
     [QueueOutput("%PipelineMessageHub:JobCustomStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
     public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartCustom message)
     {
-        logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
-        return [message.ToJson()];
+        using (GetLoggerScope())
+        {
+            TrackEvent(Pipeline.Events.PipelineStartCustomMessageReceived, message.JobId);
+            logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
+            return [message.ToJson()];
+        }
     }
 
     [Function(nameof(UpdateStatusTrigger))]
     public async Task UpdateStatusTrigger([ActivityTrigger] PipelineStatus status)
     {
-        logger.LogInformation("Updating status for {RunId}", status.Id);
-        await db.UpdateStatus(status);
+        using (GetLoggerScope())
+        {
+            TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            {
+                { "Action", "UpdateStatus" }
+            });
+
+            logger.LogInformation("Updating status for {RunId}", status.Id);
+            await db.UpdateStatus(status);
+        }
     }
 
     [Function(nameof(PipelineJobPurgeHistory))]
@@ -182,26 +211,71 @@ public class PipelineFunctions(ILogger<PipelineFunctions> logger, IPipelineDb db
     [Function(nameof(RunIndexerTrigger))]
     public async Task RunIndexerTrigger([ActivityTrigger] PipelineStatus status)
     {
-        if (!status.Success)
+        using (GetLoggerScope())
         {
-            logger.LogInformation("Not updating indexers due to failed status from {RunId}", status.Id);
-            return;
-        }
+            TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            {
+                { "Action", "RunIndexer" }
+            });
 
-        logger.LogInformation("Updating indexers due to success status from {RunId}", status.Id);
-        await search.RunIndexerAll();
+            if (!status.Success)
+            {
+                logger.LogInformation("Not updating indexers due to failed status from {RunId}", status.Id);
+                return;
+            }
+
+            logger.LogInformation("Updating indexers due to success status from {RunId}", status.Id);
+            await search.RunIndexerAll();
+        }
     }
 
     [Function(nameof(ClearCacheTrigger))]
     public async Task ClearCacheTrigger([ActivityTrigger] PipelineStatus status)
     {
-        if (!status.Success)
+        using (GetLoggerScope())
         {
-            logger.LogInformation("Not clearing keys from distributed cache due to failed status for {RunId}", status.Id);
+            TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            {
+                { "Action", "ClearCache" }
+            });
+
+            if (!status.Success)
+            {
+                logger.LogInformation("Not clearing keys from distributed cache due to failed status for {RunId}", status.Id);
+                return;
+            }
+
+            logger.LogInformation("Clearing keys from distributed cache after completion of {RunId}", status.Id);
+            await cache.DeleteAsync($"{status.Id}:*");
+        }
+    }
+
+    private void TrackEvent(string eventName, string? id, Dictionary<string, string?>? props = null)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
             return;
         }
 
-        logger.LogInformation("Clearing keys from distributed cache after completion of {RunId}", status.Id);
-        await cache.DeleteAsync($"{status.Id}:*");
+        var properties = new Dictionary<string, string>
+        {
+            { "Id", id }
+        };
+
+        if (props != null)
+        {
+            foreach (var prop in props.Where(p => !string.IsNullOrWhiteSpace(p.Value)))
+            {
+                properties[prop.Key] = prop.Value!;
+            }
+        }
+
+        var metrics = new Dictionary<string, double>();
+        telemetry.TrackEvent(eventName, properties, metrics);
     }
+
+    private IDisposable? GetLoggerScope() => logger.BeginScope(new Dictionary<string, object>
+    {
+        { "Application", Constants.ApplicationName }
+    });
 }

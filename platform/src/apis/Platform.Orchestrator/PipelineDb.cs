@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Platform.Domain;
 using Platform.Sql;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -21,13 +22,11 @@ public class PipelineDb(IDatabaseFactory dbFactory) : IPipelineDb
 {
     public async Task UpdateStatus(PipelineStatus status)
     {
-        var sql = status.Success
-            ? "UPDATE UserData SET Status = 'complete' where Id = @Id"
-            : "UPDATE UserData SET Status = 'failed' where Id = @Id";
-
+        const string sql = "UPDATE UserData SET Status = @status where Id = @Id";
         var parameters = new
         {
-            status.Id
+            status.Id,
+            status = status.Success ? Pipeline.JobStatus.Complete : Pipeline.JobStatus.Failed
         };
 
         using var conn = await dbFactory.GetConnection();
