@@ -29,4 +29,14 @@ public static class Pipeline
         public const string ComparatorSetPayload = nameof(ComparatorSetPayload);
         public const string CustomDataPayload = nameof(CustomDataPayload);
     }
+
+    public static class Events
+    {
+        public const string PipelinePendingMessageReceived = nameof(PipelinePendingMessageReceived);
+        public const string PipelinePendingMessageOrchestrated = nameof(PipelinePendingMessageOrchestrated);
+        public const string PipelineStartDefaultMessageReceived = nameof(PipelineStartDefaultMessageReceived);
+        public const string PipelineStartCustomMessageReceived = nameof(PipelineStartCustomMessageReceived);
+        public const string PipelineFinishedMessageReceived = nameof(PipelineFinishedMessageReceived);
+        public const string PipelineStatusReceived = nameof(PipelineStatusReceived);
+    }
 }
