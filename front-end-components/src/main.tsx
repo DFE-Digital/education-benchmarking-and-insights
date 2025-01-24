@@ -873,7 +873,7 @@ const shareContentByElementIdElements = document.querySelectorAll<HTMLElement>(
 
 if (shareContentByElementIdElements) {
   shareContentByElementIdElements.forEach((element) => {
-    const { elementId, showTitle, title } = element.dataset;
+    const { elementId, saveEventId, showTitle, title } = element.dataset;
     if (elementId && title) {
       const el = document.getElementById(elementId);
       if (el) {
@@ -886,6 +886,7 @@ if (shareContentByElementIdElements) {
               }
               showTitle={showTitle === "true"}
               title={title}
+              saveEventId={saveEventId}
             />
           </React.StrictMode>
         );
@@ -906,6 +907,7 @@ if (shareContentByElementClassNameElements) {
       elementTitleAttr,
       fileName,
       label,
+      saveEventId,
       showProgress,
       showTitles,
     } = element.dataset;
@@ -944,6 +946,7 @@ if (shareContentByElementClassNameElements) {
             }}
             fileName={fileName}
             label={label}
+            saveEventId={saveEventId}
             showProgress={showProgress === "true"}
             showTitles={showTitles === "true"}
           />
