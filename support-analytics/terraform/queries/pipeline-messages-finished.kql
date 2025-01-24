@@ -1,0 +1,27 @@
+let usg_events = dynamic(["PipelineFinishedMessageReceived"]);
+let mainTable = union customEvents
+    | where isempty(operation_SyntheticSource)
+    | extend name =replace("\n", "", name)
+    | extend name =replace("\r", "", name)
+    | where '*' in (usg_events) or name in (usg_events);
+let byTable = mainTable;
+let queryTable = () {
+    byTable
+    | extend dimension = customDimensions["Success"]
+    | extend dimension = iif(isempty(dimension), "<undefined>", dimension)
+};
+let byCohortTable = queryTable
+    | project dimension, timestamp;
+let topSegments = byCohortTable
+    | summarize Events = count() by dimension
+    | top 10 by Events
+    | summarize makelist(dimension);
+let topEventMetrics = byCohortTable
+    | where dimension in (topSegments);
+let otherEventUsers = byCohortTable
+    | where dimension !in (topSegments)
+    | extend dimension = "Other";
+otherEventUsers
+| union topEventMetrics
+| summarize Events = count() by dimension
+| order by dimension asc
