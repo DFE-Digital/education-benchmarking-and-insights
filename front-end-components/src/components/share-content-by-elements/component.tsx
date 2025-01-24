@@ -42,6 +42,7 @@ export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
         await downloadPngs();
       }}
       {...props}
+      title={label}
     >
       <>
         {showProgress && progress && (
