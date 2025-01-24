@@ -22,18 +22,51 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 >
 >Out-of-scope list any other areas that are explicitly out of scope.
 
+## Scope
+
 **In-scope:**
 
-- New features
-  - [List new features]
-- Enhancements
-  - [List enhancements]
-- Bug fixes
-  - [List bug fixes]
+- New Features:
+  - Introduction of historical trend analysis for benchmarking data.
+  - Support for optional Ofsted data points in datasets.
+  - Additional features for exporting and sharing charts:
+    - Download selected chart images.
+    - Copy charts to clipboard.
+    - Copy chart to clipboard
+    - download this page data
+    - Include context data (e.g., cost codes) in exported images.
+
+- Enhancements:
+  - User-defined comparator enhancements and custom data improvements.
+  - Handling negative and zero values in financial benchmarking.
+  - Adding titles to all graphs for improved clarity.
+  - Replacing the current PNG export library with a more efficient HTML-to-image solution.
+  - Enabling "Save as Image" functionality on additional pages.
+  - Update CFR Transparency File to data sources page
+  - Modularisation of the pre-processing module for better maintainability.
+  - Adding indexes to optimise user data table performance.
+  - Extending data retention periods in Log Analytics Workspace for compliance.
+  - Monthly dependency updates for January 2025.
+  - System Reliability:
+    - handling of varying input schemas for pupil and workforce census to accept varying schema.
+    - Ensuring proper formatting checks in ADO pipeline for data pipeline builds.
+    - Change Cost and Income codes in AAR for 2024
+
+- Bug Fixes:
+  - Data Accuracy and Presentation:
+    - Correcting RAG value calculations for federations.
+    - Addressing inconsistencies with pupil numbers.
+    - fix custom-data generation for part-year years.
+  - UI and Usability Fixes:
+    - Resolving issues with multi-selection of LAs not working as intended.
+    - Improving hover-over information for line charts in A02 reports.
+    - Fixing spinner behavior when no data is submitted in BFR.
 
 **Out-of-Scope:**
 
-- Any new functionality not targeted for this release
+- Any new functionality or enhancements not explicitly targeted for this release.
+- Non-critical visual or content updates not related to user experience or data correctness.
+- Testing scenarios outside the scope of existing modules, including external APIs and datasets not included in this release.
 
 ## Test Strategy
 >
