@@ -177,6 +177,8 @@ export function HorizontalBarChartWrapper<
               onSaveClick={() => chartRef.current?.download("save")}
               copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
+              showCopy
+              showSave
               title={chartTitle}
             />
           </div>

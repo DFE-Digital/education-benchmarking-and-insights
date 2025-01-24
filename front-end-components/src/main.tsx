@@ -886,9 +886,11 @@ if (shareContentByElementIdElements) {
               elementSelector={() =>
                 document.getElementById(elementId) ?? undefined
               }
-              showTitle={showTitle === "true"}
               title={title}
               saveEventId={saveEventId}
+              showCopy
+              showSave
+              showTitle={showTitle === "true"}
             />
           </React.StrictMode>
         );
@@ -905,6 +907,7 @@ const shareContentByElementClassNameElements =
 if (shareContentByElementClassNameElements) {
   shareContentByElementClassNameElements.forEach((element) => {
     const {
+      copyEventId,
       elementClassName,
       elementTitleAttr,
       fileName,
@@ -948,6 +951,7 @@ if (shareContentByElementClassNameElements) {
             }}
             fileName={fileName}
             label={label}
+            copyEventId={copyEventId}
             saveEventId={saveEventId}
             showProgress={showProgress === "true"}
             showTitles={showTitles === "true"}
