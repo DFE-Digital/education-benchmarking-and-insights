@@ -1,10 +1,10 @@
 using System.Dynamic;
-using System.Text.RegularExpressions;
 using Dynamitey;
+
 namespace Web.E2ETests.Assist;
 
 // source: https://github.com/marcusoftnet/SpecFlow.Assist.Dynamic/blob/master/SpecFlow.Assist.Dynamic/DynamicTableHelpers.cs
-public static partial class DynamicTableHelpers
+public static class DynamicTableHelpers
 {
     private const string ErrorMessagePropertyDiffSet = "Properties differs between the table and the set";
     private const string ErrorMessageInstanceTableFormat = "Can only create instances of tables with one row, or exactly 2 columns and several rows";
@@ -322,9 +322,6 @@ public static partial class DynamicTableHelpers
     private static string RemoveReservedChars(string orgPropertyName)
     {
         const string replacement = "";
-        return ReservedCharactersRegex().Replace(orgPropertyName, replacement);
+        return Regexes.ReservedCharactersRegex().Replace(orgPropertyName, replacement);
     }
-
-    [GeneratedRegex(@"[^\w\s]")]
-    private static partial Regex ReservedCharactersRegex();
 }

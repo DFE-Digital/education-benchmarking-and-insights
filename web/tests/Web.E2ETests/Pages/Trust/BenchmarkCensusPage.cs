@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.Trust;
 
 public enum CensusChartNames
@@ -32,7 +33,7 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
-            HasText = "Save"
+            HasTextRegex = Regexes.SaveAsImageRegex()
         });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);

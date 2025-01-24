@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public enum CostCategoryNames
@@ -97,8 +98,8 @@ public class SpendingCostsPage(IPage page)
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator EducationIctCostCategory => page.Locator(Selectors.EducationIctSpendingCosts);
-    private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
     private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
+    private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
     {
@@ -122,11 +123,7 @@ public class SpendingCostsPage(IPage page)
             {
                 var chartName = chartNames[i];
                 var priorityTag = await priorityTags[i].TextContentAsync() ?? string.Empty;
-                var chartDetails = new[]
-                {
-                    chartName,
-                    priorityTag.Trim()
-                };
+                var chartDetails = new[] { chartName, priorityTag.Trim() };
                 actualOrder.Add(chartDetails);
             }
             else
@@ -198,7 +195,7 @@ public class SpendingCostsPage(IPage page)
     public async Task AssertCostCategoryData(CostCategoryNames costCategory, Table expectedTable)
     {
         var actualData = await GetCostCategoryData(costCategory);
-        for (int i = 0; i < expectedTable.Rows.Count; i++)
+        for (var i = 0; i < expectedTable.Rows.Count; i++)
         {
             var expectedDescription = expectedTable.Rows[i]["Description"];
             var expectedValue = expectedTable.Rows[i]["Value"];
@@ -222,7 +219,7 @@ public class SpendingCostsPage(IPage page)
 
     private async Task<List<(string Description, string Value)>> GetCostCategoryData(CostCategoryNames costCategory)
     {
-        var chartStats = ChartStatsSummary(await GetSelectorForCostCategory(costCategory));
+        var chartStats = ChartStatsSummary(GetSelectorForCostCategory(costCategory));
 
         if (chartStats == null)
         {
@@ -231,7 +228,7 @@ public class SpendingCostsPage(IPage page)
         var rows = new List<(string Description, string Value)>();
         var chartStatWrappers = chartStats.Locator(".chart-stat-wrapper");
         var count = await chartStatWrappers.CountAsync();
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             var wrapper = chartStatWrappers.Nth(i);
             var labelElement = wrapper.Locator(".chart-stat-label");
@@ -249,7 +246,7 @@ public class SpendingCostsPage(IPage page)
         return rows;
     }
 
-    private async Task<ILocator> GetSelectorForCostCategory(CostCategoryNames costCategoryName)
+    private ILocator GetSelectorForCostCategory(CostCategoryNames costCategoryName)
     {
         var chartSelector = costCategoryName switch
         {
