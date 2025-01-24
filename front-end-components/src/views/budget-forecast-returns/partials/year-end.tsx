@@ -24,6 +24,7 @@ export const YearEnd: React.FC<{
   const [dimension, setDimension] = useState(Actual);
   const [data, setData] = useState<BudgetForecastReturn[] | null>();
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const [imageCopied, setImageCopied] = useState<boolean>();
   const chartRef = useRef<ChartHandler>(null);
 
   const getData = useCallback(async () => {
@@ -83,6 +84,13 @@ export const YearEnd: React.FC<{
     setDimension(dimension);
   };
 
+  const handleImageCopied = () => {
+    setImageCopied(true);
+    setTimeout(() => {
+      setImageCopied(false);
+    }, 2000);
+  };
+
   const chartTitle = "Year-end revenue reserves";
   const hasData = chartData.length > 0;
 
@@ -94,8 +102,11 @@ export const YearEnd: React.FC<{
       <div className="govuk-grid-column-one-half">
         <div>
           <ShareContent
+            copied={imageCopied}
             disabled={imageLoading || !hasData}
-            onSaveClick={() => chartRef.current?.download()}
+            onCopyClick={() => chartRef.current?.download("copy")}
+            onSaveClick={() => chartRef.current?.download("save")}
+            copyEventId="copy-chart-as-image"
             saveEventId="save-chart-as-image"
             title={chartTitle}
           />
@@ -113,6 +124,7 @@ export const YearEnd: React.FC<{
       <BfrChart
         data={chartData}
         ref={chartRef}
+        onImageCopied={handleImageCopied}
         onImageLoading={setImageLoading}
       />
       <BfrTable data={data} />

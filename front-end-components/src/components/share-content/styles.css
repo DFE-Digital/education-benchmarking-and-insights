@@ -1,0 +1,10 @@
+.share-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+button.govuk-button.share-button {
+  margin: 0;
+  width: auto;
+}

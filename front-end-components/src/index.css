@@ -538,8 +538,3 @@ ul.autocomplete__menu {
 div[data-share-content-by-element-id], div[data-share-content-by-element-class-name] {
   min-height: 40px;
 }
-
-button.govuk-button.share-button {
-  margin: 0;
-  width: auto;
-}

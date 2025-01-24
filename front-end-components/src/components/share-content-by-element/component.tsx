@@ -11,17 +11,29 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
   ...props
 }) => {
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const [imageCopied, setImageCopied] = useState<boolean>();
+
+  const handleImageCopied = () => {
+    setImageCopied(true);
+    setTimeout(() => {
+      setImageCopied(false);
+    }, 2000);
+  };
+
   const downloadPng = useDownloadPngImage({
     elementSelector,
-    onImageLoading: setImageLoading,
+    onCopied: handleImageCopied,
+    onLoading: setImageLoading,
     title,
     showTitle,
   });
 
   return (
     <ShareContent
+      copied={imageCopied}
       disabled={imageLoading || disabled}
-      onSaveClick={async () => await downloadPng()}
+      onCopyClick={async () => await downloadPng("copy")}
+      onSaveClick={async () => await downloadPng("save")}
       title={title}
       {...props}
     />

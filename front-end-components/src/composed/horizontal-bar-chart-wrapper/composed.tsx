@@ -44,6 +44,7 @@ export function HorizontalBarChartWrapper<
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
   const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
@@ -154,6 +155,13 @@ export function HorizontalBarChartWrapper<
     setTickFocused(Object.assign(tickFocused, { [key]: focused }));
   };
 
+  const handleImageCopied = () => {
+    setImageCopied(true);
+    setTimeout(() => {
+      setImageCopied(false);
+    }, 2000);
+  };
+
   const hasData = sortedDataPoints.length > 0;
 
   return (
@@ -163,8 +171,11 @@ export function HorizontalBarChartWrapper<
         {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-third">
             <ShareContent
+              copied={imageCopied}
               disabled={imageLoading || !hasData}
-              onSaveClick={() => chartRef.current?.download()}
+              onCopyClick={() => chartRef.current?.download("copy")}
+              onSaveClick={() => chartRef.current?.download("save")}
+              copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
               title={chartTitle}
             />
@@ -186,6 +197,7 @@ export function HorizontalBarChartWrapper<
                   }
                   specialItemKeys={{ partYear: partYearKeys }}
                   keyField={keyField}
+                  onImageCopied={handleImageCopied}
                   onImageLoading={setImageLoading}
                   labels
                   margin={20}

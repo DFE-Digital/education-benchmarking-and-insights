@@ -4,13 +4,17 @@ import { ShareContentProps } from "./types";
 
 export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
   children,
+  copied,
   disabled,
+  hideCopy,
+  onCopyClick,
   onSaveClick,
+  copyEventId,
   saveEventId,
   title,
 }) => {
   return (
-    <div>
+    <div className="share-buttons">
       <button
         className="govuk-button govuk-button--secondary share-button share-button--save"
         data-module="govuk-button"
@@ -29,6 +33,28 @@ export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
           </>
         )}
       </button>
+      {!hideCopy && (
+        <button
+          className="govuk-button govuk-button--secondary share-button share-button--copy"
+          data-module="govuk-button"
+          data-prevent-double-click="true"
+          onClick={onCopyClick}
+          disabled={disabled}
+          aria-disabled={disabled}
+          data-custom-event-id={copyEventId}
+          data-custom-event-chart-name={copyEventId && title}
+        >
+          {copied ? (
+            "Copied"
+          ) : children ? (
+            children
+          ) : (
+            <>
+              Copy <span className="govuk-visually-hidden">{title}</span> image
+            </>
+          )}
+        </button>
+      )}
     </div>
   );
 };

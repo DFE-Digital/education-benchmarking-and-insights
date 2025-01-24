@@ -49,6 +49,7 @@ import {
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { Props } from "recharts/types/component/Label";
 import { CartesianViewBox } from "recharts/types/util/types";
+import { DownloadMode } from "src/services";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
   props: HorizontalBarChartProps<TData>,
@@ -68,6 +69,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     labels,
     legend,
     margin: _margin,
+    onImageCopied,
     onImageLoading,
     seriesConfig,
     seriesLabelField,
@@ -99,7 +101,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const rechartsRef = useRef<CategoricalChartWrapper>(null);
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
-    onImageLoading,
+    onCopied: onImageCopied,
+    onLoading: onImageLoading,
     elementSelector: (ref) => ref?.container,
     filter: (node) => {
       const exclusionClasses = ["recharts-tooltip-wrapper"];
@@ -112,8 +115,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   });
 
   useImperativeHandle(ref, () => ({
-    async download() {
-      await downloadPng();
+    async download(mode: DownloadMode) {
+      await downloadPng(mode);
     },
   }));
 

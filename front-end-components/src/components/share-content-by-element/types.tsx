@@ -2,7 +2,7 @@ import { ShareContentProps } from "../share-content/types";
 
 export type ShareContentByElementProps = Omit<
   ShareContentProps,
-  "onSaveClick"
+  "onSaveClick" | "onCopyClick"
 > & {
   elementSelector: () => HTMLElement | undefined;
 };
