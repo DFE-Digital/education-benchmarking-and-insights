@@ -41,7 +41,7 @@ def prepare_census_data(
                 year, input_schemas.workforce_census_column_mappings["default"]
             ),
         )
-        .dropna(subset=["URN"])
+        .dropna(subset=[input_schemas.workforce_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
     )
@@ -69,7 +69,7 @@ def prepare_census_data(
                 year, input_schemas.pupil_census_column_mappings["default"]
             ),
         )
-        .dropna(subset=["URN"])
+        .dropna(subset=[input_schemas.pupil_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.pupil_census_index_col)
     )

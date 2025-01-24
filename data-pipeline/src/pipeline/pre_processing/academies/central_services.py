@@ -5,21 +5,30 @@ import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
 
 
-def prepare_central_services_data(cs_path, current_year: int):
-    central_services_financial = pd.read_csv(
-        cs_path,
-        encoding="utf-8",
-        usecols=lambda x: x in input_schemas.aar_central_services.keys(),
-        dtype=input_schemas.aar_central_services,
+def prepare_central_services_data(cs_path, year: int):
+    central_services_financial = (
+        pd.read_csv(
+            cs_path,
+            encoding="utf-8",
+            usecols=input_schemas.aar_central_services.get(
+                year, input_schemas.aar_central_services["default"]
+            ).keys(),
+            dtype=input_schemas.aar_central_services.get(
+                year, input_schemas.aar_central_services["default"]
+            ),
+        )
+        .rename(
+            columns=input_schemas.aar_central_services_column_mappings.get(
+                year, input_schemas.aar_central_services_column_mappings["default"]
+            ),
+        )
+        .dropna(subset=[input_schemas.aar_central_services_index_col])
     )
 
-    if (
-        "BNCH11123-BTI011-A (MAT Central services - Income)"
-        not in central_services_financial.columns
-    ):
-        central_services_financial[
-            "BNCH11123-BTI011-A (MAT Central services - Income)"
-        ] = 0.0
+    for column, eval_ in input_schemas.aar_central_services_column_eval.get(
+        year, input_schemas.aar_central_services_column_eval["default"]
+    ).items():
+        central_services_financial[column] = central_services_financial.eval(eval_)
 
     central_services_financial["Income_Direct revenue finance"] = (
         central_services_financial[

@@ -268,6 +268,7 @@ def aar_central_services_data() -> pd.DataFrame:
         {
             "Lead_UPIN": [137157, 137157, 135112],
             "Company_Number": ["1000", "10001", "1002"],
+            "Company_Name": ["1000", "10001", "1002"],
             "BNCH11110T (EFA Revenue Grants)": [1000, 1001, 1002],
             "BNCH11131 (DfE Family Revenue Grants)": [1000, 1001, 1002],
             "BNCH11141 (SEN)": [1000, 1001, 1002],
@@ -342,13 +343,13 @@ def prepared_central_services_data(
     aar_central_services_data: pd.DataFrame,
 ) -> pd.DataFrame:
     return prepare_central_services_data(
-        StringIO(aar_central_services_data.to_csv()), 2022
+        StringIO(aar_central_services_data.to_csv()), 2023
     )
 
 
 @pytest.fixture
 def prepared_aar_data(aar_data: pd.DataFrame) -> pd.DataFrame:
-    return prepare_aar_data(StringIO(aar_data.to_csv()), 2022)
+    return prepare_aar_data(StringIO(aar_data.to_csv()), 2023)
 
 
 @pytest.fixture

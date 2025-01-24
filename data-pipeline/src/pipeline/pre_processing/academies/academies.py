@@ -15,34 +15,46 @@ simplefilter(action="ignore", category=FutureWarning)
 logger = logging.getLogger("fbit-data-pipeline")
 
 
-def prepare_aar_data(aar_path, current_year: int):
+def prepare_aar_data(aar_path, year: int):
     """
     Process Academies Accounts Return (AAR) data.
 
-    This processin includes:
+    This processing includes:
 
     - removal of any rows where URN is absent (often due to extraneous
       rows in the input file)
     - removal of "1 day" Academies (which indicate a transitioning
       Academy for which there will be data elsewhere)
-    - TODO
 
     :param aar_path: source from which data are to be read
-    :param current_year: year in question
+    :param year: year in question
     :return: processed AAR data
     """
-    aar = pd.read_csv(
-        aar_path,
-        encoding="utf-8",
-        usecols=lambda x: x in input_schemas.aar_academies.keys(),
-        dtype=input_schemas.aar_academies,
+    aar = (
+        pd.read_csv(
+            aar_path,
+            encoding="utf-8",
+            usecols=input_schemas.aar_academies.get(
+                year, input_schemas.aar_academies["default"]
+            ).keys(),
+            dtype=input_schemas.aar_academies.get(
+                year, input_schemas.aar_academies["default"]
+            ),
+        )
+        .rename(
+            columns=input_schemas.aar_academies_column_mappings.get(
+                year, input_schemas.aar_academies_column_mappings["default"]
+            ),
+        )
+        .dropna(subset=[input_schemas.aar_academies_index_col])
     )
 
-    aar = aar[~aar["URN"].isna()]
-    aar = aar[~(aar["ACADEMYTRUSTSTATUS"] == "1 day")]
+    for column, eval_ in input_schemas.aar_academies_column_eval.get(
+        year, input_schemas.aar_academies_column_eval["default"]
+    ).items():
+        aar[column] = aar.eval(eval_)
 
-    if "BNCH11123-BAI011-A (Academies - Income)" not in aar.columns:
-        aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
+    aar = aar[~(aar["ACADEMYTRUSTSTATUS"] == "1 day")]
 
     aar["Income_Direct revenue finance"] = aar[
         "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
@@ -173,7 +185,7 @@ def prepare_aar_data(aar_path, current_year: int):
 
     aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
-    return aar.set_index("URN")
+    return aar.set_index(input_schemas.aar_academies_index_col)
 
 
 def build_academy_data(
@@ -187,6 +199,27 @@ def build_academy_data(
     cfo,
     central_services,
 ):
+    """
+    Build the Academy dataset.
+
+    There are some assumptions made in the way the dataset is derived:
+
+    - that the `Company Registration Number` values in the `aar` data
+      are a subset of those in the `central_services` data (i.e. that
+      trusts referenced in the AAR data will exist in the Central
+      Services data).
+
+    :param schools: combined schools data
+    :param census: pupil-/workforce-census data
+    :param sen: SEN (Special Education Needs) data
+    :param cdc: Condition Data Collection (CDC) data
+    :param aar: Academies Accounts Return (AAR) data
+    :param ks2: Key Stage 2 data
+    :param ks4: Key Stage 4 data
+    :param cfo: Chief Financial Officer (CFO)
+    :param central_services: AAR Central Services data
+    :return: Academy data
+    """
     aar.rename(
         columns={
             "Date joined or opened if in period:": "Date joined or opened if in period",
