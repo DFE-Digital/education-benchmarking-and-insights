@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using Web.E2ETests.Assist;
+
 namespace Web.E2ETests.Pages;
 
-public partial class DataSourcesPage(IPage page) : BasePage(page)
+public class DataSourcesPage(IPage page) : BasePage(page)
 {
     private readonly IPage _page = page;
 
@@ -51,13 +51,10 @@ public partial class DataSourcesPage(IPage page) : BasePage(page)
             set.Add(new
             {
                 Label = text.Split("\n").FirstOrDefault(),
-                FileName = FileNameFromUrlRegex().Match(href!).Value
+                FileName = Regexes.FileNameFromUrlRegex().Match(href!).Value
             });
         }
 
         expected.CompareToDynamicSet(set, false);
     }
-
-    [GeneratedRegex("[^/]+(?=\\?)")]
-    private static partial Regex FileNameFromUrlRegex();
 }

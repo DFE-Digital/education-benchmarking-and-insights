@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Web.E2ETests.Pages.School.Comparators;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public enum ComparisonChartNames
@@ -51,7 +52,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
-            HasText = "Save"
+            HasTextRegex = Regexes.SaveAsImageRegex()
         });
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
