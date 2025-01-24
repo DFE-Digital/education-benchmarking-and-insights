@@ -27,40 +27,38 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 **In-scope:**
 
 - New Features:
-  - Introduction of historical trend analysis for benchmarking data.
-  - Support for optional Ofsted data points in datasets.
-  - Additional features for exporting and sharing charts:
-    - Download selected chart images.
+  - Historic pages updated to show historical averages nationally.
+  - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
+  - Additional features for exporting and sharing charts for offline use:
+    - Download multiple chart images.
     - Copy charts to clipboard.
-    - Copy chart to clipboard
-    - download this page data
-    - Include context data (e.g., cost codes) in exported images.
+    - download this page data.
+    - Include cost codes next to title in exported chart images.
 
 - Enhancements:
   - User-defined comparator enhancements and custom data improvements.
-  - Handling negative and zero values in financial benchmarking.
-  - Adding titles to all graphs for improved clarity.
-  - Replacing the current PNG export library with a more efficient HTML-to-image solution.
-  - Enabling "Save as Image" functionality on additional pages.
-  - Update CFR Transparency File to data sources page
-  - Modularisation of the pre-processing module for better maintainability.
-  - Adding indexes to optimise user data table performance.
-  - Extending data retention periods in Log Analytics Workspace for compliance.
-  - Monthly dependency updates for January 2025.
-  - System Reliability:
-    - handling of varying input schemas for pupil and workforce census to accept varying schema.
-    - Ensuring proper formatting checks in ADO pipeline for data pipeline builds.
-    - Change Cost and Income codes in AAR for 2024
+  - Suppressed negative and zero values in the service for better analysis.
+  - Added cost codes to all charts for improved clarity.
+  - Updated chart export functionality using a new, more efficient image generation tool.
+  - Enabled "Save as Image" functionality on spending priorities and historic data page.
+  - Added CFR Transparency File to the data sources page to easy data analysis.
+  - Improved service reliability and maintainability:
+    - code structure updates for better maintainability.
+    - Performance enhancements in user data table.
+    - handled of varying input schemas for pupil and workforce census to accept varying schema.
+    - Handled updated Cost and Income codes in AAR for 2024
+  - Extended data retention periods in Log Analytics Workspace for compliance.
+  - Monthly security patches.
 
 - Bug Fixes:
   - Data Accuracy and Presentation:
-    - Correcting RAG value calculations for federations.
-    - Addressing inconsistencies with pupil numbers.
-    - fix custom-data generation for part-year years.
+    - Corrected RAG value calculations for federations.
+    - Updated/fixed inconsistencies with pupil numbers.
+    - fixed custom-data generation for part-year years.
   - UI and Usability Fixes:
-    - Resolving issues with multi-selection of LAs not working as intended.
-    - Improving hover-over information for line charts in A02 reports.
-    - Fixing spinner behavior when no data is submitted in BFR.
+    - Resolved issues with multi-selection of LAs not working as intended.
+    - Added hover-over information for line charts for better accessibility.
+    - Fixed spinner behavior when no data is submitted in BFR.
 
 **Out-of-Scope:**
 
