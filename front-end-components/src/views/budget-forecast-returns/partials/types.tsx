@@ -9,6 +9,7 @@ export type BudgetForecastData = {
 
 export type BfrChartProps = {
   data: BudgetForecastData[];
+  onImageCopied: React.Dispatch<React.SetStateAction<string | undefined>>;
   onImageLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 };
 

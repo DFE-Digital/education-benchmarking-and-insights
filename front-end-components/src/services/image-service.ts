@@ -78,3 +78,5 @@ export class ImageService {
     return blob;
   }
 }
+
+export type DownloadMode = "save" | "copy";

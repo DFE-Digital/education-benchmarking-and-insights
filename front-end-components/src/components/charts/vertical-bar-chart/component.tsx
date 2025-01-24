@@ -31,6 +31,7 @@ import {
   TickProps,
 } from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
+import { DownloadMode } from "src/services";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
   props: VerticalBarChartProps<TData>,
@@ -49,6 +50,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     legend,
     margin: _margin,
     multiLineAxisLabel,
+    onImageCopied,
     onImageLoading,
     seriesConfig,
     seriesLabel,
@@ -60,15 +62,16 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   const rechartsRef = useRef<CategoricalChartWrapper>(null);
   const downloadPng = useDownloadPngImage({
     ref: rechartsRef,
-    onImageLoading,
+    onCopied: onImageCopied,
+    onLoading: onImageLoading,
     elementSelector: (ref) => ref?.container,
     title: chartTitle,
     showTitle: true,
   });
 
   useImperativeHandle(ref, () => ({
-    async download() {
-      await downloadPng();
+    async download(mode: DownloadMode) {
+      await downloadPng(mode);
     },
   }));
 

@@ -233,7 +233,7 @@ const HorizontalChart1Series = ({
         data-module="govuk-button"
         disabled={imageLoading}
         aria-disabled={imageLoading}
-        onClick={() => horizontalChart2SeriesRef?.current?.download()}
+        onClick={() => horizontalChart2SeriesRef?.current?.download("save")}
       >
         Download as image
       </button>
@@ -370,7 +370,9 @@ const HorizontalChartTrustFinancial = ({
         data-module="govuk-button"
         disabled={imageLoading}
         aria-disabled={imageLoading}
-        onClick={() => horizontalChart1SeriesStackedRef?.current?.download()}
+        onClick={() =>
+          horizontalChart1SeriesStackedRef?.current?.download("save")
+        }
       >
         Download as image
       </button>
@@ -477,7 +479,7 @@ const VerticalChart2Series = ({
         data-module="govuk-button"
         disabled={imageLoading}
         aria-disabled={imageLoading}
-        onClick={() => verticalChart2SeriesRef?.current?.download()}
+        onClick={() => verticalChart2SeriesRef?.current?.download("save")}
       >
         Download as image
       </button>
@@ -607,7 +609,7 @@ const LineChart1Series = ({
         data-module="govuk-button"
         disabled={imageLoading}
         aria-disabled={imageLoading}
-        onClick={() => lineChart1SeriesRef?.current?.download()}
+        onClick={() => lineChart1SeriesRef?.current?.download("save")}
       >
         Download as image
       </button>
@@ -705,7 +707,7 @@ const LineChart2Series = ({
         data-module="govuk-button"
         disabled={imageLoading}
         aria-disabled={imageLoading}
-        onClick={() => lineChart2SeriesRef?.current?.download()}
+        onClick={() => lineChart2SeriesRef?.current?.download("save")}
       >
         Download as image
       </button>

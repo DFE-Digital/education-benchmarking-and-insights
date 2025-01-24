@@ -34,6 +34,7 @@ export const ShareContentByElements: React.FC<ShareContentByElementsProps> = ({
   return (
     <ShareContent
       disabled={imagesLoading || disabled}
+      hideCopy
       onSaveClick={async () => {
         if (onClick) {
           await onClick();

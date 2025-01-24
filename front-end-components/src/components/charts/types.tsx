@@ -11,6 +11,7 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 import { ContentType } from "recharts/types/component/Tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
+import { DownloadMode } from "src/services";
 
 export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
@@ -34,6 +35,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   legendWrapperStyle?: CSSProperties;
   margin?: number;
   multiLineAxisLabel?: boolean;
+  onImageCopied?: (fileName: string) => void;
   onImageLoading?: (loading: boolean) => void;
   ref?: Ref<ChartHandler>;
   seriesConfig?: ChartSeriesConfig<TData>;
@@ -70,7 +72,7 @@ export type TickProps = SVGProps<SVGGElement> & {
 };
 
 export type ChartHandler = {
-  download: () => Promise<void>;
+  download: (mode: DownloadMode) => Promise<void>;
 };
 
 export type ChartSortDirection = "asc" | "desc";

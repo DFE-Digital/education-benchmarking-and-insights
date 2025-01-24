@@ -37,6 +37,7 @@ export function HistoricChart2<TData extends HistoryBase>({
   const dimension = useContext(ChartDimensionContext);
   const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const [imageCopied, setImageCopied] = useState<boolean>();
 
   const mergedData = useMemo(() => {
     const result: SchoolHistoryValue[] = [];
@@ -101,6 +102,13 @@ export function HistoricChart2<TData extends HistoryBase>({
     },
   };
 
+  const handleImageCopied = () => {
+    setImageCopied(true);
+    setTimeout(() => {
+      setImageCopied(false);
+    }, 2000);
+  };
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -108,8 +116,11 @@ export function HistoricChart2<TData extends HistoryBase>({
         {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-quarter">
             <ShareContent
+              copied={imageCopied}
               disabled={imageLoading}
-              onSaveClick={() => chartRef.current?.download()}
+              onCopyClick={() => chartRef.current?.download("copy")}
+              onSaveClick={() => chartRef.current?.download("save")}
+              copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
               title={chartTitle}
             />
@@ -133,6 +144,7 @@ export function HistoricChart2<TData extends HistoryBase>({
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
                 ref={chartRef}
+                onImageCopied={handleImageCopied}
                 onImageLoading={setImageLoading}
                 tooltip={(t) => (
                   <HistoricDataTooltip

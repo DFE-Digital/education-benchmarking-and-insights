@@ -1,12 +1,14 @@
 import saveAs from "file-saver";
 import JSZip from "jszip";
 import { useCallback } from "react";
-import { ImageOptions, ImageService } from "src/services";
+import { DownloadMode, ImageOptions, ImageService } from "src/services";
 
 export type DownloadPngImageOptions<T> = {
   elementSelector: (ref?: T) => HTMLElement | undefined;
   fileName?: string;
-  onImageLoading?: (loading: boolean) => void;
+  onCopied?: (fileName: string) => void;
+  onLoading?: (loading: boolean) => void;
+  onSaved?: (fileName: string) => void;
   ref?: React.RefObject<T>;
   showTitle?: boolean;
   title?: string;
@@ -18,74 +20,109 @@ type ElementAndTitle = {
 };
 
 export type DownloadPngImagesOptions = {
-  elementsSelector: () => ElementAndTitle[];
   fileName?: string;
+  elementsSelector: () => ElementAndTitle[];
   onImagesLoading?: (loading: boolean) => void;
   onProgress?: (percentage: number) => void;
   showTitles?: boolean;
 } & Pick<ImageOptions, "filter">;
 
 const imageTitleHeight = 50;
+const type = "image/png";
+const backgroundColor = "#fff";
 
 export function useDownloadPngImage<T>({
-  fileName: fileNameProp,
   elementSelector,
+  fileName: fileNameProp,
   filter,
-  onImageLoading,
+  onCopied,
+  onLoading,
+  onSaved,
   showTitle,
   ref,
   title,
 }: DownloadPngImageOptions<T>) {
   const fileName = getFileName(title, fileNameProp);
 
-  const downloadPng = useCallback(async () => {
-    const element = elementSelector(ref?.current || undefined);
-    if (!element) {
-      return;
-    }
+  const downloadPng = useCallback(
+    async (mode: DownloadMode) => {
+      const element = elementSelector(ref?.current || undefined);
+      if (!element) {
+        return;
+      }
 
-    const download = async () => {
-      const blob = await ImageService.toBlob(
-        element,
-        getImageOptions(element, title, showTitle, filter)
-      );
+      const getBlob = async () => {
+        return await ImageService.toBlob(
+          element,
+          getImageOptions(element, type, title, showTitle, filter)
+        );
+      };
 
-      if (blob) {
-        if (window.saveAs) {
-          window.saveAs(blob, fileName);
+      const download = async () => {
+        const blob = await getBlob();
+        if (blob) {
+          if (window.saveAs) {
+            window.saveAs(blob, fileName);
+          } else {
+            saveAs.saveAs(blob, fileName);
+          }
+
+          if (onSaved) {
+            onSaved(fileName);
+          }
+        }
+      };
+
+      const copy = async () => {
+        const blob = await getBlob();
+        if (blob) {
+          const data = [new ClipboardItem({ [type]: blob })];
+          await navigator.clipboard.write(data);
+          if (onCopied) {
+            onCopied(fileName);
+          }
+        }
+      };
+
+      if (onLoading) {
+        onLoading(true);
+
+        // If loader event is subscribed, allow it to be triggered before the actual generate and download PNG process
+        // due to the latter performing a synchronous XMLHttpRequest on the main thread which is documented as being
+        // detrimental effects to the end user's experience (see `Issues` in browser DevTools for more information).
+        setTimeout(async () => {
+          try {
+            if (mode === "copy") {
+              await copy();
+            } else {
+              await download();
+            }
+          } catch (err) {
+            console.error(`Unable to download image ${fileName}`, err);
+          } finally {
+            onLoading(false);
+          }
+        }, 100);
+      } else {
+        if (mode === "copy") {
+          await copy();
         } else {
-          saveAs.saveAs(blob, fileName);
+          await download();
         }
       }
-    };
-
-    if (onImageLoading) {
-      onImageLoading(true);
-
-      // If loader event is subscribed, allow it to be triggered before the actual generate and download PNG process
-      // due to the latter performing a synchronous XMLHttpRequest on the main thread which is documented as being
-      // detrimental effects to the end user's experience (see `Issues` in browser DevTools for more information).
-      setTimeout(async () => {
-        try {
-          await download();
-        } catch (err) {
-          console.error(`Unable to download image ${fileName}`, err);
-        } finally {
-          onImageLoading(false);
-        }
-      }, 100);
-    } else {
-      await download();
-    }
-  }, [
-    elementSelector,
-    fileName,
-    filter,
-    onImageLoading,
-    ref,
-    showTitle,
-    title,
-  ]);
+    },
+    [
+      elementSelector,
+      fileName,
+      filter,
+      onCopied,
+      onLoading,
+      onSaved,
+      ref,
+      showTitle,
+      title,
+    ]
+  );
 
   return downloadPng;
 }
@@ -117,7 +154,7 @@ export function useDownloadPngImages({
 
         const blob = await ImageService.toBlob(
           element,
-          getImageOptions(element, title, showTitles, filter)
+          getImageOptions(element, type, title, showTitles, filter)
         );
 
         if (blob) {
@@ -183,6 +220,7 @@ const getFileName = (title?: string, fileName?: string) => {
 
 const getImageOptions = (
   element: HTMLElement,
+  type: string,
   title?: string,
   showTitle?: boolean,
   filter?: (domNode: HTMLElement) => boolean
@@ -211,8 +249,8 @@ const getImageOptions = (
 
   return {
     cacheBust: true,
-    backgroundColor: "#fff",
-    type: "image/png",
+    backgroundColor,
+    type,
     filter,
     width: element.clientWidth,
     height,

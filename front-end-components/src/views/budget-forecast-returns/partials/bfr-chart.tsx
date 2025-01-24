@@ -7,7 +7,7 @@ import { forwardRef } from "react";
 import { ChartHandler } from "src/components";
 
 export const BfrChart = forwardRef<ChartHandler, BfrChartProps>(
-  ({ data, onImageLoading }, ref) => {
+  ({ data, onImageCopied, onImageLoading }, ref) => {
     return (
       <div className="govuk-grid-column-full" style={{ height: 400 }}>
         {data.length > 0 ? (
@@ -18,6 +18,7 @@ export const BfrChart = forwardRef<ChartHandler, BfrChartProps>(
             highlightActive
             keyField="periodEndDate"
             margin={20}
+            onImageCopied={onImageCopied}
             onImageLoading={onImageLoading}
             ref={ref}
             seriesConfig={{
