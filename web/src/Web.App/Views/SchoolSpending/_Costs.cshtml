@@ -57,7 +57,9 @@
                     </div>
                 }
                 <div class="govuk-grid-column-full">
-                    <p class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0">
+                    <p 
+                        class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0"
+                        data-testid="@categoryHeading-rag-commentary">
                         @await Component.InvokeAsync("Tag", new
                         {
                             rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText)

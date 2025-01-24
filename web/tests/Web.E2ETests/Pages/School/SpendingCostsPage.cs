@@ -141,7 +141,7 @@ public class SpendingCostsPage(IPage page)
         var categoryHeader = page.Locator("h3").And(page.GetByText(categoryName));
         Assert.NotNull(categoryHeader);
 
-        var priority = categoryHeader.Locator("//following-sibling::p[1]");
+        var priority = page.GetByTestId($"{categoryName}-rag-commentary");
         Assert.NotNull(priority);
 
         var text = await priority.InnerTextAsync();
