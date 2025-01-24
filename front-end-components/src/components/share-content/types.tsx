@@ -6,10 +6,12 @@ export type ShareContentProps = Pick<
   "showTitle" | "title"
 > & {
   copied?: boolean;
+  copiedLabel?: string;
   disabled?: boolean;
-  hideCopy?: boolean;
   onCopyClick?: MouseEventHandler<HTMLButtonElement> | undefined;
   onSaveClick?: MouseEventHandler<HTMLButtonElement> | undefined;
   copyEventId?: string;
   saveEventId?: string;
+  showCopy?: boolean;
+  showSave?: boolean;
 };

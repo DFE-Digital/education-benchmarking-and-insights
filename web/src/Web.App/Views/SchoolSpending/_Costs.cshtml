@@ -51,13 +51,14 @@
                                 data-element-id="@categoryHeading"
                                 data-title="@categoryHeading"
                                 data-show-title="true"
+                                data-copy-event-id="copy-chart-as-image"
                                 data-save-event-id="save-chart-as-image">
                             </div>
                         </div>
                     </div>
                 }
                 <div class="govuk-grid-column-full">
-                    <p 
+                    <p
                         class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0"
                         data-testid="@categoryHeading-rag-commentary">
                         @await Component.InvokeAsync("Tag", new
