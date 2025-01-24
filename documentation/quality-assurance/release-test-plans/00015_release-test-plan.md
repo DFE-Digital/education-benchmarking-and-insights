@@ -35,7 +35,6 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
   - Extended "Save as Image" functionality on spending priorities and historic data page.
   - Improved service reliability and maintainability:
     - handled of varying input schemas for pupil and workforce census to accept varying schema.
-    - Handled updated Cost and Income codes in AAR for 2024
     - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
   - Additional features for exporting and sharing charts for offline use:
     - Download multiple chart images, copy to clipboard
@@ -63,14 +62,8 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 
 - Functional Testing:
   - Features: Test new and updated features for correct functionality.
-  - Regression: Verify that existing functionality remains intact with new changes.
-- Non-Functional Testing:
-  - Performance: Load testing on peak usage scenarios.
-  - Security: Test for SQL injection, XSS, and other vulnerabilities.
-- Exploratory Testing: Explore features and functionality without predefined scripts, to uncover issues and assess quality.
-- User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
-- Sanity Testing: Perform sanity checks on bug fixes to confirm their resolution.
+- Sanity Testing: Perform sanity checks on bug fixes, enhancments to confirm the updates.
 
 ## Entry and Exit Criteria
 >
