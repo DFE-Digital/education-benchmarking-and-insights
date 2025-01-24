@@ -28,37 +28,27 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 
 - New Features:
   - Historic pages updated to show historical averages nationally.
-  - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
-  - Additional features for exporting and sharing charts for offline use:
-    - Download multiple chart images.
-    - Copy charts to clipboard.
-    - download this page data.
-    - Include cost codes next to title in exported chart images.
 
 - Enhancements:
-  - User-defined comparator enhancements and custom data improvements.
-  - Suppressed negative and zero values in the service for better analysis.
-  - Added cost codes to all charts for improved clarity.
-  - Updated chart export functionality using a new, more efficient image generation tool.
-  - Enabled "Save as Image" functionality on spending priorities and historic data page.
-  - Added CFR Transparency File to the data sources page to easy data analysis.
+  - Removed negative and zero cost category value for schools for better analysis.
+  - Added cost codes to all charts and downloaded charts for improved clarity.
+  - Extended "Save as Image" functionality on spending priorities and historic data page.
   - Improved service reliability and maintainability:
-    - code structure updates for better maintainability.
-    - Performance enhancements in user data table.
     - handled of varying input schemas for pupil and workforce census to accept varying schema.
     - Handled updated Cost and Income codes in AAR for 2024
-  - Extended data retention periods in Log Analytics Workspace for compliance.
-  - Monthly security patches.
+    - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
+  - Additional features for exporting and sharing charts for offline use:
+    - Download multiple chart images, copy to clipboard
+    - download this page data.
 
 - Bug Fixes:
   - Data Accuracy and Presentation:
-    - Corrected RAG value calculations for federations.
+    - Corrected RAG value calculations to show aggregated data for federations.
     - Updated/fixed inconsistencies with pupil numbers.
-    - fixed custom-data generation for part-year years.
   - UI and Usability Fixes:
-    - Resolved issues with multi-selection of LAs not working as intended.
+    - Ensured multi-selection of LAs working as intended when doing user defined comparator set.
     - Added hover-over information for line charts for better accessibility.
-    - Fixed spinner behavior when no data is submitted in BFR.
+    - Added appropriate message when no data is submitted in BFR.
 
 **Out-of-Scope:**
 
