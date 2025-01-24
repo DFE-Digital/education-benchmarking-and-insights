@@ -66,7 +66,7 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 
 - Any new functionality or enhancements not explicitly targeted for this release.
 - Non-critical visual or content updates not related to user experience or data correctness.
-- Testing scenarios outside the scope of existing modules, including external APIs and datasets not included in this release.
+- Testing scenarios outside the scope of existing modules, including datasets not included in this release.
 
 ## Test Strategy
 >
