@@ -30,6 +30,7 @@ export function HistoricChart2<TData extends HistoryBase>({
   legendVerticalAlign,
   legendWrapperStyle,
   perUnitDimension,
+  showCopyImageButton,
   valueField,
   valueUnit,
 }: HistoricChart2Props<TData>) {
@@ -122,7 +123,7 @@ export function HistoricChart2<TData extends HistoryBase>({
               onSaveClick={() => chartRef.current?.download("save")}
               copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
-              showCopy
+              showCopy={showCopyImageButton}
               showSave
               title={chartTitle}
             />

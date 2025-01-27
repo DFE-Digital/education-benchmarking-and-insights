@@ -14,14 +14,15 @@ import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { ShareContent } from "src/components/share-content";
 
 export function HistoricChart<TData extends ChartDataSeries>({
+  axisLabel,
   chartTitle,
+  children,
+  columnHeading,
   data,
   seriesConfig,
+  showCopyImageButton,
   valueField,
-  children,
   valueUnit,
-  axisLabel,
-  columnHeading,
 }: HistoricChartProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -49,7 +50,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
               onSaveClick={() => chartRef.current?.download("save")}
               copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
-              showCopy
+              showCopy={showCopyImageButton}
               showSave
               title={chartTitle}
             />
