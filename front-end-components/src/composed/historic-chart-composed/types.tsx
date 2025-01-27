@@ -5,8 +5,10 @@ import {
   ChartSeriesValueUnit,
 } from "src/components/charts/types";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
+import { LineChartProps } from "src/components/charts/line-chart";
 
-export interface HistoricChartProps<T extends ChartDataSeries> {
+export interface HistoricChartProps<T extends ChartDataSeries>
+  extends Pick<LineChartProps<T>, "showCopyImageButton"> {
   chartTitle: string;
   data: T[];
   seriesConfig: ChartProps<T>["seriesConfig"];
