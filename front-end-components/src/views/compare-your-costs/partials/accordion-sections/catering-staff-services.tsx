@@ -154,6 +154,7 @@ export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
           </div>
         </div>
       }
+      showCopyImageButton
       title="Catering staff and supplies"
     />
   );

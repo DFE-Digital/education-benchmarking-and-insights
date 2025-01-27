@@ -164,6 +164,7 @@ export const PremisesStaffServices: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={5}
+      showCopyImageButton
       title="Premises staff and services"
       trust
     />

@@ -165,6 +165,7 @@ export const CateringStaffServices: React.FC<{
           </div>
         </div>
       }
+      showCopyImageButton
       title="Catering staff and supplies"
       trust
     />

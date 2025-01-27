@@ -6,7 +6,10 @@ import {
 
 export type HorizontalBarChartWrapperProps<
   TData extends SchoolChartData | TrustChartData,
-> = Pick<ChartProps<TData>, "chartTitle" | "valueUnit"> & {
+> = Pick<
+  ChartProps<TData>,
+  "chartTitle" | "showCopyImageButton" | "valueUnit"
+> & {
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;
   sort?: ChartDataSeriesSortMode<TData>;

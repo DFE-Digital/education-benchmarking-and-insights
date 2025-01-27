@@ -54,6 +54,7 @@ public class BenchmarkCensusPage(IPage page)
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
 
         await AreSaveAsImageButtonsDisplayed();
+        await AreCopyImageButtonsDisplayed(false);
         await AreChartsDisplayed();
     }
 

@@ -178,6 +178,7 @@ export const NonEducationalSupportStaff: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={2}
+      showCopyImageButton
       title="Non-educational support staff and services"
       trust
     />

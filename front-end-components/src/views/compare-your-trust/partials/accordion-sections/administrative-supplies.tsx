@@ -83,6 +83,7 @@ export const AdministrativeSupplies: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={7}
+      showCopyImageButton
       title="Administrative supplies"
       trust
     />

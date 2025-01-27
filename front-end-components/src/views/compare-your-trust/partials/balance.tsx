@@ -87,6 +87,7 @@ export const Balance: React.FC<{
       dimension={dimension}
       dimensions={CostCategories}
       handleDimensionChange={handleDimensionChange}
+      showCopyImageButton
       topLevel
       trust
     />

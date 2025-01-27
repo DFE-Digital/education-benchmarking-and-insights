@@ -19,7 +19,7 @@ export function DimensionedChart<
   hasNoData,
   options,
   topLevel,
-  trust,
+  ...props
 }: DimensionedChartProps<TData>) {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -45,11 +45,7 @@ export function DimensionedChart<
 
       return (
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
-          <HorizontalBarChartWrapper
-            chartTitle={title}
-            data={data}
-            trust={trust}
-          >
+          <HorizontalBarChartWrapper chartTitle={title} data={data} {...props}>
             {topLevel ? (
               <h2 className="govuk-heading-m">{title}</h2>
             ) : (

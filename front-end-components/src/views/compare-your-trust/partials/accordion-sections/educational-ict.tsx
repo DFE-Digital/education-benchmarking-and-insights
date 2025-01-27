@@ -76,6 +76,7 @@ export const EducationalIct: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={4}
+      showCopyImageButton
       title="Educational ICT"
       trust
     />
