@@ -21,6 +21,7 @@ public class CompareYourCostsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator SaveImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureSaveAsImage);
+    private ILocator CopyImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureCopyImage);
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
     private ILocator TotalExpenditureChart => page.Locator(Selectors.TotalExpenditureChart);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
@@ -50,6 +51,11 @@ public class CompareYourCostsPage(IPage page)
         {
             HasTextRegex = Regexes.SaveAsImageRegex()
         });
+    private ILocator CopyImageButtons =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasTextRegex = Regexes.CopyImageRegex()
+        });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator ChartTicks => page.Locator(Selectors.ChartYTicks);
@@ -60,6 +66,7 @@ public class CompareYourCostsPage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         await SaveImageTotalExpenditure.ShouldBeVisible();
+        await CopyImageTotalExpenditure.ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();
         await ShowHideAllSectionsLink.ShouldBeVisible();
@@ -75,6 +82,17 @@ public class CompareYourCostsPage(IPage page)
         var chartToDownload = chartName switch
         {
             ComparisonChartNames.TotalExpenditure => SaveImageTotalExpenditure,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+
+        await chartToDownload.Click();
+    }
+
+    public async Task ClickCopyImage(ComparisonChartNames chartName)
+    {
+        var chartToDownload = chartName switch
+        {
+            ComparisonChartNames.TotalExpenditure => CopyImageTotalExpenditure,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
@@ -108,6 +126,21 @@ public class CompareYourCostsPage(IPage page)
         if (isVisible)
         {
             Assert.Equal(44, buttons.Count);
+            await buttons.ShouldBeVisible();
+        }
+        else
+        {
+            Assert.Empty(buttons);
+            await buttons.ShouldNotBeVisible();
+        }
+    }
+
+    public async Task AreCopyImageButtonsDisplayed(bool isVisible = true)
+    {
+        var buttons = await CopyImageButtons.AllAsync();
+        if (isVisible)
+        {
+            Assert.Equal(8, buttons.Count);
             await buttons.ShouldBeVisible();
         }
         else
@@ -202,6 +235,7 @@ public class CompareYourCostsPage(IPage page)
     {
         await TotalExpenditureDimension.FocusAsync();
         await page.Keyboard.PressAsync("Tab"); // save as image button
+        await page.Keyboard.PressAsync("Tab"); // copy image button
         await page.Keyboard.PressAsync("Tab"); // first trust
     }
 

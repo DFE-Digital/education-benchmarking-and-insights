@@ -186,7 +186,8 @@ Add the following configuration in `appsetings.local.json` in the root of `Web.E
   "Authentication": {
     "Username": "<DSI_USERNAME>",
     "Password": "<DSI_PASSWORD>"
-  }
+  },
+  "Permissions": ["clipboard-read"]
 }
 ```
 

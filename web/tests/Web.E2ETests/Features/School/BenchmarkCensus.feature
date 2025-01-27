@@ -9,6 +9,11 @@
         When I click on save as image for 'school workforce'
         Then the 'school workforce' chart image is downloaded
 
+    Scenario: Copy school workforce chart
+        Given I am on census page for school with URN '777042'
+        When I click on copy image for 'school workforce'
+        Then the 'school workforce' chart image is copied
+
     Scenario: Change dimension of school workforce
         Given I am on census page for school with URN '777042'
         When I change 'school workforce' dimension to 'pupils per staff role'
@@ -33,6 +38,7 @@
         When I click on view as table
         Then the table view is showing
         But save as image buttons are hidden
+        And copy image buttons are hidden
 
     Scenario: Change table view to chart view
         Given I am on census page for school with URN '777042'
@@ -40,6 +46,7 @@
         When I click on view as chart
         Then chart view is showing
         And save as image buttons are displayed
+        And copy image buttons are displayed
 
     Scenario Outline: Checking the charts dimension dropdown items
         Given I am on census page for school with URN '777042'

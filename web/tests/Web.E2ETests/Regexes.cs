@@ -18,4 +18,7 @@ public static partial class Regexes
 
     [GeneratedRegex("Save.+as image")]
     public static partial Regex SaveAsImageRegex();
+
+    [GeneratedRegex("Copy.+ image")]
+    public static partial Regex CopyImageRegex();
 }
