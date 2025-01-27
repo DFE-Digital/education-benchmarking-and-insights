@@ -120,6 +120,7 @@ export const Utilities: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={6}
+      showCopyImageButton
       title="Utilities"
       trust
     />

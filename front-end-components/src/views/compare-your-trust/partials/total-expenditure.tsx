@@ -76,6 +76,7 @@ export const TotalExpenditure: React.FC<{
         return category !== PercentageExpenditure;
       })}
       handleDimensionChange={handleDimensionChange}
+      showCopyImageButton
       topLevel
       trust
     />

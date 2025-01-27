@@ -42,6 +42,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   seriesLabel?: string;
   seriesLabelField: keyof TData;
   seriesFormatter?: (value: unknown) => string;
+  showCopyImageButton?: boolean;
   suffix?: string;
   tooltip?: ContentType<ValueType, NameType>;
   valueLabel?: string;

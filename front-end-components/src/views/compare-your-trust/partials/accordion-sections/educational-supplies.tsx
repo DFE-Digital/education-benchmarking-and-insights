@@ -128,6 +128,7 @@ export const EducationalSupplies: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={3}
+      showCopyImageButton
       title="Educational supplies"
       trust
     />

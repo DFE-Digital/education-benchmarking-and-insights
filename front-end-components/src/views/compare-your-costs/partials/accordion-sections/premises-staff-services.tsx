@@ -148,6 +148,7 @@ export const PremisesStaffServices: React.FC<CompareYourCostsProps> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={5}
+      showCopyImageButton
       title="Premises staff and services"
     />
   );

@@ -82,7 +82,7 @@ public class BenchmarkCensusPage(IPage page)
             await CustomDataLink.ShouldBeVisible();
 
             await AreSaveAsImageButtonsDisplayed();
-            await AreCopyImageButtonsDisplayed();
+            await AreCopyImageButtonsDisplayed(false);
             await AreChartsDisplayed();
             return;
         }

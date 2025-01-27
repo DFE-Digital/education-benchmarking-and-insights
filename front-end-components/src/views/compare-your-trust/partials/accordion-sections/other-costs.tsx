@@ -313,6 +313,7 @@ export const OtherCosts: React.FC<{
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={9}
+      showCopyImageButton
       title="Other costs"
       trust
     />

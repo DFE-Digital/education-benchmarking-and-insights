@@ -17,7 +17,10 @@ type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
 
 export type DimensionedChartProps<
   TData extends SchoolChartData | TrustChartData,
-> = {
+> = Pick<
+  HorizontalBarChartWrapperProps<TData>,
+  "showCopyImageButton" | "trust"
+> & {
   charts: DimensionedChart<TData>[];
   dimension: Dimension;
   dimensions?: Dimension[];
@@ -25,5 +28,4 @@ export type DimensionedChartProps<
   hasNoData?: boolean;
   options?: ReactNode;
   topLevel?: boolean;
-  trust?: boolean;
 };

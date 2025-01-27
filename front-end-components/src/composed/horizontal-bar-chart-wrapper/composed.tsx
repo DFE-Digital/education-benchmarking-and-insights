@@ -38,7 +38,15 @@ import { ShareContent } from "src/components/share-content";
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartTitle, children, data, sort, trust, valueUnit } = props;
+  const {
+    chartTitle,
+    children,
+    data,
+    showCopyImageButton,
+    sort,
+    trust,
+    valueUnit,
+  } = props;
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -177,7 +185,7 @@ export function HorizontalBarChartWrapper<
               onSaveClick={() => chartRef.current?.download("save")}
               copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
-              showCopy
+              showCopy={showCopyImageButton}
               showSave
               title={chartTitle}
             />

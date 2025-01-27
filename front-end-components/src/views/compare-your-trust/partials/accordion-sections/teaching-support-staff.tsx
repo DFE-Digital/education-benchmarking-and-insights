@@ -194,6 +194,7 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={1}
+      showCopyImageButton
       title="Teaching and teaching support staff"
       trust
     />

@@ -306,6 +306,7 @@ export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={9}
+      showCopyImageButton
       title="Other costs"
     />
   );

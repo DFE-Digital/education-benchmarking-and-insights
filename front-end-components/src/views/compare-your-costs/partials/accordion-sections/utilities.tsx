@@ -114,6 +114,7 @@ export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={6}
+      showCopyImageButton
       title="Utilities"
     />
   );
