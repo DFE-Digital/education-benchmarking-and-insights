@@ -150,6 +150,8 @@ public static class Selectors
     public const string CateringStaffAndServicesTables = "#catering-staff-and-supplies table";
     public const string TeachingAndTeachingSupportStaffTables = "#teaching-and-teaching-support-staff table";
     public const string TeachingAndTeachingSupportStaff = "#teaching-and-teaching-support-staff";
+    public const string TeachingAndTeachingSupportStaffSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Teaching and Teaching support staff'][@data-custom-event-id='save-chart-as-image']";
+    public const string TeachingAndTeachingSupportStaffCopyImage = "xpath=//*[@data-custom-event-chart-name='Teaching and Teaching support staff'][@data-custom-event-id='copy-chart-as-image']";
 
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
     public const string RunningCostCategoriesTab = "#tab_running";

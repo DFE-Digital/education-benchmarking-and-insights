@@ -875,7 +875,8 @@ const shareContentByElementIdElements = document.querySelectorAll<HTMLElement>(
 
 if (shareContentByElementIdElements) {
   shareContentByElementIdElements.forEach((element) => {
-    const { elementId, saveEventId, showTitle, title } = element.dataset;
+    const { copyEventId, elementId, saveEventId, showTitle, title } =
+      element.dataset;
     if (elementId && title) {
       const el = document.getElementById(elementId);
       if (el) {
@@ -883,6 +884,7 @@ if (shareContentByElementIdElements) {
         root.render(
           <React.StrictMode>
             <ShareContentByElement
+              copyEventId={copyEventId}
               elementSelector={() =>
                 document.getElementById(elementId) ?? undefined
               }

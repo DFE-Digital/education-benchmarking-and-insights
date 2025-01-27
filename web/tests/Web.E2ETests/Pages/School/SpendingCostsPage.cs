@@ -99,6 +99,8 @@ public class SpendingCostsPage(IPage page)
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator EducationIctCostCategory => page.Locator(Selectors.EducationIctSpendingCosts);
     private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
+    private ILocator SaveImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffSaveAsImage);
+    private ILocator CopyImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffCopyImage);
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
@@ -110,6 +112,8 @@ public class SpendingCostsPage(IPage page)
         Assert.Equal(8, await AllChartsStats.Count());
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
+        await SaveImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
+        await CopyImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
     }
 
     public async Task AssertOrderOfCharts(List<string[]> expectedOrder)
