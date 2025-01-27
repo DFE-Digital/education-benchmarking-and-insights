@@ -14,15 +14,6 @@ This plan defines the approach for testing release `[release label]`, covering a
 Ensure that all new features, enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
 
 ## Scope
->
->[!NOTE]
->In-scope list should include a link to the ADO ticket.
->Ticket title may be adequate to describe the feature/enhancement/bug fix,
->however if it doesn't than a meaning title should be added here.
->
->Out-of-scope list any other areas that are explicitly out of scope.
-
-## Scope
 
 **In-scope:**
 
@@ -31,14 +22,14 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 
 - Enhancements:
   - Removed negative and zero cost category value for schools for better analysis.
-  - Added cost codes to all charts and downloaded charts for improved clarity.
-  - Extended "Save as Image" functionality on spending priorities and historic data page.
   - Improved service reliability and maintainability:
-    - handled of varying input schemas for pupil and workforce census to accept varying schema.
+    - Handled of varying input schemas for pupil and workforce census to accept varying schema.
     - Support for optional Ofsted data points in GIAS datasets to enhance flexibility.
   - Additional features for exporting and sharing charts for offline use:
     - Download multiple chart images, copy to clipboard
-    - download this page data.
+    - Download this page data.
+    - Added cost codes to all charts and downloaded charts for improved clarity.
+    - Extended "Save as Image" functionality on spending priorities and historic data page.
 
 - Bug Fixes:
   - Data Accuracy and Presentation:
@@ -56,14 +47,12 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 - Testing scenarios outside the scope of existing modules, including datasets not included in this release.
 
 ## Test Strategy
->
->[!NOTE]
->Add/remove/update where necessary to reflect the types of testings for this release.
 
 - Functional Testing:
   - Features: Test new and updated features for correct functionality.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 - Sanity Testing: Perform sanity checks on bug fixes, enhancments to confirm the updates.
+- User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 
 ## Entry and Exit Criteria
 >
