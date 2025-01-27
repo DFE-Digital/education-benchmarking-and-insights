@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Playwright;
 
 namespace Web.E2ETests;
 
@@ -17,4 +18,11 @@ public static class TestConfiguration
     public static string LoginPassword => Instance.GetValue<string>("Authentication:Password") ?? throw new Exception("Login password is missing");
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
     public static bool OutputPageResponse => Instance.GetValue<bool?>("OutputPageResponse") ?? false;
+
+    /// <inheritdoc cref="IBrowserContext.GrantPermissionsAsync" />
+    public static string[] Permissions => Instance.GetSection("Permissions")
+        .GetChildren()
+        .Where(c => !string.IsNullOrWhiteSpace(c.Value))
+        .Select(c => c.Value!)
+        .ToArray();
 }

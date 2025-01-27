@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using Microsoft.Playwright;
-using Reqnroll;
 
 namespace Web.E2ETests.Drivers;
 
@@ -75,6 +74,7 @@ public class PageDriver : IDisposable
         _browser ??= await InitialiseBrowser();
 
         var browserContext = await _browser.NewContextAsync(ContextOptions);
+        await browserContext.GrantPermissionsAsync(TestConfiguration.Permissions);
 
         var page = await browserContext.NewPageAsync();
         if (TestConfiguration.OutputPageResponse)

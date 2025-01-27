@@ -1,9 +1,9 @@
 using Microsoft.Playwright;
-using Reqnroll;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
 using Xunit;
 using HomePage = Web.E2ETests.Pages.School.HomePage;
+
 namespace Web.E2ETests.Steps.Trust;
 
 [Binding]
@@ -42,6 +42,20 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         ChartDownloaded(chartName);
+    }
+
+    [When("I click on copy image for '(.*)'")]
+    public async Task WhenIClickOnCopyImageFor(string chartName)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.ClickCopyImage(ChartNameFromFriendlyName(chartName));
+    }
+
+    [Then("the '(.*)' chart image is copied")]
+    public async Task ThenTheChartImageIsCopied(string chartName)
+    {
+        Assert.NotNull(_comparisonPage);
+        await ChartCopied(chartName);
     }
 
     [Given("the '(.*)' dimension is '(.*)'")]
@@ -87,6 +101,13 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.AreSaveAsImageButtonsDisplayed(false);
+    }
+
+    [Then("copy image buttons are hidden")]
+    public async Task ThenCopyImageButtonsAreHidden()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.AreCopyImageButtonsDisplayed(false);
     }
 
     [When("I click on show all sections")]
@@ -244,6 +265,15 @@ public class CompareYourCostsSteps(PageDriver driver)
 
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
+    }
+
+    private async Task ChartCopied(string chartName)
+    {
+        const string exp = "navigator.clipboard.read()";
+        var page = await driver.Current;
+        var actual = await page.EvaluateAsync<object[]>(exp);
+        Assert.NotNull(actual);
+        Assert.Single(actual);
     }
 
     private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)

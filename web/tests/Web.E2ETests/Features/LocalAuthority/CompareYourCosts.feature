@@ -5,6 +5,11 @@ Feature: Local Authority compare your costs
         When I click on save as image for 'total expenditure'
         Then the 'total expenditure' chart image is downloaded
 
+    Scenario: Copy total expenditure chart
+        Given I am on compare your costs page for local authority with code '201'
+        When I click on copy image for 'total expenditure'
+        Then the 'total expenditure' chart image is copied
+
     Scenario: Change dimension of total expenditure and change view to table
         Given I am on compare your costs page for local authority with code '201'
         And the 'total expenditure' dimension is '£ per pupil'
@@ -22,6 +27,7 @@ Feature: Local Authority compare your costs
           | Test school 237         | City of London  | Voluntary aided school | 231              | £1,597,953 |
           | Test school 1           | City of London  | Voluntary aided school | 232              | £1,580,913 |
         But save as image buttons are hidden
+        And copy image buttons are hidden
 
     Scenario: Show all should expand all sections
         Given I am on compare your costs page for local authority with code '201'
@@ -36,6 +42,7 @@ Feature: Local Authority compare your costs
         Then all sections on the page are expanded
         And are showing table view
         But save as image buttons are hidden
+        And copy image buttons are hidden
 
     Scenario: Hide single section
         Given I am on compare your costs page for local authority with code '201'

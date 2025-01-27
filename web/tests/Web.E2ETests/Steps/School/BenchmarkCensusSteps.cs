@@ -2,6 +2,7 @@ using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
+
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -45,6 +46,20 @@ public class BenchmarkCensusSteps(PageDriver driver)
         ChartDownloaded(chartName);
     }
 
+    [When("I click on copy image for '(.*)'")]
+    public async Task WhenIClickOnCopyImageFor(string chartName)
+    {
+        Assert.NotNull(_censusPage);
+        await _censusPage.ClickCopyImage(ChartNameFromFriendlyName(chartName));
+    }
+
+    [Then("the '(.*)' chart image is copied")]
+    public async Task ThenTheChartImageIsCopied(string chartName)
+    {
+        Assert.NotNull(_censusPage);
+        await ChartCopied(chartName);
+    }
+
     [When("I change '(.*)' dimension to '(.*)'")]
     public async Task WhenIChangeDimensionTo(string chartName, string value)
     {
@@ -81,6 +96,13 @@ public class BenchmarkCensusSteps(PageDriver driver)
         await _censusPage.AreSaveAsImageButtonsDisplayed(false);
     }
 
+    [Then("copy image buttons are hidden")]
+    public async Task ThenCopyImageButtonsAreHidden()
+    {
+        Assert.NotNull(_censusPage);
+        await _censusPage.AreCopyImageButtonsDisplayed(false);
+    }
+
     [Given("table view is selected")]
     [When("I click on view as table")]
     public async Task GivenTableViewIsSelected()
@@ -108,6 +130,13 @@ public class BenchmarkCensusSteps(PageDriver driver)
     {
         Assert.NotNull(_censusPage);
         await _censusPage.AreSaveAsImageButtonsDisplayed();
+    }
+
+    [Then("copy image buttons are displayed")]
+    public async Task ThenCopyImageButtonsAreDisplayed()
+    {
+        Assert.NotNull(_censusPage);
+        await _censusPage.AreCopyImageButtonsDisplayed();
     }
 
     [When("I click the dimension for '(.*)'")]
@@ -159,6 +188,15 @@ public class BenchmarkCensusSteps(PageDriver driver)
 
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
+    }
+
+    private async Task ChartCopied(string chartName)
+    {
+        const string exp = "navigator.clipboard.read()";
+        var page = await driver.Current;
+        var actual = await page.EvaluateAsync<object[]>(exp);
+        Assert.NotNull(actual);
+        Assert.Single(actual);
     }
 
     private static CensusChartNames ChartNameFromFriendlyName(string chartName)

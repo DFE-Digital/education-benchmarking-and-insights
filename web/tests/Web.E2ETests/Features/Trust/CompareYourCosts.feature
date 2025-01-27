@@ -5,6 +5,11 @@ Feature: Trust compare your costs
         When I click on save as image for 'total expenditure'
         Then the 'total expenditure' chart image is downloaded
 
+    Scenario: Copy total expenditure chart
+        Given I am on compare your costs page for trust with company number '10074054'
+        When I click on copy image for 'total expenditure'
+        Then the 'total expenditure' chart image is copied
+
     Scenario: Change dimension of total expenditure and change view to table
         Given I am on compare your costs page for trust with company number '10074054'
         And the 'total expenditure' dimension is '£ per pupil'
@@ -21,6 +26,7 @@ Feature: Trust compare your costs
           | Test academy school 375 | Reading         | Academy special sponsor led | 232              | £1,580,913 |
           | Test academy school 392 | Trafford        | Academy special converter   | 204              | £1,424,986 |
         But save as image buttons are hidden
+        And copy image buttons are hidden
 
     Scenario: Table view for total expenditure for trust(s) with part-year data
         Given I am on compare your costs page for trust with company number '8104190'
@@ -48,6 +54,7 @@ Feature: Trust compare your costs
         Then all sections on the page are expanded
         And are showing table view
         But save as image buttons are hidden
+        And copy image buttons are hidden
 
     Scenario: Hide single section
         Given I am on compare your costs page for trust with company number '10074054'

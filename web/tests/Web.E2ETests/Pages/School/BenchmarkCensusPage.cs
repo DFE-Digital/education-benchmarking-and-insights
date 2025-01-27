@@ -31,11 +31,18 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator TotalTeachersTable => page.Locator(Selectors.Table).Nth(1);
     private ILocator Tables => page.Locator(Selectors.Table);
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
+    private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasTextRegex = Regexes.SaveAsImageRegex()
+        });
+
+    private ILocator CopyImageButtons =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasTextRegex = Regexes.CopyImageRegex()
         });
 
     private ILocator ComparatorSetDetails =>
@@ -75,6 +82,7 @@ public class BenchmarkCensusPage(IPage page)
             await CustomDataLink.ShouldBeVisible();
 
             await AreSaveAsImageButtonsDisplayed();
+            await AreCopyImageButtonsDisplayed();
             await AreChartsDisplayed();
             return;
         }
@@ -93,6 +101,17 @@ public class BenchmarkCensusPage(IPage page)
         };
 
         await chartToDownload.Click();
+    }
+
+    public async Task ClickCopyImage(CensusChartNames chartName)
+    {
+        var chartToCopy = chartName switch
+        {
+            CensusChartNames.SchoolWorkforce => CopyImageSchoolWorkforce,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+
+        await chartToCopy.Click();
     }
 
     public async Task SelectDimensionForChart(CensusChartNames chartName, string value)
@@ -147,6 +166,21 @@ public class BenchmarkCensusPage(IPage page)
     public async Task AreSaveAsImageButtonsDisplayed(bool isVisible = true)
     {
         var buttons = await SaveAsImageButtons.AllAsync();
+        if (isVisible)
+        {
+            Assert.Equal(8, buttons.Count);
+            await buttons.ShouldBeVisible();
+        }
+        else
+        {
+            Assert.Empty(buttons);
+            await buttons.ShouldNotBeVisible();
+        }
+    }
+
+    public async Task AreCopyImageButtonsDisplayed(bool isVisible = true)
+    {
+        var buttons = await CopyImageButtons.AllAsync();
         if (isVisible)
         {
             Assert.Equal(8, buttons.Count);
