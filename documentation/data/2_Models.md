@@ -2,11 +2,17 @@
 
 ## Raw Data
 
-Below is a reference list of tables, showing the expected structure and data types for each input file used in the data pipeline. This table outlines the raw data format that the pipeline consumes, demonstrating the required columns and data types for each file to ensure consistent data ingestion.
+Below is a reference list of tables, showing the expected structure and data
+types for each input file used in the data pipeline. This table outlines the
+raw data format that the pipeline consumes, demonstrating the required columns
+and data types for each file to ensure consistent data ingestion.
+
+Additionally, where columns are renamed or derived on ingest, additional
+_Mappings_ and _Derivations_ will be listed.
 
 ### gias
 
-| Column Name                | Data Type |
+| Column Name                | Data type |
 |----------------------------|-----------|
 | URN                        | Int64     |
 | UKPRN                      | Int64     |
@@ -27,12 +33,10 @@ Below is a reference list of tables, showing the expected structure and data typ
 | OfficialSixthForm (name)   | string    |
 | AdmissionsPolicy (code)    | Int64     |
 | AdmissionsPolicy (name)    | string    |
-| OfstedLastInsp             | string    |
 | Postcode                   | string    |
 | SchoolWebsite              | string    |
 | TelephoneNum               | string    |
 | GOR (name)                 | string    |
-| OfstedRating (name)        | string    |
 | MSOA (code)                | string    |
 | LSOA (code)                | string    |
 | StatutoryLowAge            | Int64     |
@@ -161,39 +165,74 @@ Below is a reference list of tables, showing the expected structure and data typ
 
 ### census_workforce
 
-| Column Name                                                                                                                                                                           | Data Type |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| URN                                                                                                                                                                                   | Int64     |
-| Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent) | float     |
-| Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)                                                                                       | float     |
-| Teachers with Qualified Teacher Status (%) (Headcount)                                                                                                                                | float     |
-| Total Number of Teaching Assistants (Full-Time Equivalent)                                                                                                                            | float     |
-| Total Number of Teaching Assistants (Headcount)                                                                                                                                       | float     |
-| Total School Workforce (Full-Time Equivalent)                                                                                                                                         | float     |
-| Total Number of Teachers (Full-Time Equivalent)                                                                                                                                       | float     |
-| Total Number of Teachers (Headcount)                                                                                                                                                  | float     |
-| Total Number of Teachers in the Leadership Group (Headcount)                                                                                                                          | float     |
-| Total Number of Teachers in the Leadership Group (Full-time Equivalent)                                                                                                               | float     |
-| Total Number of Auxiliary Staff (Full-Time Equivalent)                                                                                                                                | float     |
-| Total Number of Auxiliary Staff (Headcount)                                                                                                                                           | float     |
-| Total School Workforce (Headcount)                                                                                                                                                    | float     |
+| Column Name                                                  | Data type |
+|--------------------------------------------------------------|-----------|
+| URN                                                          | Int64     |
+| Total Number of Other School Support Staff (FTE)             | float     |
+| Total Number of Other School Support Staff (Headcount)       | float     |
+| Total Number of Technicians (FTE)                            | float     |
+| Total Number of Technicians (Headcount)                      | float     |
+| Total Number of Leadership Non-Teachers (FTE)                | float     |
+| Total Number of Leadership Non-Teachers (Headcount)          | float     |
+| Total Number of School Business Professionals (FTE)          | float     |
+| Total Number of School Business Professionals (Headcount)    | float     |
+| Total Number of Administrative Staff (FTE)                   | float     |
+| Total Number of Administrative Staff (Headcount)             | float     |
+| Teachers with Qualified Teacher Status (%) (Headcount)       | float     |
+| Total Number of Teaching Assistants (FTE)                    | float     |
+| Total Number of Teaching Assistants (Headcount)              | float     |
+| Total School Workforce (FTE)                                 | float     |
+| Total School Workforce (Headcount)                           | float     |
+| Total Number of Teachers (FTE)                               | float     |
+| Total Number of Teachers (Headcount)                         | float     |
+| Total Number of Teachers in the Leadership Group (FTE)       | float     |
+| Total Number of Teachers in the Leadership Group (Headcount) | float     |
+| Total Number of Auxiliary Staff (FTE)                        | float     |
+| Total Number of Auxiliary Staff (Headcount)                  | float     |
+
+#### census_workforce Mappings
+
+| Column From                                            | Column To                                                               |
+|--------------------------------------------------------|-------------------------------------------------------------------------|
+| Total Number of Teaching Assistants (FTE)              | Total Number of Teaching Assistants (Full-Time Equivalent)              |
+| Total School Workforce (FTE)                           | Total School Workforce (Full-Time Equivalent)                           |
+| Total Number of Teachers (FTE)                         | Total Number of Teachers (Full-Time Equivalent)                         |
+| Total Number of Teachers in the Leadership Group (FTE) | Total Number of Teachers in the Leadership Group (Full-time Equivalent) |
+| Total Number of Auxiliary Staff (FTE)                  | Total Number of Auxiliary Staff (Full-Time Equivalent)                  |
+
+#### census_workforce Derivations
+
+| Derived Column                                                                                                                                                                        | Calculation                                                                                                                                                                                                                                                                     |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent) | `Total Number of Other School Support Staff (FTE)` + `Total Number of Technicians (FTE)` + `Total Number of Leadership Non-Teachers (FTE)` + `Total Number of School Business Professionals (FTE)` + `Total Number of Administrative Staff (FTE)`                               |
+| Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)                                                                                       | `Total Number of Other School Support Staff (Headcount)` + `Total Number of Technicians (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)` + `Total Number of School Business Professionals (Headcount)` + `Total Number of Administrative Staff (Headcount)` |
 
 ### census_pupils
 
-| Column Name                                            | Data Type |
+| Column Name                                            | Data type |
 |--------------------------------------------------------|-----------|
-| URN                                                    | Int64     |
+| urn                                                    | Int64     |
 | % of pupils known to be eligible for free school meals | float     |
 | headcount of pupils                                    | float     |
 | fte pupils                                             | float     |
-| ward_name                                              | string    |
 | Number of early year pupils (years E1 and E2)          | float     |
 | Number of nursery pupils (years N1 and N2)             | float     |
-| Full time boys Year group 12                           | float     |
-| Full time girls Year group 12                          | float     |
-| Full time boys Year group 13                           | float     |
-| Full time girls Year group 13                          | float     |
+| full-time male Year group 12                           | float     |
+| full-time female Year group 12                         | float     |
+| full-time male Year group 13                           | float     |
+| full-time female Year group 13                         | float     |
 | number_of_dual_subsidiary_registrations                | float     |
+
+#### census_pupils Mappings
+
+| Column From                             | Column To                     |
+|-----------------------------------------|-------------------------------|
+| urn                                     | URN                           |
+| full-time male Year group 12            | Full time boys Year group 12  |
+| full-time female Year group 12          | Full time girls Year group 12 |
+| full-time male Year group 13            | Full time boys Year group 13  |
+| full-time female Year group 13          | Full time girls Year group 13 |
+| number_of_dual_subsidiary_registrations | Pupil Dual Registrations      |
 
 ### cfr
 
@@ -221,123 +260,262 @@ Below is a reference list of tables, showing the expected structure and data typ
 
 ### aar
 
-| Column Name                                                             | Data Type |
-|-------------------------------------------------------------------------|-----------|
-| LA                                                                      | Int64     |
-| Estab                                                                   | Int64     |
-| URN                                                                     | Int64     |
-| ACADEMYUPIN                                                             | Int64     |
-| ACADEMYTRUSTSTATUS                                                      | string    |
-| Company_Number                                                          | string    |
-| Date joined or opened if in period:                                     | string    |
-| Date left or closed if in period:                                       | string    |
-| BNCH11110T (EFA Revenue Grants)                                         | float     |
-| BNCH11131 (DfE Family Revenue Grants)                                   | float     |
-| BNCH11141 (SEN)                                                         | float     |
-| BNCH11142 (Other Revenue)                                               | float     |
-| BNCH11151 (Other Government Revenue Grants)                             | float     |
-| BNCH11161 (Government source (non-grant))                               | float     |
-| BNCH11162 (Academies)                                                   | float     |
-| BNCH11163 (Non- Government)                                             | float     |
-| BNCH11123-BAI011-A (Academies - Income)                                 | float     |
-| BNCH11201 (Income from facilities and services)                         | float     |
-| BNCH11202 (Income from catering)                                        | float     |
-| BNCH11203 (Receipts from supply teacher insurance claims)               | float     |
-| BNCH11300T (Voluntary income)                                           | float     |
-| BNCH11204 (Other income - revenue)                                      | float     |
-| BNCH11205 (Other Income from facilities and services)                   | float     |
-| BNCH11400T (Investment income)                                          | float     |
-| BNCH21706 (Administrative supplies - non educational)                   | float     |
-| BNCH21106 (Catering staff)                                              | float     |
-| BNCH21701 (Catering supplies)                                           | float     |
-| BNCH21707 (Direct revenue financing (Revenue contributions to capital)) | float     |
-| BNCH21602 (ICT learning resources)                                      | float     |
-| BNCH21603 (Examination fees)                                            | float     |
-| BNCH21601 (Learning resources (not ICT equipment))                      | float     |
-| BNCH21104 (Administrative and clerical staff)                           | float     |
-| BNCH21107 (Other staff)                                                 | float     |
-| BNCH44001 (Closing Balance (Restricted and Unrestricted Funds))         | float     |
-| BNCH21702 (Professional Services - non-curriculum)                      | float     |
-| BNCH21703 (Auditor costs)                                               | float     |
-| BNCH21301 (Maintenance of premises)                                     | float     |
-| BNCH21405 (Grounds maintenance)                                         | float     |
-| BNCH21201 (Indirect employee expenses)                                  | float     |
-| BNCH21801 (Interest charges for Loan and bank)                          | float     |
-| BNCH21705 (Other insurance premiums)                                    | float     |
-| BNCH21802 (PFI Charges)                                                 | float     |
-| BNCH21404 (Rent and rates)                                              | float     |
-| BNCH21501 (Special facilities)                                          | float     |
-| BNCH21202 (Staff development and training)                              | float     |
-| BNCH21203 (Staff-related insurance)                                     | float     |
-| BNCH21204 (Supply teacher insurance)                                    | float     |
-| BNCH21401 (Cleaning and caretaking)                                     | float     |
-| BNCH21406 (Other occupation costs)                                      | float     |
-| BNCH21105 (Premises staff)                                              | float     |
-| BNCH21101 (Teaching staff)                                              | float     |
-| BNCH21102 (Supply teaching staff - extra note in guidance)              | float     |
-| BNCH21103 (Education support staff)                                     | float     |
-| BNCH21604 (Educational Consultancy)                                     | float     |
-| BNCH21606 (Agency supply teaching staff)                                | float     |
-| BNCH21403 (Energy)                                                      | float     |
-| BNCH21402 (Water and sewerage)                                          | float     |
-| Valid To                                                                | string    |
+| Column Name                         | Data type |
+|-------------------------------------|-----------|
+| LA                                  | Int64     |
+| Estab                               | Int64     |
+| URN                                 | Int64     |
+| ACADEMYUPIN                         | Int64     |
+| Company_Number                      | string    |
+| Company_Name                        | string    |
+| ACADEMYTRUSTSTATUS                  | string    |
+| Date left or closed if in period:   | string    |
+| Date joined or opened if in period: | string    |
+| Valid To                            | string    |
+| BAI050-T                            | float     |
+| BAI010-T                            | float     |
+| BAI020-T                            | float     |
+| BAI030-T                            | float     |
+| BAI040-T                            | float     |
+| BAI060-T                            | float     |
+| BAI070-T                            | float     |
+| BAI080-T                            | float     |
+| BAI090-T                            | float     |
+| BAI100-T                            | float     |
+| BAI110-T                            | float     |
+| BAI120-T                            | float     |
+| BAI130-T                            | float     |
+| BAI140-T                            | float     |
+| BAI150-T                            | float     |
+| BAE010-T                            | float     |
+| BAE020-T                            | float     |
+| BAE030-T                            | float     |
+| BAE040-T                            | float     |
+| BAE050-T                            | float     |
+| BAE060-T                            | float     |
+| BAE070-T                            | float     |
+| BAE080-T                            | float     |
+| BAE090-T                            | float     |
+| BAE110-T                            | float     |
+| BAE100-T                            | float     |
+| BAE120-T                            | float     |
+| BAE130-T                            | float     |
+| BAE140-T                            | float     |
+| BAE150-T                            | float     |
+| BAE160-T                            | float     |
+| BAE170-T                            | float     |
+| BAE180-T                            | float     |
+| BAE190-T                            | float     |
+| BAE200-T                            | float     |
+| BAE210-T                            | float     |
+| BAE220-T                            | float     |
+| BAE230-T                            | float     |
+| BAE240-T                            | float     |
+| BAE250-T                            | float     |
+| BAE300-T                            | float     |
+| BAE260-T                            | float     |
+| BAE270-T                            | float     |
+| BAE280-T                            | float     |
+| BAE290-T                            | float     |
+| BAE320-T                            | float     |
+| BAE310-T                            | float     |
+| BAI160-T                            | float     |
+| BAI170-T                            | float     |
+| BAB030-T                            | float     |
+| BAI061-T                            | float     |
+| BAI101-T                            | float     |
+| BAI011-A                            | float     |
+
+#### aar Mappings
+
+| Column From | Column To                                                               |
+|-------------|-------------------------------------------------------------------------|
+| BAI050-T    | BNCH11101 (Start-up grants)                                             |
+| BAI061-T    | BNCHBAI061 (Coronavirus Govt Funding)                                   |
+| BAI010-T    | BNCH11122 (Other)                                                       |
+| BAI020-T    | BNCH11131 (DfE Family Revenue Grants)                                   |
+| BAI030-T    | BNCH11141 (SEN)                                                         |
+| BAI040-T    | BNCH11142 (Other Revenue)                                               |
+| BAI060-T    | BNCH11151 (Other Government Revenue Grants)                             |
+| BAI070-T    | BNCH11161 (Government source (non-grant))                               |
+| BAI080-T    | BNCH11162 (Academies)                                                   |
+| BAI090-T    | BNCH11163 (Non- Government)                                             |
+| BAI100-T    | BNCH11201 (Income from facilities and services)                         |
+| BAI110-T    | BNCH11202 (Income from catering)                                        |
+| BAI120-T    | BNCH11203 (Receipts from supply teacher insurance claims)               |
+| BAI130-T    | BNCH11204 (Other income - revenue)                                      |
+| BAI140-T    | BNCH11301 (Donations and/or voluntary funds - revenue)                  |
+| BAI150-T    | BNCH11401 (Investment income)                                           |
+| BAE010-T    | BNCH21101 (Teaching staff)                                              |
+| BAE020-T    | BNCH21102 (Supply teaching staff - extra note in guidance)              |
+| BAE030-T    | BNCH21103 (Education support staff)                                     |
+| BAE040-T    | BNCH21104 (Administrative and clerical staff)                           |
+| BAE050-T    | BNCH21105 (Premises staff)                                              |
+| BAE060-T    | BNCH21106 (Catering staff)                                              |
+| BAE070-T    | BNCH21107 (Other staff)                                                 |
+| BAE080-T    | BNCH21201 (Indirect employee expenses)                                  |
+| BAE090-T    | BNCH21202 (Staff development and training)                              |
+| BAE110-T    | BNCH21203 (Staff-related insurance)                                     |
+| BAE100-T    | BNCH21204 (Supply teacher insurance)                                    |
+| BAE120-T    | BNCH21301 (Maintenance of premises)                                     |
+| BAE130-T    | BNCH21401 (Cleaning and caretaking)                                     |
+| BAE140-T    | BNCH21402 (Water and sewerage)                                          |
+| BAE150-T    | BNCH21403 (Energy)                                                      |
+| BAE160-T    | BNCH21404 (Rent and rates)                                              |
+| BAE170-T    | BNCH21405 (Grounds maintenance)                                         |
+| BAE180-T    | BNCH21406 (Other occupation costs)                                      |
+| BAE190-T    | BNCH21501 (Special facilities)                                          |
+| BAE200-T    | BNCH21601 (Learning resources (not ICT equipment))                      |
+| BAE210-T    | BNCH21602 (ICT learning resources)                                      |
+| BAE220-T    | BNCH21603 (Examination fees)                                            |
+| BAE230-T    | BNCH21604 (Educational Consultancy)                                     |
+| BAE240-T    | BNCH21606 (Agency supply teaching staff)                                |
+| BAE250-T    | BNCH21701 (Catering supplies)                                           |
+| BAE300-T    | BNCH21702 (Professional Services - non-curriculum)                      |
+| BAE260-T    | BNCH21703 (Auditor costs)                                               |
+| BAE270-T    | BNCH21705 (Other insurance premiums)                                    |
+| BAE280-T    | BNCH21706 (Administrative supplies - non educational)                   |
+| BAE290-T    | BNCH21707 (Direct revenue financing (Revenue contributions to capital)) |
+| BAE320-T    | BNCH21801 (Interest charges for Loan and bank)                          |
+| BAE310-T    | BNCH21802 (PFI Charges)                                                 |
+| BAI160-T    | BNCH30001 (Funds inherited on conversion/transfers)                     |
+| BAI170-T    | BNCH43001 (Contributions from Academies to Trust)                       |
+| BAB030-T    | BNCH44001 (Closing Balance (Restricted and Unrestricted Funds))         |
+| BAI101-T    | BNCH11205 (Other Income from facilities and services)                   |
+| BAI011-A    | BNCH11123-BAI011-A (Academies - Income)                                 |
+
+#### aar Derivations
+
+| Derived Column                  | Calculation                                                                                   |
+|---------------------------------|-----------------------------------------------------------------------------------------------|
+| BNCH11110T (EFA Revenue Grants) | `BNCH11101 (Start-up grants)` + `BNCH11122 (Other)` + `BNCHBAI061 (Coronavirus Govt Funding)` |
+| BNCH11300T (Voluntary income)   | `BNCH11301 (Donations and/or voluntary funds - revenue)`                                      |
+| BNCH11400T (Investment income)  | `BNCH11401 (Investment income)`                                                               |
 
 ### aar_cs
 
-| Column Name                                                             | Data Type |
-|-------------------------------------------------------------------------|-----------|
-| Lead_UPIN                                                               | Int64     |
-| Company_Number                                                          | string    |
-| Company_Name                                                            | string    |
-| BNCH11110T (EFA Revenue Grants)                                         | float     |
-| BNCH11131 (DfE Family Revenue Grants)                                   | float     |
-| BNCH11141 (SEN)                                                         | float     |
-| BNCH11142 (Other Revenue)                                               | float     |
-| BNCH11151 (Other Government Revenue Grants)                             | float     |
-| BNCH11161 (Government source (non-grant))                               | float     |
-| BNCH11162 (Academies)                                                   | float     |
-| BNCH11163 (Non- Government)                                             | float     |
-| BNCH11123-BTI011-A (MAT Central services - Income)                      | float     |
-| BNCH11201 (Income from facilities and services)                         | float     |
-| BNCH11202 (Income from catering)                                        | float     |
-| BNCH11203 (Receipts from supply teacher insurance claims)               | float     |
-| BNCH11300T (Voluntary income)                                           | float     |
-| BNCH11204 (Other income - revenue)                                      | float     |
-| BNCH11205 (Other Income from facilities and services)                   | float     |
-| BNCH11400T (Investment income)                                          | float     |
-| BNCH21706 (Administrative supplies - non educational)                   | float     |
-| BNCH21106 (Catering staff)                                              | float     |
-| BNCH21701 (Catering supplies)                                           | float     |
-| BNCH21707 (Direct revenue financing (Revenue contributions to capital)) | float     |
-| BNCH21602 (ICT learning resources)                                      | float     |
-| BNCH21603 (Examination fees)                                            | float     |
-| BNCH21601 (Learning resources (not ICT equipment))                      | float     |
-| BNCH21104 (Administrative and clerical staff)                           | float     |
-| BNCH21703 (Auditor costs)                                               | float     |
-| BNCH21107 (Other staff)                                                 | float     |
-| BNCH44001CS (Closing Balance (Restricted and Unrestricted Funds))       | float     |
-| BNCH21702 (Professional Services - non-curriculum)                      | float     |
-| BNCH21301 (Maintenance of premises)                                     | float     |
-| BNCH21405 (Grounds maintenance)                                         | float     |
-| BNCH21201 (Indirect employee expenses)                                  | float     |
-| BNCH21801 (Interest charges for Loan and bank)                          | float     |
-| BNCH21705 (Other insurance premiums)                                    | float     |
-| BNCH21802 (PFI Charges)                                                 | float     |
-| BNCH21404 (Rent and rates)                                              | float     |
-| BNCH21501 (Special facilities)                                          | float     |
-| BNCH21202 (Staff development and training)                              | float     |
-| BNCH21203 (Staff-related insurance)                                     | float     |
-| BNCH21204 (Supply teacher insurance)                                    | float     |
-| BNCH21401 (Cleaning and caretaking)                                     | float     |
-| BNCH21406 (Other occupation costs)                                      | float     |
-| BNCH21105 (Premises staff)                                              | float     |
-| BNCH21101 (Teaching staff)                                              | float     |
-| BNCH21102 (Supply teaching staff - extra note in guidance)              | float     |
-| BNCH21103 (Education support staff)                                     | float     |
-| BNCH21604 (Educational Consultancy)                                     | float     |
-| BNCH21606 (Agency supply teaching staff)                                | float     |
-| BNCH21403 (Energy)                                                      | float     |
-| BNCH21402 (Water and sewerage)                                          | float     |
+| Column Name    | Data type |
+|----------------|-----------|
+| Lead_UPIN      | Int64     |
+| Company_Number | string    |
+| Company_Name   | string    |
+| BTI050         | float     |
+| BTI061         | float     |
+| BTI030         | float     |
+| BTI040         | float     |
+| BTI060         | float     |
+| BTI070         | float     |
+| BTI080         | float     |
+| BTI090         | float     |
+| BTI100         | float     |
+| BTI110         | float     |
+| BTI120         | float     |
+| BTI130         | float     |
+| BTI140         | float     |
+| BTI150         | float     |
+| BTE010         | float     |
+| BTE020         | float     |
+| BTE030         | float     |
+| BTE040         | float     |
+| BTE050         | float     |
+| BTE060         | float     |
+| BTE070         | float     |
+| BTE080         | float     |
+| BTE090         | float     |
+| BTE110         | float     |
+| BTE100         | float     |
+| BTE120         | float     |
+| BTE130         | float     |
+| BTE140         | float     |
+| BTE150         | float     |
+| BTE160         | float     |
+| BTE170         | float     |
+| BTE180         | float     |
+| BTE190         | float     |
+| BTE200         | float     |
+| BTE210         | float     |
+| BTE220         | float     |
+| BTE230         | float     |
+| BTE240         | float     |
+| BTE250         | float     |
+| BTE300         | float     |
+| BTE260         | float     |
+| BTE270         | float     |
+| BTE280         | float     |
+| BTE290         | float     |
+| BTE320         | float     |
+| BTE310         | float     |
+| BTI170         | float     |
+| BTB030         | float     |
+| BAB030-T       | float     |
+| BTI101         | float     |
+| BTI011-A       | float     |
+
+#### aar_cs Mappings
+
+| Column From | Column To                                                               |
+|-------------|-------------------------------------------------------------------------|
+| BTI050      | BNCH11101 (Start-up grants)                                             |
+| BTI061      | BNCHBAI061 (Coronavirus Govt Funding)                                   |
+| BTI030      | BNCH11141 (SEN)                                                         |
+| BTI040      | BNCH11142 (Other Revenue)                                               |
+| BTI060      | BNCH11151 (Other Government Revenue Grants)                             |
+| BTI070      | BNCH11161 (Government source (non-grant))                               |
+| BTI080      | BNCH11162 (Academies)                                                   |
+| BTI090      | BNCH11163 (Non- Government)                                             |
+| BTI100      | BNCH11201 (Income from facilities and services)                         |
+| BTI110      | BNCH11202 (Income from catering)                                        |
+| BTI120      | BNCH11203 (Receipts from supply teacher insurance claims)               |
+| BTI130      | BNCH11204 (Other income - revenue)                                      |
+| BTI140      | BNCH11301 (Donations and/or voluntary funds - revenue)                  |
+| BTI150      | BNCH11401 (Investment income)                                           |
+| BTE010      | BNCH21101 (Teaching staff)                                              |
+| BTE020      | BNCH21102 (Supply teaching staff - extra note in guidance)              |
+| BTE030      | BNCH21103 (Education support staff)                                     |
+| BTE040      | BNCH21104 (Administrative and clerical staff)                           |
+| BTE050      | BNCH21105 (Premises staff)                                              |
+| BTE060      | BNCH21106 (Catering staff)                                              |
+| BTE070      | BNCH21107 (Other staff)                                                 |
+| BTE080      | BNCH21201 (Indirect employee expenses)                                  |
+| BTE090      | BNCH21202 (Staff development and training)                              |
+| BTE110      | BNCH21203 (Staff-related insurance)                                     |
+| BTE100      | BNCH21204 (Supply teacher insurance)                                    |
+| BTE120      | BNCH21301 (Maintenance of premises)                                     |
+| BTE130      | BNCH21401 (Cleaning and caretaking)                                     |
+| BTE140      | BNCH21402 (Water and sewerage)                                          |
+| BTE150      | BNCH21403 (Energy)                                                      |
+| BTE160      | BNCH21404 (Rent and rates)                                              |
+| BTE170      | BNCH21405 (Grounds maintenance)                                         |
+| BTE180      | BNCH21406 (Other occupation costs)                                      |
+| BTE190      | BNCH21501 (Special facilities)                                          |
+| BTE200      | BNCH21601 (Learning resources (not ICT equipment))                      |
+| BTE210      | BNCH21602 (ICT learning resources)                                      |
+| BTE220      | BNCH21603 (Examination fees)                                            |
+| BTE230      | BNCH21604 (Educational Consultancy)                                     |
+| BTE240      | BNCH21606 (Agency supply teaching staff)                                |
+| BTE250      | BNCH21701 (Catering supplies)                                           |
+| BTE300      | BNCH21702 (Professional Services - non-curriculum)                      |
+| BTE260      | BNCH21703 (Auditor costs)                                               |
+| BTE270      | BNCH21705 (Other insurance premiums)                                    |
+| BTE280      | BNCH21706 (Administrative supplies - non educational)                   |
+| BTE290      | BNCH21707 (Direct revenue financing (Revenue contributions to capital)) |
+| BTE320      | BNCH21801 (Interest charges for Loan and bank)                          |
+| BTE310      | BNCH21802 (PFI Charges)                                                 |
+| BTI170      | BNCH43001 (Contributions from Academies to Trust)                       |
+| BTB030      | BNCH44001CS (Closing Balance (Restricted and Unrestricted Funds))       |
+| BAB030-T    | BNCH44001Bench (Closing Balance (Restricted and Unrestricted Funds))    |
+| BTI101      | BNCH11205 (Other Income from facilities and services)                   |
+| BTI011-A    | BNCH11123-BTI011-A (MAT Central services - Income)                      |
+
+#### aar_cs Derivations
+
+| Derived Column                        | Calculation                                                             |
+|---------------------------------------|-------------------------------------------------------------------------|
+| BNCH11300T (Voluntary income)         | `BNCH11301 (Donations and/or voluntary funds - revenue)`                |
+| BNCH11110T (EFA Revenue Grants)       | `BNCH11101 (Start-up grants)` + `BNCHBAI061 (Coronavirus Govt Funding)` |
+| BNCH11131 (DfE Family Revenue Grants) | 0.0                                                                     |
+| BNCH11400T (Investment income)        | `BNCH11401 (Investment income)`                                         |
+| BNCH21401 (Cleaning and caretaking)   | `BNCH21401 (Cleaning and caretaking)`                                   |
 
 ### BFR_SOFA
 
