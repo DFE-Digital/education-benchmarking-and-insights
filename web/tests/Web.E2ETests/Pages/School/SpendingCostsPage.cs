@@ -101,6 +101,7 @@ public class SpendingCostsPage(IPage page)
     private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
     private ILocator SaveImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffSaveAsImage);
     private ILocator CopyImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffCopyImage);
+    private ILocator SaveAllChartImagesButton => page.Locator(Selectors.SaveAllChartImages);
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
@@ -114,6 +115,7 @@ public class SpendingCostsPage(IPage page)
         await CheckVisibility(AllCharts);
         await SaveImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
         await CopyImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
+        await SaveAllChartImagesButton.ShouldBeVisible();
     }
 
     public async Task AssertOrderOfCharts(List<string[]> expectedOrder)

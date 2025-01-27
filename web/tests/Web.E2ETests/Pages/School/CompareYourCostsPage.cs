@@ -94,6 +94,8 @@ public class CompareYourCostsPage(IPage page)
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
     private ILocator TeachingSupportStaffWarning => page.Locator($"{Selectors.TeachingAndTeachingSupportStaff} {Selectors.GovWarning}");
+    private ILocator SaveAllChartImagesButton => page.Locator(Selectors.SaveAllChartImages);
+
     public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
         await PageH1Heading.ShouldBeVisible();
@@ -118,6 +120,7 @@ public class CompareYourCostsPage(IPage page)
             await ComparatorSetDetails.ShouldBeVisible();
             await CustomComparatorLink.ShouldBeVisible();
             await CustomDataLink.ShouldBeVisible();
+            await SaveAllChartImagesButton.ShouldBeVisible();
 
             //TODO: test data is missing building comparator set. Building relate categories are not shown.
             /*await HasDimensionValuesForChart(ComparisonChartNames.Premises,
