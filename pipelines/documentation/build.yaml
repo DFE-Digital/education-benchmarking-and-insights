@@ -11,7 +11,10 @@ trigger:
       - documentation
       - pipelines/documentation
 
-pr: none
+pr:
+  paths:
+    include:
+      - documentation
 
 variables:
   - template: ..\common\vars.yaml
