@@ -6,12 +6,9 @@
 ## Introduction
 
 ## Introduction
->
->[!NOTE]
->Update the below to reflect the purpose/objective for this plan, so that it is specific to the release.
 
-This plan defines the approach for testing release `[release label]`, covering all functional, non-functional, and regression testing necessary.
-Ensure that all new features, enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `[release label]`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
 
 ## Scope
 
@@ -61,13 +58,14 @@ Ensure that all new features, enhancements, and bug fixes in `[release label]` a
 
 **Entry Criteria:**
 
-- All code changes for release are completed and deployed to the pre-production environment.
-- Pre-production environment is set up with required data.
+- All code changes for release are completed and successfully deployed to the pre-production environment.
+- Pipeline run is completed successfully with the updated files including pupil and workforce census, AAR 2024 files in pre-production.
 
 **Exit Criteria:**
 
-- All high-priority test cases pass.
+- All high-priority test cases have passed.
 - No critical defects remain open.
+- UAT Testing completed.
 - Signed off by stakeholders.
 
 
