@@ -120,7 +120,7 @@ public class CompareYourCostsPage(IPage page)
             await ComparatorSetDetails.ShouldBeVisible();
             await CustomComparatorLink.ShouldBeVisible();
             await CustomDataLink.ShouldBeVisible();
-            await SaveAllChartImagesButton.ShouldBeVisible();
+            await SaveAllChartImagesButton.ShouldNotBeVisible();
 
             //TODO: test data is missing building comparator set. Building relate categories are not shown.
             /*await HasDimensionValuesForChart(ComparisonChartNames.Premises,

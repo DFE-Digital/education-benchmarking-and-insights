@@ -115,7 +115,7 @@ public class SpendingCostsPage(IPage page)
         await CheckVisibility(AllCharts);
         await SaveImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
         await CopyImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
-        await SaveAllChartImagesButton.ShouldBeVisible();
+        await SaveAllChartImagesButton.ShouldNotBeVisible();
     }
 
     public async Task AssertOrderOfCharts(List<string[]> expectedOrder)
