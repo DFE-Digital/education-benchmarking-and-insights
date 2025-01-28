@@ -7,6 +7,7 @@
 
 This plan defines the approach for testing release `2025.01.1`, covering all testing necessary.
 Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1` are functioning as expected without adversely impacting existing functionality.
+The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
 ## Scope
 
@@ -25,6 +26,7 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1
     - Download this page data.
     - Added cost codes to all charts and downloaded charts for improved clarity.
     - Extended "Save as Image" functionality on spending priorities and historic data page.
+  - CFR 2024 and AAR 2024 data release
 
 - Bug Fixes:
   - Data Accuracy and Presentation:
@@ -53,14 +55,32 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1
 
 **Entry Criteria:**
 
-- All code changes for release are completed and successfully deployed to the pre-production environment.
-- Pipeline run is completed successfully with the updated files including pupil and workforce census, AAR 2024 files in pre-production.
+ **Phase 1: Pre-production code release Testing**
+- All code changes for the release are completed and successfully deployed to the pre-production environment.
+- Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
+
+ **Phase 2: CFR Data Release and UAT**
+- Pre-production testing is completed, and all critical defects from this phase are resolved.
+- The CFR data release is prepared and pipeline run is completed successfully in the pre-production environment.
+
+ **Phase 3: AAR 2024 Data Release and UAT**
+- CFR UAT is completed, with all high-priority issues resolved.
+- AAR 2024 data release is prepared and pipeline run is completed successfully in the pre-production environment.
 
 **Exit Criteria:**
 
-- All high-priority test cases have passed.
+**Phase 1: Pre-production Testing**
+- All high-priority test cases are executed and passed in pre-production.
 - No critical defects remain open.
+
+**Phase 2: CFR Data Release and UAT**
 - UAT Testing completed.
+- No high or critical defects remain unresolved.
+- Signed off by stakeholders.
+
+**Phase 3: AAR 2024 Data Release and UAT**
+- UAT Testing completed.
+- No high or critical defects remain unresolved.
 - Signed off by stakeholders.
 
 ## Roles and Responsibilities
@@ -108,7 +128,7 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1
 - [241954 - Handle custom-data/part-year RAG](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241954)
 - [236233 - BFR Spinner when no data submitted](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/236233)
 - [225945 - A02: Hover over information for line charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/225945)
-- WIP [241700 - Change Cost and Income codes in aar](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241700)
+- [241700 - Change Cost and Income codes in aar](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241700)
 - [241720 - Multi-selection of LA's not working](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/241720)
 - [243796 - Extend Log Analytics Workspace data retention period](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243796)
 - [243084 - Dependencies - January 2025](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/243084)
@@ -120,5 +140,5 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1
 - [239257 - Add index to UserData table](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/239257)
 - [245362 - Replace recharts-to-png with html-to-image](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245362)
 - [245267 - Add titles on all graphs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245267)
-- [244349 - Add Save as Image to additional pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244349)
+- WIP -[244349 - Add Save as Image to additional pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244349)
 - [242101 - Copy chart to clipboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242101)
