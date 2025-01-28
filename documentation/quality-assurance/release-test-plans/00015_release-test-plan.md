@@ -65,7 +65,6 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `[release 
 - UAT Testing completed.
 - Signed off by stakeholders.
 
-
 ## Roles and Responsibilities
 
 - **QA lead:** Coordinate testing activities, manage test cases and defect triage.
