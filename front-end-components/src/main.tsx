@@ -33,6 +33,7 @@ import {
   BudgetForecastReturnsElementId,
   ShareContentByElementIdDataAttr,
   ShareContentByElementClassNameDataAttr,
+  LaunchModalDataAttr,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -62,6 +63,7 @@ import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
 import { ShareContentByElements } from "./components/share-content-by-elements";
+import { ModalSpike } from "./components/modals/modal-spike";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -960,6 +962,40 @@ if (shareContentByElementClassNameElements) {
           />
         </React.StrictMode>
       );
+    }
+  });
+}
+
+const launchModalElements = document.querySelectorAll<HTMLElement>(
+  `[data-${LaunchModalDataAttr}]`
+);
+
+if (launchModalElements) {
+  launchModalElements.forEach((element) => {
+    const { mainContentId, modalName } = element.dataset;
+
+    if (modalName) {
+      const portal = document.createElement("div");
+      portal.id = `${LaunchModalDataAttr}-${modalName}-portal`;
+
+      let contentElement = null;
+      if (mainContentId) {
+        contentElement = document.getElementById(mainContentId);
+      }
+
+      (contentElement || element).insertAdjacentElement("afterend", portal);
+
+      let modal = null;
+      switch (modalName) {
+        case "modal-spike":
+          modal = (
+            <ModalSpike overlayContentId={mainContentId} portalId={portal.id} />
+          );
+          break;
+      }
+
+      const root = ReactDOM.createRoot(element);
+      root.render(<React.StrictMode>{modal}</React.StrictMode>);
     }
   });
 }

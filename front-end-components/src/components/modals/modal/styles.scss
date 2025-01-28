@@ -1,0 +1,66 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* inset sets all 4 values (top right bottom left) much like how we set padding, margin etc., */
+  background-color: rgba(0, 0, 0, .8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.modal {
+  background-color: #fff;
+  border: 3px solid #000;
+  position: relative;
+
+  @include govuk-responsive-padding(6);
+  
+  width: 100%;
+  max-width: 454px;
+  @include govuk-media-query($from: tablet) {
+    max-width: 500px;
+  }
+
+  .govuk-button {
+    margin: 0 govuk-spacing(2) govuk-spacing(3) 0;
+    @include govuk-media-query($from: tablet) {
+      margin-bottom: govuk-spacing(0);
+    }
+  }
+
+  &:focus {
+    border-color: $govuk-focus-colour;
+    outline: $govuk-focus-width solid transparent;
+    box-shadow: inset 0 0 0 1px $govuk-focus-colour;
+  }
+
+  .govuk-button--close {
+    @include govuk-font(36, bold);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+// Stop background scrolling while dialog open.
+.modal-content-overlay {
+  position: relative;
+  height: 100vh;
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+

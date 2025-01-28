@@ -30,4 +30,11 @@ export default defineConfig({
       },
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "govuk-frontend/dist/govuk/all.scss";',
+      },
+    },
+  },
 });
