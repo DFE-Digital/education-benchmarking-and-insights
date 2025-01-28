@@ -52,9 +52,6 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `[release 
 - User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 
 ## Entry and Exit Criteria
->
->[!NOTE]
->Add/remove/update where necessary to reflect the criteria for this release.
 
 **Entry Criteria:**
 
