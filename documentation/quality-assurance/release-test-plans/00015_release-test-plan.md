@@ -55,7 +55,7 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 **Entry Criteria:**
 
- **Phase 1: Pre-production code release Testing**
+ **Phase 1: Pre-production code release testing**
 - All code changes for the release are completed and successfully deployed to the pre-production environment.
 - Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
 
@@ -69,7 +69,7 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 **Exit Criteria:**
 
-**Phase 1: Pre-production Testing**
+**Phase 1: Pre-production code release testing**
 - All high-priority test cases are executed and passed in pre-production.
 - No critical defects remain open.
 
