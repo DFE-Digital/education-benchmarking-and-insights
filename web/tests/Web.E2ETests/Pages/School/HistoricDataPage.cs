@@ -187,6 +187,8 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
     private ILocator AllCensusCharts => CensusTabContent.Locator(Selectors.Charts);
     private ILocator CensusChartsStats => CensusTabContent.Locator(Selectors.LineChartStats);
+    private ILocator SaveAsImageButtons(string elementId) =>
+        page.Locator($"#{elementId}").Locator(".share-button--save");
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {
@@ -210,6 +212,7 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Spending, 42);
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();
@@ -226,6 +229,7 @@ public class HistoricDataPage(IPage page)
                 await AllIncomeCharts.First.ShouldBeVisible();
                 await IncomeChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_incomeCategories, selectedTab);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Income, 17);
                 break;
             case HistoryTabs.Balance:
                 await BalanceDimension.ShouldBeVisible();
@@ -241,6 +245,7 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_balanceCategories, selectedTab);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Balance, 2);
                 break;
             case HistoryTabs.Census:
                 await CensusDimension.ShouldBeVisible();
@@ -256,8 +261,28 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_censusCategories, selectedTab);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Census, 9);
                 break;
         }
+    }
+
+    private async Task AreSaveAsImageButtonsPresent(HistoryTabs tab, int expected)
+    {
+        var elementId = tab switch
+        {
+            HistoryTabs.Spending => "spending",
+            HistoryTabs.Income => "income",
+            HistoryTabs.Balance => "balance",
+            HistoryTabs.Census => "census",
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var buttons = await SaveAsImageButtons(elementId).AllAsync();
+
+        var firstButton = buttons[0];
+        Assert.NotNull(firstButton);
+        await firstButton.ShouldBeVisible();
+        Assert.Equal(expected, buttons.Count);
     }
 
     public async Task SelectDimension(HistoryTabs tab, string dimensionValue)
