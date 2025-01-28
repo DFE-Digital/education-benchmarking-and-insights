@@ -177,4 +177,8 @@ public static class Selectors
     public const string AccordionSchoolContent = "#accordion-schools-content-";
     public const string ForecastRisksDimension = "#year-end-reserves-dimension";
     public const string EducationIctSpendingCosts = "#spending-priorities-educational-ict";
+    
+    public const string TotalIncomeSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Total income'][@data-custom-event-id='save-chart-as-image']";
+    public const string InYearBalanceSaveAsImage = "xpath=//*[@data-custom-event-chart-name='In-year balance'][@data-custom-event-id='save-chart-as-image']";
+    public const string PupilsOnRollSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Pupils on roll'][@data-custom-event-id='save-chart-as-image']";
 }

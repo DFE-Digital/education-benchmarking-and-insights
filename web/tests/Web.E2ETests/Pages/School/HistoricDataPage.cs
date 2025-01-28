@@ -187,6 +187,10 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
     private ILocator AllCensusCharts => CensusTabContent.Locator(Selectors.Charts);
     private ILocator CensusChartsStats => CensusTabContent.Locator(Selectors.LineChartStats);
+    private ILocator SaveImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureSaveAsImage);
+    private ILocator SaveImageTotalIncome => page.Locator(Selectors.TotalIncomeSaveAsImage);
+    private ILocator SaveImageInYearBalance => page.Locator(Selectors.InYearBalanceSaveAsImage);
+    private ILocator SaveImagePupilsOnRoll => page.Locator(Selectors.PupilsOnRollSaveAsImage);
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {
@@ -210,6 +214,7 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
+                await SaveImageTotalExpenditure.ShouldBeVisible();
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();
@@ -226,6 +231,7 @@ public class HistoricDataPage(IPage page)
                 await AllIncomeCharts.First.ShouldBeVisible();
                 await IncomeChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_incomeCategories, selectedTab);
+                await SaveImageTotalIncome.ShouldBeVisible();
                 break;
             case HistoryTabs.Balance:
                 await BalanceDimension.ShouldBeVisible();
@@ -241,6 +247,7 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_balanceCategories, selectedTab);
+                await SaveImageInYearBalance.ShouldBeVisible();
                 break;
             case HistoryTabs.Census:
                 await CensusDimension.ShouldBeVisible();
@@ -256,6 +263,7 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_censusCategories, selectedTab);
+                await SaveImagePupilsOnRoll.ShouldBeVisible();
                 break;
         }
     }
