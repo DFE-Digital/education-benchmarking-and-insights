@@ -1,14 +1,12 @@
-﻿# Release Test Plan - [TBC]
+﻿# Release Test Plan - 2025.01.1
 
-**Release Date:** TBC  
-**Release Label:** [TBC]
-
-## Introduction
+**Release Date:** 29/01/2025  
+**Release Label:** 2025.01.1
 
 ## Introduction
 
-This plan defines the approach for testing release `[release label]`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `[release label]` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.01.1`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1` are functioning as expected without adversely impacting existing functionality.
 
 ## Scope
 
@@ -48,7 +46,7 @@ Ensure the new feature, data release,  enhancements, and bug fixes in `[release 
 - Functional Testing:
   - Features: Test new and updated features for correct functionality.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
-- Sanity Testing: Perform sanity checks on bug fixes, enhancments to confirm the updates.
+- Sanity Testing: Perform sanity checks on bug fixes, enhancements to confirm the updates.
 - User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 
 ## Entry and Exit Criteria
