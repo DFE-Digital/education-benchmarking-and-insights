@@ -54,43 +54,37 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 ## Entry and Exit Criteria
 
-**Entry Criteria:**
+### Entry Criteria
 
- **Phase 1: Pre-production code release testing**
+- Phase 1: Pre-production code release testing
+  - All code changes for the release are completed and successfully deployed to the pre-production environment.
+  - Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
 
-- All code changes for the release are completed and successfully deployed to the pre-production environment.
-- Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
+- Phase 2: CFR Data Release and UAT
+  - Pre-production testing is completed, and all critical defects from this phase are resolved.
+  - The CFR data release is prepared and pipeline run is completed successfully in the pre-production environment.
 
- **Phase 2: CFR Data Release and UAT**
-
-- Pre-production testing is completed, and all critical defects from this phase are resolved.
-- The CFR data release is prepared and pipeline run is completed successfully in the pre-production environment.
-
- **Phase 3: AAR 2024 Data Release and UAT**
-
-- CFR UAT is completed, with all high-priority issues resolved.
-- AAR 2024 data release is prepared and pipeline run is completed successfully in the pre-production environment.
+- Phase 3: AAR 2024 Data Release and UAT
+  - CFR UAT is completed, with all high-priority issues resolved.
+  - AAR 2024 data release is prepared and pipeline run is completed successfully in the pre-production environment.
 
 **Exit Criteria:**
 
-**Phase 1: Pre-production code release testing**
+- Phase 1: Pre-production code release testing
+  - All high-priority test cases are executed and passed in pre-production.
+  - No critical defects remain open.
 
-- All high-priority test cases are executed and passed in pre-production.
-- No critical defects remain open.
+- Phase 2: CFR Data Release and UAT
+  - Exploratory testing completed.
+  - UAT Testing completed.
+  - No high or critical defects remain unresolved.
+  - Signed off by stakeholders.
 
-**Phase 2: CFR Data Release and UAT**
-
-- Exploratory testing completed.
-- UAT Testing completed.
-- No high or critical defects remain unresolved.
-- Signed off by stakeholders.
-
-**Phase 3: AAR 2024 Data Release and UAT**
-
-- Exploratory testing completed.
-- UAT Testing completed.
-- No high or critical defects remain unresolved.
-- Signed off by stakeholders.
+- Phase 3: AAR 2024 Data Release and UAT
+  - Exploratory testing completed.
+  - UAT Testing completed.
+  - No high or critical defects remain unresolved.
+  - Signed off by stakeholders.
 
 ## Roles and Responsibilities
 
