@@ -5,10 +5,13 @@ variable "location" {}
 variable "support-alert-email" {}
 variable "teams-team-id" {}
 variable "teams-channel-id" {}
+variable "teams-channel-id-dev" {}
+variable "teams-channel-id-preprod" {}
 
 variable "configuration" {
   type = map(object({
     alerts_enabled       = bool
+    email_alerts_enabled = bool
     smart_alerts_enabled = bool
     thresholds = object({
       availability = number
@@ -20,6 +23,7 @@ variable "configuration" {
   default = {
     development = {
       alerts_enabled       = false
+      email_alerts_enabled = false
       smart_alerts_enabled = true
       thresholds = {
         availability = 90
@@ -30,6 +34,7 @@ variable "configuration" {
     }
     automated-test = {
       alerts_enabled       = false
+      email_alerts_enabled = false
       smart_alerts_enabled = false
       thresholds = {
         availability = 90
@@ -40,6 +45,7 @@ variable "configuration" {
     }
     test = {
       alerts_enabled       = false
+      email_alerts_enabled = false
       smart_alerts_enabled = false
       thresholds = {
         availability = 90
@@ -50,6 +56,7 @@ variable "configuration" {
     }
     feature = {
       alerts_enabled       = false
+      email_alerts_enabled = false
       smart_alerts_enabled = false
       thresholds = {
         availability = 90
@@ -60,6 +67,7 @@ variable "configuration" {
     }
     pre-production = {
       alerts_enabled       = true
+      email_alerts_enabled = false
       smart_alerts_enabled = true
       thresholds = {
         availability = 99.9
@@ -70,6 +78,7 @@ variable "configuration" {
     }
     production = {
       alerts_enabled       = true
+      email_alerts_enabled = true
       smart_alerts_enabled = true
       thresholds = {
         availability = 99.9

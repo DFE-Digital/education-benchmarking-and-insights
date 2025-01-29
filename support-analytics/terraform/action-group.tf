@@ -4,10 +4,13 @@ resource "azurerm_monitor_action_group" "service-support-action" {
   short_name          = "Support"
   tags                = local.common-tags
 
-  email_receiver {
-    name                    = "send-to-support"
-    email_address           = var.support-alert-email
-    use_common_alert_schema = true
+  dynamic "email_receiver" {
+    for_each = var.configuration[var.environment].email_alerts_enabled ? ["true"] : []
+    content {
+      name                    = "send-to-support"
+      email_address           = var.support-alert-email
+      use_common_alert_schema = true
+    }
   }
 
   webhook_receiver {

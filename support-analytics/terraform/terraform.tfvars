@@ -7,5 +7,7 @@ support-alert-email = "__support-alert-email__"
 # To obtain the Team ID and (must be URL decoded) Channel ID, find the target Channel in Teams  
 # and select 'Get link to channel' from the context menu. From the URL, obtain the IDs as:
 # https://teams.microsoft.com/l/channel/<Channel ID>/FBIT%20Alerts?groupId=<Team ID>&tenantId=<UNUSED>
-teams-team-id    = "__support-alert-teams-team-id__"
-teams-channel-id = "__support-alert-teams-channel-id__"
+teams-team-id            = "__support-alert-teams-team-id__"
+teams-channel-id         = "__support-alert-teams-channel-id__"
+teams-channel-id-dev     = "__support-alert-teams-channel-id-dev__"
+teams-channel-id-preprod = "__support-alert-teams-channel-id-preprod__"

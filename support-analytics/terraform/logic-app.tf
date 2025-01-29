@@ -1,3 +1,11 @@
+locals {
+  teams-channel-id = (var.environment-prefix == "pre-production"
+    ? var.teams-channel-id-preprod
+    : var.environment-prefix == "production"
+    ? var.teams-channel-id
+  : var.teams-channel-id-dev)
+}
+
 resource "azurerm_logic_app_workflow" "alert-teams" {
   name                = "${var.environment-prefix}-ebis-alert-teams"
   location            = azurerm_resource_group.resource-group.location
@@ -33,7 +41,7 @@ resource "azurerm_logic_app_workflow" "alert-teams" {
   parameters = {
     Environment = "${var.environment-prefix}"
     TeamId      = "${var.teams-team-id}"
-    ChannelId   = "${var.teams-channel-id}"
+    ChannelId   = "${local.teams-channel-id}"
 
     "$connections" = jsonencode({
       teams = {
