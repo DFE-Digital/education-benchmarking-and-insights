@@ -1,0 +1,61 @@
+@import "../styles";
+@import "/src/assets/styles/colours";
+
+.chart-stat abbr.summary {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.chart-stat-wrapper .chart-stat-value {
+  border-top: 1px solid $label-colour;
+  margin-top: 0.5rem;
+}
+
+.chart-stat-summary {
+  display: grid;
+  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(
+      calc(100% - 30px) / 3
+    );
+  margin-top: 14px;
+  padding: 0;
+  gap: 15px;
+  width: 100%;
+}
+
+.chart-stat-summary .chart-stat-wrapper {
+  background-color: $grid-colour;
+  padding: 10px;
+}
+
+.chart-stat-summary .chart-stat-wrapper .chart-stat-value {
+  border-top: none;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  overflow-wrap: break-word;
+}
+
+.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value {
+  color: $series-highlight-colour;
+}
+
+.chart-stat-summary
+  .chart-stat-wrapper
+  .chart-stat-value
+  .chart-stat-value-suffix {
+  margin-left: 5px;
+  font-size: 0.38em;
+}
+
+.chart-stat-wrapper.chart-stat-highlight {
+  color: $series-highlight-colour;
+}
+
+.chart-stat-wrapper.chart-stat-highlight .chart-stat-value {
+  font-weight: 700;
+}
+
+.chart-stat-wrapper .govuk-body-s,
+.chart-stat-wrapper .govuk-body-m,
+.chart-stat-wrapper .govuk-body-l {
+  color: inherit;
+}

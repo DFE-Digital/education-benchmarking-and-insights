@@ -1,0 +1,14 @@
+@import "/src/assets/styles/colours";
+
+.recharts-wrapper {
+  .tooltip-part-year-warning {
+    border-left: 10px solid $warning-colour;
+    border-color: $warning-colour;
+    background-color: $warning-colour-bg;
+    padding: 6px 12px;
+
+    .govuk-warning-text {
+      font-size: 16px;
+    }
+  }
+}

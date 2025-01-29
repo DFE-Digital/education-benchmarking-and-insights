@@ -2,7 +2,8 @@ import { useState } from "react";
 import AccessibleAutocomplete from "accessible-autocomplete/react";
 import { useDebounceCallback } from "usehooks-ts";
 import { AutoCompleteProps } from "./types";
-import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
+import "accessible-autocomplete/src/autocomplete.css";
+import "./styles.scss";
 
 export function AutoComplete<T>({
   onSelected,

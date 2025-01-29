@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import "./styles.scss";
 
 export function EstablishmentTick(props: EstablishmentTickProps) {
   const {

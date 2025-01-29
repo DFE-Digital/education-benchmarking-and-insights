@@ -14,7 +14,6 @@ import {
   HorizontalBarChartProps,
   LabelListContentProps,
 } from "src/components/charts/horizontal-bar-chart";
-
 import { ErrorBanner } from "src/components/error-banner";
 import {
   SuppressNegativeOrZeroContext,
@@ -50,6 +49,7 @@ import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { Props } from "recharts/types/component/Label";
 import { CartesianViewBox } from "recharts/types/util/types";
 import { DownloadMode } from "src/services";
+import "../styles.scss";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
   props: HorizontalBarChartProps<TData>,

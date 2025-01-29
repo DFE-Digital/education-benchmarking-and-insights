@@ -2,6 +2,7 @@ import React from "react";
 import { ChartMode } from "src/components";
 import { useChartModeContext } from "src/contexts";
 import { ChartOptionsPhaseModeProps } from "./types";
+import "./styles.scss";
 
 export const ChartOptionsPhaseMode = ({
   phases,

@@ -1,0 +1,10 @@
+@import "/src/assets/styles/colours";
+
+.govuk-table .govuk-table__cell.table-cell-value {
+  white-space: nowrap;
+}
+
+.govuk-table .govuk-table__cell.table-cell-warning {
+  border-left: 10px solid $warning-colour;
+  padding-left: 12px;
+}

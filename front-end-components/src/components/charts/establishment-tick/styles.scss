@@ -1,0 +1,38 @@
+@import "/src/assets/styles/colours";
+
+.recharts-wrapper {
+  foreignObject>.recharts-tooltip-wrapper .tooltip-table>caption {
+    width: 370px;
+    overflow: visible;
+    white-space: pre-wrap;
+  }
+
+  .recharts-cartesian-axis {
+    .recharts-text {
+      .govuk-link {
+        fill: $govuk-link-colour;
+
+        &:hover,
+        &:focus {
+          fill: $govuk-link-hover-colour;
+          text-decoration: underline;
+        }
+      }
+
+      &.establishment-tick {
+        transform: translate(-0.1em, 0.3em);
+      }
+    }
+
+    line.establishment-tick-focus {
+      &:has(~ text > a) {
+        stroke: transparent;
+        stroke-width: 1.5em;
+      }
+
+      &:has(~ text > a:focus) {
+        stroke: $govuk-focus-colour;
+      }
+    }
+  }
+}

@@ -1,0 +1,237 @@
+@import "/src/assets/styles/colours";
+
+$scale-active: -9%;
+$series-0-colour: #bfbfbf;
+$series-0-active-colour: color.scale($series-0-colour, $lightness: $scale-active);
+$series-1-colour: govuk-colour("purple");
+$series-1-active-colour: color.scale($series-1-colour, $lightness: $scale-active);
+$series-2-colour: govuk-colour("turquoise");
+$series-2-active-colour: color.scale($series-2-colour, $lightness: $scale-active);
+$stack-0-colour: $series-0-colour;
+$stack-0-active-colour: $series-0-active-colour;
+$stack-1-colour: #e6e6e6;
+$stack-1-active-colour: color.scale($stack-1-colour, $lightness: $scale-active);
+$series-highlight-colour: #12436d;
+$stack-1-highlight-colour: #94c4ed;
+$bar-chart-stroke-width: 3px;
+$line-chart-stroke-width: 5px;
+
+.recharts-wrapper {
+
+  .chart-cell,
+  .chart-cell.chart-cell-series-0,
+  .recharts-legend-item.legend-item-0 path {
+    fill: $series-0-colour;
+  }
+
+  .chart-cell {
+    stroke: $series-0-colour;
+    stroke-width: $bar-chart-stroke-width;
+
+    &.chart-cell-active {
+      stroke: $series-0-active-colour;
+
+      &:not(.chart-cell-highlight, .chart-cell.chart-cell-part-year) {
+        fill: $series-0-active-colour;
+      }
+    }
+
+    &.chart-cell-highlight {
+      fill: $series-highlight-colour;
+      stroke: $series-highlight-colour;
+    }
+
+    &.chart-cell-series-0.chart-cell-stack-1 {
+      &:not(.chart-cell-highlight) {
+        fill: $stack-0-colour;
+      }
+
+      &.chart-cell-active:not(.chart-cell-highlight) {
+        fill: $stack-0-active-colour;
+      }
+    }
+
+    &.chart-cell-series-1.chart-cell-stack-1 {
+      fill: $stack-1-colour;
+      stroke: $stack-1-colour;
+      stroke-width: $bar-chart-stroke-width;
+
+      &.chart-cell-active {
+        fill: $stack-1-active-colour;
+      }
+
+      &.chart-cell-highlight {
+        stroke: $stack-1-highlight-colour;
+        fill: $stack-1-highlight-colour;
+      }
+    }
+
+    &.chart-cell-part-year {
+      stroke: $warning-colour-bg;
+      fill: $warning-colour-bg;
+
+      &.chart-cell-highlight {
+        stroke: $warning-colour;
+        fill: $warning-colour;
+      }
+    }
+
+    &.chart-cell-series-2.chart-cell-active:not(.chart-cell-highlight) {
+      fill: $series-2-active-colour;
+    }
+  }
+
+  .recharts-cartesian-axis,
+  .recharts-cartesian-axis .recharts-cartesian-axis-line,
+  .recharts-cartesian-axis .recharts-cartesian-axis-tick-line {
+    stroke: $grid-colour;
+  }
+
+  .recharts-cartesian-axis .recharts-text,
+  .recharts-reference-line .recharts-text {
+    fill: $label-colour;
+    stroke: none;
+  }
+
+  .recharts-cartesian-axis.recharts-yAxis>.recharts-label {
+    text-anchor: middle;
+  }
+
+  .recharts-legend-item .recharts-legend-item-text {
+    color: $label-colour;
+  }
+
+  .chart-cell.chart-cell-series-1,
+  .recharts-legend-item.legend-item-1 path {
+    fill: $series-1-colour;
+  }
+
+  .chart-cell.chart-cell-series-1.chart-cell-active:not(.chart-cell-highlight) {
+    fill: $series-1-active-colour;
+  }
+
+  .chart-cell.chart-cell-series-2,
+  .recharts-legend-item.legend-item-2 path {
+    fill: $series-2-colour;
+  }
+
+  .recharts-cartesian-grid line {
+    stroke: $grid-colour;
+  }
+
+  .chart-line.chart-line-series-0 path,
+  .chart-line.chart-line-series-0 .recharts-line-dot,
+  .recharts-default-legend .legend-item-0 line {
+    stroke: $series-highlight-colour;
+    stroke-width: $line-chart-stroke-width;
+  }
+
+  .chart-line.chart-line-series-1 path,
+  .chart-line.chart-line-series-1 .recharts-line-dot,
+  .recharts-default-legend .legend-item-1 line {
+    stroke: $series-1-colour;
+    stroke-width: $line-chart-stroke-width;
+  }
+
+  .chart-line.chart-line-series-2 path,
+  .chart-line.chart-line-series-2 .recharts-line-dot,
+  .recharts-default-legend .legend-item-2 line {
+    stroke: $series-2-colour;
+    stroke-width: $line-chart-stroke-width;
+  }
+
+  .recharts-default-legend .recharts-legend-item-text {
+    color: $label-colour !important;
+  }
+
+  .chart-active-dot.chart-active-dot-series-0,
+  .recharts-label-list .chart-label-series-0 {
+    fill: $series-highlight-colour;
+  }
+
+  .chart-active-dot.chart-active-dot-series-1,
+  .recharts-label-list .chart-label-series-1 {
+    fill: $series-1-colour;
+  }
+
+  .chart-active-tooltip {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 20px;
+
+    >p {
+      margin: 0;
+    }
+  }
+
+  .recharts-tooltip-cursor {
+    fill: $grid-colour;
+  }
+
+  .recharts-tooltip-wrapper {
+    background-color: govuk-colour("white");
+    border: 1px solid $govuk-border-colour;
+
+    .tooltip-table {
+      margin-bottom: 0;
+
+      >tbody {
+        font-size: 0.8em;
+
+        .govuk-table__row {
+          >th {
+            width: 150px;
+          }
+
+          &:first-child {
+
+            >th,
+            >td {
+              border-top: 1px solid $govuk-border-colour;
+            }
+          }
+
+          &:last-child {
+
+            >th,
+            >td {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+
+      >caption {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      >caption,
+      >tbody .govuk-table__row>th,
+      >tbody .govuk-table__row>td {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .recharts-reference-line>line {
+    stroke: $grid-colour;
+  }
+
+  tspan::selection {
+    background-color: $grid-colour;
+  }
+
+  &.recharts-wrapper-horizontal-bar-chart>.recharts-surface {
+    overflow: visible;
+  }
+}
+
+.full-height-width {
+  width: 100%;
+  height: 100%;
+}

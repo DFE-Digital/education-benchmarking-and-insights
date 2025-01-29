@@ -10,6 +10,7 @@ import {
   BreakdownProvider,
   SelectedEstablishmentContext,
 } from "src/contexts";
+import "./styles.scss";
 
 export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,

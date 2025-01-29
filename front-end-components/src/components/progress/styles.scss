@@ -1,0 +1,26 @@
+@import "/src/assets/styles/colours";
+
+.progress-wrapper {
+  display: block;
+  max-width: 80%;
+  max-height: 250px;
+
+  &.progress-left {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .progress-circle {
+    stroke: $spinner-colour;
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+  }
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}

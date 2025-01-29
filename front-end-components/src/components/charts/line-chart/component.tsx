@@ -28,6 +28,7 @@ import classNames from "classnames";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { LineChartDot } from "../line-chart-dot";
 import { DownloadMode } from "src/services";
+import "../styles.scss";
 
 function LineChartInner<TData extends ChartDataSeries>(
   {
