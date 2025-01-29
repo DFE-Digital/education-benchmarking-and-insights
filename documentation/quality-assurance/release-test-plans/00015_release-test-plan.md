@@ -92,9 +92,6 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
   - **Mitigation:** Perform data backups before migration. Conduct a dry run of the migration process in a pre-production environment.
 
 ## Test Deliverables
->
->[!NOTE]
->Add/remove/update where necessary to reflect the deliverables for this release.
 
 - Test plan document
 - Test cases (Functional, Regression, Non-Functional)
