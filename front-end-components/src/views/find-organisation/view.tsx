@@ -4,6 +4,7 @@ import { FindOrganisationProps } from "src/views/find-organisation";
 import TrustInput from "src/views/find-organisation/partials/trust-input";
 import { useGovUk } from "src/hooks/useGovUk";
 import LaInput from "src/views/find-organisation/partials/la-input";
+import "./styles.scss";
 
 export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
   const {

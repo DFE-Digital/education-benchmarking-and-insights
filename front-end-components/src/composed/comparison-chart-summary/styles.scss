@@ -1,0 +1,13 @@
+.composed-chart-wrapper {
+  height: 100%;
+}
+
+.composed-chart-wrapper,
+.composed-chart {
+  height: 200px;
+}
+
+.composed-chart-wrapper,
+.composed-chart>div {
+  height: 100%;
+}

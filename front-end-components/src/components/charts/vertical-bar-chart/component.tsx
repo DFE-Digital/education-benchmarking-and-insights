@@ -32,6 +32,7 @@ import {
 } from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { DownloadMode } from "src/services";
+import "../styles.scss";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
   props: VerticalBarChartProps<TData>,

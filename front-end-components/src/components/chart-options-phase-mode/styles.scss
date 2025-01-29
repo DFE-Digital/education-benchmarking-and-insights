@@ -1,0 +1,12 @@
+.chart-options {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .chart-options {
+    width: 100%;
+    display: block;
+  }
+}

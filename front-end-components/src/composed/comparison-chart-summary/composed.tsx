@@ -8,6 +8,7 @@ import {
 } from "src/components/charts/utils";
 import { Stat } from "src/components/charts/stat";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
+import "./styles.scss";
 
 export function ComparisonChartSummary<TData extends ChartDataSeries>(
   props: ComparisonChartSummaryComposedProps<TData>

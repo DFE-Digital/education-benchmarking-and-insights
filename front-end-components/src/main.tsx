@@ -1,7 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { format } from "date-fns";
-import "src/index.css";
 import {
   CompareYourCensus,
   CompareYourCosts,

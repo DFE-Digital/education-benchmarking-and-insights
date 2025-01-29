@@ -14,6 +14,7 @@ import { BreakdownInclude } from "src/components/central-services-breakdown";
 import { PartYearDataWarning } from "../part-year-data-warning/component";
 import { ErrorBanner } from "src/components/error-banner";
 import classNames from "classnames";
+import "./styles.scss";
 
 export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData>

@@ -1,7 +1,7 @@
 import React from "react";
-import "src/components/progress/styles.css";
 import { ProgressProps } from ".";
 import classNames from "classnames";
+import "./styles.scss";
 
 // inspired by https://medium.com/@pppped/how-to-code-a-responsive-circular-percentage-chart-with-svg-and-css-3632f8cd7705
 export const Progress: React.FC<ProgressProps> = ({

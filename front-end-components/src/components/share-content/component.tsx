@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
-import "src/components/share-content/styles.css";
 import { ShareContentProps } from "./types";
 import classNames from "classnames";
+import "./styles.scss";
 
 export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
   children,
@@ -21,7 +21,7 @@ export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
     "data-module": "govuk-button",
     "data-prevent-double-click": "true",
     disabled: disabled,
-    ariaDisabled: disabled,
+    "aria-disabled": disabled,
   };
 
   return (
