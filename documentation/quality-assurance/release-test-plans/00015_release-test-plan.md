@@ -7,6 +7,7 @@
 
 This plan defines the approach for testing release `2025.01.1`, covering all testing necessary.
 Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1` are functioning as expected without adversely impacting existing functionality.
+
 The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
 ## Scope
@@ -54,37 +55,19 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 ## Entry and Exit Criteria
 
-### Entry Criteria
+**Entry Criteria:**
 
-- Phase 1: Pre-production code release testing
-  - All code changes for the release are completed and successfully deployed to the pre-production environment.
-  - Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
-
-- Phase 2: CFR Data Release and UAT
-  - Pre-production testing is completed, and all critical defects from this phase are resolved.
-  - The CFR data release is prepared and pipeline run is completed successfully in the pre-production environment.
-
-- Phase 3: AAR 2024 Data Release and UAT
-  - CFR UAT is completed, with all high-priority issues resolved.
-  - AAR 2024 data release is prepared and pipeline run is completed successfully in the pre-production environment.
+- All code changes for the release are completed and successfully deployed to the pre-production environment.
+- Pipeline run is completed successfully, incorporating updated files (e.g., pupil and workforce census files, and other ancillary files).
+- CFR Data Release - data release is prepared and pipeline run is completed successfully in the pre-production environment.
+- AAR Data Release - data release is prepared and pipeline run is completed successfully in the pre-production environment.
 
 **Exit Criteria:**
 
-- Phase 1: Pre-production code release testing
-  - All high-priority test cases are executed and passed in pre-production.
-  - No critical defects remain open.
-
-- Phase 2: CFR Data Release and UAT
-  - Exploratory testing completed.
-  - UAT Testing completed.
-  - No high or critical defects remain unresolved.
-  - Signed off by stakeholders.
-
-- Phase 3: AAR 2024 Data Release and UAT
-  - Exploratory testing completed.
-  - UAT Testing completed.
-  - No high or critical defects remain unresolved.
-  - Signed off by stakeholders.
+- All high-priority test cases are executed and passed in pre-production.
+- No critical defects remain open.
+- UAT completed.
+- Signed off by stakeholders.
 
 ## Roles and Responsibilities
 
@@ -95,12 +78,18 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 - **Project lead:** Go/no-go decisions.
 
 ## Risk Analysis
->
->[!NOTE]
->Add risks (with mitigation) for this release.
 
-- **Risk:**
-  - **Mitigation:**
+- **Risk:** Bugs & Defects in Production. Unexpected software defects can cause system crashes, data corruption, or functional failures.
+  - **Mitigation:** Conduct thorough testing (unit, integration, regression, and user acceptance testing). Implement automated testing to catch issues early.
+
+- **Risk:** Performance Issues. The service may slow down or become unavailable due to unexpected load or inefficiencies in the new release.
+  - **Mitigation:** Perform load testing before deployment. Monitor system health with real-time performance monitoring tools.
+
+- **Risk:** Poor User Adoption. Users may struggle with new features or frustration.
+  - **Mitigation:** Gather post-release feedback and quickly address usability concerns.
+
+- **Risk:** Data Migration/Release Failures. Data may be lost, corrupted, or improperly migrated.
+  - **Mitigation:** Perform data backups before migration. Conduct a dry run of the migration process in a pre-production environment.
 
 ## Test Deliverables
 >
