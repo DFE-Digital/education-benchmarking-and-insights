@@ -31,7 +31,7 @@ import {
   LineChart2SeriesElementId,
   BudgetForecastReturnsElementId,
   ShareContentByElementIdDataAttr,
-  ShareContentByElementClassNameDataAttr,
+  LaunchModalDataAttr,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -60,7 +60,7 @@ import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
-import { ShareContentByElements } from "./components/share-content-by-elements";
+import { ModalSaveAllImages } from "./components/modals/modal-save-all-images";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -900,65 +900,58 @@ if (shareContentByElementIdElements) {
   });
 }
 
-const shareContentByElementClassNameElements =
-  document.querySelectorAll<HTMLElement>(
-    `[data-${ShareContentByElementClassNameDataAttr}]`
-  );
+const launchModalElements = document.querySelectorAll<HTMLElement>(
+  `[data-${LaunchModalDataAttr}]`
+);
 
-if (shareContentByElementClassNameElements) {
-  shareContentByElementClassNameElements.forEach((element) => {
+if (launchModalElements) {
+  launchModalElements.forEach((element) => {
     const {
-      copyEventId,
+      buttonLabel,
       elementClassName,
       elementTitleAttr,
       fileName,
-      label,
+      mainContentId,
+      modalName,
+      modalTitle,
       saveEventId,
       showProgress,
       showTitles,
     } = element.dataset;
-    if (elementClassName && label) {
+
+    if (modalName) {
+      const portal = document.createElement("div");
+      portal.id = `${LaunchModalDataAttr}-${modalName}-portal`;
+
+      let contentElement = null;
+      if (mainContentId) {
+        contentElement = document.getElementById(mainContentId);
+      }
+
+      (contentElement || element).insertAdjacentElement("afterend", portal);
+
+      let modal = null;
+      switch (modalName) {
+        case "modal-save-all-images":
+          modal = (
+            <ModalSaveAllImages
+              buttonLabel={buttonLabel || "Save"}
+              elementClassName={elementClassName as string}
+              elementTitleAttr={elementTitleAttr}
+              fileName={fileName}
+              modalTitle={modalTitle || "Save all images"}
+              overlayContentId={mainContentId}
+              portalId={portal.id}
+              saveEventId={saveEventId}
+              showProgress={showProgress === "true"}
+              showTitles={showTitles === "true"}
+            />
+          );
+          break;
+      }
+
       const root = ReactDOM.createRoot(element);
-      root.render(
-        <React.StrictMode>
-          <ShareContentByElements
-            onClick={async () => {
-              const radio = document.getElementById(
-                "mode-chart"
-              ) as HTMLInputElement;
-              if (radio && radio.checked === false) {
-                radio.click();
-                await new Promise<void>((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                  }, 1000);
-                });
-              }
-            }}
-            elementsSelector={() => {
-              const results = [];
-              const elements =
-                document.getElementsByClassName(elementClassName);
-
-              for (let i = 0; i < elements.length; i++) {
-                const element = elements[i] as HTMLElement;
-                const title = elementTitleAttr
-                  ? element.getAttribute(elementTitleAttr) || undefined
-                  : undefined;
-                results.push({ element, title });
-              }
-
-              return results;
-            }}
-            fileName={fileName}
-            label={label}
-            copyEventId={copyEventId}
-            saveEventId={saveEventId}
-            showProgress={showProgress === "true"}
-            showTitles={showTitles === "true"}
-          />
-        </React.StrictMode>
-      );
+      root.render(<React.StrictMode>{modal}</React.StrictMode>);
     }
   });
 }
