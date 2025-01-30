@@ -36,6 +36,11 @@
     box-shadow: inset 0 0 0 1px $govuk-focus-colour;
   }
 
+  .govuk-button-group {
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+
   .govuk-button--close {
     @include govuk-font(36, bold);
     position: absolute;
@@ -51,6 +56,10 @@
     &::before {
       display: none;
     }
+  }
+
+  .progress-wrapper {
+    justify-self: center;
   }
 }
 

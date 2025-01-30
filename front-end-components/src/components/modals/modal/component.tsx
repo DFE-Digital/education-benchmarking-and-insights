@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { ModalProps as ModalProps } from ".";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import "src/components/modals/modal/styles.scss";
 
 const overlayClass = "modal-content-overlay";
@@ -15,29 +15,34 @@ export function Modal({
   okProps,
   onClose,
   onOK,
+  open,
   overlayContentId,
   portalId,
   title,
+  ...props
 }: ModalProps) {
   const modalRoot = document.getElementById(portalId);
   const content = overlayContentId
     ? document.getElementById(overlayContentId)
     : null;
 
+  const closeOnEscapeKey = useCallback(
+    (e: KeyboardEvent) => (e.key === "Escape" ? onClose() : null),
+    [onClose]
+  );
+
   useEffect(() => {
-    document.querySelector("body")?.classList.add(overlayClass);
+    if (open) {
+      document.querySelector("body")?.classList.add(overlayClass);
 
-    // Set page content to inert to indicate to screenreaders it is inactive
-    if (content) {
-      content.inert = true;
-      content.setAttribute("aria-hidden", "true");
-    }
+      // Set page content to inert to indicate to screenreaders it is inactive
+      if (content) {
+        content.inert = true;
+        content.setAttribute("aria-hidden", "true");
+      }
 
-    const closeOnEscapeKey = (e: KeyboardEvent) =>
-      e.key === "Escape" ? onClose() : null;
-    document.body.addEventListener("keydown", closeOnEscapeKey);
-
-    return () => {
+      document.body.addEventListener("keydown", closeOnEscapeKey);
+    } else {
       document.querySelector("body")?.classList.remove(overlayClass);
 
       // Make page content active again when modal is closed
@@ -47,10 +52,10 @@ export function Modal({
       }
 
       document.body.removeEventListener("keydown", closeOnEscapeKey);
-    };
-  }, [content, onClose]);
+    }
+  }, [closeOnEscapeKey, content, open]);
 
-  if (!modalRoot) {
+  if (!modalRoot || !open) {
     return;
   }
 
@@ -62,31 +67,34 @@ export function Modal({
         aria-modal
         aria-labelledby="dialog-title"
         tabIndex={0}
+        {...props}
       >
         <div role="document">
           <h2 id="dialog-title" className="govuk-heading-m">
             {title}
           </h2>
           <div className="govuk-body">{children}</div>
-          {ok && (
-            <button
-              className="govuk-button"
-              data-module="govuk-button"
-              onClick={onOK}
-              {...okProps}
-            >
-              {okLabel || "OK"}
-            </button>
-          )}
-          {cancel && (
-            <button
-              className="govuk-button govuk-button--secondary"
-              data-module="govuk-button"
-              onClick={onClose}
-            >
-              {cancelLabel || "Cancel"}
-            </button>
-          )}
+          <div className="govuk-button-group">
+            {ok && (
+              <button
+                className="govuk-button"
+                data-module="govuk-button"
+                onClick={onOK}
+                {...okProps}
+              >
+                {okLabel || "OK"}
+              </button>
+            )}
+            {cancel && (
+              <button
+                className="govuk-button govuk-button--secondary"
+                data-module="govuk-button"
+                onClick={onClose}
+              >
+                {cancelLabel || "Cancel"}
+              </button>
+            )}
+          </div>
           <button
             className="govuk-button govuk-button--secondary govuk-button--close"
             aria-label="Close modal dialog"

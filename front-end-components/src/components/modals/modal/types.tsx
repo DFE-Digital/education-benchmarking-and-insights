@@ -1,7 +1,8 @@
-import { PropsWithChildren } from "react";
+import { AriaAttributes, PropsWithChildren } from "react";
 
 export type ModalProps = PropsWithChildren &
-  ModalCommonProps & {
+  ModalCommonProps &
+  AriaAttributes & {
     cancel?: boolean;
     cancelLabel?: string;
     ok?: boolean;
@@ -10,6 +11,7 @@ export type ModalProps = PropsWithChildren &
       Record<string, string | boolean | undefined>;
     onClose: () => void;
     onOK: () => void;
+    open?: boolean;
     title: string;
   };
 
