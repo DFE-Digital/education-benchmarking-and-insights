@@ -20,6 +20,7 @@ export function ModalSaveAllImages({
   const [modeChanged, setModeChanged] = useState(false);
   const [imagesLoading, setImagesLoading] = useState<boolean>();
   const [progress, setProgress] = useState<number>();
+  const [ariaStatus, setAriaStatus] = useState<number>();
   const [cancelSignal, setCancelSignal] = useState<AbortController>(
     new AbortController()
   );
@@ -39,20 +40,18 @@ export function ModalSaveAllImages({
     return results;
   };
 
+  const handleProgress = (percentage?: number) => {
+    setProgress(percentage);
+  };
+
   const downloadPngs = useDownloadPngImages({
     elementsSelector,
     fileName,
     onImagesLoading: setImagesLoading,
-    onProgress: setProgress,
+    onProgress: handleProgress,
     showTitles,
     signal: cancelSignal.signal,
   });
-
-  useEffect(() => {
-    if (!imagesLoading) {
-      setProgress(undefined);
-    }
-  }, [imagesLoading]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -67,6 +66,7 @@ export function ModalSaveAllImages({
         // todo: confirm page leave
       }
 
+      setProgress(undefined);
       setIsModalOpen(false);
       window.setTimeout(function () {
         button.current?.focus();
@@ -89,7 +89,9 @@ export function ModalSaveAllImages({
         }
       }
 
-      handleCloseModal(false);
+      setTimeout(() => {
+        handleCloseModal(false);
+      }, 2500);
     }
   }, [handleCloseModal, modeChanged, progress]);
 
@@ -106,6 +108,20 @@ export function ModalSaveAllImages({
     }
   };
 
+  useEffect(() => {
+    if (!progress || progress < 24) {
+      setAriaStatus(0);
+    } else if (progress < 49) {
+      setAriaStatus(25);
+    } else if (progress < 74) {
+      setAriaStatus(50);
+    } else if (progress < 99) {
+      setAriaStatus(75);
+    } else {
+      setAriaStatus(100);
+    }
+  }, [progress, setAriaStatus]);
+
   return (
     <div>
       <button
@@ -116,31 +132,57 @@ export function ModalSaveAllImages({
       >
         {buttonLabel}
       </button>
-      {isModalOpen && (
-        <Modal
-          cancel
-          ok
-          okProps={{
-            "data-custom-event-chart-name":
-              saveEventId && modalTitle ? modalTitle : undefined,
-            "data-custom-event-id": saveEventId,
-            "data-prevent-double-click": "true",
-            disabled: imagesLoading,
-            "aria-disabled": imagesLoading,
-          }}
-          onClose={() => handleCloseModal(true)}
-          onOK={handleDownloadStart}
-          title={modalTitle}
-          {...props}
-        >
+      <Modal
+        cancel
+        cancelLabel={progress === 100 ? "Close" : "Cancel"}
+        ok
+        okLabel="Start"
+        okProps={{
+          "data-custom-event-chart-name":
+            saveEventId && modalTitle ? modalTitle : undefined,
+          "data-custom-event-id": saveEventId,
+          "data-prevent-double-click": "true",
+          disabled: imagesLoading || progress === 100,
+          "aria-disabled": imagesLoading || progress === 100,
+        }}
+        onClose={() => handleCloseModal(true)}
+        onOK={handleDownloadStart}
+        open={isModalOpen}
+        title={modalTitle}
+        aria-busy={!!progress}
+        aria-describedby="save-progress"
+        aria-live="polite"
+        {...props}
+      >
+        <div className="govuk-body">
           {
-            // todo: user feedback
+            /* todo: copy review */
+            progress
+              ? progress === 100
+                ? "File generation has completed."
+                : "Please wait while the images are generated."
+              : "Select 'Start' to begin the image generation process. This may take a few minutes to complete."
           }
-          {showProgress && progress && (
-            <Progress percentage={progress} width={64} height={64} />
-          )}
-        </Modal>
-      )}
+        </div>
+
+        {showProgress && progress && (
+          <>
+            <div
+              className="govuk-visually-hidden"
+              role="status"
+              id="save-progress"
+              children={
+                progress === 100
+                  ? "File generation has completed."
+                  : `${ariaStatus}% complete`
+              }
+            />
+            {progress !== 100 && (
+              <Progress percentage={progress} width={100} height={100} />
+            )}
+          </>
+        )}
+      </Modal>
     </div>
   );
 }
