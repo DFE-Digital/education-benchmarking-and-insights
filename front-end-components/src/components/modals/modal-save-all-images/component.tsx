@@ -20,6 +20,9 @@ export function ModalSaveAllImages({
   const [modeChanged, setModeChanged] = useState(false);
   const [imagesLoading, setImagesLoading] = useState<boolean>();
   const [progress, setProgress] = useState<number>();
+  const [cancelSignal, setCancelSignal] = useState<AbortController>(
+    new AbortController()
+  );
 
   const elementsSelector = () => {
     const results = [];
@@ -42,6 +45,7 @@ export function ModalSaveAllImages({
     onImagesLoading: setImagesLoading,
     onProgress: setProgress,
     showTitles,
+    signal: cancelSignal.signal,
   });
 
   useEffect(() => {
@@ -54,18 +58,22 @@ export function ModalSaveAllImages({
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = useCallback(() => {
-    if (imagesLoading) {
-      // todo: cancel operation if still in progress
-      // todo: confirm cancel
-      // todo: confirm page leave
-    }
+  const handleCloseModal = useCallback(
+    (abort: boolean) => {
+      if (imagesLoading && abort) {
+        cancelSignal.abort();
+        setCancelSignal(new AbortController());
+        // todo: confirm cancel operation
+        // todo: confirm page leave
+      }
 
-    setIsModalOpen(false);
-    window.setTimeout(function () {
-      button.current?.focus();
-    }, 0);
-  }, [imagesLoading]);
+      setIsModalOpen(false);
+      window.setTimeout(function () {
+        button.current?.focus();
+      }, 0);
+    },
+    [cancelSignal, imagesLoading]
+  );
 
   const handleDownloadStart = async () => {
     await prepareContent();
@@ -81,7 +89,7 @@ export function ModalSaveAllImages({
         }
       }
 
-      handleCloseModal();
+      handleCloseModal(false);
     }
   }, [handleCloseModal, modeChanged, progress]);
 
@@ -120,7 +128,7 @@ export function ModalSaveAllImages({
             disabled: imagesLoading,
             "aria-disabled": imagesLoading,
           }}
-          onClose={handleCloseModal}
+          onClose={() => handleCloseModal(true)}
           onOK={handleDownloadStart}
           title={modalTitle}
           {...props}
