@@ -25,6 +25,7 @@ export type DownloadPngImagesOptions = {
   onImagesLoading?: (loading: boolean) => void;
   onProgress?: (percentage: number) => void;
   showTitles?: boolean;
+  signal?: AbortSignal;
 } & Pick<ImageOptions, "filter">;
 
 const imageTitleHeight = 50;
@@ -134,6 +135,7 @@ export function useDownloadPngImages({
   onImagesLoading,
   onProgress,
   showTitles,
+  signal,
 }: DownloadPngImagesOptions) {
   const fileName = fileNameProp ?? "download.zip";
 
@@ -152,10 +154,15 @@ export function useDownloadPngImages({
           onProgress(((i + 1) / elements.length) * 100);
         }
 
-        const blob = await ImageService.toBlob(
-          element,
-          getImageOptions(element, type, title, showTitles, filter)
-        );
+        const blob = await new Promise<Blob | null>((resolve, reject) => {
+          signal?.addEventListener("abort", () => {
+            reject("Download aborted at user request");
+          });
+          ImageService.toBlob(
+            element,
+            getImageOptions(element, type, title, showTitles, filter)
+          ).then(resolve);
+        });
 
         if (blob) {
           zip.file(
@@ -185,7 +192,12 @@ export function useDownloadPngImages({
         try {
           await download();
         } catch (err) {
-          console.error(`Unable to download images`, err);
+          const message = "Unable to download images";
+          if (signal?.aborted) {
+            console.warn(message, err);
+          } else {
+            console.error(message, err);
+          }
         } finally {
           onImagesLoading(false);
         }
@@ -200,6 +212,7 @@ export function useDownloadPngImages({
     onImagesLoading,
     onProgress,
     showTitles,
+    signal,
   ]);
 
   return downloadPng;
