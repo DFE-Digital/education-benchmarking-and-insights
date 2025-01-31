@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ModalSaveAllImagesProps } from ".";
-import { Modal } from "../modal";
+import { Modal, ModalHandler } from "../modal";
 import { useDownloadPngImages } from "src/hooks/useDownloadImage";
 import { Progress } from "src/components/progress";
 
@@ -24,6 +24,8 @@ export function ModalSaveAllImages({
   const [cancelSignal, setCancelSignal] = useState<AbortController>(
     new AbortController()
   );
+  const [cancelMode, setCancelMode] = useState(false);
+  const modalRef = useRef<ModalHandler>(null);
 
   const elementsSelector = () => {
     const results = [];
@@ -62,17 +64,23 @@ export function ModalSaveAllImages({
       if (imagesLoading && abort) {
         cancelSignal.abort();
         setCancelSignal(new AbortController());
-        // todo: confirm cancel operation
-        // todo: confirm page leave
+      }
+
+      if (modeChanged) {
+        const radio = document.getElementById("mode-table") as HTMLInputElement;
+        if (radio) {
+          radio.click();
+        }
       }
 
       setProgress(undefined);
       setIsModalOpen(false);
+      setCancelMode(false);
       window.setTimeout(function () {
         button.current?.focus();
       }, 0);
     },
-    [cancelSignal, imagesLoading]
+    [cancelSignal, imagesLoading, modeChanged]
   );
 
   const handleDownloadStart = async () => {
@@ -82,18 +90,11 @@ export function ModalSaveAllImages({
 
   useEffect(() => {
     if (progress === 100) {
-      if (modeChanged) {
-        const radio = document.getElementById("mode-table") as HTMLInputElement;
-        if (radio) {
-          radio.click();
-        }
-      }
-
       setTimeout(() => {
         handleCloseModal(false);
-      }, 2500);
+      }, 10000);
     }
-  }, [handleCloseModal, modeChanged, progress]);
+  }, [handleCloseModal, progress]);
 
   const prepareContent = async () => {
     const radio = document.getElementById("mode-chart") as HTMLInputElement;
@@ -122,6 +123,35 @@ export function ModalSaveAllImages({
     }
   }, [progress, setAriaStatus]);
 
+  const handleOK = () => {
+    if (cancelMode) {
+      handleCloseModal(true);
+      return;
+    }
+
+    handleDownloadStart();
+  };
+
+  const handleCancel = () => {
+    if (!imagesLoading) {
+      handleCloseModal(true);
+      return;
+    }
+
+    if (cancelMode) {
+      setCancelMode(false);
+      return;
+    }
+
+    setCancelMode(true);
+  };
+
+  useEffect(() => {
+    if (cancelMode) {
+      modalRef.current?.focusOKButton();
+    }
+  }, [cancelMode]);
+
   return (
     <div>
       <button
@@ -133,46 +163,51 @@ export function ModalSaveAllImages({
         {buttonLabel}
       </button>
       <Modal
+        aria-busy={!!progress}
+        aria-describedby="save-progress"
+        aria-live="polite"
         cancel
-        cancelLabel={progress === 100 ? "Close" : "Cancel"}
+        cancelLabel={
+          cancelMode ? "Back" : progress === 100 ? "Close" : "Cancel"
+        }
         ok
-        okLabel="Start"
+        okLabel={cancelMode ? "OK" : "Start"}
         okProps={{
           "data-custom-event-chart-name":
             saveEventId && modalTitle ? modalTitle : undefined,
           "data-custom-event-id": saveEventId,
-          "data-prevent-double-click": "true",
-          disabled: imagesLoading || progress === 100,
-          "aria-disabled": imagesLoading || progress === 100,
+          disabled: !cancelMode && (imagesLoading || progress === 100),
+          "aria-disabled": !cancelMode && (imagesLoading || progress === 100),
         }}
+        onCancel={handleCancel}
         onClose={() => handleCloseModal(true)}
-        onOK={handleDownloadStart}
+        onOK={handleOK}
         open={isModalOpen}
+        ref={modalRef}
         title={modalTitle}
-        aria-busy={!!progress}
-        aria-describedby="save-progress"
-        aria-live="polite"
         {...props}
       >
         <div className="govuk-body">
           {
             /* todo: copy review */
-            progress
-              ? progress === 100
-                ? "File generation has completed."
-                : "Please wait while the images are generated."
-              : "Select 'Start' to begin the image generation process. This may take a few minutes to complete."
+            cancelMode
+              ? "Are you sure you would like to cancel the image generation process?"
+              : progress
+                ? progress === 100
+                  ? `File generation has completed successfully. The file ${fileName} has been downloaded automatically.`
+                  : "Please wait while the images are generated."
+                : "Select 'Start' to begin the image generation process. This may take a few minutes to complete."
           }
         </div>
 
-        {showProgress && progress && (
+        {!cancelMode && showProgress && progress && (
           <>
             <div
               className="govuk-visually-hidden"
               role="status"
               id="save-progress"
               children={
-                progress === 100
+                progress < 100
                   ? "File generation has completed."
                   : `${ariaStatus}% complete`
               }
