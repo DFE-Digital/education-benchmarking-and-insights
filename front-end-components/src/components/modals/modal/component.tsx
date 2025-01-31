@@ -111,7 +111,7 @@ function ModalInner(
           <div className="govuk-button-group">
             {ok && (
               <button
-                className="govuk-button"
+                className="govuk-button govuk-button--ok"
                 data-module="govuk-button"
                 data-prevent-double-click="true"
                 onClick={onOK}
@@ -123,7 +123,7 @@ function ModalInner(
             )}
             {cancel && (
               <button
-                className="govuk-button govuk-button--secondary"
+                className="govuk-button govuk-button--secondary govuk-button--cancel"
                 data-module="govuk-button"
                 onClick={() => (onCancel ? onCancel() : onClose())}
               >
@@ -132,8 +132,8 @@ function ModalInner(
             )}
           </div>
           <button
-            className="govuk-button govuk-button--secondary govuk-button--close"
             aria-label="Close modal dialog"
+            className="govuk-button govuk-button--secondary govuk-button--close"
             data-module="govuk-button"
             onClick={onClose}
           >

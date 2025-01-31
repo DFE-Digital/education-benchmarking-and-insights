@@ -151,7 +151,7 @@ public class SpendingCostsSteps(PageDriver driver)
     public async Task ThenTheSaveAllImagesModalIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalDisplayed();
+        await _spendingCostsPage.IsSaveAllImagesModalDisplayed(true);
     }
 
     private static string SpendingCostsUrl(string urn) =>

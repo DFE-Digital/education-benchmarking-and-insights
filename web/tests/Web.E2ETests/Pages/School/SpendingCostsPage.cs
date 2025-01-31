@@ -16,7 +16,7 @@ public enum CostCategoryNames
     Utilities
 }
 
-public class SpendingCostsPage(IPage page)
+public partial class SpendingCostsPage(IPage page)
 {
     private readonly string[] _h3Names =
     [
@@ -105,11 +105,6 @@ public class SpendingCostsPage(IPage page)
 
     private ILocator SaveAllImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
-        {
-            HasText = "Save all chart images"
-        });
-    private ILocator SaveAllImagesModal =>
-        page.Locator(Selectors.Modal, new PageLocatorOptions
         {
             HasText = "Save all chart images"
         });
@@ -242,11 +237,6 @@ public class SpendingCostsPage(IPage page)
     public async Task ClickSaveAllImagesButton()
     {
         await SaveAllImagesButton.ClickAsync();
-    }
-
-    public async Task IsSaveAllImagesModalDisplayed()
-    {
-        await SaveAllImagesModal.ShouldBeVisible();
     }
 
     private async Task<List<(string Description, string Value)>> GetCostCategoryData(CostCategoryNames costCategory)

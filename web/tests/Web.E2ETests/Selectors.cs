@@ -61,6 +61,7 @@ public static class Selectors
     public const string Button = "button";
     public const string Aside = "aside";
     public const string Modal = "div.modal";
+    public const string ModalButton = $"{Modal} {Button}";
 
     public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";
