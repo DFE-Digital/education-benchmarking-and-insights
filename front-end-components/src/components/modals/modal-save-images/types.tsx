@@ -1,13 +1,8 @@
-import { ModalCommonProps } from "../modal";
+import { ModalSaveImagesButtonProps } from "./modal-save-images-button";
+import { ModalSaveImagesModalProps } from "./modal-save-images-modal";
 
-export type ModalSaveImagesProps = ModalCommonProps & {
-  all?: boolean;
-  buttonLabel: string;
-  elementClassName: string;
-  elementTitleAttr?: string;
-  fileName?: string;
-  modalTitle: string;
-  saveEventId?: string;
-  showProgress?: boolean;
-  showTitles?: boolean;
-};
+export type ModalSaveImagesProps = Pick<
+  ModalSaveImagesButtonProps,
+  "buttonLabel"
+> &
+  Omit<ModalSaveImagesModalProps, "onCloseModal"> & {};

@@ -57,6 +57,18 @@ function ModalInner(
     [onClose]
   );
 
+  const handleClose = useCallback(() => {
+    document.querySelector("body")?.classList.remove(overlayClass);
+
+    // Make page content active again when modal is closed
+    overlayElements.forEach((el) => {
+      el.inert = false;
+      el.setAttribute("aria-hidden", "false");
+    });
+
+    document.body.removeEventListener("keydown", closeOnEscapeKey);
+  }, [closeOnEscapeKey, overlayElements]);
+
   useEffect(() => {
     if (open) {
       document.querySelector("body")?.classList.add(overlayClass);
@@ -70,17 +82,15 @@ function ModalInner(
       modalRef.current?.focus();
       document.body.addEventListener("keydown", closeOnEscapeKey);
     } else {
-      document.querySelector("body")?.classList.remove(overlayClass);
-
-      // Make page content active again when modal is closed
-      overlayElements.forEach((el) => {
-        el.inert = false;
-        el.setAttribute("aria-hidden", "false");
-      });
-
-      document.body.removeEventListener("keydown", closeOnEscapeKey);
+      handleClose();
     }
-  }, [closeOnEscapeKey, content, open, overlayElements]);
+  }, [closeOnEscapeKey, content, handleClose, open, overlayElements]);
+
+  useEffect(() => {
+    return () => {
+      handleClose();
+    };
+  });
 
   useImperativeHandle(ref, () => ({
     async focusOKButton() {
