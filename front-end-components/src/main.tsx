@@ -60,7 +60,7 @@ import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
-import { ModalSaveAllImages } from "./components/modals/modal-save-all-images";
+import { ModalSaveImages } from "./components/modals/modal-save-images";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -914,6 +914,7 @@ if (launchModalElements) {
       mainContentId,
       modalName,
       modalTitle,
+      saveAll,
       saveEventId,
       showProgress,
       showTitles,
@@ -932,9 +933,10 @@ if (launchModalElements) {
 
       let modal = null;
       switch (modalName) {
-        case "modal-save-all-images":
+        case "modal-save-images":
           modal = (
-            <ModalSaveAllImages
+            <ModalSaveImages
+              all={saveAll === "true"}
               buttonLabel={buttonLabel || "Save"}
               elementClassName={elementClassName as string}
               elementTitleAttr={elementTitleAttr}
