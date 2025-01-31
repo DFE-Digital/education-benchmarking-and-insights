@@ -1,26 +1,38 @@
 import { createPortal } from "react-dom";
-import { ModalProps as ModalProps } from ".";
-import { useCallback, useEffect } from "react";
+import { ModalHandler, ModalProps as ModalProps } from ".";
+import {
+  ForwardedRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import "src/components/modals/modal/styles.scss";
 
 const overlayClass = "modal-content-overlay";
 
 // inspired by https://github.com/hannalaakso/accessible-timeout-warning/tree/master/src/govuk/components/timeout-warning
-export function Modal({
-  cancel,
-  cancelLabel,
-  children,
-  ok,
-  okLabel,
-  okProps,
-  onClose,
-  onOK,
-  open,
-  overlayContentId,
-  portalId,
-  title,
-  ...props
-}: ModalProps) {
+function ModalInner(
+  {
+    cancel,
+    cancelLabel,
+    children,
+    ok,
+    okLabel,
+    okProps,
+    onCancel,
+    onClose,
+    onOK,
+    open,
+    overlayContentId,
+    portalId,
+    title,
+    ...props
+  }: ModalProps,
+  ref: ForwardedRef<ModalHandler>
+) {
+  const okButtonRef = useRef<HTMLButtonElement>(null);
   const modalRoot = document.getElementById(portalId);
   const content = overlayContentId
     ? document.getElementById(overlayContentId)
@@ -55,6 +67,12 @@ export function Modal({
     }
   }, [closeOnEscapeKey, content, open]);
 
+  useImperativeHandle(ref, () => ({
+    async focusOKButton() {
+      okButtonRef.current?.focus();
+    },
+  }));
+
   if (!modalRoot || !open) {
     return;
   }
@@ -79,7 +97,9 @@ export function Modal({
               <button
                 className="govuk-button"
                 data-module="govuk-button"
+                data-prevent-double-click="true"
                 onClick={onOK}
+                ref={okButtonRef}
                 {...okProps}
               >
                 {okLabel || "OK"}
@@ -89,7 +109,7 @@ export function Modal({
               <button
                 className="govuk-button govuk-button--secondary"
                 data-module="govuk-button"
-                onClick={onClose}
+                onClick={() => (onCancel ? onCancel() : onClose())}
               >
                 {cancelLabel || "Cancel"}
               </button>
@@ -109,3 +129,5 @@ export function Modal({
     modalRoot
   );
 }
+
+export const Modal = forwardRef(ModalInner);

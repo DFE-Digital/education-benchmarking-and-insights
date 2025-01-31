@@ -9,6 +9,7 @@ export type ModalProps = PropsWithChildren &
     okLabel?: string;
     okProps?: React.ButtonHTMLAttributes<HTMLButtonElement> &
       Record<string, string | boolean | undefined>;
+    onCancel?: () => void;
     onClose: () => void;
     onOK: () => void;
     open?: boolean;
@@ -18,4 +19,8 @@ export type ModalProps = PropsWithChildren &
 export type ModalCommonProps = {
   overlayContentId?: string;
   portalId: string;
+};
+
+export type ModalHandler = {
+  focusOKButton: () => void;
 };
