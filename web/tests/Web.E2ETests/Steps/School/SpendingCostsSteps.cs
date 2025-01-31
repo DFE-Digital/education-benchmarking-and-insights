@@ -2,6 +2,7 @@
 using Web.E2ETests.Pages;
 using Web.E2ETests.Pages.School;
 using Xunit;
+
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -30,11 +31,7 @@ public class SpendingCostsSteps(PageDriver driver)
         var expectedOrder = new List<string[]>();
         foreach (var row in table.Rows)
         {
-            string[] chartPriorityArray =
-            {
-                row["Name"],
-                row["Priority"]
-            };
+            string[] chartPriorityArray = { row["Name"], row["Priority"] };
             expectedOrder.Add(chartPriorityArray);
         }
 
@@ -134,6 +131,27 @@ public class SpendingCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_spendingCostsPage);
         await _spendingCostsPage.IsWarningMessageVisibleForCategory(CostCategoryFromFriendlyName(categoryName));
+    }
+
+    [Then("the save all images button is visible")]
+    public async Task ThenTheSaveAllImagesButtonIsVisible()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsSaveAllImagesButtonDisplayed();
+    }
+
+    [When("I click the save all images button")]
+    public async Task WhenIClickTheSaveAllImagesButton()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.ClickSaveAllImagesButton();
+    }
+
+    [Then("the save all images modal is visible")]
+    public async Task ThenTheSaveAllImagesModalIsVisible()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsSaveAllImagesModalDisplayed();
     }
 
     private static string SpendingCostsUrl(string urn) =>

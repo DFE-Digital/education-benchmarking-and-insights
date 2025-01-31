@@ -68,6 +68,16 @@ public class CompareYourCostsPage(IPage page)
         {
             HasTextRegex = Regexes.CopyImageRegex()
         });
+    private ILocator SaveAllImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
+    private ILocator SaveAllImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
@@ -450,6 +460,21 @@ public class CompareYourCostsPage(IPage page)
                 "percentage of expenditure",
                 "percentage of income"
         ]);
+    }
+
+    public async Task IsSaveAllImagesButtonDisplayed()
+    {
+        await SaveAllImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveAllImagesButton()
+    {
+        await SaveAllImagesButton.ClickAsync();
+    }
+
+    public async Task IsSaveAllImagesModalDisplayed()
+    {
+        await SaveAllImagesModal.ShouldBeVisible();
     }
 
     private ILocator SectionLink(ComparisonChartNames chartName)

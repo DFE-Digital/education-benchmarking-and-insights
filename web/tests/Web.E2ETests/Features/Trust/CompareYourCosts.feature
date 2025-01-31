@@ -27,6 +27,7 @@ Feature: Trust compare your costs
           | Test academy school 392 | Trafford        | Academy special converter   | 204              | £1,424,986 |
         But save as image buttons are hidden
         And copy image buttons are hidden
+        And the save all images button is visible
 
     Scenario: Table view for total expenditure for trust(s) with part-year data
         Given I am on compare your costs page for trust with company number '8104190'
@@ -55,6 +56,7 @@ Feature: Trust compare your costs
         And are showing table view
         But save as image buttons are hidden
         And copy image buttons are hidden
+        And the save all images button is visible
 
     Scenario: Hide single section
         Given I am on compare your costs page for trust with company number '10074054'
@@ -130,3 +132,9 @@ Feature: Trust compare your costs
     Scenario: Charts have correct dimension options
         Given I am on compare your costs page for trust with company number '10074054'
         Then all sections on the page have the correct dimension options
+
+    Scenario: Save all chart images button opens modal
+        Given I am on compare your costs page for trust with company number '10074054'
+        Then the save all images button is visible
+        When I click the save all images button
+        Then the save all images modal is visible

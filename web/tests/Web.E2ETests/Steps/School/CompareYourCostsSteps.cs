@@ -351,6 +351,27 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.HasCorrectDimensionValues();
     }
 
+    [Then("the save all images button is visible")]
+    public async Task ThenTheSaveAllImagesButtonIsVisible()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsSaveAllImagesButtonDisplayed();
+    }
+
+    [When("I click the save all images button")]
+    public async Task WhenIClickTheSaveAllImagesButton()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.ClickSaveAllImagesButton();
+    }
+
+    [Then("the save all images modal is visible")]
+    public async Task ThenTheSaveAllImagesModalIsVisible()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsSaveAllImagesModalDisplayed();
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);

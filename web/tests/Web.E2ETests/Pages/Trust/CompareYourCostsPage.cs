@@ -64,6 +64,16 @@ public class CompareYourCostsPage(IPage page)
         {
             HasTextRegex = Regexes.CopyImageRegex()
         });
+    private ILocator SaveAllImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
+    private ILocator SaveAllImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator ChartTicks => page.Locator(Selectors.ChartYTicks);
@@ -289,6 +299,21 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsWarningIconDisplayedOnGraphTick(int nth)
     {
         await ChartTicks.Nth(nth).Locator("circle").ShouldBeVisible();
+    }
+
+    public async Task IsSaveAllImagesButtonDisplayed()
+    {
+        await SaveAllImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveAllImagesButton()
+    {
+        await SaveAllImagesButton.ClickAsync();
+    }
+
+    public async Task IsSaveAllImagesModalDisplayed()
+    {
+        await SaveAllImagesModal.ShouldBeVisible();
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
