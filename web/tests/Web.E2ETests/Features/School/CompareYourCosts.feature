@@ -55,6 +55,7 @@ Feature: School compare your costs
           | Test academy school 333 | Hampshire               | Free schools alternative provision | 190              | £1,179,475  |
         But save as image buttons are hidden
         And copy image buttons are hidden
+        And the save all images button is visible
 
     Scenario: Table view for total expenditure for school(s) with part-year data
         Given I am on compare your costs page for school with URN '777045'
@@ -111,6 +112,7 @@ Feature: School compare your costs
         And are showing table view
         But save as image buttons are hidden
         And copy image buttons are hidden
+        And the save all images button is visible
 
     Scenario: Hide single section
         Given I am on compare your costs page for school with URN '777042'
@@ -264,3 +266,9 @@ Feature: School compare your costs
     Scenario: Charts have correct dimension options
         Given I am on compare your costs page for school with URN '777042'
         Then all sections on the page have the correct dimension options
+
+    Scenario: Save all chart images button opens modal
+        Given I am on compare your costs page for school with URN '777042'
+        Then the save all images button is visible
+        When I click the save all images button
+        Then the save all images modal is visible

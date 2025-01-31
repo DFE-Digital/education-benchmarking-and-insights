@@ -102,6 +102,17 @@ public class SpendingCostsPage(IPage page)
     private ILocator SaveImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffSaveAsImage);
     private ILocator CopyImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffCopyImage);
     private ILocator SaveAllChartImagesButton => page.Locator(Selectors.SaveAllChartImages);
+
+    private ILocator SaveAllImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
+    private ILocator SaveAllImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save all chart images"
+        });
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
@@ -221,6 +232,21 @@ public class SpendingCostsPage(IPage page)
             _ => throw new ArgumentOutOfRangeException(nameof(categoryName))
         };
         await warningMessage.ShouldBeVisible();
+    }
+
+    public async Task IsSaveAllImagesButtonDisplayed()
+    {
+        await SaveAllImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveAllImagesButton()
+    {
+        await SaveAllImagesButton.ClickAsync();
+    }
+
+    public async Task IsSaveAllImagesModalDisplayed()
+    {
+        await SaveAllImagesModal.ShouldBeVisible();
     }
 
     private async Task<List<(string Description, string Value)>> GetCostCategoryData(CostCategoryNames costCategory)
