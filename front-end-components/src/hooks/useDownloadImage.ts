@@ -14,7 +14,7 @@ export type DownloadPngImageOptions<T> = {
   title?: string;
 } & Pick<ImageOptions, "filter">;
 
-type ElementAndTitle = {
+export type ElementAndTitle = {
   element: HTMLElement;
   title?: string;
 };

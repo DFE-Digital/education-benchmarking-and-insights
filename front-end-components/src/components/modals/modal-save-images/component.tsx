@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ModalSaveAllImagesProps } from ".";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ModalSaveImagesProps } from ".";
 import { Modal, ModalHandler } from "../modal";
-import { useDownloadPngImages } from "src/hooks/useDownloadImage";
+import {
+  ElementAndTitle,
+  useDownloadPngImages,
+} from "src/hooks/useDownloadImage";
 import { Progress } from "src/components/progress";
 
-export function ModalSaveAllImages({
+export function ModalSaveImages({
+  all,
   buttonLabel,
   elementClassName,
   elementTitleAttr,
@@ -14,7 +18,7 @@ export function ModalSaveAllImages({
   showProgress,
   showTitles,
   ...props
-}: ModalSaveAllImagesProps) {
+}: ModalSaveImagesProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const [modeChanged, setModeChanged] = useState(false);
@@ -26,8 +30,9 @@ export function ModalSaveAllImages({
   );
   const [cancelMode, setCancelMode] = useState(false);
   const modalRef = useRef<ModalHandler>(null);
+  const [selectedElements] = useState<ElementAndTitle[]>([]); // todo: set impl
 
-  const elementsSelector = () => {
+  const allElements = useMemo(() => {
     const results = [];
     const elements = document.getElementsByClassName(elementClassName);
 
@@ -40,14 +45,14 @@ export function ModalSaveAllImages({
     }
 
     return results;
-  };
+  }, [elementClassName, elementTitleAttr]);
 
   const handleProgress = (percentage?: number) => {
     setProgress(percentage);
   };
 
   const downloadPngs = useDownloadPngImages({
-    elementsSelector,
+    elementsSelector: () => (all ? allElements : selectedElements),
     fileName,
     onImagesLoading: setImagesLoading,
     onProgress: handleProgress,

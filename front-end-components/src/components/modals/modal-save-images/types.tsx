@@ -1,6 +1,7 @@
 import { ModalCommonProps } from "../modal";
 
-export type ModalSaveAllImagesProps = ModalCommonProps & {
+export type ModalSaveImagesProps = ModalCommonProps & {
+  all?: boolean;
   buttonLabel: string;
   elementClassName: string;
   elementTitleAttr?: string;
