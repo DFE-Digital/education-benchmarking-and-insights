@@ -6,6 +6,7 @@ import {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
 } from "react";
 import "src/components/modals/modal/styles.scss";
@@ -32,11 +33,24 @@ function ModalInner(
   }: ModalProps,
   ref: ForwardedRef<ModalHandler>
 ) {
+  const modalRef = useRef<HTMLDivElement>(null);
   const okButtonRef = useRef<HTMLButtonElement>(null);
   const modalRoot = document.getElementById(portalId);
   const content = overlayContentId
     ? document.getElementById(overlayContentId)
     : null;
+  const overlayElements = useMemo(
+    () => [
+      ...(document.getElementsByClassName(
+        "govuk-skip-link"
+      ) as HTMLCollectionOf<HTMLElement>),
+      ...document.getElementsByTagName("header"),
+      ...document.getElementsByTagName("nav"),
+      ...(content ? [content] : document.getElementsByTagName("main")),
+      ...document.getElementsByTagName("footer"),
+    ],
+    [content]
+  );
 
   const closeOnEscapeKey = useCallback(
     (e: KeyboardEvent) => (e.key === "Escape" ? onClose() : null),
@@ -48,24 +62,25 @@ function ModalInner(
       document.querySelector("body")?.classList.add(overlayClass);
 
       // Set page content to inert to indicate to screenreaders it is inactive
-      if (content) {
-        content.inert = true;
-        content.setAttribute("aria-hidden", "true");
-      }
+      overlayElements.forEach((el) => {
+        el.inert = true;
+        el.setAttribute("aria-hidden", "true");
+      });
 
+      modalRef.current?.focus();
       document.body.addEventListener("keydown", closeOnEscapeKey);
     } else {
       document.querySelector("body")?.classList.remove(overlayClass);
 
       // Make page content active again when modal is closed
-      if (content) {
-        content.inert = false;
-        content.setAttribute("aria-hidden", "false");
-      }
+      overlayElements.forEach((el) => {
+        el.inert = false;
+        el.setAttribute("aria-hidden", "false");
+      });
 
       document.body.removeEventListener("keydown", closeOnEscapeKey);
     }
-  }, [closeOnEscapeKey, content, open]);
+  }, [closeOnEscapeKey, content, open, overlayElements]);
 
   useImperativeHandle(ref, () => ({
     async focusOKButton() {
@@ -85,12 +100,13 @@ function ModalInner(
         aria-modal
         aria-labelledby="dialog-title"
         tabIndex={0}
+        ref={modalRef}
         {...props}
       >
         <div role="document">
-          <h2 id="dialog-title" className="govuk-heading-m">
+          <h1 id="dialog-title" className="govuk-heading-m">
             {title}
-          </h2>
+          </h1>
           <div className="govuk-body">{children}</div>
           <div className="govuk-button-group">
             {ok && (

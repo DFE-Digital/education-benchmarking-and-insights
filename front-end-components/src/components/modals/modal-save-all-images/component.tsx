@@ -207,7 +207,7 @@ export function ModalSaveAllImages({
               role="status"
               id="save-progress"
               children={
-                progress < 100
+                progress === 100
                   ? "File generation has completed."
                   : `${ariaStatus}% complete`
               }
