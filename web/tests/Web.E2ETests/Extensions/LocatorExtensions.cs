@@ -78,6 +78,12 @@ public static class LocatorExtensions
         return locator;
     }
 
+    public static async Task<ILocator> ShouldBeDisabled(this ILocator locator)
+    {
+        await Assertions.Expect(locator).ToBeDisabledAsync();
+        return locator;
+    }
+
     public static async Task<ILocator> ShouldHaveTableContent(this ILocator locator, List<List<string>> expectedData,
         bool includeHeaderRow)
     {
