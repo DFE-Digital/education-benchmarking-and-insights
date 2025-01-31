@@ -107,6 +107,10 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 ## Notes
 
+**[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=247423&suiteId=247424)**
+
+**[Exploratory Tests Charters](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=jfyXWO&ovuser=fad277c9%2Dc60a%2D4da1%2Db5f3%2Db3b8b34a82f9%2CFaizan%2EAHMAD%40EDUCATION%2EGOV%2EUK&OR=Teams%2DHL&CT=1701167049235&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiIyNy8yMzA5MjkxMTIwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D&cid=f4847989%2Dbc54%2D427c%2D8740%2Df6b118ede2af&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD&id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FGeneral%2FTechnical%20Team%2FQA%20Testing%2FExploratory%20Tests%20Charters%2FRelease%202025%2E1%2E1&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8)**
+
 **Azure DevOps tickets:**
 
 - [242989 - Handle varying input schemas](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242989)
@@ -131,3 +135,20 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 - [245267 - Add titles on all graphs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245267)
 - [244349 - Add Save as Image to additional pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244349)
 - [242101 - Copy chart to clipboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242101)
+
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category     | Total Tests | Passed | Failed | Pass Rate |
+|-------------------|:-----------:|:------:|:------:|:---------:|
+| Functional Tests  |      2      |   2    |   0    |   100%    |
+| Smoke Tests       |      1      |   1    |   0    |   100%    |
+| Sanity Tests      |      9      |   9    |   0    |   100%    |
+| Exploratory Tests |      2      |   1    |   0    |    WIP    |
+| Total             |     14      |   12   |   0    |    WIP    |
+
+<!-- Leave the rest of this page blank -->
+\newpage
