@@ -45,6 +45,14 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
     private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
+    private ILocator TeachingAndSupportDimension => page.Locator(Selectors.TeachingAndSupportDimension);
+    private ILocator NonEducationSupportStaffDimension => page.Locator(Selectors.NonEducationSupportStaffDimension);
+    private ILocator EducationalSuppliesDimension => page.Locator(Selectors.EducationalSuppliesDimension);
+    private ILocator EducationalIctDimension => page.Locator(Selectors.EducationalIctDimension);
+    private ILocator UtilitiesDimension => page.Locator(Selectors.UtilitiesDimension);
+    private ILocator AdministrativeSuppliesDimension => page.Locator(Selectors.AdministrativeSuppliesDimension);
+    private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
+    private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -312,13 +320,88 @@ public class CompareYourCostsPage(IPage page)
         }
     }
 
+    public async Task HasCorrectDimensionValues()
+    {
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.TotalExpenditure, [
+                "£ per pupil",
+                "actuals",
+                "percentage of income"
+        ]);
+
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.NonEducationalSupportStaff, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.EducationalSupplies, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.EducationalIct, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.Premises, [
+                "£ per m²",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.Utilities, [
+                "£ per m²",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.AdministrativeSupplies, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.CateringStaffAndServices, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+        await HasDimensionValuesForChart(
+            ComparisonChartNames.Other, [
+                "£ per pupil",
+                "actuals",
+                "percentage of expenditure",
+                "percentage of income"
+        ]);
+    }
+
     private async Task HasDimensionValuesForChart(ComparisonChartNames chartName, string[] expected)
     {
         const string exp = "(select) => Array.from(select.options).map(option => option.label)";
         var dropdown = ChartDimensionDropdown(chartName);
         var actual = await dropdown.EvaluateAsync<string[]>(exp);
 
-        Assert.Equal(expected, actual);
+        Assert.True(expected.SequenceEqual(actual), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}");
     }
 
     private ILocator ChartTable(ComparisonChartNames chartName)
@@ -337,9 +420,16 @@ public class CompareYourCostsPage(IPage page)
     {
         var chart = chartName switch
         {
-            ComparisonChartNames.Premises => PremisesDimension,
             ComparisonChartNames.TotalExpenditure => TotalExpenditureDimension,
-            ComparisonChartNames.CateringStaffAndServices => CateringStaffAndServicesDimension,
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => TeachingAndSupportDimension,
+            ComparisonChartNames.NonEducationalSupportStaff => NonEducationSupportStaffDimension,
+            ComparisonChartNames.EducationalSupplies => EducationalSuppliesDimension,
+            ComparisonChartNames.EducationalIct => EducationalIctDimension,
+            ComparisonChartNames.Premises => PremisesDimension,
+            ComparisonChartNames.Utilities => UtilitiesDimension,
+            ComparisonChartNames.AdministrativeSupplies => AdministrativeSuppliesDimension,
+            ComparisonChartNames.CateringStaffAndServices => CateringServicesDimension,
+            ComparisonChartNames.Other => OtherDimension,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

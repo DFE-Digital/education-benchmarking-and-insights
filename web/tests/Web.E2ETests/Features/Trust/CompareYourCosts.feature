@@ -126,3 +126,7 @@ Feature: Trust compare your costs
           | School name             | Local Authority | School type                 | Number of pupils | Amount  |
           | Test academy school 392 | Trafford        | Academy special converter   | 204              | £53,473 |
           | Test academy school 375 | Reading         | Academy special sponsor led | 232              | £42,585 |
+          
+    Scenario: Charts have correct dimension options
+        Given I am on compare your costs page for trust with company number '10074054'
+        Then all sections on the page have the correct dimension options
