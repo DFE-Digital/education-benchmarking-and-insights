@@ -100,7 +100,11 @@ export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   return (
     <AccordionSection
       charts={[
-        { data: totalUtilitiesCostsBarData, title: "Total utilities costs" },
+        {
+          data: totalUtilitiesCostsBarData,
+          title: "Total utilities costs",
+          dimensions: PremisesCategories,
+        },
         {
           data: energyBarData,
           title: "Energy costs",
