@@ -177,4 +177,13 @@ public static class Selectors
     public const string AccordionSchoolContent = "#accordion-schools-content-";
     public const string ForecastRisksDimension = "#year-end-reserves-dimension";
     public const string EducationIctSpendingCosts = "#spending-priorities-educational-ict";
+
+    public const string TeachingAndSupportDimension = "#total-teaching-and-teaching-support-staff-costs-dimension";
+    public const string NonEducationSupportStaffDimension = "#total-non-educational-support-staff-costs-dimension";
+    public const string EducationalSuppliesDimension = "#total-educational-supplies-costs-dimension";
+    public const string EducationalIctDimension = "#educational-learning-resources-costs-dimension";
+    public const string UtilitiesDimension = "#total-utilities-costs-dimension";
+    public const string AdministrativeSuppliesDimension = "#administrative-supplies-non-educational-dimension";
+    public const string CateringServicesDimension = "#total-catering-costs-dimension";
+    public const string OtherDimension = "#total-other-costs-dimension";
 }

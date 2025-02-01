@@ -260,3 +260,7 @@ Feature: School compare your costs
           | Test academy school 456 | Westmorland and Furness | Academy 16-19 converter | 339              | £30    |
           | Test school 102         | Hammersmith and Fulham  | Community school        | 212              | £0     |
         And the message stating reason for less schools is visible in 'Supply teaching staff costs' section
+        
+    Scenario: Charts have correct dimension options
+        Given I am on compare your costs page for school with URN '777042'
+        Then all sections on the page have the correct dimension options

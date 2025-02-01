@@ -344,6 +344,13 @@ public class CompareYourCostsSteps(PageDriver driver)
 
     }
 
+    [Then("all sections on the page have the correct dimension options")]
+    public async Task AllSectionsOnPageHaveCorrectDimensionOptions()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.HasCorrectDimensionValues();
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);

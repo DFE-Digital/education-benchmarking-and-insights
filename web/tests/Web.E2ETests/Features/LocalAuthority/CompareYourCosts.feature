@@ -98,3 +98,7 @@ Feature: Local Authority compare your costs
           | Test academy school 239 | City of London  | Academy converter      | 399              | £109,578 |
           | Test school 237         | City of London  | Voluntary aided school | 231              | £99,307  |
           | Test school 1           | City of London  | Voluntary aided school | 232              | £42,585  |
+          
+    Scenario: Charts have correct dimension options
+        Given I am on compare your costs page for local authority with code '201'
+        Then all sections on the page have the correct dimension options
