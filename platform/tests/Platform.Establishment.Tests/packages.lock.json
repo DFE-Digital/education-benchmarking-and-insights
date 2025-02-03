@@ -14,9 +14,9 @@
       },
       "coverlet.collector": {
         "type": "Direct",
-        "requested": "[6.0.3, )",
-        "resolved": "6.0.3",
-        "contentHash": "SvLbRq7gjzE34BI90vP6ge812+PAjinNoKhdFZHwVEu/ozJgZY+0KyDh1K0teDeMeuzQJuF8OvleRBYXsZDz0A=="
+        "requested": "[6.0.4, )",
+        "resolved": "6.0.4",
+        "contentHash": "lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg=="
       },
       "FluentValidation": {
         "type": "Direct",
@@ -26,12 +26,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[17.12.0, )",
-        "resolved": "17.12.0",
-        "contentHash": "kt/PKBZ91rFCWxVIJZSgVLk+YR+4KxTuHf799ho8WNiK5ZQpJNAEZCAWX86vcKrs+DiYjiibpYKdGZP6+/N17w==",
+        "requested": "[17.13.0, )",
+        "resolved": "17.13.0",
+        "contentHash": "W19wCPizaIC9Zh47w8wWI/yxuqR7/dtABwOrc8r2jX/8mUNxM2vw4fXDh+DJTeogxV+KzKwg5jNNGQVwf3LXyA==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "17.12.0",
-          "Microsoft.TestPlatform.TestHost": "17.12.0"
+          "Microsoft.CodeCoverage": "17.13.0",
+          "Microsoft.TestPlatform.TestHost": "17.13.0"
         }
       },
       "xunit": {
@@ -403,11 +403,11 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": {
         "type": "Transitive",
-        "resolved": "6.6.0",
-        "contentHash": "mBJ6Xx8Vf4Xd6wwOZg3nkcqLhL3jahECFKtm8hlro6GiueCYIUVya8nO5Y/qSfubHmJ/QzA4uOGA0V7kpxkx6Q==",
+        "resolved": "6.6.1",
+        "contentHash": "guBhBAH/oFvAl7x6AhqgMRvjK62KINGIUGcxxKjXfL/N2gaaKzm4/hUK+cXt1dKP82fpN6ZP83Ul3iNTVMGUNg==",
         "dependencies": {
           "Azure.Storage.Blobs": "12.19.1",
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0",
           "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
           "Microsoft.Extensions.Azure": "1.7.4"
@@ -478,8 +478,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "17.12.0",
-        "contentHash": "4svMznBd5JM21JIG2xZKGNanAHNXplxf/kQDFfLHXQ3OnpJkayRK/TjacFjA+EYmoyuNXHo/sOETEfcYtAzIrA=="
+        "resolved": "17.13.0",
+        "contentHash": "9LIUy0y+DvUmEPtbRDw6Bay3rzwqFV8P4efTrK4CZhQle3M/QwLPjISghfcolmEGAPWxuJi6m98ZEfk4VR4Lfg=="
       },
       "Microsoft.CSharp": {
         "type": "Transitive",
@@ -488,8 +488,8 @@
       },
       "Microsoft.Data.SqlClient.SNI.runtime": {
         "type": "Transitive",
-        "resolved": "6.0.1",
-        "contentHash": "M0kapuDf0brMsH9gkESGtBorrscL61DLg4ADgAQ/izUg0r/WCzCB7XSuPu+A/d109nF7ogizarHzELhw8GdoXw=="
+        "resolved": "6.0.2",
+        "contentHash": "f+pRODTWX7Y67jXO3T5S2dIPZ9qMJNySjlZT/TKmWVNWe19N8jcWmHaqHnnchaq3gxEKv1SWVY5EFzOD06l41w=="
       },
       "Microsoft.DotNet.PlatformAbstractions": {
         "type": "Transitive",
@@ -867,18 +867,18 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "17.12.0",
-        "contentHash": "TDqkTKLfQuAaPcEb3pDDWnh7b3SyZF+/W9OZvWFp6eJCIiiYFdSB6taE2I6tWrFw5ywhzOb6sreoGJTI6m3rSQ==",
+        "resolved": "17.13.0",
+        "contentHash": "bt0E0Dx+iqW97o4A59RCmUmz/5NarJ7LRL+jXbSHod72ibL5XdNm1Ke+UO5tFhBG4VwHLcSjqq9BUSblGNWamw==",
         "dependencies": {
           "System.Reflection.Metadata": "1.6.0"
         }
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "17.12.0",
-        "contentHash": "MiPEJQNyADfwZ4pJNpQex+t9/jOClBGMiCiVVFuELCMSX2nmNfvUor3uFVxNNCg30uxDP8JDYfPnMXQzsfzYyg==",
+        "resolved": "17.13.0",
+        "contentHash": "9GGw08Dc3AXspjekdyTdZ/wYWFlxbgcF0s7BKxzVX+hzAwpifDOdxM+ceVaaJSQOwqt3jtuNlHn3XTpKUS9x9Q==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "17.12.0",
+          "Microsoft.TestPlatform.ObjectModel": "17.13.0",
           "Newtonsoft.Json": "13.0.1"
         }
       },
@@ -1966,13 +1966,13 @@
           "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
           "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper.Contrib": "[2.0.78, )",
-          "Dapper.SqlBuilder": "[2.0.78, )",
+          "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[2.0.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.2.0, )",
+          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.3.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.0, )",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.6.1, )",
           "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
           "Platform.Functions": "[1.0.0, )",
@@ -1997,7 +1997,7 @@
           "Microsoft.Azure.Functions.Worker.Core": "[2.0.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.5.1, )",
-          "Microsoft.Data.SqlClient": "[6.0.0, )",
+          "Microsoft.Data.SqlClient": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.1, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.1, )",
@@ -2029,9 +2029,9 @@
       "platform.sql": {
         "type": "Project",
         "dependencies": {
-          "Dapper": "[2.1.35, )",
-          "Dapper.SqlBuilder": "[2.0.78, )",
-          "Microsoft.Data.SqlClient": "[6.0.0, )",
+          "Dapper": "[2.1.66, )",
+          "Dapper.SqlBuilder": "[2.1.66, )",
+          "Microsoft.Data.SqlClient": "[6.0.1, )",
           "Platform.Domain": "[1.0.0, )"
         }
       },
@@ -2039,7 +2039,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
-          "Microsoft.NET.Test.Sdk": "[17.12.0, )",
+          "Microsoft.NET.Test.Sdk": "[17.13.0, )",
           "Moq": "[4.20.72, )"
         }
       },
@@ -2087,9 +2087,9 @@
       },
       "Dapper": {
         "type": "CentralTransitive",
-        "requested": "[2.1.35, )",
-        "resolved": "2.1.35",
-        "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw=="
       },
       "Dapper.Contrib": {
         "type": "CentralTransitive",
@@ -2102,11 +2102,11 @@
       },
       "Dapper.SqlBuilder": {
         "type": "CentralTransitive",
-        "requested": "[2.0.78, )",
-        "resolved": "2.0.78",
-        "contentHash": "07LHm+/YOLyFieN51mjwrrVPKX3q0k7RxG+8zi/5MKjy7mWid/DRlRFNgvcCffEcjLjkbgEdITHkKTKSxSmPnw==",
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "9IXuQtNy/+74NyTeiV1pug++zO0yDXn0UxnEjg8sfXn8wPou/hsRdlrMPkKdmqhp+fxd0qJA6Dd91plu1AHVBw==",
         "dependencies": {
-          "Dapper": "2.0.78"
+          "Dapper": "2.1.66"
         }
       },
       "JsonSubTypes": {
@@ -2193,11 +2193,11 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Http": {
         "type": "CentralTransitive",
-        "requested": "[3.2.0, )",
-        "resolved": "3.2.0",
-        "contentHash": "TC1xa/s1hZ97ertSh0+qZVjeXB632ObjsuVEhytND32kLfJhT7u+AiBunvdACgn6r0WOZeLIa/BZPA7qovFxiw==",
+        "requested": "[3.3.0, )",
+        "resolved": "3.3.0",
+        "contentHash": "a1W5bpOQCrYP0kbSJUFrK6PYeQAfg3UXQR+kPdt1YLvWrc/JTaNWyOA1DRKGrvRRo87xSM9NdFZuDULEMAxl4Q==",
         "dependencies": {
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0"
         }
       },
@@ -2216,22 +2216,22 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage": {
         "type": "CentralTransitive",
-        "requested": "[6.6.0, )",
-        "resolved": "6.6.0",
-        "contentHash": "YNHNYOb2Bt684Wr1K54MhKufWqU4bYlv+GBA+qJ1oTiUl5dycaSfF7musksmx2KSJM9tkK1v4avAcX/BJrTV3Q==",
+        "requested": "[6.6.1, )",
+        "resolved": "6.6.1",
+        "contentHash": "NCme57DwrQwMfZjEhsR0iLyepuG8dFE9Kj6+YZytNy81qN8lBCsHSbZsD9S+mWoBwzvx2yTfoiMsSbqxXYmHpg==",
         "dependencies": {
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": "6.6.0",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": "5.5.0"
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": "6.6.1",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": "5.5.1"
         }
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": {
         "type": "CentralTransitive",
-        "requested": "[5.5.0, )",
-        "resolved": "5.5.0",
-        "contentHash": "bJ+mtss/2TFH80OCZ80WJNZOZTzMX7jIe/XcpKugyCuF4JH98sv0T/XrTYVak9fyeMCLPyDZUQomYhqYU9ydpA==",
+        "requested": "[5.5.1, )",
+        "resolved": "5.5.1",
+        "contentHash": "TkExkIQRRU78NCawbYHuBQYcTZEpUnSAWgr9ZDJy1JAHQlKe9xEoAeqqYQz9lR5rXMjmFUxQ94QqrEbmAz2Fpg==",
         "dependencies": {
           "Azure.Storage.Queues": "12.17.1",
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0"
         }
       },
@@ -2282,13 +2282,13 @@
       },
       "Microsoft.Data.SqlClient": {
         "type": "CentralTransitive",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "r/ttLk2Uh+PVFXpZCRptpPZWoUzEkP6LWaQB1b1SaS9oMdtizYbkNGtBqeqtSnJZLEJDOWyXQFKNpEbJd8avpg==",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "v7HxnYYXGGCJilxeQ4Pdks+popVuGajBpHmau0RU4ACIcbfs5qCNUnCogGpZ+CJ//8Qafhxq7vc5a8L9d6O8Eg==",
         "dependencies": {
           "Azure.Identity": "1.11.4",
           "Microsoft.Bcl.Cryptography": "8.0.0",
-          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.1",
+          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.2",
           "Microsoft.Extensions.Caching.Memory": "8.0.1",
           "Microsoft.IdentityModel.JsonWebTokens": "7.5.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.5.0",
