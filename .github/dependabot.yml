@@ -153,6 +153,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      # License changes impact v8, so stick to v7 major version instead
+      ignore:
+        - dependency-name: "FluentAssertions"
+          versions: ["8.*"]
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.E2ETests"
@@ -160,7 +164,11 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-
+      # License changes impact v8, so stick to v7 major version instead
+      ignore:
+        - dependency-name: "FluentAssertions"
+          versions: ["8.*"]
+          
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Integration.Tests"
       schedule:
