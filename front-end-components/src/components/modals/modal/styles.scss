@@ -61,6 +61,10 @@
   .progress-wrapper {
     justify-self: center;
   }
+
+  .govuk-error-summary {
+    margin-bottom: 30px;
+  }
 }
 
 // Stop background scrolling while dialog open.
