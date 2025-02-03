@@ -4,28 +4,28 @@
     "net8.0": {
       "Dapper": {
         "type": "Direct",
-        "requested": "[2.1.35, )",
-        "resolved": "2.1.35",
-        "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw=="
       },
       "Dapper.SqlBuilder": {
         "type": "Direct",
-        "requested": "[2.0.78, )",
-        "resolved": "2.0.78",
-        "contentHash": "07LHm+/YOLyFieN51mjwrrVPKX3q0k7RxG+8zi/5MKjy7mWid/DRlRFNgvcCffEcjLjkbgEdITHkKTKSxSmPnw==",
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "9IXuQtNy/+74NyTeiV1pug++zO0yDXn0UxnEjg8sfXn8wPou/hsRdlrMPkKdmqhp+fxd0qJA6Dd91plu1AHVBw==",
         "dependencies": {
-          "Dapper": "2.0.78"
+          "Dapper": "2.1.66"
         }
       },
       "Microsoft.Data.SqlClient": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "r/ttLk2Uh+PVFXpZCRptpPZWoUzEkP6LWaQB1b1SaS9oMdtizYbkNGtBqeqtSnJZLEJDOWyXQFKNpEbJd8avpg==",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "v7HxnYYXGGCJilxeQ4Pdks+popVuGajBpHmau0RU4ACIcbfs5qCNUnCogGpZ+CJ//8Qafhxq7vc5a8L9d6O8Eg==",
         "dependencies": {
           "Azure.Identity": "1.11.4",
           "Microsoft.Bcl.Cryptography": "8.0.0",
-          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.1",
+          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.2",
           "Microsoft.Extensions.Caching.Memory": "8.0.1",
           "Microsoft.IdentityModel.JsonWebTokens": "7.5.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.5.0",
@@ -75,8 +75,8 @@
       },
       "Microsoft.Data.SqlClient.SNI.runtime": {
         "type": "Transitive",
-        "resolved": "6.0.1",
-        "contentHash": "M0kapuDf0brMsH9gkESGtBorrscL61DLg4ADgAQ/izUg0r/WCzCB7XSuPu+A/d109nF7ogizarHzELhw8GdoXw=="
+        "resolved": "6.0.2",
+        "contentHash": "f+pRODTWX7Y67jXO3T5S2dIPZ9qMJNySjlZT/TKmWVNWe19N8jcWmHaqHnnchaq3gxEKv1SWVY5EFzOD06l41w=="
       },
       "Microsoft.Extensions.Caching.Abstractions": {
         "type": "Transitive",
@@ -314,13 +314,13 @@
     "net8.0/win-x64": {
       "Microsoft.Data.SqlClient": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "r/ttLk2Uh+PVFXpZCRptpPZWoUzEkP6LWaQB1b1SaS9oMdtizYbkNGtBqeqtSnJZLEJDOWyXQFKNpEbJd8avpg==",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "v7HxnYYXGGCJilxeQ4Pdks+popVuGajBpHmau0RU4ACIcbfs5qCNUnCogGpZ+CJ//8Qafhxq7vc5a8L9d6O8Eg==",
         "dependencies": {
           "Azure.Identity": "1.11.4",
           "Microsoft.Bcl.Cryptography": "8.0.0",
-          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.1",
+          "Microsoft.Data.SqlClient.SNI.runtime": "6.0.2",
           "Microsoft.Extensions.Caching.Memory": "8.0.1",
           "Microsoft.IdentityModel.JsonWebTokens": "7.5.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.5.0",
@@ -331,8 +331,8 @@
       },
       "Microsoft.Data.SqlClient.SNI.runtime": {
         "type": "Transitive",
-        "resolved": "6.0.1",
-        "contentHash": "M0kapuDf0brMsH9gkESGtBorrscL61DLg4ADgAQ/izUg0r/WCzCB7XSuPu+A/d109nF7ogizarHzELhw8GdoXw=="
+        "resolved": "6.0.2",
+        "contentHash": "f+pRODTWX7Y67jXO3T5S2dIPZ9qMJNySjlZT/TKmWVNWe19N8jcWmHaqHnnchaq3gxEKv1SWVY5EFzOD06l41w=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
