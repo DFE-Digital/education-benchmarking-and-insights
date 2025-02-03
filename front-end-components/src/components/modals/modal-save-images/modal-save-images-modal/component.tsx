@@ -33,6 +33,8 @@ export function ModalSaveImagesModal({
   );
   const autoCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const progressId = "save-progress";
+  const [showValidationError, setShowValidationError] =
+    useState<boolean>(false);
 
   const handleProgress = (percentage?: number) => {
     setProgress(percentage);
@@ -78,7 +80,6 @@ export function ModalSaveImagesModal({
   );
 
   const handleDownloadStart = async () => {
-    // todo: validation around minimum number of selected elements
     await downloadPngs();
   };
 
@@ -98,13 +99,21 @@ export function ModalSaveImagesModal({
     };
   });
 
+  const validated = () => {
+    const valid = selectedElements.length > 0;
+    setShowValidationError(!valid);
+    return valid;
+  };
+
   const handleOK = () => {
     if (cancelMode) {
       handleCloseModal(true);
       return;
     }
 
-    handleDownloadStart();
+    if (validated()) {
+      handleDownloadStart();
+    }
   };
 
   const handleCancel = () => {
@@ -175,6 +184,7 @@ export function ModalSaveImagesModal({
               elements={allElements}
               onChange={setSelectedElements}
               selected={selectedElements}
+              showValidationError={showValidationError}
             />
           )}
 
