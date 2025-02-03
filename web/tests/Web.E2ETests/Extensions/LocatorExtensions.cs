@@ -190,6 +190,12 @@ public static class LocatorExtensions
         return locator;
     }
 
+    public static async Task<ILocator> Uncheck(this ILocator locator)
+    {
+        await locator.UncheckAsync();
+        return locator;
+    }
+
     public static async Task<int> Count(this ILocator locator) => await locator.CountAsync();
 
     public static async Task<ILocator> Fill(this ILocator locator, string inputValue)

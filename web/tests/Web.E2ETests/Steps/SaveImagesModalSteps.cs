@@ -47,6 +47,13 @@ public class SaveImagesModalSteps(PageDriver driver)
         _download = await downloadTask;
     }
 
+    [When("I click the start button without any items selected")]
+    public async Task WhenIClickTheStartButtonWithoutAnyItemsSelected()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.ClickSaveImagesModalOkButton();
+    }
+
     [When("I click the cancel button")]
     public async Task WhenIClickTheCancelButton()
     {
@@ -116,6 +123,24 @@ public class SaveImagesModalSteps(PageDriver driver)
         Assert.NotNull(_spendingCostsPage);
         var downloadedFilePath = _download?.SuggestedFilename;
         Assert.Equal(fileName, downloadedFilePath);
+    }
+
+    [When("I uncheck the following items:")]
+    public async Task WhenIUncheckTheFollowingItems(DataTable table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+
+        foreach (var row in table.Rows)
+        {
+            await _spendingCostsPage.ToggleSaveImagesModalCheckbox(row["Title"], false);
+        }
+    }
+
+    [Then("the validation error is displayed")]
+    public async Task ThenTheValidationErrorIsDisplayed()
+    {
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsSaveImagesModalValidationErrorMessageDisplayed();
     }
 
     private static string SpendingCostsUrl(string urn) =>

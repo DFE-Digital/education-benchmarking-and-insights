@@ -21,6 +21,7 @@ public static class Selectors
     public const string GovHeadingM = ".govuk-heading-m";
     public const string GovWarning = ".govuk-warning-text";
     public const string GovFooterLink = "footer .govuk-footer__link";
+    public const string GovErrorSummary = ".govuk-error-summary";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
