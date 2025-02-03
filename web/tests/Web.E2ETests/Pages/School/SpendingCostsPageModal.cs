@@ -13,6 +13,9 @@ public partial class SpendingCostsPage
     private ILocator SaveImagesModalOkButton => page.Locator($"{Selectors.ModalButton}.govuk-button--ok");
     private ILocator SaveImagesModalCancelButton => page.Locator($"{Selectors.ModalButton}.govuk-button--cancel");
     private ILocator SaveImagesModalCloseButton => page.Locator($"{Selectors.ModalButton}.govuk-button--close");
+    private ILocator SaveImagesModalCheckbox(string name) =>
+        page.Locator($".govuk-checkboxes__item input:has(+ label:has-text('{name}'))");
+    private ILocator SaveImagesModalValidationErrorMessage => page.Locator($"{Selectors.Modal} {Selectors.GovErrorSummary}");
 
     public async Task IsSaveImagesModalDisplayed(bool visible)
     {
@@ -74,5 +77,24 @@ public partial class SpendingCostsPage
     public async Task PressEscapeKey()
     {
         await page.Keyboard.PressAsync("Escape");
+    }
+
+    public async Task ToggleSaveImagesModalCheckbox(string item, bool check)
+    {
+        var checkbox = SaveImagesModalCheckbox(item);
+        if (check)
+        {
+            await checkbox.Check();
+        }
+        else
+        {
+            await checkbox.Uncheck();
+        }
+    }
+
+    public async Task IsSaveImagesModalValidationErrorMessageDisplayed()
+    {
+        await SaveImagesModalValidationErrorMessage.ShouldBeVisible();
+        await SaveImagesModalValidationErrorMessage.ShouldContainText("There is a problem\nSelect one or more items");
     }
 }

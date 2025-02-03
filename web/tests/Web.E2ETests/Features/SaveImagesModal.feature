@@ -33,3 +33,19 @@
         And I click the start button
         Then the start button is disabled
         And the 'spending-priorities-777042.zip' file is downloaded
+
+    Scenario: Validation error if none selected
+        Given I am on spending and costs page for school with URN '777042'
+        When I click the save chart images button
+        And I uncheck the following items:
+          | Title                               |
+          | Teaching and Teaching support staff |
+          | Non-educational support staff       |
+          | Administrative supplies             |
+          | Educational supplies                |
+          | Catering staff and supplies         |
+          | Premises staff and services         |
+          | Utilities                           |
+          | Educational ICT                     |
+        And I click the start button without any items selected
+        Then the validation error is displayed
