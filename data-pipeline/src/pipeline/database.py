@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 
 import numpy as np
 import pandas as pd
@@ -20,7 +21,7 @@ def get_engine() -> sqlalchemy.engine.Engine:
 
     :return: SQLAlchemy Engine
     """
-    db_args = os.getenv("DB_ARGS")
+    db_args = os.getenv("DB_ARGS", "")
 
     args = []
     for sub in db_args.split(";"):
@@ -44,17 +45,43 @@ def get_engine() -> sqlalchemy.engine.Engine:
     def receive_before_cursor_execute(
         conn, cursor, statement, params, context, executemany
     ):
+        logger.debug("before_cursor_execute event received.")
+
         if executemany:
             cursor.fast_executemany = True
+            logger.debug(
+                "before_cursor_execute event for executemany; fast_executemany set."
+            )
 
     return engine
+
+
+def _get_temp_table(table: str, run_id: str) -> str:
+    """
+    Generate a unique temp. table name.
+
+    The name will be comprised of:
+
+    - a `_` prefix
+    - target table name (to which data will be copied)
+    - the `RunId` of the current job
+      - `-` will be removed to ensure validity of the table name
+    - the current epoch time
+    - a `temp` suffix
+
+    :param table: the table to which temp. table relates
+    :param run_id: the current RunId
+    :return: unique temp. table name
+    """
+    return f"_{table}_{run_id}_{int(time.time())}_temp".replace("-", "_")
 
 
 def upsert(
     df: pd.DataFrame,
     table_name: str,
+    run_id: str,
     keys: list[str],
-    dtype: dict[str, any] = None,
+    dtype: dict[str, any] | None = None,
     engine: sqlalchemy.engine.Engine | None = None,
 ):
     if engine is None:
@@ -80,8 +107,10 @@ def upsert(
         update_cols.append("{col}=src.{col}".format(col=col))
         insert_cols.append(col)
         insert_vals.append("src.{col}".format(col=col))
-    temp_table = f"{table_name}_temp"
-    df.to_sql(temp_table, engine, if_exists="replace", index=True, dtype=dtype)
+
+    temp_table = _get_temp_table(table_name, run_id)
+    df.to_sql(temp_table, engine, if_exists="fail", index=True, dtype=dtype)
+
     update_stmt = f'MERGE {table_name} as dest USING {temp_table} as src ON {" AND ".join(match_keys)}  WHEN MATCHED THEN UPDATE SET {", ".join(update_cols)} WHEN NOT MATCHED BY TARGET THEN INSERT ({", ".join(insert_cols)}) VALUES ({", ".join(insert_vals)});'
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(update_stmt))
@@ -105,6 +134,7 @@ def insert_comparator_set(
     upsert(
         write_frame,
         "ComparatorSet",
+        run_id,
         keys=["RunType", "RunId", "URN"],
         engine=engine,
     )
@@ -138,6 +168,7 @@ def insert_metric_rag(
     upsert(
         write_frame,
         "MetricRAG",
+        run_id,
         keys=["RunType", "RunId", "URN", "Category", "SubCategory"],
         dtype={
             "RunType": sqlalchemy.types.VARCHAR(length=50),
@@ -198,7 +229,7 @@ def insert_schools_and_local_authorities(
         .drop_duplicates()
     )
 
-    upsert(write_frame, "School", keys=["URN"], engine=engine)
+    upsert(write_frame, "School", run_id, keys=["URN"], engine=engine)
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {run_id}")
 
     la_projections = {"LA Code": "Code", "LA Name": "Name"}
@@ -211,7 +242,7 @@ def insert_schools_and_local_authorities(
 
     las.set_index("Code", inplace=True)
 
-    upsert(las, "LocalAuthority", keys=["Code"], engine=engine)
+    upsert(las, "LocalAuthority", run_id, keys=["Code"], engine=engine)
     logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {run_id}")
 
 
@@ -249,7 +280,7 @@ def insert_trusts(
         .rename(columns=trust_projections)[[*trust_projections.values()]]
     )
 
-    upsert(trusts, "Trust", keys=["CompanyNumber"], engine=engine)
+    upsert(trusts, "Trust", run_id, keys=["CompanyNumber"], engine=engine)
     logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {run_id}")
 
 
@@ -309,7 +340,13 @@ def insert_non_financial_data(
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"], engine=engine)
+    upsert(
+        write_frame,
+        "NonFinancial",
+        run_id,
+        keys=["RunType", "RunId", "URN"],
+        engine=engine,
+    )
     logger.info(
         f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {run_id}"
     )
@@ -462,7 +499,13 @@ def insert_financial_data(
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"], engine=engine)
+    upsert(
+        write_frame,
+        "Financial",
+        run_id,
+        keys=["RunType", "RunId", "URN"],
+        engine=engine,
+    )
     logger.info(
         f"Wrote {len(write_frame)} rows to financial data {run_type} - {run_id}"
     )
@@ -497,6 +540,7 @@ def insert_trust_financial_data(
     upsert(
         write_frame,
         "TrustFinancial",
+        run_id,
         keys=["RunType", "RunId", "CompanyNumber"],
         engine=engine,
     )
@@ -537,6 +581,7 @@ def insert_bfr_metrics(
     upsert(
         write_frame,
         "BudgetForecastReturnMetric",
+        run_id,
         keys=["RunType", "RunId", "Year", "CompanyNumber", "Metric"],
         dtype={
             "RunType": sqlalchemy.types.VARCHAR(length=50),
@@ -581,6 +626,7 @@ def insert_bfr(
     upsert(
         write_frame,
         "BudgetForecastReturn",
+        run_id,
         keys=["RunType", "RunId", "Year", "CompanyNumber", "Category"],
         dtype={
             "RunType": sqlalchemy.types.VARCHAR(length=50),
