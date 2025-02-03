@@ -18,8 +18,9 @@ import { CompareYourCostsProps } from "./accordion-sections/types";
 import { DimensionedChart } from "src/composed/dimensioned-chart";
 
 export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
-  type,
   id,
+  onFetching,
+  type,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
@@ -42,6 +43,12 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
       setData(result);
     });
   }, [getData]);
+
+  useEffect(() => {
+    if (onFetching) {
+      onFetching(!data);
+    }
+  }, [data, onFetching]);
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {

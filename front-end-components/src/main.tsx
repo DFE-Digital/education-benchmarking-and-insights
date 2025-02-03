@@ -126,8 +126,14 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id, phases, customDataId, suppressNegativeOrZero } =
-    compareCostsElement.dataset;
+  const {
+    customDataId,
+    dispatchEventType,
+    id,
+    phases,
+    suppressNegativeOrZero,
+    type,
+  } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
@@ -135,11 +141,12 @@ if (compareCostsElement) {
     root.render(
       <React.StrictMode>
         <CompareYourCosts
-          type={type as "school" | "trust"}
+          customDataId={customDataId}
+          dispatchEventType={dispatchEventType}
           id={id}
           phases={phasesParsed}
-          customDataId={customDataId}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
+          type={type as "school" | "trust"}
         />
       </React.StrictMode>
     );
@@ -918,6 +925,7 @@ if (launchModalElements) {
       saveEventId,
       showProgress,
       showTitles,
+      waitForEventType,
     } = element.dataset;
 
     if (modalName) {
@@ -947,6 +955,7 @@ if (launchModalElements) {
               saveEventId={saveEventId}
               showProgress={showProgress === "true"}
               showTitles={showTitles === "true"}
+              waitForEventType={waitForEventType}
             />
           );
           break;

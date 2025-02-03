@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ModalSaveImagesProps } from ".";
 import {
   ModalSaveImagesButton,
@@ -8,12 +8,25 @@ import { ModalSaveImagesModal } from "./modal-save-images-modal";
 
 export function ModalSaveImages({
   buttonLabel,
+  waitForEventType,
   ...props
 }: ModalSaveImagesProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(!!waitForEventType);
   const button = useRef<ModalSaveImagesButtonHandler>(null);
   const [modeChanged, setModeChanged] = useState(false);
+
+  useEffect(() => {
+    if (waitForEventType) {
+      document.addEventListener(
+        waitForEventType,
+        (e: CustomEventInit<boolean>) => {
+          setButtonDisabled(e.detail !== true);
+        },
+        false
+      );
+    }
+  }, [waitForEventType]);
 
   const handleOpenModal = async () => {
     setButtonDisabled(true);

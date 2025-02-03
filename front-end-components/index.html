@@ -125,7 +125,8 @@
     <svg id="test-element-id" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
       <circle r="45" cx="50" cy="50" fill="red" />
     </svg> -->
-    <div data-launch-modal data-modal-name="modal-save-images" data-element-class-name="test-element-class" data-button-label="Save images" data-modal-title="Save images" data-element-title-attr="aria-label" data-save-all="false"></div>
+    <button class="govuk-button" onclick="(function(){const event = new CustomEvent('ready', { detail: true });document.dispatchEvent(event);})();return false;">Ready</button>
+    <div data-launch-modal data-modal-name="modal-save-images" data-element-class-name="test-element-class" data-button-label="Save images" data-modal-title="Save images" data-element-title-attr="aria-label" data-save-all="false" data-wait-for-event-type="ready"></div>
     <svg class="test-element-class" aria-label="Red" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
       <circle r="45" cx="50" cy="50" fill="red" />
     </svg>
