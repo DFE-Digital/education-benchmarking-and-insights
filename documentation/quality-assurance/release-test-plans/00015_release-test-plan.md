@@ -1,14 +1,14 @@
-﻿# Release Test Plan - 2025.02.1
+﻿# Release Test Plan - 2025.02.0
 
 _*Release version incremented to address identified issues and deploy fixes._
 
 **Release Date:** 03/02/2025  
-**Release Label:** 2025.02.1
+**Release Label:** 2025.02.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.02.1`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.1` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.02.0`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.0` are functioning as expected without adversely impacting existing functionality.
 
 The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
