@@ -6,11 +6,11 @@ using Xunit;
 namespace Web.E2ETests.Steps;
 
 [Binding]
-[Scope(Feature = "Save all images modal")]
-public class SaveAllImagesModalSteps(PageDriver driver)
+[Scope(Feature = "Save chart images modal")]
+public class SaveImagesModalSteps(PageDriver driver)
 {
-    private SpendingCostsPage? _spendingCostsPage;
     private IDownload? _download;
+    private SpendingCostsPage? _spendingCostsPage;
 
     [Given(@"I am on spending and costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnSpendingAndCostsPageForSchoolWithUrn(string urn)
@@ -23,18 +23,18 @@ public class SaveAllImagesModalSteps(PageDriver driver)
         await _spendingCostsPage.IsDisplayed();
     }
 
-    [Then("the save all images button is visible")]
-    public async Task ThenTheSaveAllImagesButtonIsVisible()
+    [Then("the save chart images button is visible")]
+    public async Task ThenTheSaveChartImagesButtonIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesButtonDisplayed();
+        await _spendingCostsPage.IsSaveImagesButtonDisplayed();
     }
 
-    [When("I click the save all images button")]
-    public async Task WhenIClickTheSaveAllImagesButton()
+    [When("I click the save chart images button")]
+    public async Task WhenIClickTheSaveChartImagesButton()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.ClickSaveAllImagesButton();
+        await _spendingCostsPage.ClickSaveImagesButton();
     }
 
     [When("I click the start button")]
@@ -43,7 +43,7 @@ public class SaveAllImagesModalSteps(PageDriver driver)
         Assert.NotNull(_spendingCostsPage);
         var page = await driver.Current;
         var downloadTask = page.WaitForDownloadAsync(new TimeSpan(0, 1, 0));
-        await _spendingCostsPage.ClickSaveAllImagesModalOkButton();
+        await _spendingCostsPage.ClickSaveImagesModalOkButton();
         _download = await downloadTask;
     }
 
@@ -51,14 +51,14 @@ public class SaveAllImagesModalSteps(PageDriver driver)
     public async Task WhenIClickTheCancelButton()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.ClickSaveAllImagesModalCancelButton();
+        await _spendingCostsPage.ClickSaveImagesModalCancelButton();
     }
 
     [When("I click the close button")]
     public async Task WhenIClickTheCloseButton()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.ClickSaveAllImagesModalCloseButton();
+        await _spendingCostsPage.ClickSaveImagesModalCloseButton();
     }
 
     [When("I press the Escape key")]
@@ -68,46 +68,46 @@ public class SaveAllImagesModalSteps(PageDriver driver)
         await _spendingCostsPage.PressEscapeKey();
     }
 
-    [Then("the save all images modal is visible")]
-    public async Task ThenTheSaveAllImagesModalIsVisible()
+    [Then("the save chart images modal is visible")]
+    public async Task ThenTheSaveChartImagesModalIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalDisplayed(true);
+        await _spendingCostsPage.IsSaveImagesModalDisplayed(true);
     }
 
-    [Then("the save all images modal is not visible")]
-    public async Task ThenTheSaveAllImagesModalIsNotVisible()
+    [Then("the save chart images modal is not visible")]
+    public async Task ThenTheSaveChartImagesModalIsNotVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalDisplayed(false);
+        await _spendingCostsPage.IsSaveImagesModalDisplayed(false);
     }
 
     [Then("the start button is enabled")]
     public async Task ThenTheStartButtonIsEnabled()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalStartButtonEnabled(true);
+        await _spendingCostsPage.IsSaveImagesModalStartButtonEnabled(true);
     }
 
     [Then("the start button is disabled")]
     public async Task ThenTheStartButtonIsDisabled()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalStartButtonEnabled(false);
+        await _spendingCostsPage.IsSaveImagesModalStartButtonEnabled(false);
     }
 
     [Then("the cancel button is visible")]
     public async Task ThenTheCancelButtonIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalCancelButtonVisible();
+        await _spendingCostsPage.IsSaveImagesModalCancelButtonVisible();
     }
 
     [Then("the close button is visible")]
     public async Task ThenTheCloseButtonIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalCloseButtonVisible();
+        await _spendingCostsPage.IsSaveImagesModalCloseButtonVisible();
     }
 
     [Then("the '(.*)' file is downloaded")]

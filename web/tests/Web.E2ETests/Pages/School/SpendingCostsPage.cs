@@ -101,12 +101,12 @@ public partial class SpendingCostsPage(IPage page)
     private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
     private ILocator SaveImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffSaveAsImage);
     private ILocator CopyImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffCopyImage);
-    private ILocator SaveAllChartImagesButton => page.Locator(Selectors.SaveAllChartImages);
+    private ILocator SaveChartImagesButton => page.Locator(Selectors.SaveChartImages);
 
-    private ILocator SaveAllImagesButton =>
+    private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
-            HasText = "Save all chart images"
+            HasText = "Save chart images"
         });
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
@@ -121,7 +121,7 @@ public partial class SpendingCostsPage(IPage page)
         await CheckVisibility(AllCharts);
         await SaveImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
         await CopyImageTeachingAndTeachingSupportStaff.ShouldBeVisible();
-        await SaveAllChartImagesButton.ShouldNotBeVisible();
+        await SaveChartImagesButton.ShouldNotBeVisible();
     }
 
     public async Task AssertOrderOfCharts(List<string[]> expectedOrder)
@@ -229,14 +229,14 @@ public partial class SpendingCostsPage(IPage page)
         await warningMessage.ShouldBeVisible();
     }
 
-    public async Task IsSaveAllImagesButtonDisplayed()
+    public async Task IsSaveImagesButtonDisplayed()
     {
-        await SaveAllImagesButton.ShouldBeVisible();
+        await SaveImagesButton.ShouldBeVisible();
     }
 
-    public async Task ClickSaveAllImagesButton()
+    public async Task ClickSaveImagesButton()
     {
-        await SaveAllImagesButton.ClickAsync();
+        await SaveImagesButton.ClickAsync();
     }
 
     private async Task<List<(string Description, string Value)>> GetCostCategoryData(CostCategoryNames costCategory)

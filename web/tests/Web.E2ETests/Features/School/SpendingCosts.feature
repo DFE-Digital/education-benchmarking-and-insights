@@ -122,8 +122,8 @@
           | This school spends    | £30(44.2%) less per pupil |
         And the message stating reason for less schools is visible for 'Educational ICT'
 
-    Scenario: Save all chart images button opens modal
+    Scenario: Save chart images button opens modal
         Given I am on spending and costs page for school with URN '777042'
-        Then the save all images button is visible
-        When I click the save all images button
-        Then the save all images modal is visible
+        Then the save chart images button is visible
+        When I click the save chart images button
+        Then the save chart images modal is visible

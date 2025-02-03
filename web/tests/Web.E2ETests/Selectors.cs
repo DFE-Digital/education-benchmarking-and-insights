@@ -161,7 +161,7 @@ public static class Selectors
     public const string TeachingAndTeachingSupportStaffSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Teaching and Teaching support staff'][@data-custom-event-id='save-chart-as-image']";
     public const string TeachingAndTeachingSupportStaffCopyImage = "xpath=//*[@data-custom-event-chart-name='Teaching and Teaching support staff'][@data-custom-event-id='copy-chart-as-image']";
 
-    public const string SaveAllChartImages = "xpath=//*[@data-custom-event-chart-name='Save all chart images']";
+    public const string SaveChartImages = "xpath=//*[@data-custom-event-chart-name='Save chart images']";
     public const string ChartTooltips = ".recharts-tooltip-wrapper";
     public const string RunningCostCategoriesTab = "#tab_running";
     public const string BuildingCostCategoriesTab = "#tab_building";

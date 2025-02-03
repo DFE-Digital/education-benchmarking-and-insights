@@ -27,7 +27,7 @@ Feature: Trust compare your costs
           | Test academy school 392 | Trafford        | Academy special converter   | 204              | £1,424,986 |
         But save as image buttons are hidden
         And copy image buttons are hidden
-        And the save all images button is visible
+        And the save chart images button is visible
 
     Scenario: Table view for total expenditure for trust(s) with part-year data
         Given I am on compare your costs page for trust with company number '8104190'
@@ -56,7 +56,7 @@ Feature: Trust compare your costs
         And are showing table view
         But save as image buttons are hidden
         And copy image buttons are hidden
-        And the save all images button is visible
+        And the save chart images button is visible
 
     Scenario: Hide single section
         Given I am on compare your costs page for trust with company number '10074054'
@@ -128,13 +128,13 @@ Feature: Trust compare your costs
           | School name             | Local Authority | School type                 | Number of pupils | Amount  |
           | Test academy school 392 | Trafford        | Academy special converter   | 204              | £53,473 |
           | Test academy school 375 | Reading         | Academy special sponsor led | 232              | £42,585 |
-          
+
     Scenario: Charts have correct dimension options
         Given I am on compare your costs page for trust with company number '10074054'
         Then all sections on the page have the correct dimension options
 
-    Scenario: Save all chart images button opens modal
+    Scenario: Save chart images button opens modal
         Given I am on compare your costs page for trust with company number '10074054'
-        Then the save all images button is visible
-        When I click the save all images button
-        Then the save all images modal is visible
+        Then the save chart images button is visible
+        When I click the save chart images button
+        Then the save chart images modal is visible

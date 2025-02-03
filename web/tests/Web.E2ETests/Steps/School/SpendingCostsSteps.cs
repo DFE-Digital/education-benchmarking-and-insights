@@ -133,25 +133,25 @@ public class SpendingCostsSteps(PageDriver driver)
         await _spendingCostsPage.IsWarningMessageVisibleForCategory(CostCategoryFromFriendlyName(categoryName));
     }
 
-    [Then("the save all images button is visible")]
-    public async Task ThenTheSaveAllImagesButtonIsVisible()
+    [Then("the save chart images button is visible")]
+    public async Task ThenTheSaveChartImagesButtonIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesButtonDisplayed();
+        await _spendingCostsPage.IsSaveImagesButtonDisplayed();
     }
 
-    [When("I click the save all images button")]
-    public async Task WhenIClickTheSaveAllImagesButton()
+    [When("I click the save chart images button")]
+    public async Task WhenIClickTheSaveChartImagesButton()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.ClickSaveAllImagesButton();
+        await _spendingCostsPage.ClickSaveImagesButton();
     }
 
-    [Then("the save all images modal is visible")]
-    public async Task ThenTheSaveAllImagesModalIsVisible()
+    [Then("the save chart images modal is visible")]
+    public async Task ThenTheSaveChartImagesModalIsVisible()
     {
         Assert.NotNull(_spendingCostsPage);
-        await _spendingCostsPage.IsSaveAllImagesModalDisplayed(true);
+        await _spendingCostsPage.IsSaveImagesModalDisplayed(true);
     }
 
     private static string SpendingCostsUrl(string urn) =>
