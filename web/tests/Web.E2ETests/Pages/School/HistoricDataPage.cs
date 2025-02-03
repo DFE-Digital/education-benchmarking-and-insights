@@ -113,7 +113,7 @@ public class HistoricDataPage(IPage page)
         "Direct revenue financing costs",
         "Grounds maintenance costs",
         "Indirect employee expenses costs",
-        "Interest changes for loan and bank costs",
+        "Interest charges for loan and bank costs",
         "Other insurance premiums costs",
         "PFI charges costs",
         "Rents and rates costs",
