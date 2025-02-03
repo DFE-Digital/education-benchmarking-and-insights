@@ -35,10 +35,10 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
   - Data Accuracy and Presentation:
     - Corrected RAG value calculations to show aggregated data for federations.
     - Updated/fixed inconsistencies with pupil numbers.
+    - Fixed typos on historic data cost category and dimensions on spending comparison.
   - UI and Usability Fixes:
     - Ensured multi-selection of LAs working as intended when doing user defined comparator set.
     - Added hover-over information for line charts for better accessibility.
-    - Added appropriate message when no data is submitted in BFR.
 
 **Out-of-Scope:**
 
