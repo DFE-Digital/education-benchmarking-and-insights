@@ -1,14 +1,14 @@
-﻿# Release Test Plan - 2025.02.0
+﻿# Release Test Plan - 2025.02.1
 
-_*Release version incremented to address identified issues and deploy fixes._
+_*Release version incremented to critical issues identified during testing of 2025.01.1._
 
 **Release Date:** 03/02/2025  
-**Release Label:** 2025.02.0
+**Release Label:** 2025.02.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.02.0`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.0` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.02.1`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.1` are functioning as expected without adversely impacting existing functionality.
 
 The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
@@ -108,6 +108,15 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 - Technical lead
 
 ## Notes
+
+**Release Overview**
+
+A typographical errors were identified during pre-production testing, which needed to be fixed. As a result, we abandoned the old release and included the fixes in the new release.
+- **Original Planned Release:** 2025.01.1
+- **New Release Version:** 2025.02.1
+- **Hotfixes Included:** Corrected a typo in the 'Utilities' cost category dimension on the spending comparison page, and fixed another typo on the historic data page.
+- **Current Release (2025.02.1):** contains the necessary hotfix and another typo correction. 
+- **Testing Impact** The release testing plan is not impacted as the hotfixes are only content updates. 
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=247423&suiteId=247424)**
 
