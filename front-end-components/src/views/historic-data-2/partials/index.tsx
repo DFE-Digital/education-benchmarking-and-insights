@@ -211,7 +211,7 @@ export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
           perUnitDimension: PoundsPerPupil,
         },
         {
-          name: "Interest changes for loan and bank costs",
+          name: "Interest charges for loan and bank costs",
           field: "interestChargesLoanBank",
           perUnitDimension: PoundsPerPupil,
         },

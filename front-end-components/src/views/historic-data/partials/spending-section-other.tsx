@@ -69,18 +69,18 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartTitle="Interest changes for loan and bank costs"
+            chartTitle="Interest charges for loan and bank costs"
             data={data}
             seriesConfig={{
               interestChargesLoanBank: {
-                label: "Interest changes for loan and bank costs",
+                label: "Interest charges for loan and bank costs",
                 visible: true,
               },
             }}
             valueField="interestChargesLoanBank"
           >
             <h3 className="govuk-heading-s">
-              Interest changes for loan and bank costs
+              Interest charges for loan and bank costs
             </h3>
           </HistoricChart>
 
