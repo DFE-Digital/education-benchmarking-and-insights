@@ -11,33 +11,43 @@ from pipeline import config
 
 logger = logging.getLogger("fbit-data-pipeline")
 
-db_args = os.getenv("DB_ARGS")
 
-args = []
-for sub in db_args.split(";"):
-    if "=" in sub:
-        args.append(map(str.strip, sub.split("=", 1)))
-args = dict(args)
+def get_engine() -> sqlalchemy.engine.Engine:
+    """
+    Creates a SQLAlchemy Engine.
 
-connection_url = URL.create(
-    "mssql+pyodbc",
-    username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PWD"),
-    host=os.getenv("DB_HOST"),
-    database=os.getenv("DB_NAME"),
-    port=os.getenv("DB_PORT"),
-    query={"driver": "ODBC Driver 18 for SQL Server"} | args,
-)
+    By default, configuration is derived from environment variables.
 
-engine = create_engine(connection_url)
+    :return: SQLAlchemy Engine
+    """
+    db_args = os.getenv("DB_ARGS")
 
+    args = []
+    for sub in db_args.split(";"):
+        if "=" in sub:
+            args.append(map(str.strip, sub.split("=", 1)))
+    args = dict(args)
 
-@event.listens_for(engine, "before_cursor_execute")
-def receive_before_cursor_execute(
-    conn, cursor, statement, params, context, executemany
-):
-    if executemany:
-        cursor.fast_executemany = True
+    connection_url = URL.create(
+        "mssql+pyodbc",
+        username=os.getenv("DB_USER"),
+        password=os.getenv("DB_PWD"),
+        host=os.getenv("DB_HOST"),
+        database=os.getenv("DB_NAME"),
+        port=os.getenv("DB_PORT"),
+        query={"driver": "ODBC Driver 18 for SQL Server"} | args,
+    )
+
+    engine = create_engine(connection_url)
+
+    @event.listens_for(engine, "before_cursor_execute")
+    def receive_before_cursor_execute(
+        conn, cursor, statement, params, context, executemany
+    ):
+        if executemany:
+            cursor.fast_executemany = True
+
+    return engine
 
 
 def upsert(
@@ -45,7 +55,11 @@ def upsert(
     table_name: str,
     keys: list[str],
     dtype: dict[str, any] = None,
+    engine: sqlalchemy.engine.Engine | None = None,
 ):
+    if engine is None:
+        engine = get_engine()
+
     logger.info(f"Connecting to database {engine.url}")
 
     # Drop duplicates, including the index if specifically set.
@@ -78,6 +92,7 @@ def insert_comparator_set(
     run_type: str,
     run_id: str,
     df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
 ):
     write_frame = df[["Pupil", "Building"]].copy()
     write_frame["RunType"] = run_type
@@ -91,13 +106,19 @@ def insert_comparator_set(
         write_frame,
         "ComparatorSet",
         keys=["RunType", "RunId", "URN"],
+        engine=engine,
     )
     logger.info(
         f"Wrote {len(write_frame)} rows to comparator set {run_type} - {run_id}"
     )
 
 
-def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_metric_rag(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     write_frame = df[
         [
             "Category",
@@ -132,11 +153,17 @@ def insert_metric_rag(run_type: str, run_id: str, df: pd.DataFrame):
             "Decile": sqlalchemy.types.Numeric(16, 2),
             "RAG": sqlalchemy.types.VARCHAR(length=10),
         },
+        engine=engine,
     )
     logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {run_id}")
 
 
-def insert_schools_and_local_authorities(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_schools_and_local_authorities(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
@@ -171,7 +198,7 @@ def insert_schools_and_local_authorities(run_type: str, run_id: str, df: pd.Data
         .drop_duplicates()
     )
 
-    upsert(write_frame, "School", keys=["URN"])
+    upsert(write_frame, "School", keys=["URN"], engine=engine)
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {run_id}")
 
     la_projections = {"LA Code": "Code", "LA Name": "Name"}
@@ -184,11 +211,16 @@ def insert_schools_and_local_authorities(run_type: str, run_id: str, df: pd.Data
 
     las.set_index("Code", inplace=True)
 
-    upsert(las, "LocalAuthority", keys=["Code"])
+    upsert(las, "LocalAuthority", keys=["Code"], engine=engine)
     logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {run_id}")
 
 
-def insert_trusts(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_trusts(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     """
     Store Trust non-financial information.
 
@@ -197,6 +229,7 @@ def insert_trusts(run_type: str, run_id: str, df: pd.DataFrame):
     :param run_type: "default" or "custom"
     :param run_id: unique identifier for processing
     :param df: Academy financial information
+    :param engine: SQLAlchemy Engine
     """
     trust_projections = {
         "Company_Name": "TrustName",
@@ -216,11 +249,16 @@ def insert_trusts(run_type: str, run_id: str, df: pd.DataFrame):
         .rename(columns=trust_projections)[[*trust_projections.values()]]
     )
 
-    upsert(trusts, "Trust", keys=["CompanyNumber"])
+    upsert(trusts, "Trust", keys=["CompanyNumber"], engine=engine)
     logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {run_id}")
 
 
-def insert_non_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_non_financial_data(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",
@@ -271,13 +309,18 @@ def insert_non_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"])
+    upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"], engine=engine)
     logger.info(
         f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {run_id}"
     )
 
 
-def insert_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_financial_data(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",
@@ -419,13 +462,18 @@ def insert_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"])
+    upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"], engine=engine)
     logger.info(
         f"Wrote {len(write_frame)} rows to financial data {run_type} - {run_id}"
     )
 
 
-def insert_trust_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
+def insert_trust_financial_data(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     """
     Write Trust financial info. to the TrustFinancial table.
 
@@ -435,6 +483,7 @@ def insert_trust_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     :param run_type: should only be "default"
     :param run_id: unique identifier for processing
     :param df: Trust financial info.
+    :param engine: SQLAlchemy Engine
     """
     write_frame = (
         df.reset_index()[config.trust_db_projections.keys()]
@@ -445,13 +494,23 @@ def insert_trust_financial_data(run_type: str, run_id: str, df: pd.DataFrame):
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(run_id)
 
-    upsert(write_frame, "TrustFinancial", keys=["RunType", "RunId", "CompanyNumber"])
+    upsert(
+        write_frame,
+        "TrustFinancial",
+        keys=["RunType", "RunId", "CompanyNumber"],
+        engine=engine,
+    )
     logger.info(
         f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {run_id}"
     )
 
 
-def insert_bfr_metrics(run_id: str, year: int, df: pd.DataFrame):
+def insert_bfr_metrics(
+    run_id: str,
+    year: int,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     """
     Persist BFR metric data to the database.
 
@@ -460,6 +519,7 @@ def insert_bfr_metrics(run_id: str, year: int, df: pd.DataFrame):
     :param run_id: unique identifier for processing
     :param year: BFR year in question
     :param df: BFR metric data
+    :param engine: SQLAlchemy Engine
     """
     projections = {
         "Company Registration Number": "CompanyNumber",
@@ -486,11 +546,16 @@ def insert_bfr_metrics(run_id: str, year: int, df: pd.DataFrame):
             "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
             "Value": sqlalchemy.types.Numeric(16, 2),
         },
+        engine=engine,
     )
     logger.info(f"Wrote {len(write_frame)} rows to BFR metrics data default - {year}")
 
 
-def insert_bfr(run_id: str, df: pd.DataFrame):
+def insert_bfr(
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
     """
     Persist BFR data to the database.
 
@@ -498,6 +563,7 @@ def insert_bfr(run_id: str, df: pd.DataFrame):
 
     :param run_id: unique identifier for processing
     :param df: BFR data
+    :param engine: SQLAlchemy Engine
     """
     projections = {
         "Company Registration Number": "CompanyNumber",
@@ -525,5 +591,6 @@ def insert_bfr(run_id: str, df: pd.DataFrame):
             "Value": sqlalchemy.types.Numeric(16, 2),
             "TotalPupils": sqlalchemy.types.Numeric(16, 2),
         },
+        engine=engine,
     )
     logger.info(f"Wrote {len(write_frame)} rows to BFR data default - {run_id}")
