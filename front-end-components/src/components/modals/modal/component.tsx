@@ -8,6 +8,7 @@ import {
   useImperativeHandle,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import "src/components/modals/modal/styles.scss";
 
@@ -51,11 +52,24 @@ function ModalInner(
     ],
     [content]
   );
+  const [focused, setFocused] = useState<boolean>();
 
   const closeOnEscapeKey = useCallback(
     (e: KeyboardEvent) => (e.key === "Escape" ? onClose() : null),
     [onClose]
   );
+
+  const handleOpen = useCallback(() => {
+    document.querySelector("body")?.classList.add(overlayClass);
+
+    // Set page content to inert to indicate to screenreaders it is inactive
+    overlayElements.forEach((el) => {
+      el.inert = true;
+      el.setAttribute("aria-hidden", "true");
+    });
+
+    document.body.addEventListener("keydown", closeOnEscapeKey);
+  }, [closeOnEscapeKey, overlayElements]);
 
   const handleClose = useCallback(() => {
     document.querySelector("body")?.classList.remove(overlayClass);
@@ -71,20 +85,16 @@ function ModalInner(
 
   useEffect(() => {
     if (open) {
-      document.querySelector("body")?.classList.add(overlayClass);
+      handleOpen();
 
-      // Set page content to inert to indicate to screenreaders it is inactive
-      overlayElements.forEach((el) => {
-        el.inert = true;
-        el.setAttribute("aria-hidden", "true");
-      });
-
-      modalRef.current?.focus();
-      document.body.addEventListener("keydown", closeOnEscapeKey);
+      if (!focused) {
+        modalRef.current?.focus();
+        setFocused(true);
+      }
     } else {
       handleClose();
     }
-  }, [closeOnEscapeKey, content, handleClose, open, overlayElements]);
+  }, [closeOnEscapeKey, focused, handleClose, handleOpen, open]);
 
   useEffect(() => {
     return () => {
