@@ -4,71 +4,71 @@ namespace Web.E2ETests.Pages.School;
 
 public partial class SpendingCostsPage
 {
-    private ILocator SaveAllImagesModal =>
+    private ILocator SaveImagesModal =>
         page.Locator(Selectors.Modal, new PageLocatorOptions
         {
-            HasText = "Save all chart images"
+            HasText = "Save chart images"
         });
 
-    private ILocator SaveAllImagesModalOkButton => page.Locator($"{Selectors.ModalButton}.govuk-button--ok");
-    private ILocator SaveAllImagesModalCancelButton => page.Locator($"{Selectors.ModalButton}.govuk-button--cancel");
-    private ILocator SaveAllImagesModalCloseButton => page.Locator($"{Selectors.ModalButton}.govuk-button--close");
+    private ILocator SaveImagesModalOkButton => page.Locator($"{Selectors.ModalButton}.govuk-button--ok");
+    private ILocator SaveImagesModalCancelButton => page.Locator($"{Selectors.ModalButton}.govuk-button--cancel");
+    private ILocator SaveImagesModalCloseButton => page.Locator($"{Selectors.ModalButton}.govuk-button--close");
 
-    public async Task IsSaveAllImagesModalDisplayed(bool visible)
+    public async Task IsSaveImagesModalDisplayed(bool visible)
     {
         if (visible)
         {
-            await SaveAllImagesModal.ShouldBeVisible();
+            await SaveImagesModal.ShouldBeVisible();
         }
         else
         {
-            await SaveAllImagesModal.ShouldNotBeVisible();
+            await SaveImagesModal.ShouldNotBeVisible();
         }
     }
 
-    public async Task IsSaveAllImagesModalStartButtonEnabled(bool enabled)
+    public async Task IsSaveImagesModalStartButtonEnabled(bool enabled)
     {
-        await SaveAllImagesModalOkButton.ShouldHaveText("Start");
-        await SaveAllImagesModalOkButton.ShouldBeVisible();
+        await SaveImagesModalOkButton.ShouldHaveText("Start");
+        await SaveImagesModalOkButton.ShouldBeVisible();
 
         if (enabled)
         {
-            await SaveAllImagesModalOkButton.ShouldBeEnabled();
+            await SaveImagesModalOkButton.ShouldBeEnabled();
         }
         else
         {
-            await SaveAllImagesModalOkButton.ShouldBeDisabled();
+            await SaveImagesModalOkButton.ShouldBeDisabled();
         }
     }
 
-    public async Task IsSaveAllImagesModalCancelButtonVisible()
+    public async Task IsSaveImagesModalCancelButtonVisible()
     {
-        await SaveAllImagesModalCancelButton.ShouldHaveText("Cancel");
-        await SaveAllImagesModalCancelButton.ShouldBeVisible();
-        await SaveAllImagesModalCancelButton.ShouldBeEnabled();
+        await SaveImagesModalCancelButton.ShouldHaveText("Cancel");
+        await SaveImagesModalCancelButton.ShouldBeVisible();
+        await SaveImagesModalCancelButton.ShouldBeEnabled();
     }
 
-    public async Task IsSaveAllImagesModalCloseButtonVisible()
+    public async Task IsSaveImagesModalCloseButtonVisible()
     {
-        await SaveAllImagesModalCloseButton.ShouldHaveText("\u00d7");
-        await SaveAllImagesModalCloseButton.ShouldHaveAttribute("aria-label", "Close modal dialog");
-        await SaveAllImagesModalCloseButton.ShouldBeVisible();
-        await SaveAllImagesModalCloseButton.ShouldBeEnabled();
+        await SaveImagesModalCloseButton.ShouldHaveText("\u00d7");
+        await SaveImagesModalCloseButton.ShouldHaveAttribute("aria-label", "Close modal dialog");
+        await SaveImagesModalCloseButton.ShouldBeVisible();
+        await SaveImagesModalCloseButton.ShouldBeEnabled();
     }
 
-    public async Task ClickSaveAllImagesModalOkButton()
+    public async Task ClickSaveImagesModalOkButton()
     {
-        await SaveAllImagesModalOkButton.ClickAsync();
+        await SaveImagesModalOkButton.ClickAsync();
     }
 
-    public async Task ClickSaveAllImagesModalCancelButton()
+    public async Task ClickSaveImagesModalCancelButton()
     {
-        await SaveAllImagesModalCancelButton.ClickAsync();
+        await SaveImagesModalCancelButton.ClickAsync();
     }
 
-    public async Task ClickSaveAllImagesModalCloseButton()
+    public async Task ClickSaveImagesModalCloseButton()
     {
-        await SaveAllImagesModalCloseButton.ClickAsync();
+        await SaveImagesModalCloseButton.ClickAsync();
     }
 
     public async Task PressEscapeKey()

@@ -71,15 +71,15 @@ public class CompareYourCostsPage(IPage page)
         {
             HasTextRegex = Regexes.CopyImageRegex()
         });
-    private ILocator SaveAllImagesButton =>
+    private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
-            HasText = "Save all chart images"
+            HasText = "Save chart images"
         });
-    private ILocator SaveAllImagesModal =>
+    private ILocator SaveImagesModal =>
         page.Locator(Selectors.Modal, new PageLocatorOptions
         {
-            HasText = "Save all chart images"
+            HasText = "Save chart images"
         });
 
     private ILocator ComparatorSetDetails =>
@@ -115,7 +115,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
     private ILocator TeachingSupportStaffWarning => page.Locator($"{Selectors.TeachingAndTeachingSupportStaff} {Selectors.GovWarning}");
-    private ILocator SaveAllChartImagesButton => page.Locator(Selectors.SaveAllChartImages);
+    private ILocator SaveChartImagesButton => page.Locator(Selectors.SaveChartImages);
 
     public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
@@ -141,7 +141,7 @@ public class CompareYourCostsPage(IPage page)
             await ComparatorSetDetails.ShouldBeVisible();
             await CustomComparatorLink.ShouldBeVisible();
             await CustomDataLink.ShouldBeVisible();
-            await SaveAllChartImagesButton.ShouldNotBeVisible();
+            await SaveChartImagesButton.ShouldNotBeVisible();
 
             //TODO: test data is missing building comparator set. Building relate categories are not shown.
             /*await HasDimensionValuesForChart(ComparisonChartNames.Premises,
@@ -465,19 +465,19 @@ public class CompareYourCostsPage(IPage page)
             ]);
     }
 
-    public async Task IsSaveAllImagesButtonDisplayed()
+    public async Task IsSaveImagesButtonDisplayed()
     {
-        await SaveAllImagesButton.ShouldBeVisible();
+        await SaveImagesButton.ShouldBeVisible();
     }
 
-    public async Task ClickSaveAllImagesButton()
+    public async Task ClickSaveImagesButton()
     {
-        await SaveAllImagesButton.ClickAsync();
+        await SaveImagesButton.ClickAsync();
     }
 
-    public async Task IsSaveAllImagesModalDisplayed()
+    public async Task IsSaveImagesModalDisplayed()
     {
-        await SaveAllImagesModal.ShouldBeVisible();
+        await SaveImagesModal.ShouldBeVisible();
     }
 
     private ILocator SectionLink(ComparisonChartNames chartName)
