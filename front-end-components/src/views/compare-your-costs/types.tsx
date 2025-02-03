@@ -1,7 +1,8 @@
 import { CompareYourCostsProps } from "./partials/accordion-sections/types";
 
 export type CompareYourCostsViewProps = CompareYourCostsProps & {
-  phases: string[] | null;
   customDataId: string | undefined;
+  dispatchEventType?: string;
+  phases: string[] | null;
   suppressNegativeOrZero: boolean;
 };

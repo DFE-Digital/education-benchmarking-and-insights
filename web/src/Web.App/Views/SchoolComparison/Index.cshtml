@@ -4,6 +4,7 @@
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
+    const string eventType = "compare-your-costs-loaded";
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -15,7 +16,8 @@
 {
     @await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
     {
-        { "FileName", $"benchmark-spending-{Model.Urn}.zip" }
+        { "FileName", $"benchmark-spending-{Model.Urn}.zip" },
+        { "WaitForEventType", eventType }
     })
 }
 
@@ -51,7 +53,11 @@
 
 @if (!hasMissingComparatorSet)
 {
-    <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-suppress-negative-or-zero="true"></div>
+    <div id="compare-your-costs" 
+         data-type="@OrganisationTypes.School" 
+         data-id="@Model.Urn" 
+         data-suppress-negative-or-zero="true" 
+         data-dispatch-event-type="@eventType"></div>
 }
 
 @await Component.InvokeAsync("SchoolFinanceTools", new

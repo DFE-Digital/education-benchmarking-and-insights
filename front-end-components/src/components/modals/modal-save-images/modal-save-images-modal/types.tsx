@@ -10,4 +10,5 @@ export type ModalSaveImagesModalProps = ModalCommonProps & {
   saveEventId?: string;
   showProgress?: boolean;
   showTitles?: boolean;
+  waitForEventType?: string;
 };

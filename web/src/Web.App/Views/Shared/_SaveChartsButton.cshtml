@@ -2,6 +2,7 @@
     var className = ViewData["ClassName"] ?? "chart-wrapper";
     var fileName = ViewData["FileName"] ?? "charts.zip";
     var titleAttr = ViewData["TitleAttribute"] ?? "aria-label";
+    var waitForEventType = ViewData["WaitForEventType"] ?? "";
 }
 
 <div class="save-charts">
@@ -16,5 +17,6 @@
         data-show-progress="true"
         data-file-name="@fileName"
         data-save-event-id="save-chart-as-image"
-        data-main-content-id="main-content"></div>
+        data-main-content-id="main-content"
+        data-wait-for-event-type="@waitForEventType"></div>
 </div>

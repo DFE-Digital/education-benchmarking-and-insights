@@ -113,6 +113,7 @@ export type OtherCostsData = {
 };
 
 export type CompareYourCostsProps = {
-  type: "school" | "trust";
   id: string;
+  onFetching?: (fetching: boolean) => void;
+  type: "school" | "trust";
 };

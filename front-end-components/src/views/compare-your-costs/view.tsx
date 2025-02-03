@@ -15,13 +15,27 @@ import {
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
 
-export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
-  props
-) => {
-  const { type, id, phases, customDataId, suppressNegativeOrZero } = props;
+export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
+  customDataId,
+  dispatchEventType,
+  id,
+  phases,
+  suppressNegativeOrZero,
+  type,
+}) => {
   const [phase, setPhase] = useState<string | undefined>(
     phases ? phases[0] : undefined
   );
+
+  const handleFetching = (fetching: boolean) => {
+    if (dispatchEventType) {
+      document.dispatchEvent(
+        new CustomEvent<boolean>(dispatchEventType, {
+          detail: !fetching,
+        })
+      );
+    }
+  };
 
   const message = "Only displaying schools with positive expenditure.";
 
@@ -39,7 +53,11 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
                 phases={phases}
                 handlePhaseChange={setPhase}
               />
-              <TotalExpenditure id={id} type={type} />
+              <TotalExpenditure
+                id={id}
+                type={type}
+                onFetching={handleFetching}
+              />
               <ExpenditureAccordion id={id} type={type} />
             </ChartModeProvider>
           </SuppressNegativeOrZeroContext.Provider>
