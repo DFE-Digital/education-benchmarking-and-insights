@@ -1,12 +1,14 @@
-﻿# Release Test Plan - 2025.01.1
+﻿# Release Test Plan - 2025.02.1
 
-**Release Date:** 29/01/2025  
-**Release Label:** 2025.01.1
+_*Release version incremented to address identified issues and deploy fixes._
+
+**Release Date:** 03/02/2025  
+**Release Label:** 2025.02.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.01.1`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `2025.01.1` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.02.1`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.1` are functioning as expected without adversely impacting existing functionality.
 
 The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
@@ -135,6 +137,8 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 - [245267 - Add titles on all graphs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/245267)
 - [244349 - Add Save as Image to additional pages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/244349)
 - [242101 - Copy chart to clipboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242101)
+- [248237 - Benchmarking spending - utilities costs incorrect dimension name](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/248237)
+- [248236 - historic data - spending tab typo](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/248236)
 
 ## Appendix
 
