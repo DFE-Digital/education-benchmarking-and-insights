@@ -21,6 +21,17 @@
       commit-message:
         prefix: "[npm] "
       open-pull-requests-limit: 10
+      # React v18 to v19 major version upgrade affects other packages as at 
+      # Feb 2025 due to broken peer dependencies. Ignore for the time being.
+      ignore:
+        - dependency-name: "react"
+          versions: ["19.*"]
+        - dependency-name: "react-dom"
+          versions: ["19.*"]
+        - dependency-name: "@types/react"
+          versions: ["19.*"]
+        - dependency-name: "@types/react-dom"
+          versions: ["19.*"]
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
