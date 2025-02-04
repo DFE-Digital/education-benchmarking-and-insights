@@ -1,8 +1,8 @@
 namespace Web.App.ViewModels.Components;
 
-public class AnalyticsViewModel(string instrumentationKey, bool analyticsCookiesEnabled)
+public class AnalyticsViewModel(string connectionString, bool analyticsCookiesEnabled)
 {
-    public string InstrumentationKey => instrumentationKey;
+    public string ConnectionString => connectionString;
     public string? OperationId { get; set; }
     public bool AnalyticsCookiesEnabled => analyticsCookiesEnabled;
 }

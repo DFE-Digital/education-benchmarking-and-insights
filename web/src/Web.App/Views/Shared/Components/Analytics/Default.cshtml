@@ -2,6 +2,10 @@
 @using Web.App.TagHelpers
 @model Web.App.ViewModels.Components.AnalyticsViewModel
 
+@* There is currently no alternative to providing the App Insights connection string directly *@
+@* on client side without going to such lengths as (e.g.) implementing a reverse proxy:       *@
+@*   - https://github.com/microsoft/ApplicationInsights-JS/issues/281                         *@
+@*   - https://stenbrinke.nl/blog/hide-app-insights-key-from-the-browser/                     *@
 <script type="text/javascript" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js"></script>
 <script type="text/javascript" add-nonce="true">
     var clickPluginInstance = new Microsoft.ApplicationInsights.ClickAnalyticsPlugin();
@@ -13,12 +17,12 @@
     };
     var cookiesEnabled = true;
     var configObj = {
-        instrumentationKey: "@Model.InstrumentationKey",
+        connectionString: "@Model.ConnectionString",
         extensions: [
             clickPluginInstance
         ],
         extensionConfig: {
-            [clickPluginInstance.identifier] : clickPluginConfig
+            [clickPluginInstance.identifier]: clickPluginConfig
         },
         cookieCfg: {
             enabled: @Model.AnalyticsCookiesEnabled.ToString().ToLower()

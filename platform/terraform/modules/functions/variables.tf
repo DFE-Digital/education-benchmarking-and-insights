@@ -37,12 +37,6 @@ variable "subnet_ids" {
   type = list(string)
 }
 
-variable "instrumentation-key" {
-  type     = string
-  nullable = true
-  default  = null
-}
-
 variable "instrumentation-conn-string" {
   type     = string
   nullable = true
