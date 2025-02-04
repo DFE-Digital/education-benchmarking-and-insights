@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
 import {
   TableChart,
@@ -11,11 +11,7 @@ import {
   useChartModeContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
-import {
-  ChartHandler,
-  ChartSeriesConfigItem,
-  SpecialItemFlag,
-} from "src/components/charts";
+import { ChartSeriesConfigItem, SpecialItemFlag } from "src/components/charts";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartModeChart, ChartModeTable } from "src/components";
 import {
@@ -33,7 +29,8 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { SchoolExpenditure } from "src/services";
-import { ShareContent } from "src/components/share-content";
+import { ShareContentByElement } from "src/components/share-content-by-element";
+import { v4 as uuidv4 } from "uuid";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -50,7 +47,6 @@ export function HorizontalBarChartWrapper<
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
-  const chartRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
@@ -171,6 +167,7 @@ export function HorizontalBarChartWrapper<
   };
 
   const hasData = sortedDataPoints.length > 0;
+  const uuid = uuidv4();
 
   return (
     <>
@@ -178,22 +175,26 @@ export function HorizontalBarChartWrapper<
         <div className="govuk-grid-column-two-thirds">{children}</div>
         {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-third">
-            <ShareContent
+            <ShareContentByElement
               copied={imageCopied}
               disabled={imageLoading || !hasData}
-              onCopyClick={() => chartRef.current?.download("copy")}
-              onSaveClick={() => chartRef.current?.download("save")}
+              elementSelector={() =>
+                document.querySelector(
+                  `div[data-chart-uuid='${uuid}']`
+                ) as HTMLElement
+              }
               copyEventId="copy-chart-as-image"
               saveEventId="save-chart-as-image"
               showCopy={showCopyImageButton}
               showSave
+              showTitle
               title={chartTitle}
             />
           </div>
         )}
       </div>
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-full">
+        <div className="govuk-grid-column-full" data-chart-uuid={uuid}>
           {hasData ? (
             <>
               {chartMode == ChartModeChart && (
@@ -211,7 +212,6 @@ export function HorizontalBarChartWrapper<
                   onImageLoading={setImageLoading}
                   labels
                   margin={20}
-                  ref={chartRef}
                   seriesConfig={seriesConfig as object}
                   seriesLabelField={seriesLabelField}
                   tickWidth={400}
