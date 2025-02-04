@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using CorrelationId.HttpClient;
+using Microsoft.Net.Http.Headers;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -44,12 +46,30 @@ public static class HttpClientBuilderExtensions
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
+            // AB#248424 - Transient 429 errors from Platform API should be allowed to be 
+            //             retried based on RetryAfter header, if present in the response
+            .OrResult(response => response.StatusCode == HttpStatusCode.TooManyRequests)
             .WaitAndRetryAsync(
                 5,
-                retryAttempt => TimeSpan.FromSeconds(0.5 * retryAttempt),
-                onRetry: (_, timespan, retryAttempt, _) =>
+                (retryAttempt, response, _) =>
+                {
+                    var retryAfter = response.Result.Headers.RetryAfter?.Delta;
+                    if (retryAfter == null)
+                    {
+                        return TimeSpan.FromSeconds(0.5 * retryAttempt);
+                    }
+
+                    logger.LogInformation(
+                        "Response with status code {StatusCode} contains {Header} header with value {RetryAfter}",
+                        (int)response.Result.StatusCode,
+                        HeaderNames.RetryAfter,
+                        response.Result.Headers.RetryAfter);
+                    return retryAfter.Value;
+                },
+                (_, timespan, retryAttempt, _) =>
                 {
                     logger.LogWarning("Retry attempt {RetryAttempt}. Waiting {Timespan} before next retry.", retryAttempt, timespan);
+                    return Task.CompletedTask;
                 });
     }
 
@@ -70,7 +90,6 @@ public static class HttpClientBuilderExtensions
                 });
     }
 }
-
 
 [ExcludeFromCodeCoverage]
 public class ApiSettings
