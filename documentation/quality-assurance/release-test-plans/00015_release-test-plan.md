@@ -109,14 +109,15 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 
 ## Notes
 
-**Release Overview**
+**Release Overview:**
 
 A typographical errors were identified during pre-production testing, which needed to be fixed. As a result, we abandoned the old release and included the fixes in the new release.
+
 - **Original Planned Release:** 2025.01.1
 - **New Release Version:** 2025.02.1
 - **Hotfixes Included:** Corrected a typo in the 'Utilities' cost category dimension on the spending comparison page, and fixed another typo on the historic data page.
-- **Current Release (2025.02.1):** contains the necessary hotfix and another typo correction. 
-- **Testing Impact** The release testing plan is not impacted as the hotfixes are only content updates. 
+- **Current Release (2025.02.1):** contains the necessary hotfix and another typo correction.
+- **Testing Impact:** The release testing plan is not impacted as the hotfixes are only content updates.
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=247423&suiteId=247424)**
 
