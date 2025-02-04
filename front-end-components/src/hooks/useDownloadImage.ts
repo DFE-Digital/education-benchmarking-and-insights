@@ -250,11 +250,11 @@ const getImageOptions = (
       const child = document.createElement("h2");
       child.innerText = title;
       child.style.fontFamily = '"GDS Transport", arial, sans-serif';
-      child.style.fontSize = "1.1875rem";
+      child.style.fontSize = "1.25rem";
       child.style.fontWeight = "700";
       child.style.height = `${imageTitleHeight}px`;
       child.style.height = `${imageTitleHeight}px`;
-      child.style.margin = `${imageTitleHeight / 2}px 0 -${imageTitleHeight / 2}px ${imageTitleHeight / 4}px`;
+      child.style.margin = `${imageTitleHeight / 4}px 0 -${imageTitleHeight / 4}px 0`;
       child.style.padding = "0";
       node.insertBefore(child, node.firstChild);
     };

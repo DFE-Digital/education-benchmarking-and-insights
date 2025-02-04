@@ -105,7 +105,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     onLoading: onImageLoading,
     elementSelector: (ref) => ref?.container,
     filter: (node) => {
-      const exclusionClasses = ["recharts-tooltip-wrapper"];
+      const exclusionClasses = [
+        "recharts-tooltip-wrapper",
+        "govuk-visually-hidden",
+      ];
       return !exclusionClasses.some((classname) =>
         node.classList?.contains(classname)
       );
