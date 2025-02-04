@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\terraform.tfvars = terraform\terraform.tfvars
 		terraform\variables.tf = terraform\variables.tf
 		terraform\README.md = terraform\README.md
+		terraform\data.tf = terraform\data.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"

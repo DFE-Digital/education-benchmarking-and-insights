@@ -8,6 +8,11 @@ data "azurerm_application_insights" "application-insights" {
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 
+data "azurerm_log_analytics_workspace" "application-insights-workspace" {
+  name                = "${var.environment-prefix}-ebis-aiw"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}
+
 data "azurerm_subnet" "web-app-subnet" {
   name                 = "${var.environment-prefix}-web-app-subnet"
   virtual_network_name = "${var.environment-prefix}-app-service-network"
