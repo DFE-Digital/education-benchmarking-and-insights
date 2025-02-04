@@ -11,6 +11,7 @@ module "benchmark-fa" {
   location                    = var.location
   enable-restrictions         = lower(var.cip-environment) != "dev"
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = azurerm_search_service.search.name
     "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
@@ -41,6 +42,7 @@ module "insight-fa" {
   location                    = var.location
   enable-restrictions         = lower(var.cip-environment) != "dev"
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
@@ -71,6 +73,7 @@ module "establishment-fa" {
   location                    = var.location
   enable-restrictions         = lower(var.cip-environment) != "dev"
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = azurerm_search_service.search.name
     "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
@@ -99,6 +102,7 @@ module "data-clean-up-fa" {
   location                    = var.location
   enable-restrictions         = false
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
@@ -125,6 +129,7 @@ module "orchestrator-fa" {
     size = "P0v3"
   }
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString"     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue"     = "data-pipeline-job-finished"

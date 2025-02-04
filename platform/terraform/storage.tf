@@ -44,6 +44,29 @@ resource "azurerm_storage_account" "platform-storage" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "platform-storage-blob" {
+  name                       = "${azurerm_storage_account.platform-storage.name}-blob-logs"
+  target_resource_id         = "${azurerm_storage_account.platform-storage.id}/blobServices/default/"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  metric {
+    category = "Transaction"
+    enabled  = true
+
+    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
+    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
+    // The 'deprecated' warning here and below may therefore be ignored.
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  enabled_log {
+    category = "StorageRead"
+  }
+}
+
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389

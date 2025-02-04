@@ -49,6 +49,10 @@ variable "instrumentation-conn-string" {
   default  = null
 }
 
+variable "log-analytics-id" {
+  type = string
+}
+
 variable "location" {
   type = string
 }

@@ -137,7 +137,9 @@ resource "azurerm_resource_group_template_deployment" "function_keys" {
 
 
 locals {
-  key  = var.requires-keys ? jsondecode(azurerm_resource_group_template_deployment.function_keys[0].output_content).functionkey.value : null
+  key = (var.requires-keys
+    ? jsondecode(azurerm_resource_group_template_deployment.function_keys[0].output_content).functionkey.value
+  : null)
   host = "https://${azurerm_windows_function_app.func-app.default_hostname}"
 }
 
@@ -199,4 +201,27 @@ resource "azurerm_redis_cache_access_policy_assignment" "owner" {
   access_policy_name = "Data Owner"
   object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
   object_id_alias    = "${var.function-name}-owner"
+}
+
+resource "azurerm_monitor_diagnostic_setting" "func-app" {
+  name                       = "${azurerm_windows_function_app.func-app.name}-logs"
+  target_resource_id         = azurerm_windows_function_app.func-app.id
+  log_analytics_workspace_id = var.log-analytics-id
+
+  metric {
+    category = "AllMetrics"
+    enabled  = true
+
+    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
+    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
+    // The 'deprecated' warning here and below may therefore be ignored.
+    retention_policy {
+      days    = 0
+      enabled = false
+    }
+  }
+
+  enabled_log {
+    category = "FunctionAppLogs"
+  }
 }
