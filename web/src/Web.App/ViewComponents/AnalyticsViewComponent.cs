@@ -1,20 +1,21 @@
 ﻿using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.ViewModels.Components;
+
 namespace Web.App.ViewComponents;
 
 public class AnalyticsViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
-        var instrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
-        if (string.IsNullOrWhiteSpace(instrumentationKey))
+        var connectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+        if (string.IsNullOrWhiteSpace(connectionString))
         {
             return new EmptyContentView();
         }
 
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
-        var vm = new AnalyticsViewModel(instrumentationKey, cookiePolicy == "enabled");
+        var vm = new AnalyticsViewModel(connectionString, cookiePolicy == "enabled");
 
         var telemetry = HttpContext.Features.Get<RequestTelemetry>();
         if (telemetry != null)

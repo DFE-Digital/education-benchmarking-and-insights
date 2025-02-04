@@ -49,7 +49,6 @@ No modules.
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `string` | n/a | yes |
 | <a name="input_function-name"></a> [function-name](#input\_function-name) | n/a | `string` | n/a | yes |
 | <a name="input_instrumentation-conn-string"></a> [instrumentation-conn-string](#input\_instrumentation-conn-string) | n/a | `string` | `null` | no |
-| <a name="input_instrumentation-key"></a> [instrumentation-key](#input\_instrumentation-key) | n/a | `string` | `null` | no |
 | <a name="input_key-vault-id"></a> [key-vault-id](#input\_key-vault-id) | n/a | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | n/a | yes |
 | <a name="input_log-analytics-id"></a> [log-analytics-id](#input\_log-analytics-id) | n/a | `string` | n/a | yes |
