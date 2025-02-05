@@ -15,7 +15,8 @@ public enum ComparisonChartNames
     EducationalIct,
     EducationalSupplies,
     Other,
-    Utilities
+    Utilities,
+    TotalPremisesStaffAndServiceCosts
 }
 
 public class CompareYourCostsPage(IPage page)
@@ -45,6 +46,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CateringStaffAndServicesDimension => page.Locator(Selectors.CateringStaffAndServicesDimension);
     private ILocator CateringStaffAndServicesTables => page.Locator(Selectors.CateringStaffAndServicesTables);
     private ILocator TeachingAndTeachingSupportStaffTables => page.Locator(Selectors.TeachingAndTeachingSupportStaffTables);
+    private ILocator TotalPremisesStaffAndServiceCostsTables => page.Locator(Selectors.TotalPremisesStaffAndServiceCostsTables);
     private ILocator ViewAsGrossRadio => page.Locator(Selectors.TypeGross);
     private ILocator ViewAsNetRadio => page.Locator(Selectors.TypeNet);
     private ILocator ChartTooltip => page.Locator(Selectors.ChartTooltips).First;
@@ -57,6 +59,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator AdministrativeSuppliesDimension => page.Locator(Selectors.AdministrativeSuppliesDimension);
     private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
     private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
+    private ILocator TotalPremisesStaffAndServiceCostsDimension => page.Locator(Selectors.TotalPremisesStaffAndServiceCostsDimension);
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -394,7 +397,7 @@ public class CompareYourCostsPage(IPage page)
                 "£ per pupil",
                 "actuals",
                 "percentage of income"
-        ]);
+            ]);
 
         await HasDimensionValuesForChart(
             ComparisonChartNames.TeachingAndTeachingSupplyStaff, [
@@ -402,7 +405,7 @@ public class CompareYourCostsPage(IPage page)
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
 
         await HasDimensionValuesForChart(
             ComparisonChartNames.NonEducationalSupportStaff, [
@@ -410,56 +413,56 @@ public class CompareYourCostsPage(IPage page)
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.EducationalSupplies, [
                 "£ per pupil",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.EducationalIct, [
                 "£ per pupil",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.Premises, [
                 "£ per m²",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.Utilities, [
                 "£ per m²",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.AdministrativeSupplies, [
                 "£ per pupil",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.CateringStaffAndServices, [
                 "£ per pupil",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
         await HasDimensionValuesForChart(
             ComparisonChartNames.Other, [
                 "£ per pupil",
                 "actuals",
                 "percentage of expenditure",
                 "percentage of income"
-        ]);
+            ]);
     }
 
     public async Task IsSaveAllImagesButtonDisplayed()
@@ -540,6 +543,7 @@ public class CompareYourCostsPage(IPage page)
             ComparisonChartNames.TotalExpenditure => TotalExpenditureTable,
             ComparisonChartNames.CateringStaffAndServices => CateringStaffAndServicesTables.First,
             ComparisonChartNames.TeachingAndTeachingSupplyStaff => TeachingAndTeachingSupportStaffTables,
+            ComparisonChartNames.TotalPremisesStaffAndServiceCosts => TotalPremisesStaffAndServiceCostsTables.First,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
@@ -560,6 +564,7 @@ public class CompareYourCostsPage(IPage page)
             ComparisonChartNames.AdministrativeSupplies => AdministrativeSuppliesDimension,
             ComparisonChartNames.CateringStaffAndServices => CateringServicesDimension,
             ComparisonChartNames.Other => OtherDimension,
+            ComparisonChartNames.TotalPremisesStaffAndServiceCosts => TotalPremisesStaffAndServiceCostsDimension,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 

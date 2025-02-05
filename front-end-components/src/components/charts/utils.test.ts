@@ -107,6 +107,9 @@ describe("Chart utils", () => {
         { input: 0, expected: "£0" },
         { input: 1, expected: "£1" },
         { input: 2.3456789, expected: "£2.35" },
+        { input: 0.27, expected: "£0.27" },
+        { input: 0.9, expected: "£0.90" },
+        { input: 55.3, expected: "£55.30" },
         { input: 12345.67, expected: "£12k" },
         { input: 890123456, expected: "£890m" },
         { input: "not-a-number", expected: "not-a-number" },
@@ -319,10 +322,13 @@ describe("Chart utils", () => {
 
       describe("with currency option", () => {
         const theories: { input: ValueFormatterValue; expected: string }[] = [
-          { input: -987.65, expected: "-£988" },
-          { input: 0, expected: "£0" },
-          { input: 1, expected: "£1" },
-          { input: 2.3456789, expected: "£2" },
+          { input: -987.65, expected: "-£987.65" },
+          { input: 0, expected: "£0.00" },
+          { input: 1, expected: "£1.00" },
+          { input: 2.3456789, expected: "£2.35" },
+          { input: 0.27, expected: "£0.27" },
+          { input: 0.9, expected: "£0.90" },
+          { input: 55.3, expected: "£55.30" },
           { input: 12345.67, expected: "£12,346" },
           { input: 890123456, expected: "£890,123,456" },
           { input: "not-a-number", expected: "not-a-number" },

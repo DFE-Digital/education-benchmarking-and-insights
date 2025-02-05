@@ -96,7 +96,9 @@ export function fullValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       options?.valueUnit === "currency"
-        ? 0
+        ? Math.abs(value) < 1000 // decimal less than 1000 and greater than -1000
+          ? 2
+          : 0
         : options?.valueUnit === "%"
           ? 1
           : 2,
