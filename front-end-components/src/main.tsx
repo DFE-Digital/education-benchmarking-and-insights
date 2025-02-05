@@ -33,6 +33,7 @@ import {
   BudgetForecastReturnsElementId,
   ShareContentByElementIdDataAttr,
   ShareContentByElementClassNameDataAttr,
+  HigherNeedsPlansElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -62,6 +63,7 @@ import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
 import { ShareContentByElements } from "./components/share-content-by-elements";
+import { HigherNeedsPlansComposed } from "./composed/higher-needs-plans-composed";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -962,4 +964,17 @@ if (shareContentByElementClassNameElements) {
       );
     }
   });
+}
+
+const higherNeedsPlansElement = document.getElementById(
+  HigherNeedsPlansElementId
+);
+
+if (higherNeedsPlansElement) {
+  const root = ReactDOM.createRoot(higherNeedsPlansElement);
+  root.render(
+    <React.StrictMode>
+      <HigherNeedsPlansComposed />
+    </React.StrictMode>
+  );
 }
