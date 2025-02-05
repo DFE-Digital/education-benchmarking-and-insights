@@ -259,10 +259,10 @@ Feature: School compare your costs
         And Section 'Teaching and teaching support staff' is visible
         Then the following is shown in 'Teaching and teaching support staff' sub category 'Supply teaching staff costs'
           | School name             | Local Authority         | School type             | Number of pupils | Amount |
-          | Test academy school 456 | Westmorland and Furness | Academy 16-19 converter | 339              | £30    |
-          | Test school 102         | Hammersmith and Fulham  | Community school        | 212              | £0     |
+          | Test academy school 456 | Westmorland and Furness | Academy 16-19 converter | 339              | £30.36 |
+          | Test school 102         | Hammersmith and Fulham  | Community school        | 212              | £0.00  |
         And the message stating reason for less schools is visible in 'Supply teaching staff costs' section
-        
+
     Scenario: Charts have correct dimension options
         Given I am on compare your costs page for school with URN '777042'
         Then all sections on the page have the correct dimension options
@@ -272,3 +272,41 @@ Feature: School compare your costs
         Then the save all images button is visible
         When I click the save all images button
         Then the save all images modal is visible
+
+    Scenario: Table view for 'per unit' total premises staff and service costs should display correct decimal places
+        Given I am on compare your costs page for school with URN '777054'
+        And table view is selected
+        When I click on show all sections
+        And I change 'total premises staff and service costs' dimension to '£ per m²'
+        Then the following is shown for 'total premises staff and service costs'
+          | School name                                                                                                         | Local Authority                  | School type                        | Number of pupils | Amount  |
+          | Test academy school 250                                                                                             | North Somerset                   | Academy sponsor led                | 184              | £159.41 |
+          | Test part year with no pupil and builiding comprator\n!\nWarning\nThis school only has 11 months of data available. | Wandsworth                       | Community special school           | 227              | £114.45 |
+          | Test school 56                                                                                                      | Redcar and Cleveland             | Voluntary aided school             | 270              | £92.75  |
+          | Test school 101                                                                                                     | Hackney                          | Pupil referral unit                | 190              | £91.97  |
+          | Test academy school 405                                                                                             | Lancashire                       | Academy sponsor led                | 335              | £74.19  |
+          | Test academy school 427                                                                                             | Kingston upon Thames             | Academy converter                  | 167              | £70.40  |
+          | Test school 142                                                                                                     | Oldham                           | Community special school           | 449              | £67.36  |
+          | Test academy school 418                                                                                             | Kensington and Chelsea           | Academy converter                  | 232              | £64.63  |
+          | Test school 234                                                                                                     | West Northamptonshire            | Community school                   | 236              | £61.90  |
+          | Test academy school 419                                                                                             | Lambeth                          | Academy sponsor led                | 236              | £61.90  |
+          | Test academy school 167                                                                                             | Greenwich                        | Free school                        | 303              | £57.89  |
+          | Test academy school 41                                                                                              | Bedford                          | Academy converter                  | 230              | £55.30  |
+          | Test school 70                                                                                                      | Bournemouth Christchurch & Poole | Local authority nursery school     | 407              | £53.87  |
+          | Test school 183                                                                                                     | County Durham                    | Voluntary aided school             | 450              | £53.06  |
+          | Test school 143                                                                                                     | Rochdale                         | Community special school           | 446              | £47.84  |
+          | Test school 88                                                                                                      | Slough                           | Community school                   | 134              | £46.79  |
+          | Test academy school 78                                                                                              | Derbyshire                       | Academy sponsor led                | 1326             | £46.03  |
+          | Test academy school 483                                                                                             | Bolton                           | Academy 16-19 converter            | 1326             | £46.03  |
+          | Test school 158                                                                                                     | Newcastle upon Tyne              | Community school                   | 206              | £44.07  |
+          | Test school 269                                                                                                     | Dudley                           | Community school                   | 407              | £43.87  |
+          | Test school 133                                                                                                     | Walsall                          | Community school                   | 367              | £43.83  |
+          | Test academy school 364                                                                                             | North East Lincolnshire          | Academy special converter          | 367              | £43.83  |
+          | Test academy school 410                                                                                             | Shropshire                       | Academy sponsor led                | 216              | £43.43  |
+          | Test academy school 28                                                                                              | Liverpool                        | Academy converter                  | 191              | £43.36  |
+          | Test academy school 310                                                                                             | Waltham Forest                   | Free schools alternative provision | 1135             | £34.01  |
+          | Test school 55                                                                                                      | Middlesbrough                    | Voluntary aided school             | 991              | £32.16  |
+          | Test academy school 444                                                                                             | Lincolnshire                     | Academy sponsor led                | 991              | £32.16  |
+          | Test school 124                                                                                                     | Newham                           | Voluntary aided school             | 769              | £29.55  |
+          | Test academy school 136                                                                                             | Merton                           | Academy special converter          | 1040             | £13.09  |
+          | Test academy school 134                                                                                             | Hounslow                         | Academy special converter          | 883              | £0.19   |

@@ -15,9 +15,9 @@ Feature: View Trust comparator set
         And I click on view as table
         Then the table for 'Total expenditure' contains the following:
           | TrustName                | TotalAmount | SchoolAmount | CentralAmount |
-          | FBIT Multi Academy Trust | £18,519     | £18,519      | £0            |
-          | Test Company/Trust 309   | £9,807      | £9,807       | £0            |
-          | Test Company/Trust 108   | £7,684      | £7,684       | £0            |
+          | FBIT Multi Academy Trust | £18,519     | £18,519      | £0.00         |
+          | Test Company/Trust 309   | £9,807      | £9,807       | £0.00         |
+          | Test Company/Trust 108   | £7,684      | £7,684       | £0.00         |
 
     Scenario: Can view comparator trusts data excluding central spending
         When I select the option By Name and click continue

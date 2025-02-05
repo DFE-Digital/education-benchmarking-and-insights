@@ -403,6 +403,7 @@ public class CompareYourCostsSteps(PageDriver driver)
             "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
             "catering staff" => ComparisonChartNames.CateringStaffAndServices,
             "Teaching and teaching support staff" => ComparisonChartNames.TeachingAndTeachingSupplyStaff,
+            "total premises staff and service costs" => ComparisonChartNames.TotalPremisesStaffAndServiceCosts,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }

@@ -74,6 +74,8 @@ public static class Selectors
     public const string TotalExpenditureChart = "//*[@aria-label='Total expenditure']";
 
     public const string PremisesDimension = "#total-premises-staff-and-service-costs-dimension";
+    public const string TotalPremisesStaffAndServiceCostsDimension = "#total-premises-staff-and-service-costs-dimension";
+    public const string TotalPremisesStaffAndServiceCostsTables = "#premises-staff-and-services table";
 
     public const string SchoolWorkforceDimension = "#school-workforce-full-time-equivalent-dimension";
     public const string SchoolWorkforceSaveAsImage = "xpath=//*[@data-custom-event-chart-name='School workforce (Full Time Equivalent)'][@data-custom-event-id='save-chart-as-image']";
