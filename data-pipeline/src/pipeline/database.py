@@ -39,21 +39,7 @@ def get_engine() -> sqlalchemy.engine.Engine:
         query={"driver": "ODBC Driver 18 for SQL Server"} | args,
     )
 
-    engine = create_engine(connection_url)
-
-    @event.listens_for(engine, "before_cursor_execute")
-    def receive_before_cursor_execute(
-        conn, cursor, statement, params, context, executemany
-    ):
-        logger.debug("before_cursor_execute event received.")
-
-        if executemany:
-            cursor.fast_executemany = True
-            logger.debug(
-                "before_cursor_execute event for executemany; fast_executemany set."
-            )
-
-    return engine
+    return create_engine(connection_url, fast_executemany=True)
 
 
 def _get_temp_table(table: str, run_id: str) -> str:
