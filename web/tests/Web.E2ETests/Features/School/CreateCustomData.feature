@@ -1,7 +1,7 @@
 Feature: School create custom data
 
     Background:
-        Given I am on create custom data page for school with URN '990234'
+        Given I am on create custom data page for school with URN '990023'
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
 
     Scenario: Can view create custom data page
@@ -20,6 +20,43 @@ Feature: School create custom data
         And I click continue
         And I supply the following workforce data:
           | Item                                    | Value |
-          | School workforce (full time equivalent) | 20    |
+          | School workforce (full time equivalent) | 250   |
         And I save the custom data
         Then the submitted page is displayed
+
+    Scenario: Cannot submit custom data with validation error on user-entered workforce FTE data
+        When I click start now
+        And I click continue
+        And I click continue
+        And I supply the following workforce data:
+          | Item                                      | Value |
+          | School workforce (full time equivalent)   | 250   |
+          | Number of teachers (full time equivalent) | 300   |
+        And I save the custom data
+        Then the validation errors are displayed:
+          | Error                                                                                                                |
+          | Number of teachers (full time equivalent) cannot be greater than or equal to school workforce (full time equivalent) |
+
+    Scenario: Cannot submit custom data with validation error on backfilled original workforce FTE data
+        When I click start now
+        And I click continue
+        And I click continue
+        And I supply the following workforce data:
+          | Item                                      | Value |
+          | Number of teachers (full time equivalent) | 300   |
+        And I save the custom data
+        Then the validation errors are displayed:
+          | Error                                                                                                                |
+          | Number of teachers (full time equivalent) cannot be greater than or equal to school workforce (full time equivalent) |
+
+    Scenario: Cannot submit custom data with validation error on backfilled original teachers FTE data
+        When I click start now
+        And I click continue
+        And I click continue
+        And I supply the following workforce data:
+          | Item                                     | Value |
+          | Senior leadership (full time equivalent) | 300   |
+        And I save the custom data
+        Then the validation errors are displayed:
+          | Error                                                                                                                 |
+          | Senior leadership (full time equivalent) cannot be greater than or equal to number of teachers (full time equivalent) |

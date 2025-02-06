@@ -19,14 +19,23 @@ public interface IWorkforceDataCustomDataViewModel : ICustomDataViewModel
 
 public record WorkforceDataCustomDataViewModel : IWorkforceDataCustomDataViewModel
 {
+    public bool HasValues => WorkforceFte != null
+                             || TeachersFte != null
+                             || QualifiedTeacherPercent != null
+                             || SeniorLeadershipFte != null
+                             || TeachingAssistantsFte != null
+                             || NonClassroomSupportStaffFte != null
+                             || AuxiliaryStaffFte != null
+                             || WorkforceHeadcount != null;
+
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.WorkforceFte)]
-    public decimal? WorkforceFte { get; init; }
+    public decimal? WorkforceFte { get; set; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.TeachersFte)]
     [CompareDecimalValue(nameof(WorkforceFte), Operator.LessThan)]
-    public decimal? TeachersFte { get; init; }
+    public decimal? TeachersFte { get; set; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.QualifiedTeacherPercent)]
