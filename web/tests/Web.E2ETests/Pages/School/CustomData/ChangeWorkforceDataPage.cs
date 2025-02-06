@@ -15,6 +15,7 @@ public class ChangeWorkforceDataPage(IPage page)
         {
             HasText = "Save changes to data"
         });
+    private ILocator ValidationError => page.Locator(Selectors.GovErrorSummary);
     private ILocator CustomDataField(string item) => page.Locator($".table-custom-data > tbody > tr:has-text('{item}') > td input");
 
     public async Task IsDisplayed()
@@ -32,5 +33,15 @@ public class ChangeWorkforceDataPage(IPage page)
     {
         await SaveChangesButton.ClickAsync();
         return new CreateCustomDataSubmittedPage(page);
+    }
+
+    public async Task ValidationErrorIsDisplayed()
+    {
+        await ValidationError.ShouldBeVisible();
+    }
+
+    public async Task ValidationErrorContainsErrorMessage(string message)
+    {
+        await ValidationError.ShouldContainText(message);
     }
 }

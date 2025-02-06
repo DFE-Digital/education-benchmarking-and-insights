@@ -102,5 +102,17 @@ public class CreateCustomDataSteps(PageDriver driver)
         await _createCustomDataSubmittedPage.IsDisplayed();
     }
 
+    [Then("the validation errors are displayed:")]
+    public async Task ThenTheValidationErrorsAreDisplayed(DataTable table)
+    {
+        Assert.NotNull(_changeWorkforceDataPage);
+        await _changeWorkforceDataPage.ValidationErrorIsDisplayed();
+
+        foreach (var row in table.Rows)
+        {
+            await _changeWorkforceDataPage.ValidationErrorContainsErrorMessage(row["Error"]);
+        }
+    }
+
     private static string CreateCustomDataUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/custom-data";
 }
