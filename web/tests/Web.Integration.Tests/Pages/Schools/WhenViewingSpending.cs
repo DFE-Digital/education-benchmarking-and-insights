@@ -59,7 +59,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, financeType);
     }
 
     [Theory]
@@ -146,7 +146,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         };
         var (page, school) = await SetupNavigateInitPage(financeType, comparatorSet);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, financeType);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, SchoolComparatorSet? comparatorSet = null)
@@ -154,6 +154,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
+            .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "1223545" : "")
             .Create();
 
         Assert.NotNull(school.URN);
@@ -191,7 +192,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, string financeType)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -202,6 +203,24 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         foreach (var section in categorySections)
         {
             var sectionHeading = section.QuerySelector("h3")?.TextContent;
+
+            var costCodeList = section.QuerySelector(".app-cost-code-list");
+
+            var expectedCostCodeList = new Dictionary<string, int>
+            {
+                { "Teaching and Teaching support staff", 5 },
+                { "Non-educational support staff", financeType == EstablishmentTypes.Maintained ? 3 : 4  },
+                { "Educational supplies", 2 },
+                { "Educational ICT", 1 },
+                { "Premises staff and services", 4 },
+                { "Utilities", 2 },
+                { "Administrative supplies", 1 },
+                { "Catering staff and supplies", 2 },
+            };
+
+            Assert.NotNull(costCodeList);
+            Assert.NotNull(sectionHeading);
+            Assert.Equal(expectedCostCodeList[sectionHeading], costCodeList.ChildElementCount);
 
             Assert.NotEqual(Category.Other, sectionHeading);
         }

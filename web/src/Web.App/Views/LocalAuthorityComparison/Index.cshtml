@@ -19,7 +19,8 @@
     <div id="compare-your-costs"
          data-type="@OrganisationTypes.LocalAuthority"
          data-id="@Model.Code"
-         data-phases="@Model.Phases.ToJson(Formatting.None)">
+         data-phases="@Model.Phases.ToJson(Formatting.None)"
+         data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
     </div>    
 }
 

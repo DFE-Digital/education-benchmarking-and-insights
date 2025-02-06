@@ -17,4 +17,5 @@ public class SchoolComparisonViewModel(
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && (defaultComparatorSet.Building.Any(b => !string.IsNullOrWhiteSpace(b))
                                                || defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p)));
+    public Dictionary<string, string> CostCodeMap => new CostCodes(IsPartOfTrust).SubCategoryToCostCodeMap;
 }

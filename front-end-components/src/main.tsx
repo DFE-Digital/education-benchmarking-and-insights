@@ -133,10 +133,14 @@ if (compareCostsElement) {
     phases,
     suppressNegativeOrZero,
     type,
+    costCodeMap,
   } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
+    const costCodeMapParsed = costCodeMap
+      ? (JSON.parse(costCodeMap) as Record<string, string>)
+      : null;
 
     root.render(
       <React.StrictMode>
@@ -147,6 +151,7 @@ if (compareCostsElement) {
           phases={phasesParsed}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
           type={type as "school" | "trust"}
+          costCodeMap={costCodeMapParsed}
         />
       </React.StrictMode>
     );

@@ -31,6 +31,7 @@ import {
 import { SchoolExpenditure } from "src/services";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
+import { CostCodesList } from "src/components/cost-codes-list";
 import "./styles.scss";
 
 export function HorizontalBarChartWrapper<
@@ -198,6 +199,7 @@ export function HorizontalBarChartWrapper<
         <div className="govuk-grid-column-full" data-chart-uuid={uuid}>
           {hasData ? (
             <>
+              <CostCodesList category={chartTitle} />
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={3}

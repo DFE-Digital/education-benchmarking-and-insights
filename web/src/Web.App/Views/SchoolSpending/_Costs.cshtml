@@ -57,6 +57,22 @@
                         </div>
                     </div>
                 }
+                
+                @if (category.SubCategories.Any())
+                {
+                    <div class="govuk-grid-column-full">
+                        <ul class="app-cost-code-list">
+                            @foreach(var subCategory in category.SubCategories)
+                            {
+                                var costCode = Model.CostCodes.GetCostCode(subCategory);
+                                if (!string.IsNullOrWhiteSpace(costCode))
+                                {
+                                    <li><strong class="govuk-tag">@costCode</strong></li> 
+                                }   
+                            }
+                        </ul>
+                    </div>
+                }
                 <div class="govuk-grid-column-full">
                     <p
                         class="priority @category.Rating.PriorityTag?.Class govuk-body govuk-!-margin-bottom-0"
@@ -117,7 +133,6 @@
                                 {
                                     subCategory = $"{(category.SubCategories.Length > 1 ? "and " : string.Empty)} {subCategory}.";
                                 }
-
                                 <span>@subCategory</span>
                             }
                         }

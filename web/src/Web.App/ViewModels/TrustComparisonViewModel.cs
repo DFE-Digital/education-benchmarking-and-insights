@@ -13,4 +13,5 @@ public class TrustComparisonViewModel(Trust trust)
         .Select(x => x.Key)
         .OfType<string>()
         .ToArray();
+    public Dictionary<string, string> CostCodeMap => new CostCodes(true).SubCategoryToCostCodeMap;
 }
