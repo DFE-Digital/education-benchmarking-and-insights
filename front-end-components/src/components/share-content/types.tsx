@@ -14,4 +14,5 @@ export type ShareContentProps = Pick<
   saveEventId?: string;
   showCopy?: boolean;
   showSave?: boolean;
+  costCodes?: string[];
 };

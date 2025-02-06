@@ -8,6 +8,7 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
   elementSelector,
   title,
   showTitle,
+  costCodes,
   ...props
 }) => {
   const [imageLoading, setImageLoading] = useState<boolean>();
@@ -26,6 +27,7 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
     onLoading: setImageLoading,
     title,
     showTitle,
+    costCodes,
   });
 
   return (
