@@ -25,6 +25,8 @@ public static class Selectors
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
+    public const string SpendingModeTable = "#spending-mode-table";
+    public const string CentralSpendingModeExclude = "#spending-exclude-breakdown";
     public const string SectionTable = ".govuk-accordion__section .govuk-table";
     public const string SectionHeading1 = "#accordion-heading-1";
     public const string SectionContent1 = "#accordion-content-1";
@@ -61,6 +63,8 @@ public static class Selectors
 
     public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";
+    public const string TrustComparisonTitles = "#compare-your-trust h2";
+    public const string TrustComparisonTables = "#compare-your-trust table.govuk-table";
 
     public const string TotalExpenditureSaveAsImage = "xpath=//*[@data-custom-event-chart-name='Total expenditure'][@data-custom-event-id='save-chart-as-image']";
     public const string TotalExpenditureCopyImage = "xpath=//*[@data-custom-event-chart-name='Total expenditure'][@data-custom-event-id='copy-chart-as-image']";

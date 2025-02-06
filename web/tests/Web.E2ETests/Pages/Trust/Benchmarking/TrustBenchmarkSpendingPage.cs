@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Assist;
 using Xunit;
 
 namespace Web.E2ETests.Pages.Trust.Benchmarking;
@@ -12,12 +13,17 @@ public class TrustBenchmarkSpendingPage(IPage page)
     private ILocator Balance => page.Locator(Selectors.TrustBenchmarkingBalanceTab);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.GovRadios).Locator("#spending-mode-chart");
     private ILocator ViewCentralSpendRadio => page.Locator(Selectors.GovRadios).Locator("#spending-include-breakdown");
-    private ILocator SaveAsImageBtns => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Save " });
+    private ILocator SaveAsImageButtons => page.Locator(Selectors.GovButton, new PageLocatorOptions
+    {
+        HasText = "Save "
+    });
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
-
-
+    private ILocator ViewAsTableRadio => page.Locator(Selectors.SpendingModeTable);
+    private ILocator ExcludeCentralSpendingRadio => page.Locator(Selectors.CentralSpendingModeExclude);
+    private ILocator TrustComparisonTitles => page.Locator(Selectors.TrustComparisonTitles);
+    private ILocator ComparisonTables => page.Locator(Selectors.TrustComparisonTables);
 
     public async Task IsDisplayed()
     {
@@ -27,7 +33,7 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await Balance.ShouldBeVisible().ShouldHaveAttribute("tabindex", "-1");
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
         await ViewCentralSpendRadio.ShouldBeVisible().ShouldBeChecked();
-        await SaveAsImageBtns.Nth(0).ShouldBeVisible();
+        await SaveAsImageButtons.Nth(0).ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
         var allOptions = await TotalExpenditureDimension.InnerTextAsync();
         var expectedOptions = new[] { "£ per pupil", "actuals", "percentage of income" };
@@ -44,4 +50,52 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await AllCharts.Nth(0).ShouldBeVisible();
     }
 
+    public async Task ClickViewAsTable()
+    {
+        await ViewAsTableRadio.Click();
+    }
+
+    public async Task ClickExcludeCentralSpending()
+    {
+        await ExcludeCentralSpendingRadio.Click();
+    }
+
+    public async Task TableContainsValues(string category, DataTable expected)
+    {
+        var titles = await TrustComparisonTitles.AllInnerTextsAsync();
+        var index = titles.Skip(2).ToList().IndexOf(category);
+        var table = ComparisonTables.Nth(index);
+        await table.ShouldBeVisible();
+        await AssertExpenditure(table, expected);
+    }
+
+    private static async Task AssertExpenditure(ILocator expenditureTable, DataTable expected)
+    {
+        var set = new List<dynamic>();
+        var rows = await expenditureTable.Locator("tbody tr").AllAsync();
+        foreach (var row in rows)
+        {
+            var cells = await row.Locator("td").AllAsync();
+            if (cells.Count > 2)
+            {
+                set.Add(new
+                {
+                    TrustName = await cells.ElementAt(0).InnerTextAsync(),
+                    TotalAmount = await cells.ElementAt(1).InnerTextAsync(),
+                    SchoolAmount = await cells.ElementAt(2).InnerTextAsync(),
+                    CentralAmount = await cells.ElementAt(3).InnerTextAsync()
+                });
+            }
+            else
+            {
+                set.Add(new
+                {
+                    TrustName = await cells.ElementAt(0).InnerTextAsync(),
+                    TotalAmount = await cells.ElementAt(1).InnerTextAsync()
+                });
+            }
+        }
+
+        expected.CompareToDynamicSet(set, false);
+    }
 }
