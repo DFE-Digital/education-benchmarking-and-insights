@@ -1,0 +1,68 @@
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
+@{
+  ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsComparators;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">You have 3 local authorities selected</h2>
+    <div class="govuk-form-group">
+
+      <dl class="govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key">
+            Wakefield
+          </dt>
+          <dd class="govuk-summary-list__actions hmrc-summary-list__actions">
+            <a class="govuk-link" href="#"><span aria-hidden="true">Remove</span><span class="govuk-visually-hidden">Remove Wakefield from the list</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key">
+            North Yorkshire
+          </dt>
+          <dd class="govuk-summary-list__actions hmrc-summary-list__actions">
+            <a class="govuk-link" href="#"><span aria-hidden="true">Remove</span><span class="govuk-visually-hidden">Remove North Yorkshire from the list</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key">
+            North Tyneside
+          </dt>
+          <dd class="govuk-summary-list__actions hmrc-summary-list__actions">
+            <a class="govuk-link" href="#"><span aria-hidden="true">Remove</span><span class="govuk-visually-hidden">Remove North Tyneside from the list</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="add-another-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend govuk-fieldset__legend--m">
+            Do you need to add another local authority?
+          </legend>
+          <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="add-another" name="add-another" type="radio" value="Yes">
+              <label class="govuk-label govuk-radios__label" for="add-another">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="add-another-2" name="add-another" type="radio" value="No">
+              <label class="govuk-label govuk-radios__label" for="add-another-2">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <button type="submit" class="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
+  </div>
+</div>

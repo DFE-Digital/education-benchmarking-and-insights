@@ -62,6 +62,7 @@ public static class PageTitles
     public const string LocalAuthorityHome = "Your local authority";
     public const string LocalAuthorityComparison = "View school spending";
     public const string LocalAuthorityCensus = "View pupil and workforce data";
+    public const string LocalAuthorityHighNeeds = "High needs spending";
     public const string TrustSpending = "Spending priorities for this trust";
     public const string TrustComparatorsCreateBy = "How do you want to choose your own set of trusts?";
     public const string TrustComparatorsCreateByName = "Choose trusts to benchmark against";
@@ -75,4 +76,5 @@ public static class PageTitles
     public const string ForecastAndRisks = "Forecast and risks";
     public const string CostCategories = "Cost category breakdown";
     public const string SchoolFinancialBenchmarkingInsightsSummary = "Financial Benchmarking and Insights Summary";
+    public const string LocalAuthorityHighNeedsComparators = "Which local autorities do you want to be comparad with?";
 }
