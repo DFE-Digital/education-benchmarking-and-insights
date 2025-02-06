@@ -363,6 +363,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupExpenditureForTrusts(TrustExpenditure[] expenditure)
+    {
+        ExpenditureApi.Reset();
+        ExpenditureApi
+            .Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(expenditure));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupExpenditure(School school, ExpenditureHistoryRows historySchool, ExpenditureHistoryRows? historyComparatorSet = null, ExpenditureHistoryRows? historyNational = null)
     {
         ExpenditureApi.Reset();
@@ -425,6 +434,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ComparatorSetApi.Setup(api => api.UpsertUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<PostComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
         ComparatorSetApi.Setup(api => api.RemoveUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
         ComparatorSetApi.Setup(api => api.RemoveUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok());
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupComparatorSetApi(UserDefinedTrustComparatorSet trustComparatorSet)
+    {
+        ComparatorApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(trustComparatorSet));
         return this;
     }
 
