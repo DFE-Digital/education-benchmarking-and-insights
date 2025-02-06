@@ -1,14 +1,14 @@
-﻿# Release Test Plan - 2025.02.1
+﻿# Release Test Plan - 2025.02.2
 
 _*Release version incremented to critical issues identified during testing of 2025.01.1._
 
-**Release Date:** 03/02/2025  
-**Release Label:** 2025.02.1
+**Release Date:** 06/02/2025  
+**Release Label:** 2025.02.2
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.02.1`, covering all testing necessary.
-Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.1` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.02.2`, covering all testing necessary.
+Ensure the new feature, data release,  enhancements, and bug fixes in `2025.02.2` are functioning as expected without adversely impacting existing functionality.
 
 The release encompasses the CFR 2024 data release, the AAR 2024 data release, and the standard code release, which incorporates all planned features and enhancements.
 
@@ -114,9 +114,9 @@ The release encompasses the CFR 2024 data release, the AAR 2024 data release, an
 A typographical errors were identified during pre-production testing, which needed to be fixed. As a result, we abandoned the old release and included the fixes in the new release.
 
 - **Original Planned Release:** 2025.01.1
-- **New Release Version:** 2025.02.1
-- **Hotfixes Included:** Corrected a typo in the 'Utilities' cost category dimension on the spending comparison page, and fixed another typo on the historic data page.
-- **Current Release (2025.02.1):** contains the necessary hotfix and another typo correction.
+- **New Release Version:** 2025.02.2
+- **Hotfixes Included:** Corrected a typo in the 'Utilities' cost category dimension on the spending comparison page, and fixed another typo on the historic data page. Fixed Trust Central/School split on Trust-to-Trust comparison tables.
+- **Current Release (2025.02.2):** contains the necessary hotfix and another typo correction.
 - **Testing Impact:** The release testing plan is not impacted as the hotfixes are only content updates.
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=247423&suiteId=247424)**
@@ -149,6 +149,7 @@ A typographical errors were identified during pre-production testing, which need
 - [242101 - Copy chart to clipboard](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/242101)
 - [248237 - Benchmarking spending - utilities costs incorrect dimension name](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/248237)
 - [248236 - historic data - spending tab typo](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/248236)
+- [248789 - Trust to Trust comparison Table not showing breakdown by Central/School](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/248789)
 
 ## Appendix
 
