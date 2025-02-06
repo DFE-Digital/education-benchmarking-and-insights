@@ -715,7 +715,7 @@ def compute_comparator_set_for(
     data: pd.DataFrame,
     run_id: str,
     target_urn: str | None = None,
-):
+) -> pd.DataFrame:
     """
     Perform comparator-set calculation and persist the result.
 
@@ -727,6 +727,7 @@ def compute_comparator_set_for(
     :param data: used to determine comparator set
     :param run_id: job identifier for custom data
     :param target_urn: optional data identifier for custom data
+    :return: generated comparator sets
     """
     st = time.time()
     logger.info(f"Computing {data_type} set")
@@ -740,12 +741,7 @@ def compute_comparator_set_for(
         result.to_parquet(),
     )
 
-    if len(result.index):
-        insert_comparator_set(
-            run_type=run_type,
-            run_id=run_id,
-            df=result,
-        )
+    return result
 
 
 def compute_comparator_sets(
@@ -778,14 +774,14 @@ def compute_comparator_sets(
         )
     )
 
-    compute_comparator_set_for(
+    academies_comparators = compute_comparator_set_for(
         data_type="academy_comparators",
         run_type=run_type,
         data=academies,
         run_id=run_id,
         target_urn=target_urn,
     )
-    compute_comparator_set_for(
+    maintained_comparators = compute_comparator_set_for(
         data_type="maintained_schools_comparators",
         run_type=run_type,
         data=maintained,
@@ -804,6 +800,19 @@ def compute_comparator_sets(
         maintained.to_parquet(),
     )
 
+    comparators = pd.concat(
+        [
+            academies_comparators,
+            maintained_comparators,
+        ],
+        axis=0,
+    )
+    insert_comparator_set(
+        run_type=run_type,
+        run_id=run_id,
+        df=comparators,
+    )
+
     time_taken = time.time() - start_time
     logger.info(f"Computing comparators sets done in {time_taken:,.2f} seconds")
 
@@ -817,7 +826,7 @@ def compute_rag_for(
     data: pd.DataFrame,
     comparators: pd.DataFrame,
     target_urn: str | None = None,
-):
+) -> pd.DataFrame:
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
 
@@ -851,8 +860,7 @@ def compute_rag_for(
         df.to_parquet(),
     )
 
-    if len(df.index):
-        insert_metric_rag(run_type, run_id, df)
+    return df
 
 
 def run_compute_rag(
@@ -879,7 +887,7 @@ def run_compute_rag(
             f"{run_type}/{run_id}/maintained_schools_comparators.parquet",
         )
     )
-    compute_rag_for(
+    maintained_rag = compute_rag_for(
         "maintained_schools",
         run_type,
         run_id,
@@ -894,7 +902,7 @@ def run_compute_rag(
     academy_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{run_type}/{run_id}/academy_comparators.parquet")
     )
-    compute_rag_for(
+    academies_rag = compute_rag_for(
         "academies",
         run_type,
         run_id,
@@ -902,6 +910,15 @@ def run_compute_rag(
         academy_comparators,
         target_urn=target_urn,
     )
+
+    rag = pd.concat(
+        [
+            academies_rag,
+            maintained_rag,
+        ],
+        axis=0,
+    )
+    insert_metric_rag(run_type, run_id, rag)
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken:,.2f} seconds")

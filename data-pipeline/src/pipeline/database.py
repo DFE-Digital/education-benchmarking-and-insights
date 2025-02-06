@@ -43,6 +43,7 @@ def get_engine() -> sqlalchemy.engine.Engine:
 
     return create_engine(connection_url, fast_executemany=True)
 
+
 @dataclass
 class TempTable:
     name: str
@@ -53,7 +54,10 @@ class TempTable:
         return self.name
 
 
-def _get_table_columns(table: str) -> list[str]:
+def _get_table_columns(
+    table: str,
+    engine: sqlalchemy.engine.Engine,
+) -> list[str]:
     """
     Retrieve the columns for a given table.
 
@@ -64,12 +68,14 @@ def _get_table_columns(table: str) -> list[str]:
     :param table: DB table for which to retrieve columns
     :return: column names
     """
-    sql = textwrap.dedent("""
+    sql = textwrap.dedent(
+        """
     SELECT COLUMN_NAME
       FROM INFORMATION_SCHEMA.COLUMNS
      WHERE TABLE_NAME = :table
     ;
-    """).strip()
+    """
+    ).strip()
 
     with engine.begin() as cnx:
         results = (
@@ -104,7 +110,11 @@ def _get_temp_table_name(table: str, run_id: str) -> str:
     return f"_{table}_{run_id}_{int(time.time())}_temp".replace("-", "_")
 
 
-def _get_temp_table(table: str, run_id: str) -> TempTable:
+def _get_temp_table(
+    table: str,
+    run_id: str,
+    engine: sqlalchemy.engine.Engine,
+) -> TempTable:
     """
     Create a temp. table for data ingest.
 
@@ -119,21 +129,22 @@ def _get_temp_table(table: str, run_id: str) -> TempTable:
     :param run_id: unique identifier for processing
     :return: temp. table details
     """
-    # TODO: replace when #1884 merged.
     temp_table_name = _get_temp_table_name(table, run_id)
 
     logger.info(f"Creating temp. table: {temp_table_name}.")
-    sql = textwrap.dedent(f"""
+    sql = textwrap.dedent(
+        f"""
     SELECT *
       INTO {temp_table_name}
       FROM {table}
      WHERE 1=0
     ;
-    """).strip()
+    """
+    ).strip()
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(sql))
 
-    columns = _get_table_columns(temp_table_name)
+    columns = _get_table_columns(temp_table_name, engine)
 
     return TempTable(
         name=temp_table_name,
@@ -171,6 +182,7 @@ def _write_data(
     temp_table = _get_temp_table(
         table=table,
         run_id=run_id,
+        engine=engine,
     )
 
     logger.info(f"Writing to temp. table: {temp_table}.")
@@ -185,7 +197,8 @@ def _write_data(
         f"Wrote {len(df.index):,} rows to {temp_table} in {int(time.time() - start):,} seconds."
     )
 
-    sql = textwrap.dedent(f"""
+    sql = textwrap.dedent(
+        f"""
     BEGIN TRANSACTION;
 
     DELETE
@@ -201,7 +214,8 @@ def _write_data(
     ;
 
     COMMIT;
-    """).strip()
+    """
+    ).strip()
 
     logger.info(f"Writing to {table} ({run_id}).")
     start = time.time()
@@ -715,7 +729,6 @@ def insert_metric_rag(
             "Percentile",
             "Decile",
             "RAG",
-        engine=engine,
         ]
     ].copy()
     write_frame["RunType"] = run_type
@@ -725,4 +738,5 @@ def insert_metric_rag(
         df=write_frame,
         table="MetricRAG",
         run_id=run_id,
+        engine=engine,
     )
