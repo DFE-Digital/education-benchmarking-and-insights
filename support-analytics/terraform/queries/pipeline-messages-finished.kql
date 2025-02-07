@@ -7,21 +7,21 @@ let mainTable = union customEvents
 let byTable = mainTable;
 let queryTable = () {
     byTable
-    | extend dimension = customDimensions["Success"]
-    | extend dimension = iif(isempty(dimension), "<undefined>", dimension)
+    | extend Success = customDimensions["Success"]
+    | extend Success = iif(isempty(Success), "<undefined>", Success)
 };
 let byCohortTable = queryTable
-    | project dimension, timestamp;
+    | project Success, timestamp;
 let topSegments = byCohortTable
-    | summarize Events = count() by dimension
+    | summarize Events = count() by Success
     | top 10 by Events
-    | summarize makelist(dimension);
+    | summarize makelist(Success);
 let topEventMetrics = byCohortTable
-    | where dimension in (topSegments);
+    | where Success in (topSegments);
 let otherEventUsers = byCohortTable
-    | where dimension !in (topSegments)
-    | extend dimension = "Other";
+    | where Success !in (topSegments)
+    | extend Success = "Other";
 otherEventUsers
 | union topEventMetrics
-| summarize Events = count() by dimension
-| order by dimension asc
+| summarize Events = count() by Success
+| order by Success asc

@@ -192,9 +192,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed-finished-pipel
     threshold               = var.configuration[var.environment].thresholds.error
 
     dimension {
-      name     = "dimension"
-      operator = "Include"
-      values   = ["False", "True"]
+      name     = "Success"
+      operator = "Exclude"
+      values   = ["True"]
     }
 
     failing_periods {
