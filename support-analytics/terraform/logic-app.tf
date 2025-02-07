@@ -1,7 +1,7 @@
 locals {
-  teams-channel-id = (var.environment-prefix == "pre-production"
+  teams-channel-id = (var.environment == "pre-production"
     ? var.teams-channel-id-preprod
-    : var.environment-prefix == "production"
+    : var.environment == "production"
     ? var.teams-channel-id
   : var.teams-channel-id-dev)
 }
