@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+
 namespace Web.E2ETests;
 
 public static class PageExtensions
@@ -14,4 +15,9 @@ public static class PageExtensions
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         return response;
     }
+
+    public static Task<IDownload> WaitForDownloadAsync(this IPage page, TimeSpan timeout) => page.WaitForDownloadAsync(new PageWaitForDownloadOptions
+    {
+        Timeout = Convert.ToSingle(timeout.TotalMilliseconds)
+    });
 }

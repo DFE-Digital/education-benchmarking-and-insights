@@ -42,7 +42,7 @@ public class SaveAllImagesModalSteps(PageDriver driver)
     {
         Assert.NotNull(_spendingCostsPage);
         var page = await driver.Current;
-        var downloadTask = page.WaitForDownloadAsync();
+        var downloadTask = page.WaitForDownloadAsync(new TimeSpan(0, 1, 0));
         await _spendingCostsPage.ClickSaveAllImagesModalOkButton();
         _download = await downloadTask;
     }
