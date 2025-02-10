@@ -84,12 +84,12 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage": {
         "type": "Direct",
-        "requested": "[6.6.0, )",
-        "resolved": "6.6.0",
-        "contentHash": "YNHNYOb2Bt684Wr1K54MhKufWqU4bYlv+GBA+qJ1oTiUl5dycaSfF7musksmx2KSJM9tkK1v4avAcX/BJrTV3Q==",
+        "requested": "[6.6.1, )",
+        "resolved": "6.6.1",
+        "contentHash": "NCme57DwrQwMfZjEhsR0iLyepuG8dFE9Kj6+YZytNy81qN8lBCsHSbZsD9S+mWoBwzvx2yTfoiMsSbqxXYmHpg==",
         "dependencies": {
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": "6.6.0",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": "5.5.0"
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": "6.6.1",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": "5.5.1"
         }
       },
       "Microsoft.Azure.Functions.Worker.Sdk": {
@@ -457,11 +457,11 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs": {
         "type": "Transitive",
-        "resolved": "6.6.0",
-        "contentHash": "mBJ6Xx8Vf4Xd6wwOZg3nkcqLhL3jahECFKtm8hlro6GiueCYIUVya8nO5Y/qSfubHmJ/QzA4uOGA0V7kpxkx6Q==",
+        "resolved": "6.6.1",
+        "contentHash": "guBhBAH/oFvAl7x6AhqgMRvjK62KINGIUGcxxKjXfL/N2gaaKzm4/hUK+cXt1dKP82fpN6ZP83Ul3iNTVMGUNg==",
         "dependencies": {
           "Azure.Storage.Blobs": "12.19.1",
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0",
           "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
           "Microsoft.Extensions.Azure": "1.7.4"
@@ -1531,12 +1531,12 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": {
         "type": "CentralTransitive",
-        "requested": "[5.5.0, )",
-        "resolved": "5.5.0",
-        "contentHash": "bJ+mtss/2TFH80OCZ80WJNZOZTzMX7jIe/XcpKugyCuF4JH98sv0T/XrTYVak9fyeMCLPyDZUQomYhqYU9ydpA==",
+        "requested": "[5.5.1, )",
+        "resolved": "5.5.1",
+        "contentHash": "TkExkIQRRU78NCawbYHuBQYcTZEpUnSAWgr9ZDJy1JAHQlKe9xEoAeqqYQz9lR5rXMjmFUxQ94QqrEbmAz2Fpg==",
         "dependencies": {
           "Azure.Storage.Queues": "12.17.1",
-          "Microsoft.Azure.Functions.Worker.Core": "1.18.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.19.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0"
         }
       },
@@ -1724,7 +1724,7 @@
       },
       "System.Text.Json": {
         "type": "CentralTransitive",
-        "requested": "[8.0.4, )",
+        "requested": "[8.0.5, )",
         "resolved": "9.0.1",
         "contentHash": "eqWHDZqYPv1PvuvoIIx5pF74plL3iEOZOl/0kQP+Y0TEbtgNnM2W6k8h8EPYs+LTJZsXuWa92n5W5sHTWvE3VA==",
         "dependencies": {
