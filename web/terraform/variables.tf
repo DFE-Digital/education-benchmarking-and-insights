@@ -50,8 +50,8 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -75,8 +75,8 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -100,8 +100,8 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -125,8 +125,8 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -150,8 +150,8 @@ variable "configuration" {
       }
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -175,8 +175,8 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
-          SlidingExpiration  = 60
-          AbsoluteExpiration = 3600
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }

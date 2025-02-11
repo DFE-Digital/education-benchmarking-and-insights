@@ -17,8 +17,8 @@ public class FinanceService(
     IMemoryCache memoryCache,
     IOptions<CacheOptions> options) : IFinanceService
 {
-    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 60;
-    private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 3600;
+    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 10;
+    private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 60;
     private const string CacheKey = "return-years";
 
     public async Task<FinanceYears> GetYears()
@@ -32,8 +32,8 @@ public class FinanceService(
 
         MemoryCacheEntryOptions cacheEntryOptions = new()
         {
-            SlidingExpiration = TimeSpan.FromSeconds(_sliding),
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(_absolute)
+            SlidingExpiration = TimeSpan.FromMinutes(_sliding),
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_absolute)
         };
 
         memoryCache.Set(CacheKey, data, cacheEntryOptions);
