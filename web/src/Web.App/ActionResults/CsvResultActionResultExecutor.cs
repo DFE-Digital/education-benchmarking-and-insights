@@ -21,9 +21,9 @@ public partial class CsvResultActionResultExecutor(ICsvService csvService, ILogg
 
         response.ContentType = result.ContentType;
 
-        if (!string.IsNullOrWhiteSpace(result.FileName))
+        if (!string.IsNullOrWhiteSpace(result.CsvFileName))
         {
-            response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"{result.FileName}\"");
+            response.Headers.Append(HeaderNames.ContentDisposition, $"attachment; filename=\"{result.CsvFileName}\"");
         }
 
         Log.CsvResultExecuting(logger, result.Items);

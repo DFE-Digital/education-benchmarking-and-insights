@@ -1,31 +1,27 @@
 using System.Net;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Net.Http.Headers;
 
 namespace Web.App.ActionResults;
 
-public class CsvResult(IEnumerable<object>? items, string? csvFileName = null) : ActionResult, IStatusCodeActionResult
+public class CsvResults(IEnumerable<CsvResult> items, string? zipFileName = null) : ActionResult, IStatusCodeActionResult
 {
     /// <summary>
     ///     Gets the <see cref="System.Net.Http.Headers.MediaTypeHeaderValue" /> representing the Content-Type header
     ///     of the response.
     /// </summary>
-    public string? ContentType { get; } = new MediaTypeHeaderValue("text/csv")
-    {
-        Encoding = Encoding.UTF8
-    }.ToString();
+    public string? ContentType { get; } = new MediaTypeHeaderValue("application/zip").ToString();
 
     /// <summary>
     ///     Gets the items to be formatted.
     /// </summary>
-    public IEnumerable<object>? Items { get; } = items;
+    public IEnumerable<CsvResult> Items { get; } = items;
 
     /// <summary>
     ///     Gets the target file name for the output file.
     /// </summary>
-    public string? CsvFileName { get; } = csvFileName;
+    public string? ZipFileName { get; } = zipFileName;
 
     /// <summary>
     ///     Gets the HTTP status code.
@@ -37,7 +33,7 @@ public class CsvResult(IEnumerable<object>? items, string? csvFileName = null) :
         ArgumentNullException.ThrowIfNull(context);
 
         var services = context.HttpContext.RequestServices;
-        var executor = services.GetRequiredService<IActionResultExecutor<CsvResult>>();
+        var executor = services.GetRequiredService<IActionResultExecutor<CsvResults>>();
         return executor.ExecuteAsync(context, this);
     }
 }

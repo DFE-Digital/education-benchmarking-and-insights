@@ -1,5 +1,5 @@
+using System.IO.Compression;
 using System.Net;
-using System.Text;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
@@ -35,12 +35,16 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
             .Get(Paths.ApiCensusDownload(school.URN!, "school"));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var bytes = await response.Content.ReadAsByteArrayAsync();
-        var csvLines = Encoding.UTF8.GetString(bytes).Split(Environment.NewLine);
-        Assert.Equal(
-            "SchoolName,SchoolType,LAName,URN,TotalPupils,Workforce,WorkforceHeadcount,Teachers,SeniorLeadership,TeachingAssistant,NonClassroomSupportStaff,AuxiliaryStaff,PercentTeacherWithQualifiedStatus",
-            csvLines.First());
-        Assert.Equal(_censuses.Length, csvLines.Length - 1);
+        await foreach (var tuple in GetFilesFromZip(response))
+        {
+            Assert.Equal("census-12345.csv", tuple.fileName);
+
+            var csvLines = tuple.content.Split(Environment.NewLine);
+            Assert.Equal(
+                "SchoolName,SchoolType,LAName,URN,TotalPupils,Workforce,WorkforceHeadcount,Teachers,SeniorLeadership,TeachingAssistant,NonClassroomSupportStaff,AuxiliaryStaff,PercentTeacherWithQualifiedStatus",
+                csvLines.First());
+            Assert.Equal(_censuses.Length, csvLines.Length - 1);
+        }
     }
 
     [Fact]
@@ -53,5 +57,20 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
             .Get(Paths.ApiCensusDownload(urn, "school"));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+    }
+
+    private static async IAsyncEnumerable<(string fileName, string content)> GetFilesFromZip(HttpResponseMessage response)
+    {
+        var bytes = await response.Content.ReadAsByteArrayAsync();
+
+        using var zipStream = new MemoryStream(bytes);
+        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
+        foreach (var entry in archive.Entries)
+        {
+            await using var entryStream = entry.Open();
+            using var reader = new StreamReader(entryStream);
+            var content = await reader.ReadToEndAsync();
+            yield return (entry.Name, content);
+        }
     }
 }
