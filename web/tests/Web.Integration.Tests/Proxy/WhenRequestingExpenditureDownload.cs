@@ -1,0 +1,77 @@
+using System.IO.Compression;
+using System.Net;
+using AutoFixture;
+using Web.App.Domain;
+using Xunit;
+
+namespace Web.Integration.Tests.Proxy;
+
+public class WhenRequestingExpenditureDownload : PageBase<SchoolBenchmarkingWebAppClient>
+{
+    private readonly SchoolBenchmarkingWebAppClient _client;
+    private readonly SchoolExpenditure[] _schoolExpenditures;
+
+    public WhenRequestingExpenditureDownload(SchoolBenchmarkingWebAppClient client) : base(client)
+    {
+        _client = client;
+        _schoolExpenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
+    }
+
+    [Fact]
+    public async Task CanReturnOk()
+    {
+        var school = Fixture.Build<School>()
+            .With(x => x.URN, "12345")
+            .Create();
+
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(x => x.Pupil, ["pupil"])
+            .With(x => x.Building, ["building"])
+            .Create();
+
+        var response = await _client
+            .SetupEstablishment(school)
+            .SetupComparatorSet(school, comparatorSet)
+            .SetupExpenditure(_schoolExpenditures)
+            .Get(Paths.ApiExpenditureDownload(school.URN!, "school"));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var expectedFileNames = new[] { "expenditure-12345-pupil.csv", "expenditure-12345-building.csv" };
+        await foreach (var tuple in GetFilesFromZip(response))
+        {
+            Assert.Contains(tuple.fileName, expectedFileNames);
+
+            var csvLines = tuple.content.Split(Environment.NewLine);
+            Assert.Equal(
+                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalInternalFloorArea,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,DirectRevenueFinancingCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts",
+                csvLines.First());
+            Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
+        }
+    }
+
+    [Fact]
+    public async Task CanReturnInternalServerError()
+    {
+        const string urn = "12345";
+        var response = await _client
+            .SetupComparatorSetApiWithException()
+            .Get(Paths.ApiExpenditureDownload(urn, "school"));
+
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+    }
+
+    private static async IAsyncEnumerable<(string fileName, string content)> GetFilesFromZip(HttpResponseMessage response)
+    {
+        var bytes = await response.Content.ReadAsByteArrayAsync();
+
+        using var zipStream = new MemoryStream(bytes);
+        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
+        foreach (var entry in archive.Entries)
+        {
+            await using var entryStream = entry.Open();
+            using var reader = new StreamReader(entryStream);
+            var content = await reader.ReadToEndAsync();
+            yield return (entry.Name, content);
+        }
+    }
+}

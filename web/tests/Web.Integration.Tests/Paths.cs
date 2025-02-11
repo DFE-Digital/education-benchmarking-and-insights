@@ -102,6 +102,7 @@ public static class Paths
     public static string ApiExpenditure(string? type, string? id, string category, string dimension) => $"api/expenditure?type={type}&id={id}&category={category}&dimension={dimension}";
     public static string ApiExpenditureHistoryComparison(string? type, string? id, string dimension, string? phase, string? financeType) => $"api/expenditure/history/comparison?type={type}&id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string ApiExpenditureUserDefined(string? type, string? id, string dimension, string? category) => $"api/expenditure/user-defined?type={type}&id={id}&dimension={dimension}&category={category}";
+    public static string ApiExpenditureDownload(string id, string type) => $"api/expenditure/download?id={id}&type={type}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string ApiCensusDownload(string id, string type) => $"api/census/download?id={id}&type={type}";
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";

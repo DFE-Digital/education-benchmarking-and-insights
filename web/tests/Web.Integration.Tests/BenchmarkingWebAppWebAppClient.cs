@@ -354,6 +354,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupExpenditure(SchoolExpenditure[] expenditures)
+    {
+        ExpenditureApi.Reset();
+        ExpenditureApi
+            .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(expenditures));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupExpenditureForCustomData(School school, string identifier, SchoolExpenditure expenditure)
     {
         ExpenditureApi.Reset();
