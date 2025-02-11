@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ActionResults;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -49,13 +51,13 @@ public class ExpenditureProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School when customDataId is not null:
-                        return await CustomSchoolExpenditure(id, category, dimension, customDataId);
+                        return await CustomSchoolExpenditureResult(id, category, dimension, customDataId);
                     case OrganisationTypes.School:
-                        return await SchoolExpenditure(id, category, dimension);
+                        return await SchoolExpenditureResult(id, category, dimension);
                     case OrganisationTypes.Trust:
-                        return await TrustExpenditure(id, phase, category, dimension);
+                        return await TrustExpenditureResult(id, phase, category, dimension);
                     case OrganisationTypes.LocalAuthority:
-                        return await LocalAuthorityExpenditure(id, phase, category, dimension);
+                        return await LocalAuthorityExpenditureResult(id, phase, category, dimension);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -63,6 +65,53 @@ public class ExpenditureProxyController(
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download([FromQuery] string type, [FromQuery] string id, [FromQuery] string? customDataId)
+    {
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
+        {
+            try
+            {
+                SchoolExpenditure[]? buildingResult;
+                SchoolExpenditure[]? pupilResult;
+                const string dimension = "Actuals";
+                switch (type.ToLower())
+                {
+                    case OrganisationTypes.School when customDataId is not null:
+                        buildingResult = await GetCustomSchoolExpenditure(id, true, null, dimension, customDataId);
+                        pupilResult = await GetCustomSchoolExpenditure(id, false, null, dimension, customDataId);
+                        break;
+                    case OrganisationTypes.School:
+                        buildingResult = await GetDefaultSchoolExpenditure(id, true, null, dimension);
+                        pupilResult = await GetDefaultSchoolExpenditure(id, false, null, dimension);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
+
+                IEnumerable<CsvResult> csvResults =
+                [
+                    new(buildingResult, $"expenditure-{id}-building.csv"),
+                    new(pupilResult, $"expenditure-{id}-pupil.csv")
+                ];
+                return new CsvResults(csvResults, $"expenditure-{id}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -182,7 +231,7 @@ public class ExpenditureProxyController(
             {
                 return type.ToLower() switch
                 {
-                    OrganisationTypes.Trust => await TrustExpenditureUserDefined(id, null, category, dimension, excludeCentralServices),
+                    OrganisationTypes.Trust => await TrustExpenditureUserDefinedResult(id, null, category, dimension, excludeCentralServices),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
             }
@@ -194,7 +243,7 @@ public class ExpenditureProxyController(
         }
     }
 
-    private async Task<IActionResult> LocalAuthorityExpenditure(string laCode, string? phase, string? category, string? dimension)
+    private async Task<IActionResult> LocalAuthorityExpenditureResult(string laCode, string? phase, string? category, string? dimension)
     {
         var la = await establishmentApi.GetLocalAuthority(laCode).GetResultOrThrow<LocalAuthority>();
         var query = BuildQuery(category, dimension, phase);
@@ -205,7 +254,7 @@ public class ExpenditureProxyController(
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditure(string companyNumber, string? phase, string? category, string? dimension)
+    private async Task<IActionResult> TrustExpenditureResult(string companyNumber, string? phase, string? category, string? dimension)
     {
         var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
         var query = BuildQuery(category, dimension, phase);
@@ -217,7 +266,7 @@ public class ExpenditureProxyController(
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditureUserDefined(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
+    private async Task<IActionResult> TrustExpenditureUserDefinedResult(string id, string? phase, string? category, string? dimension, bool? excludeCentralServices)
     {
         var userData = await userDataService.GetTrustDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -233,16 +282,22 @@ public class ExpenditureProxyController(
         return new JsonResult(userDefinedResult);
     }
 
-    private async Task<IActionResult> CustomSchoolExpenditure(string id, string category, string dimension, string customDataId)
+    private async Task<IActionResult> CustomSchoolExpenditureResult(string id, string category, string dimension, string customDataId)
+    {
+        var result = await GetCustomSchoolExpenditure(id, IsBuildingSet(category), category, dimension, customDataId);
+        return new JsonResult(result);
+    }
+
+    private async Task<SchoolExpenditure[]?> GetCustomSchoolExpenditure(string id, bool useBuildingSet, string? category, string? dimension, string customDataId)
     {
         var customSet = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
-        var set = category is "PremisesStaffServices" or "Utilities"
+        var set = useBuildingSet
             ? customSet?.Building
             : customSet?.Pupil;
 
         if (set == null || set.Length == 0)
         {
-            return new JsonResult(Array.Empty<SchoolExpenditure>());
+            return [];
         }
 
         var schools = set.Where(x => x != id).ToArray();
@@ -255,44 +310,52 @@ public class ExpenditureProxyController(
             .GetResultOrDefault<SchoolExpenditure[]>();
 
         return customResult != null
-            ? new JsonResult(defaultResult?.Append(customResult).ToArray())
-            : new JsonResult(defaultResult);
+            ? defaultResult?.Append(customResult).ToArray()
+            : defaultResult;
     }
 
-    private async Task<IActionResult> SchoolExpenditure(string id, string? category, string? dimension)
+    private async Task<IActionResult> SchoolExpenditureResult(string id, string? category, string? dimension)
+    {
+        var result = await GetDefaultSchoolExpenditure(id, IsBuildingSet(category), category, dimension);
+        return new JsonResult(result);
+    }
+
+    private async Task<SchoolExpenditure[]> GetDefaultSchoolExpenditure(string id, bool useBuildingSet, string? category, string? dimension)
     {
         var userData = await userDataService.GetSchoolDataAsync(User, id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
-            var set = category is "PremisesStaffServices" or "Utilities"
+            var set = useBuildingSet
                 ? defaultSet?.Building
                 : defaultSet?.Pupil;
 
             if (set == null || set.Length == 0)
             {
-                return new JsonResult(Array.Empty<SchoolExpenditure>());
+                return [];
             }
 
             var defaultResult = await expenditureApi
                 .QuerySchools(BuildQuery(set, "urns", category, dimension))
                 .GetResultOrThrow<SchoolExpenditure[]>();
 
-            return new JsonResult(defaultResult);
+            return defaultResult;
         }
 
         var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         if (userDefinedSet == null || userDefinedSet.Set.Length == 0)
         {
-            return new JsonResult(Array.Empty<SchoolExpenditure>());
+            return [];
         }
 
         var userDefinedResult = await expenditureApi
             .QuerySchools(BuildQuery(userDefinedSet.Set, "urns", category, dimension))
             .GetResultOrThrow<SchoolExpenditure[]>();
 
-        return new JsonResult(userDefinedResult);
+        return userDefinedResult;
     }
+
+    private static bool IsBuildingSet(string? category) => category is "PremisesStaffServices" or "Utilities";
 
     private static ApiQuery BuildQuery(
         string? category,
