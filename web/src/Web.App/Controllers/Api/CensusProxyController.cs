@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ActionResults;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -36,6 +38,34 @@ public class CensusProxyController(
                     ? await GetCustomAsync(id, category, dimension, customDataId)
                     : await GetDefaultAsync(type, id, category, dimension, phase);
                 return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting census data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download([FromQuery] string type, [FromQuery] string id, [FromQuery] string? customDataId)
+    {
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
+        {
+            try
+            {
+                var result = customDataId is not null
+                    ? await GetCustomAsync(id, null, "Total", customDataId)
+                    : await GetDefaultAsync(type, id, null, "Total", null);
+                return new CsvResult(result, $"census-{id}.csv");
             }
             catch (Exception e)
             {
@@ -110,7 +140,7 @@ public class CensusProxyController(
         }
     }
 
-    private async Task<Census[]> GetCustomAsync(string id, string category, string dimension, string customDataId)
+    private async Task<Census[]> GetCustomAsync(string id, string? category, string dimension, string customDataId)
     {
 
         var set = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
@@ -131,7 +161,7 @@ public class CensusProxyController(
             : defaultResults;
     }
 
-    private async Task<Census[]> GetDefaultAsync(string type, string id, string category, string dimension, string? phase)
+    private async Task<Census[]> GetDefaultAsync(string type, string id, string? category, string dimension, string? phase)
     {
         var query = type.ToLower() switch
         {

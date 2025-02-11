@@ -3,8 +3,10 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Web.App.ActionResults;
 using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
@@ -266,4 +268,8 @@ public static class ServiceCollectionExtensions
                 };
             });
     }
+
+    public static IServiceCollection AddActionResults(this IServiceCollection services) => services
+        .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
+        .AddSingleton<ICsvService, CsvService>();
 }
