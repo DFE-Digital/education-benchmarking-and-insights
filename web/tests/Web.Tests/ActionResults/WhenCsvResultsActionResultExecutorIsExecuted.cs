@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -10,17 +11,17 @@ using Xunit;
 
 namespace Web.Tests.ActionResults;
 
-public class WhenCsvResultActionResultExecutorIsExecuted
+public class WhenCsvResultsActionResultExecutorIsExecuted
 {
     private readonly ActionContext _actionContext;
-    private readonly CsvResultActionResultExecutor _executor;
+    private readonly CsvResultsActionResultExecutor _executor;
     private readonly DefaultHttpContext _httpContext;
     private readonly Mock<ICsvService> _service;
 
-    public WhenCsvResultActionResultExecutorIsExecuted()
+    public WhenCsvResultsActionResultExecutorIsExecuted()
     {
         _service = new Mock<ICsvService>();
-        _executor = new CsvResultActionResultExecutor(_service.Object, NullLogger<CsvResultActionResultExecutor>.Instance);
+        _executor = new CsvResultsActionResultExecutor(_service.Object, NullLogger<CsvResultsActionResultExecutor>.Instance);
 
         _httpContext = new DefaultHttpContext
         {
@@ -49,7 +50,7 @@ public class WhenCsvResultActionResultExecutorIsExecuted
         };
         const string fileName = nameof(fileName);
 
-        var result = new CsvResult(items, fileName);
+        var result = new CsvResults([new CsvResult(items)], fileName);
         const string csv = nameof(csv);
         _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
 
@@ -74,8 +75,9 @@ public class WhenCsvResultActionResultExecutorIsExecuted
                 Value = "Value"
             }
         };
+        const string fileName = nameof(fileName);
 
-        var result = new CsvResult(items);
+        var result = new CsvResults([new CsvResult(items, fileName)]);
         const string csv = nameof(csv);
         _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
 
@@ -83,11 +85,25 @@ public class WhenCsvResultActionResultExecutorIsExecuted
         await _executor.ExecuteAsync(_actionContext, result);
 
         // assert
-        _httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-        using var reader = new StreamReader(_httpContext.Response.Body);
-        var body = await reader.ReadToEndAsync();
+        await foreach (var tuple in GetFilesFromZip(_httpContext.Response.Body))
+        {
+            Assert.Equal(fileName, tuple.fileName);
+            Assert.Equal(csv, tuple.content);
+        }
+    }
 
-        Assert.Equal(csv, body);
+    private static async IAsyncEnumerable<(string fileName, string content)> GetFilesFromZip(Stream responseBody)
+    {
+        responseBody.Seek(0, SeekOrigin.Begin);
+
+        using var archive = new ZipArchive(responseBody, ZipArchiveMode.Read);
+        foreach (var entry in archive.Entries)
+        {
+            await using var entryStream = entry.Open();
+            using var reader = new StreamReader(entryStream);
+            var content = await reader.ReadToEndAsync();
+            yield return (entry.Name, content);
+        }
     }
 
     private class TestObject

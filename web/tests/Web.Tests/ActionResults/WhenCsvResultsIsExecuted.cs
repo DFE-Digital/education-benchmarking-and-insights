@@ -10,47 +10,51 @@ using Xunit;
 
 namespace Web.Tests.ActionResults;
 
-public class WhenCsvResultIsExecuted
+public class WhenCsvResultsIsExecuted
 {
-    private readonly Mock<IActionResultExecutor<CsvResult>> _actionResultExecutor;
-    private readonly string _fileName = nameof(_fileName);
+    private readonly Mock<IActionResultExecutor<CsvResults>> _actionResultExecutor;
+    private readonly string _csvFileName = nameof(_csvFileName);
     private readonly TestObject[] _items = [];
     private readonly IServiceCollection _services = new ServiceCollection();
+    private readonly string _zipFileName = nameof(_zipFileName);
 
-    public WhenCsvResultIsExecuted()
+    public WhenCsvResultsIsExecuted()
     {
-        _actionResultExecutor = new Mock<IActionResultExecutor<CsvResult>>();
-        _services.AddScoped<IActionResultExecutor<CsvResult>>(_ => _actionResultExecutor.Object);
+        _actionResultExecutor = new Mock<IActionResultExecutor<CsvResults>>();
+        _services.AddScoped<IActionResultExecutor<CsvResults>>(_ => _actionResultExecutor.Object);
     }
 
     [Fact]
     public void ShouldSetTheContentType()
     {
-        var result = new CsvResult(_items, _fileName);
+        var result = new CsvResults([new CsvResult(_items, _csvFileName)], _zipFileName);
 
-        Assert.Equal("text/csv; charset=utf-8", result.ContentType);
+        Assert.Equal("application/zip", result.ContentType);
     }
 
     [Fact]
     public void ShouldSetTheItems()
     {
-        var result = new CsvResult(_items, _fileName);
+        var result = new CsvResults([new CsvResult(_items, _csvFileName)], _zipFileName);
 
-        Assert.Equal(_items, result.Items);
+        Assert.Single(result.Items);
+        Assert.Equal(_items, result.Items.First().Items);
     }
 
     [Fact]
     public void ShouldSetTheFileName()
     {
-        var result = new CsvResult(_items, _fileName);
+        var result = new CsvResults([new CsvResult(_items, _csvFileName)], _zipFileName);
 
-        Assert.Equal(_fileName, result.CsvFileName);
+        Assert.Equal(_zipFileName, result.ZipFileName);
+        Assert.Single(result.Items);
+        Assert.Equal(_csvFileName, result.Items.First().CsvFileName);
     }
 
     [Fact]
     public void ShouldSetTheStatusCode()
     {
-        var result = new CsvResult(_items, _fileName);
+        var result = new CsvResults([new CsvResult(_items, _csvFileName)], _zipFileName);
 
         Assert.Equal(200, result.StatusCode);
     }
@@ -69,7 +73,7 @@ public class WhenCsvResultIsExecuted
             HttpContext = httpContext
         };
 
-        var result = new CsvResult(_items, _fileName);
+        var result = new CsvResults([new CsvResult(_items, _csvFileName)], _zipFileName);
 
         _actionResultExecutor
             .Setup(e => e.ExecuteAsync(actionContext, result))

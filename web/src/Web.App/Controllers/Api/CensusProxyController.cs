@@ -65,7 +65,7 @@ public class CensusProxyController(
                 var result = customDataId is not null
                     ? await GetCustomAsync(id, null, "Total", customDataId)
                     : await GetDefaultAsync(type, id, null, "Total", null);
-                return new CsvResult(result, $"census-{id}.csv");
+                return new CsvResults([new CsvResult(result, $"census-{id}.csv")], $"census-{id}.zip");
             }
             catch (Exception e)
             {

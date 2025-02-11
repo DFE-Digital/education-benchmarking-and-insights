@@ -271,5 +271,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddActionResults(this IServiceCollection services) => services
         .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
+        .AddSingleton<IActionResultExecutor<CsvResults>, CsvResultsActionResultExecutor>()
         .AddSingleton<ICsvService, CsvService>();
 }
