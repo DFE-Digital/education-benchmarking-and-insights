@@ -11,15 +11,15 @@ using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;
 
-public class GetTrustComparatorsFunctionTests : FunctionsTestBase
+public class PostTrustComparatorsFunctionTests : FunctionsTestBase
 {
     private readonly string _companyNumber;
     private readonly TrustComparators _comparators;
     private readonly TrustComparatorsRequest _request;
-    private readonly GetTrustComparatorsFunction _function;
+    private readonly PostTrustComparatorsFunction _function;
     private readonly Mock<ITrustComparatorsService> _service;
 
-    public GetTrustComparatorsFunctionTests()
+    public PostTrustComparatorsFunctionTests()
     {
         var fixture = new Fixture();
 
@@ -28,7 +28,7 @@ public class GetTrustComparatorsFunctionTests : FunctionsTestBase
         _request = fixture.Create<TrustComparatorsRequest>();
 
         _service = new Mock<ITrustComparatorsService>();
-        _function = new GetTrustComparatorsFunction(_service.Object);
+        _function = new PostTrustComparatorsFunction(_service.Object);
     }
 
     [Fact]

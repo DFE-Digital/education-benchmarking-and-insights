@@ -12,12 +12,12 @@ using Platform.Functions;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
-public class GetSchoolComparatorsFunction(ISchoolComparatorsService service)
+public class PostSchoolComparatorsFunction(ISchoolComparatorsService service)
 {
     //TODO : Consider request validation
-    [Function(nameof(GetSchoolComparatorsFunction))]
+    [Function(nameof(PostSchoolComparatorsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolComparatorsFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(PostSchoolComparatorsFunction), Constants.Features.Schools)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolComparators))]

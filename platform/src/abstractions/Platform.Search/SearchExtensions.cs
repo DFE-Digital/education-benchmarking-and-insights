@@ -1,16 +1,18 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Azure;
+using FluentValidation;
 using HealthChecks.AzureSearch.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Platform.Infrastructure;
+// ReSharper disable UnusedMethodReturnValue.Global
 
 namespace Platform.Search;
 
 [ExcludeFromCodeCoverage]
 public static class SearchExtensions
 {
-    public static void AddSearch(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlatformSearch(this IServiceCollection serviceCollection)
     {
         var options = GetOptions();
 
@@ -21,10 +23,13 @@ public static class SearchExtensions
             .AddKeyedSingleton<IIndexClient, TrustIndexClient>(ResourceNames.Search.Indexes.Trust)
             .AddKeyedSingleton<IIndexClient, LocalAuthorityIndexClient>(ResourceNames.Search.Indexes.LocalAuthority)
             .AddKeyedSingleton<IIndexClient, SchoolComparatorsIndexClient>(ResourceNames.Search.Indexes.SchoolComparators)
-            .AddKeyedSingleton<IIndexClient, TrustComparatorsIndexClient>(ResourceNames.Search.Indexes.TrustComparators);
+            .AddKeyedSingleton<IIndexClient, TrustComparatorsIndexClient>(ResourceNames.Search.Indexes.TrustComparators)
+            .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
+
+        return serviceCollection;
     }
 
-    public static void AddSearch(this IHealthChecksBuilder builder)
+    public static IHealthChecksBuilder AddPlatformSearch(this IHealthChecksBuilder builder)
     {
         var options = GetOptions();
 
@@ -37,6 +42,8 @@ public static class SearchExtensions
                     s.IndexName = index;
                 }, $"azuresearch:{index}");
         }
+
+        return builder;
     }
 
     private static PlatformSearchOptions GetOptions()

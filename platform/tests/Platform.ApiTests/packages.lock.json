@@ -79,9 +79,9 @@
       },
       "xunit.runner.visualstudio": {
         "type": "Direct",
-        "requested": "[3.0.1, )",
-        "resolved": "3.0.1",
-        "contentHash": "lbyYtsBxA8Pz8kaf5Xn/Mj1mL9z2nlBWdZhqFaj66nxXBa4JwiTDm4eGcpSMet6du9TOWI6bfha+gQR6+IHawg=="
+        "requested": "[3.0.2, )",
+        "resolved": "3.0.2",
+        "contentHash": "oXbusR6iPq0xlqoikjdLvzh+wQDkMv9If58myz9MEzldS4nIcp442Btgs2sWbYWV+caEluMe2pQCZ0hUZgPiow=="
       },
       "Azure.Core": {
         "type": "Transitive",
@@ -2011,7 +2011,6 @@
       "platform.api.benchmark": {
         "type": "Project",
         "dependencies": {
-          "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
@@ -2032,8 +2031,6 @@
       "platform.api.establishment": {
         "type": "Project",
         "dependencies": {
-          "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
-          "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
@@ -2054,7 +2051,6 @@
       "platform.api.insight": {
         "type": "Project",
         "dependencies": {
-          "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.ApplicationInsights.WorkerService": "[2.22.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
@@ -2128,9 +2124,12 @@
       "platform.sql": {
         "type": "Project",
         "dependencies": {
+          "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper": "[2.1.66, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[6.0.1, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.1, )",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "[9.0.1, )",
           "Platform.Domain": "[1.0.0, )"
         }
       },

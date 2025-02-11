@@ -1,29 +1,19 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+// ReSharper disable UnusedMethodReturnValue.Global
 
 namespace Platform.Cache;
 
 [ExcludeFromCodeCoverage]
 public static class CacheExtensions
 {
-    public static IServiceCollection AddRedis(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlatformCache(this IServiceCollection serviceCollection)
     {
-        var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
-        var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
-        var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
-        var cacheAllowAdmin = Environment.GetEnvironmentVariable("Cache__AllowAdmin");
-        ArgumentNullException.ThrowIfNull(cacheHost);
-        ArgumentNullException.ThrowIfNull(cachePort);
-
-        serviceCollection.AddOptions<RedisCacheOptions>().Configure(x =>
-        {
-            x.Host = cacheHost;
-            x.Port = cachePort;
-            x.Password = cachePassword;
-            x.AllowAdmin = cacheAllowAdmin == "true";
-        });
+        var options = GetOptions();
 
         serviceCollection
+            .AddSingleton(Options.Create(options))
             .AddSingleton<IRedisConnectionMultiplexerFactory, RedisConnectionMultiplexerFactory>()
             .AddSingleton<IDistributedCache, RedisDistributedCache>()
             .AddSingleton<ICacheKeyFactory, CacheKeyFactory>();
@@ -31,7 +21,7 @@ public static class CacheExtensions
         return serviceCollection;
     }
 
-    public static IHealthChecksBuilder AddRedis(this IHealthChecksBuilder healthChecks)
+    public static IHealthChecksBuilder AddPlatformCache(this IHealthChecksBuilder healthChecks)
     {
         healthChecks.AddRedis(p =>
         {
@@ -40,5 +30,23 @@ public static class CacheExtensions
         });
 
         return healthChecks;
+    }
+
+    private static RedisCacheOptions GetOptions()
+    {
+        var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
+        var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
+        var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
+        var cacheAllowAdmin = Environment.GetEnvironmentVariable("Cache__AllowAdmin");
+        ArgumentNullException.ThrowIfNull(cacheHost);
+        ArgumentNullException.ThrowIfNull(cachePort);
+
+        return new RedisCacheOptions
+        {
+            Host = cacheHost,
+            Port = cachePort,
+            Password = cachePassword,
+            AllowAdmin = cacheAllowAdmin == "true"
+        };
     }
 }

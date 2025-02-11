@@ -14,17 +14,17 @@ using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;
 
-public class GetTrustsSuggestFunctionTests : FunctionsTestBase
+public class PostTrustsSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetTrustsSuggestFunction _function;
+    private readonly PostTrustsSuggestFunction _function;
     private readonly Mock<ITrustsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
-    public GetTrustsSuggestFunctionTests()
+    public PostTrustsSuggestFunctionTests()
     {
         _service = new Mock<ITrustsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _function = new GetTrustsSuggestFunction(_service.Object, _validator.Object);
+        _function = new PostTrustsSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]

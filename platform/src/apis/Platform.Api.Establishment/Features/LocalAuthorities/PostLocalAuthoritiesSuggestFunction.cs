@@ -14,11 +14,11 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
-public class GetLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService service, IValidator<SuggestRequest> validator)
+public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService service, IValidator<SuggestRequest> validator)
 {
-    [Function(nameof(GetLocalAuthoritiesSuggestFunction))]
+    [Function(nameof(PostLocalAuthoritiesSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthoritiesSuggestFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(PostLocalAuthoritiesSuggestFunction), Constants.Features.LocalAuthorities)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(LocalAuthoritySuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthority>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

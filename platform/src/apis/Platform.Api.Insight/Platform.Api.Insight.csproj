@@ -21,7 +21,6 @@
         <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Domain\Platform.Domain.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
-        <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
         <PackageReference Include="Dapper.SqlBuilder"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>

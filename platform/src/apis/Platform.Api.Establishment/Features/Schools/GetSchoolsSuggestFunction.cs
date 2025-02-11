@@ -14,11 +14,11 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
-public class GetSchoolsSuggestFunction(ISchoolsService service, IValidator<SuggestRequest> validator)
+public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<SuggestRequest> validator)
 {
-    [Function(nameof(GetSchoolsSuggestFunction))]
+    [Function(nameof(PostSchoolsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolsSuggestFunction), "Schools")]
+    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), "Schools")]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<School>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

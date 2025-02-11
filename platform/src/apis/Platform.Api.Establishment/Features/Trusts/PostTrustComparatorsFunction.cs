@@ -12,12 +12,12 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
-public class GetTrustComparatorsFunction(ITrustComparatorsService service)
+public class PostTrustComparatorsFunction(ITrustComparatorsService service)
 {
     //TODO : Consider request validation
-    [Function(nameof(GetTrustComparatorsFunction))]
+    [Function(nameof(PostTrustComparatorsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetTrustComparatorsFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustComparatorsFunction), Constants.Features.Trusts)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(TrustComparators))]

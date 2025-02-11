@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Establishment.Features.LocalAuthorities.Services;
-using Platform.Api.Establishment.Features.Schools.Services;
-using Platform.Api.Establishment.Features.Trusts.Services;
+using Platform.Api.Establishment.Features.LocalAuthorities;
+using Platform.Api.Establishment.Features.Schools;
+using Platform.Api.Establishment.Features.Trusts;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
 using Platform.Sql;
+// ReSharper disable UnusedMethodReturnValue.Local
 
 namespace Platform.Api.Establishment.Configuration;
 
@@ -20,15 +20,31 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
-
-        ArgumentNullException.ThrowIfNull(sqlConnString);
+        serviceCollection
+            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>();
 
         serviceCollection
-            .AddHealthChecks()
-            .AddSqlServer(sqlConnString)
-            .AddSearch();
+            .AddTelemetry()
+            .AddHealthCheckServices()
+            .AddPlatformServices()
+            .AddFeatures();
 
+        serviceCollection
+            .Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+    }
+
+    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection)
+    {
+        serviceCollection
+            .AddHealthChecks()
+            .AddPlatformSql()
+            .AddPlatformSearch();
+
+        return serviceCollection;
+    }
+
+    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection)
+    {
         //TODO: Add serilog configuration AB#227696
         // App Insights must be BEFORE any keyed services:
         // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
@@ -42,20 +58,21 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection
-            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>()
-            .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
-            .AddSingleton<ISchoolsService, SchoolsService>()
-            .AddSingleton<ITrustsService, TrustsService>()
-            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
-            .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>()
-            .AddSingleton<ITrustComparatorsService, TrustComparatorsService>();
+        return serviceCollection;
+    }
 
-        serviceCollection
-            .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddPlatformSearch()
+            .AddPlatformSql();
+    }
 
-        serviceCollection.AddSearch();
-
-        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddLocalAuthoritiesFeature()
+            .AddSchoolsFeature()
+            .AddTrustsFeature();
     }
 }

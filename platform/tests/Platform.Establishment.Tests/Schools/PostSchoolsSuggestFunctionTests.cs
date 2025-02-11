@@ -14,17 +14,17 @@ using Xunit;
 
 namespace Platform.Establishment.Tests.Schools;
 
-public class GetSchoolsSuggestFunctionTests : FunctionsTestBase
+public class PostSchoolsSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetSchoolsSuggestFunction _function;
+    private readonly PostSchoolsSuggestFunction _function;
     private readonly Mock<ISchoolsService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
-    public GetSchoolsSuggestFunctionTests()
+    public PostSchoolsSuggestFunctionTests()
     {
         _service = new Mock<ISchoolsService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _function = new GetSchoolsSuggestFunction(_service.Object, _validator.Object);
+        _function = new PostSchoolsSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]

@@ -12,15 +12,15 @@ using Xunit;
 
 namespace Platform.Establishment.Tests.Schools;
 
-public class GetSchoolComparatorsFunctionTests : FunctionsTestBase
+public class PostSchoolComparatorsFunctionTests : FunctionsTestBase
 {
     private readonly string _urn;
     private readonly SchoolComparators _comparators;
     private readonly SchoolComparatorsRequest _request;
-    private readonly GetSchoolComparatorsFunction _function;
+    private readonly PostSchoolComparatorsFunction _function;
     private readonly Mock<ISchoolComparatorsService> _service;
 
-    public GetSchoolComparatorsFunctionTests()
+    public PostSchoolComparatorsFunctionTests()
     {
         var fixture = new Fixture();
 
@@ -29,7 +29,7 @@ public class GetSchoolComparatorsFunctionTests : FunctionsTestBase
         _request = fixture.Create<SchoolComparatorsRequest>();
 
         _service = new Mock<ISchoolComparatorsService>();
-        _function = new GetSchoolComparatorsFunction(_service.Object);
+        _function = new PostSchoolComparatorsFunction(_service.Object);
     }
 
     [Fact]

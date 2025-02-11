@@ -14,11 +14,11 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
-public class GetTrustsSuggestFunction(ITrustsService service, IValidator<SuggestRequest> validator)
+public class PostTrustsSuggestFunction(ITrustsService service, IValidator<SuggestRequest> validator)
 {
-    [Function(nameof(GetTrustsSuggestFunction))]
+    [Function(nameof(PostTrustsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetTrustsSuggestFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustsSuggestFunction), Constants.Features.Trusts)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<Trust>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

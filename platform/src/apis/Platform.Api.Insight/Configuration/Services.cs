@@ -6,18 +6,12 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.BudgetForecast;
-using Platform.Api.Insight.Features.Balance.Services;
-using Platform.Api.Insight.Features.Census.Parameters;
-using Platform.Api.Insight.Features.Census.Services;
-using Platform.Api.Insight.Features.Census.Validators;
-using Platform.Api.Insight.Features.Expenditure.Parameters;
-using Platform.Api.Insight.Features.Expenditure.Services;
-using Platform.Api.Insight.Features.Expenditure.Validators;
-using Platform.Api.Insight.Features.Files.Services;
-using Platform.Api.Insight.Features.Income.Parameters;
-using Platform.Api.Insight.Features.Income.Services;
-using Platform.Api.Insight.Features.Income.Validators;
-using Platform.Api.Insight.Features.Trusts.Services;
+using Platform.Api.Insight.Features.Balance;
+using Platform.Api.Insight.Features.Census;
+using Platform.Api.Insight.Features.Expenditure;
+using Platform.Api.Insight.Features.Files;
+using Platform.Api.Insight.Features.Income;
+using Platform.Api.Insight.Features.Trusts;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Validators;
@@ -25,6 +19,7 @@ using Platform.Cache;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
+// ReSharper disable UnusedMethodReturnValue.Local
 
 namespace Platform.Api.Insight.Configuration;
 
@@ -33,41 +28,40 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
-        ArgumentNullException.ThrowIfNull(sqlConnString);
-
-        serviceCollection
-            .AddHealthChecks()
-            .AddSqlServer(sqlConnString)
-            .AddRedis();
-
         serviceCollection
             .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>()
-            .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
-            .AddSingleton<ICensusService, CensusService>()
-            .AddSingleton<IBalanceService, BalanceService>()
             .AddSingleton<ISchoolsService, SchoolsService>()
-            .AddSingleton<ITrustsService, TrustsService>()
-            .AddSingleton<IExpenditureService, ExpenditureService>()
-            .AddSingleton<IIncomeService, IncomeService>()
-            .AddSingleton<IBudgetForecastService, BudgetForecastService>()
-            .AddSingleton<IFilesService, FilesService>();
+            .AddSingleton<IBudgetForecastService, BudgetForecastService>();
 
         serviceCollection
-            .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
-            .AddTransient<IValidator<ExpenditureNationalAvgParameters>, ExpenditureNationalAvgParametersValidator>()
-            .AddTransient<IValidator<ExpenditureQuerySchoolParameters>, ExpenditureQuerySchoolParametersValidator>()
-            .AddTransient<IValidator<ExpenditureQueryTrustParameters>, ExpenditureQueryTrustParametersValidator>()
-            .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
-            .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
-            .AddTransient<IValidator<CensusParameters>, CensusParametersValidator>()
-            .AddTransient<IValidator<CensusNationalAvgParameters>, CensusNationalAvgParametersValidator>()
-            .AddTransient<IValidator<CensusQuerySchoolsParameters>, CensusQuerySchoolsParametersValidator>();
+            .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>();
 
-        serviceCollection.AddRedis();
+        serviceCollection
+            .AddTelemetry()
+            .AddHealthCheckServices()
+            .AddPlatformServices()
+            .AddFeatures();
 
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+    }
+
+    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection)
+    {
+        serviceCollection
+            .AddHealthChecks()
+            .AddPlatformSql()
+            .AddPlatformCache();
+
+        return serviceCollection;
+    }
+
+    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection)
+    {
         //TODO: Add serilog configuration AB#227696
+        // App Insights must be BEFORE any keyed services:
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
@@ -77,6 +71,24 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+        return serviceCollection;
+    }
+
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddPlatformCache()
+            .AddPlatformSql();
+    }
+
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddBalanceFeature()
+            .AddCensusFeature()
+            .AddExpenditureFeature()
+            .AddFilesFeature()
+            .AddIncomeFeature()
+            .AddTrustsFeature();
     }
 }

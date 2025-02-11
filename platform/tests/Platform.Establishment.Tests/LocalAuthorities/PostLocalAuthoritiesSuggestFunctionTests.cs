@@ -14,17 +14,17 @@ using Xunit;
 
 namespace Platform.Establishment.Tests.LocalAuthorities;
 
-public class GetLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
+public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
 {
-    private readonly GetLocalAuthoritiesSuggestFunction _function;
+    private readonly PostLocalAuthoritiesSuggestFunction _function;
     private readonly Mock<ILocalAuthoritiesService> _service;
     private readonly Mock<IValidator<SuggestRequest>> _validator;
 
-    public GetLocalAuthoritiesSuggestFunctionTests()
+    public PostLocalAuthoritiesSuggestFunctionTests()
     {
         _service = new Mock<ILocalAuthoritiesService>();
         _validator = new Mock<IValidator<SuggestRequest>>();
-        _function = new GetLocalAuthoritiesSuggestFunction(_service.Object, _validator.Object);
+        _function = new PostLocalAuthoritiesSuggestFunction(_service.Object, _validator.Object);
     }
 
     [Fact]

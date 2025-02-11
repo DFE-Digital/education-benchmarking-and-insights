@@ -8,6 +8,7 @@ using Platform.Cache;
 using Platform.Json;
 using Platform.Orchestrator.Search;
 using Platform.Sql;
+
 namespace Platform.Orchestrator.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -15,16 +16,13 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        var sqlConnString = Environment.GetEnvironmentVariable("Sql__ConnectionString");
         var searchName = Environment.GetEnvironmentVariable("Search__Name");
         var searchKey = Environment.GetEnvironmentVariable("Search__Key");
 
-        ArgumentNullException.ThrowIfNull(sqlConnString);
         ArgumentNullException.ThrowIfNull(searchName);
         ArgumentNullException.ThrowIfNull(searchKey);
 
         serviceCollection
-            .AddSingleton<IDatabaseFactory>(new DatabaseFactory(sqlConnString))
             .AddSingleton<IPipelineDb, PipelineDb>()
             .AddSingleton<ISearchIndexerClient, SearchIndexerClient>()
             .AddSingleton<IPipelineSearch, PipelineSearch>();
@@ -47,6 +45,8 @@ internal static class Services
             x.Key = searchKey;
         });
 
-        serviceCollection.AddRedis();
+        serviceCollection
+            .AddPlatformSql()
+            .AddPlatformCache();
     }
 }
