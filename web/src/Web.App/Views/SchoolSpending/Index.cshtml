@@ -6,11 +6,11 @@
 
 @if (Model.HighPriorityCosts.Any() || Model.MediumPriorityCosts.Any())
 {
-    @await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+    @await Component.InvokeAsync("PageActions", new
     {
-        { "ClassName", "costs-chart-wrapper" },
-        { "FileName", $"spending-priorities-{Model.Urn}.zip" },
-        { "TitleAttribute", "data-title" }
+        className = "costs-chart-wrapper",
+        fileName = $"spending-priorities-{Model.Urn}.zip",
+        titleAttribute = "data-title"
     })
 }
 

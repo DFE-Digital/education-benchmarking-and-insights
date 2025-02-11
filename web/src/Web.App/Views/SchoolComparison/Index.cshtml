@@ -14,10 +14,10 @@
 
 @if (!hasMissingComparatorSet)
 {
-    @await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+    @await Component.InvokeAsync("PageActions", new
     {
-        { "FileName", $"benchmark-spending-{Model.Urn}.zip" },
-        { "WaitForEventType", eventType }
+        fileName = $"benchmark-spending-{Model.Urn}.zip",
+        waitForEventType = eventType
     })
 }
 
@@ -53,10 +53,10 @@
 
 @if (!hasMissingComparatorSet)
 {
-    <div id="compare-your-costs" 
-         data-type="@OrganisationTypes.School" 
-         data-id="@Model.Urn" 
-         data-suppress-negative-or-zero="true" 
+    <div id="compare-your-costs"
+         data-type="@OrganisationTypes.School"
+         data-id="@Model.Urn"
+         data-suppress-negative-or-zero="true"
          data-dispatch-event-type="@eventType"></div>
 }
 

@@ -6,10 +6,10 @@
     const string eventType = "compare-your-costs-loaded";
 }
 
-@await Html.PartialAsync("_SaveChartsButton", null, new ViewDataDictionary(ViewData)
+@await Component.InvokeAsync("PageActions", new
 {
-    { "FileName", $"benchmark-spending-{Model.CompanyNumber}.zip" },
-    { "WaitForEventType", eventType }
+    fileName = $"benchmark-spending-{Model.CompanyNumber}.zip",
+    waitForEventType = eventType
 })
 
 @await Component.InvokeAsync("EstablishmentHeading", new
