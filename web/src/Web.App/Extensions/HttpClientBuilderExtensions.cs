@@ -53,8 +53,8 @@ public static class HttpClientBuilderExtensions
                 5,
                 (retryAttempt, response, _) =>
                 {
-                    var retryAfter = response.Result.Headers.RetryAfter?.Delta;
-                    if (retryAfter == null)
+                    var retryAfter = response.Result?.Headers.RetryAfter?.Delta;
+                    if (response.Result == null || retryAfter == null)
                     {
                         return TimeSpan.FromSeconds(0.5 * retryAttempt);
                     }
