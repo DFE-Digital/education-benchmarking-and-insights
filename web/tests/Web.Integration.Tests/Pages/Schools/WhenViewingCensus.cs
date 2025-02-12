@@ -135,14 +135,14 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]");
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
-        var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(2, toolsLinks.Count);
+        var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        Assert.Equal(2, toolsLinks?.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 }

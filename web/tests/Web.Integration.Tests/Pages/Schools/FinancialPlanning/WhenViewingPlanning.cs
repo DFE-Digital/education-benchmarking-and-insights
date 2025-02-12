@@ -112,13 +112,13 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
         var cta = page.QuerySelector("main .govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningStart(school.URN));
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
-        var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(2, toolsLinks.Count);
+        var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        Assert.Equal(2, toolsLinks?.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 }

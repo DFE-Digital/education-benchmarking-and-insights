@@ -106,11 +106,10 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         string[] expectedPhases = [OverallPhaseTypes.Secondary, OverallPhaseTypes.Primary];
         Assert.Equal(expectedPhases.ToJson(Formatting.None), dataPhases);
 
-
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
-        var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(4, toolsLinks.Count);
+        var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        Assert.Equal(4, toolsLinks?.Count);
     }
 }

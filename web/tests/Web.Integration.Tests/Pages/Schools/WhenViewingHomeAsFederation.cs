@@ -205,15 +205,15 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             Assert.NotNull(dataSourceElement);
             DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
 
-            var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
+            var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
             DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
-            var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-            Assert.Equal(3, toolsLinks.Count);
+            var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+            Assert.Equal(3, toolsLinks?.Count);
 
-            DocumentAssert.Link(toolsLinks[0], "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
-            DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-            DocumentAssert.Link(toolsLinks[2], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
         }
     }
 
