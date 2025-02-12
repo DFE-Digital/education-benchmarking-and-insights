@@ -1,8 +1,10 @@
 Feature: School create custom data
 
     Background:
-        Given I am on create custom data page for school with URN '990023'
+        Given I am on the service home
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
+        And I have removed any existing custom data for school with URN '990023'
+        And I am on create custom data page for school with URN '990023'
 
     Scenario: Can view create custom data page
         When I click start now
