@@ -17,8 +17,8 @@ public class CreateCustomDataSteps(PageDriver driver)
     private RevertCustomDataPage? _revertCustomDataPage;
     private HomePage? _schoolHomePage;
 
-    [Given("I have removed any existing custom data for school with URN '(.*)'")]
-    public async Task GivenIHaveRemovedAnyExistingCustomDataForSchoolWithURN(string urn)
+    [Given("I have removed any existing custom data for school with URN '(.*)' in trust '(.*)'")]
+    public async Task GivenIHaveRemovedAnyExistingCustomDataForSchoolWithURNInTrust(string urn, string trust)
     {
         var url = CreateCustomDataRevertUrl(urn);
         var page = await driver.Current;
@@ -27,7 +27,7 @@ public class CreateCustomDataSteps(PageDriver driver)
         _revertCustomDataPage = new RevertCustomDataPage(page);
         await _revertCustomDataPage.IsDisplayed();
         _schoolHomePage = await _revertCustomDataPage.ClickRemoveCustomData();
-        await _schoolHomePage.IsDisplayed(isMissingRags: true);
+        await _schoolHomePage.IsDisplayed(trustName: trust);
     }
 
     [Given("I am on create custom data page for school with URN '(.*)'")]
