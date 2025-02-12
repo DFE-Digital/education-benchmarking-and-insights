@@ -140,7 +140,7 @@ No modules.
 | <a name="input_teams-channel-id-dev"></a> [teams-channel-id-dev](#input\_teams-channel-id-dev) | n/a | `any` | n/a | yes |
 | <a name="input_teams-channel-id-preprod"></a> [teams-channel-id-preprod](#input\_teams-channel-id-preprod) | n/a | `any` | n/a | yes |
 | <a name="input_teams-team-id"></a> [teams-team-id](#input\_teams-team-id) | n/a | `any` | n/a | yes |
-| <a name="input_trackedEvents"></a> [trackedEvents](#input\_trackedEvents) | n/a | `list(string)` | <pre>[<br>  "gias-school-details",<br>  "commercial-resource",<br>  "guidance-resource",<br>  "data-source",<br>  "organisation",<br>  "service-banner",<br>  "change-organisation",<br>  "survey"<br>]</pre> | no |
+| <a name="input_trackedEvents"></a> [trackedEvents](#input\_trackedEvents) | n/a | `list(string)` | <pre>[<br>  "change-organisation",<br>  "commercial-resource",<br>  "copy-chart-as-image",<br>  "data-source",<br>  "download-page-data",<br>  "gias-school-details",<br>  "guidance-resource",<br>  "organisation",<br>  "save-chart-as-image",<br>  "service-banner",<br>  "survey"<br>]</pre> | no |
 
 ## Outputs
 

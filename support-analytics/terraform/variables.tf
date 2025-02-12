@@ -93,13 +93,16 @@ variable "configuration" {
 variable "trackedEvents" {
   type = list(string)
   default = [
-    "gias-school-details",
-    "commercial-resource",
-    "guidance-resource",
-    "data-source",
-    "organisation",
-    "service-banner",
     "change-organisation",
+    "commercial-resource",
+    "copy-chart-as-image",
+    "data-source",
+    "download-page-data",
+    "gias-school-details",
+    "guidance-resource",
+    "organisation",
+    "save-chart-as-image",
+    "service-banner",
     "survey"
   ]
 }

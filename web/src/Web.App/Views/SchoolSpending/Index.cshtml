@@ -8,9 +8,10 @@
 {
     @await Component.InvokeAsync("PageActions", new
     {
-        className = "costs-chart-wrapper",
-        fileName = $"spending-priorities-{Model.Urn}.zip",
-        titleAttribute = "data-title"
+        saveButtonVisible = true,
+        saveClassName = "costs-chart-wrapper",
+        saveFileName = $"spending-priorities-{Model.Urn}.zip",
+        saveTitleAttribute = "data-title"
     })
 }
 
