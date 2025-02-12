@@ -16,8 +16,16 @@
 {
     @await Component.InvokeAsync("PageActions", new
     {
-        fileName = $"benchmark-spending-{Model.Urn}.zip",
-        waitForEventType = eventType
+        saveButtonVisible = true,
+        downloadButtonVisible = true,
+        saveFileName = $"benchmark-spending-{Model.Urn}.zip",
+        waitForEventType = eventType,
+        downloadLink = Url.ActionLink("Download", "ExpenditureProxy", new
+        {
+            type = "school",
+            id = Model.Urn,
+            customDataId = Model.CustomDataId
+        })
     })
 }
 

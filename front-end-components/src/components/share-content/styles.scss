@@ -3,6 +3,11 @@
   gap: 10px;
   justify-content: flex-end;
   margin-bottom: 15px;
+  flex-flow: column;
+
+  @include govuk-media-query($from: tablet) {
+    flex-flow: row;
+  }
 }
 
 button.govuk-button.share-button {

@@ -1,17 +1,46 @@
 @model Web.App.ViewModels.Components.PageActionsViewModel
 
-<div class="page-actions">
-    <div
-        data-launch-modal
-        data-modal-name="modal-save-images"
-        data-element-class-name="@Model.ClassName"
-        data-button-label="Save chart images"
-        data-modal-title="Save chart images"
-        data-element-title-attr="@Model.TitleAttr"
-        data-show-titles="true"
-        data-show-progress="true"
-        data-file-name="@Model.FileName"
-        data-save-event-id="save-chart-as-image"
-        data-main-content-id="main-content"
-        data-wait-for-event-type="@Model.WaitForEventType"></div>
+<div class="page-actions-wrapper">
+    <div class="page-actions">
+        @if (Model.SaveButtonVisible)
+        {
+            <div
+                data-launch-modal
+                data-modal-name="modal-save-images"
+                data-element-class-name="@Model.SaveClassName"
+                data-button-label="Save chart images"
+                data-modal-title="Save chart images"
+                data-element-title-attr="@Model.SaveTitleAttr"
+                data-show-titles="true"
+                data-show-progress="true"
+                data-file-name="@Model.SaveFileName"
+                data-save-event-id="save-chart-as-image"
+                data-main-content-id="main-content"
+                data-wait-for-event-type="@Model.WaitForEventType"
+                class="page-action">
+                <button
+                    class="govuk-button govuk-button--secondary"
+                    data-module="govuk-button"
+                    aria-disabled="true"
+                    disabled="disabled">Save chart images
+                </button>
+            </div>
+        }
+        @if (Model.DownloadButtonVisible)
+        {
+            <form class="page-action" method="get" action="@Model.DownloadAction">
+                @foreach (var item in Model.DownloadParameters)
+                {
+                    <input type="hidden" name="@item.Key" value="@item.Value"/>
+                }
+                <button
+                    class="govuk-button govuk-button--secondary"
+                    data-module="govuk-button"
+                    type="submit"
+                    data-custom-event-id="download-page-data">
+                    Download page data
+                </button>
+            </form>
+        }
+    </div>
 </div>

@@ -7,6 +7,20 @@
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
 }
 
+@if (!hasMissingComparatorSet)
+{
+    @await Component.InvokeAsync("PageActions", new
+    {
+        downloadButtonVisible = true,
+        downloadLink = Url.ActionLink("Download", "CensusProxy", new
+        {
+            type = "school",
+            id = Model.Urn,
+            customDataId = Model.CustomDataId
+        })
+    })
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],

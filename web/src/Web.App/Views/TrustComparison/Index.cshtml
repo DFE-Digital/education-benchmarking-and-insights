@@ -8,7 +8,8 @@
 
 @await Component.InvokeAsync("PageActions", new
 {
-    fileName = $"benchmark-spending-{Model.CompanyNumber}.zip",
+    saveButtonVisible = true,
+    saveFileName = $"benchmark-spending-{Model.CompanyNumber}.zip",
     waitForEventType = eventType
 })
 

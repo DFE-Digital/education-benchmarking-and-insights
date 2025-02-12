@@ -407,8 +407,28 @@ hr.govuk-section-break--print {
   }
 }
 
-.page-actions {
-  float: right;
+.page-actions-wrapper {
+  @include govuk-media-query($from: tablet) {
+    float: right;
+  }
+
+  .page-actions {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    margin-bottom: 15px;
+
+    button {
+      margin: 0;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      flex-direction: column;
+      button {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .composed-container {

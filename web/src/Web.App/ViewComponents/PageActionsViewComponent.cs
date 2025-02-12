@@ -5,6 +5,20 @@ namespace Web.App.ViewComponents;
 
 public class PageActionsViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(string? title, string? name, string? id, string? kind)
-        => View(new PageActionsViewModel(title, name, id, kind));
+    public IViewComponentResult Invoke(
+        bool? saveButtonVisible,
+        bool? downloadButtonVisible,
+        string? saveClassName,
+        string? saveFileName,
+        string? saveTitleAttr,
+        string? waitForEventType,
+        string? downloadLink)
+        => View(new PageActionsViewModel(
+            saveButtonVisible,
+            downloadButtonVisible,
+            saveClassName,
+            saveFileName,
+            saveTitleAttr,
+            waitForEventType,
+            downloadLink));
 }
