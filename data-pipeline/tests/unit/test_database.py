@@ -22,9 +22,9 @@ def test_unique_temp_table_names():
         temp_table
         for table in table_names
         for temp_table in [
-            database._get_temp_table(table, "2021"),
-            database._get_temp_table(table, random_run_id),
-            database._get_temp_table(table, str(uuid.uuid4())),
+            database._get_temp_table_name(table, "2021"),
+            database._get_temp_table_name(table, random_run_id),
+            database._get_temp_table_name(table, str(uuid.uuid4())),
         ]
     ]
 

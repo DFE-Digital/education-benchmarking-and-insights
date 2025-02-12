@@ -1,7 +1,9 @@
 import json
 import logging
 import os
+import textwrap
 import time
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
@@ -42,7 +44,53 @@ def get_engine() -> sqlalchemy.engine.Engine:
     return create_engine(connection_url, fast_executemany=True)
 
 
-def _get_temp_table(table: str, run_id: str) -> str:
+@dataclass
+class TempTable:
+    name: str
+    target: str
+    columns: list[str]
+
+    def __str__(self):
+        return self.name
+
+
+def _get_table_columns(
+    table: str,
+    engine: sqlalchemy.engine.Engine,
+) -> list[str]:
+    """
+    Retrieve the columns for a given table.
+
+    The source-of-truth for the table formats should remain the DB
+    itself: here, we retrieve the list of expected columns directly
+    from the table's schema.
+
+    :param table: DB table for which to retrieve columns
+    :return: column names
+    """
+    sql = textwrap.dedent(
+        """
+    SELECT COLUMN_NAME
+      FROM INFORMATION_SCHEMA.COLUMNS
+     WHERE TABLE_NAME = :table
+    ;
+    """
+    ).strip()
+
+    with engine.begin() as cnx:
+        results = (
+            cnx.execute(
+                sqlalchemy.text(sql),
+                parameters={"table": table},
+            )
+            .mappings()
+            .all()
+        )
+
+    return [result["COLUMN_NAME"] for result in results]
+
+
+def _get_temp_table_name(table: str, run_id: str) -> str:
     """
     Generate a unique temp. table name.
 
@@ -60,6 +108,124 @@ def _get_temp_table(table: str, run_id: str) -> str:
     :return: unique temp. table name
     """
     return f"_{table}_{run_id}_{int(time.time())}_temp".replace("-", "_")
+
+
+def _get_temp_table(
+    table: str,
+    run_id: str,
+    engine: sqlalchemy.engine.Engine,
+) -> TempTable:
+    """
+    Create a temp. table for data ingest.
+
+    Data will be stored in a temp. table before data are copied into
+    the target table. Here, we create the temp. table and appropriate
+    metadata.
+
+    Note: the `SELECT…INTO…` pattern assures that the temp. table will
+    be structurally identical to the target table.
+
+    :param table: target table to which data will be moved
+    :param run_id: unique identifier for processing
+    :return: temp. table details
+    """
+    temp_table_name = _get_temp_table_name(table, run_id)
+
+    logger.info(f"Creating temp. table: {temp_table_name}.")
+    sql = textwrap.dedent(
+        f"""
+    SELECT *
+      INTO {temp_table_name}
+      FROM {table}
+     WHERE 1=0
+    ;
+    """
+    ).strip()
+    with engine.begin() as cnx:
+        cnx.execute(sqlalchemy.text(sql))
+
+    columns = _get_table_columns(temp_table_name, engine)
+
+    return TempTable(
+        name=temp_table_name,
+        target=table,
+        columns=columns,
+    )
+
+
+def _write_data(
+    df: pd.DataFrame,
+    table: str,
+    run_id: str,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    """
+    Write data to a target table.
+
+    The workflow is as follows:
+
+    1. Create a temp. table
+    2. Copy the data to the temp. table
+    3. In a single transaction:
+       1. Delete the corresponding data in the target table
+       2. Copy the data from the temp. table to the target table
+    4. Delete the temp. table
+
+    :param df: DataFrame holding the data to be written
+    :param table: the target table
+    :param run_id: unique identifier for processing
+    :param engine: SQLAlchemy Engine
+    """
+    if engine is None:
+        engine = get_engine()
+
+    temp_table = _get_temp_table(
+        table=table,
+        run_id=run_id,
+        engine=engine,
+    )
+
+    logger.info(f"Writing to temp. table: {temp_table}.")
+    start = time.time()
+    df.to_sql(
+        name=temp_table.name,
+        con=engine,
+        if_exists="append",
+        index=df.index.name is not None,
+    )
+    logger.info(
+        f"Wrote {len(df.index):,} rows to {temp_table} in {int(time.time() - start):,} seconds."
+    )
+
+    sql = textwrap.dedent(
+        f"""
+    BEGIN TRANSACTION;
+
+    DELETE
+      FROM {table}
+     WHERE RunId = :run_id
+    ;
+
+    INSERT INTO {table} (
+        {'\n      , '.join(temp_table.columns)}
+    )
+    SELECT {'\n         , '.join(temp_table.columns)}
+      FROM {temp_table}
+    ;
+
+    COMMIT;
+    """
+    ).strip()
+
+    logger.info(f"Writing to {table} ({run_id}).")
+    start = time.time()
+    with engine.begin() as cnx:
+        cnx.execute(sqlalchemy.text(sql), parameters={"run_id": run_id})
+        cnx.execute(sqlalchemy.text(f"DROP TABLE {temp_table};"))
+
+    logger.info(
+        f"Wrote {len(df):,} rows to {table}:{run_id} in {int(time.time() - start):,} seconds."
+    )
 
 
 def upsert(
@@ -94,85 +260,13 @@ def upsert(
         insert_cols.append(col)
         insert_vals.append("src.{col}".format(col=col))
 
-    temp_table = _get_temp_table(table_name, run_id)
+    temp_table = _get_temp_table_name(table_name, run_id)
     df.to_sql(temp_table, engine, if_exists="fail", index=True, dtype=dtype)
 
     update_stmt = f'MERGE {table_name} as dest USING {temp_table} as src ON {" AND ".join(match_keys)}  WHEN MATCHED THEN UPDATE SET {", ".join(update_cols)} WHEN NOT MATCHED BY TARGET THEN INSERT ({", ".join(insert_cols)}) VALUES ({", ".join(insert_vals)});'
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(update_stmt))
-        cnx.execute(sqlalchemy.text(f"DROP TABLE IF EXISTS {temp_table}"))
-
-
-def insert_comparator_set(
-    run_type: str,
-    run_id: str,
-    df: pd.DataFrame,
-    engine: sqlalchemy.engine.Engine | None = None,
-):
-    write_frame = df[["Pupil", "Building"]].copy()
-    write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(run_id)
-    write_frame["Pupil"] = write_frame["Pupil"].map(lambda x: json.dumps(x.tolist()))
-    write_frame["Building"] = write_frame["Building"].map(
-        lambda x: json.dumps(x.tolist())
-    )
-
-    upsert(
-        write_frame,
-        "ComparatorSet",
-        run_id,
-        keys=["RunType", "RunId", "URN"],
-        engine=engine,
-    )
-    logger.info(
-        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {run_id}"
-    )
-
-
-def insert_metric_rag(
-    run_type: str,
-    run_id: str,
-    df: pd.DataFrame,
-    engine: sqlalchemy.engine.Engine | None = None,
-):
-    write_frame = df[
-        [
-            "Category",
-            "SubCategory",
-            "Value",
-            "Median",
-            "DiffMedian",
-            "PercentDiff",
-            "Percentile",
-            "Decile",
-            "RAG",
-        ]
-    ].copy()
-    write_frame["RunType"] = run_type
-    write_frame["RunId"] = str(run_id)
-
-    upsert(
-        write_frame,
-        "MetricRAG",
-        run_id,
-        keys=["RunType", "RunId", "URN", "Category", "SubCategory"],
-        dtype={
-            "RunType": sqlalchemy.types.VARCHAR(length=50),
-            "RunId": sqlalchemy.types.VARCHAR(length=50),
-            "URN": sqlalchemy.types.VARCHAR(length=6),
-            "Category": sqlalchemy.types.VARCHAR(length=50),
-            "SubCategory": sqlalchemy.types.VARCHAR(length=50),
-            "Value": sqlalchemy.types.Numeric(16, 2),
-            "Median": sqlalchemy.types.Numeric(16, 2),
-            "DiffMedian": sqlalchemy.types.Numeric(16, 2),
-            "PercentDiff": sqlalchemy.types.Numeric(16, 2),
-            "Percentile": sqlalchemy.types.Numeric(16, 2),
-            "Decile": sqlalchemy.types.Numeric(16, 2),
-            "RAG": sqlalchemy.types.VARCHAR(length=10),
-        },
-        engine=engine,
-    )
-    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {run_id}")
+        cnx.execute(sqlalchemy.text(f"DROP TABLE {temp_table};"))
 
 
 def insert_schools_and_local_authorities(
@@ -320,21 +414,16 @@ def insert_non_financial_data(
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
-
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(run_id)
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(
-        write_frame,
-        "NonFinancial",
-        run_id,
-        keys=["RunType", "RunId", "URN"],
+    _write_data(
+        df=write_frame,
+        table="NonFinancial",
+        run_id=run_id,
         engine=engine,
-    )
-    logger.info(
-        f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {run_id}"
     )
 
 
@@ -485,15 +574,11 @@ def insert_financial_data(
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(
-        write_frame,
-        "Financial",
-        run_id,
-        keys=["RunType", "RunId", "URN"],
+    _write_data(
+        df=write_frame,
+        table="Financial",
+        run_id=run_id,
         engine=engine,
-    )
-    logger.info(
-        f"Wrote {len(write_frame)} rows to financial data {run_type} - {run_id}"
     )
 
 
@@ -523,15 +608,11 @@ def insert_trust_financial_data(
     write_frame["RunType"] = run_type
     write_frame["RunId"] = str(run_id)
 
-    upsert(
-        write_frame,
-        "TrustFinancial",
-        run_id,
-        keys=["RunType", "RunId", "CompanyNumber"],
+    _write_data(
+        df=write_frame,
+        table="TrustFinancial",
+        run_id=run_id,
         engine=engine,
-    )
-    logger.info(
-        f"Wrote {len(write_frame.index)} rows to Trust financial data {run_type} - {run_id}"
     )
 
 
@@ -564,22 +645,12 @@ def insert_bfr_metrics(
     write_frame["Year"] = int(year)
     write_frame.set_index("CompanyNumber", inplace=True)
 
-    upsert(
-        write_frame,
-        "BudgetForecastReturnMetric",
-        run_id,
-        keys=["RunType", "RunId", "Year", "CompanyNumber", "Metric"],
-        dtype={
-            "RunType": sqlalchemy.types.VARCHAR(length=50),
-            "RunId": sqlalchemy.types.VARCHAR(length=50),
-            "Year": sqlalchemy.types.Integer(),
-            "Metric": sqlalchemy.types.VARCHAR(length=50),
-            "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
-            "Value": sqlalchemy.types.Numeric(16, 2),
-        },
+    _write_data(
+        df=write_frame,
+        table="BudgetForecastReturnMetric",
+        run_id=run_id,
         engine=engine,
     )
-    logger.info(f"Wrote {len(write_frame)} rows to BFR metrics data default - {year}")
 
 
 def insert_bfr(
@@ -609,20 +680,63 @@ def insert_bfr(
     write_frame["RunType"] = "default"
     write_frame["RunId"] = str(run_id)
 
-    upsert(
-        write_frame,
-        "BudgetForecastReturn",
-        run_id,
-        keys=["RunType", "RunId", "Year", "CompanyNumber", "Category"],
-        dtype={
-            "RunType": sqlalchemy.types.VARCHAR(length=50),
-            "RunId": sqlalchemy.types.VARCHAR(length=50),
-            "Year": sqlalchemy.types.Integer(),
-            "Category": sqlalchemy.types.VARCHAR(length=50),
-            "CompanyNumber": sqlalchemy.types.VARCHAR(length=8),
-            "Value": sqlalchemy.types.Numeric(16, 2),
-            "TotalPupils": sqlalchemy.types.Numeric(16, 2),
-        },
+    _write_data(
+        df=write_frame,
+        table="BudgetForecastReturn",
+        run_id=run_id,
         engine=engine,
     )
-    logger.info(f"Wrote {len(write_frame)} rows to BFR data default - {run_id}")
+
+
+def insert_comparator_set(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    write_frame = df[["Pupil", "Building"]].copy()
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(run_id)
+    write_frame["Pupil"] = write_frame["Pupil"].map(
+        lambda array: json.dumps(array.tolist())
+    )
+    write_frame["Building"] = write_frame["Building"].map(
+        lambda array: json.dumps(array.tolist())
+    )
+
+    _write_data(
+        df=write_frame,
+        table="ComparatorSet",
+        run_id=run_id,
+        engine=engine,
+    )
+
+
+def insert_metric_rag(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    write_frame = df[
+        [
+            "Category",
+            "SubCategory",
+            "Value",
+            "Median",
+            "DiffMedian",
+            "PercentDiff",
+            "Percentile",
+            "Decile",
+            "RAG",
+        ]
+    ].copy()
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(run_id)
+
+    _write_data(
+        df=write_frame,
+        table="MetricRAG",
+        run_id=run_id,
+        engine=engine,
+    )
