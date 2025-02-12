@@ -71,3 +71,8 @@
     Scenario: Benchmarking for school(s) with missing census data does not display comparators
         Given I am on census page for part year school with URN '990754'
         Then the benchmarking charts are not displayed
+
+    Scenario: Clicking download button downloads .zip file
+        Given I am on census page for school with URN '777042'
+        When I click on download data
+        Then the file 'census-777042.zip' is downloaded

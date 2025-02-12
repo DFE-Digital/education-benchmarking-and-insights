@@ -32,6 +32,11 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.Table);
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
     private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
+    private ILocator DownloadDataButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Download page data"
+        });
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -80,6 +85,7 @@ public class BenchmarkCensusPage(IPage page)
             await ComparatorSetDetails.ShouldBeVisible();
             await CustomComparatorLink.ShouldBeVisible();
             await CustomDataLink.ShouldBeVisible();
+            await DownloadDataButton.ShouldBeVisible();
 
             await AreSaveAsImageButtonsDisplayed();
             await AreCopyImageButtonsDisplayed(false);
@@ -241,6 +247,11 @@ public class BenchmarkCensusPage(IPage page)
         {
             await locator.ShouldNotBeVisible();
         }
+    }
+
+    public async Task ClickDownloadDataButton()
+    {
+        await DownloadDataButton.Click();
     }
 
     private ILocator ChartDimensionDropdown(CensusChartNames chartName)
