@@ -20,6 +20,7 @@ pyarrow = "^16.0.0"
 dask = {extras = ["distributed"], version = "^2024.5.0"}
 pyodbc = "^5.1.0"
 sqlalchemy = "^2.0.30"
+python-calamine = "^0.3.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"

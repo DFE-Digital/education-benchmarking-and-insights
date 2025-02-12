@@ -10,6 +10,7 @@ def prepare_ks4_data(ks4_path):
             dtype=input_schemas.ks4,
             usecols=input_schemas.ks4.keys(),
             na_values=["NP", "NE", "SUPP", "LOWCOV"],
+            engine="calamine",
         )
         ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
         ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)

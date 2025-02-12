@@ -9,6 +9,7 @@ def prepare_ks2_data(ks2_path):
             ks2_path,
             usecols=input_schemas.ks2.keys(),
             dtype=input_schemas.ks2,
+            engine="calamine",
         )
         ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
         ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
