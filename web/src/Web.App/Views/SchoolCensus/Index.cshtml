@@ -12,10 +12,9 @@
     @await Component.InvokeAsync("PageActions", new
     {
         downloadButtonVisible = true,
-        downloadLink = Url.ActionLink("Download", "CensusProxy", new
+        downloadLink = Url.ActionLink("Download", "SchoolCensus", new
         {
-            type = "school",
-            id = Model.Urn,
+            urn = Model.Urn,
             customDataId = Model.CustomDataId
         })
     })

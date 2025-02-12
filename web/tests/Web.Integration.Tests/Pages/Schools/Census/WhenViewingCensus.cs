@@ -1,20 +1,19 @@
 ﻿using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages.Schools;
+namespace Web.Integration.Tests.Pages.Schools.Census;
 
 public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
 {
-    private readonly Census _census;
+    private readonly App.Domain.Census _census;
 
     public WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : base(client)
     {
-        _census = Fixture.Build<Census>()
+        _census = Fixture.Build<App.Domain.Census>()
             .Create();
     }
 

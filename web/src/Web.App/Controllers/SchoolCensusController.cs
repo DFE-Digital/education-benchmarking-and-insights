@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -21,7 +22,8 @@ public class SchoolCensusController(
     ICensusApi censusApi,
     IComparatorSetApi comparatorSetApi,
     ILogger<SchoolCensusController> logger,
-    IUserDataService userDataService)
+    IUserDataService userDataService,
+    ISchoolComparatorSetService schoolComparatorSetService)
     : Controller
 {
     [HttpGet]
@@ -91,6 +93,32 @@ public class SchoolCensusController(
         }
     }
 
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string urn, [FromQuery] string? customDataId)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                var result = customDataId is not null
+                    ? await GetCustomAsync(urn, customDataId)
+                    : await GetDefaultAsync(urn);
+                return new CsvResults([new CsvResult(result, $"census-{urn}.csv")], $"census-{urn}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting census data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
 
     private async Task<School> School(string urn) => await establishmentApi
         .GetSchool(urn)
@@ -102,4 +130,57 @@ public class SchoolCensusController(
 
     private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
         .GetSchoolDataAsync(User, urn);
+
+    private async Task<Census[]> GetCustomAsync(string urn, string customDataId)
+    {
+        var set = await schoolComparatorSetService.ReadComparatorSet(urn, customDataId);
+        if (set == null || set.Pupil.Length == 0)
+        {
+            return [];
+        }
+
+        var schools = set.Pupil.Where(x => x != urn);
+        var setQuery = BuildApiQuery(schools);
+        var customQuery = BuildApiQuery();
+
+        var defaultResults = await censusApi.Query(setQuery).GetResultOrDefault<Census[]>() ?? [];
+        var customResult = await censusApi.GetCustom(urn, customDataId, customQuery).GetResultOrDefault<Census>();
+
+        return customResult != null
+            ? defaultResults.Append(customResult).ToArray()
+            : defaultResults;
+    }
+
+    private async Task<Census[]> GetDefaultAsync(string urn)
+    {
+        var query = BuildApiQuery(await GetSchoolSet(urn));
+        var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
+        return result ?? [];
+    }
+
+    private async Task<string[]> GetSchoolSet(string id)
+    {
+        var userData = await userDataService.GetSchoolDataAsync(User, id);
+        if (string.IsNullOrEmpty(userData.ComparatorSet))
+        {
+            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
+            return defaultSet?.Pupil ?? [];
+        }
+
+        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        return userDefinedSet?.Set ?? [];
+    }
+
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? dimension = "Total")
+    {
+        var query = new ApiQuery()
+            .AddIfNotNull("dimension", dimension);
+
+        foreach (var urn in urns ?? [])
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
+    }
 }

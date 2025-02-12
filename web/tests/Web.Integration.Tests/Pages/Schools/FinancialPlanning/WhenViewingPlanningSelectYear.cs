@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -197,7 +198,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
             .With(i => i.EducationSupportStaffCosts, educationSupportStaffCosts)
             .Create();
 
-        var census = Fixture.Build<Census>()
+        var census = Fixture.Build<App.Domain.Census>()
             .With(i => i.Teachers, teachers)
             .Create();
 

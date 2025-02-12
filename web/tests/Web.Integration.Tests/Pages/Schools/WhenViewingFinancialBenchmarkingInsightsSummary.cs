@@ -4,6 +4,7 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -100,7 +101,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         AssertWarning(page, school, commentary);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Census)> SetupNavigateInitPage(
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance, App.Domain.Census)> SetupNavigateInitPage(
         string financeType,
         bool isPartOfFederation = false,
         bool isLeadSchoolInFederation = false,
@@ -169,7 +170,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
             }
         ];
 
-        var censuses = Fixture.Build<Census>().CreateMany().ToArray();
+        var censuses = Fixture.Build<App.Domain.Census>().CreateMany().ToArray();
         censuses.First().URN = school.URN;
 
         var comparatorSet = Fixture.Create<SchoolComparatorSet>();
@@ -268,7 +269,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         Assert.Equal(Paths.SchoolComparison(school.URN), links.Last().GetAttribute("href"));
     }
 
-    private static void AssertPupilWorkforceMetrics(IHtmlDocument page, School school, Census census)
+    private static void AssertPupilWorkforceMetrics(IHtmlDocument page, School school, App.Domain.Census census)
     {
         var pupilWorkforceMetricsSection = page.Body.SelectSingleNode("//main/div/section[5]");
         DocumentAssert.Heading2(pupilWorkforceMetricsSection, "Pupil and workforce metrics");

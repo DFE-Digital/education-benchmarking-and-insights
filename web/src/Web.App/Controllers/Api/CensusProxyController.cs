@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Web.App.ActionResults;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -38,34 +37,6 @@ public class CensusProxyController(
                     ? await GetCustomAsync(id, category, dimension, customDataId)
                     : await GetDefaultAsync(type, id, category, dimension, phase);
                 return new JsonResult(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error getting census data: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
-
-    [HttpGet]
-    [Produces("application/zip")]
-    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Route("download")]
-    public async Task<IActionResult> Download([FromQuery] string type, [FromQuery] string id, [FromQuery] string? customDataId)
-    {
-        using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
-        {
-            try
-            {
-                var result = customDataId is not null
-                    ? await GetCustomAsync(id, null, "Total", customDataId)
-                    : await GetDefaultAsync(type, id, null, "Total", null);
-                return new CsvResults([new CsvResult(result, $"census-{id}.csv")], $"census-{id}.zip");
             }
             catch (Exception e)
             {
