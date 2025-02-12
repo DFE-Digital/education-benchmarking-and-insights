@@ -26,6 +26,7 @@ parameters:
       - s198p02
 
 variables:
+  - group: 'support'
   - name: ShouldDeployProd
     value: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
   - name: IsPipelineVersionSet
@@ -172,6 +173,7 @@ stages:
           environment: 'pre-production'
           cipEnvironment: 'Prod'
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
+          supportAlertEmail: ${support-alert-email}
 
   - stage: DeployProd
     dependsOn: [ DeployPreProd ]
@@ -187,3 +189,4 @@ stages:
           environment: 'production'
           cipEnvironment: 'Prod'
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
+          supportAlertEmail: ${support-alert-email}

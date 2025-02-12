@@ -4,6 +4,7 @@ parameters:
   environment: 'feature'
   cipEnvironment: ''
   disablePurgeProtection: ''
+  supportAlertEmail: ''
   dependsOn: []
   workspaceDir: '$(Pipeline.Workspace)'
 
@@ -35,6 +36,7 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
+                supportAlertEmail: ${{ parameters.supportAlertEmail }}
                 module: 'core'
 
             - task: AzureKeyVault@2

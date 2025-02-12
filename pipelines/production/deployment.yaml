@@ -4,6 +4,7 @@ parameters:
   environment: ''
   cipEnvironment: ''
   pipelineBuildNumber: ''
+  supportAlertEmail: ''
 
 jobs:
   - job: SetBuildNumber
@@ -18,6 +19,7 @@ jobs:
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
+      supportAlertEmail: ${{ parameters.supportAlertEmail }}
 
   - template: ../data-pipeline/deployment.yaml
     parameters:
