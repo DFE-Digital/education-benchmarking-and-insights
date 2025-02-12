@@ -3,8 +3,8 @@ Feature: School create custom data
     Background:
         Given I am on the service home
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
-        And I have removed any existing custom data for school with URN '990023'
-        And I am on create custom data page for school with URN '990023'
+        And I have removed any existing custom data for school with URN '990238' in trust 'FBIT Multi Academy Trust'
+        And I am on create custom data page for school with URN '990238'
 
     Scenario: Can view create custom data page
         When I click start now
@@ -22,7 +22,7 @@ Feature: School create custom data
         And I click continue
         And I supply the following workforce data:
           | Item                                    | Value |
-          | School workforce (full time equivalent) | 250   |
+          | School workforce (full time equivalent) | 90    |
         And I save the custom data
         Then the submitted page is displayed
 
@@ -32,8 +32,8 @@ Feature: School create custom data
         And I click continue
         And I supply the following workforce data:
           | Item                                      | Value |
-          | School workforce (full time equivalent)   | 250   |
-          | Number of teachers (full time equivalent) | 300   |
+          | School workforce (full time equivalent)   | 90    |
+          | Number of teachers (full time equivalent) | 100   |
         And I save the custom data
         Then the validation errors are displayed:
           | Error                                                                                                                |
@@ -45,7 +45,7 @@ Feature: School create custom data
         And I click continue
         And I supply the following workforce data:
           | Item                                      | Value |
-          | Number of teachers (full time equivalent) | 300   |
+          | Number of teachers (full time equivalent) | 100   |
         And I save the custom data
         Then the validation errors are displayed:
           | Error                                                                                                                |
@@ -57,7 +57,7 @@ Feature: School create custom data
         And I click continue
         And I supply the following workforce data:
           | Item                                     | Value |
-          | Senior leadership (full time equivalent) | 300   |
+          | Senior leadership (full time equivalent) | 100   |
         And I save the custom data
         Then the validation errors are displayed:
           | Error                                                                                                                 |
