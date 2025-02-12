@@ -160,6 +160,27 @@ public class BenchmarkCensusSteps(PageDriver driver)
         await _censusPage.AreComparisonChartsAndTablesDisplayed(false);
     }
 
+    [When("I click on download data")]
+    public async Task WhenIClickOnDownloadData()
+    {
+        Assert.NotNull(_censusPage);
+        var page = await driver.Current;
+        var downloadTask = page.WaitForDownloadAsync();
+
+        await _censusPage.ClickDownloadDataButton();
+
+        _download = await downloadTask;
+    }
+
+    [Then("the file '(.*)' is downloaded")]
+    public void ThenTheFileIsDownloaded(string fileName)
+    {
+        Assert.NotNull(_censusPage);
+        Assert.NotNull(_download);
+        var downloadedFilePath = _download.SuggestedFilename;
+        Assert.Equal(fileName, downloadedFilePath);
+    }
+
     [StepArgumentTransformation]
     public static string[] TransformTDropdownOptionsToListOfStrings(string commaSeperatedList)
     {

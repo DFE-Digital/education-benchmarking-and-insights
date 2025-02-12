@@ -377,6 +377,27 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsSaveImagesModalDisplayed();
     }
 
+    [When("I click on download data")]
+    public async Task WhenIClickOnDownloadData()
+    {
+        Assert.NotNull(_comparisonPage);
+        var page = await driver.Current;
+        var downloadTask = page.WaitForDownloadAsync();
+
+        await _comparisonPage.ClickDownloadDataButton();
+
+        _download = await downloadTask;
+    }
+
+    [Then("the file '(.*)' is downloaded")]
+    public void ThenTheFileIsDownloaded(string fileName)
+    {
+        Assert.NotNull(_comparisonPage);
+        Assert.NotNull(_download);
+        var downloadedFilePath = _download.SuggestedFilename;
+        Assert.Equal(fileName, downloadedFilePath);
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);

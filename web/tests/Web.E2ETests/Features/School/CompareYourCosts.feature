@@ -321,3 +321,8 @@ Feature: School compare your costs
           | Test school 124                                                                                                     | Newham                           | Voluntary aided school             | 769              | £29.55  |
           | Test academy school 136                                                                                             | Merton                           | Academy special converter          | 1040             | £13.09  |
           | Test academy school 134                                                                                             | Hounslow                         | Academy special converter          | 883              | £0.19   |
+
+    Scenario: Clicking download button downloads .zip file
+        Given I am on compare your costs page for school with URN '777042'
+        When I click on download data
+        Then the file 'comparison-777042.zip' is downloaded

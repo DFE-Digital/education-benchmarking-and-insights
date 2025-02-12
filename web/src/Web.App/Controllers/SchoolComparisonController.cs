@@ -123,10 +123,10 @@ public class SchoolComparisonController(
 
                 IEnumerable<CsvResult> csvResults =
                 [
-                    new(buildingResult, $"expenditure-{urn}-building.csv"),
-                    new(pupilResult, $"expenditure-{urn}-pupil.csv")
+                    new(buildingResult, $"comparison-{urn}-building.csv"),
+                    new(pupilResult, $"comparison-{urn}-pupil.csv")
                 ];
-                return new CsvResults(csvResults, $"expenditure-{urn}.zip");
+                return new CsvResults(csvResults, $"comparison-{urn}.zip");
             }
             catch (Exception e)
             {

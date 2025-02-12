@@ -60,7 +60,11 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
     private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
     private ILocator TotalPremisesStaffAndServiceCostsDimension => page.Locator(Selectors.TotalPremisesStaffAndServiceCostsDimension);
-
+    private ILocator DownloadDataButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Download page data"
+        });
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
@@ -142,6 +146,7 @@ public class CompareYourCostsPage(IPage page)
             await CustomComparatorLink.ShouldBeVisible();
             await CustomDataLink.ShouldBeVisible();
             await SaveChartImagesButton.ShouldNotBeVisible();
+            await DownloadDataButton.ShouldBeVisible();
 
             //TODO: test data is missing building comparator set. Building relate categories are not shown.
             /*await HasDimensionValuesForChart(ComparisonChartNames.Premises,
@@ -403,6 +408,11 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsSaveImagesModalDisplayed()
     {
         await SaveImagesModal.ShouldBeVisible();
+    }
+
+    public async Task ClickDownloadDataButton()
+    {
+        await DownloadDataButton.Click();
     }
 
     private ILocator SectionLink(ComparisonChartNames chartName)
