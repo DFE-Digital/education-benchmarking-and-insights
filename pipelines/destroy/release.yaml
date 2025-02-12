@@ -91,3 +91,4 @@ stages:
           pipelineEnvironment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           buildNumber: $(Version.BuildNumber)
+          supportAlertEmail: $(support-alert-email)

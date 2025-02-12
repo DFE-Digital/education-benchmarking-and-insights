@@ -7,6 +7,7 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
   dependsOn: []
   disablePurgeProtection: ''
+  supportAlertEmail: ''
 
 jobs:
   - deployment: CoreSync
@@ -30,3 +31,4 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'core'
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
+                supportAlertEmail: ${{ parameters.supportAlertEmail }}

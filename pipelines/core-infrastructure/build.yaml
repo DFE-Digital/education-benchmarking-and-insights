@@ -19,6 +19,7 @@ pr:
 
 variables:
   - template: ..\common\vars.yaml
+  - group: 'support'
   - name: TerraformFolder
     value: 'core-infrastructure/terraform'
   - name: TerraformDirectory
@@ -114,6 +115,7 @@ stages:
           environmentPrefix: 's198d01'
           environment: 'development'
           cipEnvironment: 'Dev'
+          supportAlertEmail: $(support-alert-email)
 
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
@@ -126,6 +128,7 @@ stages:
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
+          supportAlertEmail: $(support-alert-email)
 
   - stage: DeployTest
     dependsOn: [ DeployAutomatedTest ]
@@ -138,3 +141,4 @@ stages:
           environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
+          supportAlertEmail: $(support-alert-email)

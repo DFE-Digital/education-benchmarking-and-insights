@@ -5,6 +5,7 @@ parameters:
   pipelineEnvironment: ''
   cipEnvironment: ''
   buildNumber: ''
+  supportAlertEmail: ''
   dependsOn: []
 
 jobs:
@@ -17,6 +18,7 @@ jobs:
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
       disablePurgeProtection: 'true'
+      supportAlertEmail: ${{ parameters.supportAlertEmail }}
 
   - template: ../data-pipeline/sync.yaml
     parameters:

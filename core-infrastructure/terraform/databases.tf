@@ -167,22 +167,22 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
 }
 
 resource "azurerm_mssql_server_security_alert_policy" "sql-security-alert-policy" {
-  #checkov:skip=CKV_AZURE_26:See ADO backlog AB#206493
-  #checkov:skip=CKV_AZURE_27:See ADO backlog AB#206493
-  resource_group_name = azurerm_resource_group.resource-group.name
-  server_name         = azurerm_mssql_server.sql-server.name
-  state               = "Enabled"
+  resource_group_name  = azurerm_resource_group.resource-group.name
+  server_name          = azurerm_mssql_server.sql-server.name
+  state                = "Enabled"
+  email_addresses      = [var.support-alert-email]
+  email_account_admins = true
 }
 
 resource "azurerm_mssql_server_vulnerability_assessment" "sql-server-vulnerability" {
-  #checkov:skip=CKV2_AZURE_4:See ADO backlog AB#206493
-  #checkov:skip=CKV2_AZURE_5:See ADO backlog AB#206493
   server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.sql-security-alert-policy.id
   storage_container_path          = "${azurerm_storage_account.sql-log-storage.primary_blob_endpoint}${azurerm_storage_container.sql-vulnerability-container.name}/"
   storage_account_access_key      = azurerm_storage_account.sql-log-storage.primary_access_key
 
   recurring_scans {
-    enabled = true
+    enabled                   = true
+    emails                    = [var.support-alert-email]
+    email_subscription_admins = true
   }
 }
 

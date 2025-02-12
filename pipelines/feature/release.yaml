@@ -29,21 +29,37 @@ parameters:
       - 19
 
 variables:
-  Environment.Name: ${{ parameters.environment }}
-  Version.BranchRevision: $[counter(variables['Environment.Name'], 100)]
-  Version.FeatureEnvironment: ${{ parameters.featureEnvironment }}
-  Version.BuildNumber: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  Pipeline.Environment: 'feature'
-  Subscription: 's198d.azdo-deployment'
-  WorkingDir.Core: 'core-infrastructure'
-  WorkingDir.SupportAnalytics: 'support-analytics'
-  WorkingDir.FrontEnd: 'front-end-components'
-  WorkingDir.Platform: 'platform'
-  WorkingDir.Web: 'web'
-  WorkingDir.DataPipeline: 'data-pipeline'
-  NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
-  NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
+  - group: 'support'
+  - name: Environment.Name
+    value: ${{ parameters.environment }}
+  - name: Version.BranchRevision
+    value: $[counter(variables['Environment.Name'], 100)]
+  - name: Version.FeatureEnvironment
+    value: ${{ parameters.featureEnvironment }}
+  - name: Version.BuildNumber
+    value: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
+  - name: Version.BuildVersion
+    value: $(Version.BuildNumber)
+  - name: Pipeline.Environment
+    value: 'feature'
+  - name: Subscription
+    value: 's198d.azdo-deployment'
+  - name: WorkingDir.Core
+    value: 'core-infrastructure'
+  - name: WorkingDir.SupportAnalytics
+    value: 'support-analytics'
+  - name: WorkingDir.FrontEnd
+    value: 'front-end-components'
+  - name: WorkingDir.Platform
+    value: 'platform'
+  - name: WorkingDir.Web
+    value: 'web'
+  - name: WorkingDir.DataPipeline
+    value: 'data-pipeline'
+  - name: NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS
+    value: 30
+  - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
+    value: 30
 
 name: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
 
@@ -104,6 +120,7 @@ stages:
           cipEnvironment: 'Dev'
           dependsOn: [ ZipStaticCoreArtifacts, BuildCore ]
           disablePurgeProtection: 'true'
+          supportAlertEmail: $(support-alert-email)
 
   - stage: BuildDataPipeline
     dependsOn: [ BuildNumber, DeployCore ]
