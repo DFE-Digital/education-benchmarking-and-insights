@@ -20,6 +20,7 @@ def build_cfo_data(cfo_data_path) -> pd.DataFrame:
             "Direct email address",
         ],
         dtype=str,
+        engine="calamine",
     ).rename(
         columns={
             "Direct email address": "CFO email",

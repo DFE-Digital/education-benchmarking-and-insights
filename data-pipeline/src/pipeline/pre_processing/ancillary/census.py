@@ -35,6 +35,7 @@ def prepare_census_data(
             ),
             na_values=["x", "u", "c", "z", ":"],
             keep_default_na=True,
+            engine="calamine",
         )
         .rename(
             columns=input_schemas.workforce_census_column_mappings.get(
