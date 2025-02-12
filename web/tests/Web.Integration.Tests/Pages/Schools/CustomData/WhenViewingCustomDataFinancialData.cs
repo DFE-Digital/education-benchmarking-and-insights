@@ -12,7 +12,7 @@ namespace Web.Integration.Tests.Pages.Schools.CustomData;
 public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWebAppClient>
 {
     private readonly SchoolBalance _balance;
-    private readonly Census _census;
+    private readonly App.Domain.Census _census;
     private readonly SchoolExpenditure _customExpenditure;
     private readonly SchoolIncome _customIncome;
     private readonly SchoolExpenditure _expenditure;
@@ -34,7 +34,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         _customExpenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _census = Fixture.Build<Census>()
+        _census = Fixture.Build<App.Domain.Census>()
             .Create();
 
         _balance = Fixture.Build<SchoolBalance>()

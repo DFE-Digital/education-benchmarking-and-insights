@@ -4,12 +4,13 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarkingWebAppClient>
 {
-    private readonly Census _census;
-    private readonly Census _customCensus;
+    private readonly App.Domain.Census _census;
+    private readonly App.Domain.Census _customCensus;
     private readonly SchoolCharacteristic _customFloorAreaMetric;
     private readonly SchoolExpenditure _expenditure;
     private readonly SchoolCharacteristic _floorAreaMetric;
@@ -33,10 +34,10 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         _customFloorAreaMetric = Fixture.Build<SchoolCharacteristic>()
             .Create();
 
-        _census = Fixture.Build<Census>()
+        _census = Fixture.Build<App.Domain.Census>()
             .Create();
 
-        _customCensus = Fixture.Build<Census>()
+        _customCensus = Fixture.Build<App.Domain.Census>()
             .Create();
 
         _formValues = new Dictionary<string, decimal?>

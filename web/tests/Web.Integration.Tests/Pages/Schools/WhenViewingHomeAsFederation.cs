@@ -5,6 +5,7 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -140,7 +141,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
-        var census = Fixture.Build<Census>()
+        var census = Fixture.Build<App.Domain.Census>()
             .With(x => x.SchoolName, school.SchoolName)
             .With(x => x.URN, school.URN)
             .Create();

@@ -4,17 +4,17 @@ using AutoFixture;
 using Web.App.Domain;
 using Xunit;
 
-namespace Web.Integration.Tests.Proxy;
+namespace Web.Integration.Tests.Pages.Schools.Census;
 
 public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppClient>
 {
-    private readonly Census[] _censuses;
+    private readonly App.Domain.Census[] _censuses;
     private readonly SchoolBenchmarkingWebAppClient _client;
 
     public WhenRequestingCensusDownload(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _client = client;
-        _censuses = Fixture.Build<Census>().CreateMany().ToArray();
+        _censuses = Fixture.Build<App.Domain.Census>().CreateMany().ToArray();
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
             .SetupEstablishment(school)
             .SetupComparatorSet(school, comparatorSet)
             .SetupCensus(_censuses)
-            .Get(Paths.ApiCensusDownload(school.URN!, "school"));
+            .Get(Paths.SchoolCensusDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         await foreach (var tuple in GetFilesFromZip(response))
@@ -54,7 +54,7 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
         var response = await _client
             .SetupComparatorSetApiWithException()
             .SetupCensusWithException()
-            .Get(Paths.ApiCensusDownload(urn, "school"));
+            .Get(Paths.SchoolCensusDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

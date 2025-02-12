@@ -9,7 +9,7 @@ namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWebAppClient>
 {
-    private readonly Census _census;
+    private readonly App.Domain.Census _census;
     private readonly SchoolExpenditure _expenditure;
     private readonly SchoolCharacteristic _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
@@ -26,10 +26,10 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
         _floorAreaMetric = Fixture.Build<SchoolCharacteristic>()
             .Create();
 
-        _census = Fixture.Build<Census>()
+        _census = Fixture.Build<App.Domain.Census>()
             .Create();
 
-        var customCensus = Fixture.Build<Census>()
+        var customCensus = Fixture.Build<App.Domain.Census>()
             .With(c => c.Workforce, Fixture.CreateDecimal(101, 200))
             .With(c => c.Teachers, Fixture.CreateDecimal(51, 90))
             .With(c => c.PercentTeacherWithQualifiedStatus, Fixture.CreateDecimal(91, 100))
