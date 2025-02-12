@@ -1,4 +1,5 @@
 using Web.E2ETests.Drivers;
+using Web.E2ETests.Pages.School;
 using Web.E2ETests.Pages.School.CustomData;
 using Xunit;
 
@@ -13,6 +14,21 @@ public class CreateCustomDataSteps(PageDriver driver)
     private ChangeWorkforceDataPage? _changeWorkforceDataPage;
     private CreateCustomDataPage? _createCustomDataPage;
     private CreateCustomDataSubmittedPage? _createCustomDataSubmittedPage;
+    private RevertCustomDataPage? _revertCustomDataPage;
+    private HomePage? _schoolHomePage;
+
+    [Given("I have removed any existing custom data for school with URN '(.*)'")]
+    public async Task GivenIHaveRemovedAnyExistingCustomDataForSchoolWithURN(string urn)
+    {
+        var url = CreateCustomDataRevertUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _revertCustomDataPage = new RevertCustomDataPage(page);
+        await _revertCustomDataPage.IsDisplayed();
+        _schoolHomePage = await _revertCustomDataPage.ClickRemoveCustomData();
+        await _schoolHomePage.IsDisplayed(isMissingRags: true);
+    }
 
     [Given("I am on create custom data page for school with URN '(.*)'")]
     public async Task GivenIAmOnCreateCustomDataPageForSchoolWithURN(string urn)
@@ -115,4 +131,5 @@ public class CreateCustomDataSteps(PageDriver driver)
     }
 
     private static string CreateCustomDataUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/custom-data";
+    private static string CreateCustomDataRevertUrl(string urn) => $"{CreateCustomDataUrl(urn)}/revert";
 }
