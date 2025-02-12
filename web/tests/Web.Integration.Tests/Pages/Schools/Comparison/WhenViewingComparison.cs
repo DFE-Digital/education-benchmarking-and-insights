@@ -5,7 +5,8 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
-namespace Web.Integration.Tests.Pages.Schools;
+
+namespace Web.Integration.Tests.Pages.Schools.Comparison;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)

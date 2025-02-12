@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Web.App.ActionResults;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -65,53 +64,6 @@ public class ExpenditureProxyController(
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
-
-    [HttpGet]
-    [Produces("application/zip")]
-    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Route("download")]
-    public async Task<IActionResult> Download([FromQuery] string type, [FromQuery] string id, [FromQuery] string? customDataId)
-    {
-        using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
-        {
-            try
-            {
-                SchoolExpenditure[]? buildingResult;
-                SchoolExpenditure[]? pupilResult;
-                const string dimension = "Actuals";
-                switch (type.ToLower())
-                {
-                    case OrganisationTypes.School when customDataId is not null:
-                        buildingResult = await GetCustomSchoolExpenditure(id, true, null, dimension, customDataId);
-                        pupilResult = await GetCustomSchoolExpenditure(id, false, null, dimension, customDataId);
-                        break;
-                    case OrganisationTypes.School:
-                        buildingResult = await GetDefaultSchoolExpenditure(id, true, null, dimension);
-                        pupilResult = await GetDefaultSchoolExpenditure(id, false, null, dimension);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type));
-                }
-
-                IEnumerable<CsvResult> csvResults =
-                [
-                    new(buildingResult, $"expenditure-{id}-building.csv"),
-                    new(pupilResult, $"expenditure-{id}-pupil.csv")
-                ];
-                return new CsvResults(csvResults, $"expenditure-{id}.zip");
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error downloading expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }

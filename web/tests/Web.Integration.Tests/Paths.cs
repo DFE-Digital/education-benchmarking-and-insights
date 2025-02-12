@@ -31,9 +31,11 @@ public static class Paths
         $"/school/{urn}/comparator-set?referrer={referrer}";
     public static string SchoolComparison(string? urn) => $"/school/{urn}/comparison";
     public static string SchoolComparisonCustomData(string? urn) => $"/school/{urn}/comparison/custom-data";
+    public static string SchoolComparisonDownload(string? urn) => $"/school/{urn}/comparison/download";
     public static string SchoolCensus(string? urn) => $"/school/{urn}/census";
     public static string SchoolFinancialBenchmarkingInsightsSummary(string? urn, string? referrer = null) => $"/school/{urn}/summary{(referrer == null ? string.Empty : $"?referrer={referrer}")}";
     public static string SchoolCensusCustomData(string? urn) => $"/school/{urn}/census/custom-data";
+    public static string SchoolCensusDownload(string? urn) => $"/school/{urn}/census/download";
     public static string SchoolSpending(string? urn) => $"/school/{urn}/spending-and-costs";
     public static string SchoolSpendingCustomData(string? urn) => $"/school/{urn}/spending-and-costs/custom-data";
     public static string SchoolInvestigation(string? urn) => $"/school/{urn}/investigation";
@@ -87,7 +89,6 @@ public static class Paths
     public static string SchoolComparatorsCreateSubmit(string? urn) => $"/school/{urn}/comparators/create/submit";
     public static string SchoolComparatorsCreateSubmitted(string? urn, bool? isEdit) => $"/school/{urn}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}";
     public static string SchoolComparatorsRevert(string? urn) => $"/school/{urn}/comparators/revert";
-    public static string SchoolCensusDownload(string urn) => $"/school/{urn}/census/download";
 
     public static string TrustComparators(string? companyNumber) => $"/trust/{companyNumber}/comparators";
     public static string TrustComparatorsCreateBy(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by";
@@ -103,7 +104,6 @@ public static class Paths
     public static string ApiExpenditure(string? type, string? id, string category, string dimension) => $"api/expenditure?type={type}&id={id}&category={category}&dimension={dimension}";
     public static string ApiExpenditureHistoryComparison(string? type, string? id, string dimension, string? phase, string? financeType) => $"api/expenditure/history/comparison?type={type}&id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string ApiExpenditureUserDefined(string? type, string? id, string dimension, string? category) => $"api/expenditure/user-defined?type={type}&id={id}&dimension={dimension}&category={category}";
-    public static string ApiExpenditureDownload(string id, string type) => $"api/expenditure/download?id={id}&type={type}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";

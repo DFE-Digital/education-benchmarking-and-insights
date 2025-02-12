@@ -20,10 +20,9 @@
         downloadButtonVisible = true,
         saveFileName = $"benchmark-spending-{Model.Urn}.zip",
         waitForEventType = eventType,
-        downloadLink = Url.ActionLink("Download", "ExpenditureProxy", new
+        downloadLink = Url.ActionLink("Download", "SchoolComparison", new
         {
-            type = "school",
-            id = Model.Urn,
+            urn = Model.Urn,
             customDataId = Model.CustomDataId
         })
     })

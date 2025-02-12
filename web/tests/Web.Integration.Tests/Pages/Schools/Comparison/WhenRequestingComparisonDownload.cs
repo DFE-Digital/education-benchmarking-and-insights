@@ -4,14 +4,14 @@ using AutoFixture;
 using Web.App.Domain;
 using Xunit;
 
-namespace Web.Integration.Tests.Proxy;
+namespace Web.Integration.Tests.Pages.Schools.Comparison;
 
-public class WhenRequestingExpenditureDownload : PageBase<SchoolBenchmarkingWebAppClient>
+public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAppClient>
 {
     private readonly SchoolBenchmarkingWebAppClient _client;
     private readonly SchoolExpenditure[] _schoolExpenditures;
 
-    public WhenRequestingExpenditureDownload(SchoolBenchmarkingWebAppClient client) : base(client)
+    public WhenRequestingComparisonDownload(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _client = client;
         _schoolExpenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
@@ -33,7 +33,7 @@ public class WhenRequestingExpenditureDownload : PageBase<SchoolBenchmarkingWebA
             .SetupEstablishment(school)
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(_schoolExpenditures)
-            .Get(Paths.ApiExpenditureDownload(school.URN!, "school"));
+            .Get(Paths.SchoolComparisonDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var expectedFileNames = new[] { "expenditure-12345-pupil.csv", "expenditure-12345-building.csv" };
@@ -55,7 +55,7 @@ public class WhenRequestingExpenditureDownload : PageBase<SchoolBenchmarkingWebA
         const string urn = "12345";
         var response = await _client
             .SetupComparatorSetApiWithException()
-            .Get(Paths.ApiExpenditureDownload(urn, "school"));
+            .Get(Paths.SchoolComparisonDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
