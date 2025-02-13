@@ -34,7 +34,7 @@ export type DownloadPngImagesOptions = {
 const imageTitleHeight = 50;
 const type = "image/png";
 const backgroundColor = "#fff";
-const CostCodesListHeight = 50;
+const costCodesListHeight = 50;
 
 export function useDownloadPngImage<T>({
   elementSelector,
@@ -255,7 +255,7 @@ const getImageOptions = (
     height += imageTitleHeight;
   }
   if (costCodes) {
-    height += CostCodesListHeight;
+    height += costCodesListHeight;
   }
 
   const onCloned = (node: HTMLElement): void => {
