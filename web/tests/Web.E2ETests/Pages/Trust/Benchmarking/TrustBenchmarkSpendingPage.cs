@@ -18,6 +18,15 @@ public class TrustBenchmarkSpendingPage(IPage page)
         HasText = "Save "
     });
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
+    private ILocator TeachingAndSupportDimension => page.Locator(Selectors.TeachingAndSupportDimension);
+    private ILocator NonEducationSupportStaffDimension => page.Locator(Selectors.NonEducationSupportStaffDimension);
+    private ILocator EducationalSuppliesDimension => page.Locator(Selectors.EducationalSuppliesDimension);
+    private ILocator EducationalIctDimension => page.Locator(Selectors.EducationalIctDimension);
+    private ILocator PremisesDimension => page.Locator(Selectors.PremisesDimension);
+    private ILocator UtilitiesDimension => page.Locator(Selectors.UtilitiesDimension);
+    private ILocator AdministrativeSuppliesDimension => page.Locator(Selectors.AdministrativeSuppliesDimension);
+    private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
+    private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.SpendingModeTable);
@@ -69,6 +78,15 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await AssertExpenditure(table, expected);
     }
 
+    public async Task HasDimensionValuesForChart(ComparisonChartNames chartName, string[] expected)
+    {
+        const string exp = "(select) => Array.from(select.options).map(option => option.label)";
+        var dropdown = ChartDimensionDropdown(chartName);
+        var actual = await dropdown.EvaluateAsync<string[]>(exp);
+
+        Assert.True(expected.SequenceEqual(actual), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}");
+    }
+
     private static async Task AssertExpenditure(ILocator expenditureTable, DataTable expected)
     {
         var set = new List<dynamic>();
@@ -97,5 +115,25 @@ public class TrustBenchmarkSpendingPage(IPage page)
         }
 
         expected.CompareToDynamicSet(set, false);
+    }
+
+    private ILocator ChartDimensionDropdown(ComparisonChartNames chartName)
+    {
+        var chart = chartName switch
+        {
+            ComparisonChartNames.TotalExpenditure => TotalExpenditureDimension,
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => TeachingAndSupportDimension,
+            ComparisonChartNames.NonEducationalSupportStaff => NonEducationSupportStaffDimension,
+            ComparisonChartNames.EducationalSupplies => EducationalSuppliesDimension,
+            ComparisonChartNames.EducationalIct => EducationalIctDimension,
+            ComparisonChartNames.Premises => PremisesDimension,
+            ComparisonChartNames.Utilities => UtilitiesDimension,
+            ComparisonChartNames.AdministrativeSupplies => AdministrativeSuppliesDimension,
+            ComparisonChartNames.CateringStaffAndServices => CateringServicesDimension,
+            ComparisonChartNames.Other => OtherDimension,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+
+        return chart;
     }
 }

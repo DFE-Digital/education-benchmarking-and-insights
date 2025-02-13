@@ -344,11 +344,16 @@ public class CompareYourCostsSteps(PageDriver driver)
 
     }
 
-    [Then("all sections on the page have the correct dimension options")]
-    public async Task AllSectionsOnPageHaveCorrectDimensionOptions()
+    [Then("all sections on the page have the correct dimension options:")]
+    public async Task ThenAllSectionsOnThePageHaveTheCorrectDimensionOptions(DataTable table)
     {
         Assert.NotNull(_comparisonPage);
-        await _comparisonPage.HasCorrectDimensionValues();
+
+        foreach (var row in table.Rows)
+        {
+            var chartName = Enum.Parse<ComparisonChartNames>(row["Chart name"]);
+            await _comparisonPage.HasDimensionValuesForChart(chartName, row["Options"].Split(",", StringSplitOptions.TrimEntries));
+        }
     }
 
     [Then("the save chart images button is visible")]

@@ -151,6 +151,7 @@ export const PremisesStaffServices: React.FC<{
         {
           data: totalPremisesStaffServiceCostsBarData,
           title: "Total premises staff and service costs",
+          dimensions: PremisesCategories,
         },
         {
           data: cleaningCaretakingBarData,

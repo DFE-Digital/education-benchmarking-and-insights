@@ -265,7 +265,18 @@ Feature: School compare your costs
 
     Scenario: Charts have correct dimension options
         Given I am on compare your costs page for school with URN '777042'
-        Then all sections on the page have the correct dimension options
+        Then all sections on the page have the correct dimension options:
+          | Chart name                     | Options                                                               |
+          | TotalExpenditure               | £ per pupil, actuals, percentage of income                            |
+          | TeachingAndTeachingSupplyStaff | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | NonEducationalSupportStaff     | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | EducationalSupplies            | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | EducationalIct                 | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | Premises                       | £ per m², actuals, percentage of expenditure, percentage of income    |
+          | Utilities                      | £ per m², actuals, percentage of expenditure, percentage of income    |
+          | AdministrativeSupplies         | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | CateringStaffAndServices       | £ per pupil, actuals, percentage of expenditure, percentage of income |
+          | Other                          | £ per pupil, actuals, percentage of expenditure, percentage of income |
 
     Scenario: Save chart images button opens modal
         Given I am on compare your costs page for school with URN '777042'
