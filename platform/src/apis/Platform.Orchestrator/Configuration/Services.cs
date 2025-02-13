@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Cache;
 using Platform.Json;
 using Platform.Orchestrator.Search;
+using Platform.Orchestrator.Telemetry;
 using Platform.Sql;
 
 namespace Platform.Orchestrator.Configuration;
@@ -25,7 +26,8 @@ internal static class Services
         serviceCollection
             .AddSingleton<IPipelineDb, PipelineDb>()
             .AddSingleton<ISearchIndexerClient, SearchIndexerClient>()
-            .AddSingleton<IPipelineSearch, PipelineSearch>();
+            .AddSingleton<IPipelineSearch, PipelineSearch>()
+            .AddSingleton<ITelemetryService, TelemetryService>();
 
         //TODO: Add serilog configuration AB#227696
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
