@@ -1,4 +1,5 @@
 using Web.E2ETests.Drivers;
+using Web.E2ETests.Pages.Trust;
 using Web.E2ETests.Pages.Trust.Benchmarking;
 using Web.E2ETests.Pages.Trust.Comparators;
 using Xunit;
@@ -74,6 +75,18 @@ public class ComparatorsSteps(PageDriver driver)
     {
         Assert.NotNull(_trustBenchmarkSpendingPage);
         await _trustBenchmarkSpendingPage.TableContainsValues(category, table);
+    }
+
+    [Then("all sections on the page have the correct dimension options:")]
+    public async Task ThenAllSectionsOnThePageHaveTheCorrectDimensionOptions(DataTable table)
+    {
+        Assert.NotNull(_trustBenchmarkSpendingPage);
+
+        foreach (var row in table.Rows)
+        {
+            var chartName = Enum.Parse<ComparisonChartNames>(row["Chart name"]);
+            await _trustBenchmarkSpendingPage.HasDimensionValuesForChart(chartName, row["Options"].Split(",", StringSplitOptions.TrimEntries));
+        }
     }
 
     private static string CreateComparatorsByUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";

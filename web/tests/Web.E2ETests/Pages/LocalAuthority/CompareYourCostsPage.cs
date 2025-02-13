@@ -80,9 +80,6 @@ public class CompareYourCostsPage(IPage page)
         await ShowHideAllSectionsLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
-
-        await HasDimensionValuesForChart(ComparisonChartNames.Premises,
-            ["£ per m²", "actuals", "percentage of expenditure", "percentage of income"]);
     }
 
     public async Task ClickSaveAsImage(ComparisonChartNames chartName)
@@ -320,81 +317,7 @@ public class CompareYourCostsPage(IPage page)
         }
     }
 
-    public async Task HasCorrectDimensionValues()
-    {
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.TotalExpenditure, [
-                "£ per pupil",
-                "actuals",
-                "percentage of income"
-        ]);
-
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.TeachingAndTeachingSupplyStaff, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.NonEducationalSupportStaff, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(ComparisonChartNames.EducationalSupplies, [
-                "£ per pupil",
-            "actuals",
-            "percentage of expenditure",
-            "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.EducationalIct, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.Premises, [
-                "£ per m²",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.Utilities, [
-                "£ per m²",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.AdministrativeSupplies, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.CateringStaffAndServices, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-        await HasDimensionValuesForChart(
-            ComparisonChartNames.Other, [
-                "£ per pupil",
-                "actuals",
-                "percentage of expenditure",
-                "percentage of income"
-        ]);
-    }
-
-    private async Task HasDimensionValuesForChart(ComparisonChartNames chartName, string[] expected)
+    public async Task HasDimensionValuesForChart(ComparisonChartNames chartName, string[] expected)
     {
         const string exp = "(select) => Array.from(select.options).map(option => option.label)";
         var dropdown = ChartDimensionDropdown(chartName);
