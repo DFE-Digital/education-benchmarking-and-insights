@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BalanceData } from "src/views/compare-your-trust/partials";
-import { CostCategories, PoundsPerPupil } from "src/components";
-import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
+import { Dimension } from "src/components";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 import { BalanceApi, TrustBalance } from "src/services";
-import { DimensionedChart } from "src/composed/dimensioned-chart";
+import { ChartDimensionContext } from "src/contexts";
 
 export const Balance: React.FC<{
   id: string;
-}> = ({ id }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  dimension: Dimension;
+}> = ({ id, dimension }) => {
   const [data, setData] = useState<TrustBalance[] | null>();
   const getData = useCallback(async () => {
     setData(null);
@@ -68,28 +71,24 @@ export const Balance: React.FC<{
       };
     }, [dimension, data]);
 
-  const handleDimensionChange = (value: string) => {
-    const dimension =
-      CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
-    setDimension(dimension);
-  };
-
   return (
-    <DimensionedChart
-      charts={[
-        { data: inYearBalanceChartData, title: "In-year balance" },
-        {
-          data: revenueReserveChartData,
-          title: "Revenue reserve",
-          selector: true,
-        },
-      ]}
-      dimension={dimension}
-      dimensions={CostCategories}
-      handleDimensionChange={handleDimensionChange}
-      showCopyImageButton
-      topLevel
-      trust
-    />
+    <ChartDimensionContext.Provider value={dimension}>
+      <HorizontalBarChartWrapper
+        chartTitle="In-year balance"
+        data={inYearBalanceChartData}
+        showCopyImageButton
+        trust
+      >
+        <h2 className="govuk-heading-m">In-year balance</h2>
+      </HorizontalBarChartWrapper>
+      <HorizontalBarChartWrapper
+        chartTitle="Revenue reserve"
+        data={revenueReserveChartData}
+        showCopyImageButton
+        trust
+      >
+        <h2 className="govuk-heading-m">Revenue reserve</h2>
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };
