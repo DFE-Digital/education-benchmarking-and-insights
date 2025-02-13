@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using Platform.Sql.QueryBuilders;
 
@@ -59,11 +60,14 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<T?> QueryFirstOrDefaultAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default)
         => connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken));
 
-    public Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
-        => connection.ExecuteScalarAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
+    public Task<int> ExecuteAsync(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+        => connection.ExecuteAsync(new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken));
 
     public Task<T> QueryFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         => connection.QueryFirstAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
+
+    public Task<int> InsertAsync<T>(T entityToInsert, IDbTransaction? transaction = null) where T : class
+        => connection.InsertAsync(entityToInsert, transaction);
 
     public Task OpenAsync() => connection.OpenAsync();
 }
@@ -83,7 +87,9 @@ public interface IDatabaseConnection : IDbConnection
     ///     created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
     /// </returns>
     Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
+
     Task<IEnumerable<T>> QueryAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
+
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
     /// </summary>
@@ -92,16 +98,18 @@ public interface IDatabaseConnection : IDbConnection
     /// <param name="param">The parameters to pass, if any.</param>
     /// <param name="cancellationToken">The cancellation token for this command.</param>
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
+
     Task<T?> QueryFirstOrDefaultAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
+
     /// <summary>
-    ///     Execute parameterized SQL that selects a single value.
+    ///     Execute a command asynchronously using Task.
     /// </summary>
-    /// <typeparam name="T">The type to return.</typeparam>
-    /// <param name="sql">The SQL to execute.</param>
-    /// <param name="param">The parameters to use for this command.</param>
+    /// <param name="sql">The SQL to execute for this query.</param>
+    /// <param name="param">The parameters to use for this query.</param>
+    /// <param name="transaction">The transaction to use for this query.</param>
     /// <param name="cancellationToken">The cancellation token for this command.</param>
-    /// <returns>The first cell returned, as <typeparamref name="T" />.</returns>
-    Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
+    /// <returns>The number of rows affected.</returns>
+    Task<int> ExecuteAsync(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Execute a single-row query asynchronously using Task.
@@ -111,4 +119,13 @@ public interface IDatabaseConnection : IDbConnection
     /// <param name="param">The parameters to pass, if any.</param>
     /// <param name="cancellationToken">The cancellation token for this command.</param>
     Task<T> QueryFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Inserts an entity into table "Ts" asynchronously using Task and returns identity id.
+    /// </summary>
+    /// <typeparam name="T">The type being inserted.</typeparam>
+    /// <param name="entityToInsert">Entity to insert</param>
+    /// <param name="transaction">The transaction to run under, null (the default) if none</param>
+    /// <returns>Identity of inserted entity</returns>
+    Task<int> InsertAsync<T>(T entityToInsert, IDbTransaction? transaction = null) where T : class;
 }

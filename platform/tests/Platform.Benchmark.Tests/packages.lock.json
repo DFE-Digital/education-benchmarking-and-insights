@@ -2012,6 +2012,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper": "[2.1.66, )",
+          "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[6.0.1, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.1, )",

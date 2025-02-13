@@ -6,8 +6,18 @@ namespace Platform.Orchestrator.Extensions;
 
 public static class LoggerExtensions
 {
-    public static IDisposable? BeginApplicationScope(this ILogger? logger) => logger?.BeginScope(new Dictionary<string, object>
+    public static IDisposable? BeginApplicationScope(this ILogger? logger, string? jobId = null)
     {
-        { "Application", Constants.ApplicationName }
-    });
+        var args = new Dictionary<string, object>
+        {
+            { "Application", Constants.ApplicationName }
+        };
+
+        if (!string.IsNullOrWhiteSpace(jobId))
+        {
+            args.Add("JobId", jobId);
+        }
+
+        return logger?.BeginScope(args);
+    }
 }

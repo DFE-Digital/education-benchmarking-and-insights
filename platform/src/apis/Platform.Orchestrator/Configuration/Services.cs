@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Cache;
 using Platform.Json;
 using Platform.Orchestrator.Search;
+using Platform.Orchestrator.Sql;
 using Platform.Orchestrator.Telemetry;
 using Platform.Sql;
 

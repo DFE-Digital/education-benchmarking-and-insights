@@ -6,7 +6,7 @@ using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
 using Platform.Orchestrator.Extensions;
 
-namespace Platform.Orchestrator;
+namespace Platform.Orchestrator.Functions;
 
 public static class TimerTriggerFunctions
 {
