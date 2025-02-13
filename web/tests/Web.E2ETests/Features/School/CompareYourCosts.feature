@@ -326,3 +326,8 @@ Feature: School compare your costs
         Given I am on compare your costs page for school with URN '777042'
         When I click on download data
         Then the file 'comparison-777042.zip' is downloaded
+        
+    Scenario: Cost codes are displayed
+        Given I am on compare your costs page for school with URN '777042'
+        When I click on show all sections
+        Then the cost codes are present
