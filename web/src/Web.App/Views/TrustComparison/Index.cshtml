@@ -35,7 +35,8 @@
          data-type="@OrganisationTypes.Trust"
          data-id="@Model.CompanyNumber"
          data-phases="@Model.Phases.ToJson(Formatting.None)"
-         data-dispatch-event-type="@eventType">
+         data-dispatch-event-type="@eventType"
+         data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
     </div>
 }
 

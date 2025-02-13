@@ -1,4 +1,7 @@
-﻿@model Web.App.ViewModels.SchoolComparisonViewModel
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+
+@model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
@@ -64,7 +67,9 @@
          data-type="@OrganisationTypes.School"
          data-id="@Model.Urn"
          data-suppress-negative-or-zero="true"
-         data-dispatch-event-type="@eventType"></div>
+         data-dispatch-event-type="@eventType"
+         data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
+    </div>
 }
 
 @await Component.InvokeAsync("SchoolFinanceTools", new

@@ -40,3 +40,13 @@ export const SuppressNegativeOrZeroContext =
     suppressNegativeOrZero: false,
     message: "",
   });
+
+export const CostCodeMapContext = createContext<Record<string, string> | null>(
+  null
+);
+
+export interface CostCodeMapContextValues {
+  costCodeMap: Record<string, string> | null;
+  getCostCodes: (category: string) => string[];
+  categoryCostCodes: string[];
+}

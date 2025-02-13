@@ -53,14 +53,16 @@
     {
         Costs = Model.HighPriorityCosts,
         Id = "high-priority",
-        Urn = Model.Urn
+        Urn = Model.Urn,
+        IsPartOfTrust = Model.IsPartOfTrust
     })
 
     @await Html.PartialAsync("_Costs", new CostsViewModel
     {
         Costs = Model.MediumPriorityCosts,
         Id = "medium-priority",
-        Urn = Model.Urn
+        Urn = Model.Urn,
+        IsPartOfTrust = Model.IsPartOfTrust
     })
 }
 
@@ -77,6 +79,7 @@
     {
         Costs = Model.LowPriorityCosts,
         Id = "low-priority",
-        Urn = Model.Urn
+        Urn = Model.Urn,
+        IsPartOfTrust = Model.IsPartOfTrust
     })
 }

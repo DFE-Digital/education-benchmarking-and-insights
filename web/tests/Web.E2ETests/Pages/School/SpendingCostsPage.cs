@@ -96,7 +96,6 @@ public partial class SpendingCostsPage(IPage page)
             HasText = "View all utilities"
         });
 
-    private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator EducationIctCostCategory => page.Locator(Selectors.EducationIctSpendingCosts);
     private ILocator EducationIctWarningText => page.Locator($"{Selectors.EducationIctSpendingCosts} {Selectors.GovWarning}");
     private ILocator SaveImageTeachingAndTeachingSupportStaff => page.Locator(Selectors.TeachingAndTeachingSupportStaffSaveAsImage);
@@ -128,7 +127,9 @@ public partial class SpendingCostsPage(IPage page)
     {
         var actualOrder = new List<string[]>();
         var chartNames = await GetCategoryNames();
-        var priorityTags = await PriorityTags.AllAsync();
+        var priorityTags = chartNames.Select(
+            chartName => page.GetByTestId(
+                $"{chartName}-rag-commentary").Locator(Selectors.GovukTag)).ToList();
         for (var i = 0; i < chartNames.Count; i++)
         {
             if (i < priorityTags.Count)
@@ -165,7 +166,9 @@ public partial class SpendingCostsPage(IPage page)
         var categorySection = page.Locator($"[id^=spending-priorities-{categoryName.ToSlug()}]");
         await categorySection.IsVisibleAsync();
 
-        var resources = await categorySection.Locator("ul li").AllTextContentsAsync();
+        var resourcesSection = categorySection.Locator(".app-resources");
+
+        var resources = await resourcesSection.Locator("ul li").AllTextContentsAsync();
         Assert.Equal(commercialResources, resources.Select(r => r.Replace("Opens in a new window", string.Empty).Trim()));
     }
 

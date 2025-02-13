@@ -11,6 +11,7 @@ import {
   CustomDataContext,
   ChartModeProvider,
   SuppressNegativeOrZeroContext,
+  CostCodeMapContext,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
@@ -22,6 +23,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
   phases,
   suppressNegativeOrZero,
   type,
+  costCodeMap,
 }) => {
   const [phase, setPhase] = useState<string | undefined>(
     phases ? phases[0] : undefined
@@ -48,18 +50,20 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
           <SuppressNegativeOrZeroContext.Provider
             value={{ suppressNegativeOrZero, message }}
           >
-            <ChartModeProvider initialValue={ChartModeChart}>
-              <ChartOptionsPhaseMode
-                phases={phases}
-                handlePhaseChange={setPhase}
-              />
-              <TotalExpenditure
-                id={id}
-                type={type}
-                onFetching={handleFetching}
-              />
-              <ExpenditureAccordion id={id} type={type} />
-            </ChartModeProvider>
+            <CostCodeMapContext.Provider value={costCodeMap}>
+              <ChartModeProvider initialValue={ChartModeChart}>
+                <ChartOptionsPhaseMode
+                  phases={phases}
+                  handlePhaseChange={setPhase}
+                />
+                <TotalExpenditure
+                  id={id}
+                  type={type}
+                  onFetching={handleFetching}
+                />
+                <ExpenditureAccordion id={id} type={type} />
+              </ChartModeProvider>
+            </CostCodeMapContext.Provider>
           </SuppressNegativeOrZeroContext.Provider>
         </CustomDataContext.Provider>
       </PhaseContext.Provider>

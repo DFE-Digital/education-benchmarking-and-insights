@@ -60,6 +60,8 @@ public class CostsViewModel
     public string? Urn { get; init; }
     public bool HasIncompleteData { get; init; }
     public bool IsCustomData { get; set; }
+    public bool IsPartOfTrust { get; set; }
+    public CostCodes CostCodes => new(IsPartOfTrust);
 }
 
 public class RagRatingCommentaryViewModel(string prefix = "Spending is")

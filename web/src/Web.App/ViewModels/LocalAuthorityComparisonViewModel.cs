@@ -12,4 +12,5 @@ public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority)
         .Select(x => x.Key)
         .OfType<string>()
         .ToArray();
+    public Dictionary<string, string> CostCodeMap => new CostCodes(false).SubCategoryToCostCodeMap;
 }

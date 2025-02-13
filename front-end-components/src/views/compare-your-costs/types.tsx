@@ -5,4 +5,5 @@ export type CompareYourCostsViewProps = CompareYourCostsProps & {
   dispatchEventType?: string;
   phases: string[] | null;
   suppressNegativeOrZero: boolean;
+  costCodeMap: Record<string, string> | null;
 };
