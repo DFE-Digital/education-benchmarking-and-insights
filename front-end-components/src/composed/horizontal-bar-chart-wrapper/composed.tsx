@@ -31,6 +31,7 @@ import {
 import { SchoolExpenditure } from "src/services";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
+import "./styles.scss";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -170,7 +171,7 @@ export function HorizontalBarChartWrapper<
   const uuid = uuidv4();
 
   return (
-    <>
+    <div className="horizontal-bar-chart-wrapper">
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">{children}</div>
         {chartMode == ChartModeChart && (
@@ -259,6 +260,6 @@ export function HorizontalBarChartWrapper<
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
