@@ -6,21 +6,21 @@ namespace Platform.Orchestrator.Telemetry;
 
 public interface ITelemetryService
 {
-    void TrackEvent(string eventName, string? id, Dictionary<string, string?>? props = null);
+    void TrackEvent(string eventName, string? jobId, Dictionary<string, string?>? props = null);
 }
 
 public class TelemetryService(TelemetryClient telemetry) : ITelemetryService
 {
-    public void TrackEvent(string eventName, string? id, Dictionary<string, string?>? props = null)
+    public void TrackEvent(string eventName, string? jobId, Dictionary<string, string?>? props = null)
     {
-        if (string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(jobId))
         {
             return;
         }
 
         var properties = new Dictionary<string, string>
         {
-            { "Id", id }
+            { "JobId", jobId }
         };
 
         if (props != null)

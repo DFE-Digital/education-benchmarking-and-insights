@@ -10,13 +10,14 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Dapper"/>
-        <PackageReference Include="Dapper.SqlBuilder" />
+        <PackageReference Include="Dapper.Contrib"/>
+        <PackageReference Include="Dapper.SqlBuilder"/>
         <PackageReference Include="Microsoft.Data.SqlClient"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
+        <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj"/>
     </ItemGroup>
 </Project>

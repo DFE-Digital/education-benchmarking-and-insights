@@ -8,9 +8,12 @@ using Platform.Domain.Messages;
 using Platform.Json;
 using Platform.Orchestrator.Extensions;
 using Platform.Orchestrator.Search;
+using Platform.Orchestrator.Sql;
 using Platform.Orchestrator.Telemetry;
 
-namespace Platform.Orchestrator;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+
+namespace Platform.Orchestrator.Functions;
 
 public class ActivityTriggerFunctions(
     ILogger<ActivityTriggerFunctions> logger,
@@ -31,7 +34,7 @@ public class ActivityTriggerFunctions(
     [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
     public string[] OnStartDefaultJobTrigger([ActivityTrigger] PipelineStartDefault message)
     {
-        using (logger.BeginApplicationScope())
+        using (logger.BeginApplicationScope(message.JobId))
         {
             telemetryService.TrackEvent(Pipeline.Events.PipelineStartDefaultMessageReceived, message.JobId);
             logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "default");
@@ -43,7 +46,7 @@ public class ActivityTriggerFunctions(
     [QueueOutput("%PipelineMessageHub:JobCustomStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
     public string[] OnStartCustomJobTrigger([ActivityTrigger] PipelineStartCustom message)
     {
-        using (logger.BeginApplicationScope())
+        using (logger.BeginApplicationScope(message.JobId))
         {
             telemetryService.TrackEvent(Pipeline.Events.PipelineStartCustomMessageReceived, message.JobId);
             logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
@@ -54,57 +57,69 @@ public class ActivityTriggerFunctions(
     [Function(nameof(UpdateStatusTrigger))]
     public async Task UpdateStatusTrigger([ActivityTrigger] PipelineStatus status)
     {
-        using (logger.BeginApplicationScope())
+        using (logger.BeginApplicationScope(status.JobId))
         {
-            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.JobId, new Dictionary<string, string?>
             {
-                { "Action", "UpdateStatus" }
+                { "Action", "UpdateStatus" },
+                { "Skip", (!status.Success).ToString() }
             });
 
-            logger.LogInformation("Updating status for {RunId}", status.Id);
-            await db.UpdateStatus(status);
+            logger.LogInformation("Updating status for {RunId}", status.RunId);
+            var rowsAffected = await db.UpdateStatus(status);
+            logger.LogInformation("Finished updating status for {RunId} ({RowsAffected} row(s) affected)", status.RunId, rowsAffected);
         }
     }
 
     [Function(nameof(RunIndexerTrigger))]
     public async Task RunIndexerTrigger([ActivityTrigger] PipelineStatus status)
     {
-        using (logger.BeginApplicationScope())
+        using (logger.BeginApplicationScope(status.JobId))
         {
-            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.JobId, new Dictionary<string, string?>
             {
-                { "Action", "RunIndexer" }
+                { "Action", "RunIndexer" },
+                { "Skip", (!status.Success).ToString() }
             });
 
             if (!status.Success)
             {
-                logger.LogInformation("Not updating indexers due to failed status from {RunId}", status.Id);
+                logger.LogInformation("Not updating indexers due to failed status for {RunId}", status.RunId);
                 return;
             }
 
-            logger.LogInformation("Updating indexers due to success status from {RunId}", status.Id);
-            await search.RunIndexerAll();
+            logger.LogInformation("Updating indexers due to success status for {RunId}", status.RunId);
+            var success = await search.RunIndexerAll();
+            logger.LogInformation("Finished updating indexers for {RunId} ({Success})", status.RunId, success ? "success" : "failure");
         }
     }
 
     [Function(nameof(ClearCacheTrigger))]
     public async Task ClearCacheTrigger([ActivityTrigger] PipelineStatus status)
     {
-        using (logger.BeginApplicationScope())
+        using (logger.BeginApplicationScope(status.JobId))
         {
-            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.Id, new Dictionary<string, string?>
+            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.JobId, new Dictionary<string, string?>
             {
-                { "Action", "ClearCache" }
+                { "Action", "ClearCache" },
+                { "Skip", (!status.Success).ToString() }
             });
 
             if (!status.Success)
             {
-                logger.LogInformation("Not clearing keys from distributed cache due to failed status for {RunId}", status.Id);
+                logger.LogInformation("Not clearing keys from distributed cache due to failed status for {RunId}", status.RunId);
                 return;
             }
 
-            logger.LogInformation("Clearing keys from distributed cache after completion of {RunId}", status.Id);
-            await cache.DeleteAsync($"{status.Id}:*");
+            logger.LogInformation("Clearing keys from distributed cache after completion for {RunId}", status.RunId);
+            await cache.DeleteAsync($"{status.RunId}:*");
         }
     }
+}
+
+public record PipelineStatus
+{
+    public string? JobId { get; set; }
+    public string? RunId { get; set; }
+    public bool Success { get; set; }
 }

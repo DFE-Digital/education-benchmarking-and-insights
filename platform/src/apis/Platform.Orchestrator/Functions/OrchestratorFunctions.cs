@@ -10,7 +10,7 @@ using Platform.Domain.Messages;
 using Platform.Orchestrator.Extensions;
 using Platform.Orchestrator.Telemetry;
 
-namespace Platform.Orchestrator;
+namespace Platform.Orchestrator.Functions;
 
 public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelemetryService telemetryService)
 {
@@ -55,13 +55,14 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
 
         await context.CallActivityAsync(nameof(ActivityTriggerFunctions.RunIndexerTrigger), new PipelineStatus
         {
-            Id = message.JobId,
+            JobId = message.JobId,
             Success = success
         });
 
         await context.CallActivityAsync(nameof(ActivityTriggerFunctions.ClearCacheTrigger), new PipelineStatus
         {
-            Id = message.RunId.ToString(),
+            JobId = message.JobId,
+            RunId = message.RunId.ToString(),
             Success = success
         });
     }
@@ -77,7 +78,8 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
 
         await context.CallActivityAsync(nameof(ActivityTriggerFunctions.UpdateStatusTrigger), new PipelineStatus
         {
-            Id = message.RunId,
+            JobId = message.JobId,
+            RunId = message.RunId,
             Success = success
         });
     }

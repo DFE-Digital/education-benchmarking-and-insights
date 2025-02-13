@@ -366,6 +366,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
           "Dapper": "[2.1.66, )",
+          "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[6.0.1, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.1, )",
@@ -388,6 +389,15 @@
         "requested": "[2.1.66, )",
         "resolved": "2.1.66",
         "contentHash": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw=="
+      },
+      "Dapper.Contrib": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.78, )",
+        "resolved": "2.0.78",
+        "contentHash": "sUfDVIf8LlHNiz3MfUFodeyRiemfN1JFkPxYjCxFWlwNPg1iQ49mB+0E89TkywWs4X8fiRWOVDQgtH5FtzK5Kw==",
+        "dependencies": {
+          "Dapper": "2.0.78"
+        }
       },
       "Dapper.SqlBuilder": {
         "type": "CentralTransitive",
