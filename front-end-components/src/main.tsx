@@ -886,10 +886,13 @@ const shareContentByElementIdElements = document.querySelectorAll<HTMLElement>(
 
 if (shareContentByElementIdElements) {
   shareContentByElementIdElements.forEach((element) => {
-    const { copyEventId, elementId, saveEventId, showTitle, title } =
+    const { copyEventId, elementId, saveEventId, showTitle, title, costCodes } =
       element.dataset;
     if (elementId && title) {
       const el = document.getElementById(elementId);
+      const parsedCostCodes = costCodes
+        ? (JSON.parse(costCodes) as string[])
+        : undefined;
       if (el) {
         const root = ReactDOM.createRoot(element);
         root.render(
@@ -904,6 +907,7 @@ if (shareContentByElementIdElements) {
               showCopy
               showSave
               showTitle={showTitle === "true"}
+              costCodes={parsedCostCodes}
             />
           </React.StrictMode>
         );
@@ -922,6 +926,7 @@ if (launchModalElements) {
       buttonLabel,
       elementClassName,
       elementTitleAttr,
+      costCodesAttr,
       fileName,
       mainContentId,
       modalName,
@@ -953,6 +958,7 @@ if (launchModalElements) {
               buttonLabel={buttonLabel || "Save"}
               elementClassName={elementClassName as string}
               elementTitleAttr={elementTitleAttr}
+              costCodesAttr={costCodesAttr}
               fileName={fileName}
               modalTitle={modalTitle || "Save all images"}
               overlayContentId={mainContentId}

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Modal, ModalHandler } from "../../modal";
 import { ModalSaveImagesModalProps } from "./types";
 import {
-  ElementAndTitle,
+  ElementAndAttributes,
   useDownloadPngImages,
 } from "src/hooks/useDownloadImage";
 import { ElementSelector } from "src/components/element-selector";
@@ -12,6 +12,7 @@ export function ModalSaveImagesModal({
   all,
   elementClassName,
   elementTitleAttr,
+  costCodesAttr,
   fileName,
   modalTitle,
   onCloseModal,
@@ -27,10 +28,10 @@ export function ModalSaveImagesModal({
   );
   const [cancelMode, setCancelMode] = useState(false);
   const modalRef = useRef<ModalHandler>(null);
-  const [allElements, setAllElements] = useState<ElementAndTitle[]>([]);
-  const [selectedElements, setSelectedElements] = useState<ElementAndTitle[]>(
-    []
-  );
+  const [allElements, setAllElements] = useState<ElementAndAttributes[]>([]);
+  const [selectedElements, setSelectedElements] = useState<
+    ElementAndAttributes[]
+  >([]);
   const autoCloseTimeout = useRef<NodeJS.Timeout | null>(null);
   const progressId = "save-progress";
   const [showValidationError, setShowValidationError] =
@@ -58,12 +59,19 @@ export function ModalSaveImagesModal({
       const title = elementTitleAttr
         ? element.getAttribute(elementTitleAttr) || undefined
         : undefined;
-      results.push({ element, title });
+      const rawCostCodes = costCodesAttr
+        ? element.getAttribute(costCodesAttr)
+        : undefined;
+
+      const costCodes = rawCostCodes
+        ? (JSON.parse(rawCostCodes) as string[])
+        : undefined;
+      results.push({ element, title, costCodes });
     }
 
     setAllElements(results);
     setSelectedElements(results);
-  }, [elementClassName, elementTitleAttr]);
+  }, [elementClassName, elementTitleAttr, costCodesAttr]);
 
   const handleCloseModal = useCallback(
     (abort: boolean) => {

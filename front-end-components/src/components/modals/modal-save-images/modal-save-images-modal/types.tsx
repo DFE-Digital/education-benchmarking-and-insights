@@ -4,6 +4,7 @@ export type ModalSaveImagesModalProps = ModalCommonProps & {
   all?: boolean;
   elementClassName: string;
   elementTitleAttr?: string;
+  costCodesAttr?: string;
   fileName?: string;
   modalTitle: string;
   onCloseModal: () => void;

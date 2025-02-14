@@ -11,6 +11,7 @@ public class PageActionsViewComponent : ViewComponent
         string? saveClassName,
         string? saveFileName,
         string? saveTitleAttr,
+        string? costCodesAttr,
         string? waitForEventType,
         string? downloadLink)
         => View(new PageActionsViewModel(
@@ -19,6 +20,7 @@ public class PageActionsViewComponent : ViewComponent
             saveClassName,
             saveFileName,
             saveTitleAttr,
+            costCodesAttr,
             waitForEventType,
             downloadLink));
 }

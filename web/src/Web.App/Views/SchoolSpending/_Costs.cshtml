@@ -36,6 +36,11 @@
                 urn = Model.Urn
             });
 
+        var costCodes = category.SubCategories
+            .Select(c => Model.CostCodes.GetCostCode(c))
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToList();
+
         var uuid = Guid.NewGuid();
 
         <section id="spending-priorities-@category.Rating.CostCategoryAnchorId">
@@ -53,22 +58,19 @@
                             data-title="@categoryHeading"
                             data-show-title="true"
                             data-copy-event-id="copy-chart-as-image"
-                            data-save-event-id="save-chart-as-image">
+                            data-save-event-id="save-chart-as-image"
+                            data-cost-codes="@costCodes.ToJson(Formatting.None)">
                         </div>
                     </div>
                 }
                 
-                @if (category.SubCategories.Any())
+                @if (costCodes.Any())
                 {
                     <div class="govuk-grid-column-full">
                         <ul class="app-cost-code-list">
-                            @foreach(var subCategory in category.SubCategories)
-                            {
-                                var costCode = Model.CostCodes.GetCostCode(subCategory);
-                                if (!string.IsNullOrWhiteSpace(costCode))
-                                {
-                                    <li><strong class="govuk-tag">@costCode</strong></li> 
-                                }   
+                            @foreach(var costCode in costCodes)
+                            { 
+                                <li><strong class="govuk-tag">@costCode</strong></li> 
                             }
                         </ul>
                     </div>
@@ -111,7 +113,8 @@
                              data-sort-direction="asc"
                              data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
                              data-has-incomplete-data="@Model.HasIncompleteData"
-                             data-title="@categoryHeading">
+                             data-title="@categoryHeading"
+                             data-cost-codes="@costCodes.ToJson(Formatting.None)">
                         </div>
                     </div>
 

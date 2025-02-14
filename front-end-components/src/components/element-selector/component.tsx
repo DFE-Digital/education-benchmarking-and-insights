@@ -1,4 +1,4 @@
-import { ElementAndTitle } from "src/hooks/useDownloadImage";
+import { ElementAndAttributes } from "src/hooks/useDownloadImage";
 import { ElementSelectorProps } from "./types";
 import "./styles.scss";
 import classNames from "classnames";
@@ -9,7 +9,7 @@ export function ElementSelector({
   selected,
   showValidationError,
 }: ElementSelectorProps) {
-  const handleChange = (element: ElementAndTitle, checked: boolean) => {
+  const handleChange = (element: ElementAndAttributes, checked: boolean) => {
     const selectedElements = [...selected.filter((e) => e !== element)];
     if (checked) {
       selectedElements.push(element);

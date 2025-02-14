@@ -9,6 +9,7 @@ public class PageActionsViewModel(
     string? saveClassName,
     string? saveFileName,
     string? saveTitleAttr,
+    string? costCodesAttr,
     string? waitForEventType,
     string? downloadLink)
 {
@@ -18,6 +19,7 @@ public class PageActionsViewModel(
     public string SaveClassName { get; init; } = saveClassName ?? "chart-wrapper";
     public string SaveFileName { get; init; } = saveFileName ?? "charts.zip";
     public string SaveTitleAttr { get; init; } = saveTitleAttr ?? "aria-label";
+    public string CostCodesAttr { get; init; } = costCodesAttr ?? "";
 
     public string WaitForEventType { get; init; } = waitForEventType ?? "";
 
