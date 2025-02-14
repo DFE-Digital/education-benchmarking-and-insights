@@ -10,7 +10,10 @@ import {
 export interface EstablishmentTickProps
   extends Omit<BaseAxisProps, "scale">,
     Omit<TickProps, "href" | "type" | "onClick" | "ref" | "textAnchor"> {
-  establishmentKeyResolver?: (name: string) => string | undefined;
+  establishmentKeyResolver?: (
+    name: string,
+    index?: number
+  ) => string | undefined;
   highlightedItemKey?: string;
   href: (key: string) => string;
   linkToEstablishment?: boolean;

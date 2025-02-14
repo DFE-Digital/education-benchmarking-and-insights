@@ -20,7 +20,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     href,
     linkToEstablishment,
     onFocused,
-    payload: { value },
+    payload: { value, index },
     specialItemFlags,
     tickFormatter,
     tooltip,
@@ -34,9 +34,9 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     return (
       linkToEstablishment &&
       establishmentKeyResolver &&
-      establishmentKeyResolver(value)
+      establishmentKeyResolver(value, index)
     );
-  }, [establishmentKeyResolver, linkToEstablishment, value]);
+  }, [establishmentKeyResolver, linkToEstablishment, value, index]);
 
   const partYear = useMemo(() => {
     return (
