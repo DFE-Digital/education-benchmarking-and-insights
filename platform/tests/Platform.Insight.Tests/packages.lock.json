@@ -2042,6 +2042,7 @@
       "platform.test": {
         "type": "Project",
         "dependencies": {
+          "Microsoft.ApplicationInsights": "[2.22.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
           "Microsoft.NET.Test.Sdk": "[17.13.0, )",
           "Moq": "[4.20.72, )"
