@@ -172,19 +172,16 @@ export function ModalSaveImagesModal({
     >
       {cancelMode ? (
         <div className="govuk-body">
-          Are you sure you want to cancel the image generation process?
+          Are you sure you want to cancel saving your images?
         </div>
       ) : (
         <>
           <div className="govuk-body">
-            {
-              /* todo: copy review */
-              progress
-                ? progress === 100
-                  ? `File generation has completed successfully. The file ${fileName ?? ""} has been downloaded automatically.`
-                  : `Please wait while the image${!all && selectedElements.length === 1 ? " is" : "s are"} generated.`
-                : `Select${all ? "" : " the charts to download and then"} 'Start' to begin the image generation process. This may take a few minutes to complete.`
-            }
+            {progress
+              ? progress === 100
+                ? "Your file has been saved and downloaded successfully."
+                : `Please wait while your image${!all && selectedElements.length === 1 ? " is" : "s are"} saved.`
+              : `${all ? "" : "Select the charts you want to download. "}This may take a few minutes to complete.`}
           </div>
 
           {!all && !progress && (
@@ -198,7 +195,7 @@ export function ModalSaveImagesModal({
 
           {showProgress && progress && (
             <ProgressWithAria
-              completeMessage="File generation has completed."
+              completeMessage="Your file has been saved and downloaded successfully."
               percentage={progress}
               progressId={progressId}
               size={100}
