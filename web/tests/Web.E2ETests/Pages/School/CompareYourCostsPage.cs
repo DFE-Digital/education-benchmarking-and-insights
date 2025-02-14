@@ -471,6 +471,22 @@ public class CompareYourCostsPage(IPage page)
         Assert.True(expected.SequenceEqual(actual), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}");
     }
 
+    public async Task CostCodesArePresent()
+    {
+        var costCodes = await page.Locator(Selectors.CostCodesList).AllAsync();
+        Assert.Equal(42, costCodes.Count);
+
+        var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
+            .Filter(new() { Has = page.Locator("li") })
+            .AllAsync();
+        Assert.Equal(40, costCodesWithLiChildren.Count);
+
+        foreach (var costCodeList in costCodesWithLiChildren)
+        {
+            await costCodeList.IsVisibleAsync();
+        }
+    }
+
     private ILocator ChartTable(ComparisonChartNames chartName)
     {
         var chart = chartName switch

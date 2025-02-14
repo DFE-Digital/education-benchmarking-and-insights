@@ -195,4 +195,6 @@ public static class Selectors
     public const string AdministrativeSuppliesDimension = "#administrative-supplies-non-educational-dimension";
     public const string CateringServicesDimension = "#total-catering-costs-dimension";
     public const string OtherDimension = "#total-other-costs-dimension";
+
+    public const string CostCodesList = "ul.app-cost-code-list";
 }

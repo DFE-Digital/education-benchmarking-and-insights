@@ -398,6 +398,15 @@ public class CompareYourCostsSteps(PageDriver driver)
         Assert.Equal(fileName, downloadedFilePath);
     }
 
+    [Then("the cost codes are present")]
+    public async Task ThenTheCostCodesArePresent()
+    {
+        Assert.NotNull(_comparisonPage);
+
+        await _comparisonPage.CostCodesArePresent();
+    }
+
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);
