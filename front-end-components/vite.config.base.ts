@@ -22,7 +22,9 @@ const baseConfig: UserConfig = {
           @import "govuk-frontend/dist/govuk/helpers/_index.scss";
         `,
         quietDeps: true,
-        silenceDeprecations: ["import"],
+
+        // reduce noise from govuk-frontend
+        silenceDeprecations: ["import", "mixed-decls"],
       },
     },
     devSourcemap: true,
