@@ -103,16 +103,24 @@ export function HorizontalBarChartWrapper<
       .map((d) => (d as SchoolChartData).urn);
   }, [data.dataPoints, trust]);
 
-  const getEstablishmentKey = (name: string) => {
+  // first attempt to get key by `index` passed to `<EstablishmentTick />`,
+  // otherwise fall back to match by name (which may result in duplicate matched)
+  const getEstablishmentKey = (name: string, index?: number) => {
     if (trust) {
-      return (data.dataPoints as TrustChartData[]).find(
-        (d) => d.trustName === name
-      )?.companyNumber;
+      const trustData = sortedDataPoints as TrustChartData[];
+      if (index != undefined && index < trustData.length) {
+        return trustData[index]?.companyNumber;
+      }
+
+      return trustData.find((d) => d.trustName === name)?.companyNumber;
     }
 
-    return (data.dataPoints as SchoolChartData[]).find(
-      (d) => d.schoolName === name
-    )?.urn;
+    const schoolData = sortedDataPoints as SchoolChartData[];
+    if (index != undefined && index < schoolData.length) {
+      return schoolData[index]?.urn;
+    }
+
+    return schoolData.find((d) => d.schoolName === name)?.urn;
   };
 
   const renderTooltip = (
