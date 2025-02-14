@@ -6,7 +6,8 @@
       "Host.Aggregator": "Trace",
       "Host.Results": "Information",
       "Function": "Warning",
-      "Microsoft": "Warning"
+      "Microsoft": "Warning",
+      "Azure.Core": "Warning"
     },
     "applicationInsights": {
       "samplingSettings": {
