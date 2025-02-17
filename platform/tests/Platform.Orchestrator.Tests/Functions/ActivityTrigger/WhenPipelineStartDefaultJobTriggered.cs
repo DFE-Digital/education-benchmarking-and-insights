@@ -4,7 +4,7 @@ using Platform.Orchestrator.Functions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Platform.Orchestrator.Tests.Functions;
+namespace Platform.Orchestrator.Tests.Functions.ActivityTrigger;
 
 public class WhenPipelineStartDefaultJobTriggered(ITestOutputHelper testOutputHelper) : ActivityTriggerFunctionTest(testOutputHelper)
 {
