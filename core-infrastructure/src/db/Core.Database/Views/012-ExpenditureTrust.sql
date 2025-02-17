@@ -176,6 +176,7 @@ SELECT CompanyNumber,
        IIF(TotalExpenditure != 0, (PremisesStaffCosts / TotalExpenditure) * 100, NULL) AS 'PremisesStaffCosts',
        IIF(TotalExpenditure != 0, (TotalUtilitiesCosts / TotalExpenditure) * 100, NULL) AS 'TotalUtilitiesCosts',
        IIF(TotalExpenditure != 0, (EnergyCosts / TotalExpenditure) * 100, NULL) AS 'EnergyCosts',
+       IIF(TotalExpenditure != 0, (WaterSewerageCosts / TotalExpenditure) * 100, NULL) AS 'WaterSewerageCosts',
        IIF(TotalExpenditureCS != 0, (TotalExpenditureCS / TotalExpenditureCS) * 100, NULL) AS 'TotalExpenditureCS',
        IIF(TotalExpenditureCS != 0, (TotalTeachingSupportStaffCostsCS / TotalExpenditureCS) * 100, NULL) AS 'TotalTeachingSupportStaffCostsCS',
        IIF(TotalExpenditureCS != 0, (TeachingStaffCostsCS / TotalExpenditureCS) * 100, NULL) AS 'TeachingStaffCostsCS',
@@ -216,6 +217,7 @@ SELECT CompanyNumber,
        IIF(TotalExpenditureCS != 0, (PremisesStaffCostsCS / TotalExpenditureCS) * 100, NULL) AS 'PremisesStaffCostsCS',
        IIF(TotalExpenditureCS != 0, (TotalUtilitiesCostsCS / TotalExpenditureCS) * 100, NULL) AS 'TotalUtilitiesCostsCS',
        IIF(TotalExpenditureCS != 0, (EnergyCostsCS / TotalExpenditureCS) * 100, NULL) AS 'EnergyCostsCS',
+       IIF(TotalExpenditureCS != 0, (WaterSewerageCostsCS / TotalExpenditureCS) * 100, NULL) AS 'WaterSewerageCostsCS',
        IIF(TotalExpenditureSchool != 0, (TotalExpenditureSchool / TotalExpenditureSchool) * 100, NULL) AS 'TotalExpenditureSchool',
        IIF(TotalExpenditureSchool != 0, (TotalTeachingSupportStaffCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'TotalTeachingSupportStaffCostsSchool',
        IIF(TotalExpenditureSchool != 0, (TeachingStaffCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'TeachingStaffCostsSchool',
@@ -255,7 +257,8 @@ SELECT CompanyNumber,
        IIF(TotalExpenditureSchool != 0, (OtherOccupationCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'OtherOccupationCostsSchool',
        IIF(TotalExpenditureSchool != 0, (PremisesStaffCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'PremisesStaffCostsSchool',
        IIF(TotalExpenditureSchool != 0, (TotalUtilitiesCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'TotalUtilitiesCostsSchool',
-       IIF(TotalExpenditureSchool != 0, (EnergyCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'EnergyCostsSchool'
+       IIF(TotalExpenditureSchool != 0, (EnergyCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'EnergyCostsSchool',
+       IIF(TotalExpenditureSchool != 0, (WaterSewerageCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'WaterSewerageCostsSchool'
 FROM VW_TrustFinancialDefault
 GO
 
@@ -305,6 +308,7 @@ SELECT CompanyNumber,
        IIF(TotalIncome != 0, (PremisesStaffCosts / TotalIncome) * 100, NULL) AS 'PremisesStaffCosts',
        IIF(TotalIncome != 0, (TotalUtilitiesCosts / TotalIncome) * 100, NULL) AS 'TotalUtilitiesCosts',
        IIF(TotalIncome != 0, (EnergyCosts / TotalIncome) * 100, NULL) AS 'EnergyCosts',
+       IIF(TotalIncome != 0, (WaterSewerageCosts / TotalIncome) * 100, NULL) AS 'WaterSewerageCosts',
        IIF(TotalIncomeCS != 0, (TotalExpenditureCS / TotalIncomeCS) * 100, NULL) AS 'TotalExpenditureCS',
        IIF(TotalIncomeCS != 0, (TotalTeachingSupportStaffCostsCS / TotalIncomeCS) * 100, NULL) AS 'TotalTeachingSupportStaffCostsCS',
        IIF(TotalIncomeCS != 0, (TeachingStaffCostsCS / TotalIncomeCS) * 100, NULL) AS 'TeachingStaffCostsCS',
@@ -345,6 +349,7 @@ SELECT CompanyNumber,
        IIF(TotalIncomeCS != 0, (PremisesStaffCostsCS / TotalIncomeCS) * 100, NULL) AS 'PremisesStaffCostsCS',
        IIF(TotalIncomeCS != 0, (TotalUtilitiesCostsCS / TotalIncomeCS) * 100, NULL) AS 'TotalUtilitiesCostsCS',
        IIF(TotalIncomeCS != 0, (EnergyCostsCS / TotalIncomeCS) * 100, NULL) AS 'EnergyCostsCS',
+       IIF(TotalIncomeCS != 0, (WaterSewerageCostsCS / TotalIncomeCS) * 100, NULL) AS 'WaterSewerageCostsCS',
        IIF(TotalIncomeSchool != 0, (TotalExpenditureSchool / TotalIncomeSchool) * 100, NULL) AS 'TotalExpenditureSchool',
        IIF(TotalIncomeSchool != 0, (TotalTeachingSupportStaffCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'TotalTeachingSupportStaffCostsSchool',
        IIF(TotalIncomeSchool != 0, (TeachingStaffCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'TeachingStaffCostsSchool',
@@ -384,7 +389,8 @@ SELECT CompanyNumber,
        IIF(TotalIncomeSchool != 0, (OtherOccupationCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'OtherOccupationCostsSchool',
        IIF(TotalIncomeSchool != 0, (PremisesStaffCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'PremisesStaffCostsSchool',
        IIF(TotalIncomeSchool != 0, (TotalUtilitiesCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'TotalUtilitiesCostsSchool',
-       IIF(TotalIncomeSchool != 0, (EnergyCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'EnergyCostsSchool'
+       IIF(TotalIncomeSchool != 0, (EnergyCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'EnergyCostsSchool',
+       IIF(TotalIncomeSchool != 0, (WaterSewerageCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'WaterSewerageCostsSchool'
 FROM VW_TrustFinancialDefault
 GO
 
@@ -434,6 +440,7 @@ SELECT CompanyNumber,
        IIF(TotalInternalFloorArea != 0, PremisesStaffCosts / TotalInternalFloorArea, NULL) AS 'PremisesStaffCosts',
        IIF(TotalInternalFloorArea != 0, TotalUtilitiesCosts / TotalInternalFloorArea, NULL) AS 'TotalUtilitiesCosts',
        IIF(TotalInternalFloorArea != 0, EnergyCosts / TotalInternalFloorArea, NULL) AS 'EnergyCosts',
+       IIF(TotalInternalFloorArea != 0, WaterSewerageCosts / TotalInternalFloorArea, NULL) AS 'WaterSewerageCosts',
        IIF(TotalPupils != 0, TotalExpenditureCS / TotalPupils, NULL) AS 'TotalExpenditureCS',
        IIF(TotalPupils != 0, TotalTeachingSupportStaffCostsCS / TotalPupils, NULL) AS 'TotalTeachingSupportStaffCostsCS',
        IIF(TotalPupils != 0, TeachingStaffCostsCS / TotalPupils, NULL) AS 'TeachingStaffCostsCS',
@@ -474,6 +481,7 @@ SELECT CompanyNumber,
        IIF(TotalInternalFloorArea != 0, PremisesStaffCostsCS / TotalInternalFloorArea, NULL) AS 'PremisesStaffCostsCS',
        IIF(TotalInternalFloorArea != 0, TotalUtilitiesCostsCS / TotalInternalFloorArea, NULL) AS 'TotalUtilitiesCostsCS',
        IIF(TotalInternalFloorArea != 0, EnergyCostsCS / TotalInternalFloorArea, NULL) AS 'EnergyCostsCS',
+       IIF(TotalInternalFloorArea != 0, WaterSewerageCostsCS / TotalInternalFloorArea, NULL) AS 'WaterSewerageCostsCS',
        IIF(TotalPupils != 0, TotalExpenditureSchool / TotalPupils, NULL) AS 'TotalExpenditureSchool',
        IIF(TotalPupils != 0, TotalTeachingSupportStaffCostsSchool / TotalPupils, NULL) AS 'TotalTeachingSupportStaffCostsSchool',
        IIF(TotalPupils != 0, TeachingStaffCostsSchool / TotalPupils, NULL) AS 'TeachingStaffCostsSchool',
@@ -513,7 +521,8 @@ SELECT CompanyNumber,
        IIF(TotalInternalFloorArea != 0, OtherOccupationCostsSchool / TotalInternalFloorArea, NULL) AS 'OtherOccupationCostsSchool',
        IIF(TotalInternalFloorArea != 0, PremisesStaffCostsSchool / TotalInternalFloorArea, NULL) AS 'PremisesStaffCostsSchool',
        IIF(TotalInternalFloorArea != 0, TotalUtilitiesCostsSchool / TotalInternalFloorArea, NULL) AS 'TotalUtilitiesCostsSchool',
-       IIF(TotalInternalFloorArea != 0, EnergyCostsSchool / TotalInternalFloorArea, NULL) AS 'EnergyCostsSchool'
+       IIF(TotalInternalFloorArea != 0, EnergyCostsSchool / TotalInternalFloorArea, NULL) AS 'EnergyCostsSchool',
+       IIF(TotalInternalFloorArea != 0, WaterSewerageCostsSchool / TotalInternalFloorArea, NULL) AS 'WaterSewerageCostsSchool'
 FROM VW_TrustFinancialDefault
 GO
 
