@@ -12,7 +12,7 @@ public abstract class ActivityTriggerFunctionTest
 {
     protected ActivityTriggerFunctionTest(ITestOutputHelper testOutputHelper)
     {
-        
+
         Database = new Mock<IPipelineDb>();
         Search = new Mock<IPipelineSearch>();
         DistributedCache = new Mock<IDistributedCache>();
