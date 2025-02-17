@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain.Messages;
 
-[ExcludeFromCodeCoverage]
 public record PipelineStartCustom : PipelineStart
 {
     /// <summary>

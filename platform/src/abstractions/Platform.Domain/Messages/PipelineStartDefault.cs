@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Platform.Domain.Messages;
 
-[ExcludeFromCodeCoverage]
 public record PipelineStartDefault : PipelineStart
 {
     /// <summary>
@@ -52,7 +51,6 @@ public record PipelineStartDefault : PipelineStart
     }
 }
 
-[ExcludeFromCodeCoverage]
 public record PipelineMessageYears
 {
     public int? Aar { get; set; }

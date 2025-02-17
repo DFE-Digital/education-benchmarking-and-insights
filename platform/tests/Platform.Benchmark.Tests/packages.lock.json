@@ -1910,11 +1910,6 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "xunit.abstractions": {
-        "type": "Transitive",
-        "resolved": "2.0.3",
-        "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg=="
-      },
       "xunit.analyzers": {
         "type": "Transitive",
         "resolved": "1.18.0",
@@ -2026,7 +2021,8 @@
           "Microsoft.ApplicationInsights": "[2.22.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
           "Microsoft.NET.Test.Sdk": "[17.13.0, )",
-          "Moq": "[4.20.72, )"
+          "Moq": "[4.20.72, )",
+          "xunit.abstractions": "[2.0.3, )"
         }
       },
       "AspNetCore.HealthChecks.SqlServer": {
@@ -2410,6 +2406,12 @@
           "System.IO.Pipelines": "9.0.1",
           "System.Text.Encodings.Web": "9.0.1"
         }
+      },
+      "xunit.abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.3, )",
+        "resolved": "2.0.3",
+        "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg=="
       }
     }
   }

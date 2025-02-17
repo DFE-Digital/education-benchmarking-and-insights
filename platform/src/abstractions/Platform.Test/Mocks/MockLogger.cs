@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit.Abstractions;
-namespace Platform.Cache.Tests.Mocks;
+
+namespace Platform.Test.Mocks;
 
 public abstract class MockLogger
 {

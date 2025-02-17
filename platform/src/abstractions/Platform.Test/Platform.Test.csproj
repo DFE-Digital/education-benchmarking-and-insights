@@ -13,5 +13,6 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
         <PackageReference Include="Moq"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+        <PackageReference Include="xunit.abstractions"/>
     </ItemGroup>
 </Project>
