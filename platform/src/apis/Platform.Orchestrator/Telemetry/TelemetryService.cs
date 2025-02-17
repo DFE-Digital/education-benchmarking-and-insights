@@ -25,9 +25,9 @@ public class TelemetryService(TelemetryClient telemetry) : ITelemetryService
 
         if (props != null)
         {
-            foreach (var prop in props.Where(p => !string.IsNullOrWhiteSpace(p.Value)))
+            foreach (var (key, value) in props.Where(p => !string.IsNullOrWhiteSpace(p.Value)))
             {
-                properties[prop.Key] = prop.Value!;
+                properties[key] = value!;
             }
         }
 

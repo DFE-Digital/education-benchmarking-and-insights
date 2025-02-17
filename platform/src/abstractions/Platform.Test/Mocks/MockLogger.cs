@@ -10,6 +10,18 @@ public abstract class MockLogger
     {
         var logger = new Mock<ILogger<T>>();
 
+        logger.Setup(l => l.BeginScope(It.IsAny<Dictionary<string, object>>()))
+            .Callback((Dictionary<string, object> state) =>
+            {
+                testOutputHelper.WriteLine("Scope:");
+                foreach (var (key, value) in state)
+                {
+                    testOutputHelper.WriteLine($"{key} = {value}");
+                }
+
+                testOutputHelper.WriteLine(string.Empty);
+            });
+
         logger.Setup(x => x.Log(
                 It.IsAny<LogLevel>(),
                 It.IsAny<EventId>(),

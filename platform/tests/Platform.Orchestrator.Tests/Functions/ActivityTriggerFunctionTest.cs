@@ -18,6 +18,23 @@ public abstract class ActivityTriggerFunctionTest
         Search = new Mock<IPipelineSearch>();
         DistributedCache = new Mock<IDistributedCache>();
         TelemetryService = new Mock<ITelemetryService>();
+        TelemetryService
+            .Setup(t => t.TrackEvent(It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<Dictionary<string, string?>?>()))
+            .Callback<string, string?, Dictionary<string, string?>?>((eventName, jobId, props) =>
+            {
+                testOutputHelper.WriteLine($"{eventName} Telemetry ({jobId}):");
+                if (props == null)
+                {
+                    return;
+                }
+
+                foreach (var (key, value) in props)
+                {
+                    testOutputHelper.WriteLine($"{key} = {value}");
+                }
+
+                testOutputHelper.WriteLine(string.Empty);
+            });
         Functions = new ActivityTriggerFunctions(logger.Object, Database.Object, Search.Object, DistributedCache.Object, TelemetryService.Object);
     }
 
