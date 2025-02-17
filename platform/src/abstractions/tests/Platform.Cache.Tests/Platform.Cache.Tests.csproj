@@ -28,6 +28,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Platform.Cache\Platform.Cache.csproj"/>
+        <ProjectReference Include="..\..\Platform.Test\Platform.Test.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using JsonSubTypes;
+﻿using JsonSubTypes;
 using Newtonsoft.Json;
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Domain.Messages;
 
-[ExcludeFromCodeCoverage]
 [JsonConverter(typeof(JsonSubtypes), "_type")]
 public record PipelinePayload
 {
@@ -23,7 +21,6 @@ public record PipelinePayload
     public virtual string? Kind { get; }
 }
 
-[ExcludeFromCodeCoverage]
 public record ComparatorSetPipelinePayload : PipelinePayload
 {
     public override string Type => nameof(ComparatorSetPipelinePayload);
@@ -32,7 +29,6 @@ public record ComparatorSetPipelinePayload : PipelinePayload
     public string[] Set { get; set; } = [];
 }
 
-[ExcludeFromCodeCoverage]
 public record CustomDataPipelinePayload : PipelinePayload
 {
     public override string Type => nameof(CustomDataPipelinePayload);
