@@ -93,7 +93,7 @@
 
             <div class="govuk-grid-row govuk-!-margin-bottom-4">
                 <div class="govuk-grid-column-two-thirds">
-                    <div id="@uuid">
+                    <div id="@uuid" class="costs-chart-wrapper" data-title="@categoryHeading" data-cost-codes="@costCodes.ToJson(Formatting.None)">
                         @if (hasNegativeOrZeroValues)
                         {
                             <div class="govuk-warning-text">
@@ -105,7 +105,7 @@
                             </div>
                         }
 
-                        <div class="govuk-!-margin-bottom-2 composed-container costs-chart-wrapper"
+                        <div class="govuk-!-margin-bottom-2 composed-container"
                              data-spending-and-costs-composed
                              data-json="@filteredData.ToJson(Formatting.None)"
                              data-highlight="@Model.Urn"
@@ -113,8 +113,7 @@
                              data-sort-direction="asc"
                              data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
                              data-has-incomplete-data="@Model.HasIncompleteData"
-                             data-title="@categoryHeading"
-                             data-cost-codes="@costCodes.ToJson(Formatting.None)">
+                             >
                         </div>
                     </div>
 
