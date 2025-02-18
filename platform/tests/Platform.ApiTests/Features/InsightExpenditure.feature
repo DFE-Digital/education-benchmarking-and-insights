@@ -246,6 +246,51 @@
           | SupplyTeacherInsurableCosts                     |            |
           | CommunityFocusedSchoolStaff                     |            |
           | CommunityFocusedSchoolCosts                     |            |
+        
+    Scenario: Sending a valid trust expenditure request with category Utilities and dimension PerUnit  
+        Given a trust expenditure request with company number '10192252', category 'Utilities' and dimension 'PerUnit'
+        When I submit the insights expenditure request
+        Then the trust expenditure result should be ok and contain:
+          | Field                                           | Value                     |
+          | CompanyNumber                                   | 10192252                  |
+          | SchoolTotalExpenditure                          | 8214.1890145395799676898  |
+          | SchoolTotalUtilitiesCosts                       |  11.3341269841269841269   |
+          | SchoolEnergyCosts                               |  9.6154761904761904761    |
+          | SchoolWaterSewerageCosts                        |  1.7186507936507936507    |
+          | TotalExpenditure                                |  8214.1890145395799676898 |
+          | TotalUtilitiesCosts                             |  11.3341269841269841269   |
+          | EnergyCosts                                     |  9.6154761904761904761    |
+          | WaterSewerageCosts                              |  1.7186507936507936507    |
+          
+    Scenario: Sending a valid trust expenditure request with category Utilities and dimension PercentExpenditure  
+        Given a trust expenditure request with company number '10192252', category 'Utilities' and dimension 'PercentExpenditure'
+        When I submit the insights expenditure request
+        Then the trust expenditure result should be ok and contain:
+          | Field                                           | Value                  |
+          | CompanyNumber                                   | 10192252               |
+          | SchoolTotalExpenditure                          | 100.00000000000000000  |
+          | SchoolTotalUtilitiesCosts                       | 1.68521194363431573    |
+          | SchoolEnergyCosts                               | 1.42967476388919209    |
+          | SchoolWaterSewerageCosts                        | 0.25553717974512364    |
+          | TotalExpenditure                                | 100.000000000000000000 |
+          | TotalUtilitiesCosts                             |  1.685211943634315730  |
+          | EnergyCosts                                     |  1.429674763889192090  |
+          | WaterSewerageCosts                              |  0.255537179745123640  |
+          
+    Scenario: Sending a valid trust expenditure request with category Utilities and dimension PercentIncome     
+        Given a trust expenditure request with company number '10192252', category 'Utilities' and dimension 'PercentIncome'
+        When I submit the insights expenditure request
+        Then the trust expenditure result should be ok and contain:
+          | Field                                           | Value                      |
+          | CompanyNumber                                   | 10192252                   |
+          | SchoolTotalExpenditure                          | 93.30316436521394785       |
+          | SchoolTotalUtilitiesCosts                       |  1.57235606967134224       |
+          | SchoolEnergyCosts                               |  1.33393179483951732       |
+          | SchoolWaterSewerageCosts                        |  0.23842427483182492       |
+          | TotalExpenditure                                |  93.303164365213947840     |
+          | TotalUtilitiesCosts                             |  1.572356069671342230      |
+          | EnergyCosts                                     |  1.333931794839517320      |
+          | WaterSewerageCosts                              |  0.238424274831824910      |
 
     Scenario: Sending a valid trust expenditure request with dimension
         Given a trust expenditure request with company number '10192252', category '' and dimension 'Actuals'
