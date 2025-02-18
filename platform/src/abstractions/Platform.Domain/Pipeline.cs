@@ -34,6 +34,7 @@ public static class Pipeline
     {
         public const string PipelinePendingMessageReceived = nameof(PipelinePendingMessageReceived);
         public const string PipelinePendingMessageOrchestrated = nameof(PipelinePendingMessageOrchestrated);
+        public const string PipelineStatusMessageOrchestrated = nameof(PipelineStatusMessageOrchestrated);
         public const string PipelineStartDefaultMessageReceived = nameof(PipelineStartDefaultMessageReceived);
         public const string PipelineStartCustomMessageReceived = nameof(PipelineStartCustomMessageReceived);
         public const string PipelineFinishedMessageReceived = nameof(PipelineFinishedMessageReceived);
