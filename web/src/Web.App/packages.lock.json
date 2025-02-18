@@ -89,9 +89,9 @@
       },
       "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
         "type": "Direct",
-        "requested": "[8.0.12, )",
-        "resolved": "8.0.12",
-        "contentHash": "3N1yJih35FoBb9dy9F0OscsKrzUE29HI0L0MyUhAhJLTE2AwhkUaACLDrEtc694q3XnmcQ01jHyaIPOLPTaODg==",
+        "requested": "[8.0.13, )",
+        "resolved": "8.0.13",
+        "contentHash": "3KBSNoPyNuXzMPweojx9Em7mfDxxzYPwnmvs66vArHZYMOFWk0sAnVbqXKMQfijUwNaSl8hMG/Kvz3oy0/4SxA==",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.1.2"
         }
