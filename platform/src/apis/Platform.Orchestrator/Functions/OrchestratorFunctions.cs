@@ -68,7 +68,8 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
 
             var runIndexerTask = context.CallActivityAsync(nameof(ActivityTriggerFunctions.RunIndexerTrigger), input);
             var clearCacheTask = context.CallActivityAsync(nameof(ActivityTriggerFunctions.ClearCacheTrigger), input);
-            await Task.WhenAll(runIndexerTask, clearCacheTask);
+            var deactivateUserDataTask = context.CallActivityAsync(nameof(ActivityTriggerFunctions.DeactivateUserDataTrigger), input);
+            await Task.WhenAll(runIndexerTask, clearCacheTask, deactivateUserDataTask);
         }
     }
 

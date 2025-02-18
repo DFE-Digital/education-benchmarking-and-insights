@@ -57,6 +57,21 @@ public class WhenPipelineJobDefaultFinishedTriggered : OrchestrationTriggerFunct
     }
 
     [Fact]
+    public async Task ShouldCallDeactivateUserDataTriggerActivity()
+    {
+        _context
+            .Setup(c => c.CallActivityAsync(
+                nameof(ActivityTriggerFunctions.DeactivateUserDataTrigger),
+                _input,
+                It.IsAny<TaskOptions?>()))
+            .Verifiable();
+
+        await Functions.PipelineJobDefaultFinished(_context.Object);
+
+        _context.Verify();
+    }
+
+    [Fact]
     public async Task ShouldNotCallTriggerActivitiesIfInvalidInput()
     {
         _context.Reset();
