@@ -24,7 +24,9 @@ public class WhenTelemetryServiceTracksEvent
         const string jobId = nameof(jobId);
         var props = new Dictionary<string, string?>
         {
-            { "Key", "Value" }
+            { "Key", "Value" },
+            { "Empty", string.Empty },
+            { "Missing", null }
         };
 
         _service.TrackEvent(eventName, jobId, props);

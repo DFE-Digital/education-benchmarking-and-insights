@@ -64,7 +64,8 @@ public class PipelineQueueTriggerFunctions(ILogger<PipelineQueueTriggerFunctions
             {
                 telemetryService.TrackEvent(Pipeline.Events.PipelineFinishedMessageReceived, job.JobId, new Dictionary<string, string?>
                 {
-                    { nameof(job.Success), job.Success.ToString() }
+                    { nameof(job.Success), job.Success.ToString() },
+                    { nameof(job.Error), job.Error }
                 });
                 await db.WriteToLog(job.JobId, message);
 
