@@ -36,7 +36,6 @@
         - dependency-name: "@types/react-dom"
           versions: ["19.*"]
         - dependency-name: "html-to-image"
-          versions: [">1.11.11"]
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
