@@ -23,6 +23,9 @@
       open-pull-requests-limit: 10
       # React v18 to v19 major version upgrade affects other packages as at 
       # Feb 2025 due to broken peer dependencies. Ignore for the time being.
+      # Feb 2025 html-to-image versions after 1.11.11 cause issues for
+      # the styling of front-end-components charts in images. 
+      # Ignore until resolved.
       ignore:
         - dependency-name: "react"
           versions: ["19.*"]
@@ -32,6 +35,7 @@
           versions: ["19.*"]
         - dependency-name: "@types/react-dom"
           versions: ["19.*"]
+        - dependency-name: "html-to-image"
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
