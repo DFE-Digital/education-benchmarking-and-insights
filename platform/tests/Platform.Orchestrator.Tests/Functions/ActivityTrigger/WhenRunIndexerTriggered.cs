@@ -18,7 +18,7 @@ public class WhenRunIndexerTriggered(ITestOutputHelper testOutputHelper) : Activ
         };
 
         Database?
-            .Setup(d => d.UpdateStatus(status))
+            .Setup(d => d.UpdateUserDataStatus(status))
             .ReturnsAsync(1)
             .Verifiable();
 

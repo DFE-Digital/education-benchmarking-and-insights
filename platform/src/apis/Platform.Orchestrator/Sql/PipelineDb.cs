@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dapper.Contrib.Extensions;
 using Platform.Domain;
 using Platform.Orchestrator.Functions;
 using Platform.Sql;
@@ -9,13 +8,14 @@ namespace Platform.Orchestrator.Sql;
 
 public interface IPipelineDb
 {
-    Task<int> UpdateStatus(PipelineStatus status);
+    Task<int> UpdateUserDataStatus(PipelineStatus status);
     Task<int> WriteToLog(string? orchestrationId, string? message);
+    Task<int> DeactivateUserData();
 }
 
 public class PipelineDb(IDatabaseFactory dbFactory) : IPipelineDb
 {
-    public async Task<int> UpdateStatus(PipelineStatus status)
+    public async Task<int> UpdateUserDataStatus(PipelineStatus status)
     {
         const string sql = "UPDATE UserData SET Status = @status where Id = @RunId";
         var parameters = new
@@ -45,6 +45,18 @@ public class PipelineDb(IDatabaseFactory dbFactory) : IPipelineDb
         };
 
         var rowsAffected = await connection.InsertAsync(newPlan, transaction);
+
+        transaction.Commit();
+        return rowsAffected;
+    }
+
+    public async Task<int> DeactivateUserData()
+    {
+        const string sql = "UPDATE UserData SET Active = 0";
+
+        using var conn = await dbFactory.GetConnection();
+        using var transaction = conn.BeginTransaction();
+        var rowsAffected = await conn.ExecuteAsync(sql, transaction: transaction);
 
         transaction.Commit();
         return rowsAffected;
