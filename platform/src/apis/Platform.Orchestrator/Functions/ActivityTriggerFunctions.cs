@@ -66,7 +66,7 @@ public class ActivityTriggerFunctions(
             });
 
             logger.LogInformation("Updating status for {RunId}", status.RunId);
-            var rowsAffected = await db.UpdateStatus(status);
+            var rowsAffected = await db.UpdateUserDataStatus(status);
             logger.LogInformation("Finished updating status for {RunId} ({RowsAffected} row(s) affected)", status.RunId, rowsAffected);
         }
     }
@@ -113,6 +113,29 @@ public class ActivityTriggerFunctions(
 
             logger.LogInformation("Clearing keys from distributed cache after completion for {RunId}", status.RunId);
             await cache.DeleteAsync($"{status.RunId}:*");
+        }
+    }
+
+    [Function(nameof(DeactivateUserDataTrigger))]
+    public async Task DeactivateUserDataTrigger([ActivityTrigger] PipelineStatus status)
+    {
+        using (logger.BeginApplicationScope(status.JobId))
+        {
+            telemetryService.TrackEvent(Pipeline.Events.PipelineStatusReceived, status.JobId, new Dictionary<string, string?>
+            {
+                { "Action", "DeactivateUserData" },
+                { "Skip", (!status.Success).ToString() }
+            });
+
+            if (!status.Success)
+            {
+                logger.LogInformation("Not deactivating user data due to failed status for {RunId}", status.RunId);
+                return;
+            }
+
+            logger.LogInformation("Deactivating user data due to success status for {RunId}", status.RunId);
+            var rowsAffected = await db.DeactivateUserData();
+            logger.LogInformation("Finished deactivating user data for {RunId} ({Rows} row(s) affected)", status.RunId, rowsAffected);
         }
     }
 }

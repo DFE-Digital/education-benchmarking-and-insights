@@ -55,7 +55,7 @@ public class WhenPipelineJobOrchestrationTriggeredByDefaultJobType : Orchestrati
     }
 
     [Fact]
-    public async Task ShouldCallRunIndexerTriggerActivity()
+    public async Task ShouldCallSubOrchestrator()
     {
         const bool success = true;
         _context
@@ -63,28 +63,8 @@ public class WhenPipelineJobOrchestrationTriggeredByDefaultJobType : Orchestrati
             .ReturnsAsync(success);
 
         _context
-            .Setup(c => c.CallActivityAsync(
-                nameof(ActivityTriggerFunctions.RunIndexerTrigger),
-                It.Is<PipelineStatus>(p => p.JobId == _input.JobId && p.Success == success),
-                It.IsAny<TaskOptions?>()))
-            .Verifiable();
-
-        await Functions.PipelineJobOrchestrator(_context.Object);
-
-        _context.Verify();
-    }
-
-    [Fact]
-    public async Task ShouldCallClearCacheTriggerActivity()
-    {
-        const bool success = true;
-        _context
-            .Setup(c => c.WaitForExternalEvent<bool>(nameof(PipelineQueueTriggerFunctions.PipelineJobFinished), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(success);
-
-        _context
-            .Setup(c => c.CallActivityAsync(
-                nameof(ActivityTriggerFunctions.ClearCacheTrigger),
+            .Setup(c => c.CallSubOrchestratorAsync(
+                nameof(OrchestratorFunctions.PipelineJobDefaultFinished),
                 It.Is<PipelineStatus>(p => p.JobId == _input.JobId && p.RunId == _input.RunId!.ToString() && p.Success == success),
                 It.IsAny<TaskOptions?>()))
             .Verifiable();

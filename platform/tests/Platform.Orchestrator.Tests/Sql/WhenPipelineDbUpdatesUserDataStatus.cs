@@ -7,13 +7,13 @@ using Xunit;
 
 namespace Platform.Orchestrator.Tests.Sql;
 
-public class WhenPipelineDbUpdatesStatus
+public class WhenPipelineDbUpdatesUserDataStatus
 {
     private readonly Mock<IDatabaseConnection> _connection;
     private readonly PipelineDb _db;
     private readonly Mock<IDbTransaction> _transaction;
 
-    public WhenPipelineDbUpdatesStatus()
+    public WhenPipelineDbUpdatesUserDataStatus()
     {
         _transaction = new Mock<IDbTransaction>();
 
@@ -55,7 +55,7 @@ public class WhenPipelineDbUpdatesStatus
             })
             .ReturnsAsync(rowsAffected);
 
-        var result = await _db.UpdateStatus(status);
+        var result = await _db.UpdateUserDataStatus(status);
         Assert.Equal("UPDATE UserData SET Status = @status where Id = @RunId", actualSql);
         Assert.Equal(rowsAffected, result);
         Assert.Equal(runId, actualRunId);

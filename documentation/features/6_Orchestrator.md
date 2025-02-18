@@ -8,9 +8,9 @@ This document provides detailed information for developers about the implementat
 
 //TODO
 
-## Usage
+## Orchestrations
 
-//TODO
+### PipelineJobOrchestrator
 
 ```mermaid
 sequenceDiagram
@@ -20,7 +20,7 @@ sequenceDiagram
     box Purple Storage queue
     participant data-pipeline-job-pending
     end
-    participant Orchestrator
+    participant PipelineJobOrchestrator
     box Purple Storage queue
     participant data-pipeline-job-custom-start
     end
@@ -34,28 +34,46 @@ sequenceDiagram
 
     Platform API->>data-pipeline-job-pending: Produce
     Note over Platform API,data-pipeline-job-pending: Platform API generated message<br/>with the 'custom' message schema
-    data-pipeline-job-pending-->>Orchestrator: Consume
+    data-pipeline-job-pending-->>PipelineJobOrchestrator: Consume 
     
     Developer->>data-pipeline-job-pending: Produce
     Note over Developer,data-pipeline-job-pending: Manually generated message <br/>with the 'default' message schema
-    data-pipeline-job-pending-->>Orchestrator: Consume
+    data-pipeline-job-pending-->>PipelineJobOrchestrator: Consume
 
     alt is 'custom' message type
-        Orchestrator->>data-pipeline-job-custom-start: Produce
+        PipelineJobOrchestrator->>data-pipeline-job-custom-start: Produce
         Data pipeline-->>data-pipeline-job-custom-start: Consume
     else is 'default' message type
-        Orchestrator->>data-pipeline-job-default-start: Produce
+        PipelineJobOrchestrator->>data-pipeline-job-default-start: Produce
         Data pipeline-->>data-pipeline-job-default-start: Consume
     else
-        Note right of Orchestrator: Exception
+        Note right of PipelineJobOrchestrator: Exception
     end
 
     Data pipeline->>data-pipeline-job-finished: Produce
-    data-pipeline-job-finished-->>Orchestrator: Consume
+    data-pipeline-job-finished-->>PipelineJobOrchestrator: Consume
     alt is 'custom' message type
-        Orchestrator->>Database: Update status
+        PipelineJobOrchestrator->>Database: Update status
     else is 'default' message type
-        Orchestrator->>Azure Search: Run indexers
+        PipelineJobOrchestrator-->>PipelineJobDefaultFinished: Consume
+        Note over PipelineJobDefaultFinished: Sub-orchestration
+    end
+```
+
+### PipelineJobDefaultFinished
+
+```mermaid
+sequenceDiagram   
+    External-->>PipelineJobDefaultFinished: Consume
+
+    alt is success status
+        par
+            PipelineJobDefaultFinished->>Azure Search: Run indexers
+        and 
+            PipelineJobDefaultFinished->>Distributed Cache: Clear cache
+        and 
+            PipelineJobDefaultFinished->>Database: De-activate UserData
+        end
     end
 ```
 
