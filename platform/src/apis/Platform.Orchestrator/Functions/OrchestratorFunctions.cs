@@ -25,7 +25,8 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
             {
                 telemetryService.TrackEvent(Pipeline.Events.PipelinePendingMessageOrchestrated, input?.JobId, new Dictionary<string, string?>
                 {
-                    { nameof(input.Type), input?.Type }
+                    { nameof(input.Type), input?.Type },
+                    { nameof(context.InstanceId), context.InstanceId }
                 });
             }
 
@@ -44,6 +45,33 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
         }
     }
 
+    [Function(nameof(PipelineJobDefaultFinished))]
+    public async Task PipelineJobDefaultFinished([OrchestrationTrigger] TaskOrchestrationContext context)
+    {
+        using (logger.BeginApplicationScope())
+        {
+            var input = context.GetInput<PipelineStatus>();
+            if (!context.IsReplaying)
+            {
+                telemetryService.TrackEvent(Pipeline.Events.PipelineStatusMessageOrchestrated, input?.JobId, new Dictionary<string, string?>
+                {
+                    { nameof(PipelinePayload.Type), Pipeline.JobType.Default },
+                    { nameof(context.InstanceId), context.InstanceId }
+                });
+            }
+
+            if (input == null)
+            {
+                logger.LogWarning("Unable to get input from orchestration context {InstanceId} for {Type} pipeline job", context.InstanceId, Pipeline.JobType.Default);
+                return;
+            }
+
+            var runIndexerTask = context.CallActivityAsync(nameof(ActivityTriggerFunctions.RunIndexerTrigger), input);
+            var clearCacheTask = context.CallActivityAsync(nameof(ActivityTriggerFunctions.ClearCacheTrigger), input);
+            await Task.WhenAll(runIndexerTask, clearCacheTask);
+        }
+    }
+
     private async Task OrchestrateDefaultMessage(TaskOrchestrationContext context, PipelinePending input)
     {
         var message = PipelineStartDefault.FromPending(input);
@@ -53,13 +81,7 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
         var success = await context.WaitForExternalEvent<bool>(nameof(PipelineQueueTriggerFunctions.PipelineJobFinished));
         logger.LogInformation("Received finished event for default message {JobId}", message.JobId);
 
-        await context.CallActivityAsync(nameof(ActivityTriggerFunctions.RunIndexerTrigger), new PipelineStatus
-        {
-            JobId = message.JobId,
-            Success = success
-        });
-
-        await context.CallActivityAsync(nameof(ActivityTriggerFunctions.ClearCacheTrigger), new PipelineStatus
+        await context.CallSubOrchestratorAsync(nameof(PipelineJobDefaultFinished), new PipelineStatus
         {
             JobId = message.JobId,
             RunId = message.RunId.ToString(),
