@@ -4,9 +4,11 @@ Report location:  [DfE Sharepoint](https://educationgovuk.sharepoint.com/:f:/r/s
 
 ## School engagement
 
-On `p01` Log Analytics workspace, run the following query after setting the time period to the whole of the last month and setting the maximum number of rows:
+On `p01` Log Analytics workspace, run the following query to cover whole of the last month. The maximum number of rows being shown need to be updated in the query results.
 
 ```kql
+let time_start = startofmonth(datetime(now), -1); 
+let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
 | where 
     Establishment == "school" 
@@ -14,12 +16,13 @@ GetEstablishmentRequests
     ResultCode == 200
 | where 
     Feature == "spending-priorities"
+| where
+    TimeGenerated between (time_start .. time_end)
+| order by 
+    TimeGenerated asc
 | project 
     Urn = Identifier,
-    ExcelDate = format_datetime(TimeGenerated, 'dd/MM/yyyy HH:mm:ss'),
-    TimeGenerated
-| order by 
-    TimeGenerated
+    ExcelDate = format_datetime(TimeGenerated, 'dd/MM/yyyy HH:mm:ss')
 ```
 
 Export the results to a .csv file and append the `Urn` and `ExcelDate` columns into the `SpendingPrioritiesRequestData` table.
@@ -43,14 +46,18 @@ ORDER BY [URN]
 
 ## School features
 
-To update the `School features` table, use the results of the following on `p01` Log Analytics after setting the time period to last 12 months:
+On `p01` Log Analytics workspace, run the following query to cover whole of the year up to the end of the last month:
 
 ```kql
+let time_start = startofmonth(datetime(now), -12); 
+let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
 | where 
     Establishment == "school" 
 | where 
     ResultCode == 200
+| where
+    TimeGenerated between (time_start .. time_end)
 | project 
     TimeGenerated, 
     Feature, 
@@ -64,14 +71,18 @@ GetEstablishmentRequests
 
 ## Trust features
 
-To update the `Trust features` table, use the results of the following on `p01` Log Analytics after setting the time period to last 12 months:
+On `p01` Log Analytics workspace, run the following query to cover whole of the year up to the end of the last month:
 
 ```kql
+let time_start = startofmonth(datetime(now), -12); 
+let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
 | where 
     Establishment == "trust" 
 | where 
     ResultCode == 200
+| where
+    TimeGenerated between (time_start .. time_end)
 | project 
     TimeGenerated, 
     Feature, 
@@ -85,14 +96,18 @@ GetEstablishmentRequests
 
 ## Local Authority features
 
-To update the `Local Authority features` table, use the results of the following on `p01` Log Analytics after setting the time period to last 12 months:
+On `p01` Log Analytics workspace, run the following query to cover whole of the year up to the end of the last month:
 
 ```kql
+let time_start = startofmonth(datetime(now), -12); 
+let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
 | where 
     Establishment == "local-authority" 
 | where 
     ResultCode == 200
+| where
+    TimeGenerated between (time_start .. time_end)
 | project 
     TimeGenerated, 
     Feature, 
@@ -106,7 +121,7 @@ GetEstablishmentRequests
 
 ## CFP Completion
 
-On `p01` database, obtain the CFP records up to the end of the last month:
+On `p01` database, obtain the CFP records for the whole year up to the end of the last month:
 
 ```sql
 SELECT
@@ -114,7 +129,8 @@ SELECT
     [Year],
     [IsComplete]
 FROM [dbo].[FinancialPlan]
-WHERE [Created] < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
+WHERE   [UpdatedAt] > CAST(DATEADD(MONTH, -12, DATEADD(day, 1 - DAY(GETDATE()), GETDATE())) AS DATE)
+    AND [UpdatedAt] < DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
 ORDER BY [URN], [Year]
 ```
 
