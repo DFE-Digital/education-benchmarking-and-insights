@@ -77,7 +77,19 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     private void EnableFeatures(params string[] ignoreFeatures)
     {
-        var features = new[] { FeatureFlags.CurriculumFinancialPlanning, FeatureFlags.CustomData, FeatureFlags.UserDefinedComparators, FeatureFlags.TrustComparison, FeatureFlags.Trusts, FeatureFlags.LocalAuthorities, FeatureFlags.ForecastRisk, FeatureFlags.FinancialBenchmarkingInsightsSummary, FeatureFlags.HistoricalTrends };
+        var features = new[]
+        {
+            FeatureFlags.CurriculumFinancialPlanning,
+            FeatureFlags.CustomData,
+            FeatureFlags.UserDefinedComparators,
+            FeatureFlags.TrustComparison,
+            FeatureFlags.Trusts,
+            FeatureFlags.LocalAuthorities,
+            FeatureFlags.ForecastRisk,
+            FeatureFlags.FinancialBenchmarkingInsightsSummary,
+            FeatureFlags.HistoricalTrends,
+            FeatureFlags.HighNeeds
+        };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
         {

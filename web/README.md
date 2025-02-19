@@ -82,6 +82,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `DisableOrganisationClaimCheck`        | Disables organisation and school level claims checks against the authenticated user           |
 | `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                   |
 | `HistoricalTrends`                     | Toggles the Benchmarking Historical trends feature, which affects the Financial History pages |
+| `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                       |
 
 #### CacheOptions
 
@@ -131,7 +132,8 @@ To use the GOV.UK Design System and front-end components locally:
 
 - Browse to
   the [private package repository](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking) >
-  '[Connect to Feed](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking/connect)' > npm >
+  '[Connect to Feed](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking/connect)' >
+  npm >
   and follow the _instructions for using a Personal Access Token to authenticate_
 - Navigate to the root of the Web APP `.\web\src\Web.App`
 - Install the required packages `npm i`

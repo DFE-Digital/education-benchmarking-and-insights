@@ -21,6 +21,7 @@ variable "configuration" {
       TrustComparison                      = bool
       FinancialBenchmarkingInsightsSummary = bool
       HistoricalTrends                     = bool
+      HighNeeds                            = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -47,6 +48,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -72,6 +74,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -97,6 +100,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -122,6 +126,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -147,6 +152,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -172,6 +178,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighNeeds                            = false
       },
       CacheOptions = {
         ReturnYears = {
