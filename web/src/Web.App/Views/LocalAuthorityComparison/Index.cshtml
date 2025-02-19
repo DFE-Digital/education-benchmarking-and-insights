@@ -21,7 +21,23 @@
          data-id="@Model.Code"
          data-phases="@Model.Phases.ToJson(Formatting.None)"
          data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
-    </div>    
+    </div>
 }
 
-@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.BenchmarkCensus } })
+@{
+    var tools = new[] { FinanceTools.BenchmarkCensus };
+}
+<feature name="@FeatureFlags.HighNeeds">
+    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+    {
+        identifier = Model.Code,
+        tools = tools.Concat([FinanceTools.HighNeeds]).ToArray()
+    })
+</feature>
+<feature negate="true" name="@FeatureFlags.HighNeeds">
+    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+    {
+        identifier = Model.Code,
+        tools
+    })
+</feature>

@@ -1,0 +1,39 @@
+﻿@using Web.App.TagHelpers
+@model Web.App.ViewModels.LocalAuthorityViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeeds;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Code,
+    kind = OrganisationTypes.LocalAuthority
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus ante.
+        </p>
+        <p class="govuk-body">
+            Vivamus tincidunt, justo vel lobortis fringilla, leo nibh efficitur risus, id volutpat magna felis ut eros.
+        </p>
+    </div>
+</div>
+
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+{
+    identifier = Model.Code,
+    tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus }
+})
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import {initAll} from '/js/govuk-frontend.min.js'
+
+        initAll()
+    </script>
+}

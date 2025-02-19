@@ -34,6 +34,25 @@
                             </p>
                         </li>
                         break;
+                    case FinanceTools.HighNeeds:
+                        <li>
+                            <a href="@Url.Action("Index", "LocalAuthorityHighNeeds", new
+                                     {
+                                         code = Model.Identifier
+                                     })" aria-label="High needs benchmarking">
+                                <img src="/assets/images/high-needs.png" alt="" class="app-view-component">
+                            </a>
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "LocalAuthorityHighNeeds", new
+                                         {
+                                             code = Model.Identifier
+                                         })" class="govuk-link govuk-link--no-visited-state">High needs benchmarking</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            </p>
+                        </li>
+                        break;
                 }
             }
         </ul>

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Web.App;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages;
 
 public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
@@ -97,5 +98,15 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
 
         PageAssert.IsFeatureDisabledPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialBenchmarkingInsightsSummary(Urn).ToAbsolute(), HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task LocalAuthorityHighNeedsRedirectsToFeatureDisabled()
+    {
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.HighNeeds)
+            .Navigate(Paths.LocalAuthorityHighNeeds("123"));
+
+        PageAssert.IsFeatureDisabledPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds("123").ToAbsolute(), HttpStatusCode.Forbidden);
     }
 }

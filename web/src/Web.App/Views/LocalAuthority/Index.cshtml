@@ -1,7 +1,7 @@
 ﻿@using Web.App.Extensions
 @using Web.App.TagHelpers
-@using Web.App.ViewModels.Components
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
@@ -46,12 +46,31 @@
     </div>
 </div>
 
-
-@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })
+@{
+    var tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus };
+}
+<feature name="@FeatureFlags.HighNeeds">
+    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+    {
+        identifier = Model.Code,
+        tools = tools.Concat([FinanceTools.HighNeeds]).ToArray()
+    })
+</feature>
+<feature negate="true" name="@FeatureFlags.HighNeeds">
+    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+    {
+        identifier = Model.Code,
+        tools
+    })
+</feature>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources, Resources.DataSource } })
+@await Component.InvokeAsync("Resources", new
+{
+    identifier = Model.Code,
+    resources = new[] { Resources.LocalAuthorityResources, Resources.DataSource }
+})
 
 @* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
