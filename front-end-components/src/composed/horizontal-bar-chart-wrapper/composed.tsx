@@ -204,7 +204,11 @@ export function HorizontalBarChartWrapper<
         )}
       </div>
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-full" data-chart-uuid={uuid}>
+        <div
+          className="govuk-grid-column-full costs-chart-wrapper"
+          data-chart-uuid={uuid}
+          data-title={chartTitle}
+        >
           {hasData ? (
             <>
               <CostCodesList category={chartTitle} />
