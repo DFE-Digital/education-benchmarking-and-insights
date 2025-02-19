@@ -7,7 +7,6 @@
 
 This plan defines the approach for testing release `2025.02.3`, covering all testing necessary.  
 Ensure the enhancements, and bug fixes in `2025.02.3` are functioning as expected without adversely impacting existing functionality.
-
 The release encompasses the standard code release, which incorporates all enhancements, and bug fixes.
 
 ## Scope
@@ -34,13 +33,13 @@ The release encompasses the standard code release, which incorporates all enhanc
 - UI styling and front-end framework updates.
 - Testing of datasets, system configurations, or features not included in this release.
 
-
 ## Test Strategy
 
 - **Functional Testing:**
   - Enhancements: Test enhanced features for correct functionality.
 - **Smoke Testing:** Execute smoke tests to validate the basic functionality of the application post-deployment to production.
 - **Sanity Testing:** Perform sanity checks on bug fixes, enhancements to confirm the updates.
+
 ## Entry and Exit Criteria
 
 **Entry Criteria:**
