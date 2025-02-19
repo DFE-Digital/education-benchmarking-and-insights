@@ -12,4 +12,5 @@ public static class FeatureFlags
     public const string DisableOrganisationClaimCheck = nameof(DisableOrganisationClaimCheck);
     public const string FinancialBenchmarkingInsightsSummary = nameof(FinancialBenchmarkingInsightsSummary);
     public const string HistoricalTrends = nameof(HistoricalTrends);
+    public const string HighNeeds = nameof(HighNeeds);
 }
