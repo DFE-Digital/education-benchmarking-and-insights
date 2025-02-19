@@ -123,8 +123,22 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
             var db = await GetDatabase();
             logger.LogDebug("Getting and deleting key(s) matching {Pattern} from Redis", pattern);
 
-            // atomically get all matching KEYS and then DEL all matches
-            await db.ScriptEvaluateAsync($"for _,k in ipairs(redis.call('keys','{pattern}')) do redis.call('del',k) end");
+            // scan first 1000 matching keys and then DEL all matches
+            const string script = "return redis.call('DEL', unpack(redis.call('SCAN', 0, 'COUNT', 1000, 'MATCH', @pattern)[2]))";
+            var prepared = LuaScript.Prepare(script);
+
+            try
+            {
+                await db.ScriptEvaluateAsync(prepared, new
+                {
+                    pattern
+                });
+            }
+            catch (RedisServerException ex) when (ex.Message.Contains("Wrong number of args calling Redis command From Lua script"))
+            {
+                // `SCAN` may return `(empty array)`, which `DEL` subsequently errors on if no keys found
+                logger.LogInformation("No cache keys to delete matching {Pattern}", pattern);
+            }
         }
     }
 
@@ -175,9 +189,7 @@ public partial class RedisDistributedCache(ILogger<RedisDistributedCache> logger
 
     private IDisposable? LoggerContext(string key) => logger.BeginScope(new Dictionary<string, object>
     {
-        {
-            "CacheKey", key
-        }
+        { "CacheKey", key }
     });
 
     private static string ToBson<T>(T value)
