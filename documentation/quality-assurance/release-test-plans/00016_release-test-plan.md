@@ -124,8 +124,8 @@ This release focuses on improvements in data pipeline, enhanced chart export fun
 | Test Category     | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------|:-----------:|:------:|:------:|:---------:|  
 | Functional Tests  |     12      |   12   |   0    |   100%    |  
-| Smoke Tests       |      2      |   2    |   0    |   100%    |  
-| Sanity Tests      |      X      |   X    |   X    |    X%     |  
+| Smoke Tests       |      X      |   X    |   X    |    X%     |  
+| Sanity Tests      |      2      |   2    |   0    |   100%    |  
 | Total             |      X      |   X    |   X    |    X%     |  
 
 <!-- Leave the rest of this page blank -->  
