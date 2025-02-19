@@ -173,7 +173,7 @@ stages:
           environment: 'pre-production'
           cipEnvironment: 'Prod'
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
-          supportAlertEmail: ${support-alert-email}
+          supportAlertEmail: $(support-alert-email)
 
   - stage: DeployProd
     dependsOn: [ DeployPreProd ]
@@ -189,4 +189,4 @@ stages:
           environment: 'production'
           cipEnvironment: 'Prod'
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
-          supportAlertEmail: ${support-alert-email}
+          supportAlertEmail: $(support-alert-email)
