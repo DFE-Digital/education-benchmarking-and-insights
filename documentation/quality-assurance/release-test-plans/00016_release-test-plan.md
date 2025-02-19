@@ -1,12 +1,14 @@
-﻿# Release Test Plan - 2025.02.3
+﻿# Release Test Plan - 2025.02.4
+
+_*Release version incremented due to an error encountered while deploying 2025.02.3 to pre-production._
 
 **Release Date:** 19/02/2025  
-**Release Label:** 2025.02.3
+**Release Label:** 2025.02.4
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.02.3`, covering all testing necessary.  
-Ensure the enhancements, and bug fixes in `2025.02.3` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.02.4`, covering all testing necessary.  
+Ensure the enhancements, and bug fixes in `2025.02.4` are functioning as expected without adversely impacting existing functionality.
 The release encompasses the standard code release, which incorporates all enhancements, and bug fixes.
 
 ## Scope
@@ -88,7 +90,7 @@ The release encompasses the standard code release, which incorporates all enhanc
 
 This release focuses on improvements in data pipeline, enhanced chart export functionality, key bug fixes, and February dependencies.
 
-- **Current Release Version:** 2025.02.3
+- **Current Release Version:** 2025.02.4
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/define?planId=250580&suiteId=250581)**
 
