@@ -227,6 +227,12 @@ GET test:key
 DEL test:key
 ```
 
+Incoming requests may also be tracked with the command:
+
+```redis
+MONITOR
+```
+
 ### Running tests
 
 Tests will run when creating new Pull Requests and when code is merged into the main branch.
