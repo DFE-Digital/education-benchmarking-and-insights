@@ -26,11 +26,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
     {
         Assert.NotNull(_censusPage);
         var page = await driver.Current;
-        var downloadTask = page.WaitForDownloadAsync();
-
-        await _censusPage.ClickSaveAsImage(ChartNameFromFriendlyName(chartName));
-
-        _download = await downloadTask;
+        _download = await page.RunAndWaitForDownloadAsync(() => _censusPage.ClickSaveAsImage(ChartNameFromFriendlyName(chartName)));
     }
 
     [Then("the '(.*)' chart image is downloaded")]
