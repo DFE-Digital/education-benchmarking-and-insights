@@ -17,10 +17,34 @@ public class HighNeedsBenchmarkingPage(IPage page)
     {
         HasText = "View historic data"
     });
+    private ILocator BenchmarkHighNeedsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
+    {
+        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
+        {
+            HasText = "Benchmark high needs data"
+        })
+    });
+    private ILocator NationalRankingsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
+    {
+        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
+        {
+            HasText = "National rankings"
+        })
+    });
+    private ILocator HistoricDataCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
+    {
+        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
+        {
+            HasText = "Historic data"
+        })
+    });
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
+        await BenchmarkHighNeedsCard.ShouldBeVisible();
+        await NationalRankingsCard.ShouldBeVisible();
+        await HistoricDataCard.ShouldBeVisible();
     }
 
     public async Task<HighNeedsStartBenchmarkingPage> ClickStartBenchmarking()
