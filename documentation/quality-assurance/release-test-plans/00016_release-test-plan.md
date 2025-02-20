@@ -127,10 +127,10 @@ A deployment error required us to increment the release number. During pre-produ
 
 | Test Category     | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------|:-----------:|:------:|:------:|:---------:|  
-| Functional Tests  |     13      |   12   |   0    |     X     |  
-| Smoke Tests       |      X      |   X    |   X    |    X%     |  
+| Functional Tests  |     13      |   13   |   0    |   100%    |  
+| Smoke Tests       |     20      |   20   |   0    |   100%    |  
 | Sanity Tests      |      2      |   2    |   0    |   100%    |  
-| Total             |      X      |   X    |   X    |    X%     |  
+| Total             |     35      |   35   |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->  
 \newpage  
