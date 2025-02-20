@@ -293,7 +293,7 @@
       },
       "System.Text.Json": {
         "type": "CentralTransitive",
-        "requested": "[8.0.4, )",
+        "requested": "[8.0.5, )",
         "resolved": "6.0.10",
         "contentHash": "NSB0kDipxn2ychp88NXWfFRFlmi1bst/xynOutbnpEfRCT9JZkZ7KOmF/I/hNKo2dILiMGnqblm+j1sggdLB9g==",
         "dependencies": {

@@ -43,25 +43,24 @@
       },
       "Reqnroll": {
         "type": "Direct",
-        "requested": "[2.2.1, )",
-        "resolved": "2.2.1",
-        "contentHash": "v83D63zou3tsmcPp1MV0CLgt0DzThJwVm941ZSOHHNMnY7TbxBMWDimMifORjbhlukA6CQSNy+u0/Tx3d3Kaxg==",
+        "requested": "[2.3.0, )",
+        "resolved": "2.3.0",
+        "contentHash": "1qkF+6/XT6Qx0aXeTkUJ9J5wXLsVqy4lRyqI48UMWf4scWSUHHa5zgQE4Nui1JTVaSqV5yN8+92WbvXbbZSTwg==",
         "dependencies": {
           "Cucumber.CucumberExpressions": "17.1.0",
           "Gherkin": "30.0.0",
           "Microsoft.Extensions.DependencyModel": "8.0.2",
-          "SpecFlow.Internal.Json": "1.0.8",
-          "System.Runtime.Loader": "4.3.0"
+          "System.Text.Json": "8.0.5"
         }
       },
       "Reqnroll.xUnit": {
         "type": "Direct",
-        "requested": "[2.2.1, )",
-        "resolved": "2.2.1",
-        "contentHash": "Z1jqaq3y7fC7eFAauziQos+nrtfAn04gKLjhFGE01DP21BLxhfSFttGpc1ynH8EU2n49qja9Ty/tLz+zTiInwQ==",
+        "requested": "[2.3.0, )",
+        "resolved": "2.3.0",
+        "contentHash": "uxhBklLqzNOAKoHWnhu4tZy9wuXa0iGXOAP9W89betizpoWroByWBrhQ84MvBRY1EvufbOg1Oumd2ElcDD96Ig==",
         "dependencies": {
-          "Reqnroll": "[2.2.1]",
-          "Reqnroll.Tools.MsBuild.Generation": "[2.2.1]",
+          "Reqnroll": "[2.3.0]",
+          "Reqnroll.Tools.MsBuild.Generation": "[2.3.0]",
           "Xunit.SkippableFact": "1.4.13",
           "xunit.core": "2.4.2"
         }
@@ -970,10 +969,10 @@
       },
       "Reqnroll.Tools.MsBuild.Generation": {
         "type": "Transitive",
-        "resolved": "2.2.1",
-        "contentHash": "A8a5dcZXfk3UlRJur9XzkJsBNHr/hwrHEzCYdJe1VUV1/NsN4cPK+S+7DV0haR4sJ2PfDhqds3FOK4rVRNDXmQ==",
+        "resolved": "2.3.0",
+        "contentHash": "55/Bznrpv+QGSFxmBDuD88d/+vnAHlSYgpTw/G5ip4eufcgt3b4JrOmCEbviyYnGb0JnxA4t262w5xd5HsBdeA==",
         "dependencies": {
-          "Reqnroll": "[2.2.1]"
+          "Reqnroll": "[2.3.0]"
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
@@ -1082,11 +1081,6 @@
         "type": "Transitive",
         "resolved": "4.3.0",
         "contentHash": "VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg=="
-      },
-      "SpecFlow.Internal.Json": {
-        "type": "Transitive",
-        "resolved": "1.0.8",
-        "contentHash": "lVCC/Rie7N5rFoc7YxPS0nneLfsWSTIMMlkndwxhaD8MxBp3Bsv1HeiVjVwXCjWaQeoqZcvIy52fF5Xit00ZLw=="
       },
       "System.AppContext": {
         "type": "Transitive",
@@ -1639,16 +1633,6 @@
           "System.Runtime.InteropServices": "4.3.0",
           "System.Threading": "4.3.0",
           "runtime.native.System": "4.3.0"
-        }
-      },
-      "System.Runtime.Loader": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "DHMaRn8D8YCK2GG2pw+UzNxn/OHVfaWx7OTLBD/hPegHZZgcZh3H6seWegrC4BYwsfuGrywIuT+MQs+rPqRLTQ==",
-        "dependencies": {
-          "System.IO": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.0"
         }
       },
       "System.Runtime.Numerics": {
@@ -2552,7 +2536,7 @@
       },
       "System.Text.Json": {
         "type": "CentralTransitive",
-        "requested": "[8.0.4, )",
+        "requested": "[8.0.5, )",
         "resolved": "9.0.1",
         "contentHash": "eqWHDZqYPv1PvuvoIIx5pF74plL3iEOZOl/0kQP+Y0TEbtgNnM2W6k8h8EPYs+LTJZsXuWa92n5W5sHTWvE3VA==",
         "dependencies": {
