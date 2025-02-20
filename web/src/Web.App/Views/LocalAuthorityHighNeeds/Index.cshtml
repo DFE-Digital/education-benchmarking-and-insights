@@ -14,35 +14,70 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <p class="govuk-body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus ante.
-        </p>
-        <p class="govuk-body">
-            Vivamus tincidunt, justo vel lobortis fringilla, leo nibh efficitur risus, id volutpat magna felis ut eros.
-        </p>
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Benchmark high needs data</h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <p class="govuk-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus
+                    ante.
+                </p>
+                <a href="@Url.Action("Index", "LocalAuthorityHighNeedsBenchmarking", new
+                         {
+                             code = Model.Code
+                         })" role="button" class="govuk-button govuk-button--primary" data-module="govuk-button">
+                    Start benchmarking
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
-<a href="@Url.Action("Index", "LocalAuthorityHighNeedsBenchmarking", new
-         {
-             code = Model.Code
-         })" role="button" class="govuk-button govuk-button--primary" data-module="govuk-button">
-    Start benchmarking
-</a>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">National rankings</h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <p class="govuk-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus
+                    ante.
+                </p>
+                <a href="@Url.Action("Index", "LocalAuthorityHighNeedsNationalRankings", new
+                         {
+                             code = Model.Code
+                         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    View national rankings
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-half">
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Historic data</h2>
+            </div>
+            <div class="govuk-summary-card__content">
+                <p class="govuk-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus
+                    ante.
+                </p>
+                <a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
+                         {
+                             code = Model.Code
+                         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    View historic data
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href="@Url.Action("Index", "LocalAuthorityHighNeedsNationalRankings", new
-         {
-             code = Model.Code
-         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-    View national rankings
-</a>
 
-<a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
-         {
-             code = Model.Code
-         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-    View historic data
-</a>
+
+
 
 @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
 {
