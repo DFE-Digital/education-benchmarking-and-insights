@@ -121,10 +121,11 @@ public class SchoolComparisonController(
                     pupilResult = await GetDefaultSchoolExpenditure(urn, false);
                 }
 
+                string[] exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
                 IEnumerable<CsvResult> csvResults =
                 [
-                    new(buildingResult, $"comparison-{urn}-building.csv"),
-                    new(pupilResult, $"comparison-{urn}-pupil.csv")
+                    new(buildingResult, $"comparison-{urn}-building.csv", exclude),
+                    new(pupilResult, $"comparison-{urn}-pupil.csv", exclude)
                 ];
                 return new CsvResults(csvResults, $"comparison-{urn}.zip");
             }

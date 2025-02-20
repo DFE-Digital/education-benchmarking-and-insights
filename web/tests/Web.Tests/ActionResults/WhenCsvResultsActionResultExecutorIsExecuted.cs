@@ -52,7 +52,7 @@ public class WhenCsvResultsActionResultExecutorIsExecuted
 
         var result = new CsvResults([new CsvResult(items)], fileName);
         const string csv = nameof(csv);
-        _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
+        _service.Setup(s => s.SaveToCsv(items, It.IsAny<string[]>())).Returns(csv);
 
         // act
         await _executor.ExecuteAsync(_actionContext, result);
@@ -76,10 +76,11 @@ public class WhenCsvResultsActionResultExecutorIsExecuted
             }
         };
         const string fileName = nameof(fileName);
+        string[] exclude = [nameof(ShouldCallServiceAndSetResponseBody)];
 
-        var result = new CsvResults([new CsvResult(items, fileName)]);
+        var result = new CsvResults([new CsvResult(items, fileName, exclude)]);
         const string csv = nameof(csv);
-        _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
+        _service.Setup(s => s.SaveToCsv(items, exclude)).Returns(csv);
 
         // act
         await _executor.ExecuteAsync(_actionContext, result);
