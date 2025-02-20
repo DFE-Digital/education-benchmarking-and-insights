@@ -109,6 +109,9 @@ public static class Paths
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
     public static string LocalAuthorityHighNeeds(string? code) => $"/local-authority/{code}/high-needs";
+    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
+    public static string LocalAuthorityHighNeedsNationalRankings(string? code) => $"/local-authority/{code}/high-needs/national";
+    public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
     public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
     public static string ToAbsolute(this string path) => $"https://localhost{path}";
 }

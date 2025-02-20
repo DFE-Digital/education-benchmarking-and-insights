@@ -50,6 +50,18 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(authority.Code).ToAbsolute());
     }
 
+    [Fact]
+    public async Task CanNavigateToHighNeeds()
+    {
+        var (page, authority, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "High needs benchmarking");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
+    }
+
     // TODO: review for public beta
     //[Fact]
     //public async Task CanNavigateToServiceHelp()
@@ -136,10 +148,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
-        var expectedBreadcrumbs = new[]
-        {
-            ("Home", Paths.ServiceHome.ToAbsolute())
-        };
+        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
