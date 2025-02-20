@@ -53,11 +53,7 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         var page = await driver.Current;
-        var downloadTask = page.WaitForDownloadAsync();
-
-        await _comparisonPage.ClickSaveAsImage(ChartNameFromFriendlyName(chartName));
-
-        _download = await downloadTask;
+        _download = await page.RunAndWaitForDownloadAsync(() => _comparisonPage.ClickSaveAsImage(ChartNameFromFriendlyName(chartName)));
     }
 
     [Then("the '(.*)' chart image is downloaded")]

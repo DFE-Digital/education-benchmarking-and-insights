@@ -16,7 +16,7 @@ public static class PageExtensions
         return response;
     }
 
-    public static Task<IDownload> WaitForDownloadAsync(this IPage page, TimeSpan timeout) => page.WaitForDownloadAsync(new PageWaitForDownloadOptions
+    public static Task<IDownload> RunAndWaitForDownloadAsync(this IPage page, Func<Task> action, TimeSpan timeout) => page.RunAndWaitForDownloadAsync(action, new PageRunAndWaitForDownloadOptions
     {
         Timeout = Convert.ToSingle(timeout.TotalMilliseconds)
     });

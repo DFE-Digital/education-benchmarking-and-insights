@@ -42,9 +42,7 @@ public class SaveImagesModalSteps(PageDriver driver)
     {
         Assert.NotNull(_spendingCostsPage);
         var page = await driver.Current;
-        var downloadTask = page.WaitForDownloadAsync(new TimeSpan(0, 1, 0));
-        await _spendingCostsPage.ClickSaveImagesModalOkButton();
-        _download = await downloadTask;
+        _download = await page.RunAndWaitForDownloadAsync(() => _spendingCostsPage.ClickSaveImagesModalOkButton(), new TimeSpan(0, 2, 0));
     }
 
     [When("I click the start button without any items selected")]
