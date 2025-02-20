@@ -9,7 +9,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
     public async Task<IViewComponentResult> InvokeAsync(
         string organisationType,
         string sourceType,
-        bool isPartOfTrust,
+        bool? isPartOfTrust,
         string[]? additionText,
         string wrapperClassName = "govuk-grid-row",
         string className = "govuk-grid-column-full")
@@ -17,11 +17,15 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         var dataSource = sourceType switch
         {
             DataSourceTypes.Spending =>
-                await GetSpendingDataSource(organisationType, isPartOfTrust),
+                await GetSpendingDataSource(organisationType, isPartOfTrust == true),
             DataSourceTypes.Census =>
             [
                 "Workforce data is taken from the workforce census.",
                 "Pupil data is taken from the school census data set in January."
+            ],
+            DataSourceTypes.HighNeeds =>
+            [
+                "Pellentesque vel mattis enim, vel cursus ante."
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };

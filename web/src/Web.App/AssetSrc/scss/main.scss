@@ -434,10 +434,28 @@ hr.govuk-section-break--print {
 .composed-container {
   min-height: 335px;
 }
+
 .app-cost-code-list {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
+}
+
+.govuk-summary-card {
+  .govuk-summary-card__content {
+    .govuk-button {
+      margin-bottom: govuk-spacing(3);
+      @include govuk-media-query($from: tablet) {
+        margin-bottom: govuk-spacing(1);
+      }
+    }
+  }
+
+  .govuk-summary-card__title-wrapper {
+    .govuk-summary-card__title {
+      margin-bottom: govuk-spacing(1);
+    }
+  }
 }

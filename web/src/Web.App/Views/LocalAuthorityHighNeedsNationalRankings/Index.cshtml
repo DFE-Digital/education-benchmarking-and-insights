@@ -1,0 +1,12 @@
+@model Web.App.ViewModels.LocalAuthorityViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsNationalRankings;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Code,
+    kind = OrganisationTypes.LocalAuthority
+})
