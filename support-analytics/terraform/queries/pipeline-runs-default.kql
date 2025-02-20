@@ -1,11 +1,22 @@
 ContainerAppConsoleLogs_CL
+| extend
+    LogData = parse_json(Log_s)
+| extend
+    TimeGenerated = todatetime(replace_string(tostring(LogData.asctime), ",", ".")),
+    Message = tostring(LogData.message),
+    Level = tostring(LogData.levelname)
 | where 
     RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-pipeline-default"
 | where 
     TimeGenerated between (ago(1d)..now())
 | project 
-    TimeGenerated, 
-    ContainerId_s, 
+    TimeGenerated,
+    Level,
+    Message,
+    ContainerImage_s,
+    ContainerId_s,
+    ContainerAppName_s,
+    Type,
     Log_s
 | order by 
     TimeGenerated desc,
