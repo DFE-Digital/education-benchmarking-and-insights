@@ -23,6 +23,27 @@
     </div>
 </div>
 
+<a href="@Url.Action("Index", "LocalAuthorityHighNeedsBenchmarking", new
+         {
+             code = Model.Code
+         })" role="button" class="govuk-button govuk-button--primary" data-module="govuk-button">
+    Start benchmarking
+</a>
+
+<a href="@Url.Action("Index", "LocalAuthorityHighNeedsNationalRankings", new
+         {
+             code = Model.Code
+         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+    View national rankings
+</a>
+
+<a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
+         {
+             code = Model.Code
+         })" role="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+    View historic data
+</a>
+
 @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
 {
     identifier = Model.Code,
