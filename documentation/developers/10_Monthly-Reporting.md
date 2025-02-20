@@ -65,7 +65,7 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=dcount(Identifier)
+    Count=count(), DistinctCount=count_distinct(Identifier)
     by Feature
 | sort by 
     Count desc
@@ -90,7 +90,7 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=dcount(Identifier)
+    Count=count(), DistinctCount=count_distinct(Identifier)
     by Feature
 | sort by 
     Count desc
@@ -115,7 +115,7 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=dcount(Identifier)
+    Count=count(), DistinctCount=count_distinct(Identifier)
     by Feature
 | sort by 
     Count desc
