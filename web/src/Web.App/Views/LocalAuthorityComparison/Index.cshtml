@@ -24,20 +24,8 @@
     </div>
 }
 
-@{
-    var tools = new[] { FinanceTools.BenchmarkCensus };
-}
-<feature name="@FeatureFlags.HighNeeds">
-    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-    {
-        identifier = Model.Code,
-        tools = tools.Concat([FinanceTools.HighNeeds]).ToArray()
-    })
-</feature>
-<feature negate="true" name="@FeatureFlags.HighNeeds">
-    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-    {
-        identifier = Model.Code,
-        tools
-    })
-</feature>
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+{
+    identifier = Model.Code,
+    tools = new[] { FinanceTools.BenchmarkCensus, FinanceTools.HighNeeds }
+})

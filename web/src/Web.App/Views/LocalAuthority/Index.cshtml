@@ -46,23 +46,11 @@
     </div>
 </div>
 
-@{
-    var tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus };
-}
-<feature name="@FeatureFlags.HighNeeds">
-    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-    {
-        identifier = Model.Code,
-        tools = tools.Concat([FinanceTools.HighNeeds]).ToArray()
-    })
-</feature>
-<feature negate="true" name="@FeatureFlags.HighNeeds">
-    @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-    {
-        identifier = Model.Code,
-        tools
-    })
-</feature>
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new
+{
+    identifier = Model.Code,
+    tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus, FinanceTools.HighNeeds }
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
