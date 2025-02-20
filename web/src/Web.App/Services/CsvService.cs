@@ -9,13 +9,14 @@ public interface ICsvService
     ///     <a href="https://stackoverflow.com/a/76324305/504477">ref</a>
     /// </summary>
     /// <param name="items">The collection of data objects.</param>
+    /// <param name="exclude">The columns to exclude from the output file.</param>
     /// <returns>A string representation of the CSV file.</returns>
-    string SaveToCsv(IEnumerable<object?> items);
+    string SaveToCsv(IEnumerable<object?> items, params string[] exclude);
 }
 
 public class CsvService : ICsvService
 {
-    public string SaveToCsv(IEnumerable<object?> items)
+    public string SaveToCsv(IEnumerable<object?> items, params string[] exclude)
     {
         // get properties       
         var rows = items.Where(i => i != null).Cast<object>().ToArray();
@@ -26,7 +27,10 @@ public class CsvService : ICsvService
         }
 
         var props = TypeDescriptor.GetProperties(objectType).OfType<PropertyDescriptor>();
-        var propertyNames = props.Select(p => p.Name).ToArray();
+        var propertyNames = props
+            .Select(p => p.Name)
+            .Where(n => !exclude.Contains(n))
+            .ToArray();
         var lines = new List<string>();
 
         // build header

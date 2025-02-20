@@ -32,7 +32,7 @@ public partial class CsvResultActionResultExecutor(ICsvService csvService, ILogg
         {
             if (result.Items != null && result.Items.Any())
             {
-                var csv = csvService.SaveToCsv(result.Items);
+                var csv = csvService.SaveToCsv(result.Items, result.Exclude);
                 await response.WriteAsync(csv);
                 await response.CompleteAsync();
             }

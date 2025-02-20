@@ -51,7 +51,7 @@ public class WhenCsvResultActionResultExecutorIsExecuted
 
         var result = new CsvResult(items, fileName);
         const string csv = nameof(csv);
-        _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
+        _service.Setup(s => s.SaveToCsv(items, It.IsAny<string[]>())).Returns(csv);
 
         // act
         await _executor.ExecuteAsync(_actionContext, result);
@@ -74,10 +74,11 @@ public class WhenCsvResultActionResultExecutorIsExecuted
                 Value = "Value"
             }
         };
+        string[] exclude = [nameof(ShouldSetResponseHeaders)];
 
-        var result = new CsvResult(items);
+        var result = new CsvResult(items, exclude: exclude);
         const string csv = nameof(csv);
-        _service.Setup(s => s.SaveToCsv(items)).Returns(csv);
+        _service.Setup(s => s.SaveToCsv(items, exclude)).Returns(csv);
 
         // act
         await _executor.ExecuteAsync(_actionContext, result);

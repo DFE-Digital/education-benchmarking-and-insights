@@ -44,7 +44,7 @@ public partial class CsvResultsActionResultExecutor(ICsvService csvService, ILog
                         var entry = archive.CreateEntry(item.CsvFileName ?? $"file-{i}.csv");
                         await using var entryStream = entry.Open();
                         await using var writer = new StreamWriter(entryStream, Encoding.UTF8);
-                        var csv = csvService.SaveToCsv(item.Items!);
+                        var csv = csvService.SaveToCsv(item.Items!, item.Exclude);
                         await writer.WriteAsync(csv);
                     }
                 }
