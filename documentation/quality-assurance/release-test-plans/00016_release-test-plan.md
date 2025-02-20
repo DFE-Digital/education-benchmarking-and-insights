@@ -1,6 +1,6 @@
 ﻿# Release Test Plan - 2025.02.5
 
-_*Release version incremented to 2025.02.5 after 2025.02.4 was canceled due to a requested update. The increment also addresses an error encountered during the deployment of 2025.02.3 to pre-production._
+_*Release version incremented to 2025.02.5 after 2025.02.4 was canceled due to an issue spotted in pre-production. The increment also addresses an error encountered during the deployment of 2025.02.3 to pre-production._
 
 **Release Date:** 19/02/2025  
 **Release Label:** 2025.02.5
@@ -88,9 +88,13 @@ The release encompasses the standard code release, which incorporates all enhanc
 
 **Release Overview:**
 
-This release focuses on improvements in data pipeline, enhanced chart export functionality, key bug fixes, and February dependencies.
+A deployment error required us to increment the release number. During pre-production testing, an additional error was identified, which needed to be fixed. As a result, we abandoned the old release and included the fix in the new release.
 
-- **Current Release Version:** 2025.02.5
+- **Original Planned Release:** 2025.02.3
+- **New Release Version:** 2025.02.5
+- **Hotfixes Included:** Internal floor area has been removed from the download the page data section which was previously showing up the downloaded files.
+- **Current Release (2025.02.5):** contains the necessary hotfix.
+- **Testing Impact:** The release testing plan is slightly impacted, as an additional test case has been added to account for the identified error.
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/define?planId=250580&suiteId=250581)**
 
@@ -123,7 +127,7 @@ This release focuses on improvements in data pipeline, enhanced chart export fun
 
 | Test Category     | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------|:-----------:|:------:|:------:|:---------:|  
-| Functional Tests  |     12      |   12   |   0    |   100%    |  
+| Functional Tests  |     13      |   12   |   0    |     X     |  
 | Smoke Tests       |      X      |   X    |   X    |    X%     |  
 | Sanity Tests      |      2      |   2    |   0    |   100%    |  
 | Total             |      X      |   X    |   X    |    X%     |  
