@@ -18,7 +18,7 @@ The release encompasses the standard code release, which incorporates all enhanc
 - **Enhancements:**
   - Additional features for exporting and sharing charts/data for offline use:
     - Ability to save all chart images, allowing users to easily download and reference visual data.
-    - Ability to download page data, allowing to export data in csv format. 
+    - Ability to download page data, allowing to export data in csv format.
     - Context data, including cost codes, now appears on chart images for better clarity when exporting.
     - Users can download selected images instead of all, providing more flexibility.
     - Offline images have been updated to display additional information for improved usability.
