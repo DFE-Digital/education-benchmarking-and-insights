@@ -4,6 +4,7 @@ import {
   TableChart,
   SchoolChartData,
   TrustChartData,
+  LaChartData,
 } from "src/components/charts/table-chart";
 import {
   ChartDimensionContext,
@@ -35,25 +36,31 @@ import { CostCodesList } from "src/components/cost-codes-list";
 import "./styles.scss";
 
 export function HorizontalBarChartWrapper<
-  TData extends SchoolChartData | TrustChartData,
->(props: HorizontalBarChartWrapperProps<TData>) {
-  const {
-    chartTitle,
-    children,
-    data,
-    showCopyImageButton,
-    sort,
-    trust,
-    valueUnit,
-  } = props;
+  TData extends SchoolChartData | TrustChartData | LaChartData,
+>({
+  chartTitle,
+  children,
+  data,
+  localAuthority,
+  showCopyImageButton,
+  sort,
+  tooltip,
+  trust,
+  valueUnit,
+  xAxisLabel,
+}: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
-  const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
-  const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
+  const keyField = (
+    localAuthority ? "laCode" : trust ? "companyNumber" : "urn"
+  ) as keyof TData;
+  const seriesLabelField = (
+    localAuthority ? "laName" : trust ? "trustName" : "schoolName"
+  ) as keyof TData;
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
@@ -66,9 +73,18 @@ export function HorizontalBarChartWrapper<
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
-    let dataPoint = "value" as keyof (SchoolChartData | TrustChartData);
+    let dataPoint = "value" as keyof (
+      | SchoolChartData
+      | TrustChartData
+      | LaChartData
+    );
     if (trust) {
       dataPoint = "totalValue" as keyof (SchoolChartData | TrustChartData);
+    }
+
+    if (localAuthority) {
+      // sorting done server side
+      return data.dataPoints;
     }
 
     return data.dataPoints
@@ -87,10 +103,10 @@ export function HorizontalBarChartWrapper<
           }
         )
       ) as TData[];
-  }, [data.dataPoints, sort, trust]);
+  }, [data.dataPoints, sort, trust, localAuthority]);
 
   const partYearKeys = useMemo(() => {
-    if (trust) {
+    if (trust || localAuthority) {
       return [];
     }
 
@@ -101,7 +117,7 @@ export function HorizontalBarChartWrapper<
           (d as SchoolExpenditure).periodCoveredByReturn < 12
       )
       .map((d) => (d as SchoolChartData).urn);
-  }, [data.dataPoints, trust]);
+  }, [data.dataPoints, trust, localAuthority]);
 
   // first attempt to get key by `index` passed to `<EstablishmentTick />`,
   // otherwise fall back to match by name (which may result in duplicate matched)
@@ -113,6 +129,15 @@ export function HorizontalBarChartWrapper<
       }
 
       return trustData.find((d) => d.trustName === name)?.companyNumber;
+    }
+
+    if (localAuthority) {
+      const laData = sortedDataPoints as LaChartData[];
+      if (index != undefined && index < laData.length) {
+        return laData[index]?.laCode;
+      }
+
+      return laData.find((d) => d.laName === name)?.laCode;
     }
 
     const schoolData = sortedDataPoints as SchoolChartData[];
@@ -236,7 +261,9 @@ export function HorizontalBarChartWrapper<
                         {...t}
                         highlightedItemKey={selectedEstabishment}
                         linkToEstablishment
-                        href={(id) => `/${trust ? "trust" : "school"}/${id}`}
+                        href={(id) =>
+                          `/${localAuthority ? "local-authority" : trust ? "trust" : "school"}/${id}`
+                        }
                         establishmentKeyResolver={getEstablishmentKey}
                         tooltip={(p) => renderTooltip(p, t)}
                         specialItemFlags={getSpecialItemFlags}
@@ -245,14 +272,14 @@ export function HorizontalBarChartWrapper<
                     );
                   }}
                   tooltip={(p) =>
-                    Object.values(tickFocused).some((t) => t)
+                    !tooltip || Object.values(tickFocused).some((t) => t)
                       ? null
                       : renderTooltip(p)
                   }
-                  valueFormatter={shortValueFormatter}
-                  valueLabel={dimension.label}
-                  valueUnit={valueUnit ?? dimension.unit}
                   trust={trust}
+                  valueFormatter={shortValueFormatter}
+                  valueLabel={xAxisLabel ?? dimension.label}
+                  valueUnit={valueUnit ?? dimension.unit}
                 />
               )}
               <div
@@ -261,11 +288,12 @@ export function HorizontalBarChartWrapper<
                 }
               >
                 <TableChart
-                  tableHeadings={data.tableHeadings}
                   data={sortedDataPoints}
                   preventFocus={chartMode !== ChartModeTable}
-                  valueUnit={valueUnit ?? dimension.unit}
+                  localAuthority={localAuthority}
+                  tableHeadings={data.tableHeadings}
                   trust={trust}
+                  valueUnit={valueUnit ?? dimension.unit}
                 />
               </div>
             </>

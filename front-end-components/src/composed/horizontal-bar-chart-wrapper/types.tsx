@@ -1,11 +1,13 @@
 import { ChartDataSeriesSortMode, ChartProps } from "src/components/charts";
 import {
+  LaChartData,
   SchoolChartData,
   TrustChartData,
 } from "src/components/charts/table-chart";
 
+// todo: refactor to use discriminated union over TData/type
 export type HorizontalBarChartWrapperProps<
-  TData extends SchoolChartData | TrustChartData,
+  TData extends SchoolChartData | TrustChartData | LaChartData,
 > = Pick<
   ChartProps<TData>,
   "chartTitle" | "showCopyImageButton" | "valueUnit"
@@ -14,17 +16,20 @@ export type HorizontalBarChartWrapperProps<
   data: HorizontalBarChartWrapperPropsData<TData>;
   sort?: ChartDataSeriesSortMode<TData>;
   trust?: boolean;
+  localAuthority?: boolean;
+  tooltip?: boolean;
+  xAxisLabel?: string;
 };
 
 export type HorizontalBarChartWrapperPropsData<
-  TData extends SchoolChartData | TrustChartData,
+  TData extends SchoolChartData | TrustChartData | LaChartData,
 > = Omit<HorizontalBarChartWrapperData<TData>, "dataPoints"> & {
   dataPoints: TData[];
 };
 
 export type HorizontalBarChartWrapperData<
   TData extends Omit<
-    SchoolChartData | TrustChartData,
+    SchoolChartData | TrustChartData | LaChartData,
     "value" | "totalValue" | "schoolValue" | "centralValue"
   >,
 > = {
