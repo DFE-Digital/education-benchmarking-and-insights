@@ -3,7 +3,7 @@ using Platform.Api.Establishment.Features.LocalAuthorities.Models;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
-public interface ILocalAuthoritiesFinancialsService
+public interface ILocalAuthorityRankingService
 {
     Task<LocalAuthorityRanking> GetRanking(string sort);
 }

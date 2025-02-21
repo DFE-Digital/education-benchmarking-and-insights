@@ -11,7 +11,7 @@ public static class LocalAuthoritiesFeature
     {
         serviceCollection
             .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
-            .AddSingleton<ILocalAuthoritiesFinancialsService, LocalAuthoritiesFinancialsStubService>();
+            .AddSingleton<ILocalAuthorityRankingService, LocalAuthorityRankingStubService>();
 
         return serviceCollection;
     }
