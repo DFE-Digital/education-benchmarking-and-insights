@@ -12,10 +12,9 @@ import {
 } from "src/contexts";
 import { fullValueFormatter } from "../utils";
 import { BreakdownInclude } from "src/components/central-services-breakdown";
-import { PartYearDataWarning } from "../part-year-data-warning/component";
 import { ErrorBanner } from "src/components/error-banner";
-import classNames from "classnames";
 import "./styles.scss";
+import { TableCellEstablishmentName } from "./partials";
 
 export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData | LaChartData>
@@ -31,37 +30,6 @@ export const TableChart: React.FC<
   const { breakdown } = useCentralServicesBreakdownContext();
   const { suppressNegativeOrZero, message } = useContext(
     SuppressNegativeOrZeroContext
-  );
-
-  // todo: move 'name' cell to separate component
-  const renderSchoolAnchor = (row: SchoolChartData) => (
-    <a
-      className="govuk-link govuk-link--no-visited-state"
-      href={`/school/${row.urn}`}
-      tabIndex={preventFocus ? -1 : undefined}
-    >
-      {row.schoolName}
-    </a>
-  );
-
-  const renderTrustAnchor = (row: TrustChartData) => (
-    <a
-      className="govuk-link govuk-link--no-visited-state"
-      href={`/trust/${row.companyNumber}`}
-      tabIndex={preventFocus ? -1 : undefined}
-    >
-      {row.trustName}
-    </a>
-  );
-
-  const renderLaAnchor = (row: LaChartData) => (
-    <a
-      className="govuk-link govuk-link--no-visited-state"
-      href={`/local-authority/${row.laCode}`}
-      tabIndex={preventFocus ? -1 : undefined}
-    >
-      {row.laName}
-    </a>
   );
 
   const dataPointKey = (trust ? "totalValue" : "value") as keyof (
@@ -117,14 +85,7 @@ export const TableChart: React.FC<
               const schoolRow = row as SchoolChartData;
               const trustRow = row as TrustChartData;
               const laRow = row as LaChartData;
-              const {
-                laName,
-                periodCoveredByReturn,
-                schoolType,
-                totalPupils,
-                urn,
-                value,
-              } = schoolRow;
+              const { laName, schoolType, totalPupils, urn, value } = schoolRow;
               const { totalValue, schoolValue, centralValue, companyNumber } =
                 trustRow;
               const { laCode } = laRow;
@@ -141,43 +102,12 @@ export const TableChart: React.FC<
                   key={urn ?? companyNumber ?? laCode}
                   className="govuk-table__row"
                 >
-                  {localAuthority ? (
-                    <td className="govuk-table__cell">
-                      {selectedEstablishment == laCode ? (
-                        <strong>{renderLaAnchor(laRow)}</strong>
-                      ) : (
-                        renderLaAnchor(laRow)
-                      )}
-                    </td>
-                  ) : trust ? (
-                    <td className="govuk-table__cell">
-                      {selectedEstablishment == companyNumber ? (
-                        <strong>{renderTrustAnchor(trustRow)}</strong>
-                      ) : (
-                        renderTrustAnchor(trustRow)
-                      )}
-                    </td>
-                  ) : (
-                    <td
-                      className={classNames("govuk-table__cell", {
-                        "table-cell-warning":
-                          periodCoveredByReturn !== undefined &&
-                          periodCoveredByReturn < 12,
-                      })}
-                    >
-                      {selectedEstablishment == urn ? (
-                        <strong>{renderSchoolAnchor(schoolRow)}</strong>
-                      ) : (
-                        renderSchoolAnchor(schoolRow)
-                      )}
-                      {periodCoveredByReturn !== undefined &&
-                        periodCoveredByReturn < 12 && (
-                          <PartYearDataWarning
-                            periodCoveredByReturn={periodCoveredByReturn}
-                          />
-                        )}
-                    </td>
-                  )}
+                  <TableCellEstablishmentName
+                    localAuthority={localAuthority}
+                    preventFocus={preventFocus}
+                    row={row}
+                    trust={trust}
+                  />
                   {additionalData &&
                     Object.values(additionalData).map((filteredData, i) => {
                       return (

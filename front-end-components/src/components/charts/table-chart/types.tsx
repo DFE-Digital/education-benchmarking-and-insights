@@ -1,12 +1,12 @@
 import { ChartSeriesValueUnit } from "src/components/charts/types";
+import { TableCellEstablishmentNameProps } from "./partials";
 
-// todo: refactor to use discriminated union over TData/type
+// todo: refactor to use discriminated union over TData/type (#251041)
 export type TableChartProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
-> = {
+> = Pick<TableCellEstablishmentNameProps<TData>, "preventFocus"> & {
   tableHeadings: string[];
   data?: TData[];
-  preventFocus?: boolean;
   valueUnit?: ChartSeriesValueUnit | undefined;
   trust?: boolean;
   localAuthority?: boolean;
