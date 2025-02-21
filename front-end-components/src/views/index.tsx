@@ -6,3 +6,4 @@ export * from "src/views/historic-data";
 export * from "src/views/historic-data-2";
 export * from "src/views/deployment-plan";
 export * from "src/views/find-organisation";
+export * from "src/views/la-national-rank";

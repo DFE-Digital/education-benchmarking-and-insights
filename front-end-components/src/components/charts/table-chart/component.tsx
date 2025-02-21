@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from "react";
 import {
+  LaChartData,
   SchoolChartData,
   TableChartProps,
   TrustChartData,
@@ -17,15 +18,22 @@ import classNames from "classnames";
 import "./styles.scss";
 
 export const TableChart: React.FC<
-  TableChartProps<SchoolChartData | TrustChartData>
-> = (props) => {
-  const { tableHeadings, data, preventFocus, valueUnit, trust } = props;
-  const selectedSchool = useContext(SelectedEstablishmentContext);
+  TableChartProps<SchoolChartData | TrustChartData | LaChartData>
+> = ({
+  data,
+  localAuthority,
+  preventFocus,
+  tableHeadings,
+  trust,
+  valueUnit,
+}) => {
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { breakdown } = useCentralServicesBreakdownContext();
   const { suppressNegativeOrZero, message } = useContext(
     SuppressNegativeOrZeroContext
   );
 
+  // todo: move 'name' cell to separate component
   const renderSchoolAnchor = (row: SchoolChartData) => (
     <a
       className="govuk-link govuk-link--no-visited-state"
@@ -46,23 +54,40 @@ export const TableChart: React.FC<
     </a>
   );
 
+  const renderLaAnchor = (row: LaChartData) => (
+    <a
+      className="govuk-link govuk-link--no-visited-state"
+      href={`/local-authority/${row.laCode}`}
+      tabIndex={preventFocus ? -1 : undefined}
+    >
+      {row.laName}
+    </a>
+  );
+
   const dataPointKey = (trust ? "totalValue" : "value") as keyof (
     | SchoolChartData
     | TrustChartData
+    | LaChartData
   );
 
-  const keyField = (trust ? "companyNumber" : "urn") as keyof (
-    | SchoolChartData
-    | TrustChartData
-  );
+  const keyField = (
+    localAuthority ? "laCode" : trust ? "companyNumber" : "urn"
+  ) as keyof (SchoolChartData | TrustChartData | LaChartData);
 
   const filteredData = useMemo(() => {
     return data?.filter((d) =>
       suppressNegativeOrZero
-        ? (d[dataPointKey] as number) > 0 || d[keyField] === selectedSchool
+        ? (d[dataPointKey] as number) > 0 ||
+          d[keyField] === selectedEstablishment
         : true
     );
-  }, [data, suppressNegativeOrZero, dataPointKey, keyField, selectedSchool]);
+  }, [
+    data,
+    suppressNegativeOrZero,
+    dataPointKey,
+    keyField,
+    selectedEstablishment,
+  ]);
 
   return (
     <>
@@ -91,6 +116,7 @@ export const TableChart: React.FC<
             filteredData.map((row) => {
               const schoolRow = row as SchoolChartData;
               const trustRow = row as TrustChartData;
+              const laRow = row as LaChartData;
               const {
                 laName,
                 periodCoveredByReturn,
@@ -101,6 +127,7 @@ export const TableChart: React.FC<
               } = schoolRow;
               const { totalValue, schoolValue, centralValue, companyNumber } =
                 trustRow;
+              const { laCode } = laRow;
               const additionalData = schoolRow.urn
                 ? {
                     laName,
@@ -110,10 +137,21 @@ export const TableChart: React.FC<
                 : {};
 
               return (
-                <tr key={urn ?? companyNumber} className="govuk-table__row">
-                  {trust ? (
+                <tr
+                  key={urn ?? companyNumber ?? laCode}
+                  className="govuk-table__row"
+                >
+                  {localAuthority ? (
                     <td className="govuk-table__cell">
-                      {selectedSchool == companyNumber ? (
+                      {selectedEstablishment == laCode ? (
+                        <strong>{renderLaAnchor(laRow)}</strong>
+                      ) : (
+                        renderLaAnchor(laRow)
+                      )}
+                    </td>
+                  ) : trust ? (
+                    <td className="govuk-table__cell">
+                      {selectedEstablishment == companyNumber ? (
                         <strong>{renderTrustAnchor(trustRow)}</strong>
                       ) : (
                         renderTrustAnchor(trustRow)
@@ -127,7 +165,7 @@ export const TableChart: React.FC<
                           periodCoveredByReturn < 12,
                       })}
                     >
-                      {selectedSchool == urn ? (
+                      {selectedEstablishment == urn ? (
                         <strong>{renderSchoolAnchor(schoolRow)}</strong>
                       ) : (
                         renderSchoolAnchor(schoolRow)

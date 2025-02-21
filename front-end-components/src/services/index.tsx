@@ -6,3 +6,4 @@ export * from "src/services/expenditure-api";
 export * from "src/services/types";
 export * from "src/services/history-service";
 export * from "src/services/image-service";
+export * from "src/services/national-rank-api";

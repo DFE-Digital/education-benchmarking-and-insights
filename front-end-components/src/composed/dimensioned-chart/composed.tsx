@@ -45,7 +45,12 @@ export function DimensionedChart<
 
       return (
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
-          <HorizontalBarChartWrapper chartTitle={title} data={data} {...props}>
+          <HorizontalBarChartWrapper
+            chartTitle={title}
+            data={data}
+            tooltip
+            {...props}
+          >
             {topLevel ? (
               <h2 className="govuk-heading-m">{title}</h2>
             ) : (

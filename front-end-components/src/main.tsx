@@ -10,6 +10,7 @@ import {
   HistoricData,
   HistoricData2,
   HistoricData2SectionName,
+  LaNationalRankView,
 } from "src/views";
 import {
   CompareCostsElementId,
@@ -32,6 +33,7 @@ import {
   BudgetForecastReturnsElementId,
   ShareContentByElementIdDataAttr,
   LaunchModalDataAttr,
+  LaNationalRankViewElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -976,4 +978,21 @@ if (launchModalElements) {
       root.render(<React.StrictMode>{modal}</React.StrictMode>);
     }
   });
+}
+
+const laNationalRankViewElement = document.getElementById(
+  LaNationalRankViewElementId
+);
+
+if (laNationalRankViewElement) {
+  const { code } = laNationalRankViewElement.dataset;
+  if (code) {
+    const root = ReactDOM.createRoot(laNationalRankViewElement);
+
+    root.render(
+      <React.StrictMode>
+        <LaNationalRankView code={code} />
+      </React.StrictMode>
+    );
+  }
 }

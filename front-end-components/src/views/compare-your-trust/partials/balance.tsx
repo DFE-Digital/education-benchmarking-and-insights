@@ -77,6 +77,7 @@ export const Balance: React.FC<{
         chartTitle="In-year balance"
         data={inYearBalanceChartData}
         showCopyImageButton
+        tooltip
         trust
       >
         <h2 className="govuk-heading-m">In-year balance</h2>
@@ -85,6 +86,7 @@ export const Balance: React.FC<{
         chartTitle="Revenue reserve"
         data={revenueReserveChartData}
         showCopyImageButton
+        tooltip
         trust
       >
         <h2 className="govuk-heading-m">Revenue reserve</h2>

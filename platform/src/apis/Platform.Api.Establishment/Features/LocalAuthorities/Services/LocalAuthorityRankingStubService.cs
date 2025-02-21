@@ -16,7 +16,7 @@ public class LocalAuthorityRankingStubService : ILocalAuthorityRankingService
         var values = new List<LocalAuthorityRank>();
         for (var i = 0; i < 155; i++)
         {
-            var code = (100 + i).ToString();
+            var code = (200 + i).ToString();
             var outturn = 1_000_000 * Convert.ToDecimal(i + 0.1);
             var budget = 1_111_111 * Convert.ToDecimal(Math.Pow(i + 0.1 + i % 3, 1.1));
             var value = new LocalAuthorityRank
