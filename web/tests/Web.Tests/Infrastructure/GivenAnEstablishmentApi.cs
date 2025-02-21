@@ -1,3 +1,4 @@
+using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Xunit;
 using Xunit.Abstractions;
@@ -95,5 +96,18 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
             HttpMethod.Post,
             "api/local-authorities/suggest",
             "{\"searchText\":\"term\",\"size\":10,\"exclude\":[\"exclude\"]}");
+    }
+
+    [Theory]
+    [InlineData("asc", "api/local-authorities/national-rank?sort=asc")]
+    [InlineData("desc", "api/local-authorities/national-rank?sort=desc")]
+    [InlineData(null, "api/local-authorities/national-rank")]
+    public async Task GetLocalAuthoritiesNationalRankShouldCallCorrectUrl(string? sort, string expected)
+    {
+        var api = new EstablishmentApi(HttpClient);
+
+        await api.GetLocalAuthoritiesNationalRank(string.IsNullOrWhiteSpace(sort) ? [] : [new QueryParameter("sort", sort)]);
+
+        VerifyCall(HttpMethod.Get, expected);
     }
 }
