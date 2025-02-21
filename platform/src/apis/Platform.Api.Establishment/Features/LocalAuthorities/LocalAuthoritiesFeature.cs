@@ -10,7 +10,8 @@ public static class LocalAuthoritiesFeature
     public static IServiceCollection AddLocalAuthoritiesFeature(this IServiceCollection serviceCollection)
     {
         serviceCollection
-            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>();
+            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>()
+            .AddSingleton<ILocalAuthoritiesFinancialsService, LocalAuthoritiesFinancialsStubService>();
 
         return serviceCollection;
     }
