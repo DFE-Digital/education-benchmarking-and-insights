@@ -13,7 +13,7 @@ using Platform.Functions.OpenApi.Examples;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
-public class GetLocalAuthoritiesNationalRankFunction(ILocalAuthoritiesFinancialsService service)
+public class GetLocalAuthoritiesNationalRankFunction(ILocalAuthorityRankingService service)
 {
     [Function(nameof(GetLocalAuthoritiesNationalRankFunction))]
     [OpenApiSecurityHeader]

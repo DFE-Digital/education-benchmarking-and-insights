@@ -7,9 +7,9 @@ using Platform.Api.Establishment.Features.LocalAuthorities.Models;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
-// stubbed implementation until backend ready
+// stubbed, untested implementation until backend ready
 [ExcludeFromCodeCoverage]
-public class LocalAuthoritiesFinancialsStubService : ILocalAuthoritiesFinancialsService
+public class LocalAuthorityRankingStubService : ILocalAuthorityRankingService
 {
     public Task<LocalAuthorityRanking> GetRanking(string sort)
     {
