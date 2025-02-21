@@ -13,6 +13,7 @@ namespace Platform.ApiTests.Steps;
 public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-local-authority";
+    private const string NationalRankRequestKey = "get-local-authority-national-rank";
     private const string SuggestRequestKey = "suggest-local-authority";
 
     [Given("a valid local authority request with id '(.*)'")]
@@ -66,6 +67,16 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
             RequestUri = new Uri("/api/local-authorities/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid local authorities national rank request with sort order '(.*)'")]
+    private void GivenAValidLocalAuthoritiesNationalRankRequestWithSortOrder(string sort)
+    {
+        api.CreateRequest(NationalRankRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/local-authorities/national-rank?sort={sort}", UriKind.Relative),
+            Method = HttpMethod.Get
         });
     }
 
@@ -193,5 +204,25 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         }
 
         filteredTable.CompareToSet(results);
+    }
+
+    [Then("the local authorities national rank result should contain the following:")]
+    private async Task ThenTheLocalAuthoritiesNationalRankResultShouldContainTheFollowing(DataTable table)
+    {
+        var response = api[NationalRankRequestKey].Response;
+        response.Should().NotBeNull();
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<LocalAuthorityRanking>();
+
+        var set = result.Ranking.Select(s => new
+        {
+            s.Code,
+            s.Name,
+            s.Value,
+            s.Rank
+        }).ToList();
+
+        table.CompareToSet(set);
     }
 }
