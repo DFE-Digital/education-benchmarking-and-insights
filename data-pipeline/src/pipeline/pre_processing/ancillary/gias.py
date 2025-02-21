@@ -1,12 +1,8 @@
 import pandas as pd
-from pandas._typing import (
-    FilePath,
-    ReadCsvBuffer,
-)
+from pandas._typing import FilePath, ReadCsvBuffer
 
-from pipeline import log
 import pipeline.input_schemas as input_schemas
-
+from pipeline import log
 
 logger = log.setup_logger(__name__)
 
