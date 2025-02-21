@@ -4,10 +4,13 @@ from warnings import simplefilter
 import numpy as np
 import pandas as pd
 
-import pipeline.config as config
-import pipeline.input_schemas as input_schemas
-import pipeline.mappings as mappings
-from pipeline import part_year
+from pipeline import (
+    config,
+    input_schemas,
+    mappings,
+    part_year,
+)
+from pipeline.pre_processing.ancillary import gias
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -188,16 +191,64 @@ def prepare_aar_data(aar_path, year: int):
     return aar.set_index(input_schemas.aar_academies_index_col)
 
 
+def _link_census_data(
+    aar: pd.DataFrame,
+    census: pd.DataFrame,
+    gias_links: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Extend the Census data via GIAS-links.
+
+    The Census data may be missing URNs present in the AAR data. Where
+    this is the case, we extend the Census data with additional records
+    referencing the GIAS-link `LinkURN` (i.e. the Census data will then
+    contain a record for both the GIAS-link `URN` and `LinkURN`).
+
+    - determine which AAR records are missing from the Census data
+    - of those missing records, determine which have GIAS-link records
+    - of those GIAS-links, determine which have Census records
+    - supplement the Census records, adding records with the mapped
+      GIAS-links
+    """
+    _aar = aar.reset_index()[["URN"]]
+    _census = census.reset_index()
+    _gias_links = gias_links.reset_index()[["URN", "LinkURN"]]
+
+    aar_missing = _aar[~_aar["URN"].isin(_census["URN"])][["URN"]]
+
+    link_urns = _gias_links[
+        (_gias_links["URN"].isin(aar_missing["URN"]))
+        & (_gias_links["LinkURN"].isin(_census["URN"]))
+    ][["URN", "LinkURN"]]
+
+    census_linked = (
+        _census[_census["URN"].isin(link_urns["LinkURN"])]
+        .merge(
+            link_urns,
+            how="inner",
+            left_on="URN",
+            right_on="LinkURN",
+            suffixes=("_census", "_link"),
+        )
+        .drop(columns=["URN_census", "LinkURN"])
+        .rename(columns={"URN_link": "URN"})
+        .set_index("URN")
+    )
+
+    return pd.concat([census, census_linked])
+
+
 def build_academy_data(
-    schools,
-    census,
-    sen,
-    cdc,
-    aar,
-    ks2,
-    ks4,
-    cfo,
-    central_services,
+    schools: pd.DataFrame,
+    census: pd.DataFrame,
+    sen: pd.DataFrame,
+    cdc: pd.DataFrame,
+    aar: pd.DataFrame,
+    ks2: pd.DataFrame,
+    ks4: pd.DataFrame,
+    cfo: pd.DataFrame,
+    central_services: pd.DataFrame,
+    gias_links: pd.DataFrame,
 ):
     """
     Build the Academy dataset.
@@ -218,6 +269,7 @@ def build_academy_data(
     :param ks4: Key Stage 4 data
     :param cfo: Chief Financial Officer (CFO)
     :param central_services: AAR Central Services data
+    :param gias_links: GIAS-links data
     :return: Academy data
     """
     aar.rename(
@@ -231,7 +283,11 @@ def build_academy_data(
     academies = (
         aar.reset_index()
         .merge(schools, on="URN")
-        .merge(census, on="URN", how="left")
+        .merge(
+            _link_census_data(aar, census, gias_links),
+            on="URN",
+            how="left",
+        )
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
         .merge(
