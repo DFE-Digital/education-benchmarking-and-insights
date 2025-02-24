@@ -33,6 +33,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   legendHorizontalAlign?: HorizontalAlignmentType;
   legendVerticalAlign?: VerticalAlignmentType;
   legendWrapperStyle?: CSSProperties;
+  linkToEstablishment?: boolean;
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageCopied?: (fileName: string) => void;

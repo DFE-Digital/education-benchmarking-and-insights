@@ -8,6 +8,7 @@ export type TableCellEstablishmentNameProps<
 
 export type SelectedAnchorProps = Omit<AnchorProps, "href"> & {
   identifier: string;
+  linkToEstablishment?: boolean;
   localAuthority?: boolean;
   trust?: boolean;
 };

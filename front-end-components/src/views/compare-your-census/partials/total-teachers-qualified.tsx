@@ -69,7 +69,12 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
 
   return (
     <ChartDimensionContext.Provider value={Percent}>
-      <HorizontalBarChartWrapper data={chartData} chartTitle={title} tooltip>
+      <HorizontalBarChartWrapper
+        chartTitle={title}
+        data={chartData}
+        linkToEstablishment
+        tooltip
+      >
         <h2 className="govuk-heading-m">{title}</h2>
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

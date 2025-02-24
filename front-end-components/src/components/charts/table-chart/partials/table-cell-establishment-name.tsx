@@ -13,9 +13,9 @@ export function TableCellEstablishmentName<
   TData extends SchoolChartData | TrustChartData | LaChartData,
 >({
   localAuthority,
-  preventFocus,
   row,
   trust,
+  ...props
 }: TableCellEstablishmentNameProps<TData>) {
   const { periodCoveredByReturn, schoolName, urn } = row as SchoolChartData;
   const { companyNumber, trustName } = row as TrustChartData;
@@ -32,8 +32,8 @@ export function TableCellEstablishmentName<
         identifier={localAuthority ? laCode : trust ? companyNumber : urn}
         label={localAuthority ? laName : trust ? trustName : schoolName}
         localAuthority={localAuthority}
-        preventFocus={preventFocus}
         trust={trust}
+        {...props}
       />
       {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
         <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
@@ -44,6 +44,7 @@ export function TableCellEstablishmentName<
 
 const SelectedAnchor = ({
   identifier,
+  linkToEstablishment,
   localAuthority,
   trust,
   ...props
@@ -60,10 +61,16 @@ const SelectedAnchor = ({
     <>
       {selectedEstablishment == identifier ? (
         <strong>
-          <Anchor href={href} {...props} />
+          {linkToEstablishment ? (
+            <Anchor href={href} {...props} />
+          ) : (
+            props.label
+          )}
         </strong>
-      ) : (
+      ) : linkToEstablishment ? (
         <Anchor href={href} {...props} />
+      ) : (
+        props.label
       )}
     </>
   );

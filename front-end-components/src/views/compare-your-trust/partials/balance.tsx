@@ -76,6 +76,7 @@ export const Balance: React.FC<{
       <HorizontalBarChartWrapper
         chartTitle="In-year balance"
         data={inYearBalanceChartData}
+        linkToEstablishment
         showCopyImageButton
         tooltip
         trust
@@ -85,6 +86,7 @@ export const Balance: React.FC<{
       <HorizontalBarChartWrapper
         chartTitle="Revenue reserve"
         data={revenueReserveChartData}
+        linkToEstablishment
         showCopyImageButton
         tooltip
         trust
