@@ -79,9 +79,10 @@ def link_data(
             right_on="LinkURN",
             suffixes=("_census", "_link"),
         )
-        .drop(columns=["URN_census", "LinkURN"])
         .rename(columns={"URN_link": "URN"})
         .set_index("URN")
+        .drop(columns=["URN_census", "LinkURN"])
+        .drop(columns=["index"], errors="ignore")
     )
 
     return pd.concat([linkable, linked])
