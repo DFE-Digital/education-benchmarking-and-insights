@@ -5,12 +5,11 @@ import {
   TrustChartData,
 } from "src/components/charts/table-chart";
 
-// todo: refactor to use discriminated union over TData/type (#251041)
 export type HorizontalBarChartWrapperProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
 > = Pick<
   ChartProps<TData>,
-  "chartTitle" | "showCopyImageButton" | "valueUnit"
+  "chartTitle" | "showCopyImageButton" | "valueUnit" | "linkToEstablishment"
 > & {
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;

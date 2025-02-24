@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Text } from "recharts";
 import { EstablishmentTickProps } from "src/components/charts/establishment-tick";
 import { ChartLink } from "../chart-link";
 import {
@@ -31,12 +30,8 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
   const textRef = useRef<SVGTextElement>(null);
   const [focused, setFocused] = useState<boolean>(false);
   const key = useMemo(() => {
-    return (
-      linkToEstablishment &&
-      establishmentKeyResolver &&
-      establishmentKeyResolver(value, index)
-    );
-  }, [establishmentKeyResolver, linkToEstablishment, value, index]);
+    return establishmentKeyResolver && establishmentKeyResolver(value, index);
+  }, [establishmentKeyResolver, value, index]);
 
   const partYear = useMemo(() => {
     return (
@@ -59,8 +54,16 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     }
   }, [key, onFocused, focused]);
 
-  if (!key) {
-    return <Text>{value}</Text>;
+  const textProps: React.SVGAttributes<SVGTextElement> = {
+    className: "recharts-text establishment-tick",
+    fontWeight: key === highlightedItemKey ? "bold" : "normal",
+  };
+  if (!key || !linkToEstablishment) {
+    return (
+      <text {...textProps} {...rest}>
+        {value}
+      </text>
+    );
   }
 
   const name = String(value);
@@ -80,12 +83,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
       {partYear && (
         <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
       )}
-      <text
-        fontWeight={key === highlightedItemKey ? "bold" : "normal"}
-        className="recharts-text establishment-tick"
-        ref={textRef}
-        {...rest}
-      >
+      <text {...textProps} ref={textRef} {...rest}>
         <ChartLink
           href={href(key)}
           className="govuk-link govuk-link--no-visited-state"

@@ -41,6 +41,7 @@ export function HorizontalBarChartWrapper<
   chartTitle,
   children,
   data,
+  linkToEstablishment,
   localAuthority,
   showCopyImageButton,
   sort,
@@ -260,7 +261,7 @@ export function HorizontalBarChartWrapper<
                       <EstablishmentTick
                         {...t}
                         highlightedItemKey={selectedEstabishment}
-                        linkToEstablishment
+                        linkToEstablishment={linkToEstablishment}
                         href={(id) =>
                           `/${localAuthority ? "local-authority" : trust ? "trust" : "school"}/${id}`
                         }
@@ -291,6 +292,7 @@ export function HorizontalBarChartWrapper<
                   data={sortedDataPoints}
                   preventFocus={chartMode !== ChartModeTable}
                   localAuthority={localAuthority}
+                  linkToEstablishment={linkToEstablishment}
                   tableHeadings={data.tableHeadings}
                   trust={trust}
                   valueUnit={valueUnit ?? dimension.unit}

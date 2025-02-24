@@ -20,6 +20,7 @@ export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData | LaChartData>
 > = ({
   data,
+  linkToEstablishment,
   localAuthority,
   preventFocus,
   tableHeadings,
@@ -103,6 +104,7 @@ export const TableChart: React.FC<
                   className="govuk-table__row"
                 >
                   <TableCellEstablishmentName
+                    linkToEstablishment={linkToEstablishment}
                     localAuthority={localAuthority}
                     preventFocus={preventFocus}
                     row={row}

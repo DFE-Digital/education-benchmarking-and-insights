@@ -48,6 +48,7 @@ export function DimensionedChart<
           <HorizontalBarChartWrapper
             chartTitle={title}
             data={data}
+            linkToEstablishment
             tooltip
             {...props}
           >
