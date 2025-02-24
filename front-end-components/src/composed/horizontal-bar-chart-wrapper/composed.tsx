@@ -255,7 +255,7 @@ export function HorizontalBarChartWrapper<
                   margin={20}
                   seriesConfig={seriesConfig as object}
                   seriesLabelField={seriesLabelField}
-                  tickWidth={400}
+                  tickWidth={localAuthority ? 200 : 400}
                   tick={(t) => {
                     return (
                       <EstablishmentTick

@@ -22,7 +22,7 @@ public class LocalAuthorityRankingStubService : ILocalAuthorityRankingService
             var value = new LocalAuthorityRank
             {
                 Code = code,
-                Name = $"LA {code}",
+                Name = $"Local authority {code}",
                 Value = Math.Round(outturn / budget * 100, 10)
             };
 
