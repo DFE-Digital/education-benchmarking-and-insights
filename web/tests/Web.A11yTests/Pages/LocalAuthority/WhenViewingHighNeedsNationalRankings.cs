@@ -10,7 +10,7 @@ public class WhenViewingHighNeedsNationalRankings(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/national";
+    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/national-rank";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

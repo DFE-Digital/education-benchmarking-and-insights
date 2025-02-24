@@ -12,7 +12,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities, FeatureFlags.HighNeeds)]
-[Route("local-authority/{code}/high-needs/national")]
+[Route("local-authority/{code}/high-needs/national-rank")]
 public class LocalAuthorityHighNeedsNationalRankingsController(
     ILogger<LocalAuthorityHighNeedsNationalRankingsController> logger,
     IEstablishmentApi establishmentApi)
@@ -43,7 +43,10 @@ public class LocalAuthorityHighNeedsNationalRankingsController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<LocalAuthority> LocalAuthority(string code)
+    {
+        return await establishmentApi
+            .GetLocalAuthority(code)
+            .GetResultOrThrow<LocalAuthority>();
+    }
 }
