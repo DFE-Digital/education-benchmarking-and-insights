@@ -13,8 +13,8 @@ def predecessor_links(
     """
     Read GIAS-links _Predecessor_ data.
 
-    :param base_data_path: source for GIAS-links data
-    :param year: financial year in question
+    :param filepath_or_buffer: source for GIAS-links data
+    :return: GIAS predecessor data
     """
     gias_links = pd.read_csv(
         filepath_or_buffer,
@@ -58,6 +58,11 @@ def link_data(
     - of those GIAS-links, determine which have `linkable` records
     - supplement the `linkable` records, adding records with the
       mapped GIAS-links
+
+    :param df: data source from which to find missing URNs
+    :param linkable: data set which can be linked via GIAS-links
+    :param gias_links: GIAS-links predecessor data
+    :return: extended linkable data set
     """
     _df = df.reset_index()[["URN"]]
     _linkable = linkable.reset_index()
