@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
+using Platform.Api.LocalAuthorityFinances.Features.Validators;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
@@ -19,6 +23,9 @@ internal static class Services
     {
         serviceCollection
             .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>();
+
+        serviceCollection
+            .AddTransient<IValidator<HighNeedsHistoryParameters>, HighNeedsHistoryParametersValidator>();
 
         serviceCollection
             .AddTelemetry()
@@ -59,5 +66,6 @@ internal static class Services
     private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
         .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection;
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddHighNeedsFeature();
 }
