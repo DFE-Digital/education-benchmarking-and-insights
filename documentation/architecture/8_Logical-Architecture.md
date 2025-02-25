@@ -10,6 +10,8 @@
 | Establishment API | see <https://s198d01-ebis-establishment-fa.azurewebsites.net/api/swagger/ui> |
 | Benchmark API | see <https://s198d01-ebis-benchmark-fa.azurewebsites.net/api/swagger/ui> |
 | Insight API | see <https://s198d01-ebis-insight-fa.azurewebsites.net/api/swagger/ui> |
+| LocalAuthorityFinances API | see <https://s198d01-ebis-local-authority-finances-fa.azurewebsites.net/api/swagger/ui> |
+| NonFinancial API | see <https://s198d01-ebis-non-financial-fa.azurewebsites.net/api/swagger/ui> |
 
 ## Cross cutting concerns
 
