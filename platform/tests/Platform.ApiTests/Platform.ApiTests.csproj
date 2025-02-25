@@ -37,5 +37,7 @@
         <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj"/>
         <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj"/>
         <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj"/>
+        <ProjectReference Include="..\..\src\apis\Platform.Api.LocalAuthorityFinances\Platform.Api.LocalAuthorityFinances.csproj"/>
+        <ProjectReference Include="..\..\src\apis\Platform.Api.NonFinancial\Platform.Api.NonFinancial.csproj"/>
     </ItemGroup>
 </Project>
