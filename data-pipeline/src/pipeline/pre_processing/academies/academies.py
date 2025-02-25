@@ -4,10 +4,8 @@ from warnings import simplefilter
 import numpy as np
 import pandas as pd
 
-import pipeline.config as config
-import pipeline.input_schemas as input_schemas
-import pipeline.mappings as mappings
-from pipeline import part_year
+from pipeline import config, input_schemas, mappings, part_year
+from pipeline.pre_processing.ancillary import gias
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -189,15 +187,16 @@ def prepare_aar_data(aar_path, year: int):
 
 
 def build_academy_data(
-    schools,
-    census,
-    sen,
-    cdc,
-    aar,
-    ks2,
-    ks4,
-    cfo,
-    central_services,
+    schools: pd.DataFrame,
+    census: pd.DataFrame,
+    sen: pd.DataFrame,
+    cdc: pd.DataFrame,
+    aar: pd.DataFrame,
+    ks2: pd.DataFrame,
+    ks4: pd.DataFrame,
+    cfo: pd.DataFrame,
+    central_services: pd.DataFrame,
+    gias_links: pd.DataFrame,
 ):
     """
     Build the Academy dataset.
@@ -218,6 +217,7 @@ def build_academy_data(
     :param ks4: Key Stage 4 data
     :param cfo: Chief Financial Officer (CFO)
     :param central_services: AAR Central Services data
+    :param gias_links: GIAS-links data
     :return: Academy data
     """
     aar.rename(
@@ -231,9 +231,17 @@ def build_academy_data(
     academies = (
         aar.reset_index()
         .merge(schools, on="URN")
-        .merge(census, on="URN", how="left")
+        .merge(
+            gias.link_data(aar, census, gias_links),
+            on="URN",
+            how="left",
+        )
         .merge(sen, on="URN", how="left")
-        .merge(cdc, on="URN", how="left")
+        .merge(
+            gias.link_data(aar, cdc, gias_links),
+            on="URN",
+            how="left",
+        )
         .merge(
             cfo,
             left_on="Company Registration Number",

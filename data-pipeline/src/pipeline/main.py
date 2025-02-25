@@ -11,6 +11,8 @@ from azure.storage.queue import QueueClient, QueueMessage
 from dask.distributed import Client
 from dotenv import load_dotenv
 
+from pipeline.input_schemas import gias
+
 load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_set, prepare_data
@@ -35,6 +37,7 @@ from pipeline.pre_processing import (
     build_maintained_school_data,
     build_trust_data,
     map_academy_data,
+    predecessor_links,
     prepare_aar_data,
     prepare_cdc_data,
     prepare_census_data,
@@ -192,6 +195,34 @@ def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     return schools
 
 
+def pre_process_gias_links(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+    """
+    Generate the GIAS-links dataset.
+
+    Note: this is distinct from the "schools" data insofar as this only
+    contains GIAS-links and retains _all_ rows.
+
+    :param run_type: "default" or "custom"
+    :param year: financial year in question
+    :param run_id: unique identifer for data-writes
+    :return: GIAS-links data
+    """
+    logger.info(f"Processing GIAS-links data: {run_type}/{year}/gias_links.csv")
+    gias_links_data = get_blob(
+        raw_container, f"{run_type}/{year}/gias_links.csv", encoding="cp1252"
+    )
+
+    gias_links = predecessor_links(gias_links_data)
+
+    write_blob(
+        "pre-processed",
+        f"{run_type}/{run_id}/gias_links.parquet",
+        gias_links.to_parquet(),
+    )
+
+    return gias_links
+
+
 def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info(f"Processing CFO Data: {run_type}/{year}/cfo.xlsx")
 
@@ -236,7 +267,9 @@ def pre_process_academies_data(
     data_ref: tuple,
 ) -> pd.DataFrame:
     logger.info("Building Academy Set")
-    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
+    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links = (
+        data_ref
+    )
 
     logger.info(f"Processing AAR data - {run_id} - {year}.")
 
@@ -250,6 +283,7 @@ def pre_process_academies_data(
         ks4,
         cfo,
         central_services,
+        gias_links,
     )
 
     academies = map_academy_data(academies)
@@ -270,7 +304,9 @@ def pre_process_maintained_schools_data(
     data_ref: tuple,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
-    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
+    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links = (
+        data_ref
+    )
 
     logger.info(f"Processing CFR data - {run_id} - {year}.")
 
@@ -520,7 +556,7 @@ def _get_ancillary_data(
     """
     run_type = "default"
 
-    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
+    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services, gias_links = (
         worker_client.gather(
             [
                 worker_client.submit(pre_process_cdc, run_type, year, run_id),
@@ -534,12 +570,13 @@ def _get_ancillary_data(
                 worker_client.submit(
                     pre_process_central_services, run_type, year, run_id
                 ),
+                worker_client.submit(pre_process_gias_links, run_type, year, run_id),
             ]
         )
     )
 
     return worker_client.scatter(
-        (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
+        (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links)
     )
 
 

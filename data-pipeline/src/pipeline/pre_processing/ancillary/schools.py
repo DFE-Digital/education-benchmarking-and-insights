@@ -9,7 +9,7 @@ def prepare_schools_data(base_data_path, links_data_path, year: int):
     Prepare school data derived from GIAS and GIAS links.
 
     :param base_data_path: readable source for GIAS
-    :param pupil_census_path: readable source for GIAS links
+    :param links_data_path: readable source for GIAS links
     :param year: financial year in question
     """
     gias = pd.read_csv(
