@@ -1,10 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Hosting;
 using Platform.Api.LocalAuthorityFinances.Configuration;
-
-[assembly: InternalsVisibleTo("Platform.Tests")]
 
 var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(Worker.Configure, Worker.Options)
@@ -14,9 +11,6 @@ var hostBuilder = new HostBuilder()
 
 hostBuilder.Build().Run();
 
-namespace Platform.Api.LocalAuthorityFinances
-{
-    [ExcludeFromCodeCoverage]
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public partial class Program;
-}
+[ExcludeFromCodeCoverage]
+// ReSharper disable once ClassNeverInstantiated.Global
+public partial class Program;
