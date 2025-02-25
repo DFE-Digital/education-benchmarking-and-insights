@@ -234,7 +234,7 @@
           "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
           "Azure.Search.Documents": "[11.6.0, )",
           "FluentValidation": "[11.11.0, )",
-          "Microsoft.ApplicationInsights": "[2.22.0, )",
+          "Microsoft.ApplicationInsights": "[2.23.0, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.1, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[9.0.1, )",
           "Platform.Infrastructure": "[1.0.0, )"
@@ -269,9 +269,9 @@
       },
       "Microsoft.ApplicationInsights": {
         "type": "CentralTransitive",
-        "requested": "[2.22.0, )",
-        "resolved": "2.22.0",
-        "contentHash": "3AOM9bZtku7RQwHyMEY3tQMrHIgjcfRDa6YQpd/QG2LDGvMydSlL9Di+8LLMt7J2RDdfJ7/2jdYv6yHcMJAnNw==",
+        "requested": "[2.23.0, )",
+        "resolved": "2.23.0",
+        "contentHash": "nWArUZTdU7iqZLycLKWe0TDms48KKGE6pONH2terYNa8REXiqixrMOkf1sk5DHGMaUTqONU2YkS4SAXBhLStgw==",
         "dependencies": {
           "System.Diagnostics.DiagnosticSource": "5.0.0"
         }
