@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
@@ -59,5 +60,6 @@ internal static class Services
     private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
         .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection;
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddEducationHealthCarePlansFeature();
 }
