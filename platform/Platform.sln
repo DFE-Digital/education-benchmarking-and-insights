@@ -108,6 +108,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.LocalAuthority
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.NonFinancial", "src\apis\Platform.Api.NonFinancial\Platform.Api.NonFinancial.csproj", "{BE830716-A170-4B2F-8A97-BBEB2CEDC21B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.LocalAuthorityFinances.Tests", "tests\Platform.LocalAuthorityFinances.Tests\Platform.LocalAuthorityFinances.Tests.csproj", "{87DF095C-99A1-485F-84F1-AB24D3891D66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.NonFinancial.Tests", "tests\Platform.NonFinancial.Tests\Platform.NonFinancial.Tests.csproj", "{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +230,14 @@ Global
 		{BE830716-A170-4B2F-8A97-BBEB2CEDC21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE830716-A170-4B2F-8A97-BBEB2CEDC21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE830716-A170-4B2F-8A97-BBEB2CEDC21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87DF095C-99A1-485F-84F1-AB24D3891D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87DF095C-99A1-485F-84F1-AB24D3891D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87DF095C-99A1-485F-84F1-AB24D3891D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87DF095C-99A1-485F-84F1-AB24D3891D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,5 +274,7 @@ Global
 		{419C9FD2-32E7-4DE4-B580-F9821BCE0422} = {8106645A-3A8E-41DE-92FF-46D1365846C3}
 		{B8A2DBF5-3579-40EA-8F6A-30D0B2541E5C} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{BE830716-A170-4B2F-8A97-BBEB2CEDC21B} = {80C48401-A0AA-4707-B26A-332240A6C214}
+		{87DF095C-99A1-485F-84F1-AB24D3891D66} = {88E9B775-3937-45F6-9899-F0ECDD635145}
+		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 	EndGlobalSection
 EndGlobal
