@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Platform.Api.NonFinancial": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7075",
+      "launchBrowser": false
+    }
+  }
+}

@@ -54,7 +54,22 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Docker.docker: Compose Deployment" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.LocalAuthorityFinances" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <attributes>
+              <entry key="port" value="7074" />
+            </attributes>
+            <option name="type" value="waitPortOpened" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.NonFinancial" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
