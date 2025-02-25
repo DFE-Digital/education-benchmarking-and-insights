@@ -83,6 +83,24 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddLocalAuthorityFinancesApi(this IServiceCollection services)
+    {
+        const string section = "Apis:LocalAuthorityFinances";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+
+        return services;
+    }
+
+    public static IServiceCollection AddNonFinancialApi(this IServiceCollection services)
+    {
+        const string section = "Apis:NonFinancial";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+
+        return services;
+    }
+
     public static IServiceCollection AddStorage(this IServiceCollection services)
     {
         services.AddOptions<DataSourceStorageOptions>()

@@ -62,6 +62,16 @@ following section to `secrets.json`, with URLs and keys obtained from Key Vault.
     {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
+    },
+    "LocalAuthorityFinances": 
+    {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    },
+    "NonFinancial":
+    {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
     }
   }
 }

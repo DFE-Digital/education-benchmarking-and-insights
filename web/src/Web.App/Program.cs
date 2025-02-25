@@ -107,6 +107,8 @@ if (!builder.Environment.IsIntegration())
         .AddBenchmarkApi()
         .AddEstablishmentApi()
         .AddInsightApi()
+        .AddLocalAuthorityFinancesApi()
+        .AddNonFinancialApi()
         .AddStorage();
 
     builder.AddSwaggerService();
