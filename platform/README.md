@@ -57,6 +57,7 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
     "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
     "Sql__TelemetryEnabled": true,
     "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
@@ -92,6 +93,50 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
   "Host": {
     "CORS": "*",
     "LocalHttpPort": 7071
+  }
+}
+```
+
+#### LocalAuthorityFinances Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.LocalAuthorityFinances`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7074
+  }
+}
+```
+
+#### NonFinancial Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7075
   }
 }
 ```
