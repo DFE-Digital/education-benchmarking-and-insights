@@ -30,6 +30,16 @@ data "azurerm_windows_function_app" "insight-api" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
+data "azurerm_windows_function_app" "local-authority-finances-api" {
+  name                = "${var.environment-prefix}-ebis-local-authority-finances-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
+data "azurerm_windows_function_app" "non-financial-api" {
+  name                = "${var.environment-prefix}-ebis-non-financial-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
 data "azurerm_log_analytics_workspace" "application-insights-workspace" {
   name                = "${var.environment-prefix}-ebis-aiw"
   resource_group_name = "${var.environment-prefix}-ebis-core"

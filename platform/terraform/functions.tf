@@ -89,6 +89,60 @@ module "establishment-fa" {
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
 }
 
+module "local-authority-finances-fa" {
+  source                      = "./modules/functions"
+  function-name               = "local-authority-finances"
+  common-tags                 = local.common-tags
+  environment-prefix          = var.environment-prefix
+  resource-group-name         = azurerm_resource_group.resource-group.name
+  storage-account-name        = azurerm_storage_account.platform-storage.name
+  storage-account-id          = azurerm_storage_account.platform-storage.id
+  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                = data.azurerm_key_vault.key-vault.id
+  location                    = var.location
+  enable-restrictions         = lower(var.cip-environment) != "dev"
+  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  app-settings = merge(local.default_app_settings, {
+    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+  })
+  subnet_ids = [
+    data.azurerm_subnet.web-app-subnet.id,
+    data.azurerm_subnet.load-test-subnet.id
+  ]
+  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
+  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
+  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+}
+
+module "non-financial-fa" {
+  source                      = "./modules/functions"
+  function-name               = "non-financial"
+  common-tags                 = local.common-tags
+  environment-prefix          = var.environment-prefix
+  resource-group-name         = azurerm_resource_group.resource-group.name
+  storage-account-name        = azurerm_storage_account.platform-storage.name
+  storage-account-id          = azurerm_storage_account.platform-storage.id
+  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                = data.azurerm_key_vault.key-vault.id
+  location                    = var.location
+  enable-restrictions         = lower(var.cip-environment) != "dev"
+  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
+  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  app-settings = merge(local.default_app_settings, {
+    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+  })
+  subnet_ids = [
+    data.azurerm_subnet.web-app-subnet.id,
+    data.azurerm_subnet.load-test-subnet.id
+  ]
+  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
+  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
+  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+}
+
 module "data-clean-up-fa" {
   source                      = "./modules/functions"
   function-name               = "clean-up"

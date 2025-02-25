@@ -90,6 +90,32 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy local authority finances function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-finances-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.LocalAuthorityFinances.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy non financial function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.NonFinancial.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -127,6 +153,10 @@ jobs:
           alias: 'insight'
         - name: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
           alias: 'establishment'
+        - name: '${{ parameters.environmentPrefix }}-ebis-local-authority-finances-fa'
+          alias: 'localauthorityfinances'
+        - name: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
+          alias: 'nonfinancial'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
           alias: 'orchestrator'
         - name: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'

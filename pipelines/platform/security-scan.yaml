@@ -63,6 +63,12 @@ jobs:
         insight:
           url: $(security-scan-platform-insight-api)
           key: insight
+        local-authority-finances:
+          url: $(security-scan-platform-local-authority-finances-api)
+          key: local-authority-finances
+        non-financial:
+          url: $(security-scan-platform-non-financial-api)
+          key: non-financial
     steps:
       - task: AzureKeyVault@2
         inputs:
@@ -135,6 +141,6 @@ jobs:
           CommitMessage: 'Updated platform security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |
-            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" \) -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
-            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" \) -exec mv '{}' . \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" -o -wholename "./non-financial/*.md" \) -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" -o -wholename "./non-financial/*.md" \) -exec mv '{}' . \;
           TargetPath: 'documentation/quality-assurance/security-scan-reports'
