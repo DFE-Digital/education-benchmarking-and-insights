@@ -8,6 +8,8 @@
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enabled</ImplicitUsings>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <Product>Local Authority finances API</Product>
+        <Description>This API manages financial information from the Section 251 submission related to Local Authorities</Description>
     </PropertyGroup>
     <ItemGroup>
         <None Update="host.json">

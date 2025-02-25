@@ -8,6 +8,8 @@
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enabled</ImplicitUsings>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <Product>Non-financial API</Product>
+        <Description>This API manages non-financial information from SEN2, CDC and Census surveys relating to schools, trusts and local authorities</Description>
     </PropertyGroup>
     <ItemGroup>
         <None Update="host.json">
