@@ -8,9 +8,9 @@ namespace Platform.Functions;
 [ExcludeFromCodeCoverage]
 public abstract record QueryParameters
 {
+    [Obsolete("Use SetValues(NameValueCollection query) overload instead")]
     public virtual void SetValues(IQueryCollection query)
     {
-        throw new NotImplementedException();
     }
 
     public virtual void SetValues(NameValueCollection query)
