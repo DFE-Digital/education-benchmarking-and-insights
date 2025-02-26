@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
+using Platform.Api.LocalAuthorityFinances.Features.Validators;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 
@@ -11,6 +14,9 @@ public static class HighNeedsFeature
     {
         serviceCollection
             .AddSingleton<IHighNeedsHistoryService, HighNeedsHistoryStubService>();
+
+        serviceCollection
+            .AddTransient<IValidator<HighNeedsHistoryParameters>, HighNeedsHistoryParametersValidator>();
 
         return serviceCollection;
     }
