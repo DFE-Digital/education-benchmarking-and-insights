@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Controllers.Api.Mappers;
+using Web.App.Controllers.Api.Responses;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
@@ -17,19 +19,19 @@ public class HighNeedsProxyController(
     /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<History<LocalAuthorityHighNeedsYear>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<LocalAuthorityHighNeedsHistoryResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
-    public async Task<IActionResult> History([FromQuery] string[]? code, CancellationToken cancellationToken)
+    public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken)
     {
         try
         {
             var query = BuildQuery(code);
-            var result = await localAuthoritiesApi
+            var history = await localAuthoritiesApi
                 .GetHighNeedsHistory(query, cancellationToken)
                 .GetResultOrThrow<History<LocalAuthorityHighNeedsYear>>();
 
-            return new JsonResult(result);
+            return new JsonResult(history.MapToApiResponse(code));
         }
         catch (Exception e)
         {
@@ -38,14 +40,9 @@ public class HighNeedsProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(string[]? code)
+    private static ApiQuery BuildQuery(params string[] code)
     {
         var query = new ApiQuery();
-        if (code == null)
-        {
-            return query;
-        }
-
         foreach (var c in code)
         {
             query.AddIfNotNull(nameof(code), c);

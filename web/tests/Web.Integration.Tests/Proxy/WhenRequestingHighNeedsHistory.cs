@@ -1,6 +1,7 @@
 using System.Net;
 using AutoFixture;
 using Newtonsoft.Json;
+using Web.App.Controllers.Api.Responses;
 using Web.App.Domain.LocalAuthorities;
 using Xunit;
 
@@ -13,7 +14,11 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
     [Fact]
     public async Task CanReturnCorrectResponse()
     {
-        var history = Fixture.Create<History<LocalAuthorityHighNeedsYear>>();
+        var history = Fixture
+            .Build<History<LocalAuthorityHighNeedsYear>>()
+            .With(h => h.StartYear, 2021)
+            .With(h => h.EndYear, 2022)
+            .Create();
         const string sort = nameof(sort);
         var response = await client
             .SetupHighNeedsHistory(history)
@@ -23,8 +28,15 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var resultContent = await response.Content.ReadAsStringAsync();
-        var actual = JsonConvert.DeserializeObject<History<LocalAuthorityHighNeedsYear>>(resultContent);
-        Assert.Equivalent(history, actual);
+        var actual = JsonConvert.DeserializeObject<LocalAuthorityHighNeedsHistoryResponse[]>(resultContent);
+
+        Assert.NotNull(actual);
+
+        var startYear = actual.FirstOrDefault(y => y.Year == history.StartYear);
+        Assert.NotNull(startYear);
+
+        var endYear = actual.FirstOrDefault(y => y.Year == history.EndYear);
+        Assert.NotNull(endYear);
     }
 
     [Fact]
