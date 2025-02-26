@@ -192,6 +192,7 @@ def _write_data(
         con=engine,
         if_exists="append",
         index=df.index.name is not None,
+        chunksize=int(os.getenv("SQL_CHUNKSIZE", 10_000)),
     )
     logger.info(
         f"Wrote {len(df.index):,} rows to {temp_table} in {int(time.time() - start):,} seconds."
