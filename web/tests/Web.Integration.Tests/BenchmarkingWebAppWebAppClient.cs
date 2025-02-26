@@ -4,10 +4,12 @@ using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
 using File = Web.App.Domain.File;
@@ -47,7 +49,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
     public Mock<IFeatureManager> FeatureManager { get; } = new();
     public Mock<IFilesApi> FilesApi { get; } = new();
-
+    public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -71,6 +73,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(DataSourceStorage.Object);
         services.AddSingleton(FeatureManager.Object);
         services.AddSingleton(FilesApi.Object);
+        services.AddSingleton(LocalAuthoritiesApi.Object);
 
         EnableFeatures();
     }
@@ -538,6 +541,27 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         UserDataApi.Reset();
         UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>())).ReturnsAsync(ApiResult.Ok(data ?? []));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthoritiesNationalRank(LocalAuthorityRanking ranking)
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthoritiesWithException()
+    {
+        LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupHighNeedsHistory(History<LocalAuthorityHighNeedsYear> history)
+    {
+        LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));
         return this;
     }
 

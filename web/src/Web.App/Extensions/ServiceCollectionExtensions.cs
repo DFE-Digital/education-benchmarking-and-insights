@@ -13,6 +13,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
 
@@ -88,6 +89,7 @@ public static class ServiceCollectionExtensions
         const string section = "Apis:LocalAuthorityFinances";
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<ILocalAuthoritiesApi, LocalAuthoritiesApi>().Configure<LocalAuthoritiesApi>(section);
 
         return services;
     }

@@ -106,6 +106,8 @@ public static class Paths
     public static string ApiExpenditureUserDefined(string? type, string? id, string dimension, string? category) => $"api/expenditure/user-defined?type={type}&id={id}&dimension={dimension}&category={category}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
+    public static string ApiNationalRank(string? sort) => $"api/local-authorities/national-rank?sort={sort}";
+    public static string ApiHighNeedsHistory(string code) => $"api/local-authorities/high-needs/history?code={code}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
     public static string LocalAuthorityHighNeeds(string? code) => $"/local-authority/{code}/high-needs";
