@@ -1,4 +1,5 @@
-﻿using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
+﻿using System.Collections.Specialized;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.Validators;
 using Xunit;
 
@@ -14,10 +15,11 @@ public class WhenHighNeedsHistoryParametersValidatorValidates
     [InlineData("code1,code2,code3,code4,code5,code6,code7,code9,code9,code10")]
     public async Task ShouldValidateAndEvaluateGoodParametersAsValid(string codes)
     {
-        var parameters = new HighNeedsHistoryParameters
+        var parameters = new HighNeedsHistoryParameters();
+        parameters.SetValues(new NameValueCollection
         {
-            Codes = codes.Split(",")
-        };
+            { "code", codes }
+        });
 
         var actual = await _validator.ValidateAsync(parameters);
         Assert.True(actual.IsValid);
@@ -29,10 +31,11 @@ public class WhenHighNeedsHistoryParametersValidatorValidates
     [InlineData("code1,code2,code3,code4,code5,code6,code7,code9,code9,code10,code11")]
     public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes)
     {
-        var parameters = new HighNeedsHistoryParameters
+        var parameters = new HighNeedsHistoryParameters();
+        parameters.SetValues(new NameValueCollection
         {
-            Codes = codes.Split(",", StringSplitOptions.RemoveEmptyEntries)
-        };
+            { "code", codes }
+        });
 
         var actual = await _validator.ValidateAsync(parameters);
         Assert.False(actual.IsValid);
