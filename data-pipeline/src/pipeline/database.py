@@ -41,7 +41,15 @@ def get_engine() -> sqlalchemy.engine.Engine:
         query={"driver": "ODBC Driver 18 for SQL Server"} | args,
     )
 
-    return create_engine(connection_url, fast_executemany=True)
+    engine = create_engine(connection_url, fast_executemany=True)
+
+    @event.listens_for(engine, "before_cursor_execute")
+    def receive_before_cursor_execute(
+        conn, cursor, statement, params, context, executemany
+    ):
+        logger.debug(str(statement))
+
+    return engine
 
 
 @dataclass
