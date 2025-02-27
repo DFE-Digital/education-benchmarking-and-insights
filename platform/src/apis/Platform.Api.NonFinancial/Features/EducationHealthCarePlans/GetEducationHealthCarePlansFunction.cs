@@ -49,7 +49,7 @@ public class GetEducationHealthCarePlansFunction(
             try
             {
                 var queryParams = req.GetParameters<EducationHealthCarePlansParameters>();
-                
+
                 var validationResult = await validator.ValidateAsync(queryParams, token);
                 if (!validationResult.IsValid)
                 {

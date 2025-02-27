@@ -14,7 +14,7 @@ public static class EducationHealthCarePlansFeature
     {
         serviceCollection
             .AddSingleton<IEducationHealthCarePlansService, EducationHealthCarePlansStubService>();
-        
+
         serviceCollection
             .AddTransient<IValidator<EducationHealthCarePlansParameters>, EducationHealthCarePlansParametersValidator>();
 
