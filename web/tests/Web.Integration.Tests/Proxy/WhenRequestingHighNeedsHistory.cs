@@ -15,7 +15,7 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
     public async Task CanReturnCorrectResponse()
     {
         var history = Fixture
-            .Build<History<LocalAuthorityHighNeedsYear>>()
+            .Build<HighNeedsHistory<LocalAuthorityHighNeedsYear>>()
             .With(h => h.StartYear, 2021)
             .With(h => h.EndYear, 2022)
             .Create();

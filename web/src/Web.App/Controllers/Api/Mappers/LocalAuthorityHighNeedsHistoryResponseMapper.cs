@@ -5,7 +5,7 @@ namespace Web.App.Controllers.Api.Mappers;
 
 public static class LocalAuthorityHighNeedsHistoryResponseMapper
 {
-    public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(this History<LocalAuthorityHighNeedsYear>? history, string code)
+    public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history, string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
         {

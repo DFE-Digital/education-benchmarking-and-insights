@@ -14,6 +14,7 @@ using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
 
@@ -99,6 +100,7 @@ public static class ServiceCollectionExtensions
         const string section = "Apis:NonFinancial";
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>().Configure<EducationHealthCarePlansApi>(section);
 
         return services;
     }
