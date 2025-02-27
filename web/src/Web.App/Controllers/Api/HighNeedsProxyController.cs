@@ -29,7 +29,7 @@ public class HighNeedsProxyController(
             var query = BuildQuery(code);
             var history = await localAuthoritiesApi
                 .GetHighNeedsHistory(query, cancellationToken)
-                .GetResultOrThrow<History<LocalAuthorityHighNeedsYear>>();
+                .GetResultOrThrow<HighNeedsHistory<LocalAuthorityHighNeedsYear>>();
 
             return new JsonResult(history.MapToApiResponse(code));
         }

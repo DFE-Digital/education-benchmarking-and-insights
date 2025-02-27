@@ -32,7 +32,7 @@ public class WhenEducationHealthCarePlansHistory(SchoolBenchmarkingWebAppClient 
         }
 
         var history = Fixture
-            .Build<History<LocalAuthorityNumberOfPlansYear>>()
+            .Build<EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>>()
             .With(h => h.StartYear, startYear)
             .With(h => h.EndYear, endYear)
             .With(h => h.Plans, plans.ToArray())

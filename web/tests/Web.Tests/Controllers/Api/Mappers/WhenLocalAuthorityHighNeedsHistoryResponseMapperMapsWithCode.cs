@@ -41,7 +41,7 @@ public class WhenLocalAuthorityHighNeedsHistoryResponseMapperMapsWithCode
             .With(o => o.Code, code)
             .Create();
 
-        var history = new History<LocalAuthorityHighNeedsYear>
+        var history = new HighNeedsHistory<LocalAuthorityHighNeedsYear>
         {
             StartYear = startYear,
             EndYear = endYear,

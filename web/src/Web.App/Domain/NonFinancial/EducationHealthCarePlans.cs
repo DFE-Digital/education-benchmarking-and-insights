@@ -1,6 +1,6 @@
 namespace Web.App.Domain.NonFinancial;
 
-public record History<T>
+public record EducationHealthCarePlansHistory<T>
 {
     public int? StartYear { get; set; }
     public int? EndYear { get; set; }

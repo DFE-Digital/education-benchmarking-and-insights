@@ -2,7 +2,7 @@
 // ReSharper disable UnusedMember.Global
 namespace Web.App.Domain.LocalAuthorities;
 
-public record History<T>
+public record HighNeedsHistory<T>
 {
     public int? StartYear { get; set; }
     public int? EndYear { get; set; }

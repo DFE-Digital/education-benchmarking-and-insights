@@ -29,7 +29,7 @@ public class EducationHealthCarePlansProxyController(
             var query = BuildQuery(code);
             var history = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlansHistory(query, cancellationToken)
-                .GetResultOrThrow<History<LocalAuthorityNumberOfPlansYear>>();
+                .GetResultOrThrow<EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>>();
 
             return new JsonResult(history.MapToApiResponse(code));
         }

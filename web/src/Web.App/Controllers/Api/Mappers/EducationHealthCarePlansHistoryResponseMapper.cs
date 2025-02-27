@@ -5,7 +5,7 @@ namespace Web.App.Controllers.Api.Mappers;
 
 public static class EducationHealthCarePlansHistoryResponseResponseMapper
 {
-    public static IEnumerable<EducationHealthCarePlansHistoryResponse> MapToApiResponse(this History<LocalAuthorityNumberOfPlansYear>? history, string code)
+    public static IEnumerable<EducationHealthCarePlansHistoryResponse> MapToApiResponse(this EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>? history, string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
         {
