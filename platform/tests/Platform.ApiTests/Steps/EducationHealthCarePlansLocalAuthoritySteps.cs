@@ -54,9 +54,6 @@ public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-
-        _result = content.FromJson<History<LocalAuthorityNumberOfPlansYear>>();
-
         var actual = _result?.Plans?.FirstOrDefault(p => p.Year == year);
 
         Assert.NotNull(actual);

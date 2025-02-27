@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
-namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
-
-[ExcludeFromCodeCoverage]
 public record History<T>
 {
     public int? StartYear { get; set; }

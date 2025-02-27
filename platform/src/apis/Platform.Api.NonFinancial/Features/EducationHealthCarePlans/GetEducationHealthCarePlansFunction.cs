@@ -27,7 +27,7 @@ public class GetEducationHealthCarePlansFunction(
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetEducationHealthCarePlansFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<LocalAuthorityNumberOfPlansYear>[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<LocalAuthorityNumberOfPlansYear>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
