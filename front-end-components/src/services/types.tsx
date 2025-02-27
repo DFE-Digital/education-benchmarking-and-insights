@@ -408,3 +408,41 @@ export type LocalAuthorityRank = {
   value?: number;
   rank: number;
 };
+
+export type LocalAuthoritySection251History<
+  T extends LocalAuthoritySection251,
+> = HistoryBase & {
+  outturn?: T;
+  budget?: T;
+};
+
+export type LocalAuthoritySection251 = {
+  highNeedsAmountTotalPlaceFunding?: number;
+  highNeedsAmountTopUpFundingMaintained?: number;
+  highNeedsAmountTopUpFundingNonMaintained?: number;
+  highNeedsAmountSenServices?: number;
+  highNeedsAmountAlternativeProvisionServices?: number;
+  highNeedsAmountHospitalServices?: number;
+  highNeedsAmountOtherHealthServices?: number;
+
+  maintainedEarlyYears?: number;
+  maintainedPrimary?: number;
+  maintainedSecondary?: number;
+  maintainedSpecial?: number;
+  maintainedAlternativeProvision?: number;
+  maintainedPostSchool?: number;
+  maintainedIncome?: number;
+
+  nonMaintainedEarlyYears?: number;
+  nonMaintainedPrimary?: number;
+  nonMaintainedSecondary?: number;
+  nonMaintainedSpecial?: number;
+  nonMaintainedAlternativeProvision?: number;
+  nonMaintainedPostSchool?: number;
+  nonMaintainedIncome?: number;
+
+  placeFundingPrimary?: number;
+  placeFundingSecondary?: number;
+  placeFundingSpecial?: number;
+  placeFundingAlternativeProvision?: number;
+};

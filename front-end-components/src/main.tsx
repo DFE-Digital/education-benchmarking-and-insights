@@ -34,6 +34,7 @@ import {
   ShareContentByElementIdDataAttr,
   LaunchModalDataAttr,
   LaNationalRankViewElementId,
+  HistoricDataHighNeedsElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -63,6 +64,10 @@ import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
 import { ModalSaveImages } from "./components/modals/modal-save-images";
+import {
+  HistoricDataHighNeeds,
+  HistoricDataHighNeedsSectionName,
+} from "./views/historic-data-high-needs";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -992,6 +997,28 @@ if (laNationalRankViewElement) {
     root.render(
       <React.StrictMode>
         <LaNationalRankView code={code} />
+      </React.StrictMode>
+    );
+  }
+}
+
+const historicDataHighNeedsElement = document.getElementById(
+  HistoricDataHighNeedsElementId
+);
+if (historicDataHighNeedsElement) {
+  const { code } = historicDataHighNeedsElement.dataset;
+  if (code) {
+    const root = ReactDOM.createRoot(historicDataHighNeedsElement);
+    const hash = window?.location.hash.replace("#", "");
+    root.render(
+      <React.StrictMode>
+        <HistoricDataHighNeeds
+          code={code}
+          preLoadSections={
+            hash ? [hash as HistoricDataHighNeedsSectionName] : undefined
+          }
+          fetchTimeout={30_000}
+        />
       </React.StrictMode>
     );
   }
