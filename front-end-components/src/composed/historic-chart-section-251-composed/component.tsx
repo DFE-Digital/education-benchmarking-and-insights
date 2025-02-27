@@ -12,7 +12,7 @@ import {
 } from "src/components/charts/utils.ts";
 import { useChartModeContext } from "src/contexts";
 import { LocalAuthoritySection251 } from "src/services";
-//import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
+import { HistoricDataSection251Tooltip } from "src/components/charts/historic-data-section-251-tooltip";
 // import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
 import "./styles.scss";
@@ -126,17 +126,16 @@ export function HistoricChartSection251<
                 ref={chartRef}
                 onImageCopied={handleImageCopied}
                 onImageLoading={setImageLoading}
-                // tooltip={(t) => (
-                //   <HistoricDataTooltip
-                //     {...t}
-                //     valueFormatter={(v) =>
-                //       shortValueFormatter(v, {
-                //         valueUnit ?? "currency",
-                //       })
-                //     }
-                //     dimension={columnHeading}
-                //   />
-                // )}
+                tooltip={(t) => (
+                  <HistoricDataSection251Tooltip
+                    {...t}
+                    valueFormatter={(v) =>
+                      shortValueFormatter(v, {
+                        valueUnit: valueUnit ?? "currency",
+                      })
+                    }
+                  />
+                )}
                 legend={legend === undefined ? true : legend}
                 legendIconSize={legendIconSize || 24}
                 legendIconType={
