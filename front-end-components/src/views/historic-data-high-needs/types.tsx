@@ -22,6 +22,7 @@ export type HistoricChartSection251Section<
   TData extends LocalAuthoritySection251,
 > = {
   heading: string;
+  summary?: string;
   charts: HistoricDataHighNeedsSection251Chart<TData>[];
 };
 
