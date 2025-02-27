@@ -8,12 +8,15 @@ import { LineChart } from "src/components/charts/line-chart";
 import {
   shortValueFormatter,
   fullValueFormatter,
-  // statValueFormatter,
+  statValueFormatter,
 } from "src/components/charts/utils.ts";
 import { useChartModeContext } from "src/contexts";
 import { LocalAuthoritySection251 } from "src/services";
 import { HistoricDataSection251Tooltip } from "src/components/charts/historic-data-section-251-tooltip";
-// import { ResolvedStat } from "src/components/charts/resolved-stat";
+import {
+  ResolvedStat,
+  ResolvedStatProps,
+} from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
 import "./styles.scss";
 
@@ -85,6 +88,20 @@ export function HistoricChartSection251<
       setImageCopied(false);
     }, 2000);
   };
+
+  const statProps = (
+    label: string
+  ): Omit<ResolvedStatProps<Section251HistoryValue>, "valueField"> => ({
+    chartTitle: `${label} ${chartTitle.toLowerCase()}`,
+    className: "chart-stat-line-chart",
+    compactValue: true,
+    data: mergedData || [],
+    displayIndex: (mergedData?.length || 0) - 1,
+    seriesFormatter: (s) => `${s} ${label.toLowerCase()}`,
+    seriesLabelField: "term",
+    valueFormatter: statValueFormatter,
+    valueUnit: valueUnit ?? "currency",
+  });
 
   return (
     <>
@@ -165,17 +182,8 @@ export function HistoricChartSection251<
             </div>
           </div>
           <aside className="govuk-grid-column-one-quarter">
-            {/* <ResolvedStat
-              chartTitle={`Most recent ${chartTitle.toLowerCase()}`}
-              className="chart-stat-line-chart"
-              compactValue
-              data={data.school || []}
-              displayIndex={(data.school?.length || 0) - 1}
-              seriesLabelField="term"
-              valueField={valueField}
-              valueFormatter={statValueFormatter}
-              valueUnit={valueUnit ?? "currency"}
-            /> */}
+            <ResolvedStat valueField="outturn" {...statProps("Actual")} />
+            <ResolvedStat valueField="budget" {...statProps("Planned")} />
           </aside>
         </div>
       ) : (

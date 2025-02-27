@@ -73,7 +73,7 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
           "govuk-visually-hidden": !data?.length,
         })}
         data-module="govuk-accordion"
-        id="accordion-expenditure"
+        id="accordion-section-251"
       >
         {section251Sections.map((section, index) => (
           <div className="govuk-accordion__section" key={index}>
@@ -81,7 +81,7 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
               <h2 className="govuk-accordion__section-heading">
                 <span
                   className="govuk-accordion__section-button"
-                  id={`accordion-expenditure-heading-${index + 1}`}
+                  id={`accordion-section-251-heading-${index + 1}`}
                 >
                   {section.heading}
                 </span>
@@ -96,7 +96,7 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
               )}
             </div>
             <div
-              id={`accordion-expenditure-content-${index + 1}`}
+              id={`accordion-section-251-content-${index + 1}`}
               className="govuk-accordion__section-content"
             >
               {section.charts.map((chart) => (
