@@ -9,6 +9,7 @@ export function ResolvedStat<TData extends ChartDataSeries>(
   const {
     data,
     displayIndex,
+    seriesFormatter,
     seriesLabel,
     seriesLabelField,
     valueField,
@@ -21,11 +22,23 @@ export function ResolvedStat<TData extends ChartDataSeries>(
       return null;
     }
 
+    let label = seriesLabel || entry[1][seriesLabelField];
+    if (seriesFormatter) {
+      label = seriesFormatter(label);
+    }
+
     return {
-      label: seriesLabel || entry[1][seriesLabelField],
+      label,
       value: entry[1][valueField],
     };
-  }, [data, displayIndex, seriesLabel, seriesLabelField, valueField]);
+  }, [
+    data,
+    displayIndex,
+    seriesFormatter,
+    seriesLabel,
+    seriesLabelField,
+    valueField,
+  ]);
 
   // do not render anything if a match could not be located based on the available data
   if (!entry) {

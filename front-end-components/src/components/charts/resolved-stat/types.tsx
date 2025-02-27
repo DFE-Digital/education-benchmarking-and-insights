@@ -3,7 +3,10 @@ import { StatProps } from "../stat";
 
 export interface ResolvedStatProps<TData extends ChartDataSeries>
   extends Omit<StatProps<TData>, "valueSuffix" | "label" | "value">,
-    Pick<ChartProps<TData>, "data" | "seriesLabel" | "seriesLabelField"> {
+    Pick<
+      ChartProps<TData>,
+      "data" | "seriesFormatter" | "seriesLabel" | "seriesLabelField"
+    > {
   displayIndex: number;
   valueField: keyof TData;
 }
