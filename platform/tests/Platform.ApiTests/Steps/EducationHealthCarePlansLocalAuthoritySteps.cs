@@ -47,13 +47,12 @@ public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver
     }
 
     [Then("the education health care plans history result should be ok and have the following plan for '(.*)':")]
-    public async Task ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldContainTheFollowingPlan(int year, DataTable table)
+    public void ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldContainTheFollowingPlan(int year, DataTable table)
     {
         var response = api[RequestKey].Response;
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var content = await response.Content.ReadAsByteArrayAsync();
         var actual = _result?.Plans?.FirstOrDefault(p => p.Year == year);
 
         Assert.NotNull(actual);
