@@ -63,7 +63,6 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
           />
         </div>
       </div>
-      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       {loadError ? (
         <DataWarning>{loadError}</DataWarning>
       ) : (
@@ -87,6 +86,14 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
                   {section.heading}
                 </span>
               </h2>
+              {section.summary && (
+                <div
+                  className="govuk-accordion__section-summary govuk-body"
+                  id={`accordion-with-summary-sections-summary-${index + 1}`}
+                >
+                  {section.summary}
+                </div>
+              )}
             </div>
             <div
               id={`accordion-expenditure-content-${index + 1}`}
