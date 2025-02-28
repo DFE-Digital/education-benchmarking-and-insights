@@ -185,6 +185,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthorityRanking ranking)
+    {
+        SetupEstablishment(authority, []);
+        EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupEstablishmentWithNotFound()
     {
         EstablishmentApi.Reset();

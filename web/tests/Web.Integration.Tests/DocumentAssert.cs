@@ -224,7 +224,7 @@ public static class DocumentAssert
         Assert.Matches(pattern, element.TextContent.Trim());
     }
 
-    private static void AssertNodeText(INode? node, string text)
+    public static void AssertNodeText(INode? node, string text)
     {
         Assert.NotNull(node);
 
