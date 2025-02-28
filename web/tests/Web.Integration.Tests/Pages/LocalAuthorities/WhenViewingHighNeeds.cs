@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -30,16 +31,23 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToNationalRankings()
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData(5, true)]
+    public async Task CanNavigateToNationalRankingsIfAvailable(int? nationalRankings = null, bool expectedButtonVisible = false)
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _) = await SetupNavigateInitPage(nationalRankings);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View national rankings");
-        Assert.NotNull(anchor);
+        if (expectedButtonVisible)
+        {
+            Assert.NotNull(anchor);
+            page = await Client.Follow(anchor);
+            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsNationalRankings(authority.Code).ToAbsolute());
+            return;
+        }
 
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsNationalRankings(authority.Code).ToAbsolute());
+        Assert.Null(anchor);
     }
 
     [Fact]
@@ -116,10 +124,17 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var cards = page.QuerySelectorAll(".govuk-summary-card");
 
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National Ranking"));
+        AssertNationalRankingCard(nationalRankingCard, rankings);
+    }
+
+    private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings)
+    {
         Assert.NotNull(nationalRankingCard);
+
         if (rankings.Length == 0)
         {
-            // todo: part of #251215
+            var content = nationalRankingCard.QuerySelector(".govuk-summary-card__content");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        National Ranking could not be displayed.");
         }
         else
         {
