@@ -7,7 +7,7 @@
   float: right;
   font-size: 1rem;
   line-height: 2rem;
-  font-weight: bold;
+  font-weight: $govuk-font-weight-bold;
 }
 
 .app-view-component {
@@ -203,7 +203,7 @@ p.priority .govuk-tag {
           @media print {
             background-color: transparent;
             color: #000;
-            font-weight: bold;
+            font-weight: $govuk-font-weight-bold;
           }
         }
       }
@@ -456,6 +456,38 @@ hr.govuk-section-break--print {
   .govuk-summary-card__title-wrapper {
     .govuk-summary-card__title {
       margin-bottom: govuk-spacing(1);
+    }
+  }
+}
+
+.govuk-table {
+  > .govuk-table__body {
+    > .govuk-table__row {
+      &.govuk-table__row--highlight {
+        > .govuk-table__cell {
+          font-weight: $govuk-font-weight-bold;
+          background-color: $table-cell-highlight-colour;
+        }
+      }
+    }
+  }
+
+  &.govuk-table--cell-pad {
+    > .govuk-table__body {
+      > .govuk-table__row {
+        > .govuk-table__cell {
+          padding-left: govuk-spacing(2);
+          padding-right: govuk-spacing(2);
+
+          &:last-child {
+            padding-right: govuk-spacing(2);
+          }
+
+          &:first-child.govuk-table__cell--numeric {
+            padding-right: 0;
+          }
+        }
+      }
     }
   }
 }
