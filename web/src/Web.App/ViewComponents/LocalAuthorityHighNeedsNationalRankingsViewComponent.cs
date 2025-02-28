@@ -7,7 +7,9 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthorityHighNeedsNationalRankingsViewComponent(IEstablishmentApi establishmentApi) : ViewComponent
+public class LocalAuthorityHighNeedsNationalRankingsViewComponent(
+    IEstablishmentApi establishmentApi,
+    ILogger<LocalAuthorityHighNeedsNationalRankingsViewComponent> logger) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string identifier, string sort = "asc", int count = 5, CancellationToken cancellationToken = default)
     {
@@ -16,7 +18,13 @@ public class LocalAuthorityHighNeedsNationalRankingsViewComponent(IEstablishment
             .GetLocalAuthoritiesNationalRank(query, cancellationToken)
             .GetResultOrDefault<LocalAuthorityRanking>();
 
-        return View(new LocalAuthorityHighNeedsNationalRankingsViewModel(identifier, result, count));
+        if (result?.Ranking is { Length: > 0 })
+        {
+            return View(new LocalAuthorityHighNeedsNationalRankingsViewModel(identifier, result, count));
+        }
+
+        logger.LogWarning("Local authority national rankings could not be displayed for {Code}", identifier);
+        return View("MissingData");
     }
 
     private static ApiQuery BuildQuery(string? sort)
