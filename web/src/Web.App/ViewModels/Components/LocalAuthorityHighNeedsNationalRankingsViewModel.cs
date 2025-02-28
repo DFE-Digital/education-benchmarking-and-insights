@@ -21,6 +21,11 @@ public class LocalAuthorityHighNeedsNationalRankingsViewModel(string code, Local
             }
 
             var window = new Queue<LocalAuthorityRank>(result.Ranking.Take(count).ToArray());
+            if (result.Ranking.All(r => r.Code != code))
+            {
+                return window.ToArray();
+            }
+
             var start = Convert.ToInt32(Math.Round(count / 2m));
             for (var i = 0; i < result.Ranking.Length; i++)
             {
