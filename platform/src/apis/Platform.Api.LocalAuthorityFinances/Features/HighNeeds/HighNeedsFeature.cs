@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
-using Platform.Api.LocalAuthorityFinances.Features.Validators;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Validators;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 
