@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests;
 
 public static class LocatorExtensions
@@ -65,10 +65,7 @@ public static class LocatorExtensions
     public static async Task<ILocator> ShouldBeChecked(this ILocator locator, bool isChecked)
     {
         var actualCheckedStatus = await locator.IsCheckedAsync();
-        var expectedStatus = isChecked ? "checked" : "unchecked";
-
-        actualCheckedStatus.Should().Be(isChecked, $"the checkbox status should be {expectedStatus}");
-
+        Assert.Equal(actualCheckedStatus, isChecked); 
         return locator;
     }
 
@@ -123,8 +120,7 @@ public static class LocatorExtensions
 
             for (var j = 0; j < expectedTableCell.Count; j++)
             {
-                actualTableCell[j].Should()
-                    .Be(expectedTableCell[j], $"actual table cell (row {i}, column {j}) should have the expected data");
+                Assert.Equal(actualTableCell[j], expectedTableCell[j]);
             }
         }
 
@@ -142,7 +138,7 @@ public static class LocatorExtensions
 
         for (var i = 0; i < actual.Count; i++)
         {
-            actual[i].Should().Be(expected[i], "Actual table headers should have the expected data");
+            Assert.Equal(actual[i],expected[i]);
         }
 
         return locator;
@@ -151,7 +147,7 @@ public static class LocatorExtensions
     public static async Task<ILocator> TextEqual(this ILocator locator, string expected)
     {
         var actual = await locator.InnerTextAsync();
-        actual.Should().Be(expected, $"the expected text {expected} should match the actual text {actual}");
+        Assert.Equal(actual,expected);
         return locator;
     }
 

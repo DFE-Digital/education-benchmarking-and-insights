@@ -21,7 +21,6 @@
         <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.assert"/>
         <PackageReference Include="xunit.runner.visualstudio"/>
-        <PackageReference Include="FluentAssertions"/>
         <None Update="appsettings.local.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
