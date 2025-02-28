@@ -38,7 +38,7 @@ public class LocalAuthorityRankingStubService : ILocalAuthorityRankingService
         var ranking = ordered
             .Select((v, i) =>
             {
-                v.Rank = i;
+                v.Rank = i + 1;
                 return v;
             })
             .ToArray();

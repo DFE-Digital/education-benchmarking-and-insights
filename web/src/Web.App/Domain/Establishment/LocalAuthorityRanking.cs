@@ -1,5 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedMember.Global
+
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
