@@ -58,13 +58,13 @@
     <div class="govuk-grid-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Historic data</h2>
+                <h2 class="govuk-summary-card__title">Budget vs spend (historical view)</h2>
             </div>
             <div class="govuk-summary-card__content">
-                <p class="govuk-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel mattis enim, vel cursus
-                    ante.
-                </p>
+                @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
+                {
+                    identifier = Model.Code
+                })
                 <a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
                          {
                              code = Model.Code
