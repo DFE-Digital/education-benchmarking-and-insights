@@ -5,7 +5,9 @@ namespace Web.App.Controllers.Api.Mappers;
 
 public static class LocalAuthorityHighNeedsHistoryResponseMapper
 {
-    public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history, string code)
+    public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(
+        this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history,
+        string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
         {
@@ -24,7 +26,30 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
         }
     }
 
-    private static LocalAuthorityHighNeedsResponse? MapToApiResponse(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
+    public static IEnumerable<LocalAuthorityHighNeedsHistoryDashboardResponse> MapToDashboardResponse(
+        this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history,
+        string code)
+    {
+        if (history?.StartYear == null || history.EndYear == null)
+        {
+            yield break;
+        }
+
+        for (var year = history.StartYear.Value; year <= history.EndYear; year++)
+        {
+            var outturn = history.Outturn.MapToTotal(code, year);
+            var budget = history.Budget.MapToTotal(code, year);
+            yield return new LocalAuthorityHighNeedsHistoryDashboardResponse
+            {
+                Year = year,
+                Outturn = outturn,
+                Budget = budget,
+                Balance = budget - outturn
+            };
+        }
+    }
+
+    private static LocalAuthorityHighNeedsApiResponse? MapToApiResponse(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
     {
         var item = highNeedsYear?
             .Where(o => o.Year == year)
@@ -35,7 +60,7 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
             return null;
         }
 
-        return new LocalAuthorityHighNeedsResponse
+        return new LocalAuthorityHighNeedsApiResponse
         {
             HighNeedsAmountTotalPlaceFunding = item.HighNeedsAmount?.TotalPlaceFunding,
             HighNeedsAmountTopUpFundingMaintained = item.HighNeedsAmount?.TopUpFundingMaintained,
@@ -66,5 +91,20 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
             PlaceFundingSpecial = item.PlaceFunding?.Special,
             PlaceFundingAlternativeProvision = item.PlaceFunding?.AlternativeProvision
         };
+    }
+
+    private static decimal? MapToTotal(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
+    {
+        var item = highNeedsYear?
+            .Where(o => o.Year == year)
+            .SingleOrDefault(o => o.Code == code);
+
+        if (item == null)
+        {
+            return null;
+        }
+
+        // todo: clarify data point/calculation to use
+        return item.HighNeedsAmount?.TotalPlaceFunding;
     }
 }

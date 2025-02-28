@@ -6,11 +6,11 @@ public record LocalAuthorityHighNeedsHistoryResponse
 {
     public int? Year { get; init; }
     public string? Term { get; init; }
-    public LocalAuthorityHighNeedsResponse? Outturn { get; init; }
-    public LocalAuthorityHighNeedsResponse? Budget { get; init; }
+    public LocalAuthorityHighNeedsApiResponse? Outturn { get; init; }
+    public LocalAuthorityHighNeedsApiResponse? Budget { get; init; }
 }
 
-public record LocalAuthorityHighNeedsResponse
+public record LocalAuthorityHighNeedsApiResponse
 {
     public decimal? HighNeedsAmountTotalPlaceFunding { get; init; }
     public decimal? HighNeedsAmountTopUpFundingMaintained { get; init; }
@@ -40,4 +40,12 @@ public record LocalAuthorityHighNeedsResponse
     public decimal? PlaceFundingSecondary { get; init; }
     public decimal? PlaceFundingSpecial { get; init; }
     public decimal? PlaceFundingAlternativeProvision { get; init; }
+}
+
+public record LocalAuthorityHighNeedsHistoryDashboardResponse
+{
+    public int? Year { get; init; }
+    public decimal? Outturn { get; init; }
+    public decimal? Budget { get; init; }
+    public decimal? Balance { get; init; }
 }
