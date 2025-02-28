@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Census.Responses;
+﻿using Platform.Api.Insight.Features.Census.Responses;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -104,9 +103,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     public async Task ThenTheCensusResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<CensusSchoolResponse>();
@@ -116,19 +113,14 @@ public class InsightCensusSteps(InsightApiDriver api)
     [Then("the census result should be not found")]
     public void ThenTheCensusResultShouldBeNotFound()
     {
-        var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[CensusKey].Response);
     }
 
     [Then("the census history result should be ok and contain:")]
     public async Task ThenTheCensusHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<CensusHistoryResponse>();
@@ -139,9 +131,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     public async Task ThenTheCensusQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<CensusSchoolResponse[]>();
@@ -151,10 +141,7 @@ public class InsightCensusSteps(InsightApiDriver api)
     [Then("the census result should be bad request")]
     public void ThenTheCensusResultShouldBeBadRequest()
     {
-        var response = api[CensusKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[CensusKey].Response);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)

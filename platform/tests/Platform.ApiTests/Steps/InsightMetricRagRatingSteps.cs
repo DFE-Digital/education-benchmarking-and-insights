@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.MetricRagRatings;
+﻿using Platform.Api.Insight.MetricRagRatings;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -62,9 +61,7 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
     public async Task ThenTheMetricRagRatingResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[MetricRagRatingsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<MetricRagRating[]>();
@@ -74,10 +71,7 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
     [Then("the metric rag rating result should be bad request")]
     public void ThenTheMetricRagRatingResultShouldBeBadRequest()
     {
-        var response = api[MetricRagRatingsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[MetricRagRatingsKey].Response);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)

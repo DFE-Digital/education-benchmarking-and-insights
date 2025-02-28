@@ -1,12 +1,12 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
 using AutoFixture;
-using FluentAssertions;
 using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.UserData;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -24,10 +24,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     [Then("the comparator result should be accepted")]
     public void ThenTheComparatorResultShouldBeAccepted()
     {
-        var response = api[UserDefinedComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        AssertHttpResponse.IsAccepted(api[UserDefinedComparatorSetKey].Response);
     }
 
     [Given("I have a valid user defined comparator set request for school id '(.*)'")]
@@ -82,37 +79,25 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     [Then("the trust comparator result should be accepted")]
     public void ThenTheTrustComparatorResultShouldBeAccepted()
     {
-        var response = api[UserDefinedTrustComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        AssertHttpResponse.IsAccepted(api[UserDefinedTrustComparatorSetKey].Response);
     }
 
     [Then("the trust comparator result should be bad request")]
     public void ThenTheTrustComparatorResultShouldBeBadRequest()
     {
-        var response = api[UserDefinedTrustComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[UserDefinedTrustComparatorSetKey].Response);
     }
 
     [Then("the trust comparator result should be not found")]
     public void ThenTheTrustComparatorResultShouldBeNotFound()
     {
-        var response = api[UserDefinedTrustComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[UserDefinedTrustComparatorSetKey].Response);
     }
 
     [Then("the trust comparator result should be ok")]
     public void ThenTheTrustComparatorResultShouldBeOk()
     {
-        var response = api[UserDefinedTrustComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(api[UserDefinedTrustComparatorSetKey].Response);
     }
 
     [Given("I have a valid user defined comparator set request for company number '(.*)'")]
@@ -167,12 +152,12 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
         await api.Send();
 
         var response = api[UserDefinedDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<UserData[]>();
-        result.Should().NotBeNull().And.HaveCount(1);
+        Assert.NotNull(result);
+        Assert.Single(result);
 
         DeleteUserDefinedTrustComparatorRequest(companyNumber, result.Select(r => new Guid(r.Id!)).FirstOrDefault());
     }
@@ -188,36 +173,26 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     [Then("the comparator result should be bad request")]
     public void ThenTheComparatorResultShouldBeBadRequest()
     {
-        var response = api[UserDefinedComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[UserDefinedComparatorSetKey].Response);
     }
 
     [Then("the comparator result should be not found")]
     public void ThenTheComparatorResultShouldBeNotFound()
     {
-        var response = api[UserDefinedComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[UserDefinedComparatorSetKey].Response);
     }
 
     [Then("the comparator result should be ok")]
     public void ThenTheComparatorResultShouldBeOk()
     {
-        var response = api[UserDefinedComparatorSetKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(api[UserDefinedComparatorSetKey].Response);
     }
 
     [Then("the default comparator set result should contain comparator buildings:")]
     private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorBuildings(DataTable table)
     {
         var response = api[DefaultComparatorSetKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ComparatorSetSchool>();
@@ -238,8 +213,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     private async Task ThenTheDefaultComparatorSetResultShouldContainComparatorPupils(DataTable table)
     {
         var response = api[DefaultComparatorSetKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ComparatorSetSchool>();
@@ -260,8 +234,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task ThenNewUserDataShouldBeCreatedForSchoolId(string urn)
     {
         var response = api[UserDefinedDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<UserData[]>();
@@ -279,8 +252,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     public async Task ThenNewUserDataShouldBeCreatedForCompanyNumber(string companyNumber)
     {
         var response = api[UserDefinedDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<UserData[]>();
@@ -298,8 +270,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     private async Task ThenTheUserDefinedComparatorSetResultShouldContainComparators(DataTable table)
     {
         var response = api[UserDefinedComparatorSetKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ComparatorSetUserDefinedSchool>();
@@ -320,8 +291,7 @@ public class BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     private async Task ThenTheUserDefinedTrustComparatorSetResultShouldContainComparators(DataTable table)
     {
         var response = api[UserDefinedTrustComparatorSetKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ComparatorSetUserDefinedTrust>();

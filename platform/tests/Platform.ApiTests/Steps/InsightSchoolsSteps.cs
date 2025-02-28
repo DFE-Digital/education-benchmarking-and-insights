@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Schools;
+﻿using Platform.Api.Insight.Schools;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -52,9 +51,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightSchoolsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<SchoolCharacteristic>();
@@ -64,19 +61,14 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     [Then("the school characteristics result should be not found")]
     public void ThenTheSchoolCharacteristicsResultShouldBeNotFound()
     {
-        var response = api[InsightSchoolsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[InsightSchoolsKey].Response);
     }
 
     [Then("the school characteristics results should be ok and contain:")]
     public async Task ThenTheSchoolCharacteristicsResultsShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightSchoolsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SchoolCharacteristic[]>();

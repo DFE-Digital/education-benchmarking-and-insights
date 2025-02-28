@@ -1,10 +1,9 @@
-﻿using System.Net;
-using System.Text;
-using FluentAssertions;
+﻿using System.Text;
 using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.Api.Establishment.Features.Schools.Requests;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Api.Establishment.Features.Trusts.Requests;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Domain;
@@ -54,8 +53,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     public async Task ThenTheComparatorSchoolsShouldTotalAndContain(string total, DataTable table)
     {
         var response = api[ComparatorSchoolsKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<SchoolComparators>();
@@ -108,8 +106,7 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
     public async Task ThenTheComparatorTrustsShouldTotalAndContain(string total, DataTable table)
     {
         var response = api[ComparatorTrustsKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<TrustComparators>();

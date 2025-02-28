@@ -1,11 +1,11 @@
-using System.Net;
 using System.Text;
-using FluentAssertions;
 using Platform.Api.Establishment.Features.LocalAuthorities.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -90,9 +90,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private async Task ThenTheLocalAuthorityResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<LocalAuthority>();
@@ -104,9 +102,6 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private async Task ThenTheLocalAuthorityResultShouldContainTheFollowingSchools(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
-
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<LocalAuthority>();
 
@@ -123,30 +118,25 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     [Then("the local authority result should be not found")]
     private void ThenTheLocalAuthorityResultShouldBeNotFound()
     {
-        var result = api[RequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[RequestKey].Response);
     }
 
     [Then("the local authorities suggest result should be ok and have the following values:")]
     private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results;
         var result = results.FirstOrDefault();
-        result.Should().NotBeNull();
+        Assert.NotNull(result);
 
         var actual = new
         {
-            result?.Text,
-            result?.Document?.Name,
-            result?.Document?.Code
+            result.Text,
+            result.Document?.Name,
+            result.Document?.Code
         };
 
         table.CompareToInstance(actual);
@@ -156,9 +146,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results.ToList();
@@ -177,22 +165,18 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeEmpty()
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results;
-
-        results.Should().BeEmpty();
+        Assert.Empty(results);
     }
 
     [Then("the local authorities suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheLocalAuthoritiesSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
@@ -210,7 +194,6 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private async Task ThenTheLocalAuthoritiesNationalRankResultShouldContainTheFollowing(DataTable table)
     {
         var response = api[NationalRankRequestKey].Response;
-        response.Should().NotBeNull();
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<LocalAuthorityRanking>();

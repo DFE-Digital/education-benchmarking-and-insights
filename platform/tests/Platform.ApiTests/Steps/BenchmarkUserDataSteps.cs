@@ -1,7 +1,6 @@
-﻿using System.Net;
-using System.Text;
-using FluentAssertions;
+﻿using System.Text;
 using Platform.Api.Benchmark.UserData;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
@@ -32,8 +31,7 @@ public class BenchmarkUserDataSteps(BenchmarkApiDriver api)
     private async Task ThenTheUserDataResponseShouldBeOk()
     {
         var response = api[UserDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<IEnumerable<UserData>>().ToArray();

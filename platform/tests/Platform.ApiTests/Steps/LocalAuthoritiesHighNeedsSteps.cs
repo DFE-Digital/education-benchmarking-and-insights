@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
+﻿using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
@@ -44,8 +43,7 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
     public async Task ThenTheHighNeedsResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[HistoryKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         _result = content.FromJson<History<LocalAuthorityHighNeedsYear>>();
@@ -139,10 +137,7 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
     [Then("the high needs result should be bad request")]
     public void ThenTheHighNeedsResultShouldBeBadRequest()
     {
-        var response = api[HistoryKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[HistoryKey].Response);
     }
 
     private LocalAuthorityHighNeedsYear? OutturnResultForYear(string year)

@@ -1,11 +1,11 @@
-using System.Net;
 using System.Text;
-using FluentAssertions;
 using Platform.Api.Establishment.Features.Schools.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -79,9 +79,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     private async Task ThenTheSchoolResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<School>();
@@ -92,24 +90,19 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     [Then("the school result should be not found")]
     private void ThenTheSchoolResultShouldBeNotFound()
     {
-        var result = api[RequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[RequestKey].Response);
     }
 
     [Then("the school suggest result should be ok and have the following values:")]
     private async Task ThenTheSchoolSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<School>>().Results;
         var result = results.FirstOrDefault();
-        result.Should().NotBeNull();
+        Assert.NotNull(result);
 
         var actual = new
         {
@@ -125,9 +118,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     private async Task ThenTheSchoolsSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<School>>().Results.ToList();
@@ -146,22 +137,18 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     private async Task ThenTheSchoolsSuggestResultShouldBeEmpty()
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<School>>().Results;
-
-        results.Should().BeEmpty();
+        Assert.Empty(results);
     }
 
     [Then("the schools suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheSchoolsSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();

@@ -1,7 +1,7 @@
-﻿using System.Net;
-using FluentAssertions;
+﻿using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -30,15 +30,9 @@ public class InsightCommonSteps(InsightApiDriver api)
     public async Task ThenTheCurrentReturnYearsResultShouldBeOk()
     {
         var response = api[CommonKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().Be(new
-        {
-            aar = "2022",
-            cfr = "2022"
-        }.ToJson());
+        Assert.Equal(new { aar = "2022", cfr = "2022" }.ToJson(), content);
     }
 }

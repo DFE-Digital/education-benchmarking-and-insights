@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Files.Responses;
+﻿using Platform.Api.Insight.Features.Files.Responses;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -32,9 +31,7 @@ public class InsightFilesSteps(InsightApiDriver api)
     public async Task ThenTheResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[FilesKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<FileResponse[]>();

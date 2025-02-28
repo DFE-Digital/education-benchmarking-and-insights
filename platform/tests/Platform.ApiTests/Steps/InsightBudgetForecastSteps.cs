@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.BudgetForecast;
+﻿using Platform.Api.Insight.BudgetForecast;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -41,9 +40,7 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
     public async Task ThenTheBudgetForecastResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[BudgetForecastKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BudgetForecastReturnResponse[]>();
@@ -54,9 +51,7 @@ public class BudgetForecastBalanceSteps(InsightApiDriver api)
     public async Task ThenTheBudgetForecastMetricsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[BudgetForecastKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BudgetForecastReturnMetricResponse[]>();

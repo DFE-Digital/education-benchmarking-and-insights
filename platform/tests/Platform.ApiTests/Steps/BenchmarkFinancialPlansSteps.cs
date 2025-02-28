@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Text;
-using FluentAssertions;
 using Platform.Api.Benchmark.FinancialPlans;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
+
 namespace Platform.ApiTests.Steps;
 
 [Binding]
@@ -104,8 +105,7 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     private async Task ThenTheFinancialPlansResponseForSchoolIdInYearShouldContain(string urn, string year, DataTable table)
     {
         var response = api[FinancialPlansKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<FinancialPlanDetails>();
@@ -118,35 +118,36 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     private void ThenTheFinancialPlansResponseShouldReturnCreatedOrNoContent()
     {
         var response = api[FinancialPlansKey].Response;
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.Created, HttpStatusCode.NoContent);
+
+        //TODO: review why this is being do this way. Test case should explicitly assert one or the other.
+        var codes = new[] { HttpStatusCode.Created, HttpStatusCode.NoContent };
+        Assert.NotNull(response);
+        Assert.Contains(response.StatusCode, codes);
     }
 
     [Then("the financial plans response should return ok")]
     private void ThenTheFinancialPlansResponseShouldReturnOk()
     {
-        var response = api[FinancialPlansKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(api[FinancialPlansKey].Response);
     }
 
     [Then("the financial plans response should return internal server error")]
     private void ThenTheFinancialPlansResponseShouldReturnInternalServerError()
     {
-        var response = api[FinancialPlansKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        AssertHttpResponse.IsInternalServerError(api[FinancialPlansKey].Response);
     }
 
     [Then("the financial plan deployment response should return not found")]
     private void ThenTheFinancialPlanDeploymentResponseShouldReturnNotFound()
     {
-        var response = api[FinancialPlansKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[FinancialPlansKey].Response);
     }
 
     [Then("the financial plans response should contain:")]
     private async Task ThenTheFinancialPlansResponseShouldContain(DataTable table)
     {
         var response = api[FinancialPlansKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<IEnumerable<FinancialPlanSummary>>().ToArray();

@@ -1,8 +1,7 @@
-﻿using System.Net;
-using System.Text;
-using FluentAssertions;
+﻿using System.Text;
 using Platform.Api.Benchmark.CustomData;
 using Platform.Api.Benchmark.UserData;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
@@ -45,12 +44,12 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
         await api.Send();
 
         var response = api[UserDefinedDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<UserData[]>();
-        result.Should().NotBeNull().And.HaveCount(1);
+        Assert.NotNull(result);
+        Assert.Single(result);
 
         DeleteCustomDataRequest(urn, result.Select(r => new Guid(r.Id!)).FirstOrDefault());
     }
@@ -71,8 +70,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     public async Task ThenNewUserDataShouldBeCreatedForSchoolId(string urn)
     {
         var response = api[UserDefinedDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<UserData[]>();
@@ -86,8 +84,7 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     private async Task ThenTheCustomDataResponseShouldContain(DataTable table)
     {
         var response = api[CustomDataKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<CustomDataSchool>();
@@ -98,22 +95,19 @@ public class BenchmarkCustomDataSteps(BenchmarkApiDriver api)
     [Then("the custom data response should return accepted")]
     private void ThenTheCustomDataResponseShouldReturnAccepted()
     {
-        var response = api[CustomDataKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        AssertHttpResponse.IsAccepted(api[CustomDataKey].Response);
     }
 
     [Then("the custom data response should return ok")]
     private void ThenTheCustomDataResponseShouldReturnOk()
     {
-        var response = api[CustomDataKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(api[CustomDataKey].Response);
     }
 
     [Then("the custom data response should return not found")]
     private void ThenTheCustomDataResponseShouldReturnNotFound()
     {
-        var response = api[CustomDataKey].Response;
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[CustomDataKey].Response);
     }
 
     private void GetCustomDataRequest(string urn, Guid identifier)

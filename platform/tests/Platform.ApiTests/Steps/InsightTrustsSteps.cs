@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Trusts.Models;
+﻿using Platform.Api.Insight.Features.Trusts.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -32,9 +31,7 @@ public class InsightTrustsSteps(InsightApiDriver api)
     public async Task ThenTheTrustCharacteristicsResultsShouldBeOkAndContain(DataTable table)
     {
         var response = api[InsightTrustsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<TrustCharacteristic[]>();

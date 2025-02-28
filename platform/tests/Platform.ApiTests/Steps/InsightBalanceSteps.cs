@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Balance.Responses;
+﻿using Platform.Api.Insight.Features.Balance.Responses;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -101,9 +100,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     public async Task ThenTheSchoolBalanceResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BalanceSchoolResponse>();
@@ -113,19 +110,14 @@ public class InsightBalanceSteps(InsightApiDriver api)
     [Then("the school balance result should be not found")]
     public void ThenTheSchoolBalanceResultShouldBeNotFound()
     {
-        var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[SchoolBalanceKey].Response);
     }
 
     [Then("the school balance history result should be ok and contain:")]
     public async Task ThenTheSchoolBalanceHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BalanceHistoryResponse>();
@@ -136,9 +128,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     public async Task ThenTheTrustBalanceResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BalanceTrustResponse>();
@@ -148,19 +138,14 @@ public class InsightBalanceSteps(InsightApiDriver api)
     [Then("the trust balance result should be not found")]
     public void ThenTheTrustBalanceResultShouldBeNotFound()
     {
-        var response = api[TrustBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[TrustBalanceKey].Response);
     }
 
     [Then("the trust balance history result should be ok and contain:")]
     public async Task ThenTheTrustBalanceHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BalanceHistoryResponse>();
@@ -171,9 +156,7 @@ public class InsightBalanceSteps(InsightApiDriver api)
     public async Task ThenTheTrustBalanceQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustBalanceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<BalanceTrustResponse[]>();

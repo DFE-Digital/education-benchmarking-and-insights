@@ -1,11 +1,11 @@
-using System.Net;
 using System.Text;
-using FluentAssertions;
 using Platform.Api.Establishment.Features.Trusts.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -79,9 +79,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     private async Task ThenTheTrustResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Trust>();
@@ -93,8 +91,6 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     private async Task ThenTheTrustResultShouldContainTheFollowingSchools(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Trust>();
@@ -112,30 +108,25 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     [Then("the trust result should be not found")]
     private void ThenTheTrustResultShouldBeNotFound()
     {
-        var result = api[RequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[RequestKey].Response);
     }
 
     [Then("the trust suggest result should be ok and have the following values:")]
     private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
         var result = results.FirstOrDefault();
-        result.Should().NotBeNull();
+        Assert.NotNull(result);
 
         var actual = new
         {
-            result?.Text,
-            result?.Document?.TrustName,
-            result?.Document?.CompanyNumber
+            result.Text,
+            result.Document?.TrustName,
+            result.Document?.CompanyNumber
         };
 
         table.CompareToInstance(actual);
@@ -145,9 +136,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     private async Task ThenTheTrustSuggestResultShouldBeOkAndHaveTheFollowingMultipleValues(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
@@ -166,22 +155,18 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
     private async Task ThenTheTrustSuggestResultShouldBeEmpty()
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestResponse<Trust>>().Results;
-
-        results.Should().BeEmpty();
+        Assert.Empty(results);
     }
 
     [Then("the trust suggest result should be bad request and have the following validation errors:")]
     private async Task ThenTheTrustSuggestResultShouldBeBadRequestAndHaveTheFollowingValidationErrors(DataTable table)
     {
         var response = api[SuggestRequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();

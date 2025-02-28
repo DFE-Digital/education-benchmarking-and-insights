@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Expenditure.Responses;
+﻿using Platform.Api.Insight.Features.Expenditure.Responses;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
@@ -165,9 +164,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheExpenditureDimensionsResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<string[]>();
@@ -188,9 +185,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheExpenditureCategoriesResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<string[]>();
@@ -211,9 +206,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheSchoolExpenditureResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureSchoolResponse>();
@@ -223,28 +216,20 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     [Then("the school expenditure result should be not found")]
     public void ThenTheSchoolExpenditureResultShouldBeNotFound()
     {
-        var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[SchoolExpenditureKey].Response);
     }
 
     [Then("the school expenditure result should be bad request")]
     public void ThenTheSchoolExpenditureResultShouldBeBadRequest()
     {
-        var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[SchoolExpenditureKey].Response);
     }
 
     [Then("the school expenditure history result should be ok and contain:")]
     public async Task ThenTheSchoolExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureHistoryResponse>();
@@ -255,9 +240,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheSchoolExpenditureQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureSchoolResponse[]>();
@@ -268,9 +251,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheTrustExpenditureResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureTrustResponse>();
@@ -280,28 +261,20 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     [Then("the trust expenditure result should be not found")]
     public void ThenTheTrustExpenditureResultShouldBeNotFound()
     {
-        var response = api[TrustExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[TrustExpenditureKey].Response);
     }
 
     [Then("the trust expenditure result should be bad request")]
     public void ThenTheTrustExpenditureResultShouldBeBadRequest()
     {
-        var response = api[TrustExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[TrustExpenditureKey].Response);
     }
 
     [Then("the trust expenditure history result should be ok and contain:")]
     public async Task ThenTheTrustExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureHistoryResponse>();
@@ -312,9 +285,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustExpenditureKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureTrustResponse[]>();

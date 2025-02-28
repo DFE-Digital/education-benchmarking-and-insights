@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.Insight.Features.Income.Responses;
+﻿using Platform.Api.Insight.Features.Income.Responses;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 
@@ -56,9 +55,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     public async Task ThenTheSchoolIncomeResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<IncomeSchoolResponse>();
@@ -68,19 +65,14 @@ public class InsightIncomeSteps(InsightApiDriver api)
     [Then("the school income result should be not found")]
     public void ThenTheSchoolIncomeResultShouldBeNotFound()
     {
-        var response = api[SchoolIncomeKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        AssertHttpResponse.IsNotFound(api[SchoolIncomeKey].Response);
     }
 
     [Then("the school income history result should be ok and contain:")]
     public async Task ThenTheSchoolIncomeHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[SchoolIncomeKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<IncomeHistoryResponse>();
@@ -91,9 +83,7 @@ public class InsightIncomeSteps(InsightApiDriver api)
     public async Task ThenTheTrustIncomeHistoryResultShouldBeOkAndContain(DataTable table)
     {
         var response = api[TrustIncomeKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<IncomeHistoryResponse>();

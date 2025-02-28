@@ -1,6 +1,5 @@
-﻿using System.Net;
-using FluentAssertions;
-using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
+﻿using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
 using Xunit;
@@ -34,8 +33,7 @@ public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver
     public async Task ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         _result = content.FromJson<History<LocalAuthorityNumberOfPlansYear>>();
@@ -50,8 +48,7 @@ public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver
     public void ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldContainTheFollowingPlan(int year, DataTable table)
     {
         var response = api[RequestKey].Response;
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(response);
 
         var actual = _result?.Plans?.FirstOrDefault(p => p.Year == year);
 
@@ -73,9 +70,6 @@ public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver
     [Then("the education health care plans history result should be bad request")]
     public void ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldBeBadRequest()
     {
-        var response = api[RequestKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        AssertHttpResponse.IsBadRequest(api[RequestKey].Response);
     }
 }

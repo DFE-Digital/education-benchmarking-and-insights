@@ -1,6 +1,6 @@
-using System.Net;
-using FluentAssertions;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -29,12 +29,9 @@ public class BenchmarkHealthcheckSteps(BenchmarkApiDriver api)
     private async Task ThenTheBenchmarkHealthCheckResultShouldBeHealthy()
     {
         var result = api[RequestKey].Response;
-
-        result.Should().NotBeNull();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertHttpResponse.IsOk(result);
 
         var content = await result.Content.ReadAsStringAsync();
-
-        content.Should().Be("Healthy");
+        Assert.Equal("Healthy", content);
     }
 }
