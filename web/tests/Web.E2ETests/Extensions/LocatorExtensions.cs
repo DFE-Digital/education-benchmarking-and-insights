@@ -65,7 +65,7 @@ public static class LocatorExtensions
     public static async Task<ILocator> ShouldBeChecked(this ILocator locator, bool isChecked)
     {
         var actualCheckedStatus = await locator.IsCheckedAsync();
-        Assert.Equal(actualCheckedStatus, isChecked); 
+        Assert.Equal(actualCheckedStatus, isChecked);
         return locator;
     }
 
@@ -138,7 +138,7 @@ public static class LocatorExtensions
 
         for (var i = 0; i < actual.Count; i++)
         {
-            Assert.Equal(actual[i],expected[i]);
+            Assert.Equal(actual[i], expected[i]);
         }
 
         return locator;
@@ -147,7 +147,7 @@ public static class LocatorExtensions
     public static async Task<ILocator> TextEqual(this ILocator locator, string expected)
     {
         var actual = await locator.InnerTextAsync();
-        Assert.Equal(actual,expected);
+        Assert.Equal(actual, expected);
         return locator;
     }
 
