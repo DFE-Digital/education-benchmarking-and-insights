@@ -85,6 +85,11 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
             [Rank5, Rank6, Rank7, Rank8, Rank9]
         },
         {
+            "other",
+            5,
+            [Rank1, Rank2, Rank3, Rank4, Rank5]
+        },
+        {
             Rank1.Code!,
             3,
             [Rank1, Rank2, Rank3]
