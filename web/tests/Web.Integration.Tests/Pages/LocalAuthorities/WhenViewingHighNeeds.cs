@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
@@ -10,19 +11,19 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(null)]
-    [InlineData(5)]
-    public async Task CanDisplay(int? nationalRankings = null)
+    [InlineData(null, null)]
+    [InlineData(5, 5)]
+    public async Task CanDisplay(int? nationalRankings = null, int? historyYears = null)
     {
-        var (page, authority, rankings) = await SetupNavigateInitPage(nationalRankings);
+        var (page, authority, rankings, history) = await SetupNavigateInitPage(nationalRankings, historyYears);
 
-        AssertPageLayout(page, authority, rankings);
+        AssertPageLayout(page, authority, rankings, history);
     }
 
     [Fact]
     public async Task CanNavigateToStartBenchmarking()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Start benchmarking");
         Assert.NotNull(anchor);
@@ -36,7 +37,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     [InlineData(5, true)]
     public async Task CanNavigateToNationalRankingsIfAvailable(int? nationalRankings = null, bool expectedButtonVisible = false)
     {
-        var (page, authority, _) = await SetupNavigateInitPage(nationalRankings);
+        var (page, authority, _, _) = await SetupNavigateInitPage(nationalRankings);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View national rankings");
         if (expectedButtonVisible)
@@ -53,7 +54,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     [Fact]
     public async Task CanNavigateToHistoricData()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View historic data");
         Assert.NotNull(anchor);
@@ -84,7 +85,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings)> SetupNavigateInitPage(int? nationalRankings = null)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings, HighNeedsHistory<LocalAuthorityHighNeedsYear> history)> SetupNavigateInitPage(
+        int? nationalRankings = null,
+        int? historyYears = null)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
@@ -102,16 +105,48 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             .With(r => r.Ranking, rankings)
             .Create();
 
+        const int startYear = 2021;
+        var endYear = startYear + historyYears.GetValueOrDefault() - 1;
+        var history = new HighNeedsHistory<LocalAuthorityHighNeedsYear>();
+        if (historyYears != null)
+        {
+            var outturn = new List<LocalAuthorityHighNeedsYear>();
+            var budget = new List<LocalAuthorityHighNeedsYear>();
+            for (var year = startYear; year <= endYear; year++)
+            {
+                outturn.Add(Fixture
+                    .Build<LocalAuthorityHighNeedsYear>()
+                    .With(h => h.Year, year)
+                    .With(h => h.Code, authority.Code)
+                    .Create());
+                budget.Add(Fixture
+                    .Build<LocalAuthorityHighNeedsYear>()
+                    .With(h => h.Year, year)
+                    .With(h => h.Code, authority.Code)
+                    .Create());
+            }
+
+            history.StartYear = startYear;
+            history.EndYear = endYear;
+            history.Outturn = outturn.ToArray();
+            history.Budget = budget.ToArray();
+        }
+
         Assert.NotNull(authority.Name);
 
         var page = await Client.SetupEstablishment(authority, ranking)
+            .SetupHighNeedsHistory(history)
             .SetupInsights()
             .Navigate(Paths.LocalAuthorityHighNeeds(authority.Code));
 
-        return (page, authority, rankings);
+        return (page, authority, rankings, history);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        LocalAuthority authority,
+        LocalAuthorityRank[] rankings,
+        HighNeedsHistory<LocalAuthorityHighNeedsYear> history)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
 
@@ -125,6 +160,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National Ranking"));
         AssertNationalRankingCard(nationalRankingCard, rankings);
+
+        var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Budget vs spend (historical view)"));
+        AssertBudgetSpendHistoryCard(budgetSpendHistoryCard, history);
     }
 
     private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings)
@@ -147,10 +185,43 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(rankings.Length, bodyRows.Length);
-            for (var i = 0; i < rankings.Length; i++)
+            for (var i = 0; i < bodyRows.Length; i++)
             {
                 var ranking = rankings.ElementAt(i);
                 DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{ranking.Rank}.  {ranking.Name}  {ranking.Value?.ToString("#.#")}%");
+            }
+        }
+    }
+
+    private static void AssertBudgetSpendHistoryCard(IElement? budgetSpendHistoryCard, HighNeedsHistory<LocalAuthorityHighNeedsYear> history)
+    {
+        Assert.NotNull(budgetSpendHistoryCard);
+
+        if (history.Budget == null || history.Outturn == null)
+        {
+            // todo: 251214
+        }
+        else
+        {
+            var table = budgetSpendHistoryCard.QuerySelector("table");
+            Assert.NotNull(table);
+
+            var headerRow = table.QuerySelector("thead > tr");
+            Assert.NotNull(headerRow);
+            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Balance");
+
+            var bodyRows = table.QuerySelectorAll("tbody > tr");
+            Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, bodyRows.Length);
+            var year = history.StartYear;
+            for (var i = 0; i < bodyRows.Length; i++)
+            {
+                var outturn = history.Outturn.Single(o => o.Year == year);
+                var budget = history.Budget.Single(o => o.Year == year);
+                var outrunValue = outturn.HighNeedsAmount?.TotalPlaceFunding;
+                var budgetValue = budget.HighNeedsAmount?.TotalPlaceFunding;
+                var balanceValue = budgetValue - outrunValue;
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                        {outrunValue?.ToString("C0")}\n                    \n                    \n                        Budget:\n                        {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                year++;
             }
         }
     }
