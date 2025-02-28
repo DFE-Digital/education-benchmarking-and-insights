@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
-using Platform.Api.LocalAuthorityFinances.Features.Validators;
+using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Validators;
 using Xunit;
 
-namespace Platform.LocalAuthorityFinances.Tests.Validators;
+namespace Platform.LocalAuthorityFinances.Tests.HighNeeds.Validators;
 
 public class WhenHighNeedsHistoryParametersValidatorValidates
 {

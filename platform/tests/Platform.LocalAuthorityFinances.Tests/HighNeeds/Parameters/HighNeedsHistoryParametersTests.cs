@@ -2,7 +2,7 @@
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Xunit;
 
-namespace Platform.LocalAuthorityFinances.Tests.HighNeeds;
+namespace Platform.LocalAuthorityFinances.Tests.HighNeeds.Parameters;
 
 public class HighNeedsHistoryParametersTests
 {

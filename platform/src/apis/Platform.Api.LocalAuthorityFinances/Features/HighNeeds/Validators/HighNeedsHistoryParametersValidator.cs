@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 
-namespace Platform.Api.LocalAuthorityFinances.Features.Validators;
+namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Validators;
 
 public class HighNeedsHistoryParametersValidator : AbstractValidator<HighNeedsHistoryParameters>
 {
