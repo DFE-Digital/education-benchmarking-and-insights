@@ -446,3 +446,17 @@ export type LocalAuthoritySection251 = {
   placeFundingSpecial?: number;
   placeFundingAlternativeProvision?: number;
 };
+
+export type LocalAuthorityEducationHealthCarePlan = {
+  total?: number;
+  mainstream?: number;
+  resourced?: number;
+  special?: number;
+  independent?: number;
+  hospital?: number;
+  post16?: number;
+  other?: number;
+};
+
+export type LocalAuthoritySend2History = HistoryBase &
+  LocalAuthorityEducationHealthCarePlan;
