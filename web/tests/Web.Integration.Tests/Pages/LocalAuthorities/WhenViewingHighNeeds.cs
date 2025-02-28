@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -129,7 +128,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Local authority  Percentage of budget vs spend per head of 2 to 18 population");
+            DocumentAssert.AssertNodeText(headerRow, "Local authority  Spend as percentage of budget");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(rankings.Length, bodyRows.Length);
