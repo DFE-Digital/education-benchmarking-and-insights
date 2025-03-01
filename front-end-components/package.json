@@ -30,7 +30,7 @@
     "recharts": "^2.12.4",
     "stats-lite": "^2.2.0",
     "usehooks-ts": "^3.1.0",
-    "uuid": "^11.0.2"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
