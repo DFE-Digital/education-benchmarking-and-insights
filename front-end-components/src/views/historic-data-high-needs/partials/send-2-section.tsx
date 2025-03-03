@@ -64,28 +64,30 @@ export const Send2Section: React.FC<HistoricDataHighNeedsProps> = ({
         !data && <Loading />
       )}
       {data &&
-        send2LeadSection.charts.map((chart, index) => (
-          <HistoricChart
-            key={index}
-            chartTitle={chart.name}
-            data={data}
-            seriesConfig={{
-              [chart.field]: {
-                visible: true,
-              },
-            }}
-            valueField={chart.field}
-            columnHeading="Amount"
-          >
-            <h2 className="govuk-heading-m">{chart.name}</h2>
-          </HistoricChart>
+        data.length > 0 &&
+        send2LeadSection.charts.map((chart) => (
+          <section key={chart.field}>
+            <HistoricChart
+              chartTitle={chart.name}
+              data={data}
+              seriesConfig={{
+                [chart.field]: {
+                  visible: true,
+                },
+              }}
+              valueField={chart.field}
+              columnHeading="Amount"
+            >
+              <h2 className="govuk-heading-m">{chart.name}</h2>
+            </HistoricChart>
+          </section>
         ))}
       <div
         className={classNames("govuk-accordion", {
           "govuk-visually-hidden": !data?.length,
         })}
         data-module="govuk-accordion"
-        id="accordion-section-251"
+        id="accordion-send-2"
       >
         <div className="govuk-accordion__section">
           <div className="govuk-accordion__section-header">
@@ -103,22 +105,24 @@ export const Send2Section: React.FC<HistoricDataHighNeedsProps> = ({
             className="govuk-accordion__section-content"
           >
             {data &&
-              send2AccordionSection.charts.map((chart, index) => (
-                <HistoricChart
-                  key={index}
-                  chartTitle={chart.name}
-                  data={data}
-                  seriesConfig={{
-                    [chart.field]: {
-                      label: chart.name,
-                      visible: true,
-                    },
-                  }}
-                  valueField={chart.field}
-                  columnHeading="Amount"
-                >
-                  <h2 className="govuk-heading-m">{chart.name}</h2>
-                </HistoricChart>
+              data.length > 0 &&
+              send2AccordionSection.charts.map((chart) => (
+                <section key={chart.field}>
+                  <HistoricChart
+                    chartTitle={chart.name}
+                    data={data}
+                    seriesConfig={{
+                      [chart.field]: {
+                        label: chart.name,
+                        visible: true,
+                      },
+                    }}
+                    valueField={chart.field}
+                    columnHeading="Amount"
+                  >
+                    <h2 className="govuk-heading-m">{chart.name}</h2>
+                  </HistoricChart>
+                </section>
               ))}
           </div>
         </div>
