@@ -1,5 +1,11 @@
-import { LocalAuthoritySection251 } from "src/services";
-import { HistoricChartSection251Section } from "../types";
+import {
+  LocalAuthoritySection251,
+  LocalAuthorityEducationHealthCarePlan,
+} from "src/services";
+import {
+  HistoricChartSection251Section,
+  HistoricChartSend2Section,
+} from "../types";
 
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/views/historic-data-high-needs/partials/section-251-section.tsx";
@@ -136,3 +142,48 @@ export const section251Sections: HistoricChartSection251Section<LocalAuthoritySe
       ],
     },
   ];
+
+export const send2LeadSection: HistoricChartSend2Section<LocalAuthorityEducationHealthCarePlan> =
+  {
+    charts: [
+      {
+        name: "Number aged up to 25 with SEN statement or EHC plan",
+        field: "total",
+      },
+    ],
+  };
+export const send2AccordionSection: HistoricChartSend2Section<LocalAuthorityEducationHealthCarePlan> =
+  {
+    heading:
+      "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)",
+    charts: [
+      {
+        name: "Mainstream schools or academies",
+        field: "mainstream",
+      },
+      {
+        name: "Resourced provision or SEN units",
+        field: "resourced",
+      },
+      {
+        name: "Maintained special schools or special academies",
+        field: "special",
+      },
+      {
+        name: "NMSS or independent schools",
+        field: "independent",
+      },
+      {
+        name: "Hospital schools or alternative provisions",
+        field: "hospital",
+      },
+      {
+        name: "Post 16",
+        field: "post16",
+      },
+      {
+        name: "Other",
+        field: "other",
+      },
+    ],
+  };
