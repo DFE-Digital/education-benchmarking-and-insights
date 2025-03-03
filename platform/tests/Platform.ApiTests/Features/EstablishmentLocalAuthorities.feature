@@ -216,3 +216,25 @@ Feature: Establishment local authorities endpoints
           | 206  | Local authority 206 | 75.1120420820  | 153  |
           | 203  | Local authority 203 | 80.3722975665  | 154  |
           | 200  | Local authority 200 | 113.3032983918 | 155  |
+
+          # todo: replace stubbed values with real
+
+    Scenario: Sending a valid local authorities statistical neighbours request
+        Given a valid local authorities statistical neighbours request with id '201'
+        When I submit the local authorities request
+        Then the local authorities statistical neighbours result should be ok and have the following values:
+          | Field | Value          |
+          | Code  | 201            |
+          | Name  | City of London |
+        And the local authorities statistical neighbours result should contain the following neighbours:
+          | Code | Name                | Order |
+          | 200  | Local authority 200 | 0     |
+          | 201  | Local authority 201 | 1     |
+          | 202  | Local authority 202 | 2     |
+          | 203  | Local authority 203 | 3     |
+          | 204  | Local authority 204 | 4     |
+          | 205  | Local authority 205 | 5     |
+          | 206  | Local authority 206 | 6     |
+          | 207  | Local authority 207 | 7     |
+          | 208  | Local authority 208 | 8     |
+          | 209  | Local authority 209 | 9     |
