@@ -129,6 +129,9 @@ public static class Selectors
     public const string Section251Tab = "#tab_section-251";
     public const string Section251ModeTable = "#section-251-mode-table";
     public const string Section251ModeChart = "#section-251-mode-chart";
+    public const string Send2Tab = "#tab_send-2";
+    public const string Send2ModeTable = "#send-2-mode-table";
+    public const string Send2ModeChart = "#send-2-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
     public const string BalanceDimension = "#balance-dimension";
@@ -138,6 +141,7 @@ public static class Selectors
     public const string SpendingAccordions = "#accordion-expenditure";
     public const string IncomeAccordions = "#accordion-income";
     public const string Section251Accordions = "#accordion-section-251";
+    public const string Send2Accordions = "#accordion-send-2";
     public const string SpendingTableMode = "#expenditure-mode-table";
     public const string IncomeTableMode = "#income-mode-table";
     public const string BalanceTableMode = "#balance-mode-table";
@@ -148,11 +152,14 @@ public static class Selectors
     public const string BalancePanel = "#balance";
     public const string CensusPanel = "#census";
     public const string Section251Panel = "#section-251";
+    public const string Send2Panel = "#send-2";
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";
     public const string Section251AccordionHeading1 = "#accordion-section-251-heading-1";
     public const string Section251AccordionContent1 = "#accordion-section-251-content-1";
+    public const string Send2AccordionHeading1 = "#accordion-send-2-heading-1";
+    public const string Send2AccordionContent1 = "#accordion-send-2-content-1";
 
     public const string LineChartStats = ".chart-stat-line-chart";
 

@@ -88,14 +88,14 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
     public async Task WhenIClickSectionLinkFor(string chartName)
     {
         Assert.NotNull(_highNeedsHistoricDataPage);
-        await _highNeedsHistoricDataPage.ClickSectionLink(Section251CategoryFromFriendlyName(chartName));
+        await _highNeedsHistoricDataPage.ClickSectionLink(HistoricDataCategoryFromFriendlyName(chartName));
     }
 
     [Then("the section '(.*)' is hidden")]
     public async Task ThenTheSectionIsHidden(string chartName)
     {
         Assert.NotNull(_highNeedsHistoricDataPage);
-        await _highNeedsHistoricDataPage.IsSectionVisible(Section251CategoryFromFriendlyName(chartName), false, "Show", "chart");
+        await _highNeedsHistoricDataPage.IsSectionVisible(HistoricDataCategoryFromFriendlyName(chartName), false, "Show", "chart");
     }
 
     [Then("the '(.*)' tab '(.*)' chart shows the legend '(.*)' using separator '(.*)'")]
@@ -112,11 +112,12 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
         await _highNeedsHistoricDataPage.ChartTableContains(chartName, table);
     }
 
-    private static Section251CategoriesNames Section251CategoryFromFriendlyName(string chartName)
+    private static HistoricDataCategoryNames HistoricDataCategoryFromFriendlyName(string chartName)
     {
         return chartName switch
         {
-            "place funding" => Section251CategoriesNames.PlaceFunding,
+            "place funding" => HistoricDataCategoryNames.PlaceFunding,
+            "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)" => HistoricDataCategoryNames.PlacementOfPupils,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
@@ -131,6 +132,7 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
         return tab switch
         {
             "section 251" => HighNeedsHistoryTabs.Section251,
+            "send 2" => HighNeedsHistoryTabs.Send2,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
     }

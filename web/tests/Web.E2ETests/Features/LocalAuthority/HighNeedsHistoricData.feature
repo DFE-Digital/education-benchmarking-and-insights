@@ -53,6 +53,7 @@
         Examples:
           | tab         | charts |
           | section 251 | 25     |
+          | send 2      | 8      |
 
     @HighNeedsFlagEnabled
     Scenario Outline: Change all charts to table view
@@ -64,9 +65,10 @@
         Examples:
           | tab         |
           | section 251 |
+          | send 2      |
 
     @HighNeedsFlagEnabled
-    Scenario: Hide single section
+    Scenario: Hide single section section 251
         Given I am on 'section 251' high needs history page for local authority with code '201'
         And all sections are shown on 'section 251'
         When I click section link for 'place funding'
@@ -83,7 +85,7 @@
           | section 251 | Total place funding for special schools and AP/PRUs | actual, planned |
 
     @HighNeedsFlagEnabled
-    Scenario: Viewing data in table view
+    Scenario: Viewing data in table view section 251
         Given I am on 'section 251' high needs history page for local authority with code '201'
         And all sections are shown on 'section 251'
         When I click on view as table on 'section 251' tab
@@ -93,3 +95,38 @@
           | 2021 to 2022 | £1,002,044 | £1,102,044 |
           | 2022 to 2023 | £1,002,045 | £1,102,045 |
           | 2023 to 2024 | £1,002,046 | £1,102,046 |
+
+    @HighNeedsFlagEnabled
+    Scenario: Show all should expand all sections on Send 2 tab
+        Given I am on 'send 2' high needs history page for local authority with code '201'
+        When I click on show all sections on 'send 2'
+        Then all sections on 'send 2' tab are expanded
+        And the show all text changes to hide all sections on 'send 2'
+        And the expected sub categories should be displayed on 'send 2':
+          | Sub category                                                     |
+          | Mainstream schools or academies                                  |
+          | Resourced provision or SEN units                                 |
+          | Maintained special schools or special academies                  |
+          | NMSS or independent schools                                      |
+          | Hospital schools or alternative provisions                       |
+          | Post 16                                                          |
+          | Other                                                            |
+          
+    @HighNeedsFlagEnabled
+    Scenario: Hide single section send 2
+        Given I am on 'send 2' high needs history page for local authority with code '201'
+        And all sections are shown on 'send 2'
+        When I click section link for 'Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)'
+        Then the section 'Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)' is hidden
+        
+    @HighNeedsFlagEnabled
+    Scenario: Viewing data in table view send 2
+        Given I am on 'send 2' high needs history page for local authority with code '201'
+        When I click on view as table on 'send 2' tab
+        Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan' chart contains:
+          | Year         | Amount |
+          | 2019 to 2020 | 52     |
+          | 2020 to 2021 | 59     |
+          | 2021 to 2022 | 66     |
+          | 2022 to 2023 | 65     |
+          | 2023 to 2024 | 47     |
