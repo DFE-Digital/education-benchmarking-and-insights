@@ -554,3 +554,11 @@ hr.govuk-section-break--print {
     vertical-align: text-bottom;
   }
 }
+
+.govuk-inset-text {
+  > .govuk-list {
+    &.govuk-list--number {
+      padding-left: govuk-spacing(6);
+    }
+  }
+}

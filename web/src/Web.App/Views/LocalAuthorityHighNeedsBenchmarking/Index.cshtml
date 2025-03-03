@@ -1,4 +1,4 @@
-@model Web.App.ViewModels.LocalAuthorityViewModel
+@model Web.App.ViewModels.LocalAuthorityStatisticalNeighboursViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
 }
@@ -10,3 +10,28 @@
     id = Model.Code,
     kind = OrganisationTypes.LocalAuthority
 })
+
+<div class="govuk-inset-text">
+    <p class="govuk-body">
+        These local authorities are your ten closest statistical neighbours which are deemed to have similar
+        characteristics:
+    </p>
+    <ol class="govuk-list govuk-list--number">
+        @foreach (var neighbour in Model.StatisticalNeighbours)
+        {
+            <li>@neighbour</li>
+        }
+    </ol>
+</div>
+
+<details class="govuk-details">
+    <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+            More about statistical neighbours
+        </span>
+    </summary>
+    <div class="govuk-details__text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit.
+    </div>
+</details>

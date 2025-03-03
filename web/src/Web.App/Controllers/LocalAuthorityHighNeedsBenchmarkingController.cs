@@ -31,8 +31,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
-                var authority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityViewModel(authority);
+                var neighbours = await LocalAuthorityStatisticalNeighbours(code);
+                var viewModel = new LocalAuthorityStatisticalNeighboursViewModel(neighbours);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -43,7 +43,10 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code)
+    {
+        return await establishmentApi
+            .GetLocalAuthorityStatisticalNeighbours(code)
+            .GetResultOrThrow<LocalAuthorityStatisticalNeighbours>();
+    }
 }
