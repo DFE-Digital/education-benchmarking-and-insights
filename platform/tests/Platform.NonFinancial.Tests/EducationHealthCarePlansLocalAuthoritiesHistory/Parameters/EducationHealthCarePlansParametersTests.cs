@@ -2,7 +2,7 @@
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 using Xunit;
 
-namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
+namespace Platform.NonFinancial.Tests.EducationHealthCarePlansLocalAuthoritiesHistory.Parameters;
 
 public class EducationHealthCarePlansParametersTests
 {

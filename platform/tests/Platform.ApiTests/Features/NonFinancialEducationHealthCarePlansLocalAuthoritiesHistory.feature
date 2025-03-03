@@ -1,4 +1,4 @@
-﻿Feature: Education health care plans local authority endpoint
+﻿Feature: Non Financial education health care plans local authorities history endpoint
     
     # TODO: these tests use stubbed data see EducationHealthCarePlansStubService
     # replace with real data once implemented

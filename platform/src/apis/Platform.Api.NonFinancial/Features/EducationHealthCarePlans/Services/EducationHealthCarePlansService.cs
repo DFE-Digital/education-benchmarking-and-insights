@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 
 public interface IEducationHealthCarePlansService
 {
-    Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes);
+    Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes, CancellationToken cancellationToken = default);
 }

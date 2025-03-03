@@ -7,8 +7,8 @@ using Xunit;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
-[Scope(Feature = "Education health care plans local authority endpoint")]
-public class EducationHealthCarePlansLocalAuthoritiesSteps(NonFinancialApiDriver api)
+[Scope(Feature = "Non Financial education health care plans local authorities history endpoint")]
+public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFinancialApiDriver api)
 {
     private const string RequestKey = "education-health-care-plans-history";
     private History<LocalAuthorityNumberOfPlansYear>? _result;

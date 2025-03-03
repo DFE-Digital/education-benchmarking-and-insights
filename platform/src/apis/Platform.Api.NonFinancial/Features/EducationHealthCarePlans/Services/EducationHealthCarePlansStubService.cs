@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
@@ -8,7 +9,7 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
 {
     // TODO: remove and replace once db / data ingestion changes are in place to provide actual data
     // this generates stubbed data for usage in development prior to db updates
-    public Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes)
+    public Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
         const int startYear = 2020;
         const int endYear = 2024;
