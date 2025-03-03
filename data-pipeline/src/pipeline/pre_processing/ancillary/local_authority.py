@@ -4,7 +4,23 @@ from pandas._typing import FilePath, ReadCsvBuffer
 from pipeline import input_schemas
 
 
-def prepare_la_expenditure_data(
+def build_local_authorities(
+    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    year: int,
+):
+    """
+    Build Local Authority data from various sources.
+
+    :param filepath_or_buffer: source for LA expenditure data
+    :param year: financial year in question
+    :return: Local Authority data
+    """
+    la_expenditure_data = _prepare_la_expenditure_data(filepath_or_buffer, year)
+
+    return la_expenditure_data
+
+
+def _prepare_la_expenditure_data(
     filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     year: int,
 ) -> pd.DataFrame:
@@ -22,7 +38,7 @@ def prepare_la_expenditure_data(
 
     :param filepath_or_buffer: source for LA expenditure data
     :param year: financial year in question
-    :return: LA expenditure data
+    :return: Local Authority expenditure data
     """
     df = pd.read_csv(
         filepath_or_buffer,

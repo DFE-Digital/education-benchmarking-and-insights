@@ -10,6 +10,7 @@ from .ancillary import (
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
+    build_local_authorities,
     predecessor_links,
     prepare_cdc_data,
     prepare_census_data,

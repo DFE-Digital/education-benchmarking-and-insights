@@ -11,8 +11,6 @@ from azure.storage.queue import QueueClient, QueueMessage
 from dask.distributed import Client
 from dotenv import load_dotenv
 
-from pipeline.input_schemas import gias
-
 load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_set, prepare_data
@@ -34,6 +32,7 @@ from pipeline.pre_processing import (
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
+    build_local_authorities,
     build_maintained_school_data,
     build_trust_data,
     map_academy_data,
@@ -267,9 +266,19 @@ def pre_process_academies_data(
     data_ref: tuple,
 ) -> pd.DataFrame:
     logger.info("Building Academy Set")
-    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links = (
-        data_ref
-    )
+    (
+        schools,
+        census,
+        sen,
+        cdc,
+        aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
+        gias_links,
+        local_authorities,
+    ) = data_ref
 
     logger.info(f"Processing AAR data - {run_id} - {year}.")
 
@@ -304,9 +313,19 @@ def pre_process_maintained_schools_data(
     data_ref: tuple,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
-    schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links = (
-        data_ref
-    )
+    (
+        schools,
+        census,
+        sen,
+        cdc,
+        aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
+        gias_links,
+        local_authorities,
+    ) = data_ref
 
     logger.info(f"Processing CFR data - {run_id} - {year}.")
 
@@ -539,6 +558,39 @@ def pre_process_bfr(run_id: str, year: int):
     insert_bfr_metrics(run_id, year, bfr_metrics)
 
 
+def pre_process_local_authorities(
+    year: int,
+    run_id: str,
+):
+    """
+    Process Local Authority data.
+
+    TODO: further Local Authority datasets.
+
+    :param run_id: unique identifier for processing
+    :param year: financial year in question
+    :return: tuple of supporting datasets
+    """
+    logger.info(
+        f"Processing LA Section 251: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
+    )
+
+    la_expenditure_data = get_blob(
+        raw_container,
+        f"default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv",
+    )
+
+    local_authorities = build_local_authorities(la_expenditure_data, year)
+
+    write_blob(
+        "pre-processed",
+        f"default/{run_id}/local_authorities.parquet",
+        local_authorities.to_parquet(),
+    )
+
+    return local_authorities
+
+
 def _get_ancillary_data(
     worker_client: Client,
     run_id: str,
@@ -556,27 +608,48 @@ def _get_ancillary_data(
     """
     run_type = "default"
 
-    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services, gias_links = (
-        worker_client.gather(
-            [
-                worker_client.submit(pre_process_cdc, run_type, year, run_id),
-                worker_client.submit(pre_process_census, run_type, year, run_id),
-                worker_client.submit(pre_process_sen, run_type, year, run_id),
-                worker_client.submit(pre_process_ks2, run_type, year, run_id),
-                worker_client.submit(pre_process_ks4, run_type, year, run_id),
-                worker_client.submit(pre_process_academy_ar, run_type, year, run_id),
-                worker_client.submit(pre_process_schools, run_type, year, run_id),
-                worker_client.submit(pre_process_cfo, run_type, year, run_id),
-                worker_client.submit(
-                    pre_process_central_services, run_type, year, run_id
-                ),
-                worker_client.submit(pre_process_gias_links, run_type, year, run_id),
-            ]
-        )
+    (
+        cdc,
+        census,
+        sen,
+        ks2,
+        ks4,
+        aar,
+        schools,
+        cfo,
+        central_services,
+        gias_links,
+        local_authorities,
+    ) = worker_client.gather(
+        [
+            worker_client.submit(pre_process_cdc, run_type, year, run_id),
+            worker_client.submit(pre_process_census, run_type, year, run_id),
+            worker_client.submit(pre_process_sen, run_type, year, run_id),
+            worker_client.submit(pre_process_ks2, run_type, year, run_id),
+            worker_client.submit(pre_process_ks4, run_type, year, run_id),
+            worker_client.submit(pre_process_academy_ar, run_type, year, run_id),
+            worker_client.submit(pre_process_schools, run_type, year, run_id),
+            worker_client.submit(pre_process_cfo, run_type, year, run_id),
+            worker_client.submit(pre_process_central_services, run_type, year, run_id),
+            worker_client.submit(pre_process_gias_links, run_type, year, run_id),
+            worker_client.submit(pre_process_local_authorities, year, run_id),
+        ]
     )
 
     return worker_client.scatter(
-        (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services, gias_links)
+        (
+            schools,
+            census,
+            sen,
+            cdc,
+            aar,
+            ks2,
+            ks4,
+            cfo,
+            central_services,
+            gias_links,
+            local_authorities,
+        )
     )
 
 
