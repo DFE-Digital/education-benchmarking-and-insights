@@ -22,7 +22,16 @@ from .census_workforce import (  # noqa
     workforce_census_header_row,
     workforce_census_index_col,
 )
-from .gias import gias, gias_index_col
+from .gias import gias, gias_index_col  # noqa
+from .local_authority import (  # noqa
+    la_expenditure,
+    la_expenditure_category_prefixes,
+    la_expenditure_column_eval,
+    la_expenditure_column_mappings,
+    la_expenditure_index_column,
+    la_expenditure_na_values,
+    la_expenditure_pivot,
+)
 
 gias_links_index_col = "URN"
 gias_links = {
