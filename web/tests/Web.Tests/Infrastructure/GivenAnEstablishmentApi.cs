@@ -110,4 +110,15 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
 
         VerifyCall(HttpMethod.Get, expected);
     }
+
+    [Fact]
+    public async Task GetLocalAuthorityStatisticalNeighboursShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+        const string identifier = nameof(identifier);
+
+        await api.GetLocalAuthorityStatisticalNeighbours(identifier);
+
+        VerifyCall(HttpMethod.Get, $"api/local-authority/{identifier}/statistical-neighbours");
+    }
 }

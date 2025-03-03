@@ -185,10 +185,18 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthorityRanking ranking)
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthorityRanking ranking, LocalAuthorityStatisticalNeighbours statisticalNeighbours)
     {
         SetupEstablishment(authority, []);
         EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority)
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
         return this;
     }
 
@@ -198,6 +206,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
         return this;
     }
 
@@ -207,6 +216,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
@@ -607,11 +617,20 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         private readonly ConcurrentDictionary<string, byte[]> _items = items ?? new ConcurrentDictionary<string, byte[]>();
 
-        public Task LoadAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+        public Task LoadAsync(CancellationToken cancellationToken = new())
+        {
+            throw new NotImplementedException();
+        }
 
-        public Task CommitAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+        public Task CommitAsync(CancellationToken cancellationToken = new())
+        {
+            throw new NotImplementedException();
+        }
 
-        public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value) => _items.TryGetValue(key, out value);
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value)
+        {
+            return _items.TryGetValue(key, out value);
+        }
 
         public void Set(string key, byte[] value)
         {
