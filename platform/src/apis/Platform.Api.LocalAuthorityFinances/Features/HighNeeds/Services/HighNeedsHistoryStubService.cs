@@ -31,7 +31,7 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
     {
         for (var year = startYear; year <= endYear; year++)
         {
-            yield return GetStubbedRow(code, year, 1_100_000);
+            yield return GetStubbedRow(code, year, 1_100_000, 1_110_000 + year % 2);
         }
     }
 
@@ -39,15 +39,15 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
     {
         for (var year = startYear; year <= endYear; year++)
         {
-            yield return GetStubbedRow(code, year, 1_000_000);
+            yield return GetStubbedRow(code, year, 1_000_000, 1_010_000 + year * 2);
         }
     }
 
-    private static LocalAuthorityHighNeedsYear GetStubbedRow(string code, int year, decimal baseValue) => new()
+    private static LocalAuthorityHighNeedsYear GetStubbedRow(string code, int year, decimal baseValue, decimal total) => new()
     {
         Code = code,
         Year = year,
-        Total = baseValue + 10_000 + year,
+        Total = total,
         HighNeedsAmount = new HighNeedsAmount
         {
             TotalPlaceFunding = baseValue + 1 + year,

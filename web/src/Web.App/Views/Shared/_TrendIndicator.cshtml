@@ -1,0 +1,30 @@
+﻿@model Web.App.ViewModels.TrendIndicatorViewModel
+
+@if (Model.PreviousValue == null)
+{
+    return;
+}
+
+@if (Model.PreviousValue < Model.CurrentValue)
+{
+    <span class="trend-indicator trend-indicator--up">
+    <img
+        src="/assets/images/triangle.svg"
+        alt="Value has increased"
+        height="15"
+        width="15"/>
+    </span>
+}
+else if (Model.PreviousValue > Model.CurrentValue)
+{
+    <span class="trend-indicator trend-indicator--down">
+    <img
+        src="/assets/images/triangle.svg"
+        alt="Value has decreased"
+        height="15"
+        width="15"/>
+    </span>
+}
+
+
+

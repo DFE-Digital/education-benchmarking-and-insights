@@ -539,3 +539,18 @@ hr.govuk-section-break--print {
     }
   }
 }
+
+.trend-indicator {
+  display: none;
+
+  @include govuk-media-query($from: tablet) {
+    display: inline-block;
+    vertical-align: sub;
+    margin-right: govuk-spacing(1);
+  }
+
+  &.trend-indicator--down {
+    transform: rotate(180deg);
+    vertical-align: text-bottom;
+  }
+}

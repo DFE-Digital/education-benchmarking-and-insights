@@ -11,22 +11,22 @@ Feature: Local authorities high needs endpoints
           | Field | Value   |
           | Year  | 2021    |
           | Code  | 201     |
-          | Total | 1012021 |
+          | Total | 1014042 |
         And the high needs result should contain the following outturn values for '2022':
           | Field | Value   |
           | Year  | 2022    |
           | Code  | 201     |
-          | Total | 1012022 |
+          | Total | 1014044 |
         And the high needs result should contain the following outturn values for '2023':
           | Field | Value   |
           | Year  | 2023    |
           | Code  | 201     |
-          | Total | 1012023 |
+          | Total | 1014046 |
         And the high needs result should contain the following outturn values for '2024':
           | Field | Value   |
           | Year  | 2024    |
           | Code  | 201     |
-          | Total | 1012024 |
+          | Total | 1014048 |
         And the high needs result should contain the following outturn high needs amount values for '2021':
           | Field                        | Value   |
           | TotalPlaceFunding            | 1002022 |
@@ -71,22 +71,22 @@ Feature: Local authorities high needs endpoints
           | Field | Value   |
           | Year  | 2021    |
           | Code  | 201     |
-          | Total | 1112021 |
+          | Total | 1110001 |
         And the high needs result should contain the following budget values for '2022':
           | Field | Value   |
           | Year  | 2022    |
           | Code  | 201     |
-          | Total | 1112022 |
+          | Total | 1110000 |
         And the high needs result should contain the following budget values for '2023':
           | Field | Value   |
           | Year  | 2023    |
           | Code  | 201     |
-          | Total | 1112023 |
+          | Total | 1110001 |
         And the high needs result should contain the following budget values for '2024':
           | Field | Value   |
           | Year  | 2024    |
           | Code  | 201     |
-          | Total | 1112024 |
+          | Total | 1110000 |
         And the high needs result should contain the following budget high needs amount values for '2021':
           | Field                        | Value   |
           | TotalPlaceFunding            | 1102022 |
