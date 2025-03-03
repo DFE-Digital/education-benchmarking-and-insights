@@ -51,16 +51,23 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         Assert.Null(anchor);
     }
 
-    [Fact]
-    public async Task CanNavigateToHistoricData()
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData(5, true)]
+    public async Task CanNavigateToHistoricDataIfAvailable(int? historyYears = null, bool expectedButtonVisible = false)
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage(historyYears: historyYears);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View historic data");
-        Assert.NotNull(anchor);
+        if (expectedButtonVisible)
+        {
+            Assert.NotNull(anchor);
+            page = await Client.Follow(anchor);
+            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
+            return;
+        }
 
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
+        Assert.Null(anchor);
     }
 
     [Fact]
@@ -199,7 +206,8 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         if (history.Budget == null || history.Outturn == null)
         {
-            // todo: 251214
+            var content = budgetSpendHistoryCard.QuerySelector(".govuk-summary-card__content");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Budget vs spend (historical view) could not be displayed.");
         }
         else
         {
