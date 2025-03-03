@@ -225,10 +225,10 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             {
                 var outturn = history.Outturn.Single(o => o.Year == year);
                 var budget = history.Budget.Single(o => o.Year == year);
-                var outrunValue = outturn.HighNeedsAmount?.TotalPlaceFunding;
-                var budgetValue = budget.HighNeedsAmount?.TotalPlaceFunding;
-                var balanceValue = budgetValue - outrunValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                        {outrunValue?.ToString("C0")}\n                    \n                    \n                        Budget:\n                        {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                var outturnValue = outturn.Total;
+                var budgetValue = budget.Total;
+                var balanceValue = budgetValue - outturnValue;
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                        {outturnValue?.ToString("C0")}\n                    \n                    \n                        Budget:\n                        {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
                 year++;
             }
         }

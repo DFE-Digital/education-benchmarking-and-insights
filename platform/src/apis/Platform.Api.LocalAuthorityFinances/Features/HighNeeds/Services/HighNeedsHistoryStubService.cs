@@ -47,6 +47,7 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
     {
         Code = code,
         Year = year,
+        Total = baseValue + 10_000 + year,
         HighNeedsAmount = new HighNeedsAmount
         {
             TotalPlaceFunding = baseValue + 1 + year,

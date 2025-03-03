@@ -18,6 +18,7 @@ public record LocalAuthorityHighNeedsYear : LocalAuthorityHighNeeds
 public record LocalAuthorityHighNeeds
 {
     public string? Code { get; set; }
+    public decimal? Total { get; set; }
     public HighNeedsAmount HighNeedsAmount { get; set; } = new();
     public TopFunding Maintained { get; set; } = new();
     public TopFunding NonMaintained { get; set; } = new();
