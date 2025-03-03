@@ -7,7 +7,9 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthorityHighNeedsHistoryViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
+public class LocalAuthorityHighNeedsHistoryViewComponent(
+    ILocalAuthoritiesApi localAuthoritiesApi,
+    ILogger<LocalAuthorityHighNeedsNationalRankingsViewComponent> logger) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string identifier, CancellationToken cancellationToken = default)
     {
@@ -16,7 +18,13 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(ILocalAuthoritiesApi lo
             .GetHighNeedsHistory(query, cancellationToken)
             .GetResultOrDefault<HighNeedsHistory<LocalAuthorityHighNeedsYear>>();
 
-        return View(new LocalAuthorityHighNeedsHistoryViewModel(identifier, history));
+        if (history is { Outturn.Length: > 0, Budget.Length: > 0 })
+        {
+            return View(new LocalAuthorityHighNeedsHistoryViewModel(identifier, history));
+        }
+
+        logger.LogWarning("Local authority high needs history could not be displayed for {Code}", identifier);
+        return View("MissingData");
     }
 
     private static ApiQuery BuildQuery(params string[] code)
