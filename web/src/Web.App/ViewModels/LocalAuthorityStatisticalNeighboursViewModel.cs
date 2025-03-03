@@ -8,7 +8,8 @@ public class LocalAuthorityStatisticalNeighboursViewModel(LocalAuthorityStatisti
     public string? Name => localAuthority.Name;
 
     public string[] StatisticalNeighbours => localAuthority.StatisticalNeighbours?
-        .OrderBy(n => n.Name)
+        .OrderBy(n => n.Order)
+        .ThenBy(n => n.Name)
         .Where(n => !string.IsNullOrWhiteSpace(n.Name))
         .Select(n => n.Name)
         .Cast<string>()
