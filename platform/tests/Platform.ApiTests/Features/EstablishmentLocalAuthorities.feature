@@ -228,13 +228,13 @@ Feature: Establishment local authorities endpoints
           | Name  | City of London |
         And the local authorities statistical neighbours result should contain the following neighbours:
           | Code | Name                | Order |
-          | 200  | Local authority 200 | 0     |
-          | 201  | Local authority 201 | 1     |
-          | 202  | Local authority 202 | 2     |
-          | 203  | Local authority 203 | 3     |
-          | 204  | Local authority 204 | 4     |
-          | 205  | Local authority 205 | 5     |
-          | 206  | Local authority 206 | 6     |
-          | 207  | Local authority 207 | 7     |
-          | 208  | Local authority 208 | 8     |
-          | 209  | Local authority 209 | 9     |
+          | 200  | Local authority 200 | 1     |
+          | 201  | Local authority 201 | 2     |
+          | 202  | Local authority 202 | 3     |
+          | 203  | Local authority 203 | 4     |
+          | 204  | Local authority 204 | 5     |
+          | 205  | Local authority 205 | 6     |
+          | 206  | Local authority 206 | 7     |
+          | 207  | Local authority 207 | 8     |
+          | 208  | Local authority 208 | 9     |
+          | 209  | Local authority 209 | 10    |

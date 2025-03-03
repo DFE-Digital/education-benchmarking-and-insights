@@ -17,6 +17,11 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
         return GetAsync(Api.Establishment.LocalAuthority(identifier));
     }
 
+    public Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier)
+    {
+        return GetAsync(Api.Establishment.LocalAuthorityStatisticalNeighbours(identifier));
+    }
+
     public Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default)
     {
         return GetAsync($"{Api.Establishment.LocalAuthorityNationalRank}{query?.ToQueryString()}", cancellationToken);
@@ -58,6 +63,7 @@ public interface IEstablishmentApi
     Task<ApiResult> GetSchool(string? identifier);
     Task<ApiResult> GetTrust(string? identifier);
     Task<ApiResult> GetLocalAuthority(string? identifier);
+    Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier);
     Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestSchools(string search, string[]? exclude = null);
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);

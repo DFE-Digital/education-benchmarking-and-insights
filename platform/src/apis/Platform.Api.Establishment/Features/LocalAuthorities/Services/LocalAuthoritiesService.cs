@@ -86,7 +86,7 @@ public class LocalAuthoritiesService(
             {
                 Code = stubbedCode,
                 Name = $"Local authority {stubbedCode}",
-                Order = i
+                Order = i + 1
             };
 
             neighbours.Add(value);
