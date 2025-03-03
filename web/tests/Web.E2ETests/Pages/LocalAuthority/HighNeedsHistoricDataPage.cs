@@ -11,9 +11,10 @@ public enum HighNeedsHistoryTabs
     Send2
 }
 
-public enum Section251CategoriesNames
+public enum HistoricDataCategoryNames
 {
-    PlaceFunding
+    PlaceFunding,
+    PlacementOfPupils
 }
 
 public class HighNeedsHistoricDataPage(IPage page)
@@ -25,13 +26,26 @@ public class HighNeedsHistoricDataPage(IPage page)
     private ILocator Section251Sections => page.Locator($"{Selectors.Section251Tab} {Selectors.GovAccordionSection}");
     private ILocator Section251Accordion => page.Locator(Selectors.Section251Accordions);
     private ILocator Section251SubCategories => Section251Accordion.Locator($"{Selectors.H3}");
-    private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
+    private ILocator Section251ShowHideAllSectionsLink => Section251TabContent.Locator(Selectors.GovShowAllLinkText);
+    private ILocator Send2ShowHideAllSectionsLink => Send2TabContent.Locator(Selectors.GovShowAllLinkText);
     private ILocator Section251ModeTable => page.Locator(Selectors.Section251ModeTable);
     private ILocator Section251ModeChart => page.Locator(Selectors.Section251ModeChart);
     private ILocator AllSection251Charts => Section251TabContent.Locator(Selectors.Charts);
     private ILocator Section251ChartsStats => Section251TabContent.Locator(Selectors.LineChartStats);
     private ILocator Section251TableView => page.Locator(Selectors.Section251TableMode);
     private ILocator Section251PlaceFundingAccordionContent => page.Locator(Selectors.Section251AccordionContent1);
+    private ILocator Send2TabContent => page.Locator(Selectors.Send2Panel);
+    private ILocator Send2CategoryHeadings => Send2TabContent.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
+    private ILocator Send2Sections => page.Locator($"{Selectors.Send2Tab} {Selectors.GovAccordionSection}");
+    private ILocator Send2Accordion => page.Locator(Selectors.Send2Accordions);
+    private ILocator Send2SubCategories => Send2Accordion.Locator($"{Selectors.H3}");
+    private ILocator Send2ModeTable => page.Locator(Selectors.Send2ModeTable);
+    private ILocator Send2ModeChart => page.Locator(Selectors.Send2ModeChart);
+    private ILocator AllSend2Charts => Send2TabContent.Locator(Selectors.Charts);
+    private ILocator Send2ChartsStats => Send2TabContent.Locator(Selectors.LineChartStats);
+    private ILocator Send2TableView => page.Locator(Selectors.Send2ModeTable);
+    private ILocator Send2PlaceFundingAccordionContent => page.Locator(Selectors.Section251AccordionContent1);
+    private ILocator Send2AccordionContent => page.Locator(Selectors.Send2AccordionContent1);
     private ILocator SaveAsImageButtons(string elementId)
     {
         return page.Locator($"#{elementId}").Locator(".share-button--save");
@@ -45,11 +59,14 @@ public class HighNeedsHistoricDataPage(IPage page)
         switch (selectedTab)
         {
             case HighNeedsHistoryTabs.Section251:
-                await ShowHideAllSectionsLink.First.ShouldBeVisible();
+                await Section251ShowHideAllSectionsLink.First.ShouldBeVisible();
                 await Section251ModeTable.ShouldBeVisible().ShouldBeChecked(false);
                 await Section251ModeChart.ShouldBeVisible().ShouldBeChecked();
                 break;
             case HighNeedsHistoryTabs.Send2:
+                await Send2ShowHideAllSectionsLink.First.ShouldBeVisible();
+                await Send2ModeTable.ShouldBeVisible().ShouldBeChecked(false);
+                await Send2ModeChart.ShouldBeVisible().ShouldBeChecked();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(tab));
@@ -60,7 +77,8 @@ public class HighNeedsHistoricDataPage(IPage page)
     {
         var showAllSectionsLink = tab switch
         {
-            HighNeedsHistoryTabs.Section251 => ShowHideAllSectionsLink.First,
+            HighNeedsHistoryTabs.Section251 => Section251ShowHideAllSectionsLink.First,
+            HighNeedsHistoryTabs.Send2 => Send2ShowHideAllSectionsLink.First,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -77,6 +95,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var tabSections = tab switch
         {
             HighNeedsHistoryTabs.Section251 => Section251Sections,
+            HighNeedsHistoryTabs.Send2 => Send2Sections,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -91,7 +110,8 @@ public class HighNeedsHistoricDataPage(IPage page)
     {
         var showAllSectionsLink = tab switch
         {
-            HighNeedsHistoryTabs.Section251 => ShowHideAllSectionsLink.First,
+            HighNeedsHistoryTabs.Section251 => Section251ShowHideAllSectionsLink.First,
+            HighNeedsHistoryTabs.Send2 => Send2ShowHideAllSectionsLink.First,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await showAllSectionsLink.TextEqual(expectedText);
@@ -102,6 +122,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var expectedSubCategories = tab switch
         {
             HighNeedsHistoryTabs.Section251 => subCategories,
+            HighNeedsHistoryTabs.Send2 => subCategories,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await AreChartStatsVisible(tab);
@@ -114,6 +135,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var charts = tab switch
         {
             HighNeedsHistoryTabs.Section251 => AllSection251Charts,
+            HighNeedsHistoryTabs.Send2 => AllSend2Charts,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -125,6 +147,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var sections = tab switch
         {
             HighNeedsHistoryTabs.Section251 => Section251TabContent.Locator(Tables),
+            HighNeedsHistoryTabs.Send2 => Send2TabContent.Locator(Tables),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -140,20 +163,21 @@ public class HighNeedsHistoricDataPage(IPage page)
         var viewAsTableRadio = tab switch
         {
             HighNeedsHistoryTabs.Section251 => Section251TableView,
+            HighNeedsHistoryTabs.Send2 => Send2TableView,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
         await viewAsTableRadio.Click();
     }
 
-    public async Task ClickSectionLink(Section251CategoriesNames categoryName)
+    public async Task ClickSectionLink(HistoricDataCategoryNames categoryName)
     {
         var link = SectionLink(categoryName);
 
         await link.Locator(Selectors.ToggleSectionText).First.ClickAsync();
     }
 
-    public async Task IsSectionVisible(Section251CategoriesNames categoryName, bool visibility, string text,
+    public async Task IsSectionVisible(HistoricDataCategoryNames categoryName, bool visibility, string text,
         string chartMode)
     {
         var link = SectionLink(categoryName);
@@ -225,17 +249,19 @@ public class HighNeedsHistoricDataPage(IPage page)
                 await AssertCategoryNames(categories, tab);
                 break;
             case HighNeedsHistoryTabs.Send2:
+                await AssertCategoryNames(categories, tab);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(tab));
         }
     }
 
-    private async Task IsSectionContentVisible(Section251CategoriesNames categoryName, bool visibility, string chartMode)
+    private async Task IsSectionContentVisible(HistoricDataCategoryNames categoryName, bool visibility, string chartMode)
     {
         var contentLocator = categoryName switch
         {
-            Section251CategoriesNames.PlaceFunding => Section251PlaceFundingAccordionContent,
+            HistoricDataCategoryNames.PlaceFunding => Section251PlaceFundingAccordionContent,
+            HistoricDataCategoryNames.PlacementOfPupils => Send2AccordionContent,
             _ => throw new ArgumentOutOfRangeException(nameof(categoryName))
         };
         foreach (var locator in await contentLocator.Locator(chartMode).AllAsync())
@@ -251,11 +277,12 @@ public class HighNeedsHistoricDataPage(IPage page)
         }
     }
 
-    private ILocator SectionLink(Section251CategoriesNames categoryName)
+    private ILocator SectionLink(HistoricDataCategoryNames categoryName)
     {
         var link = categoryName switch
         {
-            Section251CategoriesNames.PlaceFunding => SectionLink(Selectors.Section251AccordionHeading1),
+            HistoricDataCategoryNames.PlaceFunding => SectionLink(Selectors.Section251AccordionHeading1),
+            HistoricDataCategoryNames.PlacementOfPupils => SectionLink(Selectors.Send2AccordionHeading1),
             _ => throw new ArgumentOutOfRangeException(nameof(categoryName))
         };
         return link;
@@ -276,6 +303,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var subCategories = tab switch
         {
             HighNeedsHistoryTabs.Section251 => await Section251SubCategories.AllAsync(),
+            HighNeedsHistoryTabs.Send2 => await Send2SubCategories.AllAsync(),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -295,6 +323,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var categories = tab switch
         {
             HighNeedsHistoryTabs.Section251 => await Section251CategoryHeadings.AllTextContentsAsync(),
+            HighNeedsHistoryTabs.Send2 => await Send2CategoryHeadings.AllTextContentsAsync(),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         foreach (var expectedHeading in expected)
@@ -308,6 +337,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var sections = tab switch
         {
             HighNeedsHistoryTabs.Section251 => Section251ChartsStats,
+            HighNeedsHistoryTabs.Send2 => Send2ChartsStats,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await CheckVisibility(sections);
@@ -318,6 +348,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var sections = tab switch
         {
             HighNeedsHistoryTabs.Section251 => AllSection251Charts,
+            HighNeedsHistoryTabs.Send2 => AllSend2Charts,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await CheckVisibility(sections);
@@ -337,6 +368,7 @@ public class HighNeedsHistoricDataPage(IPage page)
         var elementId = tab switch
         {
             HighNeedsHistoryTabs.Section251 => "section-251",
+            HighNeedsHistoryTabs.Send2 => "send-2",
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
