@@ -7,6 +7,7 @@ namespace Web.App.Domain.LocalAuthorities;
 public record LocalAuthorityHighNeeds
 {
     public string? Code { get; set; }
+    public decimal? Total { get; set; }
     public HighNeedsAmount? HighNeedsAmount { get; set; }
     public TopFunding? Maintained { get; set; }
     public TopFunding? NonMaintained { get; set; }

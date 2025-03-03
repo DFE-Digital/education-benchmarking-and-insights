@@ -95,16 +95,9 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
 
     private static decimal? MapToTotal(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
     {
-        var item = highNeedsYear?
+        return highNeedsYear?
             .Where(o => o.Year == year)
-            .SingleOrDefault(o => o.Code == code);
-
-        if (item == null)
-        {
-            return null;
-        }
-
-        // todo: clarify data point/calculation to use
-        return item.HighNeedsAmount?.TotalPlaceFunding;
+            .SingleOrDefault(o => o.Code == code)
+            ?.Total;
     }
 }
