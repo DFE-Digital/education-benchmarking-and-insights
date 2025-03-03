@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ public interface ILocalAuthoritiesService
 {
     Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
+    Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighbours(string identifier);
 }
 
 [ExcludeFromCodeCoverage]
@@ -61,5 +63,40 @@ public class LocalAuthoritiesService(
                 ? null
                 : $"({string.Join(") and ( ", request.Exclude.Select(a => $"{nameof(LocalAuthority.Name)} ne '{a}'"))})";
         }
+    }
+
+    // stubbed implementation for the time being
+    public async Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighbours(string code)
+    {
+        var laBuilder = new LocalAuthorityQuery()
+            .WhereCodeEqual(code);
+
+        using var conn = await dbFactory.GetConnection();
+        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(laBuilder);
+        if (localAuthority is null)
+        {
+            return null;
+        }
+
+        var neighbours = new List<LocalAuthorityStatisticalNeighbour>();
+        for (var i = 0; i < 10; i++)
+        {
+            var stubbedCode = (200 + i).ToString();
+            var value = new LocalAuthorityStatisticalNeighbour
+            {
+                Code = stubbedCode,
+                Name = $"Local authority {stubbedCode}",
+                Order = i
+            };
+
+            neighbours.Add(value);
+        }
+
+        return new LocalAuthorityStatisticalNeighbours
+        {
+            Code = localAuthority.Code,
+            Name = localAuthority.Name,
+            StatisticalNeighbours = neighbours
+        };
     }
 }

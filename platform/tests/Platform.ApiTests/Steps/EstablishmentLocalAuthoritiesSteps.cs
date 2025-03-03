@@ -15,6 +15,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private const string RequestKey = "get-local-authority";
     private const string NationalRankRequestKey = "get-local-authority-national-rank";
     private const string SuggestRequestKey = "suggest-local-authority";
+    private const string StatisticalNeighboursRequestKey = "get-local-authority-statistical-neighbours";
 
     [Given("a valid local authority request with id '(.*)'")]
     private void GivenAValidLocalAuthorityRequestWithId(string id)
@@ -67,6 +68,16 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
             RequestUri = new Uri("/api/local-authorities/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid local authorities statistical neighbours request with id '(.*)'")]
+    private void GivenAValidLocalAuthoritiesStatisticalNeighboursRequestWithId(string identifier)
+    {
+        api.CreateRequest(StatisticalNeighboursRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/local-authority/{identifier}/statistical-neighbours", UriKind.Relative),
+            Method = HttpMethod.Get
         });
     }
 
@@ -204,6 +215,36 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
             s.Name,
             s.Value,
             s.Rank
+        }).ToList();
+
+        table.CompareToSet(set);
+    }
+
+    [Then("the local authorities statistical neighbours result should be ok and have the following values:")]
+    private async Task ThenTheLocalAuthoritiesStatisticalNeighboursResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    {
+        var response = api[StatisticalNeighboursRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<LocalAuthority>();
+
+        table.CompareToInstance(result);
+    }
+
+    [Then("the local authorities statistical neighbours result should contain the following neighbours:")]
+    private async Task ThenTheLocalAuthoritiesStatisticalNeighboursResultShouldContainTheFollowingNeighbours(DataTable table)
+    {
+        var response = api[StatisticalNeighboursRequestKey].Response;
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<LocalAuthorityStatisticalNeighbours>();
+
+        var set = result.StatisticalNeighbours?.Select(s => new
+        {
+            s.Code,
+            s.Name,
+            s.Order
         }).ToList();
 
         table.CompareToSet(set);
