@@ -2,5 +2,5 @@
 
 public static class Routes
 {
-    public const string LocalAuthorityEducationHealthCarePlans = "education-health-care-plans/local-authorities/history";
+    public const string LocalAuthoritiesHistory = "education-health-care-plans/local-authorities/history";
 }
