@@ -94,14 +94,14 @@ export const Send2Section: React.FC<HistoricDataHighNeedsProps> = ({
             <h2 className="govuk-accordion__section-heading">
               <span
                 className="govuk-accordion__section-button"
-                id="accordion-send-2-heading"
+                id="accordion-send-2-heading-1"
               >
                 {send2AccordionSection.heading}
               </span>
             </h2>
           </div>
           <div
-            id={"accordion-send-2-content"}
+            id={"accordion-send-2-content-1"}
             className="govuk-accordion__section-content"
           >
             {data &&
