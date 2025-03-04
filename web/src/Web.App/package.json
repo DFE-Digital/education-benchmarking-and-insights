@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@x-govuk/govuk-prototype-components": "^3.0.9",
     "async": "^3.2.5",
     "front-end": "^1.0.0",
     "govuk-frontend": "^5.7.0",
