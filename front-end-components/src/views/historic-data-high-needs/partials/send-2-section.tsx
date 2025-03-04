@@ -120,7 +120,7 @@ export const Send2Section: React.FC<HistoricDataHighNeedsProps> = ({
                     valueField={chart.field}
                     columnHeading="Amount"
                   >
-                    <h2 className="govuk-heading-m">{chart.name}</h2>
+                    <h3 className="govuk-heading-m">{chart.name}</h3>
                   </HistoricChart>
                 </section>
               ))}
