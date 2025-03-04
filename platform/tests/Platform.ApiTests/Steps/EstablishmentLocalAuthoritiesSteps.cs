@@ -13,6 +13,7 @@ namespace Platform.ApiTests.Steps;
 public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-local-authority";
+    private const string GetAllKey = "get-local-authorities";
     private const string NationalRankRequestKey = "get-local-authority-national-rank";
     private const string SuggestRequestKey = "suggest-local-authority";
     private const string StatisticalNeighboursRequestKey = "get-local-authority-statistical-neighbours";
@@ -87,6 +88,16 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         api.CreateRequest(NationalRankRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/local-authorities/national-rank?sort={sort}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid local authorities request")]
+    private void GivenAValidLocalAuthoritiesRequest()
+    {
+        api.CreateRequest(GetAllKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/local-authorities", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -245,6 +256,23 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
             s.Code,
             s.Name,
             s.Order
+        }).ToList();
+
+        table.CompareToSet(set);
+    }
+
+    [Then("the local authorities result should be ok and have the following values:")]
+    private async Task ThenTheLocalAuthoritiesResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    {
+        var response = api[GetAllKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<IEnumerable<LocalAuthority>>();
+        var set = result.Select(s => new
+        {
+            s.Code,
+            s.Name
         }).ToList();
 
         table.CompareToSet(set);

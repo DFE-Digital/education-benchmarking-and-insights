@@ -35,7 +35,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetStatisticalNeighbours(_laCode))
+            .Setup(d => d.GetStatisticalNeighboursAsync(_laCode))
             .ReturnsAsync(_neighbours);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);

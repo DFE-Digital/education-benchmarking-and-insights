@@ -9,9 +9,8 @@ public class LocalAuthorityQueryTests
     public void ShouldReturnSql()
     {
         var builder = Create();
-        Assert.Equal("SELECT * FROM LocalAuthority ", builder.QueryTemplate.RawSql);
+        Assert.Equal("SELECT * FROM LocalAuthority  ", builder.QueryTemplate.RawSql);
     }
-
 
     private static LocalAuthorityQuery Create() => new();
 }
