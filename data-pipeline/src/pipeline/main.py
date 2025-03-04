@@ -572,15 +572,27 @@ def pre_process_local_authorities(
     :return: tuple of supporting datasets
     """
     logger.info(
-        f"Processing LA Section 251: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
+        f"Reading LA Section 251 budget data: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
     )
-
     la_expenditure_data = get_blob(
         raw_container,
         f"default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv",
     )
 
-    local_authorities = build_local_authorities(la_expenditure_data, year)
+    logger.info(
+        f"Reading LA Section 251 outturn data: default/{year}/s251_alleducation_la_regional_national.csv"
+    )
+    la_outturn_data = get_blob(
+        raw_container,
+        f"default/{year}/s251_alleducation_la_regional_national.csv",
+    )
+
+    logger.info("Processing Local Authority data.")
+    local_authorities = build_local_authorities(
+        la_expenditure_data,
+        la_outturn_data,
+        year,
+    )
 
     write_blob(
         "pre-processed",

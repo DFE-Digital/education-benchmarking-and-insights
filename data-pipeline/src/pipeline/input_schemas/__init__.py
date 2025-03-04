@@ -25,12 +25,16 @@ from .census_workforce import (  # noqa
 from .gias import gias, gias_index_col  # noqa
 from .local_authority import (  # noqa
     la_expenditure,
-    la_expenditure_category_prefixes,
     la_expenditure_column_eval,
     la_expenditure_column_mappings,
-    la_expenditure_index_column,
-    la_expenditure_na_values,
     la_expenditure_pivot,
+    la_outturn,
+    la_outturn_column_eval,
+    la_outturn_column_mappings,
+    la_outturn_pivot,
+    la_section_251_category_prefixes,
+    la_section_251_index_column,
+    la_section_251_na_values,
 )
 
 gias_links_index_col = "URN"
