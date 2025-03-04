@@ -106,7 +106,7 @@ export function HistoricChart<TData extends ChartDataSeries>({
       ) : (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
-            <table className="govuk-table">
+            <table className="govuk-table" data-testid={`${chartTitle}-table`}>
               <thead className="govuk-table__head">
                 <tr className="govuk-table__row">
                   <th className="govuk-table__header govuk-!-width-one-half">
