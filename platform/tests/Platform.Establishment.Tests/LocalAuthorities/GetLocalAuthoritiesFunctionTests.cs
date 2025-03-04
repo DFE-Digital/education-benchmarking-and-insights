@@ -45,17 +45,4 @@ public class GetLocalAuthoritiesFunctionTests : FunctionsTestBase
         Assert.NotNull(body);
         Assert.Equivalent(_localAuthorities, body);
     }
-
-    [Fact]
-    public async Task ShouldReturn404OnInvalidRequest()
-    {
-        _service
-            .Setup(d => d.GetAllAsync())
-            .ReturnsAsync(Array.Empty<LocalAuthority>());
-
-        var result = await _function.RunAsync(CreateHttpRequestData());
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
-    }
 }

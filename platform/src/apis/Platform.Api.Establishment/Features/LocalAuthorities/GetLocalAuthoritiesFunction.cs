@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -19,16 +18,10 @@ public class GetLocalAuthoritiesFunction(ILocalAuthoritiesService service)
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetLocalAuthoritiesFunction), Constants.Features.LocalAuthorities)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IEnumerable<LocalAuthority>))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req)
     {
         var response = await service.GetAllAsync();
-        if (!response.Any())
-        {
-            return req.CreateNotFoundResponse();
-        }
-
         return await req.CreateJsonResponseAsync(response);
     }
 }
