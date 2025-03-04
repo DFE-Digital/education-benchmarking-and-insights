@@ -3,7 +3,7 @@ using FluentValidation;
 using Platform.Domain;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 
-namespace Platform.Api.NonFinancial.Features.Validators;
+namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Validators;
 
 public class EducationHealthCarePlansParametersValidator : AbstractValidator<EducationHealthCarePlansParameters>
 {
