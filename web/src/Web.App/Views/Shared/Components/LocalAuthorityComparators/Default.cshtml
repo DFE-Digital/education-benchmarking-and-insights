@@ -25,7 +25,13 @@
             <select
                 class="govuk-select govuk-!-width-full@(hasLaInputError ? " govuk-select--error" : string.Empty)"
                 id="@nameof(LocalAuthorityComparatorViewModel.LaInput)"
-                name="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
+                name="@nameof(LocalAuthorityComparatorViewModel.LaInput)"
+                data-module="autocomplete"
+                data-autoselect="true"
+                data-display-menu="overlay"
+                data-min-length="3"
+                data-show-all-values="false"
+                data-show-no-options-found="false">
                 <option value="">Choose local authority</option>
                 @foreach (var localAuthority in Model.AvailableLocalAuthorities)
                 {

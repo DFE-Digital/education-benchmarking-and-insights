@@ -77,3 +77,12 @@
         </a>
     </div>
 </form>
+
+@section scripts
+{
+    <script add-nonce="true" src="/js/govuk-prototype-components.js">
+    </script>
+    <script type="module" add-nonce="true">
+        window.GOVUKPrototypeComponents.initAll()
+    </script>
+}

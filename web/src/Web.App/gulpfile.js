@@ -28,6 +28,9 @@ const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk
         gulp.src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js.map"])
             .pipe(gulp.dest("wwwroot/js/")))
     .on("end", () =>
+        gulp.src(["node_modules/@x-govuk/govuk-prototype-components/x-govuk/all.js"])
+            .pipe(rename("govuk-prototype-components.js")).pipe(gulp.dest("wwwroot/js/")))
+    .on("end", () =>
         gulp.src(["node_modules/front-end/dist/front-end.js"])
             .pipe(gulp.dest("wwwroot/js/")))
     .on("end", () =>
