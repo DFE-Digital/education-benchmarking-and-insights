@@ -135,4 +135,14 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery OrderBy(params string[] columns)
+    {
+        foreach (var column in columns)
+        {
+            base.OrderBy(column);
+        }
+
+        return this;
+    }
 }

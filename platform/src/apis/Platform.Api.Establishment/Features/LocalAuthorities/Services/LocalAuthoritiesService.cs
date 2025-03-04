@@ -17,7 +17,8 @@ public interface ILocalAuthoritiesService
 {
     Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
-    Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighbours(string identifier);
+    Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighboursAsync(string identifier);
+    Task<IEnumerable<LocalAuthority>> GetAllAsync();
 }
 
 [ExcludeFromCodeCoverage]
@@ -66,7 +67,7 @@ public class LocalAuthoritiesService(
     }
 
     // stubbed implementation for the time being
-    public async Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighbours(string code)
+    public async Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighboursAsync(string code)
     {
         var laBuilder = new LocalAuthorityQuery()
             .WhereCodeEqual(code);
@@ -98,5 +99,15 @@ public class LocalAuthoritiesService(
             Name = localAuthority.Name,
             StatisticalNeighbours = neighbours
         };
+    }
+
+    public async Task<IEnumerable<LocalAuthority>> GetAllAsync()
+    {
+        var laBuilder = new LocalAuthorityQuery()
+            .OrderBy(nameof(LocalAuthority.Name));
+
+        using var conn = await dbFactory.GetConnection();
+        var localAuthorities = await conn.QueryAsync<LocalAuthority>(laBuilder);
+        return localAuthorities;
     }
 }

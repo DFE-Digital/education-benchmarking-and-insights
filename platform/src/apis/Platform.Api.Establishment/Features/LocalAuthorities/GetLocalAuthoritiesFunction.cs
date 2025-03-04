@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -11,20 +13,18 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
-public class GetLocalAuthorityStatisticalNeighboursFunction(ILocalAuthoritiesService service)
+public class GetLocalAuthoritiesFunction(ILocalAuthoritiesService service)
 {
-    [Function(nameof(GetLocalAuthorityStatisticalNeighboursFunction))]
+    [Function(nameof(GetLocalAuthoritiesFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthorityStatisticalNeighboursFunction), Constants.Features.LocalAuthorities)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityStatisticalNeighbours))]
+    [OpenApiOperation(nameof(GetLocalAuthoritiesFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IEnumerable<LocalAuthority>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityStatisticalNeighbours)] HttpRequestData req,
-        string identifier)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req)
     {
-        var response = await service.GetStatisticalNeighboursAsync(identifier);
-        if (response == null)
+        var response = await service.GetAllAsync();
+        if (!response.Any())
         {
             return req.CreateNotFoundResponse();
         }

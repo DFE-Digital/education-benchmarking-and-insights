@@ -227,11 +227,24 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
-    private static string BuildExpectedQuery(string wherePart) =>
-        $"{MockPlatformQuery.Sql.Replace("/**where**/", wherePart)}\n";
+    [Fact]
+    public void ShouldAddOrderBy()
+    {
+        const string expectedValue = "Code";
+        var expectedSql = BuildExpectedQuery(string.Empty, "ORDER BY Code");
+
+        var builder = new MockPlatformQuery().OrderBy(expectedValue);
+
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
+        $"{MockPlatformQuery.Sql
+            .Replace("/**where**/", wherePart)
+            .Replace("/**orderby**/", orderByPart)}\n";
 }
 
 public class MockPlatformQuery() : PlatformQuery(Sql)
 {
-    public const string Sql = "SELECT * FROM Mock /**where**/";
+    public const string Sql = "SELECT * FROM Mock /**where**//**orderby**/";
 }
