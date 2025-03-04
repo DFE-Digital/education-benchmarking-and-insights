@@ -1,4 +1,4 @@
-@model Web.App.ViewModels.LocalAuthorityStatisticalNeighboursViewModel
+@model Web.App.ViewModels.LocalAuthorityHighNeedsBenchmarkingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
 }
@@ -10,6 +10,8 @@
     id = Model.Code,
     kind = OrganisationTypes.LocalAuthority
 })
+
+@await Html.PartialAsync("_ErrorSummary")
 
 <div class="govuk-inset-text">
     <p class="govuk-body">
@@ -35,3 +37,9 @@
         elit.
     </div>
 </details>
+
+@await Component.InvokeAsync("LocalAuthorityComparators", new
+{
+    Model.Code,
+    Model.Comparators
+})
