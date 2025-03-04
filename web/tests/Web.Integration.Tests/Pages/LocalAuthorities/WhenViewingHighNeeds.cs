@@ -142,8 +142,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         Assert.NotNull(authority.Name);
 
         var statisticalNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbours>().Create();
+        var authorities = Fixture.Build<LocalAuthority>().CreateMany().ToArray();
 
-        var page = await Client.SetupEstablishment(authority, ranking, statisticalNeighbours)
+        var page = await Client.SetupEstablishment(authority, ranking, statisticalNeighbours, authorities)
             .SetupHighNeedsHistory(history)
             .SetupInsights()
             .Navigate(Paths.LocalAuthorityHighNeeds(authority.Code));

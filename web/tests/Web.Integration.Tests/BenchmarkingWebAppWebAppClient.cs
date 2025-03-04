@@ -185,18 +185,25 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthorityRanking ranking, LocalAuthorityStatisticalNeighbours statisticalNeighbours)
+    public BenchmarkingWebAppClient SetupEstablishment(
+        LocalAuthority authority,
+        LocalAuthorityRanking ranking,
+        LocalAuthorityStatisticalNeighbours statisticalNeighbours,
+        LocalAuthority[] authorities)
     {
         SetupEstablishment(authority, []);
         EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).ReturnsAsync(ApiResult.Ok(authorities));
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority)
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).ReturnsAsync(ApiResult.Ok(authorities));
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
         return this;
     }
 
@@ -217,6 +224,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());

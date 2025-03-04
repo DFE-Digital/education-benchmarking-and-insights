@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -11,9 +12,9 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, authority) = await SetupNavigateInitPage();
+        var (page, authority, authorities) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, authority);
+        AssertPageLayout(page, authority, authorities);
     }
 
     [Fact]
@@ -38,7 +39,105 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanAddComparators()
+    {
+        var (page, _, authorities) = await SetupNavigateInitPage();
+        var code = authorities.First().Code!;
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "LaInput", code
+                }
+            });
+        });
+
+        var selectedTable = page.QuerySelector("#current-comparators-la");
+        Assert.NotNull(selectedTable);
+        var rows = selectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Single(rows);
+        Assert.Equal(authorities.First().Name!, rows.Single().QuerySelector("> td")?.TextContent);
+
+        var comparatorSelector = page.QuerySelector("#LaInput");
+        Assert.NotNull(comparatorSelector);
+        var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
+        var expectedOptions = new[] { "Choose local authority" }.Concat(authorities
+            .Except([authorities.First()])
+            .Select(n => n.Name)
+            .ToArray());
+        Assert.Equal(expectedOptions, options);
+    }
+
+    [Fact]
+    public async Task CanRemoveComparators()
+    {
+        var (page, _, authorities) = await SetupNavigateInitPage();
+        var code = authorities.First().Code!;
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "LaInput", code
+                }
+            });
+        });
+
+        var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
+        Assert.NotNull(removeButton);
+        page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "LaInput", code
+                }
+            });
+        });
+
+        var selectedTable = page.QuerySelector("#current-comparators-la");
+        Assert.Null(selectedTable);
+    }
+
+    [Fact]
+    public async Task CanDisplayValidationError()
+    {
+        var (page, _, _) = await SetupNavigateInitPage();
+
+        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
+        Assert.NotNull(continueButton);
+
+        page = await Client.SubmitForm(page.Forms[0], continueButton);
+
+        var errorSummary = page.QuerySelector(".govuk-error-summary");
+        Assert.NotNull(errorSummary);
+        Assert.Equal("There is a problem\nSelect between 1 and 9 comparator local authorities", errorSummary.GetInnerText().Trim());
+    }
+
+    [Fact]
+    public async Task CanCancel()
+    {
+        var (page, authority, _) = await SetupNavigateInitPage();
+
+        var cancelButton = page.QuerySelector("button[name='action'][value='reset']");
+        Assert.NotNull(cancelButton);
+
+        page = await Client.SubmitForm(page.Forms[0], cancelButton);
+
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
+    }
+
+    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage()
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .Create();
@@ -48,17 +147,16 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             .ToArray();
 
         authority.StatisticalNeighbours = statisticalNeighbours;
+        var authorities = Fixture.Build<LocalAuthority>().CreateMany().ToArray();
 
-        var page = await Client.SetupEstablishment(authority)
+        var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
             .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code));
 
-        return (page, authority);
+        return (page, authority, authorities);
     }
 
-    private static void AssertPageLayout(
-        IHtmlDocument page,
-        LocalAuthorityStatisticalNeighbours authority)
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
@@ -77,5 +175,22 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             .Select(n => n.Name)
             .ToArray();
         Assert.Equal(expectedListItems, listItems);
+
+        var comparatorSelector = page.QuerySelector("#LaInput");
+        Assert.NotNull(comparatorSelector);
+        var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
+        var expectedOptions = new[] { "Choose local authority" }.Concat(authorities
+            .Select(n => n.Name)
+            .ToArray());
+        Assert.Equal(expectedOptions, options);
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
+        Assert.NotNull(continueButton);
+
+        var cancelButton = page.QuerySelector("button[name='action'][value='reset']");
+        Assert.NotNull(cancelButton);
     }
 }

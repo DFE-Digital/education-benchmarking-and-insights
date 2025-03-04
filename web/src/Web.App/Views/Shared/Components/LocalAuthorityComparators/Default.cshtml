@@ -22,9 +22,9 @@
                        for="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
                     Local authority
                 </label>
-                <p id="location-error" class="govuk-error-message">
-                    <span
-                        class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(LocalAuthorityComparatorViewModel.LaInput)]?.Errors.First().ErrorMessage
+                <p id="@nameof(LocalAuthorityComparatorViewModel.LaInput)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    @ViewData.ModelState[nameof(LocalAuthorityComparatorViewModel.LaInput)]?.Errors.First().ErrorMessage
                 </p>
                 <select
                     class="govuk-select govuk-!-width-full@(hasLaInputError ? " govuk-select--error" : string.Empty)"
