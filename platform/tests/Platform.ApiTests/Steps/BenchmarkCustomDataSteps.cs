@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Platform.Api.Benchmark.CustomData;
-using Platform.Api.Benchmark.UserData;
+using Platform.Api.Benchmark.Features.UserData.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;

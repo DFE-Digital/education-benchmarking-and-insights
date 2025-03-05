@@ -2,7 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
 
-namespace Platform.Api.Benchmark.UserData;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace Platform.Api.Benchmark.Features.UserData.Models;
 
 [ExcludeFromCodeCoverage]
 [Table("UserData")]

@@ -4,12 +4,12 @@ namespace Platform.Sql.QueryBuilders;
 
 public abstract class PlatformQuery : SqlBuilder
 {
-    public Template QueryTemplate { get; }
 
     protected PlatformQuery(string sql, dynamic? parameters = null)
     {
         QueryTemplate = AddTemplate(sql, parameters);
     }
+    public Template QueryTemplate { get; }
 
     public PlatformQuery WhereUrnEqual(string urn)
     {
@@ -143,6 +143,102 @@ public abstract class PlatformQuery : SqlBuilder
             base.OrderBy(column);
         }
 
+        return this;
+    }
+
+    public PlatformQuery WhereUserIdEqual(string userId)
+    {
+        const string sql = "UserId = @UserId";
+        var parameters = new
+        {
+            UserId = userId
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereStatusIn(params string[] statuses)
+    {
+        const string sql = "Status IN @Statuses";
+        var parameters = new
+        {
+            Statuses = statuses
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereActive(bool active = true)
+    {
+        const string sql = "Active = @Active";
+        var parameters = new
+        {
+            Active = active ? 1 : 0
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereOrganisationIdEqual(string organisationId)
+    {
+        const string sql = "OrganisationId = @OrganisationId";
+        var parameters = new
+        {
+            OrganisationId = organisationId
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereOrganisationTypeEqual(string organisationType)
+    {
+        const string sql = "OrganisationType = @OrganisationType";
+        var parameters = new
+        {
+            OrganisationType = organisationType
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereTypeEqual(string type)
+    {
+        const string sql = "Type = @Type";
+        var parameters = new
+        {
+            Type = type
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereStatusEqual(string status)
+    {
+        const string sql = "Status = @Status";
+        var parameters = new
+        {
+            Status = status
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereIdEqual(string id)
+    {
+        const string sql = "Id = @Id";
+        var parameters = new
+        {
+            Id = id
+        };
+
+        Where(sql, parameters);
         return this;
     }
 }
