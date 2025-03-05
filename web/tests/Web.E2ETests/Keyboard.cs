@@ -4,4 +4,5 @@ public static class Keyboard
 {
     public const string ArrowDownKey = "ArrowDown";
     public const string EnterKey = "Enter";
+    public const string TabKey = "Tab";
 }
