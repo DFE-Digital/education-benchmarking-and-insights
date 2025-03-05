@@ -19,7 +19,7 @@ public class LocalAuthorityHighNeedsHistoricDataController(
     : Controller
 {
     [HttpGet]
-    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
+    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.HighNeeds)]
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new

@@ -101,6 +101,9 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             {
                 {
                     "LaInput", code
+                },
+                {
+                    "Selected", code
                 }
             });
         });
@@ -129,11 +132,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         var (page, authority, _) = await SetupNavigateInitPage();
 
-        var cancelButton = page.QuerySelector("button[name='action'][value='reset']");
+        var cancelButton = page.QuerySelector("a.govuk-button--secondary") as IHtmlAnchorElement;
         Assert.NotNull(cancelButton);
 
-        page = await Client.SubmitForm(page.Forms[0], cancelButton);
-
+        page = await client.Follow(cancelButton);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
     }
 
@@ -147,7 +149,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             .ToArray();
 
         authority.StatisticalNeighbours = statisticalNeighbours;
-        var authorities = Fixture.Build<LocalAuthority>().CreateMany().ToArray();
+        var authorities = Fixture.Build<LocalAuthority>()
+            .With(l => l.Code, () => Fixture.Create<string>().Replace("-", string.Empty))
+            .CreateMany()
+            .ToArray();
 
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
@@ -190,7 +195,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var continueButton = page.QuerySelector("button[name='action'][value='continue']");
         Assert.NotNull(continueButton);
 
-        var cancelButton = page.QuerySelector("button[name='action'][value='reset']");
+        var cancelButton = page.QuerySelector("a.govuk-button--secondary");
         Assert.NotNull(cancelButton);
     }
 }

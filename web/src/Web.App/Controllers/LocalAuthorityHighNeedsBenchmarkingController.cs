@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -23,25 +22,22 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     : Controller
 {
     [HttpGet]
-    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
-    [ImportModelState]
-    public async Task<IActionResult> Index(string code, [FromQuery] string[]? la = null, [FromQuery] bool? updated = false)
+    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.HighNeeds)]
+    public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
         {
-            code,
-            la,
-            updated
+            code
         }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
-                var neighbours = await LocalAuthorityStatisticalNeighbours(code);
+                var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
                 var viewModel = new LocalAuthorityHighNeedsBenchmarkingViewModel(
-                    neighbours,
-                    la ?? (updated == true ? [] : localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set));
+                    localAuthority,
+                    localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -53,9 +49,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     }
 
     [HttpPost]
-    [ExportModelState]
-    [Route("update")]
-    public IActionResult UpdateComparators([FromRoute] string code, [FromForm] LocalAuthorityComparatorViewModel viewModel)
+    public async Task<IActionResult> Index([FromRoute] string code, [FromForm] LocalAuthorityComparatorViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -66,12 +60,10 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
             try
             {
                 var comparators = new List<string>(viewModel.Selected);
-                var action = viewModel.Action ?? string.Empty;
+                FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
 
-                switch (action)
+                switch (action.Action)
                 {
-                    case FormAction.Reset:
-                        return RedirectToAction("Index", "LocalAuthorityHighNeeds", new { code });
                     case FormAction.Add when string.IsNullOrWhiteSpace(viewModel.LaInput):
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select a local authority");
                         break;
@@ -81,15 +73,12 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     case FormAction.Add:
                         comparators.Add(viewModel.LaInput);
                         break;
+                    case FormAction.Remove when !string.IsNullOrWhiteSpace(action.Identifier):
+                        comparators.Remove(action.Identifier);
+                        break;
                     case FormAction.Continue when comparators.Count is < 1 or > 9:
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 9 comparator local authorities");
                         break;
-                }
-
-                if (action.StartsWith(FormAction.Remove))
-                {
-                    var laCode = action[(FormAction.Remove.Length + 1)..];
-                    comparators.Remove(laCode);
                 }
 
                 if (!ModelState.IsValid)
@@ -97,18 +86,14 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     logger.LogDebug("Posted local authorities comparators failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
                 }
-                else if (action == FormAction.Continue)
+                else if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
                     return RedirectToAction("Index", "LocalAuthorityHighNeeds", new { code });
                 }
 
-                return RedirectToAction("Index", new
-                {
-                    code,
-                    la = comparators,
-                    updated = true
-                });
+                var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
+                return View(nameof(Index), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray()));
             }
             catch (Exception e)
             {
