@@ -60,3 +60,61 @@ def la_expenditure() -> pd.DataFrame:
     }
 
     return pd.DataFrame(la_ex)
+
+
+@pytest.fixture
+def la_outturn() -> pd.DataFrame:
+    """
+    Local Authority outturn data.
+    """
+    category_of_expenditure = [
+        "1.0.2 High needs place funding within Individual Schools Budget",
+        "1.2.1 Top-up funding – maintained schools",
+        "1.2.2 Top-up funding – academies, free schools and colleges",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers",
+        "1.2.4 Additional high needs targeted funding for mainstream schools and academies",
+        "1.2.5 SEN support service",
+        "1.2.6 Hospital education services",
+        "1.2.7 Other alternative provision services",
+        "1.2.8 Support for inclusion",
+        "1.2.9 Special schools and PRUs in financial difficulty",
+        "1.2.10 PFI/ BSF costs at special schools, AP/ PRUs and Post 16 institutions only",
+        "1.2.11 Direct payments (SEN and disability)",
+        "1.2.13 Therapies and other health related services",
+    ]
+
+    def _get_str(value: str) -> list[str]:
+        return [value] * len(category_of_expenditure)
+
+    def _get_float() -> list[float]:
+        return [
+            random.uniform(0.0, 1000.0) for _ in range(len(category_of_expenditure))
+        ]
+
+    outturn = {
+        "time_period": _get_str("202324"),
+        "time_identifier": _get_str("Financial year"),
+        "geographic_level": _get_str("Local authority"),
+        "country_name": _get_str("England"),
+        "country_code": _get_str("E92000001"),
+        "region_name": _get_str("Yorkshire and The Humber"),
+        "region_code": _get_str("E13000001"),
+        "la_name": _get_str("West Yorkshire"),
+        "old_la_code": _get_str("101"),
+        "new_la_code": _get_str("E10000000"),
+        "main_category": _get_str("Section A: Schools"),
+        "category_of_expenditure": category_of_expenditure,
+        "early_years_establishments": _get_float(),
+        "primary_schools": _get_float(),
+        "secondary_schools": _get_float(),
+        "sen_and_special_schools": _get_float(),
+        "pupil_referral_units_and_alt_provision": _get_float(),
+        "post_16": _get_float(),
+        "gross_expenditure": _get_float(),
+        "income": _get_float(),
+        "net_expenditure": _get_float(),
+        "net_per_capita_expenditure": _get_float(),
+        "EES_order": list(range(1, len(category_of_expenditure) + 1)),
+    }
+
+    return pd.DataFrame(outturn)
