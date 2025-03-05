@@ -1,4 +1,5 @@
 ﻿using Web.App.Attributes;
+
 namespace Web.App;
 
 public enum TrackedRequestType
@@ -46,7 +47,9 @@ public enum TrackedRequestFeature
     [StringValue("spending-priorities")]
     SpendingPriorities,
     [StringValue("financial-benchmarking-insights-summary")]
-    FinancialBenchmarkingInsightsSummary
+    FinancialBenchmarkingInsightsSummary,
+    [StringValue("high-needs")]
+    HighNeeds
 }
 
 public enum TrackedRequestRouteParameters

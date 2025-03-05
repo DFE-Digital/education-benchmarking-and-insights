@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Web.App.Domain
 @model Web.App.ViewModels.LocalAuthorityHighNeedsBenchmarkingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
@@ -13,33 +15,65 @@
 
 @await Html.PartialAsync("_ErrorSummary")
 
-<div class="govuk-inset-text">
-    <p class="govuk-body">
-        These local authorities are your ten closest statistical neighbours which are deemed to have similar
-        characteristics:
-    </p>
-    <ol class="govuk-list govuk-list--number">
-        @foreach (var neighbour in Model.StatisticalNeighbours)
-        {
-            <li>@neighbour</li>
-        }
-    </ol>
-</div>
-
-<details class="govuk-details">
-    <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-            More about statistical neighbours
-        </span>
-    </summary>
-    <div class="govuk-details__text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit.
-    </div>
-</details>
-
-@await Component.InvokeAsync("LocalAuthorityComparators", new
+@if (Model.StatisticalNeighbours.Any())
 {
-    Model.Code,
-    Model.Comparators
-})
+    <div class="govuk-inset-text">
+        <p class="govuk-body">
+            These local authorities are your ten closest statistical neighbours which are deemed to have similar
+            characteristics:
+        </p>
+        <ol class="govuk-list govuk-list--number">
+            @foreach (var neighbour in Model.StatisticalNeighbours)
+            {
+                <li>@neighbour</li>
+            }
+        </ol>
+    </div>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+                More about statistical neighbours
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            <p class="govuk-body-s">
+                Statistical neighbours provide suggestions for local authorities to compare against.
+            </p>
+            <p class="govuk-body-s">
+                For each local authority, 10 local authorities are listed which are deemed to have
+                similar characteristics. These designated local authorities are known as statistical
+                neighbours and are listed in order from the statistically closest (top) to least close
+                (bottom).
+            </p>
+            <p class="govuk-body-s">
+                The National Foundation for Educational Research (NFER) was commissioned in
+                2007 by the Department for Education (DfE) to identify and group similar local
+                authorities in terms of the socio-economic characteristic.
+            </p>
+        </div>
+    </details>
+}
+
+<h2 class="govuk-heading-m">
+    Add local authorities
+</h2>
+
+<form action="@Url.Action("Index", "LocalAuthorityHighNeedsBenchmarking", new { Model.Code })" method="post">
+    @await Component.InvokeAsync("LocalAuthorityComparators", new
+    {
+        Model.Code,
+        Model.Comparators
+    })
+
+    <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
+                value="@FormAction.Continue">
+            Save and continue
+        </button>
+        <a class="govuk-button govuk-button--secondary" data-module="govuk-button"
+           href="@Url.Action("Index", "LocalAuthorityHighNeeds", new { Model.Code })">
+            Cancel
+        </a>
+    </div>
+</form>

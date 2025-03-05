@@ -10,14 +10,9 @@ public class LocalAuthorityComparatorsViewComponent(IEstablishmentApi establishm
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string[] comparators)
     {
-        var localAuthorities = await LocalAuthorities();
-        return View(new LocalAuthorityComparatorsViewModel(code, localAuthorities, comparators));
-    }
-
-    private async Task<IEnumerable<LocalAuthority>> LocalAuthorities()
-    {
-        return await establishmentApi
+        var localAuthorities = await establishmentApi
             .GetLocalAuthorities()
             .GetResultOrThrow<IEnumerable<LocalAuthority>>();
+        return View(new LocalAuthorityComparatorsViewModel(code, localAuthorities, comparators));
     }
 }

@@ -7,95 +7,79 @@
     var hasLaInputError = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorViewModel.LaInput));
 }
 
-<form
-    action="@Url.Action("UpdateComparators", "LocalAuthorityHighNeedsBenchmarking", new { Model.Code })"
-    method="post">
-    <h2 class="govuk-heading-m">
-        Add local authorities
-    </h2>
-
-    <div class="select-row">
-        <div class="select-column-two-thirds">
-            <div
-                class="govuk-form-group govuk-!-width-full@(hasLaInputError ? " govuk-form-group--error" : string.Empty)">
-                <label class="govuk-label govuk-visually-hidden"
-                       for="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
-                    Local authority
-                </label>
+<div class="select-row">
+    <div class="select-column-two-thirds">
+        <div
+            class="govuk-form-group govuk-!-width-full@(hasLaInputError ? " govuk-form-group--error" : string.Empty)">
+            <label class="govuk-label govuk-visually-hidden"
+                   for="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
+                Local authority
+            </label>
+            @if (hasLaInputError)
+            {
                 <p id="@nameof(LocalAuthorityComparatorViewModel.LaInput)-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     @ViewData.ModelState[nameof(LocalAuthorityComparatorViewModel.LaInput)]?.Errors.First().ErrorMessage
                 </p>
-                <select
-                    class="govuk-select govuk-!-width-full@(hasLaInputError ? " govuk-select--error" : string.Empty)"
-                    id="@nameof(LocalAuthorityComparatorViewModel.LaInput)"
-                    name="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
-                    <option value="">Choose local authority</option>
-                    @foreach (var localAuthority in Model.AvailableLocalAuthorities)
-                    {
-                        <option value="@localAuthority.Code">@localAuthority.Name</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="select-column-one-third">
-            <button
-                type="submit"
-                class="govuk-button govuk-button--secondary"
-                data-module="govuk-button"
-                name="action" value="@FormAction.Add">
-                Add
-            </button>
-        </div>
-    </div>
-
-    @if (Model.SelectedLocalAuthorities.Any())
-    {
-        <h3 class="govuk-heading-s">
-            Comparators added
-        </h3>
-
-        <table class="govuk-table" id="current-comparators-la">
-            <caption class="govuk-table__caption govuk-visually-hidden">Currently selected comparator local
-                authorities
-            </caption>
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Local authority</th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            @foreach (var selected in Model.SelectedLocalAuthorities)
-            {
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">@selected.Name</td>
-                    <td class="govuk-table__cell">
-                        <input
-                            type="hidden" name="@nameof(LocalAuthorityComparatorViewModel.Selected)"
-                            value="@selected.Code"/>
-                        <button
-                            type="submit"
-                            class="govuk-button govuk-button--warning govuk-!-margin-bottom-0"
-                            data-module="govuk-button"
-                            name="action" value="@FormAction.Remove-@selected.Code">
-                            Remove
-                        </button>
-                    </td>
-                </tr>
             }
-            </tbody>
-        </table>
-    }
-
-    <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
-                value="@FormAction.Continue">
-            Save and continue
-        </button>
-        <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action"
-                value="@FormAction.Reset">
-            Cancel
+            <select
+                class="govuk-select govuk-!-width-full@(hasLaInputError ? " govuk-select--error" : string.Empty)"
+                id="@nameof(LocalAuthorityComparatorViewModel.LaInput)"
+                name="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
+                <option value="">Choose local authority</option>
+                @foreach (var localAuthority in Model.AvailableLocalAuthorities)
+                {
+                    <option value="@localAuthority.Code">@localAuthority.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="select-column-one-third">
+        <button
+            type="submit"
+            class="govuk-button govuk-button--secondary"
+            data-module="govuk-button"
+            name="action" value="@FormAction.Add">
+            Add
         </button>
     </div>
-</form>
+</div>
+
+@if (Model.SelectedLocalAuthorities.Any())
+{
+    <h3 class="govuk-heading-s">
+        Comparators added
+    </h3>
+
+    <table class="govuk-table" id="current-comparators-la">
+        <caption class="govuk-table__caption govuk-visually-hidden">Currently selected comparator local
+            authorities
+        </caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Local authority</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var selected in Model.SelectedLocalAuthorities)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">@selected.Name</td>
+                <td class="govuk-table__cell">
+                    <input
+                        type="hidden" name="@nameof(LocalAuthorityComparatorViewModel.Selected)"
+                        value="@selected.Code"/>
+                    <button
+                        type="submit"
+                        class="govuk-button govuk-button--warning govuk-!-margin-bottom-0"
+                        data-module="govuk-button"
+                        name="action" value="@FormAction.Remove-@selected.Code">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
