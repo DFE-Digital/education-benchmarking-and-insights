@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Web.App.Domain
+@using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityHighNeedsBenchmarkingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
@@ -80,9 +81,19 @@
 
 @section scripts
 {
-    <script add-nonce="true" src="/js/govuk-prototype-components-min.js">
-    </script>
+    <script src="/js/accessible-autocomplete.min.js"></script>
     <script type="module" add-nonce="true">
-        window.GOVUKPrototypeComponents.initAll()
+        const element = document.getElementById("@nameof(LocalAuthorityComparatorViewModel.LaInput)");
+        if (element) {
+            accessibleAutocomplete.enhanceSelectElement({
+                selectElement: element,
+                defaultValue: "",
+                autoselect: true,
+                displayMenu: "overlay",
+                minLength: 3,
+                showAllValues: false,
+                showNoOptionsFound: false
+            });
+        }
     </script>
 }

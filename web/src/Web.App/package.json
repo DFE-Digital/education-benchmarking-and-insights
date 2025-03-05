@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@x-govuk/govuk-prototype-components": "^3.0.9",
+    "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
     "front-end": "^1.0.0",
     "govuk-frontend": "^5.7.0",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",
-    "gulp-minify": "^3.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0"
   },
