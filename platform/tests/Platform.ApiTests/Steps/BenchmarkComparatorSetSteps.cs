@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using AutoFixture;
 using Platform.Api.Benchmark.ComparatorSets;
-using Platform.Api.Benchmark.UserData;
+using Platform.Api.Benchmark.Features.UserData.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;

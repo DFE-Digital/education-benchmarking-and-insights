@@ -7,8 +7,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.CustomData;
+using Platform.Api.Benchmark.Features.UserData;
 using Platform.Api.Benchmark.FinancialPlans;
-using Platform.Api.Benchmark.UserData;
 using Platform.Json;
 using Platform.Sql;
 // ReSharper disable UnusedMethodReturnValue.Local
@@ -23,7 +23,6 @@ internal static class Services
         serviceCollection
             .AddSingleton<IComparatorSetsService, ComparatorSetsService>()
             .AddSingleton<IFinancialPlansService, FinancialPlansService>()
-            .AddSingleton<IUserDataService, UserDataService>()
             .AddSingleton<ICustomDataService, CustomDataService>();
 
         serviceCollection
@@ -74,6 +73,7 @@ internal static class Services
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
     {
-        return serviceCollection;
+        return serviceCollection
+            .AddUserDataFeature();
     }
 }

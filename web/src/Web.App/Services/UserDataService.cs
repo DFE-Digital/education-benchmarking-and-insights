@@ -32,7 +32,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
-            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
@@ -61,7 +60,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
-            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("type", CustomData)
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
@@ -90,7 +88,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
-            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("type", ComparatorSet)
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
@@ -120,7 +117,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
-            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
@@ -139,7 +135,6 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
 
         var query = new ApiQuery()
             .AddIfNotNull("userId", user.UserGuid().ToString())
-            .AddIfNotNull("userId", user.UserId())
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
 

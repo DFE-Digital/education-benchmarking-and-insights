@@ -238,6 +238,144 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddUserIdEqualParameter()
+    {
+        const string expectedParam = "UserId";
+        const string expectedValue = "userId";
+        var expectedSql = BuildExpectedQuery("WHERE UserId = @UserId");
+
+        var builder = new MockPlatformQuery().WhereUserIdEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddWhereStatusInParameter()
+    {
+        const string expectedParam = "Statuses";
+        const string expectedValue1 = nameof(expectedValue1);
+        const string expectedValue2 = nameof(expectedValue2);
+        var expectedSql = BuildExpectedQuery("WHERE Status IN @Statuses");
+
+        var builder = new MockPlatformQuery().WhereStatusIn(expectedValue1, expectedValue2);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(new[] { expectedValue1, expectedValue2 }, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Theory]
+    [InlineData(true, 1)]
+    [InlineData(false, 0)]
+    public void ShouldAddActiveParameter(bool active, int expectedValue)
+    {
+        const string expectedParam = "Active";
+        var expectedSql = BuildExpectedQuery("WHERE Active = @Active");
+
+        var builder = new MockPlatformQuery().WhereActive(active);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddOrganisationIdEqualParameter()
+    {
+        const string expectedParam = "OrganisationId";
+        const string expectedValue = "organisationId";
+        var expectedSql = BuildExpectedQuery("WHERE OrganisationId = @OrganisationId");
+
+        var builder = new MockPlatformQuery().WhereOrganisationIdEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddOrganisationTypeEqualParameter()
+    {
+        const string expectedParam = "OrganisationType";
+        const string expectedValue = "organisationType";
+        var expectedSql = BuildExpectedQuery("WHERE OrganisationType = @OrganisationType");
+
+        var builder = new MockPlatformQuery().WhereOrganisationTypeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddTypeEqualParameter()
+    {
+        const string expectedParam = "Type";
+        const string expectedValue = "type";
+        var expectedSql = BuildExpectedQuery("WHERE Type = @Type");
+
+        var builder = new MockPlatformQuery().WhereTypeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddStatusEqualParameter()
+    {
+        const string expectedParam = "Status";
+        const string expectedValue = "status";
+        var expectedSql = BuildExpectedQuery("WHERE Status = @Status");
+
+        var builder = new MockPlatformQuery().WhereStatusEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddIdEqualParameter()
+    {
+        const string expectedParam = "Id";
+        const string expectedValue = "id";
+        var expectedSql = BuildExpectedQuery("WHERE Id = @Id");
+
+        var builder = new MockPlatformQuery().WhereIdEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
     private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
         $"{MockPlatformQuery.Sql
             .Replace("/**where**/", wherePart)
