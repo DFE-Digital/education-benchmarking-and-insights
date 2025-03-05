@@ -1,5 +1,5 @@
 la_section_251_index_column = "old_la_code"
-la_expenditure = {
+la_budget = {
     "default": {
         "time_period": "string",
         "time_identifier": "string",
@@ -70,7 +70,7 @@ la_section_251_category_prefixes = {
         "1.2.9 ",
     )
 }
-la_expenditure_pivot = {
+la_budget_pivot = {
     "default": {
         "index": [
             "time_period",
@@ -131,7 +131,7 @@ la_outturn_pivot = {
     }
 }
 
-la_expenditure_column_mappings = {
+la_budget_column_mappings = {
     "default": {
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__early_years_establishments": "1.0.2 EarlyYears",
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__primary_schools": "1.0.2 Primaries",
@@ -216,7 +216,7 @@ la_outturn_column_mappings = {
     }
 }
 
-la_expenditure_column_eval = {
+la_budget_column_eval = {
     "default": {
         "1.0.2 SENSpecial and APPRU": "`1.0.2 SENSpecial`.fillna(0.0) + `1.0.2 APPRU`.fillna(0.0)",
         "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 Net total": (

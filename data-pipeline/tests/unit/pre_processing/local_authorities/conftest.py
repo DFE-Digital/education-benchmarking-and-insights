@@ -5,9 +5,9 @@ import pytest
 
 
 @pytest.fixture
-def la_expenditure() -> pd.DataFrame:
+def la_budget() -> pd.DataFrame:
     """
-    Local Authority expenditure/budget data.
+    Local Authority budget data.
     """
     category_of_planned_expenditure = [
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies",

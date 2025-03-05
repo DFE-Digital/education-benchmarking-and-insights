@@ -24,10 +24,10 @@ from .census_workforce import (  # noqa
 )
 from .gias import gias, gias_index_col  # noqa
 from .local_authority import (  # noqa
-    la_expenditure,
-    la_expenditure_column_eval,
-    la_expenditure_column_mappings,
-    la_expenditure_pivot,
+    la_budget,
+    la_budget_column_eval,
+    la_budget_column_mappings,
+    la_budget_pivot,
     la_outturn,
     la_outturn_column_eval,
     la_outturn_column_mappings,

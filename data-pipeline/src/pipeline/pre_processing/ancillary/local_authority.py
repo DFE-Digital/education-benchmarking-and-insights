@@ -14,35 +14,33 @@ def build_local_authorities(
     """
     Build Local Authority data from various sources.
 
-    :param budget_filepath_or_buffer: source for LA expenditure data
+    :param budget_filepath_or_buffer: source for LA budget data
     :param outturn_filepath_or_buffer: source for LA outturn data
     :param year: financial year in question
     :return: Local Authority data
     """
-    logger.info("Processing Local Authority budget/expenditure data.")
-    la_expenditure_data = _prepare_la_section_251_data(
+    logger.info("Processing Local Authority budget data.")
+    la_budget_data = _prepare_la_section_251_data(
         budget_filepath_or_buffer,
         year,
-        usecols=input_schemas.la_expenditure.get(
-            year, input_schemas.la_expenditure["default"]
+        usecols=input_schemas.la_budget.get(
+            year, input_schemas.la_budget["default"]
         ).keys(),
-        dtype=input_schemas.la_expenditure.get(
-            year, input_schemas.la_expenditure["default"]
-        ),
+        dtype=input_schemas.la_budget.get(year, input_schemas.la_budget["default"]),
         category_column="category_of_planned_expenditure",
-        column_mappings=input_schemas.la_expenditure_column_mappings.get(
+        column_mappings=input_schemas.la_budget_column_mappings.get(
             year,
-            input_schemas.la_expenditure_column_mappings["default"],
+            input_schemas.la_budget_column_mappings["default"],
         ),
-        column_eval=input_schemas.la_expenditure_column_eval.get(
-            year, input_schemas.la_expenditure_column_eval["default"]
+        column_eval=input_schemas.la_budget_column_eval.get(
+            year, input_schemas.la_budget_column_eval["default"]
         ),
-        column_pivot=input_schemas.la_expenditure_pivot.get(
-            year, input_schemas.la_expenditure_pivot["default"]
+        column_pivot=input_schemas.la_budget_pivot.get(
+            year, input_schemas.la_budget_pivot["default"]
         ),
     )
     logger.info(
-        f"Processed {len(la_expenditure_data.index)} rows from Local Authority budget/expenditure data."
+        f"Processed {len(la_budget_data.index)} rows from Local Authority budget data."
     )
 
     logger.info("Preparing LA outturn data.")
@@ -71,7 +69,7 @@ def build_local_authorities(
     )
 
     # TODO: combine the above once projections finalised.
-    return la_expenditure_data
+    return la_budget_data
 
 
 def _prepare_la_section_251_data(
@@ -105,7 +103,7 @@ def _prepare_la_section_251_data(
     :param column_mappings: columns to be renamed
     :param column_eval: columns to be derived
     :param column_pivot: column-pivot configuration
-    :return: Local Authority expenditure data
+    :return: Local Authority Section 251 data
     """
     df = pd.read_csv(
         filepath_or_buffer,
