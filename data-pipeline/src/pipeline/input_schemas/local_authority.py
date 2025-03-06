@@ -139,6 +139,7 @@ la_budget_column_mappings = {
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__sen_and_special_schools": "1.0.2 SENSpecial",
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__pupil_referral_units_and_alt_provision": "1.0.2 APPRU",
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__post_16": "1.0.2 PostSchool",
+        "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__net_planned_expenditure": "1.0.2 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__net_planned_expenditure": "1.2.3 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__early_years_establishments": "1.2.3 EarlyYears",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__primary_schools": "1.2.3 Primaries",
@@ -181,6 +182,7 @@ la_outturn_column_mappings = {
         "1.0.2 High needs place funding within Individual Schools Budget__sen_and_special_schools": "1.0.2 SENSpecial",
         "1.0.2 High needs place funding within Individual Schools Budget__pupil_referral_units_and_alt_provision": "1.0.2 APPRU",
         "1.0.2 High needs place funding within Individual Schools Budget__post_16": "1.0.2 PostSchool",
+        "1.0.2 High needs place funding within Individual Schools Budget__net_expenditure": "1.0.2 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__net_expenditure": "1.2.3 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__early_years_establishments": "1.2.3 EarlyYears",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__primary_schools": "1.2.3 Primaries",
@@ -366,13 +368,13 @@ la_section_251_column_mappings = {
 la_section_251_column_eval = {
     "default": {
         "TotalHighNeeds": (
-            "`TotalPlaceFunding` + "
-            "`TotalTopUpFundingMaintained` + "
-            "`TotalTopUpFundingNonMaintained` + "
-            "`TotalSenServices` + "
-            "`TotalAlternativeProvisionServices` + "
-            "`TotalHospitalServices` + "
-            "`TotalOtherHealthServices`"
+            "TotalTopUpFundingMaintained + "
+            "TotalTopUpFundingNonMaintained + "
+            "TotalSenServices + "
+            "TotalAlternativeProvisionServices + "
+            "TotalHospitalServices + "
+            "TotalOtherHealthServices + "
+            "`1.0.2 Net total`"
         ),
     }
 }
