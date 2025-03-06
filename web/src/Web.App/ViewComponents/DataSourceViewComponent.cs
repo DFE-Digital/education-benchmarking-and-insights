@@ -23,10 +23,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
                 "Workforce data is taken from the workforce census.",
                 "Pupil data is taken from the school census data set in January."
             ],
-            DataSourceTypes.HighNeeds =>
-            [
-                "Pellentesque vel mattis enim, vel cursus ante."
-            ],
+            DataSourceTypes.HighNeeds => await GetHighNeedsDataSource(),
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
@@ -57,5 +54,14 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(organisationType))
         };
+    }
+
+    private async Task<string[]> GetHighNeedsDataSource()
+    {
+        var years = await financeService.GetYears();
+        return
+        [
+            $"This data includes new section 251 data (s251) ({years.S251 - 1} to {years.S251} budget, {years.S251 - 2} to {years.S251 - 1} outturn) and special educational needs (SEN) data for January {years.S251}."
+        ];
     }
 }
