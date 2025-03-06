@@ -1,4 +1,4 @@
-la_section_251_index_column = "old_la_code"
+la_section_251_index_column = ["new_la_code", "old_la_code"]
 la_budget = {
     "default": {
         "time_period": "string",
@@ -331,4 +331,79 @@ la_outturn_column_eval = {
             "`1.2.9 Special schools and PRUs in financial difficulty__net_expenditure`.fillna(0.0)"
         ),
     },
+}
+
+la_section_251_column_mappings = {
+    "default": {
+        "1.0.2 SENSpecial and APPRU": "TotalPlaceFunding",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 Net total": "TotalTopUpFundingMaintained",
+        "1.2.3 Net total": "TotalTopUpFundingNonMaintained",
+        "1.2.5 + 1.2.8 + 1.2.9 Net total": "TotalSenServices",
+        "1.2.7 Net total": "TotalAlternativeProvisionServices",
+        "1.2.6 Net total": "TotalHospitalServices",
+        "1.2.13 Net total": "TotalOtherHealthServices",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 EarlyYears": "TopFundingMaintainedEarlyYears",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 Primaries": "TopFundingMaintainedPrimary",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 Secondary": "TopFundingMaintainedSecondary",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 SENSpecial": "TopFundingMaintainedSpecial",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 APPRU": "TopFundingMaintainedAlternativeProvision",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 PostSchool": "TopFundingMaintainedPostSchool",
+        "1.2.1 + 1.2.2 + 1.2.4 + 1.2.11 Income": "TopFundingMaintainedIncome",
+        "1.2.3 EarlyYears": "TopFundingNonMaintainedEarlyYears",
+        "1.2.3 Primaries": "TopFundingNonMaintainedPrimary",
+        "1.2.3 Secondary": "TopFundingNonMaintainedSecondary",
+        "1.2.3 SENSpecial": "TopFundingNonMaintainedSpecial",
+        "1.2.3 APPRU": "TopFundingNonMaintainedAlternativeProvision",
+        "1.2.3 PostSchool": "TopFundingNonMaintainedPostSchool",
+        "1.2.3 Income": "TopFundingNonMaintainedIncome",
+        "1.0.2 Primaries": "PlaceFundingPrimary",
+        "1.0.2 Secondary": "PlaceFundingSecondary",
+        "1.0.2 SENSpecial": "PlaceFundingSpecial",
+        "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
+    },
+}
+
+la_section_251_column_eval = {
+    "default": {
+        "TotalHighNeeds": (
+            "`TotalPlaceFunding` + "
+            "`TotalTopUpFundingMaintained` + "
+            "`TotalTopUpFundingNonMaintained` + "
+            "`TotalSenServices` + "
+            "`TotalAlternativeProvisionServices` + "
+            "`TotalHospitalServices` + "
+            "`TotalOtherHealthServices`"
+        ),
+    }
+}
+
+la_section_251_columns = {
+    "default": [
+        "TotalHighNeeds",
+        "TotalPlaceFunding",
+        "TotalTopUpFundingMaintained",
+        "TotalTopUpFundingNonMaintained",
+        "TotalSenServices",
+        "TotalAlternativeProvisionServices",
+        "TotalHospitalServices",
+        "TotalOtherHealthServices",
+        "TopFundingMaintainedEarlyYears",
+        "TopFundingMaintainedPrimary",
+        "TopFundingMaintainedSecondary",
+        "TopFundingMaintainedSpecial",
+        "TopFundingMaintainedAlternativeProvision",
+        "TopFundingMaintainedPostSchool",
+        "TopFundingMaintainedIncome",
+        "TopFundingNonMaintainedEarlyYears",
+        "TopFundingNonMaintainedPrimary",
+        "TopFundingNonMaintainedSecondary",
+        "TopFundingNonMaintainedSpecial",
+        "TopFundingNonMaintainedAlternativeProvision",
+        "TopFundingNonMaintainedPostSchool",
+        "TopFundingNonMaintainedIncome",
+        "PlaceFundingPrimary",
+        "PlaceFundingSecondary",
+        "PlaceFundingSpecial",
+        "PlaceFundingAlternativeProvision",
+    ]
 }

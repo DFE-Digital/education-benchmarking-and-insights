@@ -33,6 +33,9 @@ from .local_authority import (  # noqa
     la_outturn_column_mappings,
     la_outturn_pivot,
     la_section_251_category_prefixes,
+    la_section_251_column_eval,
+    la_section_251_column_mappings,
+    la_section_251_columns,
     la_section_251_index_column,
     la_section_251_na_values,
 )

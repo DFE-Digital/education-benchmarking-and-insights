@@ -19,6 +19,37 @@ def build_local_authorities(
     :param year: financial year in question
     :return: Local Authority data
     """
+    section_251_data = _build_section_251_data(
+        budget_filepath_or_buffer,
+        outturn_filepath_or_buffer,
+        year,
+    )
+
+    # TODO: combined with out LA datasets.
+    return section_251_data
+
+
+def _build_section_251_data(
+    budget_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    outturn_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    year: int,
+):
+    """
+    Build Local Authority Section 251 data.
+
+    This is comprised of:
+
+    - planned budget/expenditure data
+    - outturn data
+
+    The returned data will the data from each, columns prefixed with
+    `Budget` or `Outturn`, indexed on `old_la_code` and `new_la_code`.
+
+    :param budget_filepath_or_buffer: source for LA budget data
+    :param outturn_filepath_or_buffer: source for LA outturn data
+    :param year: financial year in question
+    :return: Section 251 data
+    """
     logger.info("Processing Local Authority budget data.")
     la_budget_data = _prepare_la_section_251_data(
         budget_filepath_or_buffer,
@@ -38,7 +69,24 @@ def build_local_authorities(
         column_pivot=input_schemas.la_budget_pivot.get(
             year, input_schemas.la_budget_pivot["default"]
         ),
+    ).rename(
+        columns=input_schemas.la_section_251_column_mappings.get(
+            year,
+            input_schemas.la_section_251_column_mappings["default"],
+        )
     )
+
+    for column, eval_ in input_schemas.la_section_251_column_eval.get(
+        year, input_schemas.la_section_251_column_eval["default"]
+    ).items():
+        la_budget_data[column] = la_budget_data.eval(eval_)
+
+    la_budget_data = la_budget_data[
+        input_schemas.la_section_251_columns.get(
+            year, input_schemas.la_section_251_columns["default"]
+        )
+    ].add_prefix("Budget")
+
     logger.info(
         f"Processed {len(la_budget_data.index)} rows from Local Authority budget data."
     )
@@ -63,13 +111,32 @@ def build_local_authorities(
             year, input_schemas.la_outturn_pivot["default"]
         ),
         encoding="cp1252",
+    ).rename(
+        columns=input_schemas.la_section_251_column_mappings.get(
+            year,
+            input_schemas.la_section_251_column_mappings["default"],
+        )
     )
+
+    for column, eval_ in input_schemas.la_section_251_column_eval.get(
+        year, input_schemas.la_section_251_column_eval["default"]
+    ).items():
+        la_outturn_data[column] = la_outturn_data.eval(eval_)
+
+    la_outturn_data = la_outturn_data[
+        input_schemas.la_section_251_columns.get(
+            year, input_schemas.la_section_251_columns["default"]
+        )
+    ].add_prefix("Outturn")
+
     logger.info(
         f"Processed {len(la_outturn_data.index)} rows from Local Authority outturn data."
     )
 
-    # TODO: combine the above once projections finalised.
-    return la_budget_data
+    return la_budget_data.join(
+        la_outturn_data,
+        how="inner",
+    )
 
 
 def _prepare_la_section_251_data(
