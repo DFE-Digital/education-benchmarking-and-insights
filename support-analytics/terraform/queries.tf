@@ -521,3 +521,27 @@ resource "azurerm_log_analytics_query_pack_query" "most-popular-recent-schools" 
 
   body = file("${path.module}/queries/most-popular-recent-schools.kql")
 }
+
+resource "azurerm_log_analytics_saved_search" "get-web-warnings" {
+  name                       = "GetWebWarnings"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetWebWarnings"
+  function_alias             = "GetWebWarnings"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-web-warnings.kql")
+}
+
+resource "random_uuid" "polly-warnings-id" {}
+
+resource "azurerm_log_analytics_query_pack_query" "polly-warnings" {
+  name          = random_uuid.polly-warnings-id.result
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Polly warning messages"
+  description   = "Warning messages from the Polly policy handler in the Web project"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = file("${path.module}/queries/polly-warnings.kql")
+}

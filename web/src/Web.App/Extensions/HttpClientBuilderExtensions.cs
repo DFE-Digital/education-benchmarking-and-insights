@@ -5,11 +5,15 @@ using Microsoft.Net.Http.Headers;
 using Polly;
 using Polly.Extensions.Http;
 
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Web.App.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class HttpClientBuilderExtensions
 {
+    private const string PolicyHandler = "Polly";
+
     public static IHttpClientBuilder Configure<T>(this IHttpClientBuilder builder, string sectionName)
     {
         builder
@@ -60,15 +64,20 @@ public static class HttpClientBuilderExtensions
                     }
 
                     logger.LogInformation(
-                        "Response with status code {StatusCode} contains {Header} header with value {RetryAfter}",
-                        (int)response.Result.StatusCode,
+                        "{Source} response with status code {StatusCode} contains {Header} header with value {RetryAfter}",
+                        PolicyHandler,
+                        GetStatusCodeOrMessage(response),
                         HeaderNames.RetryAfter,
                         response.Result.Headers.RetryAfter);
                     return retryAfter.Value;
                 },
-                (_, timespan, retryAttempt, _) =>
+                (response, timespan, retryAttempt, _) =>
                 {
-                    logger.LogWarning("Retry attempt {RetryAttempt}. Waiting {Timespan} before next retry.", retryAttempt, timespan);
+                    logger.LogWarning("{Source} retry attempt {RetryAttempt} due to {StatusCode}. Waiting {Timespan} before next retry.",
+                        PolicyHandler,
+                        retryAttempt,
+                        GetStatusCodeOrMessage(response),
+                        timespan);
                     return Task.CompletedTask;
                 });
     }
@@ -80,14 +89,22 @@ public static class HttpClientBuilderExtensions
             .CircuitBreakerAsync(
                 5,
                 TimeSpan.FromSeconds(30),
-                onBreak: (_, timespan) =>
+                (response, timespan) =>
                 {
-                    logger.LogWarning("Circuit broken. Reset in {Timespan}", timespan);
+                    logger.LogWarning("{Source} circuit broken due to {StatusCode}. Reset in {Timespan}",
+                        PolicyHandler,
+                        GetStatusCodeOrMessage(response),
+                        timespan);
                 },
-                onReset: () =>
+                () =>
                 {
-                    logger.LogInformation("Circuit reset");
+                    logger.LogInformation("{Source} circuit reset", PolicyHandler);
                 });
+    }
+
+    private static string GetStatusCodeOrMessage(DelegateResult<HttpResponseMessage> response)
+    {
+        return response.Exception?.Message ?? ((int)response.Result.StatusCode).ToString();
     }
 }
 
