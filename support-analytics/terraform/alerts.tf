@@ -291,3 +291,38 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "polly-warnings-429-al
     action_groups = [azurerm_monitor_action_group.service-support-action.id]
   }
 }
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "polly-warnings-alert" {
+  name                    = "polly-warnings-alert"
+  resource_group_name     = azurerm_resource_group.resource-group.name
+  scopes                  = [data.azurerm_log_analytics_workspace.application-insights-workspace.id]
+  location                = azurerm_resource_group.resource-group.location
+  display_name            = "Polly warnings over past 24 hours"
+  description             = "Alert if number of Polly warnings exceeds ${var.configuration[var.environment].thresholds.error * 10}"
+  severity                = 3
+  evaluation_frequency    = "P1D"
+  window_duration         = "P1D"
+  auto_mitigation_enabled = false
+  enabled                 = var.configuration[var.environment].alerts_enabled
+  tags                    = local.common-tags
+
+  depends_on = [
+    azurerm_log_analytics_saved_search.get-web-warnings
+  ]
+
+  criteria {
+    query                   = local.polly-warnings-query
+    time_aggregation_method = "Count"
+    operator                = "GreaterThan"
+    threshold               = var.configuration[var.environment].thresholds.error * 10
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  action {
+    action_groups = [azurerm_monitor_action_group.service-support-action.id]
+  }
+}

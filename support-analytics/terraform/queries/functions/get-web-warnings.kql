@@ -7,7 +7,7 @@ AppTraces
 | where 
     isempty(SyntheticSource)
 | where
-    SeverityLevel <= 2
+    SeverityLevel == 2
 | where
     isempty(AppRoleName) or AppRoleName matches regex "s198[ptd]\\d{2}-education-benchmarking"
 | project
