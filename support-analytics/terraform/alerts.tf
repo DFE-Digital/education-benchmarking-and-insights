@@ -1,5 +1,6 @@
 locals {
   pipeline-messages-finished-query = file("${path.module}/queries/pipeline-messages-finished.kql")
+  polly-warnings-query             = file("${path.module}/queries/polly-warnings.kql")
 }
 
 resource "azurerm_monitor_metric_alert" "availability-alert" {
@@ -244,6 +245,41 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed-finished-pipel
       operator = "Exclude"
       values   = ["True"]
     }
+
+    failing_periods {
+      minimum_failing_periods_to_trigger_alert = 1
+      number_of_evaluation_periods             = 1
+    }
+  }
+
+  action {
+    action_groups = [azurerm_monitor_action_group.service-support-action.id]
+  }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert_v2" "polly-warnings-429-alert" {
+  name                    = "polly-warnings-429-alert"
+  resource_group_name     = azurerm_resource_group.resource-group.name
+  scopes                  = [data.azurerm_log_analytics_workspace.application-insights-workspace.id]
+  location                = azurerm_resource_group.resource-group.location
+  display_name            = "Polly warnings with status code 429"
+  description             = "Alert if number of Polly warnings with status code 429 exceeds ${var.configuration[var.environment].thresholds.error}"
+  severity                = 3
+  evaluation_frequency    = "PT15M"
+  window_duration         = "PT30M"
+  auto_mitigation_enabled = true
+  enabled                 = var.configuration[var.environment].alerts_enabled
+  tags                    = local.common-tags
+
+  depends_on = [
+    azurerm_log_analytics_saved_search.get-web-warnings
+  ]
+
+  criteria {
+    query                   = "${local.polly-warnings-query}\n| where StatusCode == 429"
+    time_aggregation_method = "Count"
+    operator                = "GreaterThan"
+    threshold               = var.configuration[var.environment].thresholds.error
 
     failing_periods {
       minimum_failing_periods_to_trigger_alert = 1
