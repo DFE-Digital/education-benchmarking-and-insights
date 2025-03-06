@@ -4,6 +4,10 @@
     decimal? previousValue = null;
 }
 
+<p class="govuk-body">
+    The table shows a historical view of your budget vs spend.
+</p>
+
 <table class="govuk-table govuk-table--small">
     <caption class="govuk-table__caption govuk-visually-hidden">Budget vs spend (historical view)</caption>
     <thead class="govuk-table__head">
@@ -57,4 +61,4 @@
     href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"
     role="button"
     class="govuk-button govuk-button--secondary"
-    data-module="govuk-button">View historic data</a>
+    data-module="govuk-button">View full historic data</a>

@@ -6,8 +6,15 @@
   list-style: none;
   padding: 0;
   gap: 15px;
-  li {
-    width: calc(calc(100% - 30px)/ 3);
+
+  > li {
+    width: calc(calc(100% - 30px) / 3);
+  }
+
+  &.app-links-two-columns {
+    > li {
+      width: calc(calc(100% - 30px) / 2);
+    }
   }
 }
 
@@ -18,16 +25,17 @@
     list-style: none;
     padding: 0;
     gap: 15px;
-    li {
-      width: calc(calc(100% - 15px)/ 2);
+
+    > li {
+      width: calc(calc(100% - 15px) / 2);
     }
   }
 }
 
 @media (max-width: $break-small) {
   .app-links {
-    li {
-      width: 100%;
+    > li {
+      width: 100% !important;
     }
   }
 }
