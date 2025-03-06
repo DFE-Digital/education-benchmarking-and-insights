@@ -13,7 +13,7 @@ namespace Web.Tests.Services;
 public class WhenFinanceServiceIsCalled
 {
     private readonly Mock<IInsightApi> _api = new();
-    private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023 };
+    private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023, S251 = 2024 };
 
     private const string CacheKey = "return-years";
 
@@ -45,6 +45,7 @@ public class WhenFinanceServiceIsCalled
         Assert.IsType<FinanceYears>(actual);
         Assert.Equal(_financeYears.Aar, actual.Aar);
         Assert.Equal(_financeYears.Cfr, actual.Cfr);
+        Assert.Equal(_financeYears.S251, actual.S251);
     }
 
     [Fact]
@@ -64,6 +65,7 @@ public class WhenFinanceServiceIsCalled
         var cachedYears = Assert.IsType<FinanceYears>(actual);
         Assert.Equal(_financeYears.Aar, cachedYears.Aar);
         Assert.Equal(_financeYears.Cfr, cachedYears.Cfr);
+        Assert.Equal(_financeYears.S251, cachedYears.S251);
     }
 
     [Fact]
@@ -82,5 +84,6 @@ public class WhenFinanceServiceIsCalled
         Assert.IsType<FinanceYears>(actual);
         Assert.Equal(_financeYears.Aar, actual.Aar);
         Assert.Equal(_financeYears.Cfr, actual.Cfr);
+        Assert.Equal(_financeYears.S251, actual.S251);
     }
 }

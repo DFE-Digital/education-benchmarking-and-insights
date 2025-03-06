@@ -61,7 +61,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         var years = await financeService.GetYears();
         return
         [
-            $"This data includes new section 251 data (s251) ({years.S251 - 1} to {years.S251} budget, {years.S251 - 2} to {years.S251 - 1} outturn) and special educational needs (SEN) data for January {years.S251}."
+            $"This data includes new section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}."
         ];
     }
 }
