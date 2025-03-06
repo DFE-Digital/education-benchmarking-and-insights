@@ -1,0 +1,20 @@
+AppTraces
+| extend
+    RetryAttempt = tostring(Properties["RetryAttempt"]),
+    Source = tostring(Properties["Source"]),
+    StatusCode = tostring(Properties["StatusCode"]),
+    Uri = tostring(Properties["Uri"])
+| where 
+    isempty(SyntheticSource)
+| where
+    SeverityLevel <= 2
+| where
+    isempty(AppRoleName) or AppRoleName matches regex "s198[ptd]\\d{2}-education-benchmarking"
+| project
+    TimeGenerated,
+    SeverityLevel,
+    Message,
+    Source,
+    StatusCode,
+    RetryAttempt,
+    Uri
