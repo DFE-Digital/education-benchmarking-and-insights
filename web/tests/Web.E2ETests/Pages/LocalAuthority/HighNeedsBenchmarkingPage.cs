@@ -11,11 +11,11 @@ public class HighNeedsBenchmarkingPage(IPage page)
     });
     private ILocator ViewNationalRankingsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
-        HasText = "View national rankings"
+        HasText = "View full national rankings"
     });
     private ILocator ViewHistoricDataButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
-        HasText = "View historic data"
+        HasText = "View full historic data"
     });
     private ILocator BenchmarkHighNeedsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {

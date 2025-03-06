@@ -342,7 +342,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears
         {
             Aar = 2022,
-            Cfr = 2021
+            Cfr = 2021,
+            S251 = 2024
         }));
 
         return this;

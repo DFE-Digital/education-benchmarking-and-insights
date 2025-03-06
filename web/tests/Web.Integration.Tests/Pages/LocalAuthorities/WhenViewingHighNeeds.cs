@@ -39,7 +39,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         var (page, authority, _, _) = await SetupNavigateInitPage(nationalRankings);
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View national rankings");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full national rankings");
         if (expectedButtonVisible)
         {
             Assert.NotNull(anchor);
@@ -58,7 +58,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         var (page, authority, _, _) = await SetupNavigateInitPage(historyYears: historyYears);
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View historic data");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full historic data");
         if (expectedButtonVisible)
         {
             Assert.NotNull(anchor);

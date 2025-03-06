@@ -2,6 +2,7 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.ViewModels;
 
 public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
@@ -21,7 +22,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryViewModel
         _years = new FinanceYears
         {
             Aar = 2020,
-            Cfr = 2024
+            Cfr = 2024,
+            S251 = 2024
         };
         _balance = fixture.Create<SchoolBalance>();
     }
