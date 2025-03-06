@@ -28,6 +28,14 @@ FROM Trust t,
      (SELECT Value FROM Parameters WHERE Name = 'LatestAARYear') y
 GO
 
+CREATE VIEW VW_YearsLocalAuthority AS
+SELECT l.Code,
+       y.Value     AS 'EndYear',
+       y.Value - 5 AS 'StartYear'
+FROM LocalAuthority l,
+     (SELECT Value FROM Parameters WHERE Name = 'LatestS251Year') y
+GO
+
 DROP VIEW IF EXISTS VW_YearsOverallPhase
 GO
 

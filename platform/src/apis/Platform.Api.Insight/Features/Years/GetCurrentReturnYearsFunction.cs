@@ -27,7 +27,8 @@ public class GetCurrentReturnYearsFunction(IDatabaseFactory dbFactory)
 
         var aar = await conn.QueryFirstOrDefaultAsync<string>(sql, new { Name = "LatestAARYear" });
         var cfr = await conn.QueryFirstOrDefaultAsync<string>(sql, new { Name = "LatestCFRYear" });
+        var s251 = await conn.QueryFirstOrDefaultAsync<string>(sql, new { Name = "LatestS251Year" });
 
-        return await req.CreateJsonResponseAsync(new { aar, cfr });
+        return await req.CreateJsonResponseAsync(new { aar, cfr, s251 });
     }
 }
