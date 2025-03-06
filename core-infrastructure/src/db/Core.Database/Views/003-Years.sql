@@ -28,6 +28,9 @@ FROM Trust t,
      (SELECT Value FROM Parameters WHERE Name = 'LatestAARYear') y
 GO
 
+DROP VIEW IF EXISTS VW_YearsLocalAuthority
+GO
+
 CREATE VIEW VW_YearsLocalAuthority AS
 SELECT l.Code,
        y.Value     AS 'EndYear',
