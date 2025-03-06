@@ -587,10 +587,19 @@ def pre_process_local_authorities(
         f"default/{year}/s251_alleducation_la_regional_national.csv",
     )
 
+    logger.info(
+        f"Reading LA statistical neighbours: default/{year}/SNsWithNewDorsetBCP.csv"
+    )
+    la_statistical_neighbours_data = get_blob(
+        raw_container,
+        f"default/{year}/SNsWithNewDorsetBCP.csv",
+    )
+
     logger.info("Processing Local Authority data.")
     local_authorities = build_local_authorities(
         la_expenditure_data,
         la_outturn_data,
+        la_statistical_neighbours_data,
         year,
     )
 
