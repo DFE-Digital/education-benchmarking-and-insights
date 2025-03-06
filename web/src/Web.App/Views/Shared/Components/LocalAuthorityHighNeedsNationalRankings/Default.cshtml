@@ -1,5 +1,9 @@
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsNationalRankingsViewModel
 
+<p class="govuk-body">
+    The table shows your national ranking based on your spend as a percentage of your budget.
+</p>
+
 <table class="govuk-table govuk-table--cell-pad govuk-table--small">
     <caption class="govuk-table__caption govuk-visually-hidden">National ranking</caption>
     <thead class="govuk-table__head">
@@ -34,4 +38,4 @@
     href="@Url.Action("Index", "LocalAuthorityHighNeedsNationalRankings", new { code = Model.Code })"
     role="button"
     class="govuk-button govuk-button--secondary"
-    data-module="govuk-button">View national rankings</a>
+    data-module="govuk-button">View full national rankings</a>
