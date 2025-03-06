@@ -23,6 +23,7 @@ from .census_workforce import (  # noqa
     workforce_census_index_col,
 )
 from .gias import gias, gias_index_col
+from .local_authority import la_ons_population, la_ons_population_index_column
 
 gias_links_index_col = "URN"
 gias_links = {
