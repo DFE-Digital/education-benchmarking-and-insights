@@ -1,3 +1,4 @@
+import io
 import random
 
 import pandas as pd
@@ -118,3 +119,120 @@ def la_outturn() -> pd.DataFrame:
     }
 
     return pd.DataFrame(outturn)
+
+
+@pytest.fixture
+def la_statistical_neighbours() -> io.StringIO:
+
+    columns = [
+        "LA number",
+        "SN1",
+        "SN1",
+        "SN2",
+        "SN2",
+        "SN3",
+        "SN3",
+        "SN4",
+        "SN4",
+        "SN5",
+        "SN5",
+        "SN6",
+        "SN6",
+        "SN7",
+        "SN7",
+        "SN8",
+        "SN8",
+        "SN9",
+        "SN9",
+        "SN10",
+        "SN10",
+        "SN1",
+        "SN2",
+        "SN3",
+        "SN4",
+        "SN5",
+        "SN6",
+        "SN7",
+        "SN8",
+        "SN9",
+        "SN10",
+        "GOInd",
+        "GOReg",
+    ]
+
+    data = [
+        (
+            101,
+            "LA 2",
+            "Close",
+            "LA 3",
+            "Close",
+            "LA 4",
+            "Somewhat close",
+            "LA 5",
+            "Somewhat close",
+            "LA 6",
+            "Not Close",
+            "LA 7",
+            "Not Close",
+            "LA 8",
+            "Not Close",
+            "LA 9",
+            "Not Close",
+            "LA 10",
+            "Not Close",
+            "LA 11",
+            "Not Close",
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            3,
+            "London (Inner)",
+        ),
+        (
+            102,
+            "LA 3",
+            "Close",
+            "LA 4",
+            "Somewhat close",
+            "LA 5",
+            "Somewhat close",
+            "LA 6",
+            "Not Close",
+            "LA 7",
+            "Not Close",
+            "LA 8",
+            "Not Close",
+            "LA 9",
+            "Not Close",
+            "LA 10",
+            "Not Close",
+            "LA 11",
+            "Not Close",
+            "LA 12",
+            "Not Close",
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            8,
+            "West Midlands",
+        ),
+    ]
+
+    test_data_df = pd.DataFrame(data, columns=columns)
+
+    return io.StringIO(test_data_df.to_csv())

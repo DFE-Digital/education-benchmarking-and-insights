@@ -409,3 +409,72 @@ la_section_251_columns = {
         "PlaceFundingAlternativeProvision",
     ]
 }
+
+# The raw data used to process the statistical neighbours
+# contains duplicate column names.
+# When reading from the CSV, pandas appends a number
+# (e.g., SN1.1) to make them unique.
+# The input schema and mappings below rename these columns as needed.
+la_statistical_neighbours_index_col = "LA number"
+la_statistical_neighbours = {
+    "default": {
+        "LA number": "Int64",
+        "SN1": "string",
+        "SN1.1": "string",
+        "SN2": "string",
+        "SN2.1": "string",
+        "SN3": "string",
+        "SN3.1": "string",
+        "SN4": "string",
+        "SN4.1": "string",
+        "SN5": "string",
+        "SN5.1": "string",
+        "SN6": "string",
+        "SN6.1": "string",
+        "SN7": "string",
+        "SN7.1": "string",
+        "SN8": "string",
+        "SN8.1": "string",
+        "SN9": "string",
+        "SN9.1": "string",
+        "SN10": "string",
+        "SN10.1": "string",
+        "SN1.2": "Int64",
+        "SN2.2": "Int64",
+        "SN3.2": "Int64",
+        "SN4.2": "Int64",
+        "SN5.2": "Int64",
+        "SN6.2": "Int64",
+        "SN7.2": "Int64",
+        "SN8.2": "Int64",
+        "SN9.2": "Int64",
+        "SN10.2": "Int64",
+        "GOInd": "Int64",
+        "GOReg": "string",
+    }
+}
+
+la_statistical_neighbours_column_mappings = {
+    "default": {
+        "SN1.1": "SN1Prox",
+        "SN2.1": "SN2Prox",
+        "SN3.1": "SN3Prox",
+        "SN4.1": "SN4Prox",
+        "SN5.1": "SN5Prox",
+        "SN6.1": "SN6Prox",
+        "SN7.1": "SN7Prox",
+        "SN8.1": "SN8Prox",
+        "SN9.1": "SN9Prox",
+        "SN10.1": "SN10Prox",
+        "SN1.2": "SN1Code",
+        "SN2.2": "SN2Code",
+        "SN3.2": "SN3Code",
+        "SN4.2": "SN4Code",
+        "SN5.2": "SN5Code",
+        "SN6.2": "SN6Code",
+        "SN7.2": "SN7Code",
+        "SN8.2": "SN8Code",
+        "SN9.2": "SN9Code",
+        "SN10.2": "SN10Code",
+    },
+}
