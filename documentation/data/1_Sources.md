@@ -4,13 +4,13 @@ There are two main data types used in the Financial Benchmarking and Insights To
 
 ## Financial Data
 
-FBIT performs three data releases each submission year. These are the Consistent Finanical Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, and Academy Account Returns (AAR) also for Academy Trusts.
+FBIT performs three data releases each submission year. These are the Consistent Financial Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, and Academy Account Returns (AAR) also for Academy Trusts.
 
 CFR data is typically received in September when Local Authorities require schools to complete their financial returns. These returns cover the period of April to March of the respective submission year.
 
 BFR data is submitted around August, and provides a forecasted return for academies for the following 3 years.
 
-AAR data is submitted in January when Academies complete their finanical returns. This return covers a period of September to August of the respective submssion year.
+AAR data is submitted in January when Academies complete their financial returns. This return covers a period of September to August of the respective submission year.
 
 The table below provides an overview of the 5 financial data files used within the FBIT service.
 
@@ -21,10 +21,12 @@ The table below provides an overview of the 5 financial data files used within t
 | BFR_3Y_raw.csv *                   | 3 year financial forecast for trusts spanning the 2nd, 3rd and 4th financial year from the current.                                                  | Sourced from the AnM database under the RA_Dataset                  | Yearly (August as part of the BFR release) frequency | You will require access to the AnM database in order to extract this file. To get access to the database, please raise an [Analytical Data Access Request](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=74bc3be81b212d504f999978b04bcb0b) via a service now ticket. The file you will need to extract the view "RA_Datasets.BFR.vw_Three_Year_Forecast_<Year>". An example of such a file name might be vw_Three_Year_Forecast_2023                                                                                                         |
 | BFR_SOFA_raw.csv *                 | Statement of Finanical Accounts table containing the forecasted financial position of trusts for the current and next year (divided into 2 per year) | Sourced from the AnM database under the RA_Dataset                  | Yearly (August as part of the BFR release)           | You will require access to the AnM database in order to extract this file. To get access to the database, please raise an [Analytical Data Access Request](https://dfe.service-now.com/serviceportal?id=sc_cat_item&sys_id=74bc3be81b212d504f999978b04bcb0b) via a service now ticket. The file you will need to extract the view "RA_Datasets.BFR.vw_Sofa_<Year>". An example of such a file name might be vw_Sofa_2023. For AnM support contact: <Andrew.HAWKETT@education.gov.uk>, <Timothy.Vinay@education.gov.uk>, <Elizabeth.Greenwood@education.gov.uk> |
 | maintained_schools_master_list.csv | Contains financial returns of maintained schools                                                                                                     | Sourced from downstream in the DfE (Provided by Julie Glenndenning) | Yearly (September as part of the CFR release)        | File is received from Julie Glenndenning via email at the time of the LA maintained schools' financial returns                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| plannedexpenditure_schools_other_education_la_unrounded_data.csv | S251 Expenditure (budget) values for the last 6 years | Sourced from gov.uk | Yearly (June or July) | Contained in the ZIP file obtained here: _[Schools, other education and community - unrounded data](https://explore-education-statistics.service.gov.uk/data-catalogue/data-set/031ae956-10e9-4908-8236-937bdebefb71)_ |
+| s251_alleducation_la_regional_national.csv | S251 Expenditure (outturn) values for the last 6 years | Sourced from gov.uk | Yearly (June or July) | Contained in the ZIP file obtained here: _[LA and school expenditure](https://explore-education-statistics.service.gov.uk/find-statistics/la-and-school-expenditure)_ |
 
 ## Non-Financial Data
 
-Non-financial data contains school metadata, encompasing items such as pupil and workforce census, and school building characteristics.
+Non-financial data contains school metadata, encompassing items such as pupil and workforce census, and school building characteristics.
 
 The majority of this data is extracted from GIAS and EES.
 
