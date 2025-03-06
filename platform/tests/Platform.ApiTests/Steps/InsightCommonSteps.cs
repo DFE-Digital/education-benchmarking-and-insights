@@ -33,6 +33,6 @@ public class InsightCommonSteps(InsightApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal(new { aar = "2022", cfr = "2022" }.ToJson(), content);
+        Assert.Equal(new { aar = "2022", cfr = "2022", s251 = "2024" }.ToJson(), content);
     }
 }
