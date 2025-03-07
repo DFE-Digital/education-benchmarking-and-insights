@@ -1,27 +1,27 @@
+using System.Net;
 using AutoFixture;
+using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
+using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 using Platform.Functions;
 using Platform.Test;
-using Xunit;
-using System.Net;
-using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.Extensions.Primitives;
-using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Test.Extensions;
+using Xunit;
 
-namespace Platform.NonFinancial.Tests.EducationHealthCarePlansLocalAuthoritiesHistory;
+namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
 
 public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
+    private readonly Fixture _fixture;
+    private readonly GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction _function;
     private readonly Mock<IEducationHealthCarePlansService> _service;
     private readonly Mock<IValidator<EducationHealthCarePlansParameters>> _validator;
-    private readonly GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction _function;
-    private readonly Fixture _fixture;
 
     public GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests()
 

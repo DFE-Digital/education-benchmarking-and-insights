@@ -3,7 +3,7 @@ using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Validators;
 using Xunit;
 
-namespace Platform.NonFinancial.Tests.EducationHealthCarePlansLocalAuthoritiesHistory.Validators;
+namespace Platform.NonFinancial.Tests.EducationHealthCarePlans.Validators;
 
 public class WhenGivenEducationHealthCarePlansParameters
 {
