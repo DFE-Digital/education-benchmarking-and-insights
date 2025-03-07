@@ -123,7 +123,7 @@
     Scenario: Viewing data in table view send 2
         Given I am on 'send 2' high needs history page for local authority with code '201'
         When I click on view as table on 'send 2' tab
-        Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan' chart contains:
+        Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)' chart contains:
           | Year         | Amount |
           | 2019 to 2020 | 52     |
           | 2020 to 2021 | 59     |
