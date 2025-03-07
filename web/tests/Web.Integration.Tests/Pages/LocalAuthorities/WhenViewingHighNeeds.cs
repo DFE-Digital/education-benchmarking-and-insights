@@ -147,6 +147,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var page = await Client.SetupEstablishment(authority, ranking, statisticalNeighbours, authorities)
             .SetupHighNeeds(history)
             .SetupInsights()
+            .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .Navigate(Paths.LocalAuthorityHighNeeds(authority.Code));
 
         return (page, authority, rankings, history);
