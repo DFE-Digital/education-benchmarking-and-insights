@@ -38,6 +38,9 @@ from .local_authority import (  # noqa
     la_section_251_columns,
     la_section_251_index_column,
     la_section_251_na_values,
+    la_statistical_neighbours,
+    la_statistical_neighbours_column_mappings,
+    la_statistical_neighbours_index_col,
 )
 
 gias_links_index_col = "URN"
