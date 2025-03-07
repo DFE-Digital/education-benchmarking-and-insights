@@ -260,6 +260,6 @@ def _prepare_la_statistical_neighbours(
         ),
     )
 
-    df.dropna(how="all", inplace=True)
+    df = df[~df.index.isna()]
 
     return df
