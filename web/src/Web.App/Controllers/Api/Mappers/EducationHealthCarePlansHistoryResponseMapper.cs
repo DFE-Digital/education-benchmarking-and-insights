@@ -5,6 +5,23 @@ namespace Web.App.Controllers.Api.Mappers;
 
 public static class EducationHealthCarePlansHistoryResponseResponseMapper
 {
+    public static IEnumerable<EducationHealthCarePlansComparisonResponse> MapToApiResponse(this LocalAuthorityNumberOfPlans[] plans)
+    {
+        return plans.Select(item => new EducationHealthCarePlansComparisonResponse
+        {
+            Code = item.Code,
+            Name = item.Name,
+            Total = item.Total,
+            Mainstream = item.Mainstream,
+            Resourced = item.Resourced,
+            Special = item.Special,
+            Independent = item.Independent,
+            Hospital = item.Hospital,
+            Post16 = item.Post16,
+            Other = item.Other
+        });
+    }
+
     public static IEnumerable<EducationHealthCarePlansHistoryResponse> MapToApiResponse(this EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>? history, string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
