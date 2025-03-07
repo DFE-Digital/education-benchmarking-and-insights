@@ -9,8 +9,11 @@ namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 
 // stubbed, untested implementation until backend ready
 [ExcludeFromCodeCoverage]
-public class HighNeedsHistoryStubService : IHighNeedsHistoryService
+[SuppressMessage("Performance", "CA1822:Mark members as static")]
+public class HighNeedsStubService : IHighNeedsService
 {
+    public Task<LocalAuthority<Models.HighNeeds>[]> Get(string[] codes, CancellationToken cancellationToken = default) => Task.FromResult(codes.Select(GetLocalAuthority).ToArray());
+
     public Task<History<HighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
         var code = codes.First();
@@ -86,4 +89,20 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
             AlternativeProvision = baseValue + 25 + year
         }
     };
+
+    private static LocalAuthority<Models.HighNeeds> GetLocalAuthority(string code)
+    {
+        if (!int.TryParse(code, out var baseValue))
+        {
+            baseValue = code.Length;
+        }
+
+        return new LocalAuthority<Models.HighNeeds>
+        {
+            Code = code,
+            Name = $"Local authority {code}",
+            Budget = GetStubbedRow(code, 2024, 1_100_000 + baseValue, 1_110_000 + baseValue % 2),
+            Outturn = GetStubbedRow(code, 2024, 1_000_000 + baseValue, 1_010_000 + baseValue % 2)
+        };
+    }
 }

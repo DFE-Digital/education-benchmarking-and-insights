@@ -15,33 +15,36 @@ using Xunit;
 
 namespace Platform.LocalAuthorityFinances.Tests.HighNeeds;
 
-public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
+public class GetHighNeedsFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
     private readonly Fixture _fixture;
-    private readonly GetHighNeedsHistoryFunction _function;
+    private readonly GetHighNeedsFunction _function;
     private readonly Mock<IHighNeedsService> _service;
     private readonly Mock<IValidator<HighNeedsParameters>> _validator;
 
-    public GetHighNeedsHistoryFunctionTests()
+    public GetHighNeedsFunctionTests()
     {
         _service = new Mock<IHighNeedsService>();
         _validator = new Mock<IValidator<HighNeedsParameters>>();
         _fixture = new Fixture();
-        _function = new GetHighNeedsHistoryFunction(_service.Object, _validator.Object);
+        _function = new GetHighNeedsFunction(_service.Object, _validator.Object);
     }
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        var model = _fixture.Build<History<HighNeedsYear>>().Create();
+        var models = _fixture
+            .Build<LocalAuthority<Api.LocalAuthorityFinances.Features.HighNeeds.Models.HighNeeds>>()
+            .CreateMany()
+            .ToArray();
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetHistory(new[] { Code }, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(model);
+            .Setup(d => d.Get(new[] { Code }, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>
         {
@@ -54,26 +57,9 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<History<HighNeedsYear>>();
+        var body = await result.ReadAsJsonAsync<LocalAuthority<Api.LocalAuthorityFinances.Features.HighNeeds.Models.HighNeeds>[]>();
         Assert.NotNull(body);
-        Assert.Equivalent(model, body);
-    }
-
-    [Fact]
-    public async Task ShouldReturn404OnNotFound()
-    {
-        _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
-
-        _service
-            .Setup(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((History<HighNeedsYear>?)null);
-
-        var result = await _function.RunAsync(CreateHttpRequestData(), CancellationToken.None);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        Assert.Equivalent(models, body);
     }
 
     [Fact]
@@ -96,6 +82,6 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(HighNeedsParameters.Codes));
 
         _service
-            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

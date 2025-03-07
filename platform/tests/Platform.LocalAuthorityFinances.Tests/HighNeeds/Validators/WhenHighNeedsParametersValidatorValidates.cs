@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Platform.LocalAuthorityFinances.Tests.HighNeeds.Validators;
 
-public class WhenHighNeedsHistoryParametersValidatorValidates
+public class WhenHighNeedsParametersValidatorValidates
 {
-    private readonly HighNeedsHistoryParametersValidator _validator = new();
+    private readonly HighNeedsParametersValidator _validator = new();
 
     [Theory]
     [InlineData("code1")]
@@ -15,7 +15,7 @@ public class WhenHighNeedsHistoryParametersValidatorValidates
     [InlineData("code1,code2,code3,code4,code5,code6,code7,code9,code9,code10")]
     public async Task ShouldValidateAndEvaluateGoodParametersAsValid(string codes)
     {
-        var parameters = new HighNeedsHistoryParameters();
+        var parameters = new HighNeedsParameters();
         parameters.SetValues(new NameValueCollection
         {
             { "code", codes }
@@ -31,7 +31,7 @@ public class WhenHighNeedsHistoryParametersValidatorValidates
     [InlineData("code1,code2,code3,code4,code5,code6,code7,code9,code9,code10,code11")]
     public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes)
     {
-        var parameters = new HighNeedsHistoryParameters();
+        var parameters = new HighNeedsParameters();
         parameters.SetValues(new NameValueCollection
         {
             { "code", codes }
