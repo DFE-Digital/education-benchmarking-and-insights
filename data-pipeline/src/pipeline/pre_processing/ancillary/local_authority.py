@@ -19,7 +19,7 @@ def build_local_authorities(
 
     :param budget_filepath_or_buffer: source for LA budget data
     :param outturn_filepath_or_buffer: source for LA outturn data
-    :param statistical_neighbours_filepath: source for Local Authority data
+    :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param year: financial year in question
     :return: Local Authority data
     """
