@@ -10,8 +10,8 @@ namespace Platform.ApiTests.Steps;
 [Scope(Feature = "Local authorities high needs endpoints")]
 public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
 {
-    private const string Key = "key";
-    private const string HistoryKey = "history";
+    private const string Key = "high-needs";
+    private const string HistoryKey = "high-needs-history";
     private History<HighNeedsYear>? _historyResult;
     private LocalAuthority<HighNeeds>[] _results = [];
 

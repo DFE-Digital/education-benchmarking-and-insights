@@ -15,33 +15,36 @@ using Xunit;
 
 namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
 
-public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : FunctionsTestBase
+public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
     private readonly Fixture _fixture;
-    private readonly GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction _function;
+    private readonly GetEducationHealthCarePlansLocalAuthoritiesFunction _function;
     private readonly Mock<IEducationHealthCarePlansService> _service;
     private readonly Mock<IValidator<EducationHealthCarePlansParameters>> _validator;
 
-    public GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests()
+    public GetEducationHealthCarePlansLocalAuthoritiesFunctionTests()
     {
         _service = new Mock<IEducationHealthCarePlansService>();
         _validator = new Mock<IValidator<EducationHealthCarePlansParameters>>();
-        _function = new GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction(_service.Object, _validator.Object);
+        _function = new GetEducationHealthCarePlansLocalAuthoritiesFunction(_service.Object, _validator.Object);
         _fixture = new Fixture();
     }
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        var model = _fixture.Build<History<LocalAuthorityNumberOfPlansYear>>().Create();
+        var models = _fixture
+            .Build<LocalAuthorityNumberOfPlans>()
+            .CreateMany()
+            .ToArray();
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(x => x.GetHistory(new[] { Code }, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(model);
+            .Setup(x => x.Get(new[] { Code }, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>
         {
@@ -54,9 +57,9 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<History<LocalAuthorityNumberOfPlansYear>>();
+        var body = await result.ReadAsJsonAsync<LocalAuthorityNumberOfPlans[]>();
         Assert.NotNull(body);
-        Assert.Equivalent(model, body);
+        Assert.Equivalent(models, body);
     }
 
     [Fact]
@@ -79,6 +82,6 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
         Assert.Contains(values, p => p.PropertyName == nameof(EducationHealthCarePlansParameters.Codes));
 
         _service
-            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
