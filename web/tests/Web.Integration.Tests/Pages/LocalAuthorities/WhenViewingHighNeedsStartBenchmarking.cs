@@ -156,6 +156,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
+            .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code));
 
         return (page, authority, authorities);

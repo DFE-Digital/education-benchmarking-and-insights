@@ -3,8 +3,19 @@ using Web.App.Domain.LocalAuthorities;
 
 namespace Web.App.Controllers.Api.Mappers;
 
-public static class LocalAuthorityHighNeedsHistoryResponseMapper
+public static class LocalAuthorityHighNeedsResponseMapper
 {
+    public static IEnumerable<LocalAuthorityHighNeedsComparisonResponse> MapToApiResponse(this LocalAuthority<HighNeeds>[] localAuthorities)
+    {
+        return localAuthorities.Select(l => new LocalAuthorityHighNeedsComparisonResponse
+        {
+            Code = l.Code,
+            Name = l.Name,
+            Outturn = l.Outturn?.MapToApiResponse(),
+            Budget = l.Budget?.MapToApiResponse()
+        });
+    }
+
     public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(
         this HighNeedsHistory<HighNeedsYear>? history,
         string code)
@@ -55,6 +66,11 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
             .Where(o => o.Year == year)
             .SingleOrDefault(o => o.Code == code);
 
+        return item == null ? null : MapToApiResponse(item);
+    }
+
+    private static LocalAuthorityHighNeedsApiResponse? MapToApiResponse(this HighNeeds? item)
+    {
         if (item == null)
         {
             return null;

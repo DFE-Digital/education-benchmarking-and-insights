@@ -1,10 +1,20 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Web.App.Controllers.Api.Responses;
 
-public record EducationHealthCarePlansHistoryResponse
+public record EducationHealthCarePlansHistoryResponse : EducationHealthCarePlansResponse
 {
     public int? Year { get; set; }
     public string? Term { get; set; }
+}
+
+public record EducationHealthCarePlansComparisonResponse : EducationHealthCarePlansResponse
+{
+    public string? Code { get; set; }
+    public string? Name { get; set; }
+}
+
+public record EducationHealthCarePlansResponse
+{
     public decimal? Total { get; set; }
     public decimal? Mainstream { get; set; }
     public decimal? Resourced { get; set; }

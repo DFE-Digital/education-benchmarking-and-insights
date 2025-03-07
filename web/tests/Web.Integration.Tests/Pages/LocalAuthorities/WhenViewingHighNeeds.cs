@@ -145,8 +145,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var authorities = Fixture.Build<LocalAuthority>().CreateMany().ToArray();
 
         var page = await Client.SetupEstablishment(authority, ranking, statisticalNeighbours, authorities)
-            .SetupHighNeedsHistory(history)
+            .SetupHighNeeds(history)
             .SetupInsights()
+            .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .Navigate(Paths.LocalAuthorityHighNeeds(authority.Code));
 
         return (page, authority, rankings, history);
