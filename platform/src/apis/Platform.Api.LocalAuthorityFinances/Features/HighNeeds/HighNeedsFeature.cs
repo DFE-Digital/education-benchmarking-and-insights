@@ -13,10 +13,10 @@ public static class HighNeedsFeature
     public static IServiceCollection AddHighNeedsFeature(this IServiceCollection serviceCollection)
     {
         serviceCollection
-            .AddSingleton<IHighNeedsHistoryService, HighNeedsHistoryStubService>();
+            .AddSingleton<IHighNeedsService, HighNeedsStubService>();
 
         serviceCollection
-            .AddTransient<IValidator<HighNeedsHistoryParameters>, HighNeedsHistoryParametersValidator>();
+            .AddTransient<IValidator<HighNeedsParameters>, HighNeedsParametersValidator>();
 
         return serviceCollection;
     }

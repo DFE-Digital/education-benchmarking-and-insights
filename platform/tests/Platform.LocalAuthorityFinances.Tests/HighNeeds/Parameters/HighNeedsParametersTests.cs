@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Platform.LocalAuthorityFinances.Tests.HighNeeds.Parameters;
 
-public class HighNeedsHistoryParametersTests
+public class HighNeedsParametersTests
 {
     [Fact]
     public void ShouldSetValuesFromQuery()
@@ -16,7 +16,7 @@ public class HighNeedsHistoryParametersTests
             { "code", "code3" }
         };
 
-        var parameters = new HighNeedsHistoryParameters();
+        var parameters = new HighNeedsParameters();
         parameters.SetValues(values);
 
         Assert.Equal(["code1", "code2", "code3"], parameters.Codes);

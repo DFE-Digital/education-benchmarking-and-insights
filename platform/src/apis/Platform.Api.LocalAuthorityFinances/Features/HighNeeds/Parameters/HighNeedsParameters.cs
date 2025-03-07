@@ -4,7 +4,7 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 
-public record HighNeedsHistoryParameters : QueryParameters
+public record HighNeedsParameters : QueryParameters
 {
     public string[] Codes { get; private set; } = [];
 

@@ -1,33 +1,35 @@
 Feature: Local authorities high needs endpoints
 # todo: replace stubbed values with real
 
-    Scenario: Sending a valid high needs request returns the expected outturn values
-        Given a valid high needs request with LA codes '201'
+    Scenario: Sending a valid high needs history request returns the expected outturn values
+        Given a valid high needs history request with LA codes:
+          | Code |
+          | 201  |
         When I submit the high needs request
-        Then the high needs result should be ok and have the following values:
+        Then the high needs history result should be ok and have the following values:
           | Start year | End year |
           | 2021       | 2024     |
-        And the high needs result should contain the following outturn values for '2021':
+        And the high needs history result should contain the following outturn values for '2021':
           | Field | Value   |
           | Year  | 2021    |
           | Code  | 201     |
           | Total | 1014042 |
-        And the high needs result should contain the following outturn values for '2022':
+        And the high needs history result should contain the following outturn values for '2022':
           | Field | Value   |
           | Year  | 2022    |
           | Code  | 201     |
           | Total | 1014044 |
-        And the high needs result should contain the following outturn values for '2023':
+        And the high needs history result should contain the following outturn values for '2023':
           | Field | Value   |
           | Year  | 2023    |
           | Code  | 201     |
           | Total | 1014046 |
-        And the high needs result should contain the following outturn values for '2024':
+        And the high needs history result should contain the following outturn values for '2024':
           | Field | Value   |
           | Year  | 2024    |
           | Code  | 201     |
           | Total | 1014048 |
-        And the high needs result should contain the following outturn high needs amount values for '2021':
+        And the high needs history result should contain the following outturn high needs amount values for '2021':
           | Field                        | Value   |
           | TotalPlaceFunding            | 1002022 |
           | TopUpFundingMaintained       | 1002023 |
@@ -36,7 +38,7 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvisionServices | 1002026 |
           | HospitalServices             | 1002027 |
           | OtherHealthServices          | 1002028 |
-        And the high needs result should contain the following outturn maintained values for '2021':
+        And the high needs history result should contain the following outturn maintained values for '2021':
           | Field                | Value   |
           | EarlyYears           | 1002029 |
           | Primary              | 1002030 |
@@ -45,7 +47,7 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvision | 1002033 |
           | PostSchool           | 1002034 |
           | Income               | 1002035 |
-        And the high needs result should contain the following outturn non maintained values for '2021':
+        And the high needs history result should contain the following outturn non maintained values for '2021':
           | Field                | Value   |
           | EarlyYears           | 1002036 |
           | Primary              | 1002037 |
@@ -54,40 +56,42 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvision | 1002040 |
           | PostSchool           | 1002041 |
           | Income               | 1002042 |
-        And the high needs result should contain the following outturn place funding values for '2021':
+        And the high needs history result should contain the following outturn place funding values for '2021':
           | Field                | Value   |
           | Primary              | 1002043 |
           | Secondary            | 1002044 |
           | Special              | 1002045 |
           | AlternativeProvision | 1002046 |
 
-    Scenario: Sending a valid high needs request returns the expected budget values
-        Given a valid high needs request with LA codes '201'
+    Scenario: Sending a valid high needs history request returns the expected budget values
+        Given a valid high needs history request with LA codes:
+          | Code |
+          | 201  |
         When I submit the high needs request
-        Then the high needs result should be ok and have the following values:
+        Then the high needs history result should be ok and have the following values:
           | Start year | End year |
           | 2021       | 2024     |
-        And the high needs result should contain the following budget values for '2021':
+        And the high needs history result should contain the following budget values for '2021':
           | Field | Value   |
           | Year  | 2021    |
           | Code  | 201     |
           | Total | 1110001 |
-        And the high needs result should contain the following budget values for '2022':
+        And the high needs history result should contain the following budget values for '2022':
           | Field | Value   |
           | Year  | 2022    |
           | Code  | 201     |
           | Total | 1110000 |
-        And the high needs result should contain the following budget values for '2023':
+        And the high needs history result should contain the following budget values for '2023':
           | Field | Value   |
           | Year  | 2023    |
           | Code  | 201     |
           | Total | 1110001 |
-        And the high needs result should contain the following budget values for '2024':
+        And the high needs history result should contain the following budget values for '2024':
           | Field | Value   |
           | Year  | 2024    |
           | Code  | 201     |
           | Total | 1110000 |
-        And the high needs result should contain the following budget high needs amount values for '2021':
+        And the high needs history result should contain the following budget high needs amount values for '2021':
           | Field                        | Value   |
           | TotalPlaceFunding            | 1102022 |
           | TopUpFundingMaintained       | 1102023 |
@@ -96,7 +100,7 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvisionServices | 1102026 |
           | HospitalServices             | 1102027 |
           | OtherHealthServices          | 1102028 |
-        And the high needs result should contain the following budget maintained values for '2021':
+        And the high needs history result should contain the following budget maintained values for '2021':
           | Field                | Value   |
           | EarlyYears           | 1102029 |
           | Primary              | 1102030 |
@@ -105,7 +109,7 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvision | 1102033 |
           | PostSchool           | 1102034 |
           | Income               | 1102035 |
-        And the high needs result should contain the following budget non maintained values for '2021':
+        And the high needs history result should contain the following budget non maintained values for '2021':
           | Field                | Value   |
           | EarlyYears           | 1102036 |
           | Primary              | 1102037 |
@@ -114,12 +118,141 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvision | 1102040 |
           | PostSchool           | 1102041 |
           | Income               | 1102042 |
-        And the high needs result should contain the following budget place funding values for '2021':
+        And the high needs history result should contain the following budget place funding values for '2021':
           | Field                | Value   |
           | Primary              | 1102043 |
           | Secondary            | 1102044 |
           | Special              | 1102045 |
           | AlternativeProvision | 1102046 |
+
+    Scenario: Sending an invalid high needs history request
+        Given an invalid high needs history request
+        When I submit the high needs request
+        Then the high needs history result should be bad request
+
+    Scenario: Sending a valid high needs request returns the expected outturn values
+        Given a valid high needs request with LA codes:
+          | Code |
+          | 201  |
+          | 202  |
+          | 203  |
+        When I submit the high needs request
+        Then the high needs result should be ok and have the following values for '201':
+          | Field | Value               |
+          | Code  | 201                 |
+          | Name  | Local authority 201 |
+        And the high needs result should have the following values for '202':
+          | Field | Value               |
+          | Code  | 202                 |
+          | Name  | Local authority 202 |
+        And the high needs result should have the following values for '203':
+          | Field | Value               |
+          | Code  | 203                 |
+          | Name  | Local authority 203 |
+        And the high needs result should contain the following outturn values for '201':
+          | Field | Value   |
+          | Total | 1010001 |
+        And the high needs result should contain the following outturn values for '202':
+          | Field | Value   |
+          | Total | 1010000 |
+        And the high needs result should contain the following outturn values for '203':
+          | Field | Value   |
+          | Total | 1010001 |
+        And the high needs result should contain the following outturn high needs amount values for '201':
+          | Field                        | Value   |
+          | TotalPlaceFunding            | 1002226 |
+          | TopUpFundingMaintained       | 1002227 |
+          | TopUpFundingNonMaintained    | 1002228 |
+          | SenServices                  | 1002229 |
+          | AlternativeProvisionServices | 1002230 |
+          | HospitalServices             | 1002231 |
+          | OtherHealthServices          | 1002232 |
+        And the high needs result should contain the following outturn maintained values for '201':
+          | Field                | Value   |
+          | EarlyYears           | 1002233 |
+          | Primary              | 1002234 |
+          | Secondary            | 1002235 |
+          | Special              | 1002236 |
+          | AlternativeProvision | 1002237 |
+          | PostSchool           | 1002238 |
+          | Income               | 1002239 |
+        And the high needs result should contain the following outturn non maintained values for '201':
+          | Field                | Value   |
+          | EarlyYears           | 1002240 |
+          | Primary              | 1002241 |
+          | Secondary            | 1002242 |
+          | Special              | 1002243 |
+          | AlternativeProvision | 1002244 |
+          | PostSchool           | 1002245 |
+          | Income               | 1002246 |
+        And the high needs result should contain the following outturn place funding values for '201':
+          | Field                | Value   |
+          | Primary              | 1002247 |
+          | Secondary            | 1002248 |
+          | Special              | 1002249 |
+          | AlternativeProvision | 1002250 |
+
+    Scenario: Sending a valid high needs request returns the expected budget values
+        Given a valid high needs request with LA codes:
+          | Code |
+          | 201  |
+          | 202  |
+          | 203  |
+        When I submit the high needs request
+        Then the high needs result should be ok and have the following values for '201':
+          | Field | Value               |
+          | Code  | 201                 |
+          | Name  | Local authority 201 |
+        And the high needs result should have the following values for '202':
+          | Field | Value               |
+          | Code  | 202                 |
+          | Name  | Local authority 202 |
+        And the high needs result should have the following values for '203':
+          | Field | Value               |
+          | Code  | 203                 |
+          | Name  | Local authority 203 |
+        And the high needs result should contain the following budget values for '201':
+          | Field | Value   |
+          | Total | 1110001 |
+        And the high needs result should contain the following budget values for '202':
+          | Field | Value   |
+          | Total | 1110000 |
+        And the high needs result should contain the following budget values for '203':
+          | Field | Value   |
+          | Total | 1110001 |
+        And the high needs result should contain the following budget high needs amount values for '201':
+          | Field                        | Value   |
+          | TotalPlaceFunding            | 1102226 |
+          | TopUpFundingMaintained       | 1102227 |
+          | TopUpFundingNonMaintained    | 1102228 |
+          | SenServices                  | 1102229 |
+          | AlternativeProvisionServices | 1102230 |
+          | HospitalServices             | 1102231 |
+          | OtherHealthServices          | 1102232 |
+        And the high needs result should contain the following budget maintained values for '201':
+          | Field                | Value   |
+          | EarlyYears           | 1102233 |
+          | Primary              | 1102234 |
+          | Secondary            | 1102235 |
+          | Special              | 1102236 |
+          | AlternativeProvision | 1102237 |
+          | PostSchool           | 1102238 |
+          | Income               | 1102239 |
+        And the high needs result should contain the following budget non maintained values for '201':
+          | Field                | Value   |
+          | EarlyYears           | 1102240 |
+          | Primary              | 1102241 |
+          | Secondary            | 1102242 |
+          | Special              | 1102243 |
+          | AlternativeProvision | 1102244 |
+          | PostSchool           | 1102245 |
+          | Income               | 1102246 |
+        And the high needs result should contain the following budget place funding values for '201':
+          | Field                | Value   |
+          | Primary              | 1102247 |
+          | Secondary            | 1102248 |
+          | Special              | 1102249 |
+          | AlternativeProvision | 1102250 |
 
     Scenario: Sending an invalid high needs request
         Given an invalid high needs request

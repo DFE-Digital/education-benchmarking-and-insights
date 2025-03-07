@@ -3,9 +3,9 @@ using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Validators;
 
-public class HighNeedsHistoryParametersValidator : AbstractValidator<HighNeedsHistoryParameters>
+public class HighNeedsParametersValidator : AbstractValidator<HighNeedsParameters>
 {
-    public HighNeedsHistoryParametersValidator()
+    public HighNeedsParametersValidator()
     {
         RuleFor(x => x.Codes)
             .NotEmpty()

@@ -15,16 +15,16 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 
-public class GetHighNeedsHistoryFunction(IHighNeedsService service, IValidator<HighNeedsParameters> validator)
+public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeedsParameters> validator)
 {
-    [Function(nameof(GetHighNeedsHistoryFunction))]
+    [Function(nameof(GetHighNeedsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetHighNeedsHistoryFunction), Constants.Features.HighNeeds)]
+    [OpenApiOperation(nameof(GetHighNeedsFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Type = typeof(string[]), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<HighNeedsYear>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeedsHistory)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeeds)] HttpRequestData req,
         CancellationToken token)
     {
         var queryParams = req.GetParameters<HighNeedsParameters>();
@@ -35,9 +35,7 @@ public class GetHighNeedsHistoryFunction(IHighNeedsService service, IValidator<H
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var history = await service.GetHistory(queryParams.Codes, token);
-        return history == null
-            ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(history);
+        var highNeeds = await service.Get(queryParams.Codes, token);
+        return await req.CreateJsonResponseAsync(highNeeds);
     }
 }
