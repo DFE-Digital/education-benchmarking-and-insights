@@ -239,7 +239,8 @@ def _prepare_la_statistical_neighbours(
     This is mostly processed as-is from the raw data however
     some mapping to deal with duplicate column names takes place using
     the mapping set out in the input schemas.
-    Also drops na rows caused by blank rows in the raw data.
+    Also removes rows where LA number is absent (due to extraneous
+    rows in the input file).
 
     :param filepath_or_buffer: source for LA statistical neighbours data
     :param year: financial year in question
