@@ -34,7 +34,7 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        var model = _fixture.Build<History<LocalAuthorityHighNeedsYear>>().Create();
+        var model = _fixture.Build<History<HighNeedsYear>>().Create();
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsHistoryParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
@@ -54,7 +54,7 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<History<LocalAuthorityHighNeedsYear>>();
+        var body = await result.ReadAsJsonAsync<History<HighNeedsYear>>();
         Assert.NotNull(body);
     }
 
@@ -67,7 +67,7 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
 
         _service
             .Setup(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((History<LocalAuthorityHighNeedsYear>?)null);
+            .ReturnsAsync((History<HighNeedsYear>?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), CancellationToken.None);
 

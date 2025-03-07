@@ -92,7 +92,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings, HighNeedsHistory<LocalAuthorityHighNeedsYear> history)> SetupNavigateInitPage(
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings, HighNeedsHistory<HighNeedsYear> history)> SetupNavigateInitPage(
         int? nationalRankings = null,
         int? historyYears = null)
     {
@@ -114,20 +114,20 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         const int startYear = 2021;
         var endYear = startYear + historyYears.GetValueOrDefault() - 1;
-        var history = new HighNeedsHistory<LocalAuthorityHighNeedsYear>();
+        var history = new HighNeedsHistory<HighNeedsYear>();
         if (historyYears != null)
         {
-            var outturn = new List<LocalAuthorityHighNeedsYear>();
-            var budget = new List<LocalAuthorityHighNeedsYear>();
+            var outturn = new List<HighNeedsYear>();
+            var budget = new List<HighNeedsYear>();
             for (var year = startYear; year <= endYear; year++)
             {
                 outturn.Add(Fixture
-                    .Build<LocalAuthorityHighNeedsYear>()
+                    .Build<HighNeedsYear>()
                     .With(h => h.Year, year)
                     .With(h => h.Code, authority.Code)
                     .Create());
                 budget.Add(Fixture
-                    .Build<LocalAuthorityHighNeedsYear>()
+                    .Build<HighNeedsYear>()
                     .With(h => h.Year, year)
                     .With(h => h.Code, authority.Code)
                     .Create());
@@ -156,7 +156,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         IHtmlDocument page,
         LocalAuthority authority,
         LocalAuthorityRank[] rankings,
-        HighNeedsHistory<LocalAuthorityHighNeedsYear> history)
+        HighNeedsHistory<HighNeedsYear> history)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
 
@@ -203,7 +203,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         }
     }
 
-    private static void AssertBudgetSpendHistoryCard(IElement? budgetSpendHistoryCard, HighNeedsHistory<LocalAuthorityHighNeedsYear> history)
+    private static void AssertBudgetSpendHistoryCard(IElement? budgetSpendHistoryCard, HighNeedsHistory<HighNeedsYear> history)
     {
         Assert.NotNull(budgetSpendHistoryCard);
 

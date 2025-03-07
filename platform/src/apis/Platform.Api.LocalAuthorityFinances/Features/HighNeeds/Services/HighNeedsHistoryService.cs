@@ -6,5 +6,5 @@ namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 
 public interface IHighNeedsHistoryService
 {
-    Task<History<LocalAuthorityHighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default);
+    Task<History<HighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default);
 }

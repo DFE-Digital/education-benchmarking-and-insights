@@ -21,7 +21,7 @@ public class GetHighNeedsHistoryFunction(IHighNeedsHistoryService service, IVali
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetHighNeedsHistoryFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Type = typeof(string[]), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<LocalAuthorityHighNeedsYear>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<HighNeedsYear>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeedsHistory)] HttpRequestData req,

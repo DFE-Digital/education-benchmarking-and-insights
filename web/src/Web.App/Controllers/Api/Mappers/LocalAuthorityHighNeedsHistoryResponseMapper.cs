@@ -6,7 +6,7 @@ namespace Web.App.Controllers.Api.Mappers;
 public static class LocalAuthorityHighNeedsHistoryResponseMapper
 {
     public static IEnumerable<LocalAuthorityHighNeedsHistoryResponse> MapToApiResponse(
-        this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history,
+        this HighNeedsHistory<HighNeedsYear>? history,
         string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
@@ -27,7 +27,7 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
     }
 
     public static IEnumerable<LocalAuthorityHighNeedsHistoryDashboardResponse> MapToDashboardResponse(
-        this HighNeedsHistory<LocalAuthorityHighNeedsYear>? history,
+        this HighNeedsHistory<HighNeedsYear>? history,
         string code)
     {
         if (history?.StartYear == null || history.EndYear == null)
@@ -49,7 +49,7 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
         }
     }
 
-    private static LocalAuthorityHighNeedsApiResponse? MapToApiResponse(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
+    private static LocalAuthorityHighNeedsApiResponse? MapToApiResponse(this HighNeedsYear[]? highNeedsYear, string code, int year)
     {
         var item = highNeedsYear?
             .Where(o => o.Year == year)
@@ -93,7 +93,7 @@ public static class LocalAuthorityHighNeedsHistoryResponseMapper
         };
     }
 
-    private static decimal? MapToTotal(this LocalAuthorityHighNeedsYear[]? highNeedsYear, string code, int year)
+    private static decimal? MapToTotal(this HighNeedsYear[]? highNeedsYear, string code, int year)
     {
         return highNeedsYear?
             .Where(o => o.Year == year)

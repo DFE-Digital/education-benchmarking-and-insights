@@ -588,7 +588,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHighNeedsHistory(HighNeedsHistory<LocalAuthorityHighNeedsYear> history)
+    public BenchmarkingWebAppClient SetupHighNeedsHistory(HighNeedsHistory<HighNeedsYear> history)
     {
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));

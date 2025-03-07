@@ -11,12 +11,12 @@ namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 [ExcludeFromCodeCoverage]
 public class HighNeedsHistoryStubService : IHighNeedsHistoryService
 {
-    public Task<History<LocalAuthorityHighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default)
+    public Task<History<HighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
         var code = codes.First();
         const int startYear = 2021;
         const int endYear = 2024;
-        var history = new History<LocalAuthorityHighNeedsYear>
+        var history = new History<HighNeedsYear>
         {
             StartYear = startYear,
             EndYear = endYear,
@@ -24,10 +24,10 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
             Outturn = GetOutturn(code, startYear, endYear).ToArray()
         };
 
-        return Task.FromResult<History<LocalAuthorityHighNeedsYear>?>(history);
+        return Task.FromResult<History<HighNeedsYear>?>(history);
     }
 
-    private static IEnumerable<LocalAuthorityHighNeedsYear> GetBudget(string code, int startYear, int endYear)
+    private static IEnumerable<HighNeedsYear> GetBudget(string code, int startYear, int endYear)
     {
         for (var year = startYear; year <= endYear; year++)
         {
@@ -35,7 +35,7 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
         }
     }
 
-    private static IEnumerable<LocalAuthorityHighNeedsYear> GetOutturn(string code, int startYear, int endYear)
+    private static IEnumerable<HighNeedsYear> GetOutturn(string code, int startYear, int endYear)
     {
         for (var year = startYear; year <= endYear; year++)
         {
@@ -43,7 +43,7 @@ public class HighNeedsHistoryStubService : IHighNeedsHistoryService
         }
     }
 
-    private static LocalAuthorityHighNeedsYear GetStubbedRow(string code, int year, decimal baseValue, decimal total) => new()
+    private static HighNeedsYear GetStubbedRow(string code, int year, decimal baseValue, decimal total) => new()
     {
         Code = code,
         Year = year,
