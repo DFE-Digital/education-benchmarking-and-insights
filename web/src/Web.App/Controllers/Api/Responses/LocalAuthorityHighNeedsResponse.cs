@@ -10,6 +10,14 @@ public record LocalAuthorityHighNeedsHistoryResponse
     public LocalAuthorityHighNeedsApiResponse? Budget { get; init; }
 }
 
+public record LocalAuthorityHighNeedsComparisonResponse
+{
+    public string? Code { get; init; }
+    public string? Name { get; init; }
+    public LocalAuthorityHighNeedsApiResponse? Outturn { get; init; }
+    public LocalAuthorityHighNeedsApiResponse? Budget { get; init; }
+}
+
 public record LocalAuthorityHighNeedsApiResponse
 {
     public decimal? HighNeedsAmountTotalPlaceFunding { get; init; }

@@ -3,7 +3,7 @@ using Web.App.Domain.NonFinancial;
 
 namespace Web.App.Controllers.Api.Mappers;
 
-public static class EducationHealthCarePlansHistoryResponseResponseMapper
+public static class EducationHealthCarePlansResponseMapper
 {
     public static IEnumerable<EducationHealthCarePlansComparisonResponse> MapToApiResponse(this LocalAuthorityNumberOfPlans[] plans)
     {

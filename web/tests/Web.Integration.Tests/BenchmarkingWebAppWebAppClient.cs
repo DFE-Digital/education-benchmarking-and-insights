@@ -591,10 +591,17 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHighNeedsHistory(HighNeedsHistory<HighNeedsYear> history)
+    public BenchmarkingWebAppClient SetupHighNeeds(HighNeedsHistory<HighNeedsYear> history)
     {
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupHighNeeds(LocalAuthority<HighNeeds>[] localAuthorities)
+    {
+        LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(localAuthorities));
         return this;
     }
 
