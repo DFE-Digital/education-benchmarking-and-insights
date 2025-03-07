@@ -147,7 +147,7 @@ export const send2LeadSection: HistoricChartSend2Section<LocalAuthorityEducation
   {
     charts: [
       {
-        name: "Number aged up to 25 with SEN statement or EHC plan",
+        name: "Number aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)",
         field: "total",
       },
     ],
