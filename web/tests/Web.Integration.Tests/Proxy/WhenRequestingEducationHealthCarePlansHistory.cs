@@ -61,6 +61,7 @@ public class WhenEducationHealthCarePlansHistory(SchoolBenchmarkingWebAppClient 
             Assert.Equal(expected.Total, actual.Total);
             Assert.Equal(expected.Mainstream, actual.Mainstream);
             Assert.Equal(expected.Resourced, actual.Resourced);
+            Assert.Equal(expected.Special, actual.Special);
             Assert.Equal(expected.Independent, actual.Independent);
             Assert.Equal(expected.Hospital, actual.Hospital);
             Assert.Equal(expected.Post16, actual.Post16);

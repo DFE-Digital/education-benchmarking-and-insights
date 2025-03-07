@@ -1,20 +1,12 @@
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 namespace Web.App.Domain.NonFinancial;
-
-public record EducationHealthCarePlansHistory<T>
-{
-    public int? StartYear { get; set; }
-    public int? EndYear { get; set; }
-    public T[]? Plans { get; set; } = [];
-}
-
-public record LocalAuthorityNumberOfPlansYear : LocalAuthorityNumberOfPlans
-{
-    public int? Year { get; set; }
-}
 
 public record LocalAuthorityNumberOfPlans
 {
     public string? Code { get; set; }
+    public string? Name { get; set; }
     public decimal? Total { get; set; }
     public decimal? Mainstream { get; set; }
     public decimal? Resourced { get; set; }

@@ -14,7 +14,7 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
     private History<LocalAuthorityNumberOfPlansYear>? _result;
 
     [Given("an education health care plans history request with codes '(.*)'")]
-    public void GivenAnEducationHealthCarePlansLocalAuthoritiesRequest(string codes)
+    public void GivenAnEducationHealthCarePlansHistoryRequestWithCodes(string codes)
     {
         api.CreateRequest(RequestKey, new HttpRequestMessage
         {
@@ -24,13 +24,13 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
     }
 
     [When("I submit the education health care plans history request")]
-    public async Task WhenISubmitTheEducationHealthCarePlansLocalAuthoritiesRequest()
+    public async Task WhenISubmitTheEducationHealthCarePlansHistoryRequest()
     {
         await api.Send();
     }
 
     [Then("the education health care plans history result should be ok and have the following values:")]
-    public async Task ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    public async Task ThenTheEducationHealthCarePlansHistoryResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
     {
         var response = api[RequestKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -45,7 +45,7 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
     }
 
     [Then("the education health care plans history result should be ok and have the following plan for '(.*)':")]
-    public void ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldContainTheFollowingPlan(int year, DataTable table)
+    public void ThenTheEducationHealthCarePlansHistoryResultShouldBeOkAndHaveTheFollowingPlanFor(int year, DataTable table)
     {
         var response = api[RequestKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -58,17 +58,17 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
 
 
     [Given("an education health care plans history request with no codes")]
-    public void GivenAnInvalidTheEducationHealthCarePlansLocalAuthoritiesRequest()
+    public void GivenAnEducationHealthCarePlansHistoryRequestWithNoCodes()
     {
         api.CreateRequest(RequestKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/education-health-care-plans/local-authorities/history", UriKind.Relative),
+            RequestUri = new Uri("/api/education-health-care-plans/local-authorities/history", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
     [Then("the education health care plans history result should be bad request")]
-    public void ThenTheEducationHealthCarePlansLocalAuthoritiesResultShouldBeBadRequest()
+    public void ThenTheEducationHealthCarePlansHistoryResultShouldBeBadRequest()
     {
         AssertHttpResponse.IsBadRequest(api[RequestKey].Response);
     }

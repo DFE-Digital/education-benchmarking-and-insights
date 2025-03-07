@@ -37,6 +37,7 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
                 {
                     Year = j,
                     Code = code,
+                    Name = $"Local authority {code}",
                     Mainstream = mainstream,
                     Resourced = resourced,
                     Special = special,
