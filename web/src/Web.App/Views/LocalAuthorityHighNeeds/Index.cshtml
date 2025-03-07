@@ -19,7 +19,7 @@
 })
 
 <div class="dashboard-row">
-    <div class="dashboard-column-full">
+    <div class="dashboard-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
                 <h2 class="govuk-summary-card__title">Benchmark high needs data</h2>
@@ -34,6 +34,15 @@
                          })" role="button" class="govuk-button govuk-button--primary" data-module="govuk-button">
                     Start benchmarking
                 </a>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-column-one-half">
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">Total number of EHC plans and cost</h2>
+            </div>
+            <div class="govuk-summary-card__content">
             </div>
         </div>
     </div>
@@ -56,7 +65,7 @@
     <div class="dashboard-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Budget vs spend (historical view)</h2>
+                <h2 class="govuk-summary-card__title">Historical spending</h2>
             </div>
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
