@@ -27,7 +27,7 @@ public class WhenLocalAuthorityHighNeedsHistoryResponseMapperMapsToApiWithCode :
         AssertFieldsMapped(BudgetEndYear, endYearResponse.Budget);
     }
 
-    private static void AssertFieldsMapped(LocalAuthorityHighNeedsYear expected, LocalAuthorityHighNeedsApiResponse? actual)
+    private static void AssertFieldsMapped(HighNeedsYear expected, LocalAuthorityHighNeedsApiResponse? actual)
     {
         Assert.Equal(expected.HighNeedsAmount?.TotalPlaceFunding, actual?.HighNeedsAmountTotalPlaceFunding);
         Assert.Equal(expected.HighNeedsAmount?.TopUpFundingMaintained, actual?.HighNeedsAmountTopUpFundingMaintained);

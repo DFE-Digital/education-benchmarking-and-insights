@@ -16,7 +16,7 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
         var query = BuildQuery(identifier);
         var history = await localAuthoritiesApi
             .GetHighNeedsHistory(query, cancellationToken)
-            .GetResultOrDefault<HighNeedsHistory<LocalAuthorityHighNeedsYear>>();
+            .GetResultOrDefault<HighNeedsHistory<HighNeedsYear>>();
 
         if (history is { Outturn.Length: > 0, Budget.Length: > 0 })
         {

@@ -9,28 +9,28 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
     protected const string Code = nameof(Code);
     protected const int StartYear = 2021;
     protected const int EndYear = 2024;
-    protected static readonly LocalAuthorityHighNeedsYear OutturnStartYear = Fixture
-        .Build<LocalAuthorityHighNeedsYear>()
+    protected static readonly HighNeedsYear OutturnStartYear = Fixture
+        .Build<HighNeedsYear>()
         .With(o => o.Year, StartYear)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly LocalAuthorityHighNeedsYear OutturnEndYear = Fixture
-        .Build<LocalAuthorityHighNeedsYear>()
+    protected static readonly HighNeedsYear OutturnEndYear = Fixture
+        .Build<HighNeedsYear>()
         .With(o => o.Year, EndYear)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly LocalAuthorityHighNeedsYear BudgetStartYear = Fixture
-        .Build<LocalAuthorityHighNeedsYear>()
+    protected static readonly HighNeedsYear BudgetStartYear = Fixture
+        .Build<HighNeedsYear>()
         .With(o => o.Year, StartYear)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly LocalAuthorityHighNeedsYear BudgetEndYear = Fixture
-        .Build<LocalAuthorityHighNeedsYear>()
+    protected static readonly HighNeedsYear BudgetEndYear = Fixture
+        .Build<HighNeedsYear>()
         .With(o => o.Year, EndYear)
         .With(o => o.Code, Code)
         .Create();
 
-    protected readonly HighNeedsHistory<LocalAuthorityHighNeedsYear> History = new HighNeedsHistory<LocalAuthorityHighNeedsYear>
+    protected readonly HighNeedsHistory<HighNeedsYear> History = new HighNeedsHistory<HighNeedsYear>
     {
         StartYear = StartYear,
         EndYear = EndYear,
@@ -38,11 +38,11 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         [
             OutturnStartYear,
             OutturnEndYear,
-            new LocalAuthorityHighNeedsYear
+            new HighNeedsYear
             {
                 Year = EndYear
             },
-            new LocalAuthorityHighNeedsYear
+            new HighNeedsYear
             {
                 Code = Code
             }
@@ -51,11 +51,11 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         [
             BudgetStartYear,
             BudgetEndYear,
-            new LocalAuthorityHighNeedsYear
+            new HighNeedsYear
             {
                 Year = EndYear
             },
-            new LocalAuthorityHighNeedsYear
+            new HighNeedsYear
             {
                 Code = Code
             }

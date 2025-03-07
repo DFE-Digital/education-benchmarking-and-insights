@@ -11,7 +11,7 @@ namespace Platform.ApiTests.Steps;
 public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
 {
     private const string HistoryKey = "history";
-    private History<LocalAuthorityHighNeedsYear>? _result;
+    private History<HighNeedsYear>? _result;
 
     [Given("a valid high needs request with LA codes '(.*)'")]
     public void GivenAValidHighNeedsRequestWithLaCodes(string codes)
@@ -46,7 +46,7 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        _result = content.FromJson<History<LocalAuthorityHighNeedsYear>>();
+        _result = content.FromJson<History<HighNeedsYear>>();
         var startYear = table.Rows.First()["Start year"];
         var endYear = table.Rows.First()["End year"];
 
@@ -140,12 +140,12 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         AssertHttpResponse.IsBadRequest(api[HistoryKey].Response);
     }
 
-    private LocalAuthorityHighNeedsYear? OutturnResultForYear(string year)
+    private HighNeedsYear? OutturnResultForYear(string year)
     {
         return _result?.Outturn?.SingleOrDefault(o => o.Year.ToString() == year);
     }
 
-    private LocalAuthorityHighNeedsYear? BudgetResultForYear(string year)
+    private HighNeedsYear? BudgetResultForYear(string year)
     {
         return _result?.Budget?.SingleOrDefault(o => o.Year.ToString() == year);
     }
