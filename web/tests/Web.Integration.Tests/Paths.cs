@@ -108,6 +108,7 @@ public static class Paths
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     public static string ApiNationalRank(string? sort) => $"api/local-authorities/national-rank?sort={sort}";
     public static string ApiHighNeedsHistory(string code) => $"api/local-authorities/high-needs/history?code={code}";
+    public static string ApiEducationHealthCarePlansComparison(string code) => $"api/local-authorities/education-health-care-plans/comparison?code={code}";
     public static string ApiEducationHealthCarePlansHistory(string code) => $"api/local-authorities/education-health-care-plans/history?code={code}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";

@@ -13,6 +13,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Storage;
+using Web.App.Services;
 using Xunit.Abstractions;
 using File = Web.App.Domain.File;
 
@@ -53,6 +54,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IFilesApi> FilesApi { get; } = new();
     public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
     public Mock<IEducationHealthCarePlansApi> EducationHealthCarePlansApi { get; } = new();
+    public Mock<ILocalAuthorityComparatorSetService> LocalAuthorityComparatorSetService { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -78,6 +80,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(FilesApi.Object);
         services.AddSingleton(LocalAuthoritiesApi.Object);
         services.AddSingleton(EducationHealthCarePlansApi.Object);
+        services.AddSingleton(LocalAuthorityComparatorSetService.Object);
 
         EnableFeatures();
     }
@@ -602,10 +605,25 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupEducationHealthCarePlans(LocalAuthorityNumberOfPlans[] plans)
+    {
+        EducationHealthCarePlansApi.Reset();
+        EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlans(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(plans));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupEducationHealthCarePlansWithException()
     {
         EducationHealthCarePlansApi.Reset();
+        EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlans(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlansHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthoritiesComparators(string code, string[] set)
+    {
+        LocalAuthorityComparatorSetService.Reset();
+        LocalAuthorityComparatorSetService.Setup(s => s.ReadUserDefinedComparatorSetFromSession(code)).Returns(new UserDefinedLocalAuthorityComparatorSet { Set = set });
         return this;
     }
 
