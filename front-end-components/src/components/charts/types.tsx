@@ -16,6 +16,8 @@ import { DownloadMode } from "src/services";
 export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
   barCategoryGap?: string | number;
+  barGap?: string | number;
+  barHeight?: number;
   chartTitle: string;
   className?: string;
   data: TData[];

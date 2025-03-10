@@ -409,6 +409,18 @@ export type LocalAuthorityRank = {
   rank: number;
 };
 
+export type LocalAuthorityBenchmarkBase = {
+  code: string;
+  name: string;
+};
+
+export type LocalAuthoritySection251Benchmark<
+  T extends LocalAuthoritySection251,
+> = LocalAuthorityBenchmarkBase & {
+  outturn?: T;
+  budget?: T;
+};
+
 export type LocalAuthoritySection251History<
   T extends LocalAuthoritySection251,
 > = HistoryBase & {
@@ -459,4 +471,7 @@ export type LocalAuthorityEducationHealthCarePlan = {
 };
 
 export type LocalAuthoritySend2History = HistoryBase &
+  LocalAuthorityEducationHealthCarePlan;
+
+export type LocalAuthoritySend2Benchmark = LocalAuthorityBenchmarkBase &
   LocalAuthorityEducationHealthCarePlan;
