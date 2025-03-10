@@ -123,7 +123,6 @@ def la_outturn() -> pd.DataFrame:
 
 @pytest.fixture
 def la_statistical_neighbours() -> io.StringIO:
-
     columns = [
         "LA number",
         "SN1",
@@ -245,10 +244,10 @@ def la_ons() -> pd.DataFrame:
     ages = list(map(str, range(1, 43)))
 
     data = {
-        "AREA_CODE": ["C"] * len(ages),
-        "AREA_NAME": ["N"] * len(ages),
-        "COMPONENT": ["O"] * len(ages),
-        "SEX": ["P"] * len(ages),
+        "AREA_CODE": ["E10000000"] * len(ages),
+        "AREA_NAME": ["West Yorkshire"] * len(ages),
+        "COMPONENT": ["Population"] * len(ages),
+        "SEX": ["persons"] * len(ages),
         "AGE_GROUP": ages,
     } | {y: 1.0 for y in years}
 

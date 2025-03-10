@@ -10,13 +10,10 @@ def test_la_outturn(la_outturn: pd.DataFrame):
     """
     The pivoted data must result in reduced rows.
     """
-    buffer = io.BytesIO()
-    la_outturn.to_csv(buffer, encoding="cp1252")
-    buffer.seek(0)
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        buffer,
+        io.StringIO(la_outturn.to_csv(encoding="cp1252")),
         year,
         usecols=input_schemas.la_outturn.get(
             year, input_schemas.la_outturn["default"]
@@ -47,13 +44,10 @@ def test_la_outturn_year(la_outturn: pd.DataFrame):
     la_outturn_old = la_outturn.copy()
     la_outturn_old["time_period"] = "202122"
     combined = pd.concat([la_outturn, la_outturn_old])
-    buffer = io.BytesIO()
-    combined.to_csv(buffer, encoding="cp1252")
-    buffer.seek(0)
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        buffer,
+        io.StringIO(combined.to_csv(encoding="cp1252")),
         year,
         usecols=input_schemas.la_outturn.get(
             year, input_schemas.la_outturn["default"]

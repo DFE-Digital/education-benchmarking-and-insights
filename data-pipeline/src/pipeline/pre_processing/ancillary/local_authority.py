@@ -30,20 +30,22 @@ def build_local_authorities(
         outturn_filepath_or_buffer,
         year,
     )
-    ons_la_population_data = _build_ons_la_population_data(
+    ons_la_population_data = _prepare_ons_la_population_data(
         ons_filepath_or_buffer,
         year,
     )
-
-    logger.info("Processing Local Authority statistical neighbours data.")
-
-    la_statistical_neighbours_data = _prepare_la_statistical_neighbours(
+    statistical_neighbours_data = _prepare_la_statistical_neighbours(
         statistical_neighbours_filepath, year
     )
 
     local_authority_data = section_251_data.merge(
-        la_statistical_neighbours_data,
+        statistical_neighbours_data,
         left_on="old_la_code",
+        right_index=True,
+        how="left",
+    ).merge(
+        ons_la_population_data,
+        left_on="new_la_code",
         right_index=True,
         how="left",
     )
@@ -252,6 +254,7 @@ def _prepare_la_statistical_neighbours(
     :param year: financial year in question
     :return: Local Authority statistical neighbours data
     """
+    logger.info("Processing Local Authority statistical neighbours data.")
     df = pd.read_csv(
         filepath_or_buffer,
         index_col=input_schemas.la_statistical_neighbours_index_col,
@@ -272,7 +275,7 @@ def _prepare_la_statistical_neighbours(
     return df
 
 
-def _build_ons_la_population_data(
+def _prepare_ons_la_population_data(
     ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     year: int,
 ) -> pd.DataFrame:
@@ -290,6 +293,7 @@ def _build_ons_la_population_data(
     :param year: financial year in question
     :return: ONS Local Authority population data
     """
+    logger.info("Processing ONS Local Authority population data.")
     dtypes = input_schemas.la_ons_population.get(
         year, input_schemas.la_ons_population["default"]
     )
@@ -305,7 +309,7 @@ def _build_ons_la_population_data(
         df[df["AGE_GROUP"].isin(set(map(str, range(2, 19))))]
         .drop(columns=["AGE_GROUP"])
         .groupby(["AREA_CODE"])
-        .agg(sum)
+        .agg("sum")
         .rename(columns={str(year): "Population2To18"})
         .reset_index()
         .set_index(input_schemas.la_ons_population_index_column)

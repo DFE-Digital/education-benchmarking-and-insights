@@ -10,13 +10,10 @@ def test_la_budget(la_budget: pd.DataFrame):
     """
     The pivoted data must result in reduced rows.
     """
-    buffer = io.BytesIO()
-    la_budget.to_csv(buffer)
-    buffer.seek(0)
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        buffer,
+        io.StringIO(la_budget.to_csv()),
         year,
         usecols=input_schemas.la_budget.get(
             year, input_schemas.la_budget["default"]
@@ -46,13 +43,10 @@ def test_la_budget_year(la_budget: pd.DataFrame):
     la_expenditure_old = la_budget.copy()
     la_expenditure_old["time_period"] = "202122"
     combined = pd.concat([la_budget, la_expenditure_old])
-    buffer = io.BytesIO()
-    combined.to_csv(buffer)
-    buffer.seek(0)
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        buffer,
+        io.StringIO(combined.to_csv()),
         year,
         usecols=input_schemas.la_budget.get(
             year, input_schemas.la_budget["default"]
