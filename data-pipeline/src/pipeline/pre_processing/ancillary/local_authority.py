@@ -38,6 +38,8 @@ def build_local_authorities(
         statistical_neighbours_filepath, year
     )
 
+    logger.info("Processing Local Authority combined data.")
+
     local_authority_data = section_251_data.merge(
         statistical_neighbours_data,
         left_on="old_la_code",
@@ -48,6 +50,10 @@ def build_local_authorities(
         left_on="new_la_code",
         right_index=True,
         how="left",
+    )
+
+    logger.info(
+        f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
     return local_authority_data
