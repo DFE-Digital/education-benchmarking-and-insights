@@ -9,6 +9,9 @@ logger = log.setup_logger(__name__)
 def build_local_authorities(
     budget_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     outturn_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    statistical_neighbours_filepath: (
+        FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str]
+    ),
     year: int,
 ):
     """
@@ -16,6 +19,7 @@ def build_local_authorities(
 
     :param budget_filepath_or_buffer: source for LA budget data
     :param outturn_filepath_or_buffer: source for LA outturn data
+    :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -25,8 +29,20 @@ def build_local_authorities(
         year,
     )
 
-    # TODO: combined with out LA datasets.
-    return section_251_data
+    logger.info("Processing Local Authority statistical neighbours data.")
+
+    la_statistical_neighbours_data = _prepare_la_statistical_neighbours(
+        statistical_neighbours_filepath, year
+    )
+
+    local_authority_data = section_251_data.merge(
+        la_statistical_neighbours_data,
+        left_on="old_la_code",
+        right_index=True,
+        how="left",
+    )
+
+    return local_authority_data
 
 
 def _build_section_251_data(
@@ -211,5 +227,40 @@ def _prepare_la_section_251_data(
 
     for column, eval_ in column_eval.items():
         df[column] = df.eval(eval_)
+
+    return df
+
+
+def _prepare_la_statistical_neighbours(
+    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str], year: int
+):
+    """
+    Prepare the Local Authority statistical neighbours data.
+    This is mostly processed as-is from the raw data however
+    some mapping to deal with duplicate column names takes place using
+    the mapping set out in the input schemas.
+    Also removes rows where LA number is absent (due to extraneous
+    rows in the input file).
+
+    :param filepath_or_buffer: source for LA statistical neighbours data
+    :param year: financial year in question
+    :return: Local Authority statistical neighbours data
+    """
+    df = pd.read_csv(
+        filepath_or_buffer,
+        index_col=input_schemas.la_statistical_neighbours_index_col,
+        dtype=input_schemas.la_statistical_neighbours.get(
+            year, input_schemas.la_statistical_neighbours["default"]
+        ),
+        usecols=input_schemas.la_statistical_neighbours.get(
+            year, input_schemas.la_statistical_neighbours["default"]
+        ).keys(),
+    ).rename(
+        columns=input_schemas.la_statistical_neighbours_column_mappings.get(
+            year, input_schemas.la_statistical_neighbours_column_mappings["default"]
+        ),
+    )
+
+    df = df[~df.index.isna()]
 
     return df
