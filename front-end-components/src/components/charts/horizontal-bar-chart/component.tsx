@@ -57,7 +57,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 ) {
   const {
     barCategoryGap,
+    barGap,
+    barHeight,
     chartTitle,
+    className,
     data,
     grid,
     hideXAxis,
@@ -68,6 +71,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     labelListSeriesName,
     labels,
     legend,
+    legendHorizontalAlign,
+    legendVerticalAlign,
     margin: _margin,
     onImageCopied,
     onImageLoading,
@@ -246,6 +251,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   }
 
+  const legendHeight = 30;
+
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <>
@@ -253,7 +260,14 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         isRendered={suppressNegativeOrZero && filteredData.length < data.length}
         message={message}
       />
-      <div style={{ height: 22 * filteredData.length + 75 }}>
+      <div
+        style={{
+          height:
+            (barHeight ?? 22) * filteredData.length +
+            75 +
+            (legend ? legendHeight : 0),
+        }}
+      >
         <div
           aria-label={chartTitle}
           className="govuk-body-s govuk-!-font-size-14 full-height-width chart-wrapper"
@@ -262,6 +276,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           <ResponsiveContainer>
             <BarChart
               barCategoryGap={barCategoryGap}
+              barGap={barGap}
               data={filteredData}
               layout="vertical"
               margin={{
@@ -275,7 +290,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 // https://github.com/recharts/recharts/issues/2665
                 rechartsRef as never
               }
-              className="recharts-wrapper-horizontal-bar-chart"
+              className={className ?? "recharts-wrapper-horizontal-bar-chart"}
             >
               {grid && <CartesianGrid />}
               {!!tooltip && <Tooltip content={tooltip} />}
@@ -347,12 +362,12 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               )}
               {legend && (
                 <Legend
-                  align="right"
-                  verticalAlign="top"
+                  align={legendHorizontalAlign ?? "right"}
+                  verticalAlign={legendVerticalAlign ?? "top"}
                   formatter={(value) =>
                     (seriesConfig && seriesConfig[value]?.label) || value
                   }
-                  height={30}
+                  height={legendHeight}
                 />
               )}
             </BarChart>

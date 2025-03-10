@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { format } from "date-fns";
 import {
+  BenchmarkDataHighNeeds,
   CompareYourCensus,
   CompareYourCosts,
   CompareYourTrust,
@@ -13,28 +14,29 @@ import {
   LaNationalRankView,
 } from "src/views";
 import {
-  CompareCostsElementId,
+  BenchmarkDataHighNeedsElementId,
+  BudgetForecastReturnsElementId,
   CompareCensusElementId,
+  CompareCostsElementId,
+  CompareTrustElementId,
   DeploymentPlanElementId,
   FindOrganisationElementId,
-  HistoricDataElementId,
   HistoricData2ElementId,
+  HistoricDataElementId,
+  HistoricDataHighNeedsElementId,
   HorizontalBarChart1SeriesElementId,
+  HorizontalChartTrustFinancialElementId,
+  LaNationalRankViewElementId,
+  LaSuggesterId,
+  LaunchModalDataAttr,
   LineChart1SeriesElementId,
+  LineChart2SeriesElementId,
+  SchoolSuggesterId,
+  ShareContentByElementIdDataAttr,
   SpendingAndCostsComposedElementId,
+  TrustSuggesterId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
-  SchoolSuggesterId,
-  LaSuggesterId,
-  TrustSuggesterId,
-  HorizontalChartTrustFinancialElementId,
-  CompareTrustElementId,
-  LineChart2SeriesElementId,
-  BudgetForecastReturnsElementId,
-  ShareContentByElementIdDataAttr,
-  LaunchModalDataAttr,
-  LaNationalRankViewElementId,
-  HistoricDataHighNeedsElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -1019,6 +1021,21 @@ if (historicDataHighNeedsElement) {
           }
           fetchTimeout={30_000}
         />
+      </React.StrictMode>
+    );
+  }
+}
+
+const benchmarkDataHighNeedsElement = document.getElementById(
+  BenchmarkDataHighNeedsElementId
+);
+if (benchmarkDataHighNeedsElement) {
+  const { code } = benchmarkDataHighNeedsElement.dataset;
+  if (code) {
+    const root = ReactDOM.createRoot(benchmarkDataHighNeedsElement);
+    root.render(
+      <React.StrictMode>
+        <BenchmarkDataHighNeeds code={code} fetchTimeout={30_000} />
       </React.StrictMode>
     );
   }

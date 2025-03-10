@@ -1,0 +1,146 @@
+import { useContext, useState } from "react";
+import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
+import { LaChartData, TableChart } from "src/components/charts/table-chart";
+import {
+  SelectedEstablishmentContext,
+  useChartModeContext,
+} from "src/contexts";
+import { Loading } from "src/components/loading";
+import { HorizontalBarChartMultiSeriesProps } from "src/composed/horizontal-bar-chart-multi-series";
+import { ChartModeChart, ChartModeTable } from "src/components";
+import { shortValueFormatter } from "src/components/charts/utils";
+import { EstablishmentTick } from "src/components/charts/establishment-tick";
+import { ShareContentByElement } from "src/components/share-content-by-element";
+import { v4 as uuidv4 } from "uuid";
+import { CostCodesList } from "src/components/cost-codes-list";
+import "./styles.scss";
+
+export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
+  chartTitle,
+  children,
+  data,
+  keyField,
+  seriesConfig,
+  seriesLabelField,
+  showCopyImageButton,
+  xAxisLabel,
+  valueUnit,
+}: HorizontalBarChartMultiSeriesProps<TData>) {
+  const { chartMode } = useChartModeContext();
+  const selectedEstabishment = useContext(SelectedEstablishmentContext);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+  const [imageCopied, setImageCopied] = useState<boolean>();
+
+  const getEstablishmentKey = (index?: number) => {
+    if (index != undefined && index < data.dataPoints.length) {
+      return data.dataPoints[index]?.laCode;
+    }
+  };
+
+  const handleImageCopied = () => {
+    setImageCopied(true);
+    setTimeout(() => {
+      setImageCopied(false);
+    }, 2000);
+  };
+
+  const hasData = data.dataPoints.length > 0;
+  const uuid = uuidv4();
+
+  return (
+    <div className="horizontal-bar-chart-multi-series">
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-two-thirds">{children}</div>
+        {chartMode == ChartModeChart && (
+          <div className="govuk-grid-column-one-third">
+            <ShareContentByElement
+              copied={imageCopied}
+              disabled={imageLoading || !hasData}
+              elementSelector={() =>
+                document.querySelector(
+                  `div[data-chart-uuid='${uuid}']`
+                ) as HTMLElement
+              }
+              copyEventId="copy-chart-as-image"
+              saveEventId="save-chart-as-image"
+              showCopy={showCopyImageButton}
+              showSave
+              showTitle
+              title={chartTitle}
+            />
+          </div>
+        )}
+      </div>
+      <div className="govuk-grid-row">
+        <div
+          className="govuk-grid-column-full"
+          data-chart-uuid={uuid}
+          data-title={chartTitle}
+        >
+          {hasData ? (
+            <>
+              <CostCodesList category={chartTitle} />
+              {chartMode == ChartModeChart && (
+                <HorizontalBarChart
+                  barCategoryGap={5}
+                  barGap={5}
+                  barHeight={42}
+                  chartTitle={chartTitle}
+                  className="horizontal-bar-chart-multi-series"
+                  data={data.dataPoints}
+                  highlightActive
+                  highlightedItemKeys={
+                    selectedEstabishment ? [selectedEstabishment] : undefined
+                  }
+                  keyField={keyField}
+                  onImageCopied={handleImageCopied}
+                  onImageLoading={setImageLoading}
+                  labels
+                  legend
+                  legendHorizontalAlign="center"
+                  legendVerticalAlign="bottom"
+                  margin={20}
+                  seriesConfig={seriesConfig as object}
+                  seriesLabelField={seriesLabelField}
+                  tickWidth={200}
+                  tick={(t) => {
+                    return (
+                      <EstablishmentTick
+                        {...t}
+                        highlightedItemKey={selectedEstabishment}
+                        establishmentKeyResolver={(_: string, index) =>
+                          getEstablishmentKey(index)
+                        }
+                      />
+                    );
+                  }}
+                  valueFormatter={shortValueFormatter}
+                  valueLabel={xAxisLabel}
+                  valueUnit={valueUnit}
+                />
+              )}
+              <div
+                className={
+                  chartMode == ChartModeTable ? "" : "govuk-visually-hidden"
+                }
+              >
+                <TableChart
+                  data={data.dataPoints.map((d) => ({
+                    ...d,
+                    value: d.outturn ?? d.value,
+                  }))}
+                  localAuthority
+                  preventFocus={chartMode !== ChartModeTable}
+                  tableHeadings={data.tableHeadings}
+                  valueUnit={valueUnit}
+                />
+              </div>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
