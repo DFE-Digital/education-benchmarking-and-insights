@@ -24,6 +24,13 @@ public class HighNeedsBenchmarkingPage(IPage page)
             HasText = "Benchmark high needs data"
         })
     });
+    private ILocator HeadlineFiguresCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
+    {
+        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
+        {
+            HasText = "Total number of EHC plans and cost"
+        })
+    });
     private ILocator NationalRankingsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
@@ -35,7 +42,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
         {
-            HasText = "Budget vs spend (historical view)"
+            HasText = "Historical spending"
         })
     });
 
@@ -43,6 +50,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         await BenchmarkHighNeedsCard.ShouldBeVisible();
+        await HeadlineFiguresCard.ShouldBeVisible();
         await NationalRankingsCard.ShouldBeVisible();
         await HistoricDataCard.ShouldBeVisible();
         await StartBenchmarkingButton.ShouldBeVisible();

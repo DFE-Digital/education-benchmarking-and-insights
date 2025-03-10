@@ -1,4 +1,4 @@
-﻿Feature: Local Authority high needs benchmarking
+﻿Feature: Local Authority high needs dashboard
 
     @HighNeedsFlagEnabled
     Scenario: Go to start benchmarking page

@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 namespace Web.A11yTests.Pages.LocalAuthority;
 
 [Trait("Category", "HighNeedsFlagEnabled")]
-public class WhenViewingHighNeedsBenchmarking(
+public class WhenViewingHighNeedsDashboard(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)

@@ -5,7 +5,7 @@ using Xunit;
 namespace Web.E2ETests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority high needs benchmarking")]
+[Scope(Feature = "Local Authority high needs dashboard")]
 public class HighNeedsBenchmarkingSteps(PageDriver driver)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
@@ -13,10 +13,10 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
     private HighNeedsNationalRankingsPage? _highNeedsNationalRankingsPage;
     private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
 
-    [Given("I am on local authority high needs benchmarking for local authority with code '(.*)'")]
-    public async Task GivenIAmOnLocalAuthorityHighNeedsBenchmarkingForLocalAuthorityWithCode(string laCode)
+    [Given("I am on local authority high needs dashboard for local authority with code '(.*)'")]
+    public async Task GivenIAmOnLocalAuthorityHighNeedsDashboardForLocalAuthorityWithCode(string laCode)
     {
-        var url = LocalAuthorityHighNeedsBenchmarkingUrl(laCode);
+        var url = LocalAuthorityHighNeedsDashboardUrl(laCode);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
@@ -66,5 +66,8 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsHistoricDataPage.IsDisplayed();
     }
 
-    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs";
+    private static string LocalAuthorityHighNeedsDashboardUrl(string laCode)
+    {
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs";
+    }
 }

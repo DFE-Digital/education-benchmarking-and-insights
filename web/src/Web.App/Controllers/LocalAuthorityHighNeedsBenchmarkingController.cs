@@ -37,9 +37,13 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 var localAuthority = await establishmentApi
                     .GetLocalAuthority(code)
                     .GetResultOrDefault<LocalAuthority>();
+                if (localAuthority == null)
+                {
+                    return NotFound();
+                }
 
                 var set = localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
-                if (localAuthority == null || set.Length == 0)
+                if (set.Length == 0)
                 {
                     return NotFound();
                 }
