@@ -59,8 +59,8 @@ public class HomeSteps(PageDriver driver)
         _highNeedsBenchmarkingPage = await _localAuthorityHomePage.ClickHighNeedsBenchmarking();
     }
 
-    [Then("the high needs benchmarking page is displayed")]
-    public async Task ThenTheHighNeedsBenchmarkingPageIsDisplayed()
+    [Then("the high needs benchmarking dashboard page is displayed")]
+    public async Task ThenTheHighNeedsBenchmarkingDashboardPageIsDisplayed()
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
         await _highNeedsBenchmarkingPage.IsDisplayed();

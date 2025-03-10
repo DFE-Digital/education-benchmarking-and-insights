@@ -355,11 +355,15 @@ public static class Paths
     {
         return $"/local-authority/{code}/find-ways-to-spend-less";
     }
-    public static string LocalAuthorityHighNeeds(string? code)
+    public static string LocalAuthorityHighNeedsDashboard(string? code)
     {
         return $"/local-authority/{code}/high-needs";
     }
-    public static string LocalAuthorityHighNeedsStartBenchmarkingComparators(string? code)
+    public static string LocalAuthorityHighNeedsBenchmarking(string? code)
+    {
+        return $"/local-authority/{code}/high-needs/benchmarking";
+    }
+    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code)
     {
         return $"/local-authority/{code}/high-needs/benchmarking/comparators";
     }

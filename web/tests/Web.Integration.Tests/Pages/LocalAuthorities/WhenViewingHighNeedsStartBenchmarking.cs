@@ -22,10 +22,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         const string code = "123";
         var page = await Client.SetupEstablishmentWithException()
-            .Navigate(Paths.LocalAuthorityHome(code));
+            .Navigate(Paths.LocalAuthorityHighNeedsBenchmarking(code));
 
         PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
     [Fact]
@@ -33,10 +33,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         const string code = "123";
         var page = await Client.SetupEstablishmentWithNotFound()
-            .Navigate(Paths.LocalAuthorityHome(code));
+            .Navigate(Paths.LocalAuthorityHighNeedsBenchmarking(code));
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -128,6 +128,32 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     }
 
     [Fact]
+    public async Task CanContinue()
+    {
+        var (page, authority, authorities) = await SetupNavigateInitPage(["code1"]);
+        var code = authorities.First().Code!;
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "LaInput", code
+                }
+            });
+        });
+
+        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
+        Assert.NotNull(continueButton);
+
+        page = await Client.SubmitForm(page.Forms[0], continueButton);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
+    }
+
+    [Fact]
     public async Task CanCancel()
     {
         var (page, authority, _) = await SetupNavigateInitPage();
@@ -136,10 +162,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.NotNull(cancelButton);
 
         page = await client.Follow(cancelButton);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .Create();
@@ -156,15 +182,15 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
-            .SetupLocalAuthoritiesComparators(authority.Code!, [])
-            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code));
+            .SetupLocalAuthoritiesComparators(authority.Code!, comparators ?? [])
+            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code));
 
         return (page, authority, authorities);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
         var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);

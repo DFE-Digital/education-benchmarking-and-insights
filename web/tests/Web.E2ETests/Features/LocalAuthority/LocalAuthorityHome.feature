@@ -14,4 +14,4 @@
     Scenario: Go to high needs benchmarking page
         Given I am on local authority homepage for local authority with code '204'
         When I click on high needs benchmarking
-        Then the high needs benchmarking page is displayed
+        Then the high needs benchmarking dashboard page is displayed

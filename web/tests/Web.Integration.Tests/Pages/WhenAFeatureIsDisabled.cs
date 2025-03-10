@@ -104,9 +104,9 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     public async Task LocalAuthorityHighNeedsRedirectsToFeatureDisabled()
     {
         var page = await Client.SetupDisableFeatureFlags(FeatureFlags.HighNeeds)
-            .Navigate(Paths.LocalAuthorityHighNeeds("123"));
+            .Navigate(Paths.LocalAuthorityHighNeedsDashboard("123"));
 
         PageAssert.IsFeatureDisabledPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds("123").ToAbsolute(), HttpStatusCode.Forbidden);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard("123").ToAbsolute(), HttpStatusCode.Forbidden);
     }
 }

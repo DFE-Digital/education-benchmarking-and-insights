@@ -29,7 +29,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
     }
 
     [Theory]
@@ -75,10 +75,10 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         const string code = "123";
         var page = await Client.SetupEstablishmentWithException()
-            .Navigate(Paths.LocalAuthorityHome(code));
+            .Navigate(Paths.LocalAuthorityHighNeedsHistoricData(code));
 
         PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
     [Fact]
@@ -86,10 +86,10 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         const string code = "123";
         var page = await Client.SetupEstablishmentWithNotFound()
-            .Navigate(Paths.LocalAuthorityHome(code));
+            .Navigate(Paths.LocalAuthorityHighNeedsHistoricData(code));
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings, HighNeedsHistory<HighNeedsYear> history)> SetupNavigateInitPage(
@@ -148,7 +148,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             .SetupHighNeeds(history)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
-            .Navigate(Paths.LocalAuthorityHighNeeds(authority.Code));
+            .Navigate(Paths.LocalAuthorityHighNeedsDashboard(authority.Code));
 
         return (page, authority, rankings, history);
     }
@@ -159,7 +159,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         LocalAuthorityRank[] rankings,
         HighNeedsHistory<HighNeedsYear> history)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeeds(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
 
         var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
@@ -172,7 +172,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National Ranking"));
         AssertNationalRankingCard(nationalRankingCard, rankings);
 
-        var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Budget vs spend (historical view)"));
+        var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
         AssertBudgetSpendHistoryCard(budgetSpendHistoryCard, history);
     }
 
