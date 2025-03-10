@@ -19,7 +19,6 @@ functionality.
 - Bug fixes
   - Ensure cache is purged following a data pipeline run
 
-
 **Out-of-Scope:**
 
 - General improvements related to service reliability, maintainability, and performance optimisations.
