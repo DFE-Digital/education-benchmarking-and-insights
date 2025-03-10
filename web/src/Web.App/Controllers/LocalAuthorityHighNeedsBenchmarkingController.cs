@@ -34,6 +34,40 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
+                var localAuthority = await establishmentApi
+                    .GetLocalAuthority(code)
+                    .GetResultOrDefault<LocalAuthority>();
+
+                var set = localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
+                if (localAuthority == null || set.Length == 0)
+                {
+                    return NotFound();
+                }
+
+                return View(new LocalAuthorityViewModel(localAuthority));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying local authority high needs benchmarking: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [LocalAuthorityRequestTelemetry(TrackedRequestFeature.HighNeeds)]
+    [Route("comparators")]
+    public async Task<IActionResult> Comparators(string code)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
+
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
                 var viewModel = new LocalAuthorityHighNeedsBenchmarkingViewModel(
                     localAuthority,
@@ -49,7 +83,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index([FromRoute] string code, [FromForm] LocalAuthorityComparatorViewModel viewModel)
+    [Route("comparators")]
+    public async Task<IActionResult> Comparators([FromRoute] string code, [FromForm] LocalAuthorityComparatorViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -89,11 +124,11 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 else if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
-                    return RedirectToAction("Index", "LocalAuthorityHighNeeds", new { code });
+                    return RedirectToAction("Index", new { code });
                 }
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
-                return View(nameof(Index), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray()));
+                return View(nameof(Comparators), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray()));
             }
             catch (Exception e)
             {

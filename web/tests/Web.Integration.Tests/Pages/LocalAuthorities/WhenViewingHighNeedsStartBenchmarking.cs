@@ -157,14 +157,14 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
-            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code));
+            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code));
 
         return (page, authority, authorities);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code).ToAbsolute());
 
         var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);

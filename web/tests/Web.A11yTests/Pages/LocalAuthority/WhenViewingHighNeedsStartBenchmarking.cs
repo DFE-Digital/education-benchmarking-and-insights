@@ -10,7 +10,7 @@ public class WhenViewingHighNeedsStartBenchmarking(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/benchmarking";
+    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/benchmarking/comparators";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
