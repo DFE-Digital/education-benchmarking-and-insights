@@ -29,7 +29,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarkingComparators(authority.Code).ToAbsolute());
     }
 
     [Theory]
