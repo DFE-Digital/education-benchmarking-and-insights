@@ -75,6 +75,8 @@ functionality.
 
 ## Notes
 
+**[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/execute?planId=252764&suiteId=252765)**
+
 **Azure DevOps tickets:**
 
 - [249246 - Extend Polly structured logs and add alerting on `429`s](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249246)
@@ -82,6 +84,27 @@ functionality.
 - [250420 - Derive missing data via GIAS-links](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/250420)
 - [250568 - ClearCacheTrigger fails when called from orchestrator after successful default pipeline run](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/250568)
 - [251353 - March 2025 depdendencies](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/251353)
+
+**Azure DevOps tickets included however feature disabled and not tested:**
+
+- [249535 - local authority homepage - access point](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249535)
+- [249538 - Dashboard page - high needs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249538)
+- [249539 - Snapshot of national rankings](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249539)
+- [249540 - snapshot of historic data](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249540)
+- [249546 - National ranking page - view all](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249546)
+- [249550 - Historic data - view all](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/249550)
+
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category | Total Tests | Passed | Failed | Pass Rate |
+|---------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests   |      1      |   1    |   0    |   100%    |
+| Sanity Tests  |      1      |   1    |   0    |   100%    |
+| Total         |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->  
 \newpage  
