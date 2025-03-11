@@ -2,7 +2,7 @@ import { BenchmarkDataHighNeedsViewProps } from "src/views/benchmark-data-high-n
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider, SelectedEstablishmentContext } from "src/contexts";
-import { BenchmarkHighNeedsAccordion } from "./partials/benchmark-high-needs-accordion";
+import { BenchmarkHighNeeds } from "./partials/benchmark-high-needs";
 
 export const BenchmarkDataHighNeeds: React.FC<
   BenchmarkDataHighNeedsViewProps
@@ -12,7 +12,7 @@ export const BenchmarkDataHighNeeds: React.FC<
   return (
     <SelectedEstablishmentContext.Provider value={code}>
       <ChartModeProvider initialValue={ChartModeChart}>
-        <BenchmarkHighNeedsAccordion fetchTimeout={fetchTimeout} />
+        <BenchmarkHighNeeds fetchTimeout={fetchTimeout} />
       </ChartModeProvider>
     </SelectedEstablishmentContext.Provider>
   );

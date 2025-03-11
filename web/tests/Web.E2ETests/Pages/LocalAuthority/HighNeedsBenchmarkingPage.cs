@@ -9,32 +9,12 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
-    private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
-    private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator Charts => page.Locator(Selectors.Charts);
-    private ILocator Tables => page.Locator(Selectors.SectionTable);
+    private ILocator Tables => page.Locator(Selectors.GovTable);
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-    }
-
-    public async Task ClickShowAllSections()
-    {
-        var text = await ShowHideAllSectionsLink.TextContentAsync();
-        if (text == "Show all sections")
-        {
-            await ShowHideAllSectionsLink.Click();
-        }
-    }
-
-    public async Task AreSectionsExpanded()
-    {
-        var sections = await Sections.AllAsync();
-        foreach (var section in sections)
-        {
-            await section.AssertLocatorClass("govuk-accordion__section govuk-accordion__section--expanded");
-        }
     }
 
     public async Task ClickViewAsChart()

@@ -89,7 +89,7 @@ export const TableChart: React.FC<
               const { laName, schoolType, totalPupils, urn, value } = schoolRow;
               const { totalValue, schoolValue, centralValue, companyNumber } =
                 trustRow;
-              const { budget, laCode } = laRow;
+              const { planned, laCode } = laRow;
               const additionalData = schoolRow.urn
                 ? {
                     laName,
@@ -149,9 +149,9 @@ export const TableChart: React.FC<
                           valueUnit,
                         })}
                       </td>
-                      {budget !== undefined && (
+                      {planned !== undefined && (
                         <td className="govuk-table__cell table-cell-value">
-                          {fullValueFormatter(budget, {
+                          {fullValueFormatter(planned, {
                             valueUnit,
                           })}
                         </td>

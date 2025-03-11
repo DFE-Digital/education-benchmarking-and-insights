@@ -21,7 +21,6 @@ export type BenchmarkChartSection251Section<
   TData extends LocalAuthoritySection251,
 > = {
   heading: string;
-  summary?: string;
   charts: BenchmarkDataHighNeedsSection251Chart<TData>[];
 };
 
@@ -59,6 +58,5 @@ export type Section251SectionProps<TData> = {
 };
 
 export type Send2SectionProps<TData> = {
-  offset: number;
   data?: TData[];
 };

@@ -59,25 +59,11 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         _highNeedsBenchmarkingPage = await _highNeedsStartBenchmarkingPage.ClickSaveAndContinueButton();
     }
 
-    [When("I click on show all sections")]
-    public async Task WhenIClickOnShowAllSections()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.ClickShowAllSections();
-    }
-
     [When("I click on view as table")]
     public async Task WhenIClickOnViewAsTable()
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
         await _highNeedsBenchmarkingPage.ClickViewAsTable();
-    }
-
-    [Then("all sections on the page are expanded")]
-    public async Task ThenAllSectionsOnThePageAreExpanded()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.AreSectionsExpanded();
     }
 
     [Then("chart view is visible, showing '(\\d+)' charts")]

@@ -12,27 +12,29 @@ export function BenchmarkChartSection251<
   const mergedData = useMemo(() => {
     const dataPoints: LaChartData[] = [];
 
-    data?.forEach((s) => {
-      const outturnValue = s.outturn && (s.outturn[valueField] as number);
-      const budgetValue = s.budget && (s.budget[valueField] as number);
+    if (data && Array.isArray(data)) {
+      data.forEach((s) => {
+        const outturnValue = s.outturn && (s.outturn[valueField] as number);
+        const budgetValue = s.budget && (s.budget[valueField] as number);
 
-      dataPoints.push({
-        laCode: s.code,
-        laName: s.name,
-        outturn:
-          outturnValue === undefined ||
-          outturnValue === null ||
-          isNaN(outturnValue)
-            ? undefined
-            : outturnValue,
-        budget:
-          budgetValue === undefined ||
-          budgetValue === null ||
-          isNaN(budgetValue)
-            ? undefined
-            : budgetValue,
+        dataPoints.push({
+          laCode: s.code,
+          laName: s.name,
+          actual:
+            outturnValue === undefined ||
+            outturnValue === null ||
+            isNaN(outturnValue)
+              ? undefined
+              : outturnValue,
+          planned:
+            budgetValue === undefined ||
+            budgetValue === null ||
+            isNaN(budgetValue)
+              ? undefined
+              : budgetValue,
+        });
       });
-    });
+    }
 
     return {
       tableHeadings: ["Local authority", "Actual", "Planned"],
@@ -41,14 +43,16 @@ export function BenchmarkChartSection251<
   }, [data, valueField]);
 
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
-    outturn: {
+    actual: {
+      label: "Actual",
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
           valueUnit: "currency",
         }),
     },
-    budget: {
+    planned: {
+      label: "Planned",
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
@@ -67,7 +71,7 @@ export function BenchmarkChartSection251<
       showCopyImageButton
       valueUnit="currency"
     >
-      <h3 className="govuk-heading-m">{chartTitle}</h3>
+      <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
     </HorizontalBarChartMultiSeries>
   );
 }

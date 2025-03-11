@@ -11,9 +11,6 @@ import {
 export * from "src/views/benchmark-data-high-needs/partials/section-251-section.tsx";
 export * from "src/views/benchmark-data-high-needs/partials/send-2-section.tsx";
 
-const summary =
-  "Split by phase (for mainstream) and type of institution (specialist provision)";
-
 export const section251Sections: BenchmarkChartSection251Section<LocalAuthoritySection251>[] =
   [
     {
@@ -51,7 +48,6 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
     },
     {
       heading: "Place funding",
-      summary,
       charts: [
         {
           name: "Primary place funding per head 2-18 population",
@@ -74,7 +70,6 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
     {
       heading:
         "Top up funding (maintained schools, academies, free schools and colleges)",
-      summary,
       charts: [
         {
           name: "Early years top up funding per head 2-18 population (maintained)",
@@ -109,7 +104,6 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
     {
       heading:
         "Top up funding (non-maintained schools, and independent schools and colleges)",
-      summary,
       charts: [
         {
           name: "Early years top up funding per head 2-18 population (non-maintained)",
