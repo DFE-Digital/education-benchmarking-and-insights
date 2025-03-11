@@ -5,18 +5,27 @@ using Xunit;
 namespace Web.E2ETests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority high needs dashboard")]
+[Scope(Feature = "Local Authority high needs benchmarking")]
 public class HighNeedsBenchmarkingSteps(PageDriver driver)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
-    private HighNeedsHistoricDataPage? _highNeedsHistoricDataPage;
-    private HighNeedsNationalRankingsPage? _highNeedsNationalRankingsPage;
     private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
 
-    [Given("I am on local authority high needs dashboard for local authority with code '(.*)'")]
-    public async Task GivenIAmOnLocalAuthorityHighNeedsDashboardForLocalAuthorityWithCode(string laCode)
+    [Given("I am on local authority high needs start benchmarking for local authority with code '(.*)'")]
+    public async Task GivenIAmOnLocalAuthorityHighNeedsStartBenchmarkingForLocalAuthorityWithCode(string laCode)
     {
-        var url = LocalAuthorityHighNeedsDashboardUrl(laCode);
+        var url = LocalAuthorityHighNeedsStartBenchmarkingUrl(laCode);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _highNeedsStartBenchmarkingPage = new HighNeedsStartBenchmarkingPage(page);
+        await _highNeedsStartBenchmarkingPage.IsDisplayed();
+    }
+
+    [Given("I am on local authority high needs benchmarking for local authority with code '(.*)'")]
+    public async Task GivenIAmOnLocalAuthorityHighNeedsBenchmarkingForLocalAuthorityWithCode(string laCode)
+    {
+        var url = LocalAuthorityHighNeedsBenchmarkingUrl(laCode);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
@@ -24,50 +33,88 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.IsDisplayed();
     }
 
-    [When("I click on start benchmarking")]
-    public async Task WhenIClickOnStartBenchmarking()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        _highNeedsStartBenchmarkingPage = await _highNeedsBenchmarkingPage.ClickStartBenchmarking();
-    }
-
-    [When("I click on view national rankings")]
-    public async Task WhenIClickOnViewNationalRankings()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        _highNeedsNationalRankingsPage = await _highNeedsBenchmarkingPage.ClickViewNationalRankings();
-    }
-
-    [When("I click on view historic data")]
-    public async Task WhenIClickOnViewHistoricData()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        _highNeedsHistoricDataPage = await _highNeedsBenchmarkingPage.ClickViewHistoricData();
-    }
-
-    [Then("the start benchmarking page is displayed")]
-    public async Task ThenTheStartBenchmarkingPageIsDisplayed()
+    [Given("I have no comparators selected")]
+    public async Task GivenIHaveNoComparatorsSelected()
     {
         Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        await _highNeedsStartBenchmarkingPage.IsDisplayed();
+        while (await _highNeedsStartBenchmarkingPage.HasComparators())
+        {
+            await _highNeedsStartBenchmarkingPage.ClickRemoveButton();
+        }
     }
 
-    [Then("the national rankings page is displayed")]
-    public async Task ThenTheNationalRankingsPageIsDisplayed()
+    [Given("I add the comparator matching the value '(.*)'")]
+    public async Task GivenIAddTheComparatorMatchingTheValue(string name)
     {
-        Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.IsDisplayed();
+        Assert.NotNull(_highNeedsStartBenchmarkingPage);
+        await _highNeedsStartBenchmarkingPage.TypeIntoInputField(name);
+        await _highNeedsStartBenchmarkingPage.PressEnterKey();
+        await _highNeedsStartBenchmarkingPage.PressEnterKey();
     }
 
-    [Then("the historic data page is displayed")]
-    public async Task ThenTheHistoricDataPageIsDisplayed()
+    [Given("I click the Save and continue button")]
+    public async Task GivenIClickTheSaveAndContinueButton()
     {
-        Assert.NotNull(_highNeedsHistoricDataPage);
-        await _highNeedsHistoricDataPage.IsDisplayed();
+        Assert.NotNull(_highNeedsStartBenchmarkingPage);
+        _highNeedsBenchmarkingPage = await _highNeedsStartBenchmarkingPage.ClickSaveAndContinueButton();
     }
 
-    private static string LocalAuthorityHighNeedsDashboardUrl(string laCode)
+    [When("I click on show all sections")]
+    public async Task WhenIClickOnShowAllSections()
     {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs";
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.ClickShowAllSections();
+    }
+
+    [When("I click on view as table")]
+    public async Task WhenIClickOnViewAsTable()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.ClickViewAsTable();
+    }
+
+    [Then("all sections on the page are expanded")]
+    public async Task ThenAllSectionsOnThePageAreExpanded()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.AreSectionsExpanded();
+    }
+
+    [Then("chart view is visible, showing '(\\d+)' charts")]
+    public async Task ThenChartViewIsVisibleShowingCharts(string charts)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.AreChartsDisplayed(int.Parse(charts));
+    }
+
+    [Then("table view is visible, showing '(\\d+)' tables")]
+    public async Task ThenTableViewIsVisibleShowingTables(string tables)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.AreTablesDisplayed(int.Parse(tables));
+    }
+
+    [Then("the table at index '(\\d+)' contains the following S251 values:")]
+    public async Task ThenTheTableAtIndexContainsTheFollowingSValues(string index, DataTable table)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.TableContainsSection251(int.Parse(index), table);
+    }
+
+    [Then("the table at index '(\\d+)' contains the following SEND2 values:")]
+    public async Task ThenTheTableAtIndexContainsTheFollowingSendValues(string index, DataTable table)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.TableContainsSend2(int.Parse(index), table);
+    }
+
+    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode)
+    {
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
+    }
+
+    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode)
+    {
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators";
     }
 }

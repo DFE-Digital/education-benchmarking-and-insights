@@ -10,7 +10,7 @@ public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
+    private HighNeedsDashboardPage? _highNeedsBenchmarkingPage;
     private HomePage? _localAuthorityHomePage;
 
     [Given("I am on local authority homepage for local authority with code '(.*)'")]
@@ -66,5 +66,8 @@ public class HomeSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.IsDisplayed();
     }
 
-    private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
+    private static string LocalAuthorityHomeUrl(string laCode)
+    {
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
+    }
 }
