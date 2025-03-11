@@ -38,7 +38,7 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension ?? Dimensions.HighNeeds.PerHead, token);
+        var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension, token);
         return await req.CreateJsonResponseAsync(highNeeds);
     }
 }
