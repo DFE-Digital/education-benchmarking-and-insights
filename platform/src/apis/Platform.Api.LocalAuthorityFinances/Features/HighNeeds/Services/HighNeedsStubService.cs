@@ -100,12 +100,13 @@ public class HighNeedsStubService : IHighNeedsService
             baseValue = code.Length;
         }
 
+        var baseMultiplier = dimension == "Actuals" ? 1_000 : 1;
         return new LocalAuthority<Models.HighNeeds>
         {
             Code = code,
             Name = $"Local authority {code}",
-            Budget = GetStubbedRow(code, 2024, 1_100_000 + baseValue, 1_110_000 + baseValue % 2),
-            Outturn = GetStubbedRow(code, 2024, 1_000_000 + baseValue, 1_010_000 + baseValue % 2)
+            Budget = GetStubbedRow(code, 2024, 1_100 * baseMultiplier + baseValue, 1_110 * baseMultiplier + baseValue % 2),
+            Outturn = GetStubbedRow(code, 2024, 1_000 * baseMultiplier + baseValue, 1_010 * baseMultiplier + baseValue % 2)
         };
     }
 }

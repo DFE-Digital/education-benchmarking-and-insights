@@ -20,7 +20,7 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
 
             var parsedCode = int.TryParse(code, out var parsedValue) ? parsedValue : 200;
             var baseNumber = parsedCode + i + year;
-            var yearData = GetStubbedYear(year, code, baseNumber);
+            var yearData = GetStubbedYear(year, code, baseNumber, dimension);
             plans.Add(yearData);
         }
 
@@ -55,16 +55,17 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
         return Task.FromResult(result);
     }
 
-    private static LocalAuthorityNumberOfPlansYear GetStubbedYear(int year, string code, int baseNumber)
+    private static LocalAuthorityNumberOfPlansYear GetStubbedYear(int year, string code, int baseNumber, string? dimension = null)
     {
         // some variation based on input but still repeatable for testing
-        var mainstream = baseNumber % 40;
-        var resourced = baseNumber % 10;
-        var special = baseNumber % 7;
-        var independent = baseNumber % 15;
-        var hospital = baseNumber % 25;
-        var post16 = baseNumber % 30;
-        var other = baseNumber % 8;
+        var multiplier = dimension == "Actuals" ? 1_000 : 1;
+        var mainstream = baseNumber % 40 * multiplier;
+        var resourced = baseNumber % 10 * multiplier;
+        var special = baseNumber % 7 * multiplier;
+        var independent = baseNumber % 15 * multiplier;
+        var hospital = baseNumber % 25 * multiplier;
+        var post16 = baseNumber % 30 * multiplier;
+        var other = baseNumber % 8 * multiplier;
         var total = mainstream + resourced + special + independent + hospital + post16 + other;
 
         return new LocalAuthorityNumberOfPlansYear
