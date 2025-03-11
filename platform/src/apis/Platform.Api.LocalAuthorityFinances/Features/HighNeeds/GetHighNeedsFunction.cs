@@ -9,25 +9,28 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
+using Platform.Api.LocalAuthorityFinances.OpenApi.Examples;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 
-public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeedsParameters> validator)
+public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeedsDimensionedParameters> validator)
 {
     [Function(nameof(GetHighNeedsFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetHighNeedsFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Type = typeof(string[]), Required = true)]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = false, Example = typeof(ExampleHighNeedsDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeeds)] HttpRequestData req,
         CancellationToken token)
     {
-        var queryParams = req.GetParameters<HighNeedsParameters>();
+        var queryParams = req.GetParameters<HighNeedsDimensionedParameters>();
 
         var validationResult = await validator.ValidateAsync(queryParams, token);
         if (!validationResult.IsValid)
@@ -35,7 +38,7 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var highNeeds = await service.Get(queryParams.Codes, token);
+        var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension ?? Dimensions.HighNeeds.PerHead, token);
         return await req.CreateJsonResponseAsync(highNeeds);
     }
 }

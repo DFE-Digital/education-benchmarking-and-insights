@@ -30,6 +30,7 @@ public class WhenDimensionsChecksIsValid
 
     [Theory]
     [InlineData("Per1000", true)]
+    [InlineData("PerHead", true)]
     [InlineData("invalid", false)]
     public void ShouldValidateHighNeedsDimensions(string dimension, bool expected)
     {

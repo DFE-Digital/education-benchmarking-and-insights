@@ -16,7 +16,8 @@ public static class HighNeedsFeature
             .AddSingleton<IHighNeedsService, HighNeedsStubService>();
 
         serviceCollection
-            .AddTransient<IValidator<HighNeedsParameters>, HighNeedsParametersValidator>();
+            .AddTransient<IValidator<HighNeedsParameters>, HighNeedsParametersValidator>()
+            .AddTransient<IValidator<HighNeedsDimensionedParameters>, HighNeedsDimensionedParametersValidator>();
 
         return serviceCollection;
     }
