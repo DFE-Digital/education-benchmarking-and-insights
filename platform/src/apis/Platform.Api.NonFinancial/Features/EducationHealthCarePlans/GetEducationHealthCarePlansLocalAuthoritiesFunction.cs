@@ -40,7 +40,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunction(
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var result = await service.Get(queryParams.Codes, queryParams.Dimension ?? Dimensions.HighNeeds.Per1000, token);
+        var result = await service.Get(queryParams.Codes, queryParams.Dimension ?? Dimensions.EducationHealthCarePlans.Per1000, token);
         return await req.CreateJsonResponseAsync(result);
     }
 }

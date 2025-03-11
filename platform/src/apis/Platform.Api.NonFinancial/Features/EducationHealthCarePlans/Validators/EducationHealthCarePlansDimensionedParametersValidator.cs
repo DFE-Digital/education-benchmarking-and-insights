@@ -12,8 +12,8 @@ public class EducationHealthCarePlansDimensionedParametersValidator : AbstractVa
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.HighNeeds.All)}");
+            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.EducationHealthCarePlans.All)}");
     }
 
-    private static bool BeAValidDimension(string? dimension) => string.IsNullOrWhiteSpace(dimension) || Dimensions.HighNeeds.IsValid(dimension);
+    private static bool BeAValidDimension(string? dimension) => string.IsNullOrWhiteSpace(dimension) || Dimensions.EducationHealthCarePlans.IsValid(dimension);
 }

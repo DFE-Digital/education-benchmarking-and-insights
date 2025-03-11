@@ -19,7 +19,7 @@ namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
 public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
-    private const string Dimension = Dimensions.HighNeeds.Per1000;
+    private const string Dimension = Dimensions.EducationHealthCarePlans.Per1000;
     private readonly Fixture _fixture;
     private readonly GetEducationHealthCarePlansLocalAuthoritiesFunction _function;
     private readonly Mock<IEducationHealthCarePlansService> _service;
