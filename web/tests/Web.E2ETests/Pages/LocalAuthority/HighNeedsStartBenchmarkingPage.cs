@@ -9,6 +9,18 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     private ILocator LaInputField => page.Locator("#LaInput");
     private ILocator LaDropdown => page.Locator("#LaInput__listbox");
     private ILocator ComparatorsTable => page.Locator("#current-comparators-la");
+    private ILocator SaveAndContinueButton => page.Locator(Selectors.Button, new PageLocatorOptions
+    {
+        HasText = "Save and continue"
+    });
+    private ILocator CancelButton => page.Locator(".govuk-button--secondary", new PageLocatorOptions
+    {
+        HasText = "Cancel"
+    });
+    private ILocator RemoveButtons => page.Locator(Selectors.WarningButton, new PageLocatorOptions
+    {
+        HasText = "Remove"
+    });
 
     public async Task IsDisplayed()
     {
@@ -50,5 +62,28 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
 
         var cells = await ComparatorsTable.Locator("tbody > tr > td:first-child").AllInnerTextsAsync();
         Assert.Contains(name, cells);
+    }
+
+    public async Task<HighNeedsBenchmarkingPage> ClickSaveAndContinueButton()
+    {
+        await SaveAndContinueButton.ClickAsync();
+        return new HighNeedsBenchmarkingPage(page);
+    }
+
+    public async Task<HighNeedsDashboardPage> ClickCancelButton()
+    {
+        await CancelButton.ClickAsync();
+        return new HighNeedsDashboardPage(page);
+    }
+
+    public async Task<bool> HasComparators()
+    {
+        return await RemoveButtons.CountAsync() > 0;
+    }
+
+    public async Task<HighNeedsDashboardPage> ClickRemoveButton()
+    {
+        await RemoveButtons.First.ClickAsync();
+        return new HighNeedsDashboardPage(page);
     }
 }

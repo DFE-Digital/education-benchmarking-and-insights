@@ -66,6 +66,7 @@ public static class Selectors
     public const string Modal = "div.modal";
     public const string ModalButton = $"{Modal} {Button}";
     public const string CtaButton = "[role='button'][class*='govuk-button']";
+    public const string WarningButton = "button.govuk-button--warning";
 
     public const string ComparisonChartsAndTables = "#compare-your-costs";
     public const string ComparisonTables = "#compare-your-costs table.govuk-table";

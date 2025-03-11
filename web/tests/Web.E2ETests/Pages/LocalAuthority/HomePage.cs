@@ -42,9 +42,9 @@ public class HomePage(IPage page)
         return new BenchmarkCensusPage(page);
     }
 
-    public async Task<HighNeedsBenchmarkingPage> ClickHighNeedsBenchmarking()
+    public async Task<HighNeedsDashboardPage> ClickHighNeedsBenchmarking()
     {
         await HighNeedsBenchmarkingLink.Click();
-        return new HighNeedsBenchmarkingPage(page);
+        return new HighNeedsDashboardPage(page);
     }
 }
