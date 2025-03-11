@@ -23,7 +23,7 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetHighNeedsFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Type = typeof(string[]), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = false, Example = typeof(ExampleHighNeedsDimension))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleHighNeedsDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(

@@ -34,7 +34,7 @@ public class HighNeedsProxyController(
                 return NotFound();
             }
 
-            var query = BuildQuery(new[] { code }.Concat(set).ToArray());
+            var query = BuildQuery(new[] { code }.Concat(set).ToArray(), "PerHead");
             var localAuthorities = await localAuthoritiesApi
                 .GetHighNeeds(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthority<HighNeeds>[]>();
@@ -59,7 +59,7 @@ public class HighNeedsProxyController(
     {
         try
         {
-            var query = BuildQuery(code);
+            var query = BuildQuery([code]);
             var history = await localAuthoritiesApi
                 .GetHighNeedsHistory(query, cancellationToken)
                 .GetResultOrThrow<HighNeedsHistory<HighNeedsYear>>();
@@ -73,14 +73,15 @@ public class HighNeedsProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(params string[] code)
+    private static ApiQuery BuildQuery(string[] codes, string? dimension = null)
     {
         var query = new ApiQuery();
-        foreach (var c in code)
+        foreach (var c in codes)
         {
-            query.AddIfNotNull(nameof(code), c);
+            query.AddIfNotNull("code", c);
         }
 
+        query.AddIfNotNull("dimension", dimension);
         return query;
     }
 }
