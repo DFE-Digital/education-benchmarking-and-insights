@@ -54,8 +54,21 @@
         When I submit the education health care plans request
         Then the education health care plans history result should be bad request
 
-    Scenario: Sending a valid education health care plans request with default dimension returns the correct values
-        Given an education health care plans request with dimension '' and LA codes:
+    Scenario: Sending a valid education health care plans request with Actuals dimension returns the correct values
+        Given an education health care plans request with dimension 'Actuals' and LA codes:
+          | Code |
+          | 201  |
+          | 202  |
+          | 203  |
+        When I submit the education health care plans request
+        Then the education health care plans result should be ok and contain the following values:
+          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  | Local authority 201 | 47000 | 25000      | 5000      | 6000    | 5000        | 0        | 5000   | 1000  |
+          | 202  | Local authority 202 | 54000 | 27000      | 7000      | 1000    | 7000        | 2000     | 7000   | 3000  |
+          | 203  | Local authority 203 | 68000 | 29000      | 9000      | 3000    | 9000        | 4000     | 9000   | 5000  |
+
+    Scenario: Sending a valid education health care plans request with Per1000 dimension returns the correct values
+        Given an education health care plans request with dimension 'Per1000' and LA codes:
           | Code |
           | 201  |
           | 202  |

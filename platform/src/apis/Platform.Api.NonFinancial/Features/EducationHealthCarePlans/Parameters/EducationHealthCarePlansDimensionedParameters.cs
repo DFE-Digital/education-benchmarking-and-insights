@@ -6,7 +6,7 @@ namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters
 
 public record EducationHealthCarePlansDimensionedParameters : EducationHealthCarePlansParameters
 {
-    public string Dimension { get; private set; } = Dimensions.EducationHealthCarePlans.Per1000;
+    public string Dimension { get; private set; } = Dimensions.EducationHealthCarePlans.Actuals;
 
     public override void SetValues(NameValueCollection query)
     {
