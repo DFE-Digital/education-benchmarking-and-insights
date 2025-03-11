@@ -8,6 +8,7 @@ using Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -18,15 +19,16 @@ namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
 public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
+    private const string Dimension = Dimensions.HighNeeds.Per1000;
     private readonly Fixture _fixture;
     private readonly GetEducationHealthCarePlansLocalAuthoritiesFunction _function;
     private readonly Mock<IEducationHealthCarePlansService> _service;
-    private readonly Mock<IValidator<EducationHealthCarePlansParameters>> _validator;
+    private readonly Mock<IValidator<EducationHealthCarePlansDimensionedParameters>> _validator;
 
     public GetEducationHealthCarePlansLocalAuthoritiesFunctionTests()
     {
         _service = new Mock<IEducationHealthCarePlansService>();
-        _validator = new Mock<IValidator<EducationHealthCarePlansParameters>>();
+        _validator = new Mock<IValidator<EducationHealthCarePlansDimensionedParameters>>();
         _function = new GetEducationHealthCarePlansLocalAuthoritiesFunction(_service.Object, _validator.Object);
         _fixture = new Fixture();
     }
@@ -39,16 +41,17 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
             .CreateMany()
             .ToArray();
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansParameters>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansDimensionedParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(x => x.Get(new[] { Code }, It.IsAny<CancellationToken>()))
+            .Setup(x => x.Get(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>
         {
-            { "code", Code }
+            { "code", Code },
+            { "dimension", Dimension }
         };
 
         var result = await _function.EducationHealthCarePlans(CreateHttpRequestData(query), CancellationToken.None);
@@ -66,7 +69,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
     public async Task ShouldReturn400OnValidationError()
     {
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansParameters>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansDimensionedParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([
                 new ValidationFailure(nameof(EducationHealthCarePlansParameters.Codes), "error")
             ]));
@@ -82,6 +85,6 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
         Assert.Contains(values, p => p.PropertyName == nameof(EducationHealthCarePlansParameters.Codes));
 
         _service
-            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
