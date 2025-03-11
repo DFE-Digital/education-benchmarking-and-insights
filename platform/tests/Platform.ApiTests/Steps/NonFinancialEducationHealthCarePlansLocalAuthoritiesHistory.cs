@@ -26,13 +26,13 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
         });
     }
 
-    [Given("an education health care plans request with LA codes:")]
-    public void GivenAnEducationHealthCarePlansRequestWithLaCodes(DataTable table)
+    [Given("an education health care plans request with dimension '(.*)' and LA codes:")]
+    public void GivenAnEducationHealthCarePlansRequestWithDimensionAndLaCodes(string dimension, DataTable table)
     {
         var codes = table.Rows.Select(r => r["Code"]);
         api.CreateRequest(Key, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/education-health-care-plans/local-authorities?code={string.Join("&code=", codes)}", UriKind.Relative),
+            RequestUri = new Uri($"/api/education-health-care-plans/local-authorities?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

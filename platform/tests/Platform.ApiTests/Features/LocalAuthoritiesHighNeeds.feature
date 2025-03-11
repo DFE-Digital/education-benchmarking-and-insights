@@ -130,8 +130,8 @@ Feature: Local authorities high needs endpoints
         When I submit the high needs request
         Then the high needs history result should be bad request
 
-    Scenario: Sending a valid high needs request returns the expected outturn values
-        Given a valid high needs request with LA codes:
+    Scenario: Sending a valid high needs request with default dimension returns the expected outturn values
+        Given a valid high needs request with dimension '' and LA codes:
           | Code |
           | 201  |
           | 202  |
@@ -192,8 +192,8 @@ Feature: Local authorities high needs endpoints
           | Special              | 1002249 |
           | AlternativeProvision | 1002250 |
 
-    Scenario: Sending a valid high needs request returns the expected budget values
-        Given a valid high needs request with LA codes:
+    Scenario: Sending a valid high needs request with default dimension returns the expected budget values
+        Given a valid high needs request with dimension '' and LA codes:
           | Code |
           | 201  |
           | 202  |

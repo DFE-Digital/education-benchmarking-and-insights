@@ -26,13 +26,13 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         });
     }
 
-    [Given("a valid high needs request with LA codes:")]
-    public void GivenAValidHighNeedsRequestWithLaCodes(DataTable table)
+    [Given("a valid high needs request with dimension '(.*)' and LA codes:")]
+    public void GivenAValidHighNeedsRequestWithDimensionAndLaCodes(string dimension, DataTable table)
     {
         var codes = table.Rows.Select(r => r["Code"]);
         api.CreateRequest(Key, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/high-needs?code={string.Join("&code=", codes)}", UriKind.Relative),
+            RequestUri = new Uri($"/api/high-needs?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
