@@ -16,4 +16,10 @@ public static class NameValueCollectionExtensions
     {
         return bool.TryParse(query[parameterName], out var val) && val;
     }
+
+    public static bool TryGetValue(this NameValueCollection query, string parameterName, out string value)
+    {
+        value = query.Get(parameterName) ?? string.Empty;
+        return !string.IsNullOrWhiteSpace(value);
+    }
 }

@@ -15,5 +15,5 @@ public class HighNeedsDimensionedParametersValidator : AbstractValidator<HighNee
             .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.HighNeeds.All)}");
     }
 
-    private static bool BeAValidDimension(string? dimension) => string.IsNullOrWhiteSpace(dimension) || Dimensions.HighNeeds.IsValid(dimension);
+    private static bool BeAValidDimension(string dimension) => Dimensions.HighNeeds.IsValid(dimension);
 }

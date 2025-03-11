@@ -45,4 +45,22 @@ public class WhenNameValueCollectionExtensionsConvertsFromQuery
         var actual = collection.ToBool(name);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData(null, "", false)]
+    [InlineData("", "", false)]
+    [InlineData("valid", "valid", true)]
+    public void ShouldTryGetQueryParameter(string? value, string expected, bool expectedSuccess)
+    {
+        const string name = nameof(name);
+
+        var collection = new NameValueCollection
+        {
+            { name, value }
+        };
+
+        var actualSuccess = collection.TryGetValue(name, out var actual);
+        Assert.Equal(expected, actual);
+        Assert.Equal(expectedSuccess, actualSuccess);
+    }
 }
