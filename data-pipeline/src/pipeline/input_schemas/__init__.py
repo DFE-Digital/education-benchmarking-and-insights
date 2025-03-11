@@ -28,6 +28,8 @@ from .local_authority import (  # noqa
     la_budget_column_eval,
     la_budget_column_mappings,
     la_budget_pivot,
+    la_ons_population,
+    la_ons_population_index_column,
     la_outturn,
     la_outturn_column_eval,
     la_outturn_column_mappings,

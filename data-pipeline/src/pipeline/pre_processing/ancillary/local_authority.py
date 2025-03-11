@@ -12,6 +12,7 @@ def build_local_authorities(
     statistical_neighbours_filepath: (
         FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str]
     ),
+    ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     year: int,
 ):
     """
@@ -20,6 +21,7 @@ def build_local_authorities(
     :param budget_filepath_or_buffer: source for LA budget data
     :param outturn_filepath_or_buffer: source for LA outturn data
     :param statistical_neighbours_filepath: source for LA statistical neighbours data
+    :param ons_filepath_or_buffer: source for ONS LA data
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -28,18 +30,30 @@ def build_local_authorities(
         outturn_filepath_or_buffer,
         year,
     )
-
-    logger.info("Processing Local Authority statistical neighbours data.")
-
-    la_statistical_neighbours_data = _prepare_la_statistical_neighbours(
+    ons_la_population_data = _prepare_ons_la_population_data(
+        ons_filepath_or_buffer,
+        year,
+    )
+    statistical_neighbours_data = _prepare_la_statistical_neighbours(
         statistical_neighbours_filepath, year
     )
 
+    logger.info("Processing Local Authority combined data.")
+
     local_authority_data = section_251_data.merge(
-        la_statistical_neighbours_data,
+        statistical_neighbours_data,
         left_on="old_la_code",
         right_index=True,
         how="left",
+    ).merge(
+        ons_la_population_data,
+        left_on="new_la_code",
+        right_index=True,
+        how="left",
+    )
+
+    logger.info(
+        f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
     return local_authority_data
@@ -246,6 +260,7 @@ def _prepare_la_statistical_neighbours(
     :param year: financial year in question
     :return: Local Authority statistical neighbours data
     """
+    logger.info("Processing Local Authority statistical neighbours data.")
     df = pd.read_csv(
         filepath_or_buffer,
         index_col=input_schemas.la_statistical_neighbours_index_col,
@@ -262,5 +277,50 @@ def _prepare_la_statistical_neighbours(
     )
 
     df = df[~df.index.isna()]
+
+    return df
+
+
+def _prepare_ons_la_population_data(
+    ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    year: int,
+) -> pd.DataFrame:
+    """
+    Parse ONS Local Authority population data.
+
+    The rows of interest will be those where the `AGE_GROUP` is `2` to
+    `18` (inclusive).
+
+    The value in the rows for the each LA (identified by the
+    `AREA_CODE`) will be summed to provide a single figure, to be
+    rounded to a whole integer.
+
+    :param ons_filepath_or_buffer: source for ONS LA population data
+    :param year: financial year in question
+    :return: ONS Local Authority population data
+    """
+    logger.info("Processing ONS Local Authority population data.")
+    dtypes = input_schemas.la_ons_population.get(
+        year, input_schemas.la_ons_population["default"]
+    )
+    dtypes[str(year)] = "float"
+
+    df = pd.read_csv(
+        ons_filepath_or_buffer,
+        usecols=dtypes.keys(),
+        dtype=dtypes,
+    )
+
+    df = (
+        df[df["AGE_GROUP"].isin(set(map(str, range(2, 19))))]
+        .drop(columns=["AGE_GROUP"])
+        .groupby(["AREA_CODE"])
+        .agg("sum")
+        .rename(columns={str(year): "Population2To18"})
+        .reset_index()
+        .set_index(input_schemas.la_ons_population_index_column)
+    )
+
+    df["Population2To18"] = df["Population2To18"].astype(int)
 
     return df
