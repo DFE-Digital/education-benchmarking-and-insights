@@ -12,7 +12,10 @@ namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class HighNeedsStubService : IHighNeedsService
 {
-    public Task<LocalAuthority<Models.HighNeeds>[]> Get(string[] codes, CancellationToken cancellationToken = default) => Task.FromResult(codes.Select(GetLocalAuthority).ToArray());
+    public Task<LocalAuthority<Models.HighNeeds>[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(codes.Select(c => GetLocalAuthority(c, dimension)).ToArray());
+    }
 
     public Task<History<HighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
@@ -90,7 +93,7 @@ public class HighNeedsStubService : IHighNeedsService
         }
     };
 
-    private static LocalAuthority<Models.HighNeeds> GetLocalAuthority(string code)
+    private static LocalAuthority<Models.HighNeeds> GetLocalAuthority(string code, string dimension)
     {
         if (!int.TryParse(code, out var baseValue))
         {

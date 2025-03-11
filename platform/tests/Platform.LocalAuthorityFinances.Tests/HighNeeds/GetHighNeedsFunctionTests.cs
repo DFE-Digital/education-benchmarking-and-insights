@@ -8,6 +8,7 @@ using Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -18,15 +19,16 @@ namespace Platform.LocalAuthorityFinances.Tests.HighNeeds;
 public class GetHighNeedsFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
+    private const string Dimension = Dimensions.HighNeeds.PerHead;
     private readonly Fixture _fixture;
     private readonly GetHighNeedsFunction _function;
     private readonly Mock<IHighNeedsService> _service;
-    private readonly Mock<IValidator<HighNeedsParameters>> _validator;
+    private readonly Mock<IValidator<HighNeedsDimensionedParameters>> _validator;
 
     public GetHighNeedsFunctionTests()
     {
         _service = new Mock<IHighNeedsService>();
-        _validator = new Mock<IValidator<HighNeedsParameters>>();
+        _validator = new Mock<IValidator<HighNeedsDimensionedParameters>>();
         _fixture = new Fixture();
         _function = new GetHighNeedsFunction(_service.Object, _validator.Object);
     }
@@ -39,16 +41,17 @@ public class GetHighNeedsFunctionTests : FunctionsTestBase
             .CreateMany()
             .ToArray();
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsDimensionedParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.Get(new[] { Code }, It.IsAny<CancellationToken>()))
+            .Setup(d => d.Get(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>
         {
-            { "code", Code }
+            { "code", Code },
+            { "dimension", Dimension }
         };
 
         var result = await _function.RunAsync(CreateHttpRequestData(query), CancellationToken.None);
@@ -66,7 +69,7 @@ public class GetHighNeedsFunctionTests : FunctionsTestBase
     public async Task ShouldReturn400OnValidationError()
     {
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsDimensionedParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([
                 new ValidationFailure(nameof(HighNeedsParameters.Codes), "error message")
             ]));
@@ -82,6 +85,6 @@ public class GetHighNeedsFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(HighNeedsParameters.Codes));
 
         _service
-            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
