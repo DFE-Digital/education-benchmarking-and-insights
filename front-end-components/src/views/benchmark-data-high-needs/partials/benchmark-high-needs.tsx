@@ -2,7 +2,7 @@ import {
   SelectedEstablishmentContext,
   useChartModeContext,
 } from "src/contexts";
-import { Section251Section, section251Sections } from ".";
+import { Section251Section } from ".";
 import { BenchmarkDataHighNeedsAccordionProps } from "../types";
 import { Send2Section } from "./send-2-section";
 import { ChartMode } from "src/components";
@@ -18,7 +18,7 @@ import {
 import { EducationHealthCarePlanApi } from "src/services/education-health-care-plans-api";
 import { HighNeedsApi } from "src/services/high-needs-api";
 
-export const BenchmarkHighNeedsAccordion: React.FC<
+export const BenchmarkHighNeeds: React.FC<
   BenchmarkDataHighNeedsAccordionProps
 > = ({ fetchTimeout }) => {
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -95,18 +95,13 @@ export const BenchmarkHighNeedsAccordion: React.FC<
         !send2Data && !section251Data && <Loading />
       )}
       <div
-        className={classNames("govuk-accordion", {
+        className={classNames({
           "govuk-visually-hidden":
             !section251Data?.length || !send2Data?.length,
         })}
-        data-module="govuk-accordion"
-        id="accordion-section"
       >
         <Section251Section data={section251Data} />
-        <Send2Section
-          data={send2Data}
-          offset={section251Sections?.length ?? 0}
-        />
+        <Send2Section data={send2Data} />
       </div>
     </>
   );

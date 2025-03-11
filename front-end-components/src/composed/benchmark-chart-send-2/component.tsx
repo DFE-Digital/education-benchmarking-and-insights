@@ -10,18 +10,20 @@ export function BenchmarkChartSend2<
   const mergedData = useMemo(() => {
     const dataPoints: LaChartData[] = [];
 
-    data?.forEach((s) => {
-      const value = s && (s[valueField] as number);
+    if (data && Array.isArray(data)) {
+      data.forEach((s) => {
+        const value = s && (s[valueField] as number);
 
-      dataPoints.push({
-        laCode: s.code,
-        laName: s.name,
-        value:
-          value === undefined || value === null || isNaN(value)
-            ? undefined
-            : value,
+        dataPoints.push({
+          laCode: s.code,
+          laName: s.name,
+          value:
+            value === undefined || value === null || isNaN(value)
+              ? undefined
+              : value,
+        });
       });
-    });
+    }
 
     return {
       tableHeadings: ["Local authority", "Amount"],
@@ -33,11 +35,12 @@ export function BenchmarkChartSend2<
     <HorizontalBarChartWrapper
       chartTitle={chartTitle}
       data={mergedData}
+      xAxisLabel="Amount"
       localAuthority
       showCopyImageButton
       valueUnit="currency"
     >
-      <h3 className="govuk-heading-m">{chartTitle}</h3>
+      <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
     </HorizontalBarChartWrapper>
   );
 }
