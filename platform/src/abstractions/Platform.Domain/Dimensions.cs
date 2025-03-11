@@ -11,15 +11,13 @@ public static class Dimensions
         public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);
 
         public static readonly string[] All =
-        {
+        [
             HeadcountPerFte,
             Total,
             PercentWorkforce,
             PupilsPerStaffRole
-        };
+        ];
 
-
-        //TODO: Add unit test coverage
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
 
@@ -31,15 +29,25 @@ public static class Dimensions
         public const string PercentIncome = nameof(PercentIncome);
 
         public static readonly string[] All =
-        {
+        [
             Actuals,
             PerUnit,
             PercentExpenditure,
             PercentIncome
-        };
+        ];
 
+        public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
+    }
 
-        //TODO: Add unit test coverage
+    public static class HighNeeds
+    {
+        public const string Per1000 = nameof(Per1000);
+
+        public static readonly string[] All =
+        [
+            Per1000
+        ];
+
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
 }

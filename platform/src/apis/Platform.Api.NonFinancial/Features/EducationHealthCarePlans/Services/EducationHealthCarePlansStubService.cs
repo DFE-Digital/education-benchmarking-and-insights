@@ -9,7 +9,7 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
 {
     // TODO: remove and replace once db / data ingestion changes are in place to provide actual data
     // this generates stubbed data for usage in development prior to db updates
-    public Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, CancellationToken cancellationToken = default)
+    public Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default)
     {
         const int year = 2024;
         List<LocalAuthorityNumberOfPlans> plans = [];

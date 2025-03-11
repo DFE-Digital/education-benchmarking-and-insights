@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using FluentValidation;
-using Platform.Domain;
+﻿using FluentValidation;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Validators;

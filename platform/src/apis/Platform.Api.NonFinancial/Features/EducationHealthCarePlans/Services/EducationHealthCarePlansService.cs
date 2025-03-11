@@ -6,6 +6,6 @@ namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 
 public interface IEducationHealthCarePlansService
 {
-    Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, CancellationToken cancellationToken = default);
+    Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default);
     Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes, CancellationToken cancellationToken = default);
 }
