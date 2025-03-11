@@ -34,7 +34,7 @@ public class EducationHealthCarePlansProxyController(
                 return NotFound();
             }
 
-            var query = BuildQuery(new[] { code }.Concat(set).ToArray());
+            var query = BuildQuery(new[] { code }.Concat(set).ToArray(), "Per1000");
             var plans = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlans(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthorityNumberOfPlans[]>();
@@ -59,7 +59,7 @@ public class EducationHealthCarePlansProxyController(
     {
         try
         {
-            var query = BuildQuery(code);
+            var query = BuildQuery([code]);
             var history = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlansHistory(query, cancellationToken)
                 .GetResultOrThrow<EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>>();
@@ -73,13 +73,15 @@ public class EducationHealthCarePlansProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(params string[] code)
+    private static ApiQuery BuildQuery(string[] codes, string? dimension = null)
     {
         var query = new ApiQuery();
-        foreach (var c in code)
+        foreach (var c in codes)
         {
-            query.AddIfNotNull(nameof(code), c);
+            query.AddIfNotNull("code", c);
         }
+
+        query.AddIfNotNull("dimension", dimension);
         return query;
     }
 }
