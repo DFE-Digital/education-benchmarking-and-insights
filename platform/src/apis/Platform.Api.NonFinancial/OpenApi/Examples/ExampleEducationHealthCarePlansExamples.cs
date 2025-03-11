@@ -11,7 +11,7 @@ internal class ExampleEducationHealthCarePlansDimension : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
     {
-        foreach (var dimension in Dimensions.HighNeeds.All)
+        foreach (var dimension in Dimensions.EducationHealthCarePlans.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
         }
