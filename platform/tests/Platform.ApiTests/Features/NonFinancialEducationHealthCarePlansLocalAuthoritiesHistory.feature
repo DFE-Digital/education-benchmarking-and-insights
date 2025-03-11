@@ -54,8 +54,8 @@
         When I submit the education health care plans request
         Then the education health care plans history result should be bad request
 
-    Scenario: Sending a valid education health care plans request returns the correct values
-        Given an education health care plans request with LA codes:
+    Scenario: Sending a valid education health care plans request with default dimension returns the correct values
+        Given an education health care plans request with dimension '' and LA codes:
           | Code |
           | 201  |
           | 202  |
@@ -72,8 +72,8 @@
         When I submit the education health care plans request
         Then the education health care plans result should be bad request
 
-    Scenario: Sending an invalid education health care plans request with >10 la codes returns a validation error
-        Given an education health care plans request with LA codes:
+    Scenario: Sending an invalid education health care plans request with default dimension and >10 la codes returns a validation error
+        Given an education health care plans request with dimension '' and LA codes:
           | Code |
           | 101  |
           | 102  |
