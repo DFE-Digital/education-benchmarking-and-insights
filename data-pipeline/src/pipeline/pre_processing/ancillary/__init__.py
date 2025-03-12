@@ -6,6 +6,5 @@ from .custom_data import update_custom_data
 from .gias import predecessor_links
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
-from .local_authority import build_local_authorities
 from .schools import prepare_schools_data
 from .sen import prepare_sen_data
