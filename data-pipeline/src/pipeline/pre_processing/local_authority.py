@@ -13,6 +13,7 @@ def build_local_authorities(
         FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str]
     ),
     ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     year: int,
 ):
     """
@@ -22,6 +23,7 @@ def build_local_authorities(
     :param outturn_filepath_or_buffer: source for LA outturn data
     :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param ons_filepath_or_buffer: source for ONS LA data
+    :param sen2_filepath_or_buffer: source for LA SEN2 data
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -37,19 +39,32 @@ def build_local_authorities(
     statistical_neighbours_data = _prepare_la_statistical_neighbours(
         statistical_neighbours_filepath, year
     )
+    sen_2_data = _prepare_sen2_la_data(
+        sen2_filepath_or_buffer,
+        year,
+    )
 
     logger.info("Processing Local Authority combined data.")
 
-    local_authority_data = section_251_data.merge(
-        statistical_neighbours_data,
-        left_on="old_la_code",
-        right_index=True,
-        how="left",
-    ).merge(
-        ons_la_population_data,
-        left_on="new_la_code",
-        right_index=True,
-        how="left",
+    local_authority_data = (
+        section_251_data.merge(
+            statistical_neighbours_data,
+            left_on="old_la_code",
+            right_index=True,
+            how="left",
+        )
+        .merge(
+            ons_la_population_data,
+            left_on="new_la_code",
+            right_index=True,
+            how="left",
+        )
+        .merge(
+            sen_2_data,
+            left_index=True,
+            right_index=True,
+            how="left",
+        )
     )
 
     logger.info(
@@ -276,9 +291,7 @@ def _prepare_la_statistical_neighbours(
         ),
     )
 
-    df = df[~df.index.isna()]
-
-    return df
+    return df[~df.index.isna()]
 
 
 def _prepare_ons_la_population_data(
@@ -324,3 +337,58 @@ def _prepare_ons_la_population_data(
     df["Population2To18"] = df["Population2To18"].astype(int)
 
     return df
+
+
+def _prepare_sen2_la_data(
+    sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    year: int,
+) -> pd.DataFrame:
+    """
+    Parse Local Authority SEN2 ECHP plan data.
+
+    Rows of interest are:
+
+    - where `old_la_code` is not NULL
+    - where `time_period` equals `year`
+    - where `ehcp_or_statement` is `Total`
+
+    :param sen2_filepath_or_buffer: source for LA SEN2 data
+    :param year: financial year in question
+    :return: Local Authority SEN2 data
+    """
+    logger.info("Processing Local Authority SEN2 data.")
+    df = pd.read_csv(
+        sen2_filepath_or_buffer,
+        usecols=input_schemas.la_sen2.get(
+            year, input_schemas.la_sen2["default"]
+        ).keys(),
+        na_values=input_schemas.la_sen2_na_values.get(
+            year, input_schemas.la_sen2_na_values["default"]
+        ),
+        dtype=input_schemas.la_sen2.get(year, input_schemas.la_sen2["default"]),
+    )
+
+    df = df[~df["old_la_code"].isna()]
+    df = df[df["time_period"] == str(year)]
+    df = df[df["ehcp_or_statement"] == "Total"]
+
+    _pivot = input_schemas.la_sen2_pivot.get(
+        year, input_schemas.la_sen2_pivot["default"]
+    )
+    # Drop any extraneous columns before pivoting.
+    df = df[_pivot["index"] + _pivot["columns"] + _pivot["values"]]
+    df = df.pivot(**_pivot).reset_index()
+
+    # note: converting columns to strings; tuple-columns resulting from
+    # the above pivot cannot be easily renamed.
+    df.columns = map(
+        lambda column: f"{column[1]}__{column[2]}" if column[1] else column[0],
+        df.columns,
+    )
+
+    for column, eval_ in input_schemas.la_sen2_eval.get(
+        year, input_schemas.la_sen2_eval["default"]
+    ).items():
+        df[column] = df.eval(eval_)
+
+    return df.set_index(input_schemas.la_sen2_index_column)
