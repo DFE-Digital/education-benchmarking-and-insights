@@ -2,9 +2,7 @@ import io
 
 import pytest
 
-from pipeline.pre_processing.ancillary.local_authority import (
-    _prepare_la_statistical_neighbours,
-)
+from pipeline.pre_processing.local_authority import _prepare_la_statistical_neighbours
 
 
 @pytest.fixture

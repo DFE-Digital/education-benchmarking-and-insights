@@ -30,7 +30,8 @@ def get_message_type(message: dict) -> MessageType:
         "year": {
             "aar": 2022,
             "cfr": 2023,
-            "bfr": 2022
+            "bfr": 2022,
+            "s251": 2021
         }
     }
     ```

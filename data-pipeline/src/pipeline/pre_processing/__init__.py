@@ -10,7 +10,6 @@ from .ancillary import (
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
-    build_local_authorities,
     predecessor_links,
     prepare_cdc_data,
     prepare_census_data,
@@ -20,4 +19,5 @@ from .ancillary import (
     prepare_sen_data,
     update_custom_data,
 )
+from .local_authority import build_local_authorities
 from .maintained_schools import build_maintained_school_data

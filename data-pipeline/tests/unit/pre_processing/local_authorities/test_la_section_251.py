@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing.ancillary import local_authority
+from pipeline.pre_processing import local_authority
 
 
 def test_la_section_251(la_budget: pd.DataFrame, la_outturn: pd.DataFrame):

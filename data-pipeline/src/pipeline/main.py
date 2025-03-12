@@ -277,7 +277,6 @@ def pre_process_academies_data(
         cfo,
         central_services,
         gias_links,
-        local_authorities,
     ) = data_ref
 
     logger.info(f"Processing AAR data - {run_id} - {year}.")
@@ -324,7 +323,6 @@ def pre_process_maintained_schools_data(
         cfo,
         central_services,
         gias_links,
-        local_authorities,
     ) = data_ref
 
     logger.info(f"Processing CFR data - {run_id} - {year}.")
@@ -565,11 +563,13 @@ def pre_process_local_authorities(
     """
     Process Local Authority data.
 
-    TODO: further Local Authority datasets.
+    - Section 251 budget data
+    - Section 251 outturn data
+    - Local Authority statistical neighbours data
+    - ONS Local Authority population data
 
     :param run_id: unique identifier for processing
     :param year: financial year in question
-    :return: tuple of supporting datasets
     """
     logger.info(
         f"Reading LA Section 251 budget data: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
@@ -618,8 +618,6 @@ def pre_process_local_authorities(
         local_authorities.to_parquet(),
     )
 
-    return local_authorities
-
 
 def _get_ancillary_data(
     worker_client: Client,
@@ -649,7 +647,6 @@ def _get_ancillary_data(
         cfo,
         central_services,
         gias_links,
-        local_authorities,
     ) = worker_client.gather(
         [
             worker_client.submit(pre_process_cdc, run_type, year, run_id),
@@ -662,7 +659,6 @@ def _get_ancillary_data(
             worker_client.submit(pre_process_cfo, run_type, year, run_id),
             worker_client.submit(pre_process_central_services, run_type, year, run_id),
             worker_client.submit(pre_process_gias_links, run_type, year, run_id),
-            worker_client.submit(pre_process_local_authorities, year, run_id),
         ]
     )
 
@@ -678,7 +674,6 @@ def _get_ancillary_data(
             cfo,
             central_services,
             gias_links,
-            local_authorities,
         )
     )
 
@@ -689,6 +684,7 @@ def pre_process_data(
     aar_year: int,
     cfr_year: int,
     bfr_year: int,
+    s251_year: int,
 ):
     """
     Process data necessary for Academies, Maintained Schools BFR and Trusts.
@@ -709,6 +705,7 @@ def pre_process_data(
     :param aar_year: Academy financial year/source
     :param cfr_year: Maintained School financial year/source
     :param bfr_year: BFR year/source
+    :param s251_year: Section 251 year/source
     :return: duration of processing
     """
     run_type = "default"
@@ -751,6 +748,8 @@ def pre_process_data(
     )
 
     pre_process_bfr(run_id, bfr_year)
+
+    pre_process_local_authorities(s251_year, run_id)
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken:,.2f} seconds")
@@ -1152,6 +1151,7 @@ def handle_msg(
                     aar_year=msg_payload["year"]["aar"],
                     cfr_year=msg_payload["year"]["cfr"],
                     bfr_year=msg_payload["year"]["bfr"],
+                    s251_year=msg_payload["year"]["s251"],
                 )
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
                     run_type=run_type,

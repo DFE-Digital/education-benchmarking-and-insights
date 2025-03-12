@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing.ancillary import local_authority
+from pipeline.pre_processing import local_authority
 
 
 def test_la_ons(la_ons: pd.DataFrame):
