@@ -21,7 +21,7 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
             .Create();
         const string sort = nameof(sort);
         var response = await client
-            .SetupHighNeeds(history)
+            .SetupHighNeeds(null, history)
             .Get(Paths.ApiHighNeedsHistory(sort));
 
         Assert.IsType<HttpResponseMessage>(response);

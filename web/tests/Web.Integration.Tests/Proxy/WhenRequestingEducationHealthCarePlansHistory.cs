@@ -40,7 +40,7 @@ public class WhenEducationHealthCarePlansHistory(SchoolBenchmarkingWebAppClient 
 
 
         var response = await client
-            .SetupEducationHealthCarePlans(history)
+            .SetupEducationHealthCarePlans(null, history)
             .Get(Paths.ApiEducationHealthCarePlansHistory(code));
 
         Assert.IsType<HttpResponseMessage>(response);

@@ -27,7 +27,7 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
 
         var response = await client
             .SetupLocalAuthoritiesComparators(code, set)
-            .SetupHighNeeds(localAuthorities)
+            .SetupHighNeeds(localAuthorities, null)
             .Get(Paths.ApiHighNeedsComparison(code));
 
         Assert.IsType<HttpResponseMessage>(response);
