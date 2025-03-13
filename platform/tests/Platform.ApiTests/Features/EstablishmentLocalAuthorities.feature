@@ -217,8 +217,6 @@ Feature: Establishment local authorities endpoints
           | 203  | Local authority 203 | 80.3722975665  | 154  |
           | 200  | Local authority 200 | 113.3032983918 | 155  |
 
-          # todo: replace stubbed values with real
-
     Scenario: Sending a valid local authorities statistical neighbours request
         Given a valid local authorities statistical neighbours request with id '201'
         When I submit the local authorities request
@@ -227,17 +225,17 @@ Feature: Establishment local authorities endpoints
           | Code  | 201            |
           | Name  | City of London |
         And the local authorities statistical neighbours result should contain the following neighbours:
-          | Code | Name                | Position |
-          | 200  | Local authority 200 | 1        |
-          | 201  | Local authority 201 | 2        |
-          | 202  | Local authority 202 | 3        |
-          | 203  | Local authority 203 | 4        |
-          | 204  | Local authority 204 | 5        |
-          | 205  | Local authority 205 | 6        |
-          | 206  | Local authority 206 | 7        |
-          | 207  | Local authority 207 | 8        |
-          | 208  | Local authority 208 | 9        |
-          | 209  | Local authority 209 | 10       |
+          | Code | Name                   | Position |
+          | 202  | Camden                 | 1        |
+          | 203  | Greenwich              | 2        |
+          | 204  | Hackney                | 3        |
+          | 205  | Hammersmith and Fulham | 4        |
+          | 206  | Islington              | 5        |
+          | 207  | Kensington and Chelsea | 6        |
+          | 208  | Lambeth                | 7        |
+          | 209  | Lewisham               | 8        |
+          | 210  | Southwark              | 9        |
+          | 211  | Tower Hamlets          | 10       |
 
     Scenario: Sending a valid local authorities request
         Given a valid local authorities request

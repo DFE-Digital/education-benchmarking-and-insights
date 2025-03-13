@@ -20,7 +20,7 @@ All relevant data files are now stored in the repository under the `test-data` f
 
 ## Uploading Data Using SSMS Import Wizard
 
-### Step-by-Step Guide:
+### Step-by-Step Guide
 
 1. **Open Microsoft SQL Server Management Studio**  
    Connect to the `d02` SQL database using the connection details from the Azure `d02` resource (get the server name, username, and password from the resource settings).
