@@ -21,13 +21,14 @@ public class WhenPipelineStartDefaultJobTriggered(ITestOutputHelper testOutputHe
             {
                 Aar = 2021,
                 Bfr = 2022,
-                Cfr = 2023
+                Cfr = 2023,
+                S251 = 2024
             }
         };
 
         var result = Functions.OnStartDefaultJobTrigger(message);
 
-        const string expected = """{"runId":2020,"year":{"aar":2021,"cfr":2023,"bfr":2022},"jobId":"jobId","type":"type","runType":"runType"}""";
+        const string expected = """{"runId":2020,"year":{"aar":2021,"cfr":2023,"bfr":2022,"s251":2024},"jobId":"jobId","type":"type","runType":"runType"}""";
         Assert.Single(result);
         Assert.Equal(expected, result.Single());
     }

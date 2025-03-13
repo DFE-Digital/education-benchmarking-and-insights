@@ -195,7 +195,8 @@ To run the pipeline locally, follow these steps:
         "year": {
             "aar": <year>,
             "cfr": <year>,
-            "bfr": <year>
+            "bfr": <year>,
+            "s251": <year>
         }
     }
     ```
