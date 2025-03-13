@@ -43,6 +43,10 @@
                 <h2 class="govuk-summary-card__title">Total number of EHC plans and cost</h2>
             </div>
             <div class="govuk-summary-card__content">
+                @await Component.InvokeAsync("LocalAuthorityHighNeedsHeadlines", new
+                {
+                    identifier = Model.Code
+                })
             </div>
         </div>
     </div>
