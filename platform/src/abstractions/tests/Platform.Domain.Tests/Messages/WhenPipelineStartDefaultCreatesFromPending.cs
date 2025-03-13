@@ -19,7 +19,8 @@ public class WhenPipelineStartDefaultCreatesFromPending
             {
                 Aar = 2021,
                 Bfr = 2022,
-                Cfr = 2023
+                Cfr = 2023,
+                S251 = 2024
             })
         };
 
@@ -35,7 +36,8 @@ public class WhenPipelineStartDefaultCreatesFromPending
             {
                 Aar = 2021,
                 Bfr = 2022,
-                Cfr = 2023
+                Cfr = 2023,
+                S251 = 2024
             }
         };
         Assert.Equivalent(expected, result);

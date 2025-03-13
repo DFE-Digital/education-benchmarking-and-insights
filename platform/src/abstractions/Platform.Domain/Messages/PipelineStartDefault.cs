@@ -56,4 +56,5 @@ public record PipelineMessageYears
     public int? Aar { get; set; }
     public int? Cfr { get; set; }
     public int? Bfr { get; set; }
+    public int? S251 { get; set; }
 }

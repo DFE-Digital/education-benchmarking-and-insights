@@ -60,7 +60,8 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
     "year": {
         "aar": <YYYY>,
         "cfr": <YYYY>,
-        "bfr": <YYYY>
+        "bfr": <YYYY>,
+        "s251": <YYYY>
     }
 }
  ```
