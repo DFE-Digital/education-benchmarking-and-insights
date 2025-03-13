@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Platform.Api.Establishment.Features.LocalAuthorities.Models;
 using Platform.Api.Establishment.Features.LocalAuthorities.Requests;
 using Platform.Domain;
@@ -17,7 +18,7 @@ public interface ILocalAuthoritiesService
 {
     Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
-    Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighboursAsync(string identifier);
+    Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier);
     Task<IEnumerable<LocalAuthority>> GetAllAsync();
 }
 
@@ -66,39 +67,14 @@ public class LocalAuthoritiesService(
         }
     }
 
-    // stubbed implementation for the time being
-    public async Task<LocalAuthorityStatisticalNeighbours?> GetStatisticalNeighboursAsync(string code)
+    public async Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string code)
     {
-        var laBuilder = new LocalAuthorityQuery()
-            .WhereCodeEqual(code);
-
         using var conn = await dbFactory.GetConnection();
-        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(laBuilder);
-        if (localAuthority is null)
-        {
-            return null;
-        }
+        var laBuilder = new LocalAuthorityStatisticalNeighbourQuery()
+            .WhereLaCodeEqual(code);
 
-        var neighbours = new List<LocalAuthorityStatisticalNeighbour>();
-        for (var i = 0; i < 10; i++)
-        {
-            var stubbedCode = (200 + i).ToString();
-            var value = new LocalAuthorityStatisticalNeighbour
-            {
-                Code = stubbedCode,
-                Name = $"Local authority {stubbedCode}",
-                Order = i + 1
-            };
-
-            neighbours.Add(value);
-        }
-
-        return new LocalAuthorityStatisticalNeighbours
-        {
-            Code = localAuthority.Code,
-            Name = localAuthority.Name,
-            StatisticalNeighbours = neighbours
-        };
+        var results = await conn.QueryAsync<LocalAuthorityStatisticalNeighbour>(laBuilder);
+        return LocalAuthorityStatisticalNeighbourResponseFactory.Create(results.ToArray());
     }
 
     public async Task<IEnumerable<LocalAuthority>> GetAllAsync()

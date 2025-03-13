@@ -15,7 +15,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
 {
     private readonly GetLocalAuthorityStatisticalNeighboursFunction _function;
     private readonly string _laCode;
-    private readonly LocalAuthorityStatisticalNeighbours _neighbours;
+    private readonly LocalAuthorityStatisticalNeighboursResponse _neighboursResponse;
     private readonly Mock<ILocalAuthoritiesService> _service;
 
     public GetLocalAuthorityStatisticalNeighboursFunctionTests()
@@ -25,8 +25,8 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
 
         var fixture = new Fixture();
         _laCode = fixture.Create<string>();
-        _neighbours = fixture
-            .Build<LocalAuthorityStatisticalNeighbours>()
+        _neighboursResponse = fixture
+            .Build<LocalAuthorityStatisticalNeighboursResponse>()
             .With(l => l.Code, _laCode)
             .Create();
     }
@@ -36,7 +36,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
     {
         _service
             .Setup(d => d.GetStatisticalNeighboursAsync(_laCode))
-            .ReturnsAsync(_neighbours);
+            .ReturnsAsync(_neighboursResponse);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);
 
@@ -44,7 +44,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<LocalAuthorityStatisticalNeighbours>();
+        var body = await result.ReadAsJsonAsync<LocalAuthorityStatisticalNeighboursResponse>();
         Assert.NotNull(body);
         Assert.Equal(_laCode, body.Code);
     }

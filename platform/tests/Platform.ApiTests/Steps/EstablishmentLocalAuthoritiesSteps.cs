@@ -249,13 +249,13 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         var response = api[StatisticalNeighboursRequestKey].Response;
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthorityStatisticalNeighbours>();
+        var result = content.FromJson<LocalAuthorityStatisticalNeighboursResponse>();
 
         var set = result.StatisticalNeighbours?.Select(s => new
         {
             s.Code,
             s.Name,
-            s.Order
+            s.Position
         }).ToList();
 
         table.CompareToSet(set);

@@ -8,7 +8,7 @@ public class LocalAuthorityHighNeedsBenchmarkingViewModel(LocalAuthorityStatisti
     public string? Name => localAuthority.Name;
 
     public string[] StatisticalNeighbours => localAuthority.StatisticalNeighbours?
-        .OrderBy(n => n.Order)
+        .OrderBy(n => n.Position)
         .ThenBy(n => n.Name)
         .Where(n => !string.IsNullOrWhiteSpace(n.Name))
         .Select(n => n.Name)
