@@ -9,7 +9,7 @@ namespace Web.App.ViewComponents;
 
 public class LocalAuthorityHighNeedsHistoryViewComponent(
     ILocalAuthoritiesApi localAuthoritiesApi,
-    ILogger<LocalAuthorityHighNeedsNationalRankingsViewComponent> logger) : ViewComponent
+    ILogger<LocalAuthorityHighNeedsHistoryViewComponent> logger) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string identifier, CancellationToken cancellationToken = default)
     {
@@ -27,13 +27,10 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
         return View("MissingData");
     }
 
-    private static ApiQuery BuildQuery(params string[] code)
+    private static ApiQuery BuildQuery(string code)
     {
-        var query = new ApiQuery();
-        foreach (var c in code)
-        {
-            query.AddIfNotNull(nameof(code), c);
-        }
+        var query = new ApiQuery()
+            .AddIfNotNull(nameof(code), code);
 
         return query;
     }

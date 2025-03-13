@@ -1,0 +1,31 @@
+@model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHeadlinesViewModel
+
+<table class="govuk-table govuk-!-margin-bottom-1 govuk-table__no-border">
+    <caption class="govuk-table__caption govuk-visually-hidden">Headline figures</caption>
+    <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+            Total number of EHCP plans
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+            @Model.TotalPlans?.ToString("N0")
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+            Total spend
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+            @Model.TotalSpend?.ToString("C0")
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+            Total spend per EHCP plan
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+            @Model.TotalSpendPerPlan?.ToString("C2")
+        </td>
+    </tr>
+    </tbody>
+</table>

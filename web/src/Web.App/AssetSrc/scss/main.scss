@@ -623,3 +623,13 @@ table#current-comparators-la {
     }
   }
 }
+
+.govuk-table__no-border {
+  > tbody {
+    > tr {
+      > td {
+        border-bottom: none;
+      }
+    }
+  }
+}
