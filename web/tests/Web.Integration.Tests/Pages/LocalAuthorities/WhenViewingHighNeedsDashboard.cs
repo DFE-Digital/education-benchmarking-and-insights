@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
+using Web.App.Domain.NonFinancial;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
@@ -11,19 +12,20 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(null, null)]
-    [InlineData(5, 5)]
-    public async Task CanDisplay(int? nationalRankings = null, int? historyYears = null)
+    [InlineData(null, null, false)]
+    [InlineData(5, 5, true)]
+    public async Task CanDisplay(int? nationalRankings = null, int? historyYears = null, bool headlines = true)
     {
-        var (page, authority, rankings, history) = await SetupNavigateInitPage(nationalRankings, historyYears);
+        var (page, authority, rankings, history, highNeeds, plans) =
+            await SetupNavigateInitPage(nationalRankings, historyYears, headlines);
 
-        AssertPageLayout(page, authority, rankings, history);
+        AssertPageLayout(page, authority, rankings, history, highNeeds, plans);
     }
 
     [Fact]
     public async Task CanNavigateToStartBenchmarking()
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Start benchmarking");
         Assert.NotNull(anchor);
@@ -37,7 +39,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     [InlineData(5, true)]
     public async Task CanNavigateToNationalRankingsIfAvailable(int? nationalRankings = null, bool expectedButtonVisible = false)
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage(nationalRankings);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(nationalRankings);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full national rankings");
         if (expectedButtonVisible)
@@ -56,7 +58,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     [InlineData(5, true)]
     public async Task CanNavigateToHistoricDataIfAvailable(int? historyYears = null, bool expectedButtonVisible = false)
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage(historyYears: historyYears);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(historyYears: historyYears);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full historic data");
         if (expectedButtonVisible)
@@ -92,9 +94,16 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRank[] rankings, HighNeedsHistory<HighNeedsYear> history)> SetupNavigateInitPage(
+    private async Task<(
+        IHtmlDocument page,
+        LocalAuthority authority,
+        LocalAuthorityRank[] rankings,
+        HighNeedsHistory<HighNeedsYear> history,
+        LocalAuthority<HighNeeds>? highNeeds,
+        LocalAuthorityNumberOfPlans? plans)> SetupNavigateInitPage(
         int? nationalRankings = null,
-        int? historyYears = null)
+        int? historyYears = null,
+        bool headlines = true)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
@@ -144,20 +153,26 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var statisticalNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbours>().Create();
         var authorities = Fixture.Build<LocalAuthority>().CreateMany().ToArray();
 
+        var highNeeds = headlines ? Fixture.Create<LocalAuthority<HighNeeds>>() : null;
+        var plans = headlines ? Fixture.Create<LocalAuthorityNumberOfPlans>() : null;
+
         var page = await Client.SetupEstablishment(authority, ranking, statisticalNeighbours, authorities)
-            .SetupHighNeeds(history)
+            .SetupHighNeeds(highNeeds == null ? null : [highNeeds], history)
+            .SetupEducationHealthCarePlans(plans == null ? null : [plans], null)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .Navigate(Paths.LocalAuthorityHighNeedsDashboard(authority.Code));
 
-        return (page, authority, rankings, history);
+        return (page, authority, rankings, history, highNeeds, plans);
     }
 
     private static void AssertPageLayout(
         IHtmlDocument page,
         LocalAuthority authority,
         LocalAuthorityRank[] rankings,
-        HighNeedsHistory<HighNeedsYear> history)
+        HighNeedsHistory<HighNeedsYear> history,
+        LocalAuthority<HighNeeds>? highNeeds,
+        LocalAuthorityNumberOfPlans? plans)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
 
@@ -169,11 +184,36 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         var cards = page.QuerySelectorAll(".govuk-summary-card");
 
+        var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans and cost"));
+        AssertHeadlinesCard(headlinesCard, highNeeds, plans);
+
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National Ranking"));
         AssertNationalRankingCard(nationalRankingCard, rankings);
 
         var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
         AssertBudgetSpendHistoryCard(budgetSpendHistoryCard, history);
+    }
+
+    private static void AssertHeadlinesCard(IElement? headlinesCard, LocalAuthority<HighNeeds>? highNeeds, LocalAuthorityNumberOfPlans? plans)
+    {
+        Assert.NotNull(headlinesCard);
+
+        if (highNeeds == null || plans == null)
+        {
+            var content = headlinesCard.QuerySelector(".govuk-summary-card__content");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Headlines could not be displayed.");
+        }
+        else
+        {
+            var table = headlinesCard.QuerySelector("table");
+            Assert.NotNull(table);
+
+            var bodyRows = table.QuerySelectorAll("tbody > tr");
+            Assert.Equal(3, bodyRows.Length);
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHCP plans  {plans.Total ?? 0:N0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(1), $"Total spend  {highNeeds.Outturn?.Total ?? 0:C0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHCP plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C2}");
+        }
     }
 
     private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings)

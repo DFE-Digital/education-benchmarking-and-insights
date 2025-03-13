@@ -587,35 +587,24 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupLocalAuthoritiesWithException()
     {
         LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHighNeeds(HighNeedsHistory<HighNeedsYear> history)
+    public BenchmarkingWebAppClient SetupHighNeeds(LocalAuthority<HighNeeds>[]? highNeeds, HighNeedsHistory<HighNeedsYear>? history)
     {
         LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(highNeeds ?? []));
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHighNeeds(LocalAuthority<HighNeeds>[] localAuthorities)
-    {
-        LocalAuthoritiesApi.Reset();
-        LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(localAuthorities));
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupEducationHealthCarePlans(EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear> history)
+    public BenchmarkingWebAppClient SetupEducationHealthCarePlans(LocalAuthorityNumberOfPlans[]? plans, EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>? history)
     {
         EducationHealthCarePlansApi.Reset();
+        EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlans(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(plans ?? []));
         EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlansHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupEducationHealthCarePlans(LocalAuthorityNumberOfPlans[] plans)
-    {
-        EducationHealthCarePlansApi.Reset();
-        EducationHealthCarePlansApi.Setup(api => api.GetEducationHealthCarePlans(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(plans));
         return this;
     }
 

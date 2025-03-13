@@ -26,7 +26,7 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
 
         var response = await client
             .SetupLocalAuthoritiesComparators(code, set)
-            .SetupEducationHealthCarePlans(plans)
+            .SetupEducationHealthCarePlans(plans, null)
             .Get(Paths.ApiEducationHealthCarePlansComparison(code));
 
         Assert.IsType<HttpResponseMessage>(response);
