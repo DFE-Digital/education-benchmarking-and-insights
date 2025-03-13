@@ -17,7 +17,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunction(ILocalAuthoritiesSer
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetLocalAuthorityStatisticalNeighboursFunction), Constants.Features.LocalAuthorities)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityStatisticalNeighbours))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityStatisticalNeighboursResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityStatisticalNeighbours)] HttpRequestData req,

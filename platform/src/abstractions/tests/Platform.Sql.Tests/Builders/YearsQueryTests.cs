@@ -41,3 +41,16 @@ public class YearsTrustQueryTests
         Assert.Equal(expected, builder.QueryTemplate.RawSql);
     }
 }
+
+public class YearsLocalAuthorityQueryTests
+{
+    [Fact]
+    public void ShouldReturnSql()
+    {
+        var builder = new YearsLocalAuthorityQuery("code");
+
+        const string expected = "SELECT * FROM VW_YearsLocalAuthority WHERE Code = @Code\n";
+
+        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+    }
+}

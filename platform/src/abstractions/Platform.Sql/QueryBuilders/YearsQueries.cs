@@ -30,3 +30,13 @@ public class YearsOverallPhaseQuery : PlatformQuery
         WhereFinanceTypeEqual(financeType);
     }
 }
+
+public class YearsLocalAuthorityQuery : PlatformQuery
+{
+    private const string Sql = "SELECT * FROM VW_YearsLocalAuthority /**where**/";
+
+    public YearsLocalAuthorityQuery(string code) : base(Sql)
+    {
+        WhereCodeEqual(code);
+    }
+}

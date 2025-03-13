@@ -227,17 +227,17 @@ Feature: Establishment local authorities endpoints
           | Code  | 201            |
           | Name  | City of London |
         And the local authorities statistical neighbours result should contain the following neighbours:
-          | Code | Name                | Order |
-          | 200  | Local authority 200 | 1     |
-          | 201  | Local authority 201 | 2     |
-          | 202  | Local authority 202 | 3     |
-          | 203  | Local authority 203 | 4     |
-          | 204  | Local authority 204 | 5     |
-          | 205  | Local authority 205 | 6     |
-          | 206  | Local authority 206 | 7     |
-          | 207  | Local authority 207 | 8     |
-          | 208  | Local authority 208 | 9     |
-          | 209  | Local authority 209 | 10    |
+          | Code | Name                | Position |
+          | 200  | Local authority 200 | 1        |
+          | 201  | Local authority 201 | 2        |
+          | 202  | Local authority 202 | 3        |
+          | 203  | Local authority 203 | 4        |
+          | 204  | Local authority 204 | 5        |
+          | 205  | Local authority 205 | 6        |
+          | 206  | Local authority 206 | 7        |
+          | 207  | Local authority 207 | 8        |
+          | 208  | Local authority 208 | 9        |
+          | 209  | Local authority 209 | 10       |
 
     Scenario: Sending a valid local authorities request
         Given a valid local authorities request

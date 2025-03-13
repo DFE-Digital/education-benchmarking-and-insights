@@ -202,7 +202,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.NotNull(orderedList);
         var listItems = orderedList.QuerySelectorAll("li").Select(q => q.TextContent).ToArray();
         var expectedListItems = authority.StatisticalNeighbours?
-            .OrderBy(n => n.Order)
+            .OrderBy(n => n.Position)
             .ThenBy(n => n.Name)
             .Select(n => n.Name)
             .ToArray();
