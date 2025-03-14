@@ -12,9 +12,9 @@ public class LocalAuthorityStatisticalNeighbourQuery() : PlatformQuery(Sql)
     private const string Sql = "SELECT * FROM VW_LocalAuthorityStatisticalNeighbours /**where**/";
 }
 
-public class LocalAuthorityCurrentFinancialQuery : PlatformQuery
+public class LocalAuthorityFinancialDefaultCurrentQuery : PlatformQuery
 {
-    public LocalAuthorityCurrentFinancialQuery(string dimension, string[] fields) : base(GetSql(dimension, fields))
+    public LocalAuthorityFinancialDefaultCurrentQuery(string dimension, string[] fields) : base(GetSql(dimension, fields))
     {
         foreach (var field in fields)
         {
@@ -29,6 +29,28 @@ public class LocalAuthorityCurrentFinancialQuery : PlatformQuery
         {
             Dimensions.HighNeeds.Actuals => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentActual /**where**/",
             Dimensions.HighNeeds.PerHead => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+}
+
+public class LocalAuthorityFinancialDefaultQuery : PlatformQuery
+{
+    public LocalAuthorityFinancialDefaultQuery(string dimension, string[] fields) : base(GetSql(dimension, fields))
+    {
+        foreach (var field in fields)
+        {
+            Select(field);
+        }
+    }
+
+    private static string GetSql(string dimension, string[] fields)
+    {
+        var select = fields.Length == 0 ? "*" : "/**select**/";
+        return dimension switch
+        {
+            Dimensions.HighNeeds.Actuals => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultActual /**where**/",
+            Dimensions.HighNeeds.PerHead => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultPerPopulation /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

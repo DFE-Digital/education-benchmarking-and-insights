@@ -13,7 +13,7 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
 {
     public async Task<IViewComponentResult> InvokeAsync(string identifier, CancellationToken cancellationToken = default)
     {
-        var query = BuildQuery(identifier);
+        var query = BuildQuery(identifier, "Actuals");
         var history = await localAuthoritiesApi
             .GetHighNeedsHistory(query, cancellationToken)
             .GetResultOrDefault<HighNeedsHistory<HighNeedsYear>>();
@@ -27,10 +27,11 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
         return View("MissingData");
     }
 
-    private static ApiQuery BuildQuery(string code)
+    private static ApiQuery BuildQuery(string code, string dimension)
     {
         var query = new ApiQuery()
-            .AddIfNotNull(nameof(code), code);
+            .AddIfNotNull(nameof(code), code)
+            .AddIfNotNull("dimension", dimension);
 
         return query;
     }

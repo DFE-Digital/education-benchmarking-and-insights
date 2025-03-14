@@ -59,7 +59,7 @@ public class HighNeedsProxyController(
     {
         try
         {
-            var query = BuildQuery([code]);
+            var query = BuildQuery([code], "PerHead");
             var history = await localAuthoritiesApi
                 .GetHighNeedsHistory(query, cancellationToken)
                 .GetResultOrThrow<HighNeedsHistory<HighNeedsYear>>();
@@ -73,7 +73,7 @@ public class HighNeedsProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(string[] codes, string? dimension = null)
+    private static ApiQuery BuildQuery(string[] codes, string dimension)
     {
         var query = new ApiQuery();
         foreach (var c in codes)

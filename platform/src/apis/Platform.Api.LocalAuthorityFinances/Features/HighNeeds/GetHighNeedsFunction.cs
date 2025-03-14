@@ -10,7 +10,6 @@ using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 using Platform.Api.LocalAuthorityFinances.OpenApi.Examples;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;

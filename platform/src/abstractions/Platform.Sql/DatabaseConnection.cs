@@ -71,7 +71,7 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
         connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
 
-    public Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn) =>
+    public Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
         connection.QueryAsync(query.QueryTemplate.RawSql, types, map, query.QueryTemplate.Parameters, splitOn: string.Join(", ", splitOn));
 
     public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
@@ -127,7 +127,7 @@ public interface IDatabaseConnection : IDbConnection
     /// <inheritdoc
     ///     cref="Dapper.SqlMapper.QueryAsync&lt;TReturn&gt;(IDbConnection, string, Type[], Func&lt;object[], TReturn&gt;, object?, IDbTransaction?, bool, string, int?, CommandType?)" />
     /// <remarks>No <see cref="CancellationToken" /> support (see https://github.com/DapperLib/Dapper/issues/2125).</remarks>
-    Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn);
+    Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
 
     /// <inheritdoc cref="Dapper.SqlMapper.QueryFirstOrDefaultAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
