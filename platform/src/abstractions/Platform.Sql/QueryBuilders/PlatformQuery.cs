@@ -83,6 +83,15 @@ public abstract class PlatformQuery : SqlBuilder
         return this;
     }
 
+    public PlatformQuery WhereLaCodesIn(string[] laCodes)
+    {
+        const string sql = "LaCode IN @LaCodes";
+        var parameters = new { LaCodes = laCodes };
+
+        Where(sql, parameters);
+        return this;
+    }
+
     public PlatformQuery WhereCodeEqual(string code)
     {
         const string sql = "Code = @Code";

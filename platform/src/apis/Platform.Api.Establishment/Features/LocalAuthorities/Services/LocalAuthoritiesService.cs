@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Platform.Api.Establishment.Features.LocalAuthorities.Models;
 using Platform.Api.Establishment.Features.LocalAuthorities.Requests;
 using Platform.Domain;
