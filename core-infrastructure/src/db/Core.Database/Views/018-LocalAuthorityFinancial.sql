@@ -96,7 +96,7 @@ AS
         IIF(Population2To18 > 0.0, OutturnPlaceFundingPrimary / Population2To18, NULL) AS OutturnPlaceFundingPrimary,
         IIF(Population2To18 > 0.0, OutturnPlaceFundingSecondary / Population2To18, NULL) AS OutturnPlaceFundingSecondary,
         IIF(Population2To18 > 0.0, OutturnPlaceFundingSpecial / Population2To18, NULL) AS OutturnPlaceFundingSpecial,
-        IIF(Population2To18 > 0.0, OutturnPlaceFundingAlternativeProvision / Population2To18, NULL) AS TotalExOutturnPlaceFundingAlternativeProvisionpenditure,
+        IIF(Population2To18 > 0.0, OutturnPlaceFundingAlternativeProvision / Population2To18, NULL) AS OutturnPlaceFundingAlternativeProvision,
         IIF(Population2To18 > 0.0, BudgetTotalHighNeeds / Population2To18, NULL) AS BudgetTotalHighNeeds,
         IIF(Population2To18 > 0.0, BudgetTotalPlaceFunding / Population2To18, NULL) AS BudgetTotalPlaceFunding,
         IIF(Population2To18 > 0.0, BudgetTotalTopUpFundingMaintained / Population2To18, NULL) AS BudgetTotalTopUpFundingMaintained,

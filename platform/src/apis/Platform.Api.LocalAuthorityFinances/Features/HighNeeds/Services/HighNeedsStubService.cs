@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
@@ -12,10 +13,7 @@ namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class HighNeedsStubService : IHighNeedsService
 {
-    public virtual Task<LocalAuthority<Models.HighNeeds>[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default)
-    {
-        return Task.FromResult(codes.Select(c => GetLocalAuthority(c, dimension)).ToArray());
-    }
+    public virtual Task<LocalAuthority<Models.HighNeeds>[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     public virtual Task<History<HighNeedsYear>?> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
@@ -92,21 +90,4 @@ public class HighNeedsStubService : IHighNeedsService
             AlternativeProvision = baseValue + 25 + year
         }
     };
-
-    private static LocalAuthority<Models.HighNeeds> GetLocalAuthority(string code, string dimension)
-    {
-        if (!int.TryParse(code, out var baseValue))
-        {
-            baseValue = code.Length;
-        }
-
-        var baseMultiplier = dimension == "Actuals" ? 1_000 : 1;
-        return new LocalAuthority<Models.HighNeeds>
-        {
-            Code = code,
-            Name = $"Local authority {code}",
-            Budget = GetStubbedRow(code, 2024, 1_100 * baseMultiplier + baseValue, 1_110 * baseMultiplier + baseValue % 2),
-            Outturn = GetStubbedRow(code, 2024, 1_000 * baseMultiplier + baseValue, 1_010 * baseMultiplier + baseValue % 2)
-        };
-    }
 }

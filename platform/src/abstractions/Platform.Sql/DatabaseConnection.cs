@@ -126,7 +126,7 @@ public interface IDatabaseConnection : IDbConnection
 
     /// <inheritdoc
     ///     cref="Dapper.SqlMapper.QueryAsync&lt;TReturn&gt;(IDbConnection, string, Type[], Func&lt;object[], TReturn&gt;, object?, IDbTransaction?, bool, string, int?, CommandType?)" />
-    /// <remarks>ℹ No <see cref="CancellationToken" /> support (see https://github.com/DapperLib/Dapper/issues/2125).</remarks>
+    /// <remarks>No <see cref="CancellationToken" /> support (see https://github.com/DapperLib/Dapper/issues/2125).</remarks>
     Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn);
 
     /// <inheritdoc cref="Dapper.SqlMapper.QueryFirstOrDefaultAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
