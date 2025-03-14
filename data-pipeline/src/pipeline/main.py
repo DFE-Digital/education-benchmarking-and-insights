@@ -603,12 +603,21 @@ def pre_process_local_authorities(
         f"default/{year}/2018 SNPP Population persons.csv",
     )
 
+    logger.info(
+        f"Reading LA SEN2 ECHP plan data: default/{year}/sen2_estab_caseload.csv"
+    )
+    la_sen2_data = get_blob(
+        raw_container,
+        f"default/{year}/sen2_estab_caseload.csv",
+    )
+
     logger.info("Processing Local Authority data.")
     local_authorities = build_local_authorities(
         la_expenditure_data,
         la_outturn_data,
         la_statistical_neighbours_data,
         la_ons_data,
+        la_sen2_data,
         year,
     )
 
