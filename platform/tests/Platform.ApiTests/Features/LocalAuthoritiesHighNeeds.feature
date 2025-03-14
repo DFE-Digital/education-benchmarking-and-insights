@@ -1,6 +1,7 @@
 Feature: Local authorities high needs endpoints
 # todo: replace stubbed values with real
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs history request returns the expected outturn values
         Given a valid high needs history request with LA codes:
           | Code |
@@ -63,6 +64,7 @@ Feature: Local authorities high needs endpoints
           | Special              | 1002045 |
           | AlternativeProvision | 1002046 |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs history request returns the expected budget values
         Given a valid high needs history request with LA codes:
           | Code |
@@ -125,11 +127,13 @@ Feature: Local authorities high needs endpoints
           | Special              | 1102045 |
           | AlternativeProvision | 1102046 |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid high needs history request
         Given an invalid high needs history request
         When I submit the high needs request
         Then the high needs history result should be bad request
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs request with Actuals dimension returns the expected outturn values
         Given a valid high needs request with dimension 'Actuals' and LA codes:
           | Code |
@@ -192,6 +196,7 @@ Feature: Local authorities high needs endpoints
           | Special              | 1002249 |
           | AlternativeProvision | 1002250 |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs request with Actuals dimension returns the expected budget values
         Given a valid high needs request with dimension 'Actuals' and LA codes:
           | Code |
@@ -254,6 +259,7 @@ Feature: Local authorities high needs endpoints
           | Special              | 1102249 |
           | AlternativeProvision | 1102250 |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs request with PerHead dimension returns the expected outturn values
         Given a valid high needs request with dimension 'PerHead' and LA codes:
           | Code |
@@ -316,6 +322,7 @@ Feature: Local authorities high needs endpoints
           | Special              | 3249  |
           | AlternativeProvision | 3250  |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid high needs request with PerHead dimension returns the expected budget values
         Given a valid high needs request with dimension 'PerHead' and LA codes:
           | Code |
@@ -378,6 +385,7 @@ Feature: Local authorities high needs endpoints
           | Special              | 3349  |
           | AlternativeProvision | 3350  |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid high needs request
         Given an invalid high needs request
         When I submit the high needs request
