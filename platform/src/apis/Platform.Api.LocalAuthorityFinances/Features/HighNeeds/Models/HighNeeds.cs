@@ -2,11 +2,15 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 
-public record HighNeeds
+public record HighNeeds : HighNeedsBase
+{
+    public HighNeedsAmount? HighNeedsAmount { get; set; }
+    public TopFunding? Maintained { get; set; }
+    public TopFunding? NonMaintained { get; set; }
+    public PlaceFunding? PlaceFunding { get; set; }
+}
+
+public record HighNeedsBase
 {
     public decimal? Total { get; set; }
-    public HighNeedsAmount HighNeedsAmount { get; set; } = new();
-    public TopFunding Maintained { get; set; } = new();
-    public TopFunding NonMaintained { get; set; } = new();
-    public PlaceFunding PlaceFunding { get; set; } = new();
 }

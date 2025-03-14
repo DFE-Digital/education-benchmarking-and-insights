@@ -138,6 +138,22 @@ public class PlatformQueryTests
     }
 
     [Fact]
+    public void ShouldAddLaCodeInParameter()
+    {
+        const string expectedParam = "LaCodes";
+        var expectedValue = new[] { "12345", "12346" };
+        var expectedSql = BuildExpectedQuery("WHERE LaCode IN @LaCodes");
+
+        var builder = new MockPlatformQuery().WhereLaCodesIn(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
     public void ShouldAddOverallPhaseEqualParameter()
     {
         const string expectedParam = "Phase";

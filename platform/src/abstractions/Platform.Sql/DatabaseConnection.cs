@@ -53,6 +53,27 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<IEnumerable<T>> QueryAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default)
         => connection.QueryAsync<T>(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken));
 
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+        connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
+
+    public Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn) =>
+        connection.QueryAsync(query.QueryTemplate.RawSql, types, map, query.QueryTemplate.Parameters, splitOn: string.Join(", ", splitOn));
+
     public Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         => connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(sql, param, cancellationToken: cancellationToken));
 
@@ -73,58 +94,54 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
 
 public interface IDatabaseConnection : IDbConnection
 {
-    /// <summary>
-    ///     Execute a query asynchronously using Task.
-    /// </summary>
-    /// <typeparam name="T">The type of results to return.</typeparam>
-    /// <param name="sql">The SQL to execute for the query.</param>
-    /// <param name="param">The parameters to pass, if any.</param>
-    /// <param name="cancellationToken">The cancellation token for this command.</param>
-    /// <returns>
-    ///     A sequence of data of <typeparamref name="T" />; if a basic type (int, string, etc) is queried then the data from
-    ///     the first column in assumed, otherwise an instance is
-    ///     created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
-    /// </returns>
+    /// <inheritdoc cref="Dapper.SqlMapper.QueryAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
+    /// <inheritdoc cref="Dapper.SqlMapper.QueryAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<IEnumerable<T>> QueryAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Execute a single-row query asynchronously using Task.
-    /// </summary>
-    /// <typeparam name="T">The type of result to return.</typeparam>
-    /// <param name="sql">The SQL to execute for the query.</param>
-    /// <param name="param">The parameters to pass, if any.</param>
-    /// <param name="cancellationToken">The cancellation token for this command.</param>
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TFourth,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TFourth,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TFourth,TFifth,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TFourth,TFifth,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn&gt;, string)" />
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc
+    ///     cref="Dapper.SqlMapper.QueryAsync&lt;TReturn&gt;(IDbConnection, string, Type[], Func&lt;object[], TReturn&gt;, object?, IDbTransaction?, bool, string, int?, CommandType?)" />
+    /// <remarks>ℹ No <see cref="CancellationToken" /> support (see https://github.com/DapperLib/Dapper/issues/2125).</remarks>
+    Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn);
+
+    /// <inheritdoc cref="Dapper.SqlMapper.QueryFirstOrDefaultAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
+    /// <inheritdoc cref="Dapper.SqlMapper.QueryFirstOrDefaultAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<T?> QueryFirstOrDefaultAsync<T>(PlatformQuery query, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Execute a command asynchronously using Task.
-    /// </summary>
-    /// <param name="sql">The SQL to execute for this query.</param>
-    /// <param name="param">The parameters to use for this query.</param>
-    /// <param name="transaction">The transaction to use for this query.</param>
-    /// <param name="cancellationToken">The cancellation token for this command.</param>
-    /// <returns>The number of rows affected.</returns>
+    /// <inheritdoc cref="Dapper.SqlMapper.ExecuteAsync(IDbConnection, CommandDefinition)" />
     Task<int> ExecuteAsync(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Execute a single-row query asynchronously using Task.
-    /// </summary>
-    /// <typeparam name="T">The type of result to return.</typeparam>
-    /// <param name="sql">The SQL to execute for the query.</param>
-    /// <param name="param">The parameters to pass, if any.</param>
-    /// <param name="cancellationToken">The cancellation token for this command.</param>
+    /// <inheritdoc cref="Dapper.SqlMapper.QueryFirstAsync&lt;T&gt;(IDbConnection, CommandDefinition)" />
     Task<T> QueryFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Inserts an entity into table "Ts" asynchronously using Task and returns identity id.
-    /// </summary>
-    /// <typeparam name="T">The type being inserted.</typeparam>
-    /// <param name="entityToInsert">Entity to insert</param>
-    /// <param name="transaction">The transaction to run under, null (the default) if none</param>
-    /// <returns>Identity of inserted entity</returns>
+    /// <inheritdoc
+    ///     cref="Dapper.Contrib.Extensions.SqlMapperExtensions.InsertAsync&lt;T&gt;(IDbConnection, T, IDbTransaction, int?, ISqlAdapter)" />
     Task<int> InsertAsync<T>(T entityToInsert, IDbTransaction? transaction = null) where T : class;
 }
