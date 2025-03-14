@@ -15,8 +15,16 @@ public class LocalAuthorityQueryTests
     private static LocalAuthorityQuery Create() => new();
 }
 
-public class LocalAuthorityCurrentFinancialQueryTests
+public class LocalAuthorityFinancialDefaultCurrentQueryTests
 {
+    public static TheoryData<string, string[], string> Data => new()
+    {
+        { "Actuals", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultCurrentActual " },
+        { "Actuals", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultCurrentActual " },
+        { "PerHead", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation " },
+        { "PerHead", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation " }
+    };
+
     [Theory]
     [MemberData(nameof(Data))]
     public void ShouldReturnSql(string dimension, string[] fields, string expected)
@@ -31,13 +39,32 @@ public class LocalAuthorityCurrentFinancialQueryTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Create("dimension", []));
     }
 
+    private static LocalAuthorityFinancialDefaultCurrentQuery Create(string dimension, string[] fields) => new(dimension, fields);
+}
+
+public class LocalAuthorityFinancialDefaultQueryTests
+{
     public static TheoryData<string, string[], string> Data => new()
     {
-        { "Actuals", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultCurrentActual " },
-        { "Actuals", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultCurrentActual " },
-        { "PerHead", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation " },
-        { "PerHead", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation " },
+        { "Actuals", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultActual " },
+        { "Actuals", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultActual " },
+        { "PerHead", [], "SELECT * FROM VW_LocalAuthorityFinancialDefaultPerPopulation " },
+        { "PerHead", ["field1", "field2"], "SELECT field1 , field2\n FROM VW_LocalAuthorityFinancialDefaultPerPopulation " }
     };
 
-    private static LocalAuthorityCurrentFinancialQuery Create(string dimension, string[] fields) => new(dimension, fields);
+    [Theory]
+    [MemberData(nameof(Data))]
+    public void ShouldReturnSql(string dimension, string[] fields, string expected)
+    {
+        var builder = Create(dimension, fields);
+        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldThrowArgumentOutOfRangeException()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => Create("dimension", []));
+    }
+
+    private static LocalAuthorityFinancialDefaultQuery Create(string dimension, string[] fields) => new(dimension, fields);
 }

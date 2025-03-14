@@ -7,3 +7,9 @@ public record HighNeedsYear : HighNeeds
     public string? Code { get; set; }
     public int? Year { get; set; }
 }
+
+public record HighNeedsYearBase
+{
+    public string? Code { get; set; }
+    public string? RunId { get; set; }
+}

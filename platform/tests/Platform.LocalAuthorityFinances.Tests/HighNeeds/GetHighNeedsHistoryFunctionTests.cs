@@ -8,6 +8,7 @@ using Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Parameters;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -18,6 +19,7 @@ namespace Platform.LocalAuthorityFinances.Tests.HighNeeds;
 public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
+    private const string Dimension = Dimensions.HighNeeds.PerHead;
     private readonly Fixture _fixture;
     private readonly GetHighNeedsHistoryFunction _function;
     private readonly Mock<IHighNeedsService> _service;
@@ -40,12 +42,13 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetHistory(new[] { Code }, It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetHistory(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var query = new Dictionary<string, StringValues>
         {
-            { "code", Code }
+            { "code", Code },
+            { "dimension", Dimension }
         };
 
         var result = await _function.RunAsync(CreateHttpRequestData(query), CancellationToken.None);
@@ -67,7 +70,7 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((History<HighNeedsYear>?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), CancellationToken.None);
@@ -96,6 +99,6 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(HighNeedsParameters.Codes));
 
         _service
-            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }
