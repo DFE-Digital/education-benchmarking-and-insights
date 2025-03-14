@@ -56,6 +56,7 @@ Feature: Establishment local authorities endpoints
 
       # todo: replace stubbed values with real
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities national rank request
         Given a valid local authorities national rank request with sort order 'asc'
         When I submit the local authorities request
@@ -217,6 +218,7 @@ Feature: Establishment local authorities endpoints
           | 203  | Local authority 203 | 80.3722975665  | 154  |
           | 200  | Local authority 200 | 113.3032983918 | 155  |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities statistical neighbours request
         Given a valid local authorities statistical neighbours request with id '201'
         When I submit the local authorities request

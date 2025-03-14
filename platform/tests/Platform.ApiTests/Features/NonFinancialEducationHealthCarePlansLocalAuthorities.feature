@@ -3,6 +3,7 @@
 # TODO: these tests use stubbed data see EducationHealthCarePlansStubService
 # replace with real data once implemented
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid education health care plans history request returns the correct values
         Given an education health care plans history request with LA codes:
           | Code |
@@ -32,11 +33,13 @@
           | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
           | 201  | Local authority 201 | 47    | 25         | 5         | 6       | 5           | 0        | 5      | 1     |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans history request with no la codes returns a validation error
         Given an education health care plans history request with no codes
         When I submit the education health care plans request
         Then the education health care plans history result should be bad request
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans history request with >10 la codes returns a validation error
         Given an education health care plans history request with LA codes:
           | Code |
@@ -54,6 +57,7 @@
         When I submit the education health care plans request
         Then the education health care plans history result should be bad request
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid education health care plans request with Actuals dimension returns the correct values
         Given an education health care plans request with dimension 'Actuals' and LA codes:
           | Code |
@@ -67,6 +71,7 @@
           | 202  | Local authority 202 | 54000 | 27000      | 7000      | 1000    | 7000        | 2000     | 7000   | 3000  |
           | 203  | Local authority 203 | 68000 | 29000      | 9000      | 3000    | 9000        | 4000     | 9000   | 5000  |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending a valid education health care plans request with Per1000 dimension returns the correct values
         Given an education health care plans request with dimension 'Per1000' and LA codes:
           | Code |
@@ -80,11 +85,13 @@
           | 202  | Local authority 202 | 54    | 27         | 7         | 1       | 7           | 2        | 7      | 3     |
           | 203  | Local authority 203 | 68    | 29         | 9         | 3       | 9           | 4        | 9      | 5     |
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans request with no la codes returns a validation error
         Given an education health care plans request with no codes
         When I submit the education health care plans request
         Then the education health care plans result should be bad request
 
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans request with default dimension and >10 la codes returns a validation error
         Given an education health care plans request with dimension '' and LA codes:
           | Code |

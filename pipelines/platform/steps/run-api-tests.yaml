@@ -33,3 +33,4 @@ steps:
     inputs:
       command: test
       projects: '${{ parameters.workspaceDir }}/tests/Platform.ApiTests/Platform.ApiTests.dll'
+      arguments: --filter Category!=HighNeedsFlagEnabled
