@@ -94,6 +94,31 @@ public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQueryTests
     private static LocalAuthorityEducationHealthCarePlansDefaultCurrentQuery Create(string dimension) => new(dimension);
 }
 
+public class LocalAuthorityEducationHealthCarePlansDefaultQueryTests
+{
+    public static TheoryData<string, string> Data => new()
+    {
+        { "Actuals", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultActual " },
+        { "Per1000", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation " },
+    };
+
+    [Theory]
+    [MemberData(nameof(Data))]
+    public void ShouldReturnSql(string dimension, string expected)
+    {
+        var builder = Create(dimension);
+        Assert.Equal(expected, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldThrowArgumentOutOfRangeException()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => Create("dimension"));
+    }
+
+    private static LocalAuthorityEducationHealthCarePlansDefaultQuery Create(string dimension) => new(dimension);
+}
+
 public class LocalAuthorityFinancialDefaultCurrentRankingQueryTests
 {
     public static TheoryData<string, string, string> Data => new()

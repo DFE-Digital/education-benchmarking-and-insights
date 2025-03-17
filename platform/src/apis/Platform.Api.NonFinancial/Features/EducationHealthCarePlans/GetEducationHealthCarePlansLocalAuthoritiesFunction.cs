@@ -10,7 +10,6 @@ using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 using Platform.Api.NonFinancial.OpenApi.Examples;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;

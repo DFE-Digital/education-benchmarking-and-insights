@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Api.LocalAuthorityFinances.Shared;
+namespace Platform.Api.NonFinancial.Shared;
 
 [ExcludeFromCodeCoverage]
 public record YearsModel

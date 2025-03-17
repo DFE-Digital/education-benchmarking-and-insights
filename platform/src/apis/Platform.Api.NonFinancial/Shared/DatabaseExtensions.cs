@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
-namespace Platform.Api.LocalAuthorityFinances.Shared;
+namespace Platform.Api.NonFinancial.Shared;
 
 [ExcludeFromCodeCoverage]
 public static class DatabaseExtensions
