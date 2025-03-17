@@ -30,7 +30,7 @@ public class WhenLocalAuthorityRankingServiceQueriesAsync
     {
         // arrange
         const string ranking = Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget;
-        string? sort = null;
+        const string sort = Ranking.Sort.Asc;
         var results = _fixture.Build<LocalAuthorityRank>().CreateMany().ToArray();
         string? actualSql = null;
 
@@ -47,6 +47,6 @@ public class WhenLocalAuthorityRankingServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual.Ranking);
-        Assert.Equal("SELECT * FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget", actualSql);
+        Assert.Equal("SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget", actualSql);
     }
 }

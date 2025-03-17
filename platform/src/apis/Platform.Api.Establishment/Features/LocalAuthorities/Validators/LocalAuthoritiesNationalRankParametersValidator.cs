@@ -11,12 +11,9 @@ public class LocalAuthoritiesNationalRankParametersValidator : AbstractValidator
         RuleFor(x => x.Ranking)
             .Must(BeAValidRanking)
             .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget)}");
-        When(x => !string.IsNullOrWhiteSpace(x.Sort), () =>
-        {
-            RuleFor(x => x.Sort)
-                .Must(BeAValidSort!)
-                .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Ranking.Sort.All)}");
-        });
+        RuleFor(x => x.Sort)
+            .Must(BeAValidSort!)
+            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Ranking.Sort.All)}");
     }
 
     private static bool BeAValidRanking(string ranking) => Ranking.LocalAuthorityNationalRanking.IsValid(ranking);

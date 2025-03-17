@@ -7,7 +7,7 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Parameters;
 public record LocalAuthoritiesNationalRankParameters : QueryParameters
 {
     public string Ranking { get; private set; } = Domain.Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget;
-    public string? Sort { get; private set; }
+    public string Sort { get; private set; } = Domain.Ranking.Sort.Asc;
 
     public override void SetValues(NameValueCollection query)
     {

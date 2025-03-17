@@ -71,25 +71,21 @@ public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQuery(string di
 
 public class LocalAuthorityFinancialDefaultCurrentRankingQuery : PlatformQuery
 {
-    public LocalAuthorityFinancialDefaultCurrentRankingQuery(string ranking, string? sort = null) : base(GetSql(ranking, sort))
+    public LocalAuthorityFinancialDefaultCurrentRankingQuery(string ranking, string sort) : base(GetSql(ranking))
     {
-        if (!Ranking.Sort.IsValid(sort))
-        {
-            return;
-        }
-
-        Select("Code");
+        Select("LaCode AS Code");
         Select("Name");
         Select("Value");
-        Select($"RANK() OVER (ORDER BY Value {sort}) AS [Rank]");
+        Select(sort.Equals(Ranking.Sort.Desc, StringComparison.OrdinalIgnoreCase)
+            ? "RANK() OVER (ORDER BY Value DESC) AS [Rank]"
+            : "RANK() OVER (ORDER BY Value) AS [Rank]");
     }
 
-    private static string GetSql(string ranking, string? sort = null)
+    private static string GetSql(string ranking)
     {
-        var select = Ranking.Sort.IsValid(sort) ? "/**select**/" : "*";
         return ranking switch
         {
-            Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget /**where**/",
+            Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget => "SELECT /**select**/ FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(ranking), "Unknown ranking")
         };
     }

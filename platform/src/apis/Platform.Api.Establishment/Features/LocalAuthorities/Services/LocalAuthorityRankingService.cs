@@ -9,12 +9,12 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
 public interface ILocalAuthorityRankingService
 {
-    Task<LocalAuthorityRanking> GetRanking(string ranking, string? sort, CancellationToken token = default);
+    Task<LocalAuthorityRanking> GetRanking(string ranking, string sort, CancellationToken token = default);
 }
 
 public class LocalAuthorityRankingService(IDatabaseFactory dbFactory) : ILocalAuthorityRankingService
 {
-    public async Task<LocalAuthorityRanking> GetRanking(string ranking, string? sort, CancellationToken token)
+    public async Task<LocalAuthorityRanking> GetRanking(string ranking, string sort, CancellationToken token)
     {
         var laBuilder = new LocalAuthorityFinancialDefaultCurrentRankingQuery(ranking, sort);
 
