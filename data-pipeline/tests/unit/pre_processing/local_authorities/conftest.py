@@ -234,7 +234,11 @@ def la_statistical_neighbours() -> io.StringIO:
 
     test_data_df = pd.DataFrame(data, columns=columns)
 
-    return io.StringIO(test_data_df.to_csv())
+    buffer = io.BytesIO()
+    test_data_df.to_excel(buffer, sheet_name="SNsWithNewDorsetBCP")
+    buffer.seek(0)
+
+    return buffer
 
 
 @pytest.fixture

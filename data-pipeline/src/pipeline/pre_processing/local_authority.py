@@ -276,8 +276,10 @@ def _prepare_la_statistical_neighbours(
     :return: Local Authority statistical neighbours data
     """
     logger.info("Processing Local Authority statistical neighbours data.")
-    df = pd.read_csv(
+    df = pd.read_excel(
         filepath_or_buffer,
+        engine="calamine",
+        sheet_name="SNsWithNewDorsetBCP",
         index_col=input_schemas.la_statistical_neighbours_index_col,
         dtype=input_schemas.la_statistical_neighbours.get(
             year, input_schemas.la_statistical_neighbours["default"]
