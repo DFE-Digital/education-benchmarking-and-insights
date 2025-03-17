@@ -486,3 +486,122 @@ la_ons_population = {
         "AGE_GROUP": "string",
     }
 }
+
+la_sen2_index_column = ["new_la_code", "old_la_code"]
+la_sen2 = {
+    "default": {
+        "time_period": "string",
+        # "time_identifier": "string",
+        # "geographic_level": "string",
+        # "country_code": "string",
+        # "country_name": "string",
+        # "region_code": "string",
+        # "region_name": "string",
+        "new_la_code": "string",
+        "old_la_code": "Int64",
+        # "la_name": "string",
+        "establishment_group": "string",
+        "establishment_type": "string",
+        "ehcp_or_statement": "string",
+        "num_caseload": "Int64",
+        # "pc_caseload": "float",
+    },
+}
+la_sen2_na_values = {
+    "default": {
+        "num_caseload": ["x", "z"],
+        "pc_caseload": ["x", "z"],
+    }
+}
+la_sen2_pivot = {
+    "default": {
+        "index": [
+            "new_la_code",
+            "old_la_code",
+        ],
+        "columns": [
+            "establishment_group",
+            "establishment_type",
+        ],
+        "values": [
+            "num_caseload",
+        ],
+    }
+}
+la_sen2_eval = {
+    "default": {
+        "EHCPTotal": "`Total__Total`",
+        "EHCPMainstream": (
+            "`Mainstream school__Mainstream - LA maintained` + "
+            "`Mainstream school__Mainstream - Free school` + "
+            "`Mainstream school__Mainstream - Academy`"
+        ),
+        "EHCPResourced": (
+            "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
+            "`Mainstream school__Mainstream - Academy - SEN unit` + "
+            "`Mainstream school__Mainstream - Free school - Resourced provision` + "
+            "`Mainstream school__Mainstream - Free school - SEN unit` + "
+            "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
+            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
+            "`Mainstream school__Total`"
+        ),
+        "EHCPSpecial": (
+            "`Special school__Special - LA maintained` + "
+            "`Special school__Special - Academy/free`"
+        ),
+        "EHCPIndependent": (
+            "`Mainstream school__Mainstream - Independent` + "
+            "`Special school__Special - Independent` + "
+            "`Special school__Special - Non-maintained`"
+        ),
+        "EHCPHospital": (
+            "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained` + "
+            "`Special school__Hospital School`"
+        ),
+        "EHCPPost16": (
+            "`Further education__General FE and tertiary colleges/HE` + "
+            "`Further education__Independent specialist providers` + "
+            "`Further education__Other FE` + "
+            "`Further education__Sixth form college`"
+        ),
+        "EHCPOther": (
+            "`Alternative provision/Pupil referral unit__Total` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - total` + "
+            "`Educated elsewhere__Elective home education` + "
+            "`Educated elsewhere__Not in education or training - notice to cease issued` + "
+            "`Educated elsewhere__Not in education or training - other` + "
+            "`Educated elsewhere__Not in education or training - other - compulsory school age` + "
+            "`Educated elsewhere__Other arrangements by local authority` + "
+            "`Educated elsewhere__Other arrangements by parents` + "
+            "`Educated elsewhere__Permanently excluded` + "
+            "`Educated elsewhere__Total` + "
+            "`Further education__Specialist post-16 institutions` + "
+            "`Further education__Total` + "
+            "`Further education__UKRLP provider` + "
+            "`NEET__NEET` + "
+            "`NEET__Total` + "
+            "`Non-maintained early years__Non-maintained early years` + "
+            "`Non-maintained early years__Total` + "
+            "`Other__Other` + "
+            "`Other__Total` + "
+            "`Special school__Special - Academy` + "
+            "`Special school__Special - Free school` + "
+            "`Special school__Total` + "
+            "`Unknown__Apprenticeship` + "
+            "`Unknown__Supported Internship` + "
+            "`Unknown__Total` + "
+            "`Unknown__Traineeship` + "
+            "`Unknown__Unknown` + "
+            "`Unknown__Work-based learning`"
+        ),
+    }
+}
+la_sen2_columns = {k: list(v.keys()) for k, v in la_sen2_eval.items()}

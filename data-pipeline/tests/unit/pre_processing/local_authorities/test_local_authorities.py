@@ -10,6 +10,7 @@ def test_local_authorities(
     la_outturn: pd.DataFrame,
     la_statistical_neighbours: io.StringIO,
     la_ons: pd.DataFrame,
+    la_sen2: pd.DataFrame,
 ):
     year = 2024
 
@@ -18,6 +19,7 @@ def test_local_authorities(
         io.StringIO(la_outturn.to_csv(encoding="cp1252")),
         la_statistical_neighbours,
         io.StringIO(la_ons.to_csv()),
+        io.StringIO(la_sen2.to_csv()),
         year,
     )
 
