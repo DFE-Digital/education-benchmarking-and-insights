@@ -61,7 +61,10 @@
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsNationalRankings", new
                 {
-                    identifier = Model.Code
+                    identifier = Model.Code,
+                    ranking = "SpendAsPercentageOfBudget",
+                    commentary = "The table shows your national ranking based on your spend as a percentage of your budget.",
+                    valueLabel = "Spend as percentage of budget"
                 })
             </div>
         </div>

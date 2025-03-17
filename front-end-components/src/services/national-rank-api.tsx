@@ -2,10 +2,16 @@ import { LocalAuthorityRanking } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class NationalRankApi {
-  static async get(sort?: "asc" | "desc"): Promise<LocalAuthorityRanking> {
+  static async get(
+    ranking: "SpendAsPercentageOfBudget",
+    sort?: "asc" | "desc"
+  ): Promise<LocalAuthorityRanking> {
+    const params: { ranking: string; sort?: string } = { ranking };
+    if (sort) {
+      params.sort = sort;
+    }
     const response = await fetch(
-      "/api/local-authorities/national-rank?" +
-        new URLSearchParams({ sort: sort as string }),
+      "/api/local-authorities/national-rank?" + new URLSearchParams(params),
       {
         redirect: "manual",
         method: "GET",

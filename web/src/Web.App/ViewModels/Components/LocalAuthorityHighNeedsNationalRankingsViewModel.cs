@@ -2,9 +2,11 @@ using Web.App.Domain;
 
 namespace Web.App.ViewModels.Components;
 
-public class LocalAuthorityHighNeedsNationalRankingsViewModel(string code, LocalAuthorityRanking? result, int count)
+public class LocalAuthorityHighNeedsNationalRankingsViewModel(string code, string? commentary, string? valueLabel, LocalAuthorityRanking? result, int count)
 {
     public string Code => code;
+    public string? Commentary => commentary;
+    public string? ValueLabel => valueLabel;
 
     public LocalAuthorityRank[] Closest
     {
