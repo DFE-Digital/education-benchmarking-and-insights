@@ -588,11 +588,11 @@ def pre_process_local_authorities(
     )
 
     logger.info(
-        f"Reading LA statistical neighbours: default/{year}/SNsWithNewDorsetBCP.csv"
+        f"Reading LA statistical neighbours: default/{year}/High-needs-local-authority-benchmarking-tool.xlsm"
     )
     la_statistical_neighbours_data = get_blob(
         raw_container,
-        f"default/{year}/SNsWithNewDorsetBCP.csv",
+        f"default/{year}/High-needs-local-authority-benchmarking-tool.xlsm",
     )
 
     logger.info(
