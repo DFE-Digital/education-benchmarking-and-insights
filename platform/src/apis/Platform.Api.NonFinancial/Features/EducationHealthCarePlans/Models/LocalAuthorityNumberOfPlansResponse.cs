@@ -1,12 +1,11 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
-
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
-public record LocalAuthorityNumberOfPlans
+public record LocalAuthorityNumberOfPlansResponse
 {
-    public string? LaCode { get; set; }
+    public string? Code { get; set; }
     public string? Name { get; set; }
     public decimal? Total { get; set; }
     public decimal? Mainstream { get; set; }

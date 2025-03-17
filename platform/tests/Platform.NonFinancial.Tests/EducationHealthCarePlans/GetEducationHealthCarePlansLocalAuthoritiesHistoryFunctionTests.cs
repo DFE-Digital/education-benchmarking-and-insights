@@ -35,7 +35,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        var model = _fixture.Build<History<LocalAuthorityNumberOfPlansYear>>().Create();
+        var model = _fixture.Build<History<LocalAuthorityNumberOfPlansYearResponse>>().Create();
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<EducationHealthCarePlansParameters>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
@@ -56,7 +56,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<History<LocalAuthorityNumberOfPlansYear>>();
+        var body = await result.ReadAsJsonAsync<History<LocalAuthorityNumberOfPlansYearResponse>>();
         Assert.NotNull(body);
         Assert.Equivalent(model, body);
     }

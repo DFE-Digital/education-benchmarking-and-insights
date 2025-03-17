@@ -37,7 +37,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
     public async Task ShouldReturn200OnValidRequest()
     {
         var models = _fixture
-            .Build<LocalAuthorityNumberOfPlans>()
+            .Build<LocalAuthorityNumberOfPlansResponse>()
             .CreateMany()
             .ToArray();
         _validator
@@ -60,7 +60,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<LocalAuthorityNumberOfPlans[]>();
+        var body = await result.ReadAsJsonAsync<LocalAuthorityNumberOfPlansResponse[]>();
         Assert.NotNull(body);
         Assert.Equivalent(models, body);
     }

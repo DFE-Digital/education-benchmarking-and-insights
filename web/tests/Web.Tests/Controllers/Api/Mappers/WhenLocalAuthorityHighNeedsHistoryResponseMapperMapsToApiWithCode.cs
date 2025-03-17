@@ -10,21 +10,31 @@ public class WhenLocalAuthorityHighNeedsHistoryResponseMapperMapsToApiWithCode :
     [Fact]
     public void ShouldMapToLocalAuthorityHighNeedsHistoryResponses()
     {
-        var actual = History.MapToApiResponse(Code).ToArray();
+        var result = History.MapToApiResponse(Code).ToArray();
 
-        Assert.Equal(EndYear - StartYear + 1, actual.Length);
+        Assert.Equal(EndYear - StartYear + 1, result.Length);
 
-        var startYearResponse = actual.FirstOrDefault();
-        Assert.NotNull(startYearResponse);
-        Assert.Equal("2020 to 2021", startYearResponse.Term);
-        AssertFieldsMapped(OutturnStartYear, startYearResponse.Outturn);
-        AssertFieldsMapped(BudgetStartYear, startYearResponse.Budget);
+        foreach (var actual in result)
+        {
+            Assert.NotNull(actual.Year);
+            Assert.Equal($"{actual.Year - 1} to {actual.Year}", actual.Term);
 
-        var endYearResponse = actual.LastOrDefault();
-        Assert.NotNull(endYearResponse);
-        Assert.Equal("2023 to 2024", endYearResponse.Term);
-        AssertFieldsMapped(OutturnEndYear, endYearResponse.Outturn);
-        AssertFieldsMapped(BudgetEndYear, endYearResponse.Budget);
+            switch (actual.Year)
+            {
+                case StartYear:
+                    AssertFieldsMapped(OutturnStartYear, actual.Outturn);
+                    AssertFieldsMapped(BudgetStartYear, actual.Budget);
+                    break;
+                case EndYear:
+                    AssertFieldsMapped(OutturnEndYear, actual.Outturn);
+                    AssertFieldsMapped(BudgetEndYear, actual.Budget);
+                    break;
+                default:
+                    Assert.Null(actual.Outturn);
+                    Assert.Null(actual.Budget);
+                    break;
+            }
+        }
     }
 
     private static void AssertFieldsMapped(HighNeedsYear expected, LocalAuthorityHighNeedsApiResponse? actual)

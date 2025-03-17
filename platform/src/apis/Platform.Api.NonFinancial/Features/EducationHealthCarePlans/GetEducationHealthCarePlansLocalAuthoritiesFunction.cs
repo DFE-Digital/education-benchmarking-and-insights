@@ -25,7 +25,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunction(
     [OpenApiOperation(nameof(GetEducationHealthCarePlansLocalAuthoritiesFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleEducationHealthCarePlansDimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityNumberOfPlans[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityNumberOfPlansResponse[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     public async Task<HttpResponseData> EducationHealthCarePlans(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req,

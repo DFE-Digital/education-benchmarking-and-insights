@@ -61,7 +61,7 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
     [Then("the education health care plans history result should have the following plan for '(.*)':")]
     public void ThenTheEducationHealthCarePlansHistoryResultShouldHaveTheFollowingPlanFor(int year, DataTable table)
     {
-        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.Year == year);
+        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.RunId == year.ToString());
 
         Assert.NotNull(actual);
         table.CompareToInstance(actual);

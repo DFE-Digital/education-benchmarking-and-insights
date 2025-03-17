@@ -3,7 +3,7 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
-public record LocalAuthorityNumberOfPlansYear : LocalAuthorityNumberOfPlans
+public record LocalAuthorityNumberOfPlansYearResponse : LocalAuthorityNumberOfPlansResponse
 {
-    public string? RunId { get; set; }
+    public int? Year { get; set; }
 }

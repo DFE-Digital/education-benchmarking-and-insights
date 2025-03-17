@@ -37,22 +37,28 @@ public static class EducationHealthCarePlansResponseMapper
 
             if (item == null)
             {
-                continue;
+                yield return new EducationHealthCarePlansHistoryResponse
+                {
+                    Year = year,
+                    Term = $"{year - 1} to {year}"
+                };
             }
-
-            yield return new EducationHealthCarePlansHistoryResponse
+            else
             {
-                Year = year,
-                Term = $"{year - 1} to {year}",
-                Total = item.Total,
-                Mainstream = item.Mainstream,
-                Resourced = item.Resourced,
-                Special = item.Special,
-                Independent = item.Independent,
-                Hospital = item.Hospital,
-                Post16 = item.Post16,
-                Other = item.Other
-            };
+                yield return new EducationHealthCarePlansHistoryResponse
+                {
+                    Year = year,
+                    Term = $"{year - 1} to {year}",
+                    Total = item.Total,
+                    Mainstream = item.Mainstream,
+                    Resourced = item.Resourced,
+                    Special = item.Special,
+                    Independent = item.Independent,
+                    Hospital = item.Hospital,
+                    Post16 = item.Post16,
+                    Other = item.Other
+                };
+            }
         }
     }
 }

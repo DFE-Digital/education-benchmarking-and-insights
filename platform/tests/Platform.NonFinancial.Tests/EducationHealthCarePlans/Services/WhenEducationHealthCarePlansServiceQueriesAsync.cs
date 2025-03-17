@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Moq;
+using Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 using Platform.Api.NonFinancial.Shared;
@@ -47,7 +48,7 @@ public class WhenEducationHealthCarePlansServiceQueriesAsync
         var actual = await _service.Get(codes, dimension, CancellationToken.None);
 
         // assert
-        Assert.Equal(results, actual);
+        Assert.Equal(results.Select(Mapper.MapToLocalAuthorityNumberOfPlansResponse), actual);
         Assert.Equal("SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPopulation WHERE LaCode IN @LaCodes", actualSql);
     }
 
@@ -79,7 +80,7 @@ public class WhenEducationHealthCarePlansServiceQueriesAsync
         // assert
         Assert.Equal(years.StartYear, actual?.StartYear);
         Assert.Equal(years.EndYear, actual?.EndYear);
-        Assert.Equal(results, actual?.Plans);
+        Assert.Equal(results.Select(Mapper.MapToLocalAuthorityNumberOfPlansYearResponse), actual?.Plans);
         Assert.Equal("SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation WHERE LaCode IN @LaCodes AND RunId BETWEEN @StartYear AND @EndYear", actualSql);
     }
 }
