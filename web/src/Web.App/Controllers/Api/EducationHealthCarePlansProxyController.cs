@@ -59,7 +59,7 @@ public class EducationHealthCarePlansProxyController(
     {
         try
         {
-            var query = BuildQuery([code]);
+            var query = BuildQuery([code], "Per1000");
             var history = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlansHistory(query, cancellationToken)
                 .GetResultOrThrow<EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>>();
@@ -73,7 +73,7 @@ public class EducationHealthCarePlansProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(string[] codes, string? dimension = null)
+    private static ApiQuery BuildQuery(string[] codes, string dimension)
     {
         var query = new ApiQuery();
         foreach (var c in codes)

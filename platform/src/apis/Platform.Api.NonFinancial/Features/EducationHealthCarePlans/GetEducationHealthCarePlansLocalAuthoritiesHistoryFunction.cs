@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
-using Platform.Functions;
-using Platform.Functions.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Parameters;
+using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 using Platform.Api.NonFinancial.OpenApi.Examples;
+using Platform.Functions;
+using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
@@ -28,7 +25,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction(
     [OpenApiOperation(nameof(GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction), Constants.Features.HighNeeds)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleEducationHealthCarePlansDimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<LocalAuthorityNumberOfPlansYear>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(History<LocalAuthorityNumberOfPlansYearResponse>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     public async Task<HttpResponseData> EducationHealthCarePlans(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthoritiesHistory)] HttpRequestData req,

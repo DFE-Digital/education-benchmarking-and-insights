@@ -30,7 +30,7 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         .With(o => o.Code, Code)
         .Create();
 
-    protected readonly HighNeedsHistory<HighNeedsYear> History = new HighNeedsHistory<HighNeedsYear>
+    protected readonly HighNeedsHistory<HighNeedsYear> History = new()
     {
         StartYear = StartYear,
         EndYear = EndYear,
