@@ -1,10 +1,13 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+using System.Text.Json.Serialization;
+
 namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
 
 public record LocalAuthorityNumberOfPlans
 {
-    public string? Code { get; set; }
+    [JsonPropertyName("code")]
+    public string? LaCode { get; set; }
     public string? Name { get; set; }
     public decimal? Total { get; set; }
     public decimal? Mainstream { get; set; }

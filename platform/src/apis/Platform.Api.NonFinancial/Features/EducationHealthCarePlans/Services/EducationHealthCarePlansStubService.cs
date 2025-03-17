@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
@@ -7,26 +8,10 @@ namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Services;
 
 public class EducationHealthCarePlansStubService : IEducationHealthCarePlansService
 {
+    public virtual Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     // TODO: remove and replace once db / data ingestion changes are in place to provide actual data
     // this generates stubbed data for usage in development prior to db updates
-    public Task<LocalAuthorityNumberOfPlans[]> Get(string[] codes, string dimension, CancellationToken cancellationToken = default)
-    {
-        const int year = 2024;
-        List<LocalAuthorityNumberOfPlans> plans = [];
-
-        for (var i = 0; i < codes.Length; i++)
-        {
-            var code = codes[i];
-
-            var parsedCode = int.TryParse(code, out var parsedValue) ? parsedValue : 200;
-            var baseNumber = parsedCode + i + year;
-            var yearData = GetStubbedYear(year, code, baseNumber, dimension);
-            plans.Add(yearData);
-        }
-
-        return Task.FromResult(plans.ToArray());
-    }
-
     public Task<History<LocalAuthorityNumberOfPlansYear>> GetHistory(string[] codes, CancellationToken cancellationToken = default)
     {
         const int startYear = 2020;
@@ -71,7 +56,7 @@ public class EducationHealthCarePlansStubService : IEducationHealthCarePlansServ
         return new LocalAuthorityNumberOfPlansYear
         {
             Year = year,
-            Code = code,
+            LaCode = code,
             Name = $"Local authority {code}",
             Mainstream = mainstream,
             Resourced = resourced,
