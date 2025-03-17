@@ -13,7 +13,7 @@ public static class EducationHealthCarePlansFeature
     public static IServiceCollection AddEducationHealthCarePlansFeature(this IServiceCollection serviceCollection)
     {
         serviceCollection
-            .AddSingleton<IEducationHealthCarePlansService, EducationHealthCarePlansStubService>();
+            .AddSingleton<IEducationHealthCarePlansService, EducationHealthCarePlansService>();
 
         serviceCollection
             .AddTransient<IValidator<EducationHealthCarePlansParameters>, EducationHealthCarePlansParametersValidator>()

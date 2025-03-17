@@ -55,3 +55,16 @@ public class LocalAuthorityFinancialDefaultQuery : PlatformQuery
         };
     }
 }
+
+public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQuery(string dimension) : PlatformQuery(GetSql(dimension))
+{
+    private static string GetSql(string dimension)
+    {
+        return dimension switch
+        {
+            Dimensions.EducationHealthCarePlans.Actuals => "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentActual /**where**/",
+            Dimensions.EducationHealthCarePlans.Per1000 => "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPopulation /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+}
