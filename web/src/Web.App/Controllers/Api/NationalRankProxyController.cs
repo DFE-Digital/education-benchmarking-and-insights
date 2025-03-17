@@ -13,17 +13,18 @@ public class NationalRankProxyController(
     ILogger<NationalRankProxyController> logger,
     IEstablishmentApi establishmentApi) : Controller
 {
+    /// <param name="ranking" example="SpendAsPercentageOfBudget"></param>
     /// <param name="sort" example="asc"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<LocalAuthorityRanking>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Query([FromQuery] string? sort, CancellationToken cancellationToken)
+    public async Task<IActionResult> Query([FromQuery] string ranking, [FromQuery] string? sort, CancellationToken cancellationToken)
     {
         try
         {
-            var query = BuildQuery(sort);
+            var query = BuildQuery(ranking, sort);
             var result = await establishmentApi
                 .GetLocalAuthoritiesNationalRank(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthorityRanking>();
@@ -37,9 +38,10 @@ public class NationalRankProxyController(
         }
     }
 
-    private static ApiQuery BuildQuery(string? sort)
+    private static ApiQuery BuildQuery(string ranking, string? sort)
     {
         var query = new ApiQuery()
+            .AddIfNotNull("ranking", ranking)
             .AddIfNotNull("sort", sort);
 
         return query;

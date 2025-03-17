@@ -13,27 +13,29 @@ public class WhenRequestingNationalRanking(SchoolBenchmarkingWebAppClient client
     [Fact]
     public async Task CanReturnCorrectResponse()
     {
-        var ranking = Fixture.Create<LocalAuthorityRanking>();
+        var ranks = Fixture.Create<LocalAuthorityRanking>();
+        const string ranking = nameof(ranking);
         const string sort = nameof(sort);
         var response = await client
-            .SetupLocalAuthoritiesNationalRank(ranking)
-            .Get(Paths.ApiNationalRank(sort));
+            .SetupLocalAuthoritiesNationalRank(ranks)
+            .Get(Paths.ApiNationalRank(ranking, sort));
 
         Assert.IsType<HttpResponseMessage>(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var resultContent = await response.Content.ReadAsStringAsync();
         var actual = JsonConvert.DeserializeObject<LocalAuthorityRanking>(resultContent);
-        Assert.Equivalent(ranking, actual);
+        Assert.Equivalent(ranks, actual);
     }
 
     [Fact]
     public async Task CanReturnInternalServerError()
     {
+        const string ranking = nameof(ranking);
         const string sort = nameof(sort);
         var response = await client
             .SetupEstablishmentWithException()
-            .Get(Paths.ApiNationalRank(sort));
+            .Get(Paths.ApiNationalRank(ranking, sort));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

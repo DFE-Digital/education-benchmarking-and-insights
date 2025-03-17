@@ -14,7 +14,7 @@ export const LaNationalRankChart: React.FC = () => {
   const [data, setData] = useState<LocalAuthorityRank[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await NationalRankApi.get("asc");
+    return await NationalRankApi.get("SpendAsPercentageOfBudget");
   }, []);
 
   useEffect(() => {

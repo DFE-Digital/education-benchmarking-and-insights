@@ -110,21 +110,21 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
     [MemberData(nameof(WhenClosestAreData))]
     public void ShouldReturnClosestRanksInGivenWindow(string code, int count, LocalAuthorityRank[] expected)
     {
-        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel(code, Ranking, count);
+        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel(code, null, null, Ranking, count);
         Assert.Equal(expected.Select(e => e.Rank), vm.Closest.Select(c => c.Rank));
     }
 
     [Fact]
     public void ShouldReturnEmptyClosestRanksForEmptyInput()
     {
-        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel("code", new LocalAuthorityRanking(), 5);
+        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel("code", null, null, new LocalAuthorityRanking(), 5);
         Assert.Equal([], vm.Closest);
     }
 
     [Fact]
     public void ShouldReturnEmptyClosestRanksForNullInput()
     {
-        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel("code", null, 5);
+        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel("code", null, null, null, 5);
         Assert.Equal([], vm.Closest);
     }
 

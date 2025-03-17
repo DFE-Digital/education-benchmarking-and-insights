@@ -327,9 +327,9 @@ public static class Paths
     {
         return $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
     }
-    public static string ApiNationalRank(string? sort)
+    public static string ApiNationalRank(string ranking, string? sort)
     {
-        return $"api/local-authorities/national-rank?sort={sort}";
+        return $"api/local-authorities/national-rank?ranking={ranking}&sort={sort}";
     }
     public static string ApiHighNeedsComparison(string code)
     {
