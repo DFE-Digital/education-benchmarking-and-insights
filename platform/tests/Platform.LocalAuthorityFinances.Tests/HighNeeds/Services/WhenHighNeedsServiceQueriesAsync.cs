@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using Moq;
-using Platform.Api.Insight.Shared;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Services;
+using Platform.Api.LocalAuthorityFinances.Shared;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 using Xunit;

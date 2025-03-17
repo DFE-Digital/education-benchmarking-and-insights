@@ -18,6 +18,7 @@ namespace Platform.NonFinancial.Tests.EducationHealthCarePlans;
 public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : FunctionsTestBase
 {
     private const string Code = nameof(Code);
+    private const string Dimension = nameof(Dimension);
     private readonly Fixture _fixture;
     private readonly GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction _function;
     private readonly Mock<IEducationHealthCarePlansService> _service;
@@ -40,12 +41,13 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(x => x.GetHistory(new[] { Code }, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetHistory(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var query = new Dictionary<string, StringValues>
         {
-            { "code", Code }
+            { "code", Code },
+            { "dimension", Dimension }
         };
 
         var result = await _function.EducationHealthCarePlans(CreateHttpRequestData(query), CancellationToken.None);
@@ -79,6 +81,6 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
         Assert.Contains(values, p => p.PropertyName == nameof(EducationHealthCarePlansParameters.Codes));
 
         _service
-            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+            .Verify(d => d.GetHistory(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

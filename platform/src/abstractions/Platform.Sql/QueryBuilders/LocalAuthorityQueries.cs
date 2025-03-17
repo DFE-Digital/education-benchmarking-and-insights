@@ -69,6 +69,19 @@ public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQuery(string di
     }
 }
 
+public class LocalAuthorityEducationHealthCarePlansDefaultQuery(string dimension) : PlatformQuery(GetSql(dimension))
+{
+    private static string GetSql(string dimension)
+    {
+        return dimension switch
+        {
+            Dimensions.EducationHealthCarePlans.Actuals => "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultActual /**where**/",
+            Dimensions.EducationHealthCarePlans.Per1000 => "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+}
+
 public class LocalAuthorityFinancialDefaultCurrentRankingQuery : PlatformQuery
 {
     public LocalAuthorityFinancialDefaultCurrentRankingQuery(string ranking, string sort) : base(GetSql(ranking))
