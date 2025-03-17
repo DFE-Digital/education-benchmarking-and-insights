@@ -182,7 +182,7 @@ AS
     SELECT l.[Code],
         l.[Name],
         c.[OutturnTotalHighNeeds] / c.[BudgetTotalHighNeeds] * 100 AS [Value],
-        RANK() OVER (ORDER BY c.[OutturnTotalHighNeeds] / c.[BudgetTotalHighNeeds] DESC) AS [Rank]
+        RANK() OVER (ORDER BY c.[OutturnTotalHighNeeds] / c.[BudgetTotalHighNeeds]) AS [Rank]
     FROM [LocalAuthority] l
         LEFT JOIN [VW_LocalAuthorityFinancialDefaultActual] c ON c.[LaCode] = l.[Code]
     WHERE c.[RunId] = (SELECT [Value]

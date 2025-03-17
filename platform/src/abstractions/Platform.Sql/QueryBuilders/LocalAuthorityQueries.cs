@@ -68,3 +68,29 @@ public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQuery(string di
         };
     }
 }
+
+public class LocalAuthorityFinancialDefaultCurrentRankingQuery : PlatformQuery
+{
+    public LocalAuthorityFinancialDefaultCurrentRankingQuery(string ranking, string? sort = null) : base(GetSql(ranking, sort))
+    {
+        if (!Ranking.Sort.IsValid(sort))
+        {
+            return;
+        }
+
+        Select("Code");
+        Select("Name");
+        Select("Value");
+        Select($"RANK() OVER (ORDER BY Value {sort}) AS [Rank]");
+    }
+
+    private static string GetSql(string ranking, string? sort = null)
+    {
+        var select = Ranking.Sort.IsValid(sort) ? "/**select**/" : "*";
+        return ranking switch
+        {
+            Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(ranking), "Unknown ranking")
+        };
+    }
+}
