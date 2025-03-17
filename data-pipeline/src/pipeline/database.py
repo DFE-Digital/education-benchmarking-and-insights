@@ -749,3 +749,30 @@ def insert_metric_rag(
         run_id=run_id,
         engine=engine,
     )
+
+
+def insert_la_financial(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    """
+    Persist Local Authority Section 251 data to the database.
+
+    :param run_type: "default" or "custom"
+    :param run_id: unique identifier for processing
+    :param df: Local Authority financial information
+    :param engine: (optional) SQLAlchemy Engine
+    """
+    write_frame = df.reset_index().rename(columns=config.la_db_financial_projections)
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = run_id
+    write_frame = write_frame[config.la_db_financial_projections.values()]
+
+    _write_data(
+        df=write_frame,
+        table="LocalAuthorityFinancial",
+        run_id=run_id,
+        engine=engine,
+    )
