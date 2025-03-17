@@ -7,11 +7,11 @@ using Platform.Domain;
 namespace Platform.Functions.OpenApi.Examples;
 
 [ExcludeFromCodeCoverage]
-public class ExampleSort : OpenApiExample<string>
+public class ExampleLocalAuthorityNationalRanking : OpenApiExample<string>
 {
     public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
     {
-        foreach (var sort in Ranking.Sort.All)
+        foreach (var sort in Ranking.LocalAuthorityNationalRanking.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(sort, sort, namingStrategy));
         }
