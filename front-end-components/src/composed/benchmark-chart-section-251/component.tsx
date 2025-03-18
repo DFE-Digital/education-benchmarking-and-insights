@@ -5,6 +5,7 @@ import { HorizontalBarChartMultiSeries } from "../horizontal-bar-chart-multi-ser
 import { ChartSeriesConfigItem } from "src/components";
 import { shortValueFormatter } from "src/components/charts/utils";
 import { LaChartData } from "src/components/charts/table-chart";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export function BenchmarkChartSection251<
   TData extends LocalAuthoritySection251,
@@ -61,17 +62,29 @@ export function BenchmarkChartSection251<
     },
   };
 
+  const missingDataKeys = mergedData.dataPoints
+    .filter((d) => !d.actual && !d.planned)
+    .map((d) => d.laCode);
+
   return (
     <HorizontalBarChartMultiSeries
       chartTitle={chartTitle}
       data={mergedData}
       keyField="laCode"
+      missingDataKeys={missingDataKeys}
       seriesConfig={seriesConfig}
       seriesLabelField="laName"
       showCopyImageButton
       valueUnit="currency"
     >
       <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
+      {missingDataKeys.length > 0 && (
+        <DataWarning className="govuk-!-margin-top-3">
+          {missingDataKeys.length > 1
+            ? "Comparator local authorities have missing data"
+            : "Comparator local authority has missing data"}
+        </DataWarning>
+      )}
     </HorizontalBarChartMultiSeries>
   );
 }
