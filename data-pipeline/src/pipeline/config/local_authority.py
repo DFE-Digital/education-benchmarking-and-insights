@@ -56,3 +56,18 @@ la_db_financial_projections = {
     "BudgetPlaceFundingSpecial": "BudgetPlaceFundingSpecial",
     "BudgetPlaceFundingAlternativeProvision": "BudgetPlaceFundingAlternativeProvision",
 }
+
+la_db_non_financial_projections = {
+    "RunType": "RunType",
+    "RunId": "RunId",
+    "old_la_code": "LaCode",
+    "Population2To18": "Population2To18",
+    "EHCPTotal": "EHCPTotal",
+    "EHCPMainstream": "EHCPMainstream",
+    "EHCPResourced": "EHCPResourced",
+    "EHCPSpecial": "EHCPSpecial",
+    "EHCPIndependent": "EHCPIndependent",
+    "EHCPHospital": "EHCPHospital",
+    "EHCPPost16": "EHCPPost16",
+    "EHCPOther": "EHCPOther",
+}
