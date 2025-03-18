@@ -1,5 +1,7 @@
 import uuid
 
+import pandas as pd
+
 from pipeline import database
 
 
@@ -29,3 +31,26 @@ def test_unique_temp_table_names():
     ]
 
     assert len(temp_tables) == len(set(temp_tables))
+
+
+def test_unpivot_statistical_neighbour_column():
+    df = pd.DataFrame(
+        {
+            "LaCode": ["100", "101", "102"],
+            "1Suffix": ["a", "b", "c"],
+            "2Suffix": ["c", "b", "a"],
+        }
+    )
+
+    result = database._unpivot_statistical_neighbour_column(df, "Suffix", "NewColumn")
+
+    pd.testing.assert_frame_equal(
+        result,
+        pd.DataFrame(
+            {
+                "LaCode": ["100", "101", "102", "100", "101", "102"],
+                "NeighbourPosition": [1, 1, 1, 2, 2, 2],
+                "NewColumn": ["a", "b", "c", "c", "b", "a"],
+            }
+        ),
+    )
