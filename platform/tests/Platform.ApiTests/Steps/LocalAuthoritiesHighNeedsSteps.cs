@@ -101,6 +101,13 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         table.CompareToInstance(outturn);
     }
 
+    [Then("the high needs history result should not contain outturn values for '(.*)'")]
+    public void ThenTheHighNeedsHistoryResultShouldNotContainOutturnValuesFor(string year)
+    {
+        var outturn = OutturnResultForYear(year);
+        Assert.Null(outturn);
+    }
+
     [Then("the high needs result should contain the following outturn values for '(.*)':")]
     public void ThenTheHighNeedsResultShouldContainTheFollowingOutturnValuesFor(string code, DataTable table)
     {
@@ -179,6 +186,13 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         var budget = BudgetResultForYear(year);
         Assert.NotNull(budget);
         table.CompareToInstance(budget);
+    }
+
+    [Then("the high needs history result should not contain budget values for '(.*)'")]
+    public void ThenTheHighNeedsHistoryResultShouldNotContainBudgetValuesFor(string year)
+    {
+        var budget = BudgetResultForYear(year);
+        Assert.Null(budget);
     }
 
     [Then("the high needs result should contain the following budget values for '(.*)':")]
