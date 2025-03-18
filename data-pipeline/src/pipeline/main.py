@@ -20,6 +20,7 @@ from pipeline.database import (
     insert_comparator_set,
     insert_financial_data,
     insert_la_financial,
+    insert_la_non_financial,
     insert_metric_rag,
     insert_non_financial_data,
     insert_schools_and_local_authorities,
@@ -629,6 +630,11 @@ def pre_process_local_authorities(
     )
 
     insert_la_financial(
+        run_type="default",
+        run_id=run_id,
+        df=local_authorities,
+    )
+    insert_la_non_financial(
         run_type="default",
         run_id=run_id,
         df=local_authorities,
