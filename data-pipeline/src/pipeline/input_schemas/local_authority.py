@@ -529,6 +529,160 @@ la_sen2_pivot = {
     }
 }
 la_sen2_eval = {
+    2021: {
+        "EHCPTotal": "`Total__Total`",
+        "EHCPMainstream": (
+            "`Mainstream school__Mainstream - LA maintained` + "
+            "`Mainstream school__Mainstream - Free school` + "
+            "`Mainstream school__Mainstream - Academy`"
+        ),
+        "EHCPResourced": (
+            "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
+            "`Mainstream school__Mainstream - Academy - SEN unit` + "
+            "`Mainstream school__Mainstream - Free school - Resourced provision` + "
+            "`Mainstream school__Mainstream - Free school - SEN unit` + "
+            "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
+            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
+            "`Mainstream school__Total`"
+        ),
+        "EHCPSpecial": (
+            "`Special school__Special - LA maintained` + "
+            "`Special school__Special - Academy/free`"
+        ),
+        "EHCPIndependent": (
+            "`Mainstream school__Mainstream - Independent` + "
+            "`Special school__Special - Independent` + "
+            "`Special school__Special - Non-maintained`"
+        ),
+        "EHCPHospital": (
+            "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained` + "
+            "`Special school__Hospital School`"
+        ),
+        "EHCPPost16": (
+            "`Further education__General FE and tertiary colleges/HE` + "
+            "`Further education__Independent specialist providers` + "
+            "`Further education__Other FE` + "
+            "`Further education__Sixth form college`"
+        ),
+        "EHCPOther": (
+            "`Alternative provision/Pupil referral unit__Total` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - total` + "
+            "`Educated elsewhere__Elective home education` + "
+            "`Educated elsewhere__Not in education or training - notice to cease issued` + "
+            "`Educated elsewhere__Not in education or training - other` + "
+            "`Educated elsewhere__Not in education or training - other - compulsory school age` + "
+            "`Educated elsewhere__Other arrangements by local authority` + "
+            "`Educated elsewhere__Other arrangements by parents` + "
+            "`Educated elsewhere__Permanently excluded` + "
+            "`Educated elsewhere__Total` + "
+            "`Further education__Specialist post-16 institutions` + "
+            "`Further education__Total` + "
+            "`NEET__NEET` + "
+            "`NEET__Total` + "
+            "`Non-maintained early years__Non-maintained early years` + "
+            "`Non-maintained early years__Total` + "
+            "`Other__Other` + "
+            "`Other__Total` + "
+            "`Other types__Other types` + "
+            "`Other types__Total` + "
+            "`Special school__Special - Academy` + "
+            "`Special school__Special - Free school` + "
+            "`Special school__Total` + "
+            "`UKRLP provider__Total` + "
+            "`UKRLP provider__UKRLP provider` + "
+            "`Unknown__Apprenticeship` + "
+            "`Unknown__Supported Internship` + "
+            "`Unknown__Total` + "
+            "`Unknown__Traineeship` + "
+            "`Unknown__Unknown` + "
+            "`Unknown__Work-based learning`"
+        ),
+    },
+    2022: {
+        "EHCPTotal": "`Total__Total`",
+        "EHCPMainstream": (
+            "`Mainstream school__Mainstream - LA maintained` + "
+            "`Mainstream school__Mainstream - Free school` + "
+            "`Mainstream school__Mainstream - Academy`"
+        ),
+        "EHCPResourced": (
+            "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
+            "`Mainstream school__Mainstream - Academy - SEN unit` + "
+            "`Mainstream school__Mainstream - Free school - Resourced provision` + "
+            "`Mainstream school__Mainstream - Free school - SEN unit` + "
+            "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
+            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
+            "`Mainstream school__Total`"
+        ),
+        "EHCPSpecial": (
+            "`Special school__Special - LA maintained` + "
+            "`Special school__Special - Academy/free`"
+        ),
+        "EHCPIndependent": (
+            "`Mainstream school__Mainstream - Independent` + "
+            "`Special school__Special - Independent` + "
+            "`Special school__Special - Non-maintained`"
+        ),
+        "EHCPHospital": (
+            "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained` + "
+            "`Special school__Hospital School`"
+        ),
+        "EHCPPost16": (
+            "`Further education__General FE and tertiary colleges/HE` + "
+            "`Further education__Independent specialist providers` + "
+            "`Further education__Other FE` + "
+            "`Further education__Sixth form college`"
+        ),
+        "EHCPOther": (
+            "`Alternative provision/Pupil referral unit__Total` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - above compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - below compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and in education` + "
+            "`Educated elsewhere__Awaiting provision - compulsory school age and not in education` + "
+            "`Educated elsewhere__Awaiting provision - total` + "
+            "`Educated elsewhere__Elective home education` + "
+            "`Educated elsewhere__Not in education or training - notice to cease issued` + "
+            "`Educated elsewhere__Not in education or training - other` + "
+            "`Educated elsewhere__Not in education or training - other - compulsory school age` + "
+            "`Educated elsewhere__Other arrangements by local authority` + "
+            "`Educated elsewhere__Other arrangements by parents` + "
+            "`Educated elsewhere__Permanently excluded` + "
+            "`Educated elsewhere__Total` + "
+            "`Further education__Specialist post-16 institutions` + "
+            "`Further education__Total` + "
+            "`NEET__NEET` + "
+            "`NEET__Total` + "
+            "`Non-maintained early years__Non-maintained early years` + "
+            "`Non-maintained early years__Total` + "
+            "`Other__Other` + "
+            "`Other__Total` + "
+            "`Other types__Other types` + "
+            "`Other types__Total` + "
+            "`Special school__Special - Academy` + "
+            "`Special school__Special - Free school` + "
+            "`Special school__Total` + "
+            "`UKRLP provider__Total` + "
+            "`UKRLP provider__UKRLP provider` + "
+            "`Unknown__Apprenticeship` + "
+            "`Unknown__Supported Internship` + "
+            "`Unknown__Total` + "
+            "`Unknown__Traineeship` + "
+            "`Unknown__Unknown` + "
+            "`Unknown__Work-based learning`"
+        ),
+    },
     "default": {
         "EHCPTotal": "`Total__Total`",
         "EHCPMainstream": (
@@ -602,6 +756,6 @@ la_sen2_eval = {
             "`Unknown__Unknown` + "
             "`Unknown__Work-based learning`"
         ),
-    }
+    },
 }
 la_sen2_columns = {k: list(v.keys()) for k, v in la_sen2_eval.items()}
