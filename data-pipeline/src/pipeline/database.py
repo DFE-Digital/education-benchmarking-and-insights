@@ -805,3 +805,74 @@ def insert_la_non_financial(
         run_id=run_id,
         engine=engine,
     )
+
+
+def _unpivot_statistical_neighbour_column(
+    df: pd.DataFrame,
+    value_suffix: str,
+    value_column: str,
+):
+    """
+    Unpivot Local Authority Statistical Neighbour data.
+
+    :param df: Local Authority Statistical Neighbour information
+    :param value_suffix: columns relevant to data
+    :param value_column: column name for unpivoted data
+    """
+    unpivoted = df.melt(
+        id_vars=["LaCode"],
+        value_vars=[c for c in df.columns if c.endswith(value_suffix)],
+        value_name=value_column,
+        var_name="NeighbourPosition",
+    )[["LaCode", "NeighbourPosition", value_column]]
+
+    unpivoted["NeighbourPosition"] = unpivoted["NeighbourPosition"].map(
+        lambda v: int("".join(c for c in v if c.isdigit()))
+    )
+
+    return unpivoted
+
+
+def insert_la_statistical_neighbours(
+    run_type: str,
+    run_id: str,
+    df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    """
+    Persist Local Authority Statistical Neighbour data to the database.
+
+    Note: the data must be un-pivoted to match the database schema.
+
+    :param run_type: "default" or "custom"
+    :param run_id: unique identifier for processing
+    :param df: Local Authority Statistical Neighbour information
+    :param engine: (optional) SQLAlchemy Engine
+    """
+    write_frame = df.reset_index().rename(
+        columns=config.la_statistical_neighbours_projections
+    )[["LaCode"] + [c for c in df.columns if c.startswith("SN")]]
+
+    _desc = _unpivot_statistical_neighbour_column(
+        write_frame, "Prox", "NeighbourDescription"
+    )
+    _code = _unpivot_statistical_neighbour_column(
+        write_frame, "Code", "NeighbourLaCode"
+    )
+
+    write_frame = _code.merge(
+        _desc,
+        how="inner",
+        on=["LaCode", "NeighbourPosition"],
+    ).sort_values(["LaCode", "NeighbourPosition"])
+
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = run_id
+    write_frame = write_frame[config.la_statistical_neighbours_projections.values()]
+
+    _write_data(
+        df=write_frame,
+        table="LocalAuthorityStatisticalNeighbour",
+        run_id=run_id,
+        engine=engine,
+    )

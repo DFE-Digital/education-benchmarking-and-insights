@@ -1,6 +1,7 @@
 from .local_authority import (
     la_db_financial_projections,
     la_db_non_financial_projections,
+    la_statistical_neighbours_projections,
 )
 
 income_category_map = {

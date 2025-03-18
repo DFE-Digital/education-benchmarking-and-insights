@@ -71,3 +71,12 @@ la_db_non_financial_projections = {
     "EHCPPost16": "EHCPPost16",
     "EHCPOther": "EHCPOther",
 }
+
+la_statistical_neighbours_projections = {
+    "RunType": "RunType",
+    "RunId": "RunId",
+    "old_la_code": "LaCode",
+    "NeighbourPosition": "NeighbourPosition",
+    "NeighbourLaCode": "NeighbourLaCode",
+    "NeighbourDescription": "NeighbourDescription",
+}
