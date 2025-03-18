@@ -1,3 +1,5 @@
+from .local_authority import la_db_financial_projections
+
 income_category_map = {
     "academies": {
         "BNCH11142 (Other Revenue)": "Income_Other DFE grants",
