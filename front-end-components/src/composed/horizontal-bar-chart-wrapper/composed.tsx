@@ -43,6 +43,7 @@ export function HorizontalBarChartWrapper<
   data,
   linkToEstablishment,
   localAuthority,
+  missingDataKeys,
   showCopyImageButton,
   sort,
   tooltip,
@@ -188,6 +189,10 @@ export function HorizontalBarChartWrapper<
       flags.push("partYear");
     }
 
+    if (missingDataKeys && missingDataKeys.indexOf(key) > -1) {
+      flags.push("missingData");
+    }
+
     return flags;
   };
 
@@ -247,7 +252,6 @@ export function HorizontalBarChartWrapper<
                   highlightedItemKeys={
                     selectedEstabishment ? [selectedEstabishment] : undefined
                   }
-                  specialItemKeys={{ partYear: partYearKeys }}
                   keyField={keyField}
                   onImageCopied={handleImageCopied}
                   onImageLoading={setImageLoading}
@@ -255,6 +259,10 @@ export function HorizontalBarChartWrapper<
                   margin={20}
                   seriesConfig={seriesConfig as object}
                   seriesLabelField={seriesLabelField}
+                  specialItemKeys={{
+                    partYear: partYearKeys,
+                    missingData: missingDataKeys,
+                  }}
                   tickWidth={localAuthority ? 200 : 400}
                   tick={(t) => {
                     return (

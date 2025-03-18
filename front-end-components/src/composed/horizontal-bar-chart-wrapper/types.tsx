@@ -9,7 +9,11 @@ export type HorizontalBarChartWrapperProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
 > = Pick<
   ChartProps<TData>,
-  "chartTitle" | "showCopyImageButton" | "valueUnit" | "linkToEstablishment"
+  | "chartTitle"
+  | "linkToEstablishment"
+  | "missingDataKeys"
+  | "showCopyImageButton"
+  | "valueUnit"
 > & {
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;

@@ -26,7 +26,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   hideYAxis?: boolean;
   highlightActive?: boolean;
   highlightedItemKeys?: ChartSeriesValue[];
-  specialItemKeys?: Record<SpecialItemFlag, ChartSeriesValue[]>;
+  specialItemKeys?: Partial<Record<SpecialItemFlag, ChartSeriesValue[]>>;
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
@@ -37,6 +37,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   legendWrapperStyle?: CSSProperties;
   linkToEstablishment?: boolean;
   margin?: number;
+  missingDataKeys?: string[];
   multiLineAxisLabel?: boolean;
   onImageCopied?: (fileName: string) => void;
   onImageLoading?: (loading: boolean) => void;
@@ -105,7 +106,7 @@ export type ValueFormatterType = (
   options?: Partial<ValueFormatterOptions>
 ) => string;
 
-export type SpecialItemFlag = "partYear";
+export type SpecialItemFlag = "partYear" | "missingData";
 
 export type CategoricalChartWrapper = PureComponent<
   unknown,

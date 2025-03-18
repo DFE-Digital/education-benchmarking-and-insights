@@ -39,6 +39,12 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     );
   }, [key, specialItemFlags]);
 
+  const missingData = useMemo(() => {
+    return (
+      key && specialItemFlags && specialItemFlags(key).includes("missingData")
+    );
+  }, [key, specialItemFlags]);
+
   const [textBoundingBox, setTextBoundingBox] = useState<{
     x?: number;
     y?: number;
@@ -60,9 +66,14 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
   };
   if (!key || !linkToEstablishment) {
     return (
-      <text {...textProps} {...rest}>
-        {value}
-      </text>
+      <>
+        {(partYear || missingData) && (
+          <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
+        )}
+        <text {...textProps} ref={textRef} {...rest}>
+          {value}
+        </text>
+      </>
     );
   }
 
@@ -80,7 +91,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
         height={rest.height}
         className="establishment-tick-focus"
       ></line>
-      {partYear && (
+      {(partYear || missingData) && (
         <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
       )}
       <text {...textProps} ref={textRef} {...rest}>

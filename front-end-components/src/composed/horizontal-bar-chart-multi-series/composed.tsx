@@ -7,12 +7,15 @@ import {
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { HorizontalBarChartMultiSeriesProps } from "src/composed/horizontal-bar-chart-multi-series";
-import { ChartModeChart, ChartModeTable } from "src/components";
+import {
+  ChartModeChart,
+  ChartModeTable,
+  SpecialItemFlag,
+} from "src/components";
 import { shortValueFormatter } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
-import { CostCodesList } from "src/components/cost-codes-list";
 import "./styles.scss";
 
 export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
@@ -20,6 +23,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   children,
   data,
   keyField,
+  missingDataKeys,
   seriesConfig,
   seriesLabelField,
   showCopyImageButton,
@@ -35,6 +39,15 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
     if (index != undefined && index < data.dataPoints.length) {
       return data.dataPoints[index]?.laCode;
     }
+  };
+
+  const getSpecialItemFlags = (key: string) => {
+    const flags: SpecialItemFlag[] = [];
+    if (missingDataKeys && missingDataKeys.indexOf(key) > -1) {
+      flags.push("missingData");
+    }
+
+    return flags;
   };
 
   const handleImageCopied = () => {
@@ -79,7 +92,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
         >
           {hasData ? (
             <>
-              <CostCodesList category={chartTitle} />
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={5}
@@ -102,6 +114,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                   margin={20}
                   seriesConfig={seriesConfig as object}
                   seriesLabelField={seriesLabelField}
+                  specialItemKeys={{ missingData: missingDataKeys }}
                   tickWidth={200}
                   tick={(t) => {
                     return (
@@ -111,6 +124,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                         establishmentKeyResolver={(_: string, index) =>
                           getEstablishmentKey(index)
                         }
+                        specialItemFlags={getSpecialItemFlags}
                       />
                     );
                   }}

@@ -1,8 +1,11 @@
+import classNames from "classnames";
 import { DataWarningProps } from "./types";
 
-export function DataWarning({ children }: DataWarningProps) {
+export function DataWarning({ children, className }: DataWarningProps) {
   return (
-    <div className="govuk-warning-text govuk-!-margin-0">
+    <div
+      className={classNames("govuk-warning-text govuk-!-margin-0", className)}
+    >
       <span className="govuk-warning-text__icon" aria-hidden="true">
         !
       </span>
