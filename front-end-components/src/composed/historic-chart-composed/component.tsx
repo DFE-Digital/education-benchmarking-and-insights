@@ -59,8 +59,8 @@ export function HistoricChart<TData extends ChartDataSeries>({
       </div>
       {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-three-quarters">
-            <div style={{ height: 200 }}>
+          <div className="govuk-grid-column-three-quarters govuk-!-margin-bottom-3">
+            <div style={{ height: 236 }}>
               <LineChart
                 chartTitle={chartTitle}
                 data={data}

@@ -11,10 +11,14 @@ $stack-0-colour: $series-0-colour;
 $stack-0-active-colour: $series-0-active-colour;
 $stack-1-colour: #e6e6e6;
 $stack-1-active-colour: color.scale($stack-1-colour, $lightness: $scale-active);
-$series-highlight-colour: #12436d;
+$series-highlight-colour: govuk-colour("dark-blue");
+$chart-series-0-colour: govuk-colour("dark-blue");
+$chart-series-1-colour: govuk-colour("light-blue");
+$chart-series-2-colour: govuk-colour("turquoise");
 $stack-1-highlight-colour: #94c4ed;
 $bar-chart-stroke-width: 3px;
 $line-chart-stroke-width: 5px;
+$grid-colour-light: #f0f0f0;
 
 .recharts-wrapper {
 
@@ -122,21 +126,19 @@ $line-chart-stroke-width: 5px;
   .chart-line.chart-line-series-0 path,
   .chart-line.chart-line-series-0 .recharts-line-dot,
   .recharts-default-legend .legend-item-0 line {
-    stroke: $series-highlight-colour;
+    stroke: $chart-series-0-colour;
     stroke-width: $line-chart-stroke-width;
   }
 
   .chart-line.chart-line-series-1 path,
   .chart-line.chart-line-series-1 .recharts-line-dot,
   .recharts-default-legend .legend-item-1 line {
-    stroke: $series-1-colour;
     stroke-width: $line-chart-stroke-width;
   }
 
   .chart-line.chart-line-series-2 path,
   .chart-line.chart-line-series-2 .recharts-line-dot,
   .recharts-default-legend .legend-item-2 line {
-    stroke: $series-2-colour;
     stroke-width: $line-chart-stroke-width;
   }
 
@@ -165,7 +167,7 @@ $line-chart-stroke-width: 5px;
   }
 
   .recharts-tooltip-cursor {
-    fill: $grid-colour;
+    fill: $grid-colour-light;
   }
 
   .recharts-tooltip-wrapper {
@@ -229,9 +231,67 @@ $line-chart-stroke-width: 5px;
   &.recharts-wrapper-horizontal-bar-chart>.recharts-surface {
     overflow: visible;
   }
+
+  &.recharts-wrapper-line-chart {
+    .chart-line.chart-line-series-0 path,
+    .chart-line.chart-line-series-0 .recharts-line-dot,
+    .recharts-default-legend .legend-item-0 path {
+      stroke: $chart-series-0-colour;
+    }
+
+    .chart-line.chart-line-series-1 path,
+    .chart-line.chart-line-series-1 .recharts-line-dot,
+    .recharts-default-legend .legend-item-1 path {
+      stroke: $chart-series-1-colour;
+    }
+
+    .chart-line.chart-line-series-2 path,
+    .chart-line.chart-line-series-2 .recharts-line-dot,
+    .recharts-default-legend .legend-item-2 path {
+      stroke: $chart-series-2-colour;
+    }
+
+    .recharts-default-legend {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .recharts-default-legend .recharts-legend-item {
+      white-space: nowrap;
+    }
+
+    .chart-active-dot.chart-active-dot-series-0,
+    .recharts-label-list .chart-label-series-0,
+    .recharts-default-legend .legend-item-0 path {
+      fill: $chart-series-0-colour;
+    }
+
+    .chart-active-dot.chart-active-dot-series-1,
+    .recharts-label-list .chart-label-series-1,
+    .recharts-default-legend .legend-item-1 path {
+      fill: $chart-series-1-colour;
+    }
+
+    .chart-active-dot.chart-active-dot-series-2,
+    .recharts-label-list .chart-label-series-2,
+    .recharts-default-legend .legend-item-2 path {
+      fill: $chart-series-2-colour;
+    }
+  }
 }
 
 .full-height-width {
   width: 100%;
   height: 100%;
+}
+
+.chart-stat-wrapper.chart-stat-line-chart {
+ &.chart-stat-series-0 * {
+   color: $chart-series-0-colour !important;
+ }
+
+  &.chart-stat-series-1 * {
+   color: $chart-series-1-colour !important;
+ }
 }

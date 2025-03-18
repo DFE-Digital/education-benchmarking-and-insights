@@ -3,19 +3,15 @@ import { ChartDataSeries } from "src/components";
 import { useMemo } from "react";
 import { Stat } from "../stat";
 
-export function ResolvedStat<TData extends ChartDataSeries>(
-  props: ResolvedStatProps<TData>
-) {
-  const {
-    data,
-    displayIndex,
-    seriesFormatter,
-    seriesLabel,
-    seriesLabelField,
-    valueField,
-    ...rest
-  } = props;
-
+export function ResolvedStat<TData extends ChartDataSeries>({
+  data,
+  displayIndex,
+  seriesFormatter,
+  seriesLabel,
+  seriesLabelField,
+  valueField,
+  ...rest
+}: ResolvedStatProps<TData>) {
   const entry = useMemo(() => {
     const entry = Object.entries(data)[displayIndex];
     if (!entry) {

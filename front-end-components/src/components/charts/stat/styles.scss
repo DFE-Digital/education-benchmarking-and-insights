@@ -1,14 +1,27 @@
 @import "../styles";
 @import "/src/assets/styles/colours";
 
-.chart-stat abbr.summary {
-  text-decoration: underline;
-  text-decoration-style: dotted;
-}
+.chart-stat-wrapper { 
+  margin-top: govuk-spacing(2);
 
-.chart-stat-wrapper .chart-stat-value {
-  border-top: 1px solid $label-colour;
-  margin-top: 0.5rem;
+  .chart-stat-label {
+    @include govuk-font(16);
+  }
+
+  .chart-stat-value {
+    margin-top: govuk-spacing(1);
+    @include govuk-font(24, bold);
+  }
+
+  &.chart-stat-wrapper__small {
+    .chart-stat-label {
+      font-size: 0.9rem;
+    }
+
+    .chart-stat-value {
+      margin-top: govuk-spacing(0);
+    }
+  }
 }
 
 .chart-stat-summary {
@@ -23,12 +36,11 @@
 }
 
 .chart-stat-summary .chart-stat-wrapper {
-  background-color: $grid-colour;
+  background-color: $grid-colour-light;
   padding: 10px;
 }
 
 .chart-stat-summary .chart-stat-wrapper .chart-stat-value {
-  border-top: none;
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
   overflow-wrap: break-word;
@@ -43,7 +55,7 @@
   .chart-stat-value
   .chart-stat-value-suffix {
   margin-left: 5px;
-  font-size: 0.38em;
+  font-size: 0.8rem;
 }
 
 .chart-stat-wrapper.chart-stat-highlight {
@@ -58,4 +70,8 @@
 .chart-stat-wrapper .govuk-body-m,
 .chart-stat-wrapper .govuk-body-l {
   color: inherit;
+}
+
+.chart-stat-title {
+  @include govuk-font(16);
 }

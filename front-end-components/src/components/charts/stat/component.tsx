@@ -3,37 +3,30 @@ import { ChartDataSeries } from "src/components";
 import classNames from "classnames";
 import "./styles.scss";
 
-export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
-  const {
-    chartTitle,
-    className,
-    compactValue,
-    label,
-    suffix,
-    value,
-    valueFormatter,
-    valueSuffix,
-    valueUnit,
-  } = props;
-
+export function Stat<TData extends ChartDataSeries>({
+  chartTitle,
+  className,
+  compactValue,
+  label,
+  small,
+  suffix,
+  value,
+  valueFormatter,
+  valueSuffix,
+  valueUnit,
+}: StatProps<TData>) {
   return (
     <div
-      className={classNames(className, "chart-stat-wrapper")}
+      className={classNames(className, "chart-stat-wrapper", {
+        "chart-stat-wrapper__small": small,
+      })}
       aria-label={chartTitle}
       role="note"
     >
-      <div className="chart-stat-label">
-        <span className="govuk-body-s govuk-!-font-weight-bold">{label}</span>
-      </div>
-      <div className="chart-stat-value govuk-body-l govuk-!-font-size-36">
+      <div className="chart-stat-label">{label}</div>
+      <div className="chart-stat-value">
         {compactValue ? (
-          <abbr
-            className="summary"
-            title={
-              valueFormatter
-                ? valueFormatter(value, { valueUnit })
-                : String(value)
-            }
+          <span
             aria-label={
               valueFormatter
                 ? valueFormatter(value, { valueUnit, currencyAsName: true })
@@ -43,7 +36,7 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
             {valueFormatter
               ? valueFormatter(value, { valueUnit, compact: true })
               : String(value)}
-          </abbr>
+          </span>
         ) : (
           <span>
             {valueFormatter
