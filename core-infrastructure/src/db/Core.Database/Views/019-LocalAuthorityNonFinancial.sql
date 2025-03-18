@@ -27,14 +27,14 @@ AS
         RunType,
         LaCode,
         Population2To18,
-        IIF(Population2To18 > 0.0, EHCPTotal / Population2To18 / 1000, NULL) AS Total,
-        IIF(Population2To18 > 0.0, EHCPMainstream / Population2To18 / 1000, NULL) AS Mainstream,
-        IIF(Population2To18 > 0.0, EHCPResourced / Population2To18 / 1000, NULL) AS Resourced,
-        IIF(Population2To18 > 0.0, EHCPSpecial / Population2To18 / 1000, NULL) AS Special,
-        IIF(Population2To18 > 0.0, EHCPIndependent / Population2To18 / 1000, NULL) AS Independent,
-        IIF(Population2To18 > 0.0, EHCPHospital / Population2To18 / 1000, NULL) AS Hospital,
-        IIF(Population2To18 > 0.0, EHCPPost16 / Population2To18 / 1000, NULL) AS Post16,
-        IIF(Population2To18 > 0.0, EHCPOther / Population2To18 / 1000, NULL) AS Other
+        IIF(Population2To18 > 0.0, EHCPTotal / (Population2To18 / 1000), NULL) AS Total,
+        IIF(Population2To18 > 0.0, EHCPMainstream / (Population2To18 / 1000), NULL) AS Mainstream,
+        IIF(Population2To18 > 0.0, EHCPResourced / (Population2To18 / 1000), NULL) AS Resourced,
+        IIF(Population2To18 > 0.0, EHCPSpecial / (Population2To18 / 1000), NULL) AS Special,
+        IIF(Population2To18 > 0.0, EHCPIndependent / (Population2To18 / 1000), NULL) AS Independent,
+        IIF(Population2To18 > 0.0, EHCPHospital / (Population2To18 / 1000), NULL) AS Hospital,
+        IIF(Population2To18 > 0.0, EHCPPost16 / (Population2To18 / 1000), NULL) AS Post16,
+        IIF(Population2To18 > 0.0, EHCPOther / (Population2To18 / 1000), NULL) AS Other
     FROM LocalAuthorityNonFinancial
 GO
 
