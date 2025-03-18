@@ -212,7 +212,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             Assert.Equal(3, bodyRows.Length);
             DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHCP plans  {plans.Total ?? 0:N0}");
             DocumentAssert.AssertNodeText(bodyRows.ElementAt(1), $"Total spend  {highNeeds.Outturn?.Total ?? 0:C0}");
-            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHCP plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C2}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHCP plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C0}");
         }
     }
 
@@ -272,7 +272,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
                 var outturnValue = outturn.Total;
                 var budgetValue = budget.Total;
                 var balanceValue = budgetValue - outturnValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                        {outturnValue?.ToString("C0")}\n                    \n                    \n                        Budget:\n                        {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
                 year++;
             }
         }

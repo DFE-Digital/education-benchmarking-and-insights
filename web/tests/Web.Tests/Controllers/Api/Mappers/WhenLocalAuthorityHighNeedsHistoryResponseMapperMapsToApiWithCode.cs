@@ -21,18 +21,28 @@ public class WhenLocalAuthorityHighNeedsHistoryResponseMapperMapsToApiWithCode :
 
             switch (actual.Year)
             {
-                case StartYear:
-                    AssertFieldsMapped(OutturnStartYear, actual.Outturn);
-                    AssertFieldsMapped(BudgetStartYear, actual.Budget);
-                    break;
-                case EndYear:
-                    AssertFieldsMapped(OutturnEndYear, actual.Outturn);
-                    AssertFieldsMapped(BudgetEndYear, actual.Budget);
-                    break;
-                default:
+                case 2020:
                     Assert.Null(actual.Outturn);
                     Assert.Null(actual.Budget);
                     break;
+                case 2021:
+                    AssertFieldsMapped(Outturn2021, actual.Outturn);
+                    AssertFieldsMapped(Budget2021, actual.Budget);
+                    break;
+                case 2022:
+                    AssertFieldsMapped(Outturn2022, actual.Outturn);
+                    AssertFieldsMapped(Budget2022, actual.Budget);
+                    break;
+                case 2023:
+                    AssertFieldsMapped(Outturn2023, actual.Outturn);
+                    AssertFieldsMapped(Budget2023, actual.Budget);
+                    break;
+                case 2024:
+                    AssertFieldsMapped(Outturn2024, actual.Outturn);
+                    AssertFieldsMapped(Budget2024, actual.Budget);
+                    break;
+                default:
+                    throw new IndexOutOfRangeException();
             }
         }
     }
