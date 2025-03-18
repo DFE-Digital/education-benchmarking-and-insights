@@ -9,6 +9,7 @@ export interface StatProps<TData extends ChartDataSeries>
   className?: string;
   compactValue?: boolean;
   label: string;
+  small?: boolean;
   suffix?: string | ReactNode;
   value: ChartSeriesValue;
   valueSuffix?: string;

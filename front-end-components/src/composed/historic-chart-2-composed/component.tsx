@@ -16,7 +16,6 @@ import { HistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
-import "./styles.scss";
 
 export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
@@ -86,20 +85,20 @@ export function HistoricChart2<TData extends HistoryBase>({
   }, [data, valueField]);
 
   const seriesConfig: ChartProps<SchoolHistoryValue>["seriesConfig"] = {
-    nationalAverage: {
-      label: "national average across phase type",
-      visible: true,
-    },
-    comparatorSetAverage: {
-      label: "average across comparator set",
-      visible: true,
-    },
     school: {
       label:
         axisLabel ??
         (dimension.value === "PerUnit"
           ? perUnitDimension.label
-          : dimension.label),
+          : dimension.label[0].toUpperCase() + dimension.label.substring(1)),
+      visible: true,
+    },
+    nationalAverage: {
+      label: "National average across phase type",
+      visible: true,
+    },
+    comparatorSetAverage: {
+      label: "Average across comparator set",
       visible: true,
     },
   };
@@ -133,8 +132,8 @@ export function HistoricChart2<TData extends HistoryBase>({
       </div>
       {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-three-quarters">
-            <div style={{ height: 200 }}>
+          <div className="govuk-grid-column-three-quarters govuk-!-margin-bottom-3">
+            <div style={{ height: 250 }}>
               <LineChart
                 chartTitle={chartTitle}
                 className="historic-chart-2"

@@ -18,7 +18,6 @@ import {
   ResolvedStatProps,
 } from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
-import "./styles.scss";
 
 export function HistoricChartSection251<
   TData extends LocalAuthoritySection251,
@@ -73,11 +72,11 @@ export function HistoricChartSection251<
 
   const seriesConfig: ChartProps<Section251HistoryValue>["seriesConfig"] = {
     outturn: {
-      label: "actual",
+      label: "Actual",
       visible: true,
     },
     budget: {
-      label: "planned",
+      label: "Planned",
       visible: true,
     },
   };
@@ -90,15 +89,17 @@ export function HistoricChartSection251<
   };
 
   const statProps = (
-    label: string
+    label: string,
+    className: string
   ): Omit<ResolvedStatProps<Section251HistoryValue>, "valueField"> => ({
     chartTitle: `${label} ${chartTitle.toLowerCase()}`,
-    className: "chart-stat-line-chart",
+    className: `chart-stat-line-chart ${className}`,
     compactValue: true,
     data: mergedData || [],
     displayIndex: (mergedData?.length || 0) - 1,
-    seriesFormatter: (s) => `${s} ${label.toLowerCase()}`,
+    seriesFormatter: () => label,
     seriesLabelField: "term",
+    small: true,
     valueFormatter: statValueFormatter,
     valueUnit: valueUnit ?? "currency",
   });
@@ -125,8 +126,8 @@ export function HistoricChartSection251<
       </div>
       {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-three-quarters">
-            <div style={{ height: 200 }}>
+          <div className="govuk-grid-column-three-quarters govuk-!-margin-bottom-3">
+            <div style={{ height: 250 }}>
               <LineChart
                 chartTitle={chartTitle}
                 className="historic-chart-high-needs"
@@ -182,8 +183,17 @@ export function HistoricChartSection251<
             </div>
           </div>
           <aside className="govuk-grid-column-one-quarter">
-            <ResolvedStat valueField="outturn" {...statProps("Actual")} />
-            <ResolvedStat valueField="budget" {...statProps("Planned")} />
+            <div className="chart-stat-title">
+              {mergedData && mergedData[mergedData.length - 1]?.term}
+            </div>
+            <ResolvedStat
+              valueField="outturn"
+              {...statProps("Actual", "chart-stat-series-0")}
+            />
+            <ResolvedStat
+              valueField="budget"
+              {...statProps("Planned", "chart-stat-series-1")}
+            />
           </aside>
         </div>
       ) : (
