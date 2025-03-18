@@ -78,7 +78,7 @@ public class WhenEducationHealthCarePlansServiceQueriesAsync
         var actual = await _service.GetHistory(codes, dimension, CancellationToken.None);
 
         // assert
-        Assert.Equal(years.StartYear, actual?.StartYear);
+        Assert.Equal(years.StartYear + 1, actual?.StartYear);
         Assert.Equal(years.EndYear, actual?.EndYear);
         Assert.Equal(results.Select(Mapper.MapToLocalAuthorityNumberOfPlansYearResponse), actual?.Plans);
         Assert.Equal("SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation WHERE LaCode IN @LaCodes AND RunId BETWEEN @StartYear AND @EndYear", actualSql);

@@ -32,17 +32,23 @@
             </td>
             <td class="govuk-table__cell">
                 <ul class="govuk-list govuk-!-static-margin-bottom-0">
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Spend:</span>
-                        <span class="govuk-!-font-tabular-numbers">@(rank.Outturn?.ToString("C0"))</span>
-                    </li>
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Budget:</span>
-                        <span class="govuk-!-font-tabular-numbers">@(rank.Budget?.ToString("C0"))</span>
-                    </li>
+                    @if (rank.Outturn.HasValue)
+                    {
+                        <li>
+                            <span class="govuk-!-font-weight-bold">Spend:</span>
+                            <span class="govuk-!-font-tabular-numbers">@(rank.Outturn?.ToString("C0"))</span>
+                        </li>
+                    }
+                    @if (rank.Budget.HasValue)
+                    {
+                        <li>
+                            <span class="govuk-!-font-weight-bold">Budget:</span>
+                            <span class="govuk-!-font-tabular-numbers">@(rank.Budget?.ToString("C0"))</span>
+                        </li>
+                    }
                 </ul>
             </td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @await Html.PartialAsync("_TrendIndicator", new TrendIndicatorViewModel
                 {
                     PreviousValue = previousValue,

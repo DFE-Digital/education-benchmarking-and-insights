@@ -239,7 +239,7 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
         var results = (await conn.QueryAsync(laBuilder, types, Mapper.MultiMapToHighNeedsYear, splitOn, cancellationToken)).ToArray();
         return new History<HighNeedsYear>
         {
-            StartYear = years.StartYear,
+            StartYear = years.StartYear + 1,
             EndYear = years.EndYear,
             Outturn = results.Select(r => r.outturn).ToArray(),
             Budget = results.Select(r => r.budget).ToArray()

@@ -100,7 +100,7 @@ public class WhenHighNeedsServiceQueriesAsync
         var actual = await _service.GetHistory(codes, dimension);
 
         // assert
-        Assert.Equal(years.StartYear, actual?.StartYear);
+        Assert.Equal(years.StartYear + 1, actual?.StartYear);
         Assert.Equal(years.EndYear, actual?.EndYear);
         Assert.Equal(results.Select(r => r.outturn), actual?.Outturn);
         Assert.Equal(results.Select(r => r.budget), actual?.Budget);
