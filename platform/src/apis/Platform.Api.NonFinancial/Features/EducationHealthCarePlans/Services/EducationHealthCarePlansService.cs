@@ -42,7 +42,7 @@ public class EducationHealthCarePlansService(IDatabaseFactory dbFactory) : IEduc
         var results = await conn.QueryAsync<LocalAuthorityNumberOfPlansYear>(builder, cancellationToken);
         return new History<LocalAuthorityNumberOfPlansYearResponse>
         {
-            StartYear = years.StartYear + 1,
+            StartYear = years.StartYear,
             EndYear = years.EndYear,
             Plans = results.Select(Mapper.MapToLocalAuthorityNumberOfPlansYearResponse).ToArray()
         };

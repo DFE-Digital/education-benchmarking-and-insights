@@ -5,28 +5,48 @@ namespace Web.Tests.Controllers.Api.Mappers;
 
 public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
 {
-    private static readonly Fixture Fixture = new();
     protected const string Code = nameof(Code);
-    protected const int StartYear = 2021;
+    protected const int StartYear = 2020;
     protected const int EndYear = 2024;
-    protected static readonly HighNeedsYear OutturnStartYear = Fixture
+    private static readonly Fixture Fixture = new();
+    protected static readonly HighNeedsYear Outturn2021 = Fixture
         .Build<HighNeedsYear>()
-        .With(o => o.Year, StartYear)
+        .With(o => o.Year, 2021)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly HighNeedsYear OutturnEndYear = Fixture
+    protected static readonly HighNeedsYear Outturn2022 = Fixture
         .Build<HighNeedsYear>()
-        .With(o => o.Year, EndYear)
+        .With(o => o.Year, 2022)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly HighNeedsYear BudgetStartYear = Fixture
+    protected static readonly HighNeedsYear Outturn2023 = Fixture
         .Build<HighNeedsYear>()
-        .With(o => o.Year, StartYear)
+        .With(o => o.Year, 2023)
         .With(o => o.Code, Code)
         .Create();
-    protected static readonly HighNeedsYear BudgetEndYear = Fixture
+    protected static readonly HighNeedsYear Outturn2024 = Fixture
         .Build<HighNeedsYear>()
-        .With(o => o.Year, EndYear)
+        .With(o => o.Year, 2024)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsYear Budget2021 = Fixture
+        .Build<HighNeedsYear>()
+        .With(o => o.Year, 2021)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsYear Budget2022 = Fixture
+        .Build<HighNeedsYear>()
+        .With(o => o.Year, 2022)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsYear Budget2023 = Fixture
+        .Build<HighNeedsYear>()
+        .With(o => o.Year, 2023)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsYear Budget2024 = Fixture
+        .Build<HighNeedsYear>()
+        .With(o => o.Year, 2024)
         .With(o => o.Code, Code)
         .Create();
 
@@ -36,8 +56,10 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         EndYear = EndYear,
         Outturn =
         [
-            OutturnStartYear,
-            OutturnEndYear,
+            Outturn2021,
+            Outturn2022,
+            Outturn2023,
+            Outturn2024,
             new HighNeedsYear
             {
                 Year = EndYear
@@ -49,8 +71,10 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         ],
         Budget =
         [
-            BudgetStartYear,
-            BudgetEndYear,
+            Budget2021,
+            Budget2022,
+            Budget2023,
+            Budget2024,
             new HighNeedsYear
             {
                 Year = EndYear
@@ -59,6 +83,17 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
             {
                 Code = Code
             }
+        ]
+    };
+
+    protected readonly HighNeedsHistory<HighNeedsYear> TruncatedHistory = new()
+    {
+        StartYear = StartYear,
+        EndYear = EndYear,
+        Outturn =
+        [
+            Outturn2021,
+            Outturn2023
         ]
     };
 }

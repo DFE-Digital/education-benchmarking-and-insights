@@ -154,7 +154,7 @@ export class HistoryService {
   >(rows: TRows, startYear: number, endYear: number): TData[] {
     const history = new Array<TData>();
 
-    let year = startYear + 1;
+    let year = startYear;
     while (year <= endYear) {
       const yearRows = rows.filter((r) => r.year === year);
       if (yearRows.length === 0) {

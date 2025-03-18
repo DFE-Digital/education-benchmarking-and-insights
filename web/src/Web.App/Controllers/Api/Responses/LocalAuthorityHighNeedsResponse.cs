@@ -52,7 +52,7 @@ public record LocalAuthorityHighNeedsApiResponse
 
 public record LocalAuthorityHighNeedsHistoryDashboardResponse
 {
-    public int? Year { get; init; }
+    public int? Year { get; internal set; }
     public decimal? Outturn { get; init; }
     public decimal? Budget { get; init; }
     public decimal? Balance { get; init; }

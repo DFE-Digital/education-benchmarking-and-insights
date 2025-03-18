@@ -41,23 +41,52 @@ public static class LocalAuthorityHighNeedsResponseMapper
         this HighNeedsHistory<HighNeedsYear>? history,
         string code)
     {
+        var results = new List<LocalAuthorityHighNeedsHistoryDashboardResponse>();
         if (history?.StartYear == null || history.EndYear == null)
         {
-            yield break;
+            return results;
         }
 
         for (var year = history.StartYear.Value; year <= history.EndYear; year++)
         {
             var outturn = history.Outturn.MapToTotal(code, year);
             var budget = history.Budget.MapToTotal(code, year);
-            yield return new LocalAuthorityHighNeedsHistoryDashboardResponse
+
+            // exclude missing years at start of range
+            if (outturn == null && budget == null)
+            {
+                if (results.Count == 0)
+                {
+                    continue;
+                }
+            }
+
+            results.Add(new LocalAuthorityHighNeedsHistoryDashboardResponse
             {
                 Year = year,
                 Outturn = outturn,
                 Budget = budget,
                 Balance = budget - outturn
-            };
+            });
         }
+
+        for (var i = results.Count - 1; i >= 0; i--)
+        {
+            var previousResult = results.ElementAtOrDefault(i + 1);
+            if (previousResult?.Year != null)
+            {
+                continue;
+            }
+
+            // mark missing years to exclude from end of range
+            var result = results.ElementAt(i);
+            if (result.Outturn == null && result.Budget == null)
+            {
+                result.Year = null;
+            }
+        }
+
+        return results.Where(r => r.Year != null);
     }
 
     private static LocalAuthorityHighNeedsApiResponse? MapToApiResponse(this HighNeedsYear[]? highNeedsYear, string code, int year)
