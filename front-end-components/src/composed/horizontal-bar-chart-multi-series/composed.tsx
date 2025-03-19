@@ -16,7 +16,6 @@ import { shortValueFormatter } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
-import "./styles.scss";
 
 export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   chartTitle,

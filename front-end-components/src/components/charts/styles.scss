@@ -1,8 +1,8 @@
 @import "/src/assets/styles/colours";
 
 $scale-active: -9%;
-$series-0-colour: #bfbfbf;
-$series-0-active-colour: color.scale($series-0-colour, $lightness: $scale-active);
+$series-0-colour: govuk-colour("mid-grey");
+$series-0-active-colour: govuk-colour("dark-grey");
 $series-1-colour: govuk-colour("purple");
 $series-1-active-colour: color.scale($series-1-colour, $lightness: $scale-active);
 $series-2-colour: govuk-colour("turquoise");
@@ -156,6 +156,15 @@ $grid-colour-light: #f0f0f0;
     fill: $series-1-colour;
   }
 
+  .recharts-label-list {
+    .recharts-text {
+      fill: $label-colour;
+      &.recharts-text__bold {
+        font-weight: bold;
+      }
+    }
+  }
+
   .chart-active-tooltip {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 10px;
@@ -167,7 +176,7 @@ $grid-colour-light: #f0f0f0;
   }
 
   .recharts-tooltip-cursor {
-    fill: $grid-colour-light;
+    fill: none;
   }
 
   .recharts-tooltip-wrapper {
@@ -277,6 +286,47 @@ $grid-colour-light: #f0f0f0;
     .recharts-label-list .chart-label-series-2,
     .recharts-default-legend .legend-item-2 path {
       fill: $chart-series-2-colour;
+    }
+  }
+
+  &.horizontal-bar-chart-wrapper,
+  &.horizontal-bar-chart-multi-series {
+      &:not(:last-child) {
+        margin-bottom: govuk-spacing(4);
+    }
+  }
+
+  &.horizontal-bar-chart-multi-series {
+    .chart-cell.chart-cell-series-0,
+    .chart-cell.chart-cell-series-0.chart-cell-active,
+    .recharts-default-legend .legend-item-0 path {
+      fill: $chart-series-0-colour;
+      stroke: $chart-series-0-colour;
+    }
+
+    .chart-cell.chart-cell-series-1,
+    .chart-cell.chart-cell-series-1.chart-cell-active,
+    .recharts-default-legend .legend-item-1 path {
+      fill: $chart-series-1-colour;
+      stroke: $chart-series-1-colour;
+    }
+
+    .recharts-default-legend {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .recharts-default-legend .recharts-legend-item {
+      white-space: nowrap;
+    }
+
+    .recharts-default-legend .legend-item-0 path {
+      fill: $chart-series-0-colour;
+    }
+
+    .recharts-default-legend .legend-item-1 path {
+      fill: $chart-series-1-colour;
     }
   }
 }

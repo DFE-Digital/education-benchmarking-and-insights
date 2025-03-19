@@ -223,9 +223,17 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   };
 
   function renderLabelList(
-    { height, value, width, x, y }: LabelListContentProps,
+    { height, value, width, x, y, index }: LabelListContentProps,
     valueFormatter?: ValueFormatterType
   ) {
+    if (value === undefined) {
+      return null;
+    }
+
+    const highlight =
+      index !== undefined &&
+      filteredData[index] &&
+      highlightedItemKeys?.includes(filteredData[index][keyField]);
     let dx =
       (x as number) +
       ((width as number) > 0 ? (width as number) : 0) +
@@ -242,6 +250,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           y={(y as number) + (height as number) / 2}
           textAnchor="start"
           dominantBaseline="middle"
+          className={classNames({ "recharts-text__bold": highlight })}
         >
           {valueFormatter
             ? valueFormatter(value as ChartSeriesValue)
