@@ -48,7 +48,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighNeeds                            = false
+        HighNeeds                            = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -74,7 +74,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighNeeds                            = false
+        HighNeeds                            = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -100,7 +100,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighNeeds                            = false
+        HighNeeds                            = true
       },
       CacheOptions = {
         ReturnYears = {
