@@ -100,7 +100,11 @@ export function HistoricChartSection251<
     seriesFormatter: () => label,
     seriesLabelField: "term",
     small: true,
-    valueFormatter: statValueFormatter,
+    valueFormatter: (value) =>
+      statValueFormatter(value, {
+        compact: true,
+        valueUnit: valueUnit ?? "currency",
+      }),
     valueUnit: valueUnit ?? "currency",
   });
 
