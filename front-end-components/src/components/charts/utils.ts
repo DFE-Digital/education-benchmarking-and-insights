@@ -47,6 +47,10 @@ export function shortValueFormatter(
         : options?.valueUnit === "%"
           ? 1
           : 2,
+    minimumFractionDigits:
+      options?.valueUnit === "currency" && value % 1 && Math.abs(value) < 1000
+        ? 2
+        : undefined,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
@@ -72,7 +76,19 @@ export function statValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     currencyDisplay: options?.currencyAsName ? "name" : "symbol",
     maximumFractionDigits:
-      options?.valueUnit === "%" ? 1 : options?.compact ? undefined : 0,
+      options?.valueUnit === "%"
+        ? 1
+        : options?.compact
+          ? options?.valueUnit === "currency" && Math.abs(value) < 1000
+            ? 2
+            : undefined
+          : 0,
+    minimumFractionDigits:
+      options?.compact &&
+      options?.valueUnit === "currency" &&
+      Math.abs(value) < 1000
+        ? 2
+        : undefined,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();

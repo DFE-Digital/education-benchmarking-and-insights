@@ -198,6 +198,32 @@ describe("Chart utils", () => {
       );
     });
 
+    describe("with compact currency option", () => {
+      const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: -987.65, expected: "-£987.65" },
+        { input: 0, expected: "£0.00" },
+        { input: 1, expected: "£1.00" },
+        { input: 2.3456789, expected: "£2.35" },
+        { input: 12345.67, expected: "£12k" },
+        { input: 890123456, expected: "£890m" },
+        { input: "not-a-number", expected: "not-a-number" },
+      ];
+
+      const options: Partial<ValueFormatterOptions> = {
+        compact: true,
+        valueUnit: "currency",
+      };
+
+      theoretically(
+        "the value {input} is formatted using compact notation as {expected}",
+        theories,
+        ({ input, expected }) => {
+          const result = statValueFormatter(input, options);
+          expect(result).toBe(expected);
+        }
+      );
+    });
+
     describe("with currency option", () => {
       const theories: { input: ValueFormatterValue; expected: string }[] = [
         { input: -987.65, expected: "-£988" },
