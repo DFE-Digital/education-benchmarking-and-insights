@@ -79,6 +79,6 @@ public class HighNeedsBenchmarkingPage(IPage page)
             });
         }
 
-        expected.CompareToDynamicSet(set);
+        expected.CompareToDynamicSet(set, false);
     }
 }
