@@ -210,9 +210,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(3, bodyRows.Length);
-            DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHCP plans  {plans.Total ?? 0:N0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHC plans  {plans.Total ?? 0:N0}");
             DocumentAssert.AssertNodeText(bodyRows.ElementAt(1), $"Total spend  {highNeeds.Outturn?.Total ?? 0:C0}");
-            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHCP plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHC plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C0}");
         }
     }
 
