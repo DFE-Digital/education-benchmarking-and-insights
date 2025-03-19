@@ -12,8 +12,8 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
 {
     private const string Key = "education-health-care-plans";
     private const string HistoryKey = "education-health-care-plans-history";
-    private History<LocalAuthorityNumberOfPlansYear>? _historyResult;
-    private LocalAuthorityNumberOfPlans[] _results = [];
+    private History<LocalAuthorityNumberOfPlansYearResponse>? _historyResult;
+    private LocalAuthorityNumberOfPlansResponse[] _results = [];
 
     [Given("an education health care plans history request with LA codes:")]
     public void GivenAnEducationHealthCarePlansHistoryRequestWithLaCodes(DataTable table)
@@ -50,7 +50,7 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        _historyResult = content.FromJson<History<LocalAuthorityNumberOfPlansYear>>();
+        _historyResult = content.FromJson<History<LocalAuthorityNumberOfPlansYearResponse>>();
         var startYear = table.Rows.First()["StartYear"];
         var endYear = table.Rows.First()["EndYear"];
 
@@ -61,10 +61,18 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
     [Then("the education health care plans history result should have the following plan for '(.*)':")]
     public void ThenTheEducationHealthCarePlansHistoryResultShouldHaveTheFollowingPlanFor(int year, DataTable table)
     {
-        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.RunId == year.ToString());
+        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.Year == year);
 
         Assert.NotNull(actual);
         table.CompareToInstance(actual);
+    }
+
+    [Then("the education health care plans history result should not have a plan for '(.*)'")]
+    public void ThenTheEducationHealthCarePlansHistoryResultShouldNotHaveAPlanFor(int year)
+    {
+        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.Year == year);
+
+        Assert.Null(actual);
     }
 
     [Then("the education health care plans result should be ok and contain the following values:")]
@@ -74,7 +82,7 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        _results = content.FromJson<LocalAuthorityNumberOfPlans[]>();
+        _results = content.FromJson<LocalAuthorityNumberOfPlansResponse[]>();
 
         table.CompareToSet(_results);
     }

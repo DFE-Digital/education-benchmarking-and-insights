@@ -71,8 +71,6 @@ Feature: Establishment local authorities endpoints
           | 202  | Camden                 | 105.2145407425382631 | 9    |
           | 201  | City of London         | 148.5077709611451943 | 10   |
 
-          # todo: replace stubbed values with real
-
     @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities statistical neighbours request
         Given a valid local authorities statistical neighbours request with id '201'
