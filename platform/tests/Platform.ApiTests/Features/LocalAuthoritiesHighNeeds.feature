@@ -156,39 +156,39 @@ Feature: Local authorities high needs endpoints
           | Name  | Greenwich |
         And the high needs result should contain the following outturn values for '201':
           | Field | Value  |
-          | Total | 726203 |
+          | Total | 476694 |
         And the high needs result should contain the following outturn values for '202':
           | Field | Value    |
-          | Total | 50863090 |
+          | Total | 38882018 |
         And the high needs result should contain the following outturn values for '203':
           | Field | Value    |
-          | Total | 66487211 |
+          | Total | 51215869 |
         And the high needs result should contain the following outturn high needs amount values for '201':
           | Field                        | Value  |
           | TotalPlaceFunding            | 0      |
-          | TopUpFundingMaintained       | 270508 |
-          | TopUpFundingNonMaintained    | 302012 |
-          | SenServices                  | 143279 |
+          | TopUpFundingMaintained       | 59325  |
+          | TopUpFundingNonMaintained    | 274823 |
+          | SenServices                  | 130891 |
           | AlternativeProvisionServices | 0      |
           | HospitalServices             | 0      |
-          | OtherHealthServices          | 10404  |
+          | OtherHealthServices          | 11655  |
         And the high needs result should contain the following outturn maintained values for '201':
-          | Field                | Value  |
-          | EarlyYears           | 0      |
-          | Primary              | 139146 |
-          | Secondary            | 124528 |
-          | Special              | 6834   |
-          | AlternativeProvision | 0      |
-          | PostSchool           | 0      |
-          | Income               | 0      |
+          | Field                | Value |
+          | EarlyYears           | 0     |
+          | Primary              | 59325 |
+          | Secondary            | 0     |
+          | Special              | 0     |
+          | AlternativeProvision | 0     |
+          | PostSchool           | 0     |
+          | Income               | 0     |
         And the high needs result should contain the following outturn non maintained values for '201':
           | Field                | Value  |
           | EarlyYears           | 0      |
-          | Primary              | 13850  |
-          | Secondary            | 0      |
-          | Special              | 288161 |
+          | Primary              | 0      |
+          | Secondary            | 98600  |
+          | Special              | 139827 |
           | AlternativeProvision | 0      |
-          | PostSchool           | 0      |
+          | PostSchool           | 36397  |
           | Income               | 0      |
         And the high needs result should contain the following outturn place funding values for '201':
           | Field                | Value |
@@ -219,28 +219,28 @@ Feature: Local authorities high needs endpoints
           | Name  | Greenwich |
         And the high needs result should contain the following budget values for '201':
           | Field | Value  |
-          | Total | 489000 |
+          | Total | 641000 |
         And the high needs result should contain the following budget values for '202':
           | Field | Value    |
-          | Total | 48342263 |
+          | Total | 39897962 |
         And the high needs result should contain the following budget values for '203':
           | Field | Value    |
-          | Total | 68565816 |
+          | Total | 56539657 |
         And the high needs result should contain the following budget high needs amount values for '201':
           | Field                        | Value  |
           | TotalPlaceFunding            | 0      |
-          | TopUpFundingMaintained       | 111000 |
-          | TopUpFundingNonMaintained    | 241000 |
-          | SenServices                  | 137000 |
+          | TopUpFundingMaintained       | 317000 |
+          | TopUpFundingNonMaintained    | 194000 |
+          | SenServices                  | 130000 |
           | AlternativeProvisionServices | 0      |
           | HospitalServices             | 0      |
           | OtherHealthServices          | 0      |
         And the high needs result should contain the following budget maintained values for '201':
           | Field                | Value  |
           | EarlyYears           | 0      |
-          | Primary              | 0      |
-          | Secondary            | 111000 |
-          | Special              | 0      |
+          | Primary              | 69000  |
+          | Secondary            | 54000  |
+          | Special              | 194000 |
           | AlternativeProvision | 0      |
           | PostSchool           | 0      |
           | Income               | 0      |
@@ -249,7 +249,7 @@ Feature: Local authorities high needs endpoints
           | EarlyYears           | 0      |
           | Primary              | 0      |
           | Secondary            | 0      |
-          | Special              | 241000 |
+          | Special              | 194000 |
           | AlternativeProvision | 0      |
           | PostSchool           | 0      |
           | Income               | 0      |
@@ -282,40 +282,40 @@ Feature: Local authorities high needs endpoints
           | Name  | Greenwich |
         And the high needs result should contain the following outturn values for '201':
           | Field | Value                   |
-          | Total | 393.3927410617551462621 |
+          | Total | 271.4658314350797266514 |
         And the high needs result should contain the following outturn values for '202':
           | Field | Value                   |
-          | Total | 958.7945107353578766800 |
+          | Total | 744.3101514194375849461 |
         And the high needs result should contain the following outturn values for '203':
-          | Field | Value                    |
-          | Total | 1005.6297511911064055055 |
+          | Field | Value                   |
+          | Total | 780.2182867937175327148 |
         And the high needs result should contain the following outturn high needs amount values for '201':
           | Field                        | Value                   |
           | TotalPlaceFunding            | 0.0000000000000000000   |
-          | TopUpFundingMaintained       | 146.5373781148429035752 |
-          | TopUpFundingNonMaintained    | 163.6034669555796316359 |
-          | SenServices                  | 77.6159263271939328277  |
+          | TopUpFundingMaintained       | 33.7841685649202733485  |
+          | TopUpFundingNonMaintained    | 156.5051252847380410022 |
+          | SenServices                  | 74.5392938496583143507  |
           | AlternativeProvisionServices | 0.0000000000000000000   |
           | HospitalServices             | 0.0000000000000000000   |
-          | OtherHealthServices          | 5.6359696641386782231   |
+          | OtherHealthServices          | 6.6372437357630979498   |
         And the high needs result should contain the following outturn maintained values for '201':
           | Field                | Value                  |
           | EarlyYears           | 0.0000000000000000000  |
-          | Primary              | 75.3770314192849404117 |
-          | Secondary            | 67.4582881906825568797 |
-          | Special              | 3.7020585048754062838  |
+          | Primary              | 33.7841685649202733485 |
+          | Secondary            | 0.0000000000000000000  |
+          | Special              | 0.0000000000000000000  |
           | AlternativeProvision | 0.0000000000000000000  |
           | PostSchool           | 0.0000000000000000000  |
           | Income               | 0.0000000000000000000  |
         And the high needs result should contain the following outturn non maintained values for '201':
-          | Field                | Value                   |
-          | EarlyYears           | 0.0000000000000000000   |
-          | Primary              | 7.5027085590465872156   |
-          | Secondary            | 0.0000000000000000000   |
-          | Special              | 156.1002166847237269772 |
-          | AlternativeProvision | 0.0000000000000000000   |
-          | PostSchool           | 0.0000000000000000000   |
-          | Income               | 0.0000000000000000000   |
+          | Field                | Value                  |
+          | EarlyYears           | 0.0000000000000000000  |
+          | Primary              | 0.0000000000000000000  |
+          | Secondary            | 56.1503416856492027334 |
+          | Special              | 79.6281321184510250569 |
+          | AlternativeProvision | 0.0000000000000000000  |
+          | PostSchool           | 20.7272209567198177676 |
+          | Income               | 0.0000000000000000000  |
         And the high needs result should contain the following outturn place funding values for '201':
           | Field                | Value                 |
           | Primary              | 0.0000000000000000000 |
@@ -345,37 +345,37 @@ Feature: Local authorities high needs endpoints
           | Name  | Greenwich |
         And the high needs result should contain the following budget values for '201':
           | Field | Value                   |
-          | Total | 264.8970747562296858071 |
+          | Total | 365.0341685649202733485 |
         And the high needs result should contain the following budget values for '202':
           | Field | Value                   |
-          | Total | 911.2756696638956436502 |
+          | Total | 763.7581500411569899883 |
         And the high needs result should contain the following budget values for '203':
-          | Field | Value                    |
-          | Total | 1037.0689858579747409816 |
+          | Field | Value                   |
+          | Total | 861.3204302058102158646 |
         And the high needs result should contain the following budget high needs amount values for '201':
           | Field                        | Value                   |
           | TotalPlaceFunding            | 0.0000000000000000000   |
-          | TopUpFundingMaintained       | 60.1300108342361863488  |
-          | TopUpFundingNonMaintained    | 130.5525460455037919826 |
-          | SenServices                  | 74.2145178764897074756  |
+          | TopUpFundingMaintained       | 180.5239179954441913439 |
+          | TopUpFundingNonMaintained    | 110.4783599088838268792 |
+          | SenServices                  | 74.0318906605922551252  |
           | AlternativeProvisionServices | 0.0000000000000000000   |
           | HospitalServices             | 0.0000000000000000000   |
           | OtherHealthServices          | 0.0000000000000000000   |
         And the high needs result should contain the following budget maintained values for '201':
-          | Field                | Value                  |
-          | EarlyYears           | 0.0000000000000000000  |
-          | Primary              | 0.0000000000000000000  |
-          | Secondary            | 60.1300108342361863488 |
-          | Special              | 0.0000000000000000000  |
-          | AlternativeProvision | 0.0000000000000000000  |
-          | PostSchool           | 0.0000000000000000000  |
-          | Income               | 0.0000000000000000000  |
+          | Field                | Value                   |
+          | EarlyYears           | 0.0000000000000000000   |
+          | Primary              | 39.2938496583143507972  |
+          | Secondary            | 30.7517084282460136674  |
+          | Special              | 110.4783599088838268792 |
+          | AlternativeProvision | 0.0000000000000000000   |
+          | PostSchool           | 0.0000000000000000000   |
+          | Income               | 0.0000000000000000000   |
         And the high needs result should contain the following budget non maintained values for '201':
           | Field                | Value                   |
           | EarlyYears           | 0.0000000000000000000   |
           | Primary              | 0.0000000000000000000   |
           | Secondary            | 0.0000000000000000000   |
-          | Special              | 130.5525460455037919826 |
+          | Special              | 110.4783599088838268792 |
           | AlternativeProvision | 0.0000000000000000000   |
           | PostSchool           | 0.0000000000000000000   |
           | Income               | 0.0000000000000000000   |

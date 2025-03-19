@@ -60,16 +60,16 @@ Feature: Establishment local authorities endpoints
         When I submit the local authorities request
         Then the local authorities national rank result should contain the following:
           | Code | Name                   | Value                | Rank |
-          | 207  | Kensington and Chelsea | 81.6874205535928722  | 1    |
-          | 208  | Lambeth                | 89.7217063849364984  | 2    |
-          | 205  | Hammersmith and Fulham | 90.5321006803908211  | 3    |
-          | 206  | Islington              | 91.5893367651380886  | 4    |
-          | 210  | Southwark              | 93.6826689242878901  | 5    |
-          | 203  | Greenwich              | 96.9684529095373123  | 6    |
-          | 209  | Lewisham               | 102.5193257478319431 | 7    |
-          | 204  | Hackney                | 102.9842767481139196 | 8    |
-          | 202  | Camden                 | 105.2145407425382631 | 9    |
-          | 201  | City of London         | 148.5077709611451943 | 10   |
+          | 201  | City of London         | 74.3672386895475819  | 1    |
+          | 206  | Islington              | 83.7501920181560312  | 2    |
+          | 203  | Greenwich              | 90.5839754210040574  | 3    |
+          | 205  | Hammersmith and Fulham | 97.4210777406673857  | 4    |
+          | 202  | Camden                 | 97.4536443741161516  | 5    |
+          | 210  | Southwark              | 97.4805362985510873  | 6    |
+          | 208  | Lambeth                | 98.5012502020260697  | 7    |
+          | 207  | Kensington and Chelsea | 100.3117545663038258 | 8    |
+          | 209  | Lewisham               | 105.2993762770436369 | 9    |
+          | 204  | Hackney                | 109.1145986925620464 | 10   |
 
     @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities statistical neighbours request

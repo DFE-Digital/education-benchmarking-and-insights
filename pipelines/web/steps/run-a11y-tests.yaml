@@ -32,4 +32,3 @@ steps:
     inputs:
       command: test
       projects: '${{ parameters.workspaceDir }}/a11y-tests-files/Web.A11yTests/Web.A11yTests.dll'
-      arguments: --filter Category!=HighNeedsFlagEnabled
