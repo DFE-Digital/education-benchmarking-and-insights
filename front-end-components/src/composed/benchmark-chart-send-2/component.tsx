@@ -44,7 +44,7 @@ export function BenchmarkChartSend2<
       localAuthority
       missingDataKeys={missingDataKeys}
       showCopyImageButton
-      valueUnit="currency"
+      valueUnit="amount"
     >
       <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
       {missingDataKeys.length > 0 && (

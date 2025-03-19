@@ -32,5 +32,5 @@
         When I click on view as table
         Then the table at index '32' contains the following SEND2 values:
           | Name           | Amount |
-          | City of London | £7.04  |
+          | City of London | 7.04   |
           | Hackney        |        |
