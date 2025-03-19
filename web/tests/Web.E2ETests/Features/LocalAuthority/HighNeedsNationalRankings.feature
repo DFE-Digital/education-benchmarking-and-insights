@@ -1,21 +1,21 @@
 ﻿Feature: Local Authority high needs national rankings
 
     @HighNeedsFlagEnabled
-    Scenario: National rankings displays stubbed data in table
+    Scenario: National rankings displays data in table
         Given I am on local authority high needs national rankings for local authority with code '204'
         When I click on table view
         Then the national rankings table is displayed with the following values:
           | Name                   | Value  |
-          | Kensington and Chelsea | 81.7%  |
-          | Lambeth                | 89.7%  |
-          | Hammersmith and Fulham | 90.5%  |
-          | Islington              | 91.6%  |
-          | Southwark              | 93.7%  |
-          | Greenwich              | 97%    |
-          | Lewisham               | 102.5% |
-          | Hackney                | 103%   |
-          | Camden                 | 105.2% |
-          | City of London         | 148.5% |
+          | City of London         | 74.4%  |
+          | Islington              | 83.8%  |
+          | Greenwich              | 90.6%  |
+          | Hammersmith and Fulham | 97.4%  |
+          | Camden                 | 97.5%  |
+          | Southwark              | 97.5%  |
+          | Lambeth                | 98.5%  |
+          | Kensington and Chelsea | 100.3% |
+          | Lewisham               | 105.3% |
+          | Hackney                | 109.1% |
 
     @HighNeedsFlagEnabled
     Scenario: Download national ranking chart

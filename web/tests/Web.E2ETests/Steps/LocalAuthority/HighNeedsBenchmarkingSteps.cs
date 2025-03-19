@@ -80,18 +80,18 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.AreTablesDisplayed(int.Parse(tables));
     }
 
-    [Then("the table at index '(\\d+)' contains the following S251 values:")]
-    public async Task ThenTheTableAtIndexContainsTheFollowingSValues(string index, DataTable table)
+    [Then("the table for 'High needs amount per head 2-18 population' contains the following S251 values:")]
+    public async Task ThenTheTableForContainsTheFollowingSValues(DataTable table)
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSection251(int.Parse(index), table);
+        await _highNeedsBenchmarkingPage.TableContainsSection251(0, table);
     }
 
-    [Then("the table at index '(\\d+)' contains the following SEND2 values:")]
-    public async Task ThenTheTableAtIndexContainsTheFollowingSendValues(string index, DataTable table)
+    [Then("the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:")]
+    public async Task ThenTheTableForContainsTheFollowingSendValues(DataTable table)
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSend2(int.Parse(index), table);
+        await _highNeedsBenchmarkingPage.TableContainsSend2(25, table);
     }
 
     private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode)
