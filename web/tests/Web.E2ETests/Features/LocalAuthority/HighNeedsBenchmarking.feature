@@ -22,15 +22,15 @@
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table at index '0' contains the following S251 values:
-          | Name           | Actual | Planned |
-          | City of London | £0.00  | £0.00   |
-          | Hackney        | £6.21  | £6.75   |
+          | Name           | Actual  | Planned |
+          | City of London | £0.00   | £0.00   |
+          | Hackney        | £103.71 | £112.73 |
 
     @HighNeedsFlagEnabled
     Scenario: Can view local authority benchmarking table data for SEND2
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table at index '32' contains the following SEND2 values:
-          | Name                | Amount |
-          | Local authority 201 | £1.00  |
-          | Local authority 204 | £5.00  |
+          | Name           | Amount |
+          | City of London | £7.04  |
+          | Hackney        |        |

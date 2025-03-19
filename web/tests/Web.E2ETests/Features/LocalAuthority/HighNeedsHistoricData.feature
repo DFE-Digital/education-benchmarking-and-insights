@@ -92,10 +92,10 @@
         Then the table on the 'section 251' tab 'Primary place funding per head 2-18 population' chart contains:
           | Year         | Actual | Planned |
           | 2019 to 2020 |        |         |
-          | 2020 to 2021 | £0.38  |         |
-          | 2021 to 2022 | £0.53  | £0.46   |
-          | 2022 to 2023 | £0.48  | £0.47   |
-          | 2023 to 2024 | £0.68  | £0.47   |
+          | 2020 to 2021 | £6.44  |         |
+          | 2021 to 2022 | £8.82  | £7.74   |
+          | 2022 to 2023 | £8.02  | £7.82   |
+          | 2023 to 2024 | £11.38 | £7.82   |
 
     @HighNeedsFlagEnabled
     Scenario: Show all should expand all sections on Send 2 tab
@@ -126,8 +126,8 @@
         When I click on view as table on 'send 2' tab
         Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)' chart contains:
           | Year         | Amount |
-          | 2019 to 2020 | 52     |
-          | 2020 to 2021 | 59     |
-          | 2021 to 2022 | 66     |
-          | 2022 to 2023 | 65     |
-          | 2023 to 2024 | 47     |
+          | 2019 to 2020 |        |
+          | 2020 to 2021 | 11.94  |
+          | 2021 to 2022 | 10.82  |
+          | 2022 to 2023 | 11.64  |
+          | 2023 to 2024 | 13     |

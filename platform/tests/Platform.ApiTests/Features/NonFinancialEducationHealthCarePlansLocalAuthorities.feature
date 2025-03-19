@@ -1,8 +1,5 @@
 ﻿Feature: Non Financial education health care plans local authorities history endpoint
 
-# TODO: these tests use stubbed data see EducationHealthCarePlansStubService
-# replace with real data once implemented
-
     @HighNeedsFlagEnabled
     Scenario: Sending a valid education health care plans history request returns the correct values
         Given an education health care plans history request with LA codes:
@@ -13,25 +10,23 @@
           | StartYear | EndYear |
           | 2020      | 2024    |
 
-        And the education health care plans history result should have the following plan for '2020':
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 52    | 21         | 1         | 2       | 1           | 21       | 1      | 5     |
+        And the education health care plans history result should not have a plan for '2020'
 
         And the education health care plans history result should have the following plan for '2021':
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 59    | 22         | 2         | 3       | 2           | 22       | 2      | 6     |
+          | Code | Name | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  |      | 20    | 14         | 14        | 1       | 3           | 0        |        |       |
 
         And the education health care plans history result should have the following plan for '2022':
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 66    | 23         | 3         | 4       | 3           | 23       | 3      | 7     |
+          | Code | Name | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  |      | 19    | 10         | 10        | 3       | 2           | 0        |        |       |
 
         And the education health care plans history result should have the following plan for '2023':
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 65    | 24         | 4         | 5       | 4           | 24       | 4      | 0     |
+          | Code | Name | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  |      | 21    | 13         | 14        | 2       | 3           | 0        | 2      | 8     |
 
         And the education health care plans history result should have the following plan for '2024':
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 47    | 25         | 5         | 6       | 5           | 0        | 5      | 1     |
+          | Code | Name | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  |      | 24    | 13         | 14        | 4       | 3           | 0        | 1      | 13    |
 
     @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans history request with no la codes returns a validation error
@@ -66,10 +61,10 @@
           | 203  |
         When I submit the education health care plans request
         Then the education health care plans result should be ok and contain the following values:
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 47000 | 25000      | 5000      | 6000    | 5000        | 0        | 5000   | 1000  |
-          | 202  | Local authority 202 | 54000 | 27000      | 7000      | 1000    | 7000        | 2000     | 7000   | 3000  |
-          | 203  | Local authority 203 | 68000 | 29000      | 9000      | 3000    | 9000        | 4000     | 9000   | 5000  |
+          | Code | Name           | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
+          | 201  | City of London | 24    | 13         | 14        | 4       | 3           | 0        | 1      | 13    |
+          | 202  | Camden         | 1532  | 605        | 860       | 321     | 117         | 14       | 165    | 982   |
+          | 203  | Greenwich      | 2738  | 1134       | 1456      | 582     | 140         | 65       | 341    | 1758  |
 
     @HighNeedsFlagEnabled
     Scenario: Sending a valid education health care plans request with Per1000 dimension returns the correct values
@@ -80,10 +75,10 @@
           | 203  |
         When I submit the education health care plans request
         Then the education health care plans result should be ok and contain the following values:
-          | Code | Name                | Total | Mainstream | Resourced | Special | Independent | Hospital | Post16 | Other |
-          | 201  | Local authority 201 | 47    | 25         | 5         | 6       | 5           | 0        | 5      | 1     |
-          | 202  | Local authority 202 | 54    | 27         | 7         | 1       | 7           | 2        | 7      | 3     |
-          | 203  | Local authority 203 | 68    | 29         | 9         | 3       | 9           | 4        | 9      | 5     |
+          | Code | Name           | Total             | Mainstream        | Resourced         | Special          | Independent      | Hospital         | Post16           | Other             |
+          | 201  | City of London | 13.00108342361863 | 7.04225352112676  | 7.58396533044420  | 2.16684723726977 | 1.62513542795232 | 0.00000000000000 | 0.54171180931744 | 7.04225352112676  |
+          | 202  | Camden         | 28.87896096062131 | 11.40455050990593 | 16.21142717110595 | 6.05100944409885 | 2.20550811513883 | 0.26390695394823 | 3.11033195724707 | 18.51118776979773 |
+          | 203  | Greenwich      | 41.41269000983135 | 17.15193223928004 | 22.02223398623610 | 8.80284353021250 | 2.11752249867654 | 0.98313544581411 | 5.15767980034787 | 26.59003251909551 |
 
     @HighNeedsFlagEnabled
     Scenario: Sending an invalid education health care plans request with no la codes returns a validation error
