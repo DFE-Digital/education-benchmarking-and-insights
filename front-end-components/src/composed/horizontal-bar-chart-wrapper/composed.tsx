@@ -33,7 +33,6 @@ import { SchoolExpenditure } from "src/services";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
 import { CostCodesList } from "src/components/cost-codes-list";
-import "./styles.scss";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData | LaChartData,
