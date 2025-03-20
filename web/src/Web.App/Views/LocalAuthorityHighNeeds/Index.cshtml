@@ -56,14 +56,14 @@
     <div class="dashboard-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">National Ranking</h2>
+                <h2 class="govuk-summary-card__title">National ranking</h2>
             </div>
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsNationalRankings", new
                 {
                     identifier = Model.Code,
                     ranking = "SpendAsPercentageOfBudget",
-                    commentary = "The table shows your national ranking based on your spend as a percentage of your budget.",
+                    commentary = "Local authorities ranked based on spend compared to budget as a percentage.",
                     valueLabel = "Spend as percentage of budget"
                 })
             </div>

@@ -21,13 +21,13 @@ export function BenchmarkChartSection251<
         dataPoints.push({
           laCode: s.code,
           laName: s.name,
-          actual:
+          outturn:
             outturnValue === undefined ||
             outturnValue === null ||
             isNaN(outturnValue)
               ? undefined
               : outturnValue,
-          planned:
+          budget:
             budgetValue === undefined ||
             budgetValue === null ||
             isNaN(budgetValue)
@@ -38,22 +38,22 @@ export function BenchmarkChartSection251<
     }
 
     return {
-      tableHeadings: ["Local authority", "Actual", "Planned"],
+      tableHeadings: ["Local authority", "Outturn", "Budget"],
       dataPoints,
     };
   }, [data, valueField]);
 
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
-    actual: {
-      label: "Actual",
+    outturn: {
+      label: "Outturn",
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
           valueUnit: "currency",
         }),
     },
-    planned: {
-      label: "Planned",
+    budget: {
+      label: "Budget",
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
@@ -63,7 +63,7 @@ export function BenchmarkChartSection251<
   };
 
   const missingDataKeys = mergedData.dataPoints
-    .filter((d) => !d.actual && !d.planned)
+    .filter((d) => !d.outturn && !d.budget)
     .map((d) => d.laCode);
 
   return (

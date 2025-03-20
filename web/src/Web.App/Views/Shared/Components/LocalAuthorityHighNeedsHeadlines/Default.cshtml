@@ -1,6 +1,6 @@
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHeadlinesViewModel
 
-<table class="govuk-table govuk-!-margin-bottom-1 govuk-table__no-border">
+<table class="govuk-table govuk-!-margin-bottom-1">
     <caption class="govuk-table__caption govuk-visually-hidden">Headline figures</caption>
     <tbody class="govuk-table__body">
     @if (Model.TotalPlans != null)
@@ -29,7 +29,7 @@
     {
         <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-                Total spend per EHC plan
+                Cost per EHC plan
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
                 @Model.TotalSpendPerPlan?.ToString("C0")

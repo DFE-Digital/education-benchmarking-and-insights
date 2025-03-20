@@ -1,11 +1,11 @@
 ﻿@model Web.App.ViewModels.TrendIndicatorViewModel
 
-@if (Model.PreviousValue == null)
+@if (Model.ComparisonValue == null)
 {
     return;
 }
 
-@if (Model.PreviousValue < Model.CurrentValue)
+@if (Model.ComparisonValue < Model.CurrentValue)
 {
     <span class="trend-indicator trend-indicator--up">
     <img
@@ -15,7 +15,7 @@
         width="15"/>
     </span>
 }
-else if (Model.PreviousValue > Model.CurrentValue)
+else if (Model.ComparisonValue > Model.CurrentValue)
 {
     <span class="trend-indicator trend-indicator--down">
     <img

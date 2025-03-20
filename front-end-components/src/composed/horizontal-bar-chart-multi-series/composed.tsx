@@ -140,7 +140,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                 <TableChart
                   data={data.dataPoints.map((d) => ({
                     ...d,
-                    value: d.actual ?? d.value,
+                    value: d.outturn ?? d.value,
                   }))}
                   localAuthority
                   preventFocus={chartMode !== ChartModeTable}

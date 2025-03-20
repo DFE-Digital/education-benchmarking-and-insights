@@ -187,7 +187,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans and cost"));
         AssertHeadlinesCard(headlinesCard, highNeeds, plans);
 
-        var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National Ranking"));
+        var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National ranking"));
         AssertNationalRankingCard(nationalRankingCard, rankings);
 
         var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
@@ -212,7 +212,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             Assert.Equal(3, bodyRows.Length);
             DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHC plans  {plans.Total ?? 0:N0}");
             DocumentAssert.AssertNodeText(bodyRows.ElementAt(1), $"Total spend  {highNeeds.Outturn?.Total ?? 0:C0}");
-            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Total spend per EHC plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(2), $"Cost per EHC plan  {highNeeds.Outturn?.Total / plans.Total ?? 1:C0}");
         }
     }
 
@@ -260,12 +260,12 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Balance");
+            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Difference");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, bodyRows.Length);
             var year = history.StartYear;
-            for (var i = 0; i < bodyRows.Length; i++)
+            for (var i = bodyRows.Length - 1; i <= 0; i--)
             {
                 var outturn = history.Outturn.Single(o => o.Year == year);
                 var budget = history.Budget.Single(o => o.Year == year);
