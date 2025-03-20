@@ -32,7 +32,7 @@ public class LocalAuthorityHighNeedsHeadlinesViewComponent(
         }
 
         logger.LogWarning("Local authority high needs headlines could not be displayed for {Code}", identifier);
-        return View("MissingData");
+        return View("MissingData", "Headlines");
     }
 
     private static ApiQuery BuildQuery(string code, string dimension)
