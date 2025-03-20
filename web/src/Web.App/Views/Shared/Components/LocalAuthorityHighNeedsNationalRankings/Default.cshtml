@@ -27,7 +27,7 @@
                 @(rank.Name)
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-                @(rank.Value?.ToString("#.#"))%
+                @(rank.Value?.ToString("#.#") ?? "0")%
             </td>
         </tr>
     }
