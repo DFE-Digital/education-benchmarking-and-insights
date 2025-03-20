@@ -1,0 +1,14 @@
+displayName: Average_Web_All - School Spending Priorities
+testPlan: jmeter-test.jmx
+description: Average load test with embedded resources for GET /school/{identifier}/spending-and-costs
+engineInstances: 1
+testId: 6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b
+testType: JMX
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria: 
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60

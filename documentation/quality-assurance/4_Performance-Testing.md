@@ -6,37 +6,39 @@ This document is designed to outline the current approach to performance testing
 
 ## Average & Peak Load Tests
 
-| Test                                         | VUs | Duration (mins) | Ramp (mins) |
-|----------------------------------------------|-----|-----------------|-------------|
-| Average_API_Establishment - Suggest Schools  | 2   | 6               | 1           |
-| Average_API_Establishment - Schools          | 2   | 6               | 1           |
-| Average_API_Establishment - Comparators      | 6   | 6               | 1           |
-| Average_API_Benchmark - User Data            | 2   | 6               | 1           |
-| Average_API_Benchmark - Comparator Set       | 2   | 6               | 1           |
-| Average_API_Insight - School Expenditure     | 3   | 6               | 1           |
-| Average_API_Insight - School Characteristics | 3   | 6               | 1           |
-| Average_API_Insight - Default Metric RAG     | 3   | 6               | 1           |
-| Peak_API_Establishment - Suggest Schools     | 7   | 6               | 1           |
-| Peak_API_Establishment - School              | 3   | 6               | 1           |
-| Peak_API_Establishment - Comparators         | 15  | 6               | 1           |
-| Peak_API_Benchmark - User Data               | 3   | 6               | 1           |
-| Peak_API_Benchmark - Comparator Set          | 3   | 6               | 1           |
-| Peak_API_Insight - School Characteristics    | 4   | 6               | 1           |
-| Peak_API_Insight - School Expenditure        | 4   | 6               | 1           |
-| Peak_API_Insight - Default Metric RAG        | 4   | 6               | 1           |
-| Average_Web - School Home                    | 10  | 6               | 1           |
-| Average_Web - School Spending Priorities     | 15  | 6               | 1           |
-| Average_Web - School Comparators             | 10  | 6               | 1           |
-| Average_Web - School Resources               | 10  | 6               | 1           |
-| Average_Web - Trust Home                     | 4   | 6               | 1           |
-| Average_Web - Trust Spending Priorities      | 4   | 6               | 1           |
-| Average_Web - Local Authority Home           | 4   | 6               | 1           |
-| Peak_Web - School Home                       | 20  | 6               | 1           |
-| Peak_Web - School Spending Priorities        | 30  | 6               | 1           |
-| Peak_Web - School Comparators                | 17  | 6               | 1           |
-| Peak_Web - School Resources                  | 15  | 6               | 1           |
-| Peak_Web - Trust Home                        | 10  | 6               | 1           |
-| Peak_Web - Trust Spending Priorities         | 8   | 6               | 1           |
+| Test                                         | VUs | Duration (mins) | Ramp (s) |
+|----------------------------------------------|-----|-----------------|----------|
+| Average_API_Establishment - Suggest Schools  | 2   | 6               | 60       |
+| Average_API_Establishment - Schools          | 2   | 6               | 60       |
+| Average_API_Establishment - Comparators      | 6   | 6               | 60       |
+| Average_API_Benchmark - User Data            | 2   | 6               | 60       |
+| Average_API_Benchmark - Comparator Set       | 2   | 6               | 60       |
+| Average_API_Insight - School Expenditure     | 3   | 6               | 60       |
+| Average_API_Insight - School Characteristics | 3   | 6               | 60       |
+| Average_API_Insight - Default Metric RAG     | 3   | 6               | 60       |
+| Peak_API_Establishment - Suggest Schools     | 7   | 6               | 60       |
+| Peak_API_Establishment - School              | 3   | 6               | 60       |
+| Peak_API_Establishment - Comparators         | 15  | 6               | 60       |
+| Peak_API_Benchmark - User Data               | 3   | 6               | 60       |
+| Peak_API_Benchmark - Comparator Set          | 3   | 6               | 60       |
+| Peak_API_Insight - School Characteristics    | 4   | 6               | 60       |
+| Peak_API_Insight - School Expenditure        | 4   | 6               | 60       |
+| Peak_API_Insight - Default Metric RAG        | 4   | 6               | 60       |
+| Average_Web - School Home                    | 10  | 6               | 60       |
+| Average_Web - School Spending Priorities     | 15  | 6               | 60       |
+| Average_Web - School Comparators             | 10  | 6               | 60       |
+| Average_Web - School Resources               | 10  | 6               | 60       |
+| Average_Web - Trust Home                     | 4   | 6               | 60       |
+| Average_Web - Trust Spending Priorities      | 4   | 6               | 60       |
+| Average_Web - Local Authority Home           | 4   | 6               | 60       |
+| Peak_Web - School Home                       | 20  | 6               | 60       |
+| Peak_Web - School Spending Priorities        | 30  | 6               | 60       |
+| Peak_Web - School Comparators                | 17  | 6               | 60       |
+| Peak_Web - School Resources                  | 15  | 6               | 60       |
+| Peak_Web - Trust Home                        | 10  | 6               | 60       |
+| Peak_Web - Trust Spending Priorities         | 8   | 6               | 60       |
+| Average_Web_All - School Spending Priorities | 15  | 6               | 10       |
+| Peak_Web_All - School Spending Priorities    | 30  | 6               | 10       |
 
 ## Spike Load Tests
 
@@ -82,6 +84,8 @@ However, the logs do not include POST-ed data, but do include Secret parameters.
 - **Traffic source:** It is possible to configure requests to be sourced from different locations, but due to the relative low numbers of requests for average load testing only a single engine is required, and locations are set per-engine. The location `West Europe` has therefore been configured everywhere.
 
 - **Buggy UI:** Azure Portal is a little clunky when trying to navigate between tests and test runs, often erroneously taking you right back to the Portal landing page.
+
+- **Use Apache JMeter to author, not run `.jmx` tests:** For `.jmx` based tests, such as the Web tests that also resolve embedded resources, [Apache JMeter™](https://jmeter.apache.org/) should be used for configuration. This should be done whilst also bearing in mind [best practises](https://www.blazemeter.com/blog/web-testing-jmeter), including not executing the tests from within JMeter itself, rather uploading to Azure Load Testing for execution.
 
 <!-- Leave the rest of this page blank -->
 \newpage

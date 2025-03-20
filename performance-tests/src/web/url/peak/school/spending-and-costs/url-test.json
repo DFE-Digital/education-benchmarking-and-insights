@@ -27,7 +27,7 @@
     },
     "testSetup": [
         {
-            "virtualUsersPerEngine": 20,
+            "virtualUsersPerEngine": 30,
             "durationInSeconds": 360,
             "loadType": "Linear",
             "scenario": "requestGroup1",
