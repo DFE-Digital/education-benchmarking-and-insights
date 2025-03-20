@@ -1,0 +1,14 @@
+displayName: Peak_Web_All - School Spending Priorities
+testPlan: jmeter-test.jmx
+description: Peak load test with embedded resources for GET /school/{identifier}/spending-and-costs
+engineInstances: 1
+testId: 1f5453f4-9d9c-4cab-8911-b676df16842a
+testType: JMX
+splitAllCSVs: False
+configurationFiles:
+- schools.csv
+failureCriteria: 
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
