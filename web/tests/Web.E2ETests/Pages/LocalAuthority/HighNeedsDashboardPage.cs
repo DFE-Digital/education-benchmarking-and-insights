@@ -35,7 +35,7 @@ public class HighNeedsDashboardPage(IPage page)
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
         {
-            HasText = "National Ranking"
+            HasText = "National ranking"
         })
     });
     private ILocator HistoricDataCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions

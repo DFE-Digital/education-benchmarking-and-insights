@@ -72,11 +72,11 @@ export function HistoricChartSection251<
 
   const seriesConfig: ChartProps<Section251HistoryValue>["seriesConfig"] = {
     outturn: {
-      label: "Actual",
+      label: "Outturn",
       visible: true,
     },
     budget: {
-      label: "Planned",
+      label: "Budget",
       visible: true,
     },
   };
@@ -192,11 +192,11 @@ export function HistoricChartSection251<
             </div>
             <ResolvedStat
               valueField="outturn"
-              {...statProps("Actual", "chart-stat-series-0")}
+              {...statProps("Outturn", "chart-stat-series-0")}
             />
             <ResolvedStat
               valueField="budget"
-              {...statProps("Planned", "chart-stat-series-1")}
+              {...statProps("Budget", "chart-stat-series-1")}
             />
           </aside>
         </div>
@@ -210,10 +210,10 @@ export function HistoricChartSection251<
                     Year
                   </th>
                   <th className="govuk-table__header govuk-!-width-one-quarter">
-                    Actual
+                    Outturn
                   </th>
                   <th className="govuk-table__header govuk-!-width-one-quarter">
-                    Planned
+                    Budget
                   </th>
                 </tr>
               </thead>

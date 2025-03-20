@@ -41,7 +41,7 @@ export function HistoricDataSection251Tooltip<
         <tbody className="govuk-table__body">
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Actual
+              Outturn
             </th>
             <td className="govuk-table__cell">
               {outturn === undefined
@@ -53,7 +53,7 @@ export function HistoricDataSection251Tooltip<
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Planned
+              Budget
             </th>
             <td className="govuk-table__cell">
               {budget === undefined

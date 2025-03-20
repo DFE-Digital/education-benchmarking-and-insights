@@ -35,6 +35,6 @@ export type LaChartData = {
   laCode: string;
   laName: string;
   value?: number;
-  actual?: number;
-  planned?: number;
+  outturn?: number;
+  budget?: number;
 };

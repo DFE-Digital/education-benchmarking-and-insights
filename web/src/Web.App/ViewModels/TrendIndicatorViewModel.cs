@@ -2,6 +2,6 @@
 
 public class TrendIndicatorViewModel
 {
-    public decimal? PreviousValue { get; init; }
+    public decimal? ComparisonValue { get; init; }
     public decimal? CurrentValue { get; init; }
 }

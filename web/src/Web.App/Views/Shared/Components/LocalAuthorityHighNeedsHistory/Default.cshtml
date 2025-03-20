@@ -1,12 +1,9 @@
+@using Web.App.Controllers.Api.Responses
 @using Web.App.ViewModels
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHistoryViewModel
 @{
-    decimal? previousValue = null;
+    decimal? nextValue = null;
 }
-
-<p class="govuk-body">
-    The table shows a historical view of your budget vs spend.
-</p>
 
 <table class="govuk-table govuk-table--small">
     <caption class="govuk-table__caption govuk-visually-hidden">Budget vs spend (historical view)</caption>
@@ -19,26 +16,28 @@
             Finances
         </th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric">
-            Balance
+            Difference
         </th>
     </tr>
     </thead>
     <tbody class="govuk-table__body">
-    @foreach (var rank in Model.History)
+    @for (var i = Model.History.Count() - 1; i >= 0; i--)
     {
+        var rank = Model.History.ElementAt(i);
+        LocalAuthorityHighNeedsHistoryDashboardResponse? nextRank = null;
+        if (i > 0)
+        {
+            nextRank = Model.History.ElementAtOrDefault(i - 1);
+        }
+        
+        nextValue = nextRank?.Balance;
+        
         <tr class="govuk-table__row">
             <td class="govuk-table__cell">
                 @(rank.Year)
             </td>
             <td class="govuk-table__cell">
                 <ul class="govuk-list govuk-!-static-margin-bottom-0">
-                    @if (rank.Outturn.HasValue)
-                    {
-                        <li>
-                            <span class="govuk-!-font-weight-bold">Spend:</span>
-                            <span class="govuk-!-font-tabular-numbers">@(rank.Outturn?.ToString("C0"))</span>
-                        </li>
-                    }
                     @if (rank.Budget.HasValue)
                     {
                         <li>
@@ -46,19 +45,24 @@
                             <span class="govuk-!-font-tabular-numbers">@(rank.Budget?.ToString("C0"))</span>
                         </li>
                     }
+                    @if (rank.Outturn.HasValue)
+                    {
+                        <li>
+                            <span class="govuk-!-font-weight-bold">Outturn:</span>
+                            <span class="govuk-!-font-tabular-numbers">@(rank.Outturn?.ToString("C0"))</span>
+                        </li>
+                    }
                 </ul>
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @await Html.PartialAsync("_TrendIndicator", new TrendIndicatorViewModel
                 {
-                    PreviousValue = previousValue,
+                    ComparisonValue = nextValue,
                     CurrentValue = rank.Balance
                 })
                 @(rank.Balance?.ToString("C0"))
             </td>
         </tr>
-
-        previousValue = rank.Balance;
     }
     </tbody>
 </table>
