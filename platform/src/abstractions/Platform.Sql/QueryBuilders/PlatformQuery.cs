@@ -250,4 +250,11 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereValueIsNotNull()
+    {
+        const string sql = "Value IS NOT NULL";
+        Where(sql);
+        return this;
+    }
 }

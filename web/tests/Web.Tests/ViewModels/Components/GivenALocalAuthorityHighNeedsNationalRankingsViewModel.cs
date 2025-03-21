@@ -106,6 +106,24 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
         }
     };
 
+    public static TheoryData<
+        LocalAuthorityRank[],
+        string,
+        bool
+    > NotInRankingData => new()
+    {
+        {
+            [Rank1, Rank2, Rank3, Rank4, Rank5],
+            Rank1.Code!,
+            false
+        },
+        {
+            [Rank1, Rank2, Rank3, Rank4, Rank5],
+            Rank6.Code!,
+            true
+        }
+    };
+
     [Theory]
     [MemberData(nameof(WhenClosestAreData))]
     public void ShouldReturnClosestRanksInGivenWindow(string code, int count, LocalAuthorityRank[] expected)
@@ -126,6 +144,14 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
     {
         var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel("code", null, null, null, 5);
         Assert.Equal([], vm.Closest);
+    }
+
+    [Theory]
+    [MemberData(nameof(NotInRankingData))]
+    public void ShouldReturnNotInRankingIfMissingFromRankings(LocalAuthorityRank[] rankings, string code, bool expectedNotInRanking)
+    {
+        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel(code, null, null, new LocalAuthorityRanking { Ranking = rankings }, 5);
+        Assert.Equal(expectedNotInRanking, vm.NotInRanking);
     }
 
     private static LocalAuthorityRank BuildRank(int rank)

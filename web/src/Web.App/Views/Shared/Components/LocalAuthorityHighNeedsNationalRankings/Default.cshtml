@@ -4,6 +4,17 @@
     @Model.Commentary
 </p>
 
+@if (Model.NotInRanking)
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            There isn't enough information available to rank the current local authority.
+        </strong>
+    </div>
+}
+
 <table class="govuk-table govuk-table--cell-pad govuk-table--small">
     <caption class="govuk-table__caption govuk-visually-hidden">National view</caption>
     <thead class="govuk-table__head">
