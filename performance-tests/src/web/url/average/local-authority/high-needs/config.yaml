@@ -1,0 +1,17 @@
+displayName: Average_Web - Local Authority High Needs
+testPlan: url-test.json
+description: Average load test for GET /local-authority/{identifier}/high-needs
+engineInstances: 1
+testId: c4f39d49-7ae1-496b-b041-c30da019300e
+testType: URL
+splitAllCSVs: False
+configurationFiles:
+- local-authorities.csv
+failureCriteria:
+- p75(response_time_ms) > 500
+- p95(response_time_ms) > 1000
+- p99(response_time_ms) > 2000
+- percentage(error) > 0.1
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
