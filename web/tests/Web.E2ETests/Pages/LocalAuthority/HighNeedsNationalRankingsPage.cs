@@ -10,6 +10,7 @@ public class HighNeedsNationalRankingsPage(IPage page)
     private ILocator Table => page.Locator($"#la-national-rank {Selectors.GovTable}");
     private ILocator SaveImageButton => page.Locator("xpath=//*[@data-custom-event-chart-name='National ranking'][@data-custom-event-id='save-chart-as-image']");
     private ILocator CopyImageButton => page.Locator("xpath=//*[@data-custom-event-chart-name='National ranking'][@data-custom-event-id='copy-chart-as-image']");
+    private ILocator WarningMessage => page.Locator(Selectors.GovWarning);
 
     public async Task IsDisplayed()
     {
@@ -48,5 +49,16 @@ public class HighNeedsNationalRankingsPage(IPage page)
     public async Task ClickCopyImage()
     {
         await CopyImageButton.Click();
+    }
+
+    public async Task DoesNotContainWarningMessage()
+    {
+        await WarningMessage.ShouldNotBeVisible();
+    }
+
+    public async Task ContainsWarningMessage(string message)
+    {
+        await WarningMessage.ShouldBeVisible();
+        await WarningMessage.ShouldContainText(message);
     }
 }

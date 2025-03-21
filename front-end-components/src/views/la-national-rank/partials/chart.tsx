@@ -1,5 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useChartModeContext } from "src/contexts";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  SelectedEstablishmentContext,
+  useChartModeContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
@@ -10,6 +19,7 @@ import { ErrorBanner } from "src/components/error-banner";
 import { LocalAuthorityRankData } from "./types";
 
 export const LaNationalRankChart: React.FC = () => {
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { chartMode, setChartMode } = useChartModeContext();
   const [data, setData] = useState<LocalAuthorityRank[] | null>();
   const getData = useCallback(async () => {
@@ -43,6 +53,13 @@ export const LaNationalRankChart: React.FC = () => {
   }, [data]);
 
   const title = "National ranking";
+  const notInRanking = useMemo(() => {
+    if (!data) {
+      return false;
+    }
+
+    return data.find((d) => d.code == selectedEstablishment) == null;
+  }, [data, selectedEstablishment]);
 
   return (
     <>
@@ -53,7 +70,7 @@ export const LaNationalRankChart: React.FC = () => {
         </div>
       </div>
       <div>
-        {data?.length ? (
+        {data?.length && (
           <HorizontalBarChartWrapper
             chartTitle={title}
             data={chartData}
@@ -63,9 +80,13 @@ export const LaNationalRankChart: React.FC = () => {
             xAxisLabel={valueLabel}
           >
             <h2 className="govuk-heading-m">{title}</h2>
+            {notInRanking && (
+              <ErrorBanner
+                isRendered
+                message="There isn't enough information available to rank the current local authority."
+              />
+            )}
           </HorizontalBarChartWrapper>
-        ) : (
-          <ErrorBanner message="XXX" />
         )}
       </div>
     </>

@@ -7,6 +7,7 @@ public class LocalAuthorityHighNeedsNationalRankingsViewModel(string code, strin
     public string Code => code;
     public string? Commentary => commentary;
     public string? ValueLabel => valueLabel;
+    public bool NotInRanking => result != null && result.Ranking.All(r => r.Code != code);
 
     public LocalAuthorityRank[] Closest
     {

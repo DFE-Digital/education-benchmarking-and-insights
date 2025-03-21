@@ -72,6 +72,20 @@ public class HighNeedsNationalRankingsSteps(PageDriver driver)
         Assert.Single(actual);
     }
 
+    [Then("the missing ranking warning message should not be displayed")]
+    public async Task ThenTheMissingRankingWarningMessageShouldNotBeDisplayed()
+    {
+        Assert.NotNull(_highNeedsNationalRankingsPage);
+        await _highNeedsNationalRankingsPage.DoesNotContainWarningMessage();
+    }
+
+    [Then("the missing ranking warning message should be displayed")]
+    public async Task ThenTheMissingRankingWarningMessageShouldBeDisplayed()
+    {
+        Assert.NotNull(_highNeedsNationalRankingsPage);
+        await _highNeedsNationalRankingsPage.ContainsWarningMessage("There isn't enough information available to rank the current local authority.");
+    }
+
     private static string LocalAuthorityHighNeedsNationalRankingsUrl(string laCode)
     {
         return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/national-rank";
