@@ -39,6 +39,8 @@ This document is designed to outline the current approach to performance testing
 | Peak_Web - Trust Spending Priorities         | 8   | 6               | 60       |
 | Average_Web_All - School Spending Priorities | 15  | 6               | 10       |
 | Peak_Web_All - School Spending Priorities    | 30  | 6               | 10       |
+| Average_Web - Local Authority High Needs     | 4   | 6               | 60       |
+| Peak_Web - Local Authority High Needs        | 10  | 6               | 60       |
 
 ## Spike Load Tests
 
