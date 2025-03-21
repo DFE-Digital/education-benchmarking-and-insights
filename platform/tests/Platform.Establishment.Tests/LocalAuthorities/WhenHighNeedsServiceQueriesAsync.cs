@@ -47,6 +47,6 @@ public class WhenLocalAuthorityRankingServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual.Ranking);
-        Assert.Equal("SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget", actualSql);
+        Assert.Equal("SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget WHERE Value IS NOT NULL", actualSql);
     }
 }

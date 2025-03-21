@@ -12,12 +12,13 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(null, null, false)]
-    [InlineData(5, 5, true)]
-    public async Task CanDisplay(int? nationalRankings = null, int? historyYears = null, bool headlines = true)
+    [InlineData(null, null, false, false)]
+    [InlineData(5, 5, true, false)]
+    [InlineData(5, 5, true, true)]
+    public async Task CanDisplay(int? nationalRankings = null, int? historyYears = null, bool headlines = true, bool notInRanking = false)
     {
         var (page, authority, rankings, history, highNeeds, plans) =
-            await SetupNavigateInitPage(nationalRankings, historyYears, headlines);
+            await SetupNavigateInitPage(nationalRankings, historyYears, headlines, notInRanking);
 
         AssertPageLayout(page, authority, rankings, history, highNeeds, plans);
     }
@@ -103,7 +104,8 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         LocalAuthorityNumberOfPlans? plans)> SetupNavigateInitPage(
         int? nationalRankings = null,
         int? historyYears = null,
-        bool headlines = true)
+        bool headlines = true,
+        bool notInRanking = false)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
@@ -112,7 +114,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             .CreateMany(nationalRankings ?? 0)
             .OrderBy(r => r.Name)
             .ToArray();
-        if (rankings.FirstOrDefault() != null)
+        if (rankings.FirstOrDefault() != null && !notInRanking)
         {
             rankings.First().Code = authority.Code;
         }
@@ -188,7 +190,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         AssertHeadlinesCard(headlinesCard, highNeeds, plans);
 
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National view"));
-        AssertNationalRankingCard(nationalRankingCard, rankings);
+        AssertNationalRankingCard(nationalRankingCard, rankings, authority);
 
         var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
         AssertBudgetSpendHistoryCard(budgetSpendHistoryCard, history);
@@ -216,7 +218,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         }
     }
 
-    private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings)
+    private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings, LocalAuthority authority)
     {
         Assert.NotNull(nationalRankingCard);
 
@@ -227,6 +229,12 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         }
         else
         {
+            if (rankings.All(r => r.Code != authority.Code))
+            {
+                var warning = nationalRankingCard.QuerySelector(".govuk-warning-text");
+                DocumentAssert.AssertNodeText(warning, "!  Warning\n            There isn't enough information available to rank the current local authority.");
+            }
+
             var table = nationalRankingCard.QuerySelector("table");
             Assert.NotNull(table);
 

@@ -16,7 +16,8 @@ public class LocalAuthorityRankingService(IDatabaseFactory dbFactory) : ILocalAu
 {
     public async Task<LocalAuthorityRanking> GetRanking(string ranking, string sort, CancellationToken token)
     {
-        var laBuilder = new LocalAuthorityFinancialDefaultCurrentRankingQuery(ranking, sort);
+        var laBuilder = new LocalAuthorityFinancialDefaultCurrentRankingQuery(ranking, sort)
+            .WhereValueIsNotNull();
 
         using var conn = await dbFactory.GetConnection();
         var results = await conn.QueryAsync<LocalAuthorityRank>(laBuilder, token);

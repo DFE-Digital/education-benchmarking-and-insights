@@ -18,6 +18,16 @@
           | Hackney                | 109.1% |
 
     @HighNeedsFlagEnabled
+    Scenario: Warning banner not displayed if current local authority is in rankings
+        Given I am on local authority high needs national rankings for local authority with code '204'
+        Then the missing ranking warning message should not be displayed
+
+    @HighNeedsFlagEnabled
+    Scenario: Warning banner displayed if current local authority is not in rankings
+        Given I am on local authority high needs national rankings for local authority with code '942'
+        Then the missing ranking warning message should be displayed
+
+    @HighNeedsFlagEnabled
     Scenario: Download national ranking chart
         Given I am on local authority high needs national rankings for local authority with code '204'
         When I click on save as image

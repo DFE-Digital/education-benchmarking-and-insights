@@ -392,6 +392,14 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddValueIsNotNull()
+    {
+        var expectedSql = BuildExpectedQuery("WHERE Value IS NOT NULL");
+        var builder = new MockPlatformQuery().WhereValueIsNotNull();
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
     private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
         $"{MockPlatformQuery.Sql
             .Replace("/**where**/", wherePart)
