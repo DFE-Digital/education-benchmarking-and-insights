@@ -41,7 +41,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(nationalRankings);
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full national rankings");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View full national view");
         if (expectedButtonVisible)
         {
             Assert.NotNull(anchor);
@@ -187,7 +187,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans and cost"));
         AssertHeadlinesCard(headlinesCard, highNeeds, plans);
 
-        var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National ranking"));
+        var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National view"));
         AssertNationalRankingCard(nationalRankingCard, rankings);
 
         var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
@@ -223,7 +223,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         if (rankings.Length == 0)
         {
             var content = nationalRankingCard.QuerySelector(".govuk-summary-card__content");
-            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        National Ranking could not be displayed.");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        National view could not be displayed.");
         }
         else
         {
@@ -232,7 +232,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Local authority  Spend as percentage of budget");
+            DocumentAssert.AssertNodeText(headerRow, "Local authority  Outturn as percentage of budget");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(rankings.Length, bodyRows.Length);
@@ -251,7 +251,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         if (history.Budget == null || history.Outturn == null)
         {
             var content = budgetSpendHistoryCard.QuerySelector(".govuk-summary-card__content");
-            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Budget vs spend (historical view) could not be displayed.");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Budget vs outturn (historical view) could not be displayed.");
         }
         else
         {
@@ -260,7 +260,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Difference");
+            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Net position");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, bodyRows.Length);
@@ -272,7 +272,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
                 var outturnValue = outturn.Total;
                 var budgetValue = budget.Total;
                 var balanceValue = budgetValue - outturnValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Spend:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Outturn:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
                 year++;
             }
         }

@@ -11,7 +11,7 @@ public class HighNeedsDashboardPage(IPage page)
     });
     private ILocator ViewNationalRankingsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
-        HasText = "View full national rankings"
+        HasText = "View full national view"
     });
     private ILocator ViewHistoricDataButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
@@ -35,7 +35,7 @@ public class HighNeedsDashboardPage(IPage page)
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
         {
-            HasText = "National ranking"
+            HasText = "National view"
         })
     });
     private ILocator HistoricDataCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
