@@ -94,6 +94,29 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         [
             Outturn2021,
             Outturn2023
+        ],
+        Budget =
+        [
+            Budget2021,
+            Budget2023
+        ]
+    };
+
+    protected readonly HighNeedsHistory<HighNeedsYear> PartialHistory = new()
+    {
+        StartYear = StartYear,
+        EndYear = EndYear,
+        Outturn =
+        [
+            Outturn2022,
+            Outturn2023,
+            Outturn2024
+        ],
+        Budget =
+        [
+            Budget2021,
+            Budget2022,
+            Budget2023
         ]
     };
 }

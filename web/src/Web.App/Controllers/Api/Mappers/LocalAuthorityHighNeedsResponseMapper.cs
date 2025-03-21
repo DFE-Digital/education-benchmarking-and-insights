@@ -52,8 +52,8 @@ public static class LocalAuthorityHighNeedsResponseMapper
             var outturn = history.Outturn.MapToTotal(code, year);
             var budget = history.Budget.MapToTotal(code, year);
 
-            // exclude missing years at start of range
-            if (outturn == null && budget == null)
+            // exclude part or missing years at start of range
+            if (outturn == null || budget == null)
             {
                 if (results.Count == 0)
                 {
@@ -78,9 +78,9 @@ public static class LocalAuthorityHighNeedsResponseMapper
                 continue;
             }
 
-            // mark missing years to exclude from end of range
+            // mark part or missing years to exclude from end of range
             var result = results.ElementAt(i);
-            if (result.Outturn == null && result.Budget == null)
+            if (result.Outturn == null || result.Budget == null)
             {
                 result.Year = null;
             }
