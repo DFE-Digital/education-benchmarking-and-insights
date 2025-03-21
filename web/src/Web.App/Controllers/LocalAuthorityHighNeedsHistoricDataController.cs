@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 
@@ -15,7 +17,8 @@ namespace Web.App.Controllers;
 [Route("local-authority/{code}/high-needs/history")]
 public class LocalAuthorityHighNeedsHistoricDataController(
     ILogger<LocalAuthorityHighNeedsHistoricDataController> logger,
-    IEstablishmentApi establishmentApi)
+    IEstablishmentApi establishmentApi,
+    ILocalAuthoritiesApi localAuthoritiesApi)
     : Controller
 {
     [HttpGet]
@@ -32,7 +35,16 @@ public class LocalAuthorityHighNeedsHistoricDataController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
                 var authority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityViewModel(authority);
+
+                // #254461: Get the 'current' year's 'per population' HighNeeds result to determine whether to 
+                // display historic data across all years. This excludes local authorities that have missing
+                // population data. This will likely be refactored into Establishment API as part of future work.
+                var query = BuildQuery([code], "PerHead");
+                var highNeeds = await localAuthoritiesApi
+                    .GetHighNeeds(query)
+                    .GetResultOrDefault<LocalAuthority<HighNeeds>[]>();
+
+                var viewModel = new LocalAuthorityHighNeedsHistoricDataViewModel(authority, highNeeds);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -43,7 +55,22 @@ public class LocalAuthorityHighNeedsHistoricDataController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<LocalAuthority> LocalAuthority(string code)
+    {
+        return await establishmentApi
+            .GetLocalAuthority(code)
+            .GetResultOrThrow<LocalAuthority>();
+    }
+
+    private static ApiQuery BuildQuery(string[] codes, string dimension)
+    {
+        var query = new ApiQuery();
+        foreach (var c in codes)
+        {
+            query.AddIfNotNull("code", c);
+        }
+
+        query.AddIfNotNull("dimension", dimension);
+        return query;
+    }
 }

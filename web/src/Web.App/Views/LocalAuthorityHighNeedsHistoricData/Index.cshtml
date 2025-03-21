@@ -1,4 +1,4 @@
-@model Web.App.ViewModels.LocalAuthorityViewModel
+@model Web.App.ViewModels.LocalAuthorityHighNeedsHistoricDataViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsHistoricData;
 }
@@ -11,4 +11,17 @@
     kind = OrganisationTypes.LocalAuthority
 })
 
-<div id="historic-data-high-needs" data-code="@Model.Code"></div>
+@if (Model.HasHighNeeds)
+{
+    <div id="historic-data-high-needs" data-code="@Model.Code"></div>
+}
+else
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            There isn't enough information available to view High needs historic data for this local authority.
+        </strong>
+    </div>
+}
