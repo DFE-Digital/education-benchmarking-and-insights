@@ -1,12 +1,9 @@
 @using Web.App.Controllers.Api.Responses
 @using Web.App.ViewModels
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHistoryViewModel
-@{
-    decimal? nextValue = null;
-}
 
 <table class="govuk-table govuk-table--small">
-    <caption class="govuk-table__caption govuk-visually-hidden">Budget vs spend (historical view)</caption>
+    <caption class="govuk-table__caption govuk-visually-hidden">Budget vs outturn (historical view)</caption>
     <thead class="govuk-table__head">
     <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
@@ -16,7 +13,7 @@
             Finances
         </th>
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric">
-            Difference
+            Net position
         </th>
     </tr>
     </thead>
@@ -29,11 +26,13 @@
         {
             nextRank = Model.History.ElementAtOrDefault(i - 1);
         }
-        
-        nextValue = nextRank?.Balance;
-        
+
+        var nextValue = nextRank?.Balance;
+
         <tr class="govuk-table__row">
             <td class="govuk-table__cell">
+                @(rank.Year - 1)
+                to
                 @(rank.Year)
             </td>
             <td class="govuk-table__cell">
