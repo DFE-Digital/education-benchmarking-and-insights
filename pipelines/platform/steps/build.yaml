@@ -60,6 +60,34 @@ steps:
       zipAfterPublish: true
       modifyOutputPath: true
 
+  - task: Npm@1
+    displayName: 'Update ChartRendering version number'
+    inputs:
+      command: 'custom'
+      customCommand: 'version ${{ parameters.BuildVersion }}'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: Npm@1
+    displayName: 'Install ChartRendering dependencies'
+    inputs:
+      command: 'install'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: Npm@1
+    displayName: 'Build ChartRendering api'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build-ci'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: ArchiveFiles@2
+    displayName: 'Publish ChartRendering api'
+    inputs:
+      rootFolderOrFile: 'platform/src/apis/Platform.Api.ChartRendering/out'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/platform-apis/Platform.Api.ChartRendering.zip'
+
   - publish: $(build.artifactstagingdirectory)/platform-search
     displayName: 'Publish platform search artifacts'
     artifact: platform-search

@@ -141,6 +141,21 @@ Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
 }
 ```
 
+#### ChartRendering Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": ""
+  }
+}
+```
+
 #### Orchestrator Function App
 
 For local development it's assumed Azurite will be used. More information can be
@@ -316,3 +331,23 @@ From the root of the `platform` run
 ```bat
 dotnet test tests\Platform.ApiTests
 ```
+
+### Deploying Platform APIs
+
+As per the other projects in this monorepo, the Platform APIs are deployed using Terraform via use of the `functions`
+module under `./terraform/modules/functions`. The root project at `./terraform` contains the Function App configuration
+at each environment level, as well as other supporting resources such as Azure Search and Blob Storage.
+
+#### Environment-specific configuration
+
+| Variable                       | Type   | Description                                                                                                                                                                            | 
+|--------------------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `search_sku` `                 | string |                                                                                                                                                                                        |
+| `search_replica_count`         | number |                                                                                                                                                                                        |
+| `sql_telemetry_enabled`        | bool   |                                                                                                                                                                                        |
+| `cache_sku`                    | string |                                                                                                                                                                                        |
+| `cache_capacity`               | number |                                                                                                                                                                                        |
+| `ssr_fa_worker_process_count`  | number | [FUNCTIONS_WORKER_PROCESS_COUNT](https://learn.microsoft.com/en-us/azure/azure-functions/functions-app-settings#functions_worker_process_count) for Chart Rendering (SSR) function app |
+| `ssr_fa_sku`                   | string | SKU for the Chart Rendering (SSR) function app                                                                                                                                         |
+| `ssr_fa_elastic_max_workers`   | number | Maximum number of total workers allowed for the app service plan (if an elastic plan)                                                                                                  |
+| `ssr_fa_elastic_min_instances` | number | Minimum number of instances for the app service (if an elastic plan). May be set to `0` to scale down to zero if no load is present.                                                   |

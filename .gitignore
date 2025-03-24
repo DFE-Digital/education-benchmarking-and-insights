@@ -438,3 +438,7 @@ performance-tests/**/url_test.jmx
 
 # VS Code generated file when editing project src folder
 web/src/Web.App/Web.App.sln
+
+# TypeScript output
+dist
+out
