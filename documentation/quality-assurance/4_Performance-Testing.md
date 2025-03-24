@@ -87,7 +87,12 @@ However, the logs do not include POST-ed data, but do include Secret parameters.
 
 - **Buggy UI:** Azure Portal is a little clunky when trying to navigate between tests and test runs, often erroneously taking you right back to the Portal landing page.
 
-- **Use Apache JMeter to author, not run `.jmx` tests:** For `.jmx` based tests, such as the Web tests that also resolve embedded resources, [Apache JMeter™](https://jmeter.apache.org/) should be used for configuration. This should be done whilst also bearing in mind [best practises](https://www.blazemeter.com/blog/web-testing-jmeter), including not executing the tests from within JMeter itself, rather uploading to Azure Load Testing for execution.
+- **Use Apache JMeter™ GUI to author, not run `.jmx` tests:** For `.jmx` based tests, such as the Web tests that also resolve embedded resources, [Apache JMeter™](https://jmeter.apache.org/) should be used for configuration after installing [Microsoft OpenJDK](https://www.microsoft.com/openjdk). This should be done whilst also bearing in mind [best practises](https://www.blazemeter.com/blog/web-testing-jmeter), including not executing the tests from within JMeter itself, rather uploading to Azure Load Testing for execution.
+
+- **Use Plugins in Apache JMeter for extended functionality:** If running on DfE kit the VPN proxy SSL certificates will need to be [exported from the certificate chain](https://mattferderer.com/fix-git-self-signed-certificate-in-certificate-chain-on-windows) and then imported into the Java `cacerts` file to avoid SSL errors in the Plugin Manager. This may be achieved from an administrator command prompt with (using the default Java password for the `cacerts` file of `changeit`):
+  - keytool -import -cacerts -alias PKI-ROOT-CA -trustcacerts -file "C:\Path\To\PKI-ROOT-CA.crt"
+  - keytool -import -cacerts -alias PKI-SUB-CA01 -trustcacerts -file "C:\Path\To\PKI-SUB-CA01.crt"
+  - keytool -import -cacerts -alias decryption.education.gov.uk -trustcacerts -file "C:\Path\To\decryption.education.gov.uk.crt"
 
 <!-- Leave the rest of this page blank -->
 \newpage
