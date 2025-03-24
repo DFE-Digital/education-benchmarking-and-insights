@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Platform.Api.ChartRendering": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7076",
-      "launchBrowser": false
-    }
-  }
-}

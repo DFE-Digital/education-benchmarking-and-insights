@@ -3,11 +3,6 @@
   "logging": {
     "logLevel": {
       "default": "Information",
-      "Host.Aggregator": "Trace",
-      "Host.Results": "Information",
-      "Function": "Warning",
-      "Microsoft": "Warning",
-      "Azure.Core": "Warning"
     },
     "applicationInsights": {
       "samplingSettings": {
