@@ -124,3 +124,23 @@ variable "redis-cache-id" {
   type    = string
   default = null
 }
+
+variable "os-type" {
+  type    = string
+  default = "Windows"
+}
+
+variable "node-version" {
+  type    = string
+  default = "20"
+}
+
+variable "maximum-elastic-worker-count" {
+  type    = number
+  default = null
+}
+
+variable "minimum-elastic-instance-count" {
+  type    = number
+  default = null
+}

@@ -112,6 +112,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.LocalAuthorityFina
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.NonFinancial.Tests", "tests\Platform.NonFinancial.Tests\Platform.NonFinancial.Tests.csproj", "{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform.Api.ChartRendering", "Platform.Api.ChartRendering", "{74022F75-3843-48DF-9FB5-D88A0BCD2E7E}"
+	ProjectSection(SolutionItems) = preProject
+		src\apis\Platform.Api.ChartRendering\package.json = src\apis\Platform.Api.ChartRendering\package.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -276,5 +281,6 @@ Global
 		{BE830716-A170-4B2F-8A97-BBEB2CEDC21B} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{87DF095C-99A1-485F-84F1-AB24D3891D66} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4} = {88E9B775-3937-45F6-9899-F0ECDD635145}
+		{74022F75-3843-48DF-9FB5-D88A0BCD2E7E} = {80C48401-A0AA-4707-B26A-332240A6C214}
 	EndGlobalSection
 EndGlobal

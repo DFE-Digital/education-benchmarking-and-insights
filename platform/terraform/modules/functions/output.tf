@@ -7,5 +7,6 @@ output "function-host-key" {
 }
 
 output "function-resource-id" {
-  value = azurerm_windows_function_app.func-app.id
+  value = (var.os-type == "Windows" ? azurerm_windows_function_app.func-app[0].id :
+  azurerm_linux_function_app.func-app[0].id)
 }
