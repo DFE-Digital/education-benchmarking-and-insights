@@ -37,122 +37,120 @@ jobs:
                 SecretsFilter: '*'
                 RunAsPreJob: false
 
-            - task: ExtractFiles@1
-              condition: and(succeeded(), ${{ parameters.runSearchApp }})
-              displayName: 'Extract platform search app'
-              inputs:
-                archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
-                destinationFolder: '${{ parameters.workspaceDir }}/search-app'
+            # - task: ExtractFiles@1
+            #   condition: and(succeeded(), ${{ parameters.runSearchApp }})
+            #   displayName: 'Extract platform search app'
+            #   inputs:
+            #     archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
+            #     destinationFolder: '${{ parameters.workspaceDir }}/search-app'
 
-            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(core-sql-connection-string)'
-              condition: and(succeeded(), ${{ parameters.runSearchApp }})
-              displayName: 'Run platform search app'
-              workingDirectory: '${{ parameters.workspaceDir }}/search-app'
-              failOnStderr: true
+            # - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(core-sql-connection-string)'
+            #   condition: and(succeeded(), ${{ parameters.runSearchApp }})
+            #   displayName: 'Run platform search app'
+            #   workingDirectory: '${{ parameters.workspaceDir }}/search-app'
+            #   failOnStderr: true
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy benchmark function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Benchmark.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy benchmark function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Benchmark.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy insight function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy insight function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy establishment function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy establishment function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy local authority finances function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-finances-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.LocalAuthorityFinances.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy local authority finances function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-finances-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.LocalAuthorityFinances.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy non financial function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.NonFinancial.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy non financial function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.NonFinancial.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
               displayName: 'Deploy chart rendering function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
+                appType: functionAppLinux
                 appName: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.ChartRendering.zip'
                 slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy orchestrator function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Orchestrator.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy orchestrator function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Orchestrator.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy data clean up function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.UserDataCleanUp.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy data clean up function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionApp
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+            #     package: '${{ parameters.workspaceDir }}/platform-apis/Platform.UserDataCleanUp.zip'
+            #     slotName: production
+            #     appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+            #     deploymentMethod: 'runFromPackage'
 
   - template: ../common/app-service-settings-refresh.yaml
     parameters:

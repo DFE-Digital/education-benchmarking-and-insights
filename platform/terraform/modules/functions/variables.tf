@@ -124,3 +124,13 @@ variable "redis-cache-id" {
   type    = string
   default = null
 }
+
+variable "os-type" {
+  type    = string
+  default = "Windows"
+}
+
+variable "node-version" {
+  type    = string
+  default = "20"
+}
