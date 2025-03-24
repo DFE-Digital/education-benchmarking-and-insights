@@ -157,10 +157,7 @@ module "chart-rendering-fa" {
   enable-restrictions         = lower(var.cip-environment) != "dev"
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
-  app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
-  })
+  app-settings                = local.default_app_settings
   subnet_ids = [
     data.azurerm_subnet.web-app-subnet.id,
     data.azurerm_subnet.load-test-subnet.id
@@ -168,6 +165,8 @@ module "chart-rendering-fa" {
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+  os-type             = "Linux"
+  worker-runtime      = "node"
 }
 
 module "data-clean-up-fa" {
