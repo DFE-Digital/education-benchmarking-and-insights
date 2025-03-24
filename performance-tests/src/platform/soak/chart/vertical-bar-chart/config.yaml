@@ -1,0 +1,47 @@
+displayName: Soak_API_Charts - Vertical Bar
+testPlan: url-test.json
+description: Soak load test for POST /verticalBarChart
+engineInstances: 2
+testId: 161b5781-34f4-4a8d-b495-c10d71ccf00b
+testType: URL
+subnetId: /subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d13-ebis-core/providers/Microsoft.Network/virtualNetworks/s198d13-app-service-network/subnets/s198d13-load-test-subnet
+publicIPDisabled: true
+splitAllCSVs: False
+failureCriteria:
+  clientMetrics:
+  - percentage(error) > 0.1
+secrets:
+- name: chart-rendering-host-key
+  value: https://s198d13-ebis-keyvault.vault.azure.net/secrets/chart-rendering-host-key
+referenceIdentities:
+- kind: KeyVault
+  type: SystemAssigned
+- kind: Metrics
+  type: SystemAssigned
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
+appComponents:
+- resourceId: /subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d13-ebis-platform/providers/Microsoft.Web/sites/s198d13-ebis-chart-rendering-fa
+  resourceName: s198d13-ebis-chart-rendering-fa
+  kind: functionapp,linux
+  metrics:
+  - name: Http5xx
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: Requests
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: HttpResponseTime
+    aggregation: Average
+    namespace: microsoft.web/sites
+- resourceId: /subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d13-ebis-platform/providers/Microsoft.Web/serverfarms/s198d13-ebis-chart-rendering-function-asp
+  resourceName: s198d13-ebis-chart-rendering-function-asp
+  kind: elastic
+  metrics:
+  - name: CpuPercentage
+    aggregation: Average
+    namespace: microsoft.web/serverfarms
+  - name: MemoryPercentage
+    aggregation: Average
+    namespace: microsoft.web/serverfarms

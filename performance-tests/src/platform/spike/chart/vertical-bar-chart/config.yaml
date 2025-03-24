@@ -1,0 +1,26 @@
+displayName: Spike_API_Charts - Vertical Bar
+testPlan: url-test.json
+description: Spike load test for POST /verticalBarChart
+engineInstances: 2
+testId: 734cbbd4-7613-4980-a8cb-d8124423000e
+testType: URL
+splitAllCSVs: False
+regionalLoadTestConfig:
+- region: westeurope
+  engineInstances: 1
+- region: uksouth
+  engineInstances: 1
+failureCriteria:
+  clientMetrics:
+  - percentage(error) > 0.1
+secrets:
+- name: chart-rendering-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/chart-rendering-host-key
+referenceIdentities:
+- kind: KeyVault
+  type: SystemAssigned
+- kind: Metrics
+  type: SystemAssigned
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60

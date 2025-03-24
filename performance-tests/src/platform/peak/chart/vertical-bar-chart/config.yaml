@@ -1,0 +1,29 @@
+displayName: Peak_API_Charts - Vertical Bar
+testPlan: url-test.json
+description: Peak load test for POST /verticalBarChart
+engineInstances: 2
+testId: 9bb3b42b-c2c2-4489-a85e-bf0cfdb9800e
+testType: URL
+splitAllCSVs: False
+regionalLoadTestConfig:
+- region: westeurope
+  engineInstances: 1
+- region: uksouth
+  engineInstances: 1
+failureCriteria:
+  clientMetrics:
+  - p75(response_time_ms) > 250
+  - p95(response_time_ms) > 500
+  - p99(response_time_ms) > 1000
+  - percentage(error) > 0.1
+secrets:
+- name: chart-rendering-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/chart-rendering-host-key
+referenceIdentities:
+- kind: KeyVault
+  type: SystemAssigned
+- kind: Metrics
+  type: SystemAssigned
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
