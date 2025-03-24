@@ -116,6 +116,17 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy chart rendering function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.ChartRendering.zip'
+                slotName: production
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -157,6 +168,8 @@ jobs:
           alias: 'localauthorityfinances'
         - name: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
           alias: 'nonfinancial'
+        - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
+          alias: 'chartrendering'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
           alias: 'orchestrator'
         - name: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
