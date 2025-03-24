@@ -26,6 +26,7 @@ No modules.
 | [azurerm_key_vault_access_policy.keyvault_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.fa-host](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.fa-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_linux_function_app.func-app](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app) | resource |
 | [azurerm_monitor_diagnostic_setting.func-app](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_redis_cache_access_policy_assignment.contributor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/redis_cache_access_policy_assignment) | resource |
 | [azurerm_redis_cache_access_policy_assignment.owner](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/redis_cache_access_policy_assignment) | resource |
@@ -52,6 +53,8 @@ No modules.
 | <a name="input_key-vault-id"></a> [key-vault-id](#input\_key-vault-id) | n/a | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | n/a | yes |
 | <a name="input_log-analytics-id"></a> [log-analytics-id](#input\_log-analytics-id) | n/a | `string` | n/a | yes |
+| <a name="input_node-version"></a> [node-version](#input\_node-version) | n/a | `string` | `"22"` | no |
+| <a name="input_os-type"></a> [os-type](#input\_os-type) | n/a | `string` | `"Windows"` | no |
 | <a name="input_redis-cache-id"></a> [redis-cache-id](#input\_redis-cache-id) | n/a | `string` | `null` | no |
 | <a name="input_requires-keys"></a> [requires-keys](#input\_requires-keys) | n/a | `bool` | `true` | no |
 | <a name="input_resource-group-name"></a> [resource-group-name](#input\_resource-group-name) | n/a | `string` | n/a | yes |
