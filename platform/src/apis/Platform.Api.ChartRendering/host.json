@@ -17,18 +17,8 @@
       "enableQueryStringTracing": true
     }
   },
-  "extensions": {
-    "http": {
-      "routePrefix": "api",
-      "hsts": {
-        "isEnabled": true,
-        "maxAge": "10"
-      },
-      "customHeaders": {
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "SAMEORIGIN",
-        "X-XSS-Protection": "0"
-      }
-    }
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle",
+    "version": "[4.*, 5.0.0)"
   }
 }

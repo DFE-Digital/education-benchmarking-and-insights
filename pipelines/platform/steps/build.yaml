@@ -10,60 +10,87 @@ steps:
 
   - task: NuGetAuthenticate@1
 
-  - task: Cache@2
-    condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
-    displayName: 'Cache nuget packages'
-    inputs:
-      key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,!**/bin/**,!**/obj/**'
-      path: $(PLATFORM_NUGET_CACHE)
-      cacheHitVar: PLATFORM_CACHE_RESTORED
+  # - task: Cache@2
+  #   condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
+  #   displayName: 'Cache nuget packages'
+  #   inputs:
+  #     key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,!**/bin/**,!**/obj/**'
+  #     path: $(PLATFORM_NUGET_CACHE)
+  #     cacheHitVar: PLATFORM_CACHE_RESTORED
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Restore nuget packages'
-    condition: ne(variables.PLATFORM_CACHE_RESTORED, 'true')
-    inputs:
-      command: restore
-      packagesDirectory: $(PLATFORM_NUGET_CACHE)
-      projects: |
-        platform/src/search/**/*.csproj
-        platform/src/apis/**/*.csproj
-      feedsToUse: 'config'
-      nugetConfigPath: 'platform/nuget.config'
+  # - task: DotNetCoreCLI@2
+  #   displayName: 'Restore nuget packages'
+  #   condition: ne(variables.PLATFORM_CACHE_RESTORED, 'true')
+  #   inputs:
+  #     command: restore
+  #     packagesDirectory: $(PLATFORM_NUGET_CACHE)
+  #     projects: |
+  #       platform/src/search/**/*.csproj
+  #       platform/src/apis/**/*.csproj
+  #     feedsToUse: 'config'
+  #     nugetConfigPath: 'platform/nuget.config'
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Build platform search'
-    inputs:
-      command: publish
-      publishWebProjects: false
-      packagesDirectory: $(PLATFORM_NUGET_CACHE)
-      projects: |
-        platform/src/search/Platform.Search.App/Platform.Search.App.csproj
-      arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/platform-search /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
-      zipAfterPublish: true
-      modifyOutputPath: true
+  # - task: DotNetCoreCLI@2
+  #   displayName: 'Build platform search'
+  #   inputs:
+  #     command: publish
+  #     publishWebProjects: false
+  #     packagesDirectory: $(PLATFORM_NUGET_CACHE)
+  #     projects: |
+  #       platform/src/search/Platform.Search.App/Platform.Search.App.csproj
+  #     arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/platform-search /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+  #     zipAfterPublish: true
+  #     modifyOutputPath: true
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Build platform apis'
-    inputs:
-      command: publish
-      publishWebProjects: false
-      packagesDirectory: $(PLATFORM_NUGET_CACHE)
-      projects: |
-        platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
-        platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
-        platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj
-        platform/src/apis/Platform.Api.LocalAuthorityFinances/Platform.Api.LocalAuthorityFinances.csproj
-        platform/src/apis/Platform.Api.NonFinancial/Platform.Api.NonFinancial.csproj
-        platform/src/apis/Platform.Api.ChartRendering/Platform.Api.ChartRendering.csproj
-        platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
-        platform/src/apis/Platform.UserDataCleanUp/Platform.UserDataCleanUp.csproj
-      arguments: '-c Release -r win-x64 -f net8.0 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
-      zipAfterPublish: true
-      modifyOutputPath: true
+  # - task: DotNetCoreCLI@2
+  #   displayName: 'Build platform apis'
+  #   inputs:
+  #     command: publish
+  #     publishWebProjects: false
+  #     packagesDirectory: $(PLATFORM_NUGET_CACHE)
+  #     projects: |
+  #       platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
+  #       platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
+  #       platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj
+  #       platform/src/apis/Platform.Api.LocalAuthorityFinances/Platform.Api.LocalAuthorityFinances.csproj
+  #       platform/src/apis/Platform.Api.NonFinancial/Platform.Api.NonFinancial.csproj
+  #       platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
+  #       platform/src/apis/Platform.UserDataCleanUp/Platform.UserDataCleanUp.csproj
+  #     arguments: '-c Release -r win-x64 -f net8.0 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+  #     zipAfterPublish: true
+  #     modifyOutputPath: true
 
-  - publish: $(build.artifactstagingdirectory)/platform-search
-    displayName: 'Publish platform search artifacts'
-    artifact: platform-search
+  - task: Npm@1
+    displayName: 'Update ChartRendering version number'
+    inputs:
+      command: 'custom'
+      customCommand: 'version ${{ parameters.BuildVersion }}'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: Npm@1
+    displayName: 'Install ChartRendering dependencies'
+    inputs:
+      command: 'install'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: Npm@1
+    displayName: 'Build ChartRendering api'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build-ci'
+      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+
+  - task: ArchiveFiles@2
+    displayName: 'Publish ChartRendering api'
+    inputs:
+      rootFolderOrFile: 'platform/src/apis/Platform.Api.ChartRendering/out'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/platform-apis/Platform.Api.ChartRendering.zip'
+
+  # - publish: $(build.artifactstagingdirectory)/platform-search
+  #   displayName: 'Publish platform search artifacts'
+  #   artifact: platform-search
   
   - publish: $(build.artifactstagingdirectory)/platform-apis
     displayName: 'Publish platform apis artifacts'
