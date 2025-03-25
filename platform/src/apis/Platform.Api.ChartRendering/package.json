@@ -15,9 +15,13 @@
     "lint-fix": "eslint . --ext .ts --fix"
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/functions": "^4.0.0",
+    "d3": "^7.9.0",
+    "jsdom": "^26.0.0"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20.x",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
@@ -29,5 +33,6 @@
     "rimraf": "^5.0.0",
     "typescript": "^4.0.0"
   },
-  "main": "dist/src/{index.js,functions/*.js}"
+  "main": "dist/src/{index.js,functions/*.js}",
+  "type": "module"
 }
