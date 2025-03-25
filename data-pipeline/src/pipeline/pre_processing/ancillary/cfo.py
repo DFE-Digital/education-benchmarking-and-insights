@@ -1,34 +1,32 @@
 import pandas as pd
 
+from pipeline import input_schemas
 
-def build_cfo_data(cfo_data_path) -> pd.DataFrame:
+
+def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:
     """
     Read Chief Financial Officer (CFO) details.
 
     Note: CFO details are at Trust level.
 
     :param cfo_data_path: from which to read data
-    :return: cfo DataFrame
+    :param year: financial year in question
+    :return: CFO DataFrame
     """
     cfo_data = pd.read_excel(
         cfo_data_path,
-        usecols=[
-            "Companies House Number",
-            "Title",
-            "Forename 1",
-            "Surname",
-            "Direct email address",
-        ],
-        dtype=str,
+        usecols=input_schemas.cfo.get(year, input_schemas.cfo["default"]).keys(),
+        dtype=input_schemas.cfo.get(year, input_schemas.cfo["default"]),
         engine="calamine",
     ).rename(
-        columns={
-            "Direct email address": "CFO email",
-        },
+        columns=input_schemas.cfo_column_mappings.get(
+            year, input_schemas.cfo_column_mappings["default"]
+        ),
     )
 
-    cfo_data["CFO name"] = (
-        cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
-    )
+    for column, eval_ in input_schemas.cfo_column_eval.get(
+        year, input_schemas.cfo_column_eval["default"]
+    ).items():
+        cfo_data[column] = cfo_data.eval(eval_)
 
     return cfo_data[["Companies House Number", "CFO name", "CFO email"]]
