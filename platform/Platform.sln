@@ -114,7 +114,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.NonFinancial.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform.Api.ChartRendering", "Platform.Api.ChartRendering", "{74022F75-3843-48DF-9FB5-D88A0BCD2E7E}"
 	ProjectSection(SolutionItems) = preProject
-		src\apis\Platform.Api.ChartRendering\src\functions\httpTrigger1.ts = src\apis\Platform.Api.ChartRendering\src\functions\httpTrigger1.ts
 		src\apis\Platform.Api.ChartRendering\src\index.ts = src\apis\Platform.Api.ChartRendering\src\index.ts
 		src\apis\Platform.Api.ChartRendering\.funcignore = src\apis\Platform.Api.ChartRendering\.funcignore
 		src\apis\Platform.Api.ChartRendering\host.json = src\apis\Platform.Api.ChartRendering\host.json
@@ -122,6 +121,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform.Api.ChartRendering
 		src\apis\Platform.Api.ChartRendering\package.json = src\apis\Platform.Api.ChartRendering\package.json
 		src\apis\Platform.Api.ChartRendering\package-lock.json = src\apis\Platform.Api.ChartRendering\package-lock.json
 		src\apis\Platform.Api.ChartRendering\tsconfig.json = src\apis\Platform.Api.ChartRendering\tsconfig.json
+		src\apis\Platform.Api.ChartRendering\src\functions\healthCheck.ts = src\apis\Platform.Api.ChartRendering\src\functions\healthCheck.ts
+		src\apis\Platform.Api.ChartRendering\src\functions\verticalBarChart.ts = src\apis\Platform.Api.ChartRendering\src\functions\verticalBarChart.ts
+		src\apis\Platform.Api.ChartRendering\eslint.config.mjs = src\apis\Platform.Api.ChartRendering\eslint.config.mjs
 	EndProjectSection
 EndProject
 Global
