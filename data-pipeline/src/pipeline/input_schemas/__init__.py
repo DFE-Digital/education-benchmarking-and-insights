@@ -22,6 +22,7 @@ from .census_workforce import (  # noqa
     workforce_census_header_row,
     workforce_census_index_col,
 )
+from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
 from .gias import gias, gias_index_col  # noqa
 from .local_authority import (  # noqa
     la_budget,

@@ -230,7 +230,7 @@ def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
     cfo_data = get_blob(raw_container, f"{run_type}/{year}/cfo.xlsx")
 
-    cfo = build_cfo_data(cfo_data)
+    cfo = build_cfo_data(cfo_data, year)
 
     write_blob(
         "pre-processed",
