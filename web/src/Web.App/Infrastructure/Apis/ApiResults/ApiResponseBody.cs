@@ -18,7 +18,7 @@ public abstract class ApiResponseBody(byte[] content)
         {
             "application/json" => new JsonResponseBody(bytes),
             "application/json+paged" => new PagedJsonResponseBody(bytes),
-            "text/plain" => new TextResponseBody(bytes),
+            "text/plain" or "image/svg+xml" => new TextResponseBody(bytes),
             "text/html" => new EmptyResponseBody(),
             "text/csv" => new CsvResponseBody(bytes),
             "application/pdf" => new PdfResponseBody(bytes),
