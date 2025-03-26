@@ -9,6 +9,78 @@ configurationFiles:
 - schools.csv
 failureCriteria: 
 - percentage(error) > 0.1
+referenceIdentities:
+- kind: Metrics
+  type: SystemAssigned
+env:
+- name: hostname
+  value: s198t01-education-benchmarking-dmazdedtfhaqezd7.a01.azurefd.net
 autoStop:
   errorPercentage: 90
   timeWindow: 60
+appComponents:
+- resourceId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-core/providers/Microsoft.Sql/servers/s198t01-sql/databases/data
+  resourceName: data
+  kind: v12.0,user
+  metrics:
+  - name: cpu_percent
+    aggregation: Total
+    namespace: microsoft.sql/servers/databases
+  - name: connection_failed
+    aggregation: Maximum
+    namespace: microsoft.sql/servers/databases
+  - name: deadlock
+    aggregation: Total
+    namespace: microsoft.sql/servers/databases
+- resourceId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-platform/providers/Microsoft.Web/sites/s198t01-ebis-benchmark-fa
+  resourceName: s198t01-ebis-benchmark-fa
+  kind: functionapp
+  metrics:
+  - name: Http5xx
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: Requests
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: HttpResponseTime
+    aggregation: Average
+    namespace: microsoft.web/sites
+- resourceId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-platform/providers/Microsoft.Web/sites/s198t01-ebis-establishment-fa
+  resourceName: s198t01-ebis-establishment-fa
+  kind: functionapp
+  metrics:
+  - name: Http5xx
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: Requests
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: HttpResponseTime
+    aggregation: Average
+    namespace: microsoft.web/sites
+- resourceId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-platform/providers/Microsoft.Web/sites/s198t01-ebis-insight-fa
+  resourceName: s198t01-ebis-insight-fa
+  kind: functionapp
+  metrics:
+  - name: Http5xx
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: Requests
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: HttpResponseTime
+    aggregation: Average
+    namespace: microsoft.web/sites
+- resourceId: /subscriptions/a5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f/resourceGroups/s198t01-ebis-web/providers/Microsoft.Web/sites/s198t01-education-benchmarking
+  resourceName: s198t01-education-benchmarking
+  kind: app
+  metrics:
+  - name: Http5xx
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: Requests
+    aggregation: Total
+    namespace: microsoft.web/sites
+  - name: HttpResponseTime
+    aggregation: Average
+    namespace: microsoft.web/sites

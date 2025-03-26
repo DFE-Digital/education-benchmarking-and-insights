@@ -6,8 +6,21 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="domain" elementType="Argument">
+            <stringProp name="Argument.name">domain</stringProp>
+            <stringProp name="Argument.value">${__BeanShell( System.getenv("hostname") )}</stringProp>
+            <stringProp name="Argument.desc">Web app host name</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Web endpoint test">
         <intProp name="ThreadGroup.num_threads">15</intProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
@@ -26,8 +39,8 @@
           <boolProp name="HTTPSampler.image_parser">true</boolProp>
           <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.embedded_url_re">(?i).*s198t01-education-benchmarking.*</stringProp>
-          <stringProp name="HTTPSampler.domain">s198t01-education-benchmarking-dmazdedtfhaqezd7.a01.azurefd.net</stringProp>
+          <stringProp name="HTTPSampler.embedded_url_re">(?i).*-education-benchmarking.*</stringProp>
+          <stringProp name="HTTPSampler.domain">${domain}</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/school/${identifier}/spending-and-costs</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -56,7 +69,7 @@
           </CacheManager>
           <hashTree/>
         </hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
           <stringProp name="filename">schools.csv</stringProp>
           <stringProp name="variableNames">identifier,name</stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
