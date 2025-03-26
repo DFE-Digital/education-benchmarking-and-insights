@@ -15,7 +15,9 @@ export async function verticalBarChart(
   request: HttpRequest,
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
-  context.log(`Http function processed request for url "${request.url}"`);
+  const timerMessage = "Finished request for vertical bar chart";
+  console.time(timerMessage);
+  context.debug(`Received HTTP request for vertical bar chart`);
 
   const payload = (await request.json()) as VerticalBarChartPayload;
   if (!isValid(payload)) {
@@ -51,14 +53,13 @@ export async function verticalBarChart(
     };
   }
 
+  let result: HttpResponseInit;
   if (Array.isArray(payload)) {
-    return {
+    result = {
       jsonBody: charts,
     };
-  }
-
-  // for single chart requests with HTML requested, just return the chart element
-  if (request.headers.get("x-accept") === "image/svg+xml") {
+  } else if (request.headers.get("x-accept") === "image/svg+xml") {
+    // for single chart requests with HTML requested, just return the chart element
     const body = charts[0].html;
     return {
       body,
@@ -67,11 +68,14 @@ export async function verticalBarChart(
         "Content-Type": "image/svg+xml",
       },
     };
+  } else {
+    result = {
+      jsonBody: charts[0],
+    };
   }
 
-  return {
-    jsonBody: charts[0],
-  };
+  console.timeEnd(timerMessage);
+  return result;
 }
 
 // todo: more validation, such as ensuring if array that id has been defined for each entry
