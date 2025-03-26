@@ -15,4 +15,4 @@ public record PostVerticalBarChartRequest<T>
     public T[]? Data { get; set; }
 }
 
-public class PostVerticalBarChartsRequest<T> : List<PostVerticalBarChartRequest<T>>;
+public class PostVerticalBarChartsRequest<T>(IEnumerable<PostVerticalBarChartRequest<T>> collection) : List<PostVerticalBarChartRequest<T>>(collection);
