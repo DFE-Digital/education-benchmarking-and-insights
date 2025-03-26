@@ -17,6 +17,7 @@ This includes both URL tests and Web tests in order to include coverage over dow
   - typical load conditions using a Web based test
   - peak conditions using a Web based test
 - Compare all of the above once [SSR chart spike](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/248027) is complete
+- Compare Web based tests during development of the above in a feature environment (`d13`)
 
 ## Procedure
 
@@ -56,7 +57,7 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 **Pages Under Test:**
 
 | Page                                      | Test Type | Load Type | DB DTUs |
-|-------------------------------------------|-----------|-----------| ------- |
+|-------------------------------------------|-----------|-----------|---------|
 | `/school/{identifier}/spending-and-costs` | URL       | Average   | S1      |
 | `/school/{identifier}/spending-and-costs` | URL       | Peak      | S2      |
 | `/school/{identifier}/spending-and-costs` | Web       | Average   | S1      |
@@ -71,12 +72,14 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 ## Test Output
 
 <!-- take care with final separator line in piped table, as pandoc uses this for relative column widths -->
-| Load Test Name                                                        | Initiated on         | Max VUs | Duration | Response time | Errors   | Throughput | Result |
-|-----------------------------------------------------------------------|----------------------|---------|----------|---------------|----------|------------|--------|
-| Average URL                                                           | 20/03/2025, 07:06:46 | 15      | 6m       | 320 ms        | 0.01 %   | 49.99 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/ffdcb805-e405-4f6b-a735-cbcb90ad7027) |
-| Peak URL                                                              | 20/03/2025, 10:46:26 | 30      | 6m  5s   | 694 ms        | 0.00 %   | 67.49 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca4ae/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd96d1) |
-| Average Web                                                           | 20/03/2025, 11:10:07 | 15      | 5m 7s    | 350 ms        | 0.00 %   | 113.76 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b3f) |
-| Peak Web                                                              | 20/03/2025, 10:46:26 | 30      | 5m  4s   | 420 ms        | 0.00 %   | 68.72 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd98aa) |
+| Load Test Name           | Environment | Initiated on         | Max VUs | Duration | Response time | Errors | Throughput | Result          |
+|--------------------------|-------------|----------------------|---------|----------|---------------|--------|------------|-----------------|
+| Average URL (baseline)   | `t01`       | 20/03/2025, 07:06:46 | 15      | 6m       | 320 ms        | 0.01 % | 49.99 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/ffdcb805-e405-4f6b-a735-cbcb90ad7027) |
+| Peak URL (baseline)      | `t01`       | 20/03/2025, 10:46:26 | 30      | 6m  5s   | 694 ms        | 0.00 % | 67.49 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca4ae/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd96d1) |
+| Average Web (baseline)   | `t01`       | 20/03/2025, 11:10:07 | 15      | 5m 7s    | 350 ms        | 0.00 % | 113.76 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b3f) |
+| Peak Web (baseline)      | `t01`       | 20/03/2025, 10:46:26 | 30      | 5m  4s   | 420 ms        | 0.00 % | 68.72 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd98aa) |
+| Average Web (baseline)   | `d13`       | 26/03/2025, 10:10:28 | 15      | 5m 1s    | 1.23 s        | 0.00 % | 34.28 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/466a5fff-5bcf-4705-8f2a-003ae8055257) |
+| Peak Web (baseline)      | `d13`       | 26/03/2025, 10:22:23 | 30      | 5m 6s    | 2.3 s         | 0.00 % | 35.05 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/466a5fff-5bcf-4705-8f2a-003ae805559b) |
 
 **Findings and Recommendations:**
 
