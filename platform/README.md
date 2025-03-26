@@ -141,6 +141,20 @@ Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
 }
 ```
 
+#### ChartRendering Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node"
+  }
+}
+```
+
 #### Orchestrator Function App
 
 For local development it's assumed Azurite will be used. More information can be
