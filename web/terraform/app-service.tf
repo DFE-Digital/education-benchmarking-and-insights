@@ -87,6 +87,8 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "Apis__LocalAuthorityFinances__Key"                       = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.local-authority-finances-api-key.versionless_id})"
     "Apis__NonFinancial__Url"                                 = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.non-financial-api-host.versionless_id})"
     "Apis__NonFinancial__Key"                                 = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.non-financial-api-key.versionless_id})"
+    "Apis__ChartRendering__Url"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.chart-rendering-api-host.versionless_id})"
+    "Apis__ChartRendering__Key"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.chart-rendering-api-key.versionless_id})"
     "DFESignInSettings__APISecret"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.dfe-signin-api-secret.versionless_id})"
     "DFESignInSettings__APIUri"                               = var.dfe-signin.api-uri
     "DFESignInSettings__Audience"                             = var.dfe-signin.audience
@@ -111,9 +113,9 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 }
 
 resource "azurerm_key_vault_access_policy" "keyvault_policy" {
-  key_vault_id       = data.azurerm_key_vault.key-vault.id
-  tenant_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].tenant_id
-  object_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  tenant_id    = azurerm_windows_web_app.education-benchmarking-as.identity[0].tenant_id
+  object_id    = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
   secret_permissions = ["Get"]
 }
 
