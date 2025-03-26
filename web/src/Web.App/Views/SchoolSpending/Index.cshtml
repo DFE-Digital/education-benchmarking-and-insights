@@ -1,5 +1,4 @@
-﻿@using Web.App.ViewModels
-@model Web.App.ViewModels.SchoolSpendingViewModel
+﻿@model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
@@ -12,7 +11,7 @@
         saveClassName = "costs-chart-wrapper",
         saveFileName = $"spending-priorities-{Model.Urn}.zip",
         saveTitleAttr = "data-title",
-        costCodesAttr = "data-cost-codes"    
+        costCodesAttr = "data-cost-codes"
     })
 }
 
@@ -45,25 +44,27 @@
             <h2 class="govuk-heading-m govuk-!-font-size-36">Priority cost categories</h2>
             <p class="govuk-body">This shows where spending is different to similar schools.</p>
             <p class="govuk-body">
-                <a href="@Url.ActionLink("CostCategories", "StaticContent")" class="govuk-link" rel="noreferrer noopener" target="_blank" id="cost-categories-guidance">View more details on cost categories (opens in new tab)</a>
+                <a href="@Url.ActionLink("CostCategories", "StaticContent")" class="govuk-link"
+                   rel="noreferrer noopener" target="_blank" id="cost-categories-guidance">View more details on cost
+                    categories (opens in new tab)</a>
             </p>
         </div>
     </div>
 
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.HighPriorityCosts,
-        Id = "high-priority",
-        Urn = Model.Urn,
-        IsPartOfTrust = Model.IsPartOfTrust
+        costs = Model.HighPriorityCosts,
+        id = "high-priority",
+        urn = Model.Urn,
+        isPartOfTrust = Model.IsPartOfTrust
     })
 
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.MediumPriorityCosts,
-        Id = "medium-priority",
-        Urn = Model.Urn,
-        IsPartOfTrust = Model.IsPartOfTrust
+        costs = Model.MediumPriorityCosts,
+        id = "medium-priority",
+        urn = Model.Urn,
+        isPartOfTrust = Model.IsPartOfTrust
     })
 }
 
@@ -76,11 +77,11 @@
         </div>
     </div>
 
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.LowPriorityCosts,
-        Id = "low-priority",
-        Urn = Model.Urn,
-        IsPartOfTrust = Model.IsPartOfTrust
+        costs = Model.LowPriorityCosts,
+        id = "low-priority",
+        urn = Model.Urn,
+        isPartOfTrust = Model.IsPartOfTrust
     })
 }
