@@ -1,0 +1,88 @@
+import * as d3 from "d3";
+import { JSDOM } from "jsdom";
+import classnames from "classnames";
+import { ChartBuilderOptions, ChartBuilderResult } from ".";
+
+export default class VerticalBarChartBuilder {
+  // https://observablehq.com/@d3/bar-chart/2
+  buildChart<T>({
+    context,
+    data,
+    height,
+    highlightKey,
+    id,
+    keyField,
+    sort,
+    valueField,
+    width,
+  }: ChartBuilderOptions<T>): ChartBuilderResult {
+    const timerMessage = `Finished building vertical bar chart ${id}`;
+    console.time(timerMessage);
+    context.debug(`Start building vertical bar chart ${id}`);
+
+    const window = new JSDOM(`<html><head></head><body></body></html>`, {
+      pretendToBeVisual: true,
+    }).window;
+
+    window.d3 = d3.select(window.document); // get d3 into the dom
+
+    // Declare the chart dimensions and margins.
+    const marginTop = 30;
+    const marginRight = 0;
+    const marginBottom = 30;
+    const marginLeft = 40;
+
+    // Declare the x (horizontal position) scale.
+    const x = d3
+      .scaleBand()
+      .domain(
+        sort === undefined
+          ? data.map((d) => d[keyField] as string)
+          : d3.groupSort(
+              data,
+              ([d]) => (d[valueField] as number) * (sort === "asc" ? 1 : -1),
+              (d) => d[keyField] as string,
+            ),
+      )
+      .range([marginLeft, width - marginRight])
+      .padding(0.2);
+
+    // Declare the y (vertical position) scale.
+    const y = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, (d) => d[valueField] as number)])
+      .range([height - marginBottom, marginTop]);
+
+    // Create the SVG container.
+    const svg = (
+      window.d3 as d3.Selection<SVGSVGElement, unknown, null, undefined>
+    )
+      .select("body")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("style", "max-width: 100%; height: auto;")
+      .attr("data-chart-id", id);
+
+    // Add a rect for each bar.
+    svg
+      .append("g")
+      .selectAll()
+      .data(data)
+      .join("rect")
+      .attr("x", (d) => x(d[keyField] as string))
+      .attr("y", (d) => y(d[valueField] as number))
+      .attr("height", (d) => y(0) - y(d[valueField] as number))
+      .attr("width", x.bandwidth())
+      .attr("data-bar-index", (_, i) => i)
+      .attr("class", (d) =>
+        classnames("chart-cell", "chart-cell-series-0", {
+          "chart-cell__highlight": d[keyField] === highlightKey,
+        }),
+      );
+
+    console.timeEnd(timerMessage);
+    return { id, html: svg.node()?.outerHTML || undefined };
+  }
+}

@@ -4,9 +4,12 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import * as d3 from "d3";
-import { JSDOM } from "jsdom";
-import classnames from "classnames";
+import { v4 as uuidv4 } from "uuid";
+import VerticalBarChartBuilder from "../builders/verticalBarChartBuilder.js";
+import { ChartDefinition, VerticalBarChartPayload } from ".";
+import { ChartBuilderResult } from "../builders";
+
+const builder = new VerticalBarChartBuilder();
 
 export async function verticalBarChart(
   request: HttpRequest,
@@ -15,26 +18,30 @@ export async function verticalBarChart(
   context.log(`Http function processed request for url "${request.url}"`);
 
   const payload = (await request.json()) as VerticalBarChartPayload;
-  if (!payload || !payload.data) {
-    // todo: more validation
+  if (!isValid(payload)) {
     return {
       body: "Bad request",
       status: 400,
     };
   }
 
-  let chart: SVGSVGElement | undefined;
-  const { data, height, keyField, valueField, width, ...rest } = payload;
+  let charts: ChartBuilderResult[] = [];
+  const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    chart = buildChart({
-      data,
-      height: height || 500,
-      keyField: keyField as never,
-      valueField: valueField as never,
-      width: width || 928,
-      ...rest,
-    });
+    charts = definitions.map(
+      ({ data, height, id, keyField, valueField, width, ...rest }) =>
+        builder.buildChart({
+          context,
+          data,
+          height: height || 500,
+          id: id || uuidv4(),
+          keyField: keyField as never,
+          valueField: valueField as never,
+          width: width || 928,
+          ...rest,
+        }),
+    );
   } catch (e) {
     context.error(e);
 
@@ -44,87 +51,34 @@ export async function verticalBarChart(
     };
   }
 
+  if (Array.isArray(payload)) {
+    return {
+      jsonBody: charts,
+    };
+  }
+
+  // for single chart requests with HTML requested, just return the chart element
+  if (request.headers.get("Accept") === "text/html") {
+    return {
+      body: charts[0].html,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    };
+  }
+
   return {
-    body: chart?.outerHTML,
-    headers: {
-      "Content-Type": "text/html",
-    },
+    jsonBody: charts[0],
   };
 }
 
-// https://observablehq.com/@d3/bar-chart/2
-function buildChart<T>({
-  data,
-  height,
-  highlightKey,
-  keyField,
-  sort,
-  valueField,
-  width,
-}: ChartOptions<T>) {
-  const window = new JSDOM(`<html><head></head><body></body></html>`, {
-    pretendToBeVisual: true,
-  }).window;
+// todo: more validation, such as ensuring if array that id has been defined for each entry
+function isValid(payload: VerticalBarChartPayload) {
+  if (Array.isArray(payload)) {
+    return !!(payload as ChartDefinition[])[0]?.data?.length;
+  }
 
-  window.d3 = d3.select(window.document); // get d3 into the dom
-
-  // Declare the chart dimensions and margins.
-  const marginTop = 30;
-  const marginRight = 0;
-  const marginBottom = 30;
-  const marginLeft = 40;
-
-  // Declare the x (horizontal position) scale.
-  const x = d3
-    .scaleBand()
-    .domain(
-      sort === undefined
-        ? data.map((d) => d[keyField] as string)
-        : d3.groupSort(
-            data,
-            ([d]) => (d[valueField] as number) * (sort === "asc" ? 1 : -1),
-            (d) => d[keyField] as string,
-          ),
-    )
-    .range([marginLeft, width - marginRight])
-    .padding(0.2);
-
-  // Declare the y (vertical position) scale.
-  const y = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d[valueField] as number)])
-    .range([height - marginBottom, marginTop]);
-
-  // Create the SVG container.
-  const svg = (
-    window.d3 as d3.Selection<SVGSVGElement, unknown, null, undefined>
-  )
-    .select("body")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("style", "max-width: 100%; height: auto;");
-
-  // Add a rect for each bar.
-  svg
-    .append("g")
-    .selectAll()
-    .data(data)
-    .join("rect")
-    .attr("x", (d) => x(d[keyField] as string))
-    .attr("y", (d) => y(d[valueField] as number))
-    .attr("height", (d) => y(0) - y(d[valueField] as number))
-    .attr("width", x.bandwidth())
-    .attr("data-i", (_, i) => i)
-    .attr("class", (d) =>
-      classnames("chart-cell", "chart-cell-series-0", {
-        "chart-cell__highlight": d[keyField] === highlightKey,
-      }),
-    );
-
-  // Return the SVG element.
-  return svg.node();
+  return !!(payload as ChartDefinition)?.data?.length;
 }
 
 app.http("verticalBarChart", {
@@ -132,22 +86,3 @@ app.http("verticalBarChart", {
   authLevel: "anonymous",
   handler: verticalBarChart,
 });
-
-interface VerticalBarChartPayload
-  extends Pick<ChartOptions<unknown>, "data">,
-    Partial<
-      Pick<ChartOptions<unknown>, "height" | "highlightKey" | "sort" | "width">
-    > {
-  keyField: string;
-  valueField: string;
-}
-
-interface ChartOptions<T> {
-  data: T[];
-  height: number;
-  highlightKey?: string | undefined;
-  keyField: keyof T;
-  sort?: "asc" | "desc" | undefined;
-  valueField: keyof T;
-  width: number;
-}
