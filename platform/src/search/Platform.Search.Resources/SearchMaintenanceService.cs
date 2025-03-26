@@ -145,6 +145,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             new TrustIndexBuilder(),
             new SchoolIndexBuilder(),
+            new SchoolFacetedIndexBuilder(),
             new LocalAuthorityIndexBuilder(),
             new SchoolComparatorsIndexBuilder(),
             new TrustComparatorsIndexBuilder()
@@ -204,6 +205,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new IndexerBuilder[]
         {
             new SchoolIndexerBuilder(),
+            new SchoolFacetedIndexerBuilder(),
             new TrustIndexerBuilder(),
             new LocalAuthorityIndexerBuilder(),
             new SchoolComparatorsIndexerBuilder(),
