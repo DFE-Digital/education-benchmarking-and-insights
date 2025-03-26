@@ -58,11 +58,13 @@ export async function verticalBarChart(
   }
 
   // for single chart requests with HTML requested, just return the chart element
-  if (request.headers.get("Accept") === "text/html") {
+  if (request.headers.get("x-accept") === "image/svg+xml") {
+    const body = charts[0].html;
     return {
-      body: charts[0].html,
+      body,
       headers: {
-        "Content-Type": "text/html",
+        "Content-Length": body.length.toString(),
+        "Content-Type": "image/svg+xml",
       },
     };
   }

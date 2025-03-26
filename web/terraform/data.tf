@@ -68,3 +68,13 @@ data "azurerm_key_vault_secret" "non-financial-api-host" {
   name         = "non-financial-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
+
+data "azurerm_key_vault_secret" "chart-rendering-api-key" {
+  name         = "chart-rendering-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "chart-rendering-api-host" {
+  name         = "chart-rendering-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
