@@ -80,8 +80,16 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Peak Web (baseline)      | `t01`       | 20/03/2025, 10:46:26 | 30      | 5m  4s   | 420 ms        | 0.00 % | 68.72 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd98aa) |
 | Average Web (baseline)   | `d13`       | 26/03/2025, 10:10:28 | 15      | 5m 1s    | 1.23 s        | 0.00 % | 34.28 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/466a5fff-5bcf-4705-8f2a-003ae8055257) |
 | Peak Web (baseline)      | `d13`       | 26/03/2025, 10:22:23 | 30      | 5m 6s    | 2.3 s         | 0.00 % | 35.05 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/466a5fff-5bcf-4705-8f2a-003ae805559b) |
+| Average Web              | `d13`       | 26/03/2025, 15:17:57 | 15      | 4m 59s   | 5.8 s         | 0.00 % | 7.18 /s    | [⚠️ Degraded](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/9489cc8c-f442-4eca-a191-391e02dbc036) |
+| Peak Web                 | `d13`       | 26/03/2025, 15:28:06 | 30      | 5m       | 10.5 s        | 0.00 % | 7.73 /s    | [⚠️ Degraded](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/9489cc8c-f442-4eca-a191-391e02dbc233) |
 
 **Findings and Recommendations:**
+
+Significant degredation under load when rendering charts server side. The two peaks below are from the average and then the peak load against `d13` respectively. The bottleneck may be seen to be with the requests to the new function app, although not the actual chart generation which is consistently averages about 20ms.
+
+![Performance of School Spending Priorities](../images/school-spending-priorities-d13-001.png)
+
+![Performance of School Spending Priorities](../images/school-spending-priorities-d13-002.png)
 
 <!-- Leave the rest of this page blank -->
 \newpage
