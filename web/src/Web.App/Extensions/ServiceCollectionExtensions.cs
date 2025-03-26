@@ -11,6 +11,7 @@ using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
@@ -101,6 +102,16 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
         services.AddHttpClient<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>().Configure<EducationHealthCarePlansApi>(section);
+
+        return services;
+    }
+
+    public static IServiceCollection AddChartRenderingApi(this IServiceCollection services)
+    {
+        const string section = "Apis:ChartRendering";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<IChartRenderingApi, ChartRenderingApi>().Configure<ChartRenderingApi>(section);
 
         return services;
     }
@@ -291,8 +302,11 @@ public static class ServiceCollectionExtensions
             });
     }
 
-    public static IServiceCollection AddActionResults(this IServiceCollection services) => services
-        .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
-        .AddSingleton<IActionResultExecutor<CsvResults>, CsvResultsActionResultExecutor>()
-        .AddSingleton<ICsvService, CsvService>();
+    public static IServiceCollection AddActionResults(this IServiceCollection services)
+    {
+        return services
+            .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
+            .AddSingleton<IActionResultExecutor<CsvResults>, CsvResultsActionResultExecutor>()
+            .AddSingleton<ICsvService, CsvService>();
+    }
 }

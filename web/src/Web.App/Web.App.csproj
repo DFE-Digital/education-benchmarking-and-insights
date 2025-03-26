@@ -36,4 +36,7 @@
         <PackageReference Include="SmartBreadcrumbs"/>
         <PackageReference Include="Swashbuckle.AspNetCore"/>
     </ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="Views\Shared\Components\PriorityCostCategory\Default.cshtml"/>
+    </ItemGroup>
 </Project>

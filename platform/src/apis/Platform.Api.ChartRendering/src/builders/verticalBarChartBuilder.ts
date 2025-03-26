@@ -27,10 +27,10 @@ export default class VerticalBarChartBuilder {
     window.d3 = d3.select(window.document); // get d3 into the dom
 
     // Declare the chart dimensions and margins.
-    const marginTop = 30;
-    const marginRight = 0;
-    const marginBottom = 30;
-    const marginLeft = 40;
+    const marginTop = 5;
+    const marginRight = 5;
+    const marginBottom = 5;
+    const marginLeft = 5;
 
     // Declare the x (horizontal position) scale.
     const x = d3
@@ -77,7 +77,7 @@ export default class VerticalBarChartBuilder {
       .attr("width", x.bandwidth())
       .attr("data-bar-index", (_, i) => i)
       .attr("class", (d) =>
-        classnames("chart-cell", "chart-cell-series-0", {
+        classnames("chart-cell", "chart-cell__series-0", {
           "chart-cell__highlight": d[keyField] === highlightKey,
         }),
       );
