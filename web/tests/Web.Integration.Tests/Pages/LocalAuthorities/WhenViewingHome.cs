@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -21,21 +22,31 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(params string[] phaseTypes)
     {
-        var (page, authority, schools) = await SetupNavigateInitPage(phaseTypes);
+        var (page, authority, schools) = await SetupNavigateInitPage(false, phaseTypes);
 
         AssertPageLayout(page, authority, schools);
     }
 
-    [Fact]
-    public async Task CanNavigateToChangeAuthority()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToChangeAuthority(bool facetedSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage();
+        var (page, _, _) = await SetupNavigateInitPage(facetedSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
+
+        if (facetedSearchFeatureEnabled)
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}/local-authority", HttpStatusCode.NotFound);
+        }
+        else
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
+        }
     }
 
     [Fact]
@@ -121,15 +132,23 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(bool facetedSearchFeatureEnabled = false, params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
 
+        string[] disabledFlags = [];
+        if (!facetedSearchFeatureEnabled)
+        {
+            disabledFlags = [FeatureFlags.FacetedSearch];
+        }
+
         Assert.NotNull(authority.Name);
         var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(phaseType)).ToArray();
 
-        var page = await Client.SetupEstablishment(authority, schools)
+        var page = await Client
+            .SetupDisableFeatureFlags(disabledFlags)
+            .SetupEstablishment(authority, schools)
             .SetupInsights()
             .Navigate(Paths.LocalAuthorityHome(authority.Code));
 

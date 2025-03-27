@@ -14,7 +14,12 @@
 <feature name="@FeatureFlags.FacetedSearch">
     @Html.TrackedAnchor(
         TrackedLinks.ChangeOrganisation,
-        Url.Action(Model.Type, "FindOrganisation") ?? "",
+        Url.Action(Model.Type switch
+        {
+            OrganisationTypes.LocalAuthority => nameof(OrganisationTypes.LocalAuthority),
+            OrganisationTypes.Trust => nameof(OrganisationTypes.Trust),
+            _ => nameof(OrganisationTypes.School)
+        }, "FindOrganisation") ?? "",
         content)
 </feature>
 

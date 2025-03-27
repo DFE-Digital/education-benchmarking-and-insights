@@ -99,8 +99,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
         var action = viewModel.FindMethod switch
         {
             OrganisationTypes.School => nameof(School),
-            OrganisationTypes.Trust => "Trust", // todo
-            OrganisationTypes.LocalAuthority => "LocalAuthority", // todo
+            OrganisationTypes.Trust => nameof(Trust),
+            OrganisationTypes.LocalAuthority => nameof(LocalAuthority),
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod))
         };
 
@@ -108,10 +108,26 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
     }
 
     [HttpGet]
-    [Route("school")]
+    [Route(OrganisationTypes.School)]
     [FeatureGate(FeatureFlags.FacetedSearch)]
     public IActionResult School()
     {
         return View();
+    }
+
+    [HttpGet]
+    [Route(OrganisationTypes.Trust)]
+    [FeatureGate(FeatureFlags.FacetedSearch)]
+    public IActionResult Trust()
+    {
+        return NotFound();
+    }
+
+    [HttpGet]
+    [Route(OrganisationTypes.LocalAuthority)]
+    [FeatureGate(FeatureFlags.FacetedSearch)]
+    public IActionResult LocalAuthority()
+    {
+        return NotFound();
     }
 }
