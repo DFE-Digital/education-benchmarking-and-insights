@@ -1,43 +1,108 @@
+@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Web.App.Domain
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.FindOrganisationViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisation;
 }
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        @await Html.PartialAsync("_ErrorSummary")
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
-    </div>
-</div>
-
-<noscript>
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            Your browser does not meet the minimum requirements to use this service.
-        </strong>
-    </div>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>
-            Please ensure that JavaScript is enabled.
-        </li>
-    </ul>
-</noscript>
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <div id="find-organisation"
-             data-company-number="@Model.CompanyNumber"
-             data-find-method="@Model.FindMethod"
-             data-la-error="@ViewData.ModelState["la-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
-             data-la-input="@Model.LaInput"
-             data-school-error="@ViewData.ModelState["school-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
-             data-school-input="@Model.SchoolInput"
-             data-trust-error="@ViewData.ModelState["trust-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
-             data-trust-input="@Model.TrustInput"
-             data-urn="@Model.Urn"
-        >
+<feature name="@FeatureFlags.FacetedSearch">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">What are you looking for?</h1>
+            @await Html.PartialAsync("_ErrorSummary")
+            @using (Html.BeginForm("Index", "FindOrganisation", new {}, FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+            {
+                var hasError = ViewData.ModelState.HasError(nameof(FindOrganisationSelectViewModel.FindMethod));
+                <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
+                    <fieldset class="govuk-fieldset" @(hasError ? "aria-describedby=\"type-error\"" : string.Empty)>
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-visually-hidden">
+                            <h1 class="govuk-fieldset__heading">
+                                Select an organisation type
+                            </h1>
+                        </legend>
+                        @if (hasError)
+                        {
+                            <p id="type-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                @ViewData.ModelState[nameof(FindOrganisationSelectViewModel.FindMethod)]?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()
+                            </p>
+                        }
+                        <div class="govuk-radios" data-module="govuk-radios"
+                             id="@nameof(FindOrganisationSelectViewModel.FindMethod)">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="school"
+                                       name="@nameof(FindOrganisationSelectViewModel.FindMethod)" type="radio"
+                                       value="@OrganisationTypes.School">
+                                <label class="govuk-label govuk-radios__label" for="school">
+                                    School or academy
+                                </label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="trust"
+                                       name="@nameof(FindOrganisationSelectViewModel.FindMethod)" type="radio"
+                                       value="@OrganisationTypes.Trust">
+                                <label class="govuk-label govuk-radios__label" for="trust">
+                                    Trust
+                                </label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="local-authority"
+                                       name="@nameof(FindOrganisationSelectViewModel.FindMethod)" type="radio"
+                                       value="@OrganisationTypes.LocalAuthority">
+                                <label class="govuk-label govuk-radios__label" for="local-authority">
+                                    Local authority
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
+                        value="@FormAction.Continue">
+                    Continue
+                </button>
+            }
         </div>
     </div>
-</div>
+</feature>
+
+<feature negate="true" name="@FeatureFlags.FacetedSearch">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            @await Html.PartialAsync("_ErrorSummary")
+            <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+        </div>
+    </div>
+
+    <noscript>
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                Your browser does not meet the minimum requirements to use this service.
+            </strong>
+        </div>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>
+                Please ensure that JavaScript is enabled.
+            </li>
+        </ul>
+    </noscript>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div id="find-organisation"
+                 data-company-number="@Model.CompanyNumber"
+                 data-find-method="@Model.FindMethod"
+                 data-la-error="@ViewData.ModelState["la-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
+                 data-la-input="@Model.LaInput"
+                 data-school-error="@ViewData.ModelState["school-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
+                 data-school-input="@Model.SchoolInput"
+                 data-trust-error="@ViewData.ModelState["trust-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
+                 data-trust-input="@Model.TrustInput"
+                 data-urn="@Model.Urn">
+            </div>
+        </div>
+    </div>
+</feature>

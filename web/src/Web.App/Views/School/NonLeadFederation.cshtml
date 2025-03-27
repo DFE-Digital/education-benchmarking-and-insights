@@ -1,4 +1,5 @@
 ﻿@using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.NonLeadFederationSchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -8,13 +9,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            @Html.TrackedAnchor(
-                TrackedLinks.ChangeOrganisation,
-                Url.Action("Index", "FindOrganisation", new
-                {
-                    method = OrganisationTypes.School
-                }) ?? "",
-                "Change school")
+            @await Html.PartialAsync("_ChangeLink", new ChangeLinkViewModel { Type = OrganisationTypes.School })
         </p>
     </div>
 </div>

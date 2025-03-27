@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -7,7 +9,7 @@ namespace Web.App.Controllers;
 // This feature is documented at /documentation/developers/features/find-organisation.md
 [Controller]
 [Route("find-organisation")]
-public class FindOrganisationController(ILogger<FindOrganisationController> logger) : Controller
+public class FindOrganisationController(ILogger<FindOrganisationController> logger, IFeatureManager featureManager) : Controller
 {
     [HttpGet]
     public IActionResult Index(string method = OrganisationTypes.School)
@@ -17,57 +19,18 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
     }
 
     [HttpPost]
-    public IActionResult Index([FromForm] FindOrganisationViewModel viewModel)
+    public async Task<IActionResult> Index([FromForm] FindOrganisationViewModel viewModel)
     {
         using (logger.BeginScope(new { viewModel }))
         {
             try
             {
-                switch (viewModel.FindMethod.ToLower())
+                if (await featureManager.IsEnabledAsync(FeatureFlags.FacetedSearch))
                 {
-                    case OrganisationTypes.School:
-                        {
-                            if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
-                            {
-                                var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                    ? "Enter a school or academy name, postcode or URN"
-                                    : "Select a school or academy from the suggested list";
-                                ModelState.AddModelError("school-input", message);
-                                return View(viewModel);
-                            }
-
-                            return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
-                        }
-                    case OrganisationTypes.Trust:
-                        {
-                            if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) ||
-                                string.IsNullOrEmpty(viewModel.TrustInput))
-                            {
-                                var message = string.IsNullOrEmpty(viewModel.TrustInput)
-                                    ? "Enter a trust name or company number"
-                                    : "Select a trust from the suggested list";
-                                ModelState.AddModelError("trust-input", message);
-                                return View(viewModel);
-                            }
-
-                            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
-                        }
-                    case OrganisationTypes.LocalAuthority:
-                        {
-                            if (string.IsNullOrWhiteSpace(viewModel.Code) || string.IsNullOrEmpty(viewModel.LaInput))
-                            {
-                                var message = string.IsNullOrEmpty(viewModel.LaInput)
-                                    ? "Enter a valid local authority name"
-                                    : "Select a local authority from the suggested list";
-                                ModelState.AddModelError("la-input", message);
-                                return View(viewModel);
-                            }
-
-                            return RedirectToAction("Index", "LocalAuthority", new { code = viewModel.Code });
-                        }
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
+                    return FacetedSearchResult(viewModel);
                 }
+
+                return SearchResult(viewModel);
             }
             catch (Exception e)
             {
@@ -75,5 +38,80 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
+    }
+
+    private IActionResult SearchResult(FindOrganisationViewModel viewModel)
+    {
+        switch (viewModel.FindMethod?.ToLower())
+        {
+            case OrganisationTypes.School:
+                {
+                    if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
+                    {
+                        var message = string.IsNullOrEmpty(viewModel.SchoolInput)
+                            ? "Enter a school or academy name, postcode or URN"
+                            : "Select a school or academy from the suggested list";
+                        ModelState.AddModelError("school-input", message);
+                        return View(viewModel);
+                    }
+
+                    return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
+                }
+            case OrganisationTypes.Trust:
+                {
+                    if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) ||
+                        string.IsNullOrEmpty(viewModel.TrustInput))
+                    {
+                        var message = string.IsNullOrEmpty(viewModel.TrustInput)
+                            ? "Enter a trust name or company number"
+                            : "Select a trust from the suggested list";
+                        ModelState.AddModelError("trust-input", message);
+                        return View(viewModel);
+                    }
+
+                    return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
+                }
+            case OrganisationTypes.LocalAuthority:
+                {
+                    if (string.IsNullOrWhiteSpace(viewModel.Code) || string.IsNullOrEmpty(viewModel.LaInput))
+                    {
+                        var message = string.IsNullOrEmpty(viewModel.LaInput)
+                            ? "Enter a valid local authority name"
+                            : "Select a local authority from the suggested list";
+                        ModelState.AddModelError("la-input", message);
+                        return View(viewModel);
+                    }
+
+                    return RedirectToAction("Index", "LocalAuthority", new { code = viewModel.Code });
+                }
+            default:
+                throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
+        }
+    }
+
+    private IActionResult FacetedSearchResult(FindOrganisationSelectViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("Index");
+        }
+
+        var action = viewModel.FindMethod switch
+        {
+            OrganisationTypes.School => nameof(School),
+            OrganisationTypes.Trust => "Trust", // todo
+            OrganisationTypes.LocalAuthority => "LocalAuthority", // todo
+            _ => throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod))
+        };
+
+        return RedirectToAction(action);
+    }
+
+    [HttpGet]
+    [Route("school")]
+    [FeatureGate(FeatureFlags.FacetedSearch)]
+    public IActionResult School()
+    {
+        return View();
     }
 }
