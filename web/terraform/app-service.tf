@@ -77,6 +77,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__FinancialBenchmarkingInsightsSummary" = var.configuration[var.environment].features.FinancialBenchmarkingInsightsSummary
     "FeatureManagement__HistoricalTrends"                     = var.configuration[var.environment].features.HistoricalTrends
     "FeatureManagement__HighNeeds"                            = var.configuration[var.environment].features.HighNeeds
+    "FeatureManagement__FacetedSearch"                        = var.configuration[var.environment].features.FacetedSearch
     "Apis__Insight__Url"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-host.versionless_id})"
     "Apis__Insight__Key"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-key.versionless_id})"
     "Apis__Establishment__Url"                                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-host.versionless_id})"
@@ -111,9 +112,9 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 }
 
 resource "azurerm_key_vault_access_policy" "keyvault_policy" {
-  key_vault_id       = data.azurerm_key_vault.key-vault.id
-  tenant_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].tenant_id
-  object_id          = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  tenant_id    = azurerm_windows_web_app.education-benchmarking-as.identity[0].tenant_id
+  object_id    = azurerm_windows_web_app.education-benchmarking-as.identity[0].principal_id
   secret_permissions = ["Get"]
 }
 

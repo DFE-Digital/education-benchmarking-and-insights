@@ -22,6 +22,7 @@ variable "configuration" {
       FinancialBenchmarkingInsightsSummary = bool
       HistoricalTrends                     = bool
       HighNeeds                            = bool
+      FacetedSearch                        = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -49,6 +50,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
+        FacetedSearch                        = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -75,6 +77,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
+        FacetedSearch                        = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -101,6 +104,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
+        FacetedSearch                        = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -127,6 +131,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
+        FacetedSearch                        = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -153,6 +158,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = false
+        FacetedSearch                        = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -179,6 +185,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = false
+        FacetedSearch                        = false
       },
       CacheOptions = {
         ReturnYears = {
