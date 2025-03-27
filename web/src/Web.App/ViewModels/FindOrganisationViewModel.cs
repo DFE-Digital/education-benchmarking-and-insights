@@ -1,10 +1,9 @@
 namespace Web.App.ViewModels;
 
-public class FindOrganisationViewModel
+public class FindOrganisationViewModel : FindOrganisationSelectViewModel
 {
     public string? Code { get; set; }
     public string? CompanyNumber { get; set; }
-    public string FindMethod { get; set; } = OrganisationTypes.School;
     public string? LaInput { get; set; }
     public string? SchoolInput { get; set; }
     public string? TrustInput { get; set; }

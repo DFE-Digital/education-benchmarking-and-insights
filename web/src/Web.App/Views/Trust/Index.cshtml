@@ -10,19 +10,14 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            @Html.TrackedAnchor(
-                TrackedLinks.ChangeOrganisation,
-                Url.Action("Index", "FindOrganisation", new
-                {
-                    method = OrganisationTypes.Trust
-                }) ?? "",
-                "Change trust")
+            @await Html.PartialAsync("_ChangeLink", new ChangeLinkViewModel { Type = OrganisationTypes.Trust })
         </p>
     </div>
     <div class="govuk-grid-column-full">
         @if (Model.ComparatorReverted == true)
         {
-            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+                 aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                 <div class="govuk-notification-banner__header">
                     <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                         Success
@@ -105,7 +100,8 @@ else
 
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell govuk-!-width-one-half">
-                    <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
+                    <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })"
+                       class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
                 </td>
                 <td class="govuk-table__cell govuk-!-width-one-half">
                     @await Component.InvokeAsync("RagStack", new
@@ -125,7 +121,8 @@ else
     </table>
 
     <p class="govuk-body">
-        <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })" class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a>
+        <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber })"
+           class="govuk-link govuk-link--no-visited-state">View all spending priorities for this trust</a>
     </p>
 }
 

@@ -1,5 +1,4 @@
-﻿@using Web.App.Extensions
-@using Web.App.TagHelpers
+﻿@using Web.App.TagHelpers
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.LocalAuthorityViewModel
@@ -11,10 +10,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            @Html.TrackedAnchor(
-            TrackedLinks.ChangeOrganisation,
-            Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.LocalAuthority }) ?? "",
-            "Change local authority")
+            @await Html.PartialAsync("_ChangeLink", new ChangeLinkViewModel { Type = OrganisationTypes.LocalAuthority })
         </p>
     </div>
 </div>
@@ -22,7 +18,7 @@
 @await Component.InvokeAsync("DataSource", new
 {
     organisationType = OrganisationTypes.LocalAuthority,
-    sourceType = DataSourceTypes.Spending,
+    sourceType = DataSourceTypes.Spending
 })
 
 <hr class="govuk-section-break govuk-section-break--m">
@@ -66,9 +62,10 @@
 @await Component.InvokeAsync("GetHelp") *@
 
 @section scripts
-        {
+{
     <script type="module" add-nonce="true">
-        import { initAll } from '/js/govuk-frontend.min.js'
+        import {initAll} from '/js/govuk-frontend.min.js'
+
         initAll()
     </script>
 }

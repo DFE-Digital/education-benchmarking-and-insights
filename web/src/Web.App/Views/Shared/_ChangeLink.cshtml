@@ -1,0 +1,26 @@
+@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Web.App.Extensions
+@model Web.App.ViewModels.ChangeLinkViewModel
+@{
+    var content = Model.Type switch
+    {
+        OrganisationTypes.School => "Change school",
+        OrganisationTypes.Trust => "Change trust",
+        OrganisationTypes.LocalAuthority => "Change local authority",
+        _ => ""
+    };
+}
+
+<feature name="@FeatureFlags.FacetedSearch">
+    @Html.TrackedAnchor(
+        TrackedLinks.ChangeOrganisation,
+        Url.Action(Model.Type, "FindOrganisation") ?? "",
+        content)
+</feature>
+
+<feature negate="true" name="@FeatureFlags.FacetedSearch">
+    @Html.TrackedAnchor(
+        TrackedLinks.ChangeOrganisation,
+        Url.Action("Index", "FindOrganisation", new { method = Model.Type }) ?? "",
+        content)
+</feature>

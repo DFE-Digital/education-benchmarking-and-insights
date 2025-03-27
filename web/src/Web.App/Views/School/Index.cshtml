@@ -16,13 +16,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            @Html.TrackedAnchor(
-                TrackedLinks.ChangeOrganisation,
-                Url.Action("Index", "FindOrganisation", new
-                {
-                    method = OrganisationTypes.School
-                }) ?? "",
-                "Change school")
+            @await Html.PartialAsync("_ChangeLink", new ChangeLinkViewModel { Type = OrganisationTypes.School })
         </p>
     </div>
 </div>
@@ -32,7 +26,9 @@
         @if (Model.IsPartOfTrust)
         {
             <h2 class="govuk-heading-m">
-                <span>Part of </span><a href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })" class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
+                <span>Part of </span><a
+                    href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })"
+                    class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
             </h2>
         }
     </div>
@@ -109,7 +105,8 @@
             </p>
             <p>
                 <strong>
-                    <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
+                    <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })"
+                       class="govuk-link govuk-link--no-visited-state">
                         View all spending priorities for this school
                     </a>
                 </strong>
@@ -154,7 +151,8 @@
 @section scripts
 {
     <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
+        import {initAll} from '/js/govuk-frontend.min.js'
+
+        initAll()
     </script>
 }
