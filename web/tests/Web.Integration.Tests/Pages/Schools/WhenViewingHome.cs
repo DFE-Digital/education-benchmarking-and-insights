@@ -3,8 +3,10 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -84,16 +86,26 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToChangeSchool()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToChangeSchool(bool facetedSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, facetedSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+
+        if (facetedSearchFeatureEnabled)
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}/school");
+        }
+        else
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        }
     }
 
     [Fact]
@@ -127,7 +139,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false, bool facetedSearchFeatureEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -143,7 +155,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        string[] disabledFlags = [];
+        if (!facetedSearchFeatureEnabled)
+        {
+            disabledFlags = [FeatureFlags.FacetedSearch];
+        }
+
+        var page = await Client
+            .SetupDisableFeatureFlags(disabledFlags)
+            .SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
             .SetupExpenditure(school)
@@ -184,6 +204,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
+
+        // todo: if feature flag enabled...
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown

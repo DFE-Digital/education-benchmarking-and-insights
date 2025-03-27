@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -76,16 +77,26 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToChangeSchool()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToChangeSchool(bool facetedSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage();
+        var (page, _, _) = await SetupNavigateInitPage(false, facetedSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+
+        if (facetedSearchFeatureEnabled)
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}/school");
+        }
+        else
+        {
+            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        }
     }
 
     [Fact]
@@ -117,7 +128,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false, bool facetedSearchFeatureEnabled = false)
     {
         var federationLeadSchool = new FederationSchool
         {
@@ -146,7 +157,15 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.URN, school.URN)
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        string[] disabledFlags = [];
+        if (!facetedSearchFeatureEnabled)
+        {
+            disabledFlags = [FeatureFlags.FacetedSearch];
+        }
+
+        var page = await Client
+            .SetupDisableFeatureFlags(disabledFlags)
+            .SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
             .SetupExpenditure(school)
@@ -166,6 +185,8 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.TitleAndH1(page, "Your school - Financial Benchmarking and Insights Tool - GOV.UK", school.SchoolName);
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
+
+        // todo: if feature flag enabled...
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
         // assertions for non lead federation schools
