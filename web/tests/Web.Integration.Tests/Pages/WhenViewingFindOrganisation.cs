@@ -18,10 +18,10 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
     [InlineData("school")]
     [InlineData("trust")]
     [InlineData("local-authority")]
-    public async Task CanBeginFacetedSearch(string type)
+    public async Task CanChooseOrganisationType(string type)
     {
         var page = await Client.Navigate(Paths.FindOrganisation);
-        var action = page.QuerySelector("button[value='continue']");
+        var action = page.QuerySelector("button[type='submit']");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
@@ -37,7 +37,7 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
         switch (type)
         {
             case "school":
-                DocumentAssert.AssertPageUrl(page, Paths.SchoolFacetedSearch.ToAbsolute());
+                DocumentAssert.AssertPageUrl(page, Paths.FindSchool.ToAbsolute());
                 break;
         }
     }
@@ -46,11 +46,11 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
     public async Task CanDisplayErrorIfTypeChoiceNotMade()
     {
         var page = await Client.Navigate(Paths.FindOrganisation);
-        var action = page.QuerySelector("button[value='continue']");
+        var action = page.QuerySelector("button[type='submit']");
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Assert.Equal("Error: Select the type of organisation to search for", page.QuerySelector("#type-error")?.GetInnerText());
+        Assert.Equal("Error: Select the type of organisation to search for", page.QuerySelector("#FindMethod-error")?.GetInnerText());
     }
 }
