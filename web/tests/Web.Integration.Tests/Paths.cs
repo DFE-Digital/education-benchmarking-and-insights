@@ -13,7 +13,7 @@ public static class Paths
     public const string Accessibility = "/accessibility";
     public const string Error = "/error";
     public const string DataSources = "/data-sources";
-    public const string SchoolFacetedSearch = "/find-organisation/school";
+    public const string FindSchool = "/find-organisation/school";
 
     public static string StatusError(int statusCode)
     {

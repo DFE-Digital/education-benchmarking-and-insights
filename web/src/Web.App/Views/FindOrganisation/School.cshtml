@@ -1,10 +1,47 @@
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationSchool;
+    var hasError = ViewData.ModelState.HasError(nameof(FindOrganisationSearchViewModel.Term));
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+        <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
+            <h1 class="govuk-label-wrapper">
+                <label class="govuk-label govuk-label--l" for="@nameof(FindOrganisationSearchViewModel.Term)">
+                    @ViewData[ViewDataKeys.Title]
+                </label>
+            </h1>
+            <div id="@nameof(FindOrganisationSearchViewModel.Term)-hint" class="govuk-hint">
+                Search by name, address, postcode or unique reference number (URN)
+            </div>
+            @if (hasError)
+            {
+                <p id="@nameof(FindOrganisationSearchViewModel.Term)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    @ViewData.ModelState[nameof(FindOrganisationSearchViewModel.Term)]?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()
+                </p>
+            }
+            @using (Html.BeginForm("School", "FindOrganisation", new {}, FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+            {
+                <div class="govuk-input__wrapper">
+                    <input class="govuk-input" id="@nameof(FindOrganisationSearchViewModel.Term)"
+                           name="@nameof(FindOrganisationSearchViewModel.Term)"
+                           type="text" spellcheck="false"
+                           aria-describedby="search-term-hint @(hasError ? $"{nameof(FindOrganisationSearchViewModel.Term)}-error" : string.Empty)">
+                    <div class="govuk-input__suffix govuk-input__suffix__button">
+                        <button type="submit" class="govuk-button" data-module="govuk-button">
+                            <img
+                                src="/assets/images/magnify.svg"
+                                alt="Search"
+                                height="15"
+                                width="15"/>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

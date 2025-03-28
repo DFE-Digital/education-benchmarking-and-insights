@@ -115,6 +115,19 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
         return View();
     }
 
+    [HttpPost]
+    [Route(OrganisationTypes.School)]
+    [FeatureGate(FeatureFlags.FacetedSearch)]
+    public IActionResult School(FindOrganisationSearchViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+
+        return NotFound();
+    }
+
     [HttpGet]
     [Route(OrganisationTypes.Trust)]
     [FeatureGate(FeatureFlags.FacetedSearch)]
