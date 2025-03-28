@@ -266,6 +266,10 @@ public static class Paths
     {
         return $"/school/{urn}/comparators/revert";
     }
+    public static string SchoolSearch(string? term = null)
+    {
+        return $"/school/search?term={term}";
+    }
 
     public static string TrustComparators(string? companyNumber)
     {

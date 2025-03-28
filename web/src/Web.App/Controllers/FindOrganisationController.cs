@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes.RequestTelemetry;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -110,22 +111,27 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
     [HttpGet]
     [Route(OrganisationTypes.School)]
     [FeatureGate(FeatureFlags.FacetedSearch)]
+    [SchoolRequestTelemetry(TrackedRequestFeature.Search)]
     public IActionResult School()
     {
-        return View();
+        return View(new FindSchoolViewModel());
     }
 
     [HttpPost]
     [Route(OrganisationTypes.School)]
     [FeatureGate(FeatureFlags.FacetedSearch)]
-    public IActionResult School(FindOrganisationSearchViewModel viewModel)
+    public IActionResult School(FindSchoolViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
-            return View();
+            return View(viewModel);
         }
 
-        return NotFound();
+        return RedirectToAction("Index", "SchoolSearch", new
+        {
+            term = viewModel.Term,
+            redirect = bool.TrueString.ToLower()
+        });
     }
 
     [HttpGet]

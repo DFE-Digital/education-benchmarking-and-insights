@@ -129,7 +129,7 @@ public static class DocumentAssert
         }
     }
 
-    public static void Input(IHtmlDocument doc, string id, string value)
+    public static void Input(IHtmlDocument doc, string id, string? value)
     {
         var input = doc.GetElementById(id);
         Assert.NotNull(input);
