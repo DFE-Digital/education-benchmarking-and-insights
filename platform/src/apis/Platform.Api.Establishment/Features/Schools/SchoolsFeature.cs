@@ -11,7 +11,8 @@ public static class SchoolsFeature
     {
         serviceCollection
             .AddSingleton<ISchoolsService, SchoolsService>()
-            .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
+            .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>()
+            .AddSingleton<ISchoolsSearchService, SchoolsSearchService>();
 
         return serviceCollection;
     }

@@ -54,6 +54,12 @@ public abstract class SearchService<T>(IIndexClient client)
                 }
             }
         }
+        
+        if (request.OrderBy is not null)
+        {
+            var orderByItem = $"{request.OrderBy.Field} {request.OrderBy.Value}";
+            options.OrderBy.Add(orderByItem);
+        }
 
         var searchResponse = await client.SearchAsync<T>(request.SearchText, options);
         var searchResults = searchResponse.Value;
