@@ -26,7 +26,7 @@ public class PostSchoolsSearchFunction(ISchoolsSearchService service/*, IValidat
         HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<SearchRequest>();
-        
+
         //TODO: validation
         /*var validationResult = await validator.ValidateAsync(body);
         if (!validationResult.IsValid)

@@ -25,23 +25,23 @@ public class SchoolsSearchService(
         {
             nameof(School.OverallPhase),
         };
-        
+
         var response = SearchAsync(request, CreateFilterExpression, facets);
 
         return response;
-        
+
         string? CreateFilterExpression(FilterCriteria[]? filterCriteriaArray)
         {
             if (filterCriteriaArray == null || filterCriteriaArray.Length == 0)
                 return null;
-            
+
             return filterCriteriaArray.Length switch
             {
                 1 => CreateFilterSingle(filterCriteriaArray[0]),
                 _ => string.Join(" and ", filterCriteriaArray.Select(CreateFilterSingle))
             };
         }
-        
+
         string? CreateFilterSingle(FilterCriteria filterCriteria)
         {
             return $"({filterCriteria.Field} eq '{filterCriteria.Value}')";

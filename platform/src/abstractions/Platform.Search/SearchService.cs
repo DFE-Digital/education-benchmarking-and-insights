@@ -54,7 +54,7 @@ public abstract class SearchService<T>(IIndexClient client)
                 }
             }
         }
-        
+
         if (request.OrderBy is not null)
         {
             var orderByItem = $"{request.OrderBy.Field} {request.OrderBy.Value}";
