@@ -13,8 +13,9 @@ namespace Platform.Api.Establishment.Features.Schools.Services;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<School>> SuggestAsync(SchoolSuggestRequest request);
+    Task<SuggestResponse<School>> SchoolsSuggestAsync(SchoolSuggestRequest request);
     Task<School?> GetAsync(string urn);
+    Task<SearchResponse<School>> SchoolsSearchAsync(SearchRequest request);
 }
 
 [ExcludeFromCodeCoverage]
@@ -44,7 +45,7 @@ public class SchoolsService(
         return school;
     }
 
-    public Task<SuggestResponse<School>> SuggestAsync(SchoolSuggestRequest request)
+    public Task<SuggestResponse<School>> SchoolsSuggestAsync(SchoolSuggestRequest request)
     {
         var fields = new[]
         {
@@ -65,6 +66,26 @@ public class SchoolsService(
             return request.Exclude is not { Length: > 0 }
                 ? null
                 : $"({string.Join(") and ( ", request.Exclude.Select(a => $"URN ne '{a}'"))})";
+        }
+    }
+
+    public Task<SearchResponse<School>> SchoolsSearchAsync(SearchRequest request)
+    {
+        var facets = new[]
+        {
+            nameof(School.OverallPhase),
+        };
+
+        var response = SearchAsync(request, CreateSearchFilterExpression, facets);
+
+        return response;
+
+        string? CreateSearchFilterExpression(FilterCriteria[]? filterCriteriaArray)
+        {
+            if (filterCriteriaArray == null || filterCriteriaArray.Length == 0)
+                return null;
+
+            return $"({string.Join(" or ", filterCriteriaArray.Select(f => $"{f.Field} eq '{f.Value}'"))})";
         }
     }
 }

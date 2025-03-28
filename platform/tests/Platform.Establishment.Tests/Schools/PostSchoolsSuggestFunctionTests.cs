@@ -31,7 +31,7 @@ public class PostSchoolsSuggestFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.SuggestAsync(It.IsAny<SchoolSuggestRequest>()))
+            .Setup(d => d.SchoolsSuggestAsync(It.IsAny<SchoolSuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<School>());
 
         _validator
@@ -67,6 +67,6 @@ public class PostSchoolsSuggestFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
 
         _service
-            .Verify(d => d.SuggestAsync(It.IsAny<SchoolSuggestRequest>()), Times.Never);
+            .Verify(d => d.SchoolsSuggestAsync(It.IsAny<SchoolSuggestRequest>()), Times.Never);
     }
 }

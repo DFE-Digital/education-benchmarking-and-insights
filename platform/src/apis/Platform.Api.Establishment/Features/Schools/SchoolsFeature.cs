@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Services;
+using Platform.Api.Establishment.Features.Schools.Validators;
+using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
@@ -12,6 +15,9 @@ public static class SchoolsFeature
         serviceCollection
             .AddSingleton<ISchoolsService, SchoolsService>()
             .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
+
+        serviceCollection
+            .AddTransient<IValidator<SearchRequest>, SchoolsSearchValidator>();
 
         return serviceCollection;
     }
