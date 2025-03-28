@@ -49,7 +49,9 @@ public enum TrackedRequestFeature
     [StringValue("financial-benchmarking-insights-summary")]
     FinancialBenchmarkingInsightsSummary,
     [StringValue("high-needs")]
-    HighNeeds
+    HighNeeds,
+    [StringValue("search")]
+    Search
 }
 
 public enum TrackedRequestRouteParameters

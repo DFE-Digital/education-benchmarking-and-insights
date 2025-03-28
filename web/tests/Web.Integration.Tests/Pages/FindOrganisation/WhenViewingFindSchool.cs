@@ -1,8 +1,7 @@
-using System.Net;
 using AngleSharp.Dom;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages;
+namespace Web.Integration.Tests.Pages.FindOrganisation;
 
 public class WhenViewingFindSchool(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
@@ -22,17 +21,18 @@ public class WhenViewingFindSchool(SchoolBenchmarkingWebAppClient client) : Page
         var action = page.QuerySelector("button[type='submit']");
         Assert.NotNull(action);
 
+        const string term = nameof(term);
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
                 {
-                    "Term", "term"
+                    "Term", term
                 }
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.FindSchool.ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolSearch(term).ToAbsolute()}&redirect=true");
     }
 
     [Fact]
@@ -44,6 +44,6 @@ public class WhenViewingFindSchool(SchoolBenchmarkingWebAppClient client) : Page
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Assert.Equal("Error: Enter a search term", page.QuerySelector("#Term-error")?.GetInnerText());
+        Assert.Equal("Error: Enter a school name or URN to start a search", page.QuerySelector("#Term-error")?.GetInnerText());
     }
 }

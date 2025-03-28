@@ -1,7 +1,7 @@
 using AngleSharp.Dom;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages;
+namespace Web.Integration.Tests.Pages.FindOrganisation;
 
 public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
