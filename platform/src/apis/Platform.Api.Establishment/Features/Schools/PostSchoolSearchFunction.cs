@@ -1,0 +1,40 @@
+﻿using System.Net;
+using System.Threading.Tasks;
+using FluentValidation;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Platform.Api.Establishment.Features.Schools.Models;
+using Platform.Api.Establishment.Features.Schools.Services;
+using Platform.Functions;
+using Platform.Functions.Extensions;
+using Platform.Functions.OpenApi;
+using Platform.Search;
+
+namespace Platform.Api.Establishment.Features.Schools;
+
+public class PostSchoolsSearchFunction(ISchoolsSearchService service/*, IValidator<SearchRequest> validator*/)
+{
+    [Function(nameof(PostSchoolsSearchFunction))]
+    [OpenApiSecurityHeader]
+    [OpenApiOperation(nameof(PostSchoolsSearchFunction), "Schools")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<School>))]
+    /*[OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]*/
+    public async Task<HttpResponseData> RunAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)]
+        HttpRequestData req)
+    {
+        var body = await req.ReadAsJsonAsync<SearchRequest>();
+
+        //TODO: validation
+        /*var validationResult = await validator.ValidateAsync(body);
+        if (!validationResult.IsValid)
+        {
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+        }*/
+
+        var schools = await service.SearchAsync(body);
+        return await req.CreateJsonResponseAsync(schools);
+    }
+}

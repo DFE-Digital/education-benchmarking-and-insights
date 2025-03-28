@@ -24,6 +24,7 @@ public static class SearchExtensions
             .AddKeyedSingleton<IIndexClient, LocalAuthorityIndexClient>(ResourceNames.Search.Indexes.LocalAuthority)
             .AddKeyedSingleton<IIndexClient, SchoolComparatorsIndexClient>(ResourceNames.Search.Indexes.SchoolComparators)
             .AddKeyedSingleton<IIndexClient, TrustComparatorsIndexClient>(ResourceNames.Search.Indexes.TrustComparators)
+            .AddKeyedSingleton<IIndexClient, SchoolFacetedIndexClient>(ResourceNames.Search.Indexes.SchoolFaceted)
             .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
 
         return serviceCollection;

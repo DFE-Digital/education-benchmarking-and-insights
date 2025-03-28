@@ -84,3 +84,7 @@ public class SchoolComparatorsIndexClient(IOptions<PlatformSearchOptions> option
 [ExcludeFromCodeCoverage]
 public class TrustComparatorsIndexClient(IOptions<PlatformSearchOptions> options, IIndexTelemetryService telemetry)
     : IndexClient(options.Value.Endpoint, options.Value.Credential, ResourceNames.Search.Indexes.TrustComparators, telemetry);
+
+[ExcludeFromCodeCoverage]
+public class SchoolFacetedIndexClient(IOptions<PlatformSearchOptions> options, IIndexTelemetryService telemetry)
+    : IndexClient(options.Value.Endpoint, options.Value.Credential, ResourceNames.Search.Indexes.SchoolFaceted, telemetry);
