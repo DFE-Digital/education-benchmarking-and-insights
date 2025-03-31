@@ -6,9 +6,9 @@
     <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                <h1 class="govuk-fieldset__heading">
+                <h2 class="govuk-fieldset__heading">
                     Filter and sort
-                </h1>
+                </h2>
             </legend>
             <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
                 <div class="govuk-radios__item">
@@ -44,15 +44,14 @@
 
     <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
 
-
     @if (Model.OverallPhaseFacets.Any())
     {
         <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                    <h1 class="govuk-fieldset__heading">
-                        Overall Phase
-                    </h1>
+                    <h2 class="govuk-fieldset__heading">
+                        Education Phase
+                    </h2>
                 </legend>
                 <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
                     @foreach (var facet in Model.OverallPhaseFacets)
@@ -76,7 +75,7 @@
         <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
     }
 
-    <div class="govuk-button-group">
+    <div class="govuk-button-group govuk-!-padding-top-2 govuk-!-margin-bottom-1">
         <button type="submit" class="govuk-button" data-module="govuk-button">
             Apply
         </button>
