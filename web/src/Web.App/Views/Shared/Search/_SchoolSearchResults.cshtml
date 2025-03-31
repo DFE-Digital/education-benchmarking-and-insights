@@ -1,0 +1,11 @@
+@model Web.App.ViewModels.Search.SchoolSearchResultsPageViewModel
+
+@await Component.InvokeAsync("Pagination", new
+{
+    totalResults = Model.TotalResults,
+    pageNumber = Model.PageNumber,
+    pageSize = Model.PageSize,
+    pageQuery = Model.PageQuery,
+    path = Context.Request.Path.ToString(),
+    query = Context.Request.QueryString.ToString()
+})
