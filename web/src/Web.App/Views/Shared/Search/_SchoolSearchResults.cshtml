@@ -1,5 +1,51 @@
 @model Web.App.ViewModels.Search.SchoolSearchResultsPageViewModel
 
+<ul class="govuk-list govuk-list--result">
+    @foreach (var result in Model.Results)
+    {
+        <li id="search-result-@result.URN">
+            <a href="@Url.Action("Index", "School", new { urn = result.URN })"
+               class="govuk-link govuk-link--no-visited-state govuk-heading-s govuk-!-margin-bottom-2">@result.SchoolName</a>
+            <p class="govuk-body-s">
+                @if (!string.IsNullOrWhiteSpace(result.AddressStreet))
+                {
+                    @result.AddressStreet
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressLocality))
+                {
+                    @result.AddressLocality
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressLine3))
+                {
+                    @result.AddressLine3
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressLocality))
+                {
+                    @result.AddressLocality
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressTown))
+                {
+                    @result.AddressTown
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressCounty))
+                {
+                    @result.AddressCounty
+                    <br/>
+                }
+                @if (!string.IsNullOrWhiteSpace(result.AddressPostcode))
+                {
+                    @result.AddressPostcode
+                }
+            </p>
+        </li>
+    }
+</ul>
+
 @await Component.InvokeAsync("Pagination", new
 {
     totalResults = Model.TotalResults,

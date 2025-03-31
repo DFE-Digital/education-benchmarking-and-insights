@@ -55,7 +55,26 @@ public class SchoolSearchController(
                             }
                         }
                     }
-                }
+                },
+                Results =
+                [
+                    new SchoolSearchResultViewModel
+                    {
+                        URN = "123456",
+                        SchoolName = "School Name 1",
+                        AddressStreet = "Street",
+                        AddressTown = "Town",
+                        AddressPostcode = "Postcode"
+                    },
+                    new SchoolSearchResultViewModel
+                    {
+                        URN = "654321",
+                        SchoolName = "School Name 2",
+                        AddressStreet = "Street",
+                        AddressTown = "Town",
+                        AddressPostcode = "Postcode"
+                    }
+                ]
             });
         }
     }
