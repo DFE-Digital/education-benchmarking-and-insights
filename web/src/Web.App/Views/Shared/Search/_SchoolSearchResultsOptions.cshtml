@@ -1,0 +1,88 @@
+@using Web.App.Domain
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.SchoolSearchResultsOptionsViewModel
+
+<div class="search-results search-results__options">
+    <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <h1 class="govuk-fieldset__heading">
+                    Filter and sort
+                </h1>
+            </legend>
+            <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-default"
+                           name="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)" type="radio" value=""
+                           @(string.IsNullOrWhiteSpace(Model.OrderBy) ? "checked" : string.Empty)>
+                    <label class="govuk-label govuk-radios__label"
+                           for="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-default">
+                        Relevance
+                    </label>
+                </div>
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-asc"
+                           name="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)" type="radio" value="asc"
+                           @(Model.OrderBy == "asc" ? "checked" : string.Empty)>
+                    <label class="govuk-label govuk-radios__label"
+                           for="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-asc">
+                        A-Z
+                    </label>
+                </div>
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-desc"
+                           name="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)" type="radio" value="desc"
+                           @(Model.OrderBy == "desc" ? "checked" : string.Empty)>
+                    <label class="govuk-label govuk-radios__label"
+                           for="@nameof(SchoolSearchResultsOptionsViewModel.OrderBy)-desc">
+                        Z-A
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
+
+
+    @if (Model.OverallPhaseFacets.Any())
+    {
+        <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    <h1 class="govuk-fieldset__heading">
+                        Overall Phase
+                    </h1>
+                </legend>
+                <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+                    @foreach (var facet in Model.OverallPhaseFacets)
+                    {
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value"
+                                   name="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)" type="radio"
+                                   value="@facet.Value"
+                                   @(Model.OverallPhase == facet.Value ? "checked" : string.Empty)>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value">
+                                @facet.Value (@facet.Count)
+                            </label>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
+    }
+
+    <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+            Apply
+        </button>
+        <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action"
+                value="@FormAction.Reset">
+            Clear filters
+        </button>
+    </div>
+</div>

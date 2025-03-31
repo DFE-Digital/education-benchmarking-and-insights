@@ -4,7 +4,10 @@
     ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationSchool;
 }
 
-@await Html.PartialAsync("_SchoolSearchTerm", new FindSchoolViewModel
+@using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
 {
-    Term = Model.Term
-})
+    @await Html.PartialAsync("Search/_SchoolSearchTerm", new FindSchoolViewModel
+    {
+        Term = Model.Term
+    })
+}

@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels
 @model Web.App.ViewModels.FindSchoolViewModel
@@ -24,25 +25,23 @@
                     @ViewData.ModelState[nameof(FindSchoolViewModel.Term)]?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()
                 </p>
             }
-            @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
-            {
-                <div class="govuk-input__wrapper">
-                    <input class="govuk-input" id="@nameof(FindSchoolViewModel.Term)"
-                           name="@nameof(FindSchoolViewModel.Term)"
-                           type="text" spellcheck="false"
-                           aria-describedby="search-term-hint @(hasError ? $"{nameof(FindSchoolViewModel.Term)}-error" : string.Empty)"
-                           value="@Model.Term">
-                    <div class="govuk-input__suffix govuk-input__suffix__button">
-                        <button type="submit" class="govuk-button" data-module="govuk-button">
-                            <img
-                                src="/assets/images/magnify.svg"
-                                alt="Search"
-                                height="15"
-                                width="15"/>
-                        </button>
-                    </div>
+            <div class="govuk-input__wrapper">
+                <input class="govuk-input" id="@nameof(FindSchoolViewModel.Term)"
+                       name="@nameof(FindSchoolViewModel.Term)"
+                       type="text" spellcheck="false"
+                       aria-describedby="search-term-hint @(hasError ? $"{nameof(FindSchoolViewModel.Term)}-error" : string.Empty)"
+                       value="@Model.Term">
+                <div class="govuk-input__suffix govuk-input__suffix__button">
+                    <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
+                            value="@FormAction.Reset">
+                        <img
+                            src="/assets/images/magnify.svg"
+                            alt="Search"
+                            height="15"
+                            width="15"/>
+                    </button>
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>

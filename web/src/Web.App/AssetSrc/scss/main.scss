@@ -661,3 +661,17 @@ table#current-comparators-la {
     }
   }
 }
+
+.search-results {
+  &.search-results__options {
+    padding: govuk-spacing(4);
+    background-color: govuk-colour("light-grey");
+
+    button {
+      margin-bottom: 0;
+    }
+  }
+
+  .search-results-option {
+  }
+}
