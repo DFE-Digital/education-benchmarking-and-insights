@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Dom;
 using Xunit;
 
@@ -36,6 +37,81 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
         });
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanFilterSearch()
+    {
+        var page = await Client.Navigate(Paths.SchoolSearch());
+        var action = page.QuerySelector("button[type='submit']");
+        Assert.NotNull(action);
+
+        const string term = nameof(term);
+        const string orderBy = nameof(orderBy);
+        const string overallPhase = nameof(overallPhase);
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "Term", term
+                },
+                {
+                    "OrderBy", orderBy
+                },
+                {
+                    "OverallPhase", overallPhase
+                }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanClearFilterSearch()
+    {
+        const string term = nameof(term);
+        const string orderBy = nameof(orderBy);
+        const string overallPhase = nameof(overallPhase);
+        var page = await Client.Navigate(Paths.SchoolSearch(term, null, orderBy, overallPhase));
+        var action = page.QuerySelector("button[name='action'][value='reset']");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, _ => { });
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanPaginateSearch()
+    {
+        const string term = nameof(term);
+        const string orderBy = nameof(orderBy);
+        const string overallPhase = nameof(overallPhase);
+        var page = await Client.Navigate(Paths.SchoolSearch(term, null, orderBy, overallPhase));
+
+        var pagination = page.QuerySelectorAll("a.govuk-pagination__link");
+        Assert.NotNull(pagination);
+
+        page = await Client.Follow(pagination.ElementAt(0));
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase, 1).ToAbsolute());
+
+        page = await Client.Follow(pagination.ElementAt(1));
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase, 2).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanSelectSearchResult()
+    {
+        const string urn = "123456";
+        var page = await Client
+            .SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolSearch());
+        var results = page.QuerySelectorAll("ul.govuk-list--result > li > a");
+        Assert.NotNull(results);
+
+        page = await Client.Follow(results.ElementAt(0));
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
