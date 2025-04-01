@@ -1168,8 +1168,8 @@
       },
       "System.Diagnostics.DiagnosticSource": {
         "type": "Transitive",
-        "resolved": "9.0.2",
-        "contentHash": "z5CMQNLzk8UKnTEHRKb4nq03CCDWBMEF2gfP3oPKZn4F8wip6LFZCP5rF90DREHqdNddScIGAfszXJSjh4drSw=="
+        "resolved": "9.0.3",
+        "contentHash": "cBA+28xDW33tSiGht/H8xvr8lnaCrgJ7EdO348AfSGsX4PPJUOULKxny/cc9DVNGExaCrtqagsnm5M2mkWIZ+g=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
@@ -2078,7 +2078,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.Redis": "[9.0.0, )",
           "Microsoft.Azure.StackExchangeRedis": "[3.2.1, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.2, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.3, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Newtonsoft.Json.Bson": "[1.0.3, )"
         }
@@ -2100,7 +2100,7 @@
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.5.1, )",
           "Microsoft.Data.SqlClient": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[9.0.2, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[9.0.2, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[9.0.3, )",
           "Microsoft.Extensions.Logging.Console": "[9.0.2, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[9.0.2, )",
           "Platform.Domain": "[1.0.0, )"
@@ -2122,7 +2122,7 @@
           "Azure.Search.Documents": "[11.6.0, )",
           "FluentValidation": "[11.11.0, )",
           "Microsoft.ApplicationInsights": "[2.23.0, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.2, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.3, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[9.0.2, )",
           "Platform.Infrastructure": "[1.0.0, )"
         }
@@ -2135,7 +2135,7 @@
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[6.0.1, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.2, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.3, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[9.0.2, )",
           "Platform.Domain": "[1.0.0, )"
         }
@@ -2455,9 +2455,9 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[9.0.2, )",
-        "resolved": "9.0.2",
-        "contentHash": "MNe7GSTBf3jQx5vYrXF0NZvn6l7hUKF6J54ENfAgCO8y6xjN1XUmKKWG464LP2ye6QqDiA1dkaWEZBYnhoZzjg=="
+        "requested": "[9.0.3, )",
+        "resolved": "9.0.3",
+        "contentHash": "TfaHPSe39NyL2wxkisRxXK7xvHGZYBZ+dy3r+mqGvnxKgAPdHkMu3QMQZI4pquP6W5FIQBqs8FJpWV8ffCgDqQ=="
       },
       "Microsoft.Extensions.Diagnostics.HealthChecks": {
         "type": "CentralTransitive",
@@ -2485,12 +2485,12 @@
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[9.0.2, )",
-        "resolved": "9.0.2",
-        "contentHash": "dV9s2Lamc8jSaqhl2BQSPn/AryDIH2sSbQUyLitLXV0ROmsb+SROnn2cH939JFbsNrnf3mIM3GNRKT7P0ldwLg==",
+        "requested": "[9.0.3, )",
+        "resolved": "9.0.3",
+        "contentHash": "H/MBMLt9A/69Ux4OrV7oCKt3DcMT04o5SCqDolulzQA66TLFEpYYb4qedMs/uwrLtyHXGuDGWKZse/oa8W9AZw==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.2",
-          "System.Diagnostics.DiagnosticSource": "9.0.2"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.3",
+          "System.Diagnostics.DiagnosticSource": "9.0.3"
         }
       },
       "Microsoft.Extensions.Logging.Console": {
