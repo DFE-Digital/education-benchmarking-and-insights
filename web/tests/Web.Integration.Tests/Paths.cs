@@ -13,7 +13,7 @@ public static class Paths
     public const string Accessibility = "/accessibility";
     public const string Error = "/error";
     public const string DataSources = "/data-sources";
-    public const string FindSchool = "/find-organisation/school";
+    public const string SchoolSearch = "/school";
 
     public static string StatusError(int statusCode)
     {
@@ -266,7 +266,7 @@ public static class Paths
     {
         return $"/school/{urn}/comparators/revert";
     }
-    public static string SchoolSearch(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
+    public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
     {
         var queryString = new QueryString();
         if (!string.IsNullOrWhiteSpace(term))

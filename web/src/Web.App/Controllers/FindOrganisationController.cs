@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
-using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes.RequestTelemetry;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -97,55 +95,11 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             return View("Index");
         }
 
-        var action = viewModel.FindMethod switch
+        return viewModel.FindMethod switch
         {
-            OrganisationTypes.School => nameof(School),
-            OrganisationTypes.Trust => nameof(Trust),
-            OrganisationTypes.LocalAuthority => nameof(LocalAuthority),
+            OrganisationTypes.School => RedirectToAction("Index", "SchoolSearch"),
+            OrganisationTypes.Trust or OrganisationTypes.LocalAuthority => NotFound(), // todo
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod))
         };
-
-        return RedirectToAction(action);
-    }
-
-    [HttpGet]
-    [Route(OrganisationTypes.School)]
-    [FeatureGate(FeatureFlags.FacetedSearch)]
-    [SchoolRequestTelemetry(TrackedRequestFeature.Search)]
-    public IActionResult School()
-    {
-        return View(new FindSchoolViewModel());
-    }
-
-    [HttpPost]
-    [Route(OrganisationTypes.School)]
-    [FeatureGate(FeatureFlags.FacetedSearch)]
-    public IActionResult School(FindSchoolViewModel viewModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(viewModel);
-        }
-
-        return RedirectToAction("Index", "SchoolSearch", new
-        {
-            term = viewModel.Term
-        });
-    }
-
-    [HttpGet]
-    [Route(OrganisationTypes.Trust)]
-    [FeatureGate(FeatureFlags.FacetedSearch)]
-    public IActionResult Trust()
-    {
-        return NotFound();
-    }
-
-    [HttpGet]
-    [Route(OrganisationTypes.LocalAuthority)]
-    [FeatureGate(FeatureFlags.FacetedSearch)]
-    public IActionResult LocalAuthority()
-    {
-        return NotFound();
     }
 }

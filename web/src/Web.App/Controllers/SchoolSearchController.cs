@@ -1,19 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.ViewModels;
 using Web.App.ViewModels.Search;
 
 namespace Web.App.Controllers;
 
 [Controller]
-[Route("school/search")]
+[Route("school")]
 [SchoolRequestTelemetry(TrackedRequestFeature.Search)]
+[FeatureGate(FeatureFlags.FacetedSearch)]
 public class SchoolSearchController(
     ILogger<SchoolSearchController> logger)
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(
+    public IActionResult Index()
+    {
+        return View(new FindSchoolViewModel());
+    }
+
+    [HttpPost]
+    public IActionResult Index(FindSchoolViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(viewModel);
+        }
+
+        return RedirectToAction("Search", new
+        {
+            term = viewModel.Term
+        });
+    }
+
+    [HttpGet]
+    [Route("search")]
+    public async Task<IActionResult> Search(
         [FromQuery] string? term,
         [FromQuery(Name = "sort")] string? orderBy,
         [FromQuery] int? page,
@@ -78,7 +102,8 @@ public class SchoolSearchController(
     }
 
     [HttpPost]
-    public IActionResult Index(SchoolSearchViewModel viewModel)
+    [Route("search")]
+    public IActionResult Search(SchoolSearchViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
@@ -93,13 +118,13 @@ public class SchoolSearchController(
         // reset search options if new search term provided
         if (viewModel.Action == FormAction.Reset)
         {
-            return RedirectToAction("Index", new
+            return RedirectToAction("Search", new
             {
                 term = viewModel.Term
             });
         }
 
-        return RedirectToAction("Index", new
+        return RedirectToAction("Search", new
         {
             term = viewModel.Term,
             sort = viewModel.OrderBy,

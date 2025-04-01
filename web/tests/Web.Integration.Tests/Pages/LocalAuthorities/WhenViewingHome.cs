@@ -32,21 +32,16 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false)]
     public async Task CanNavigateToChangeAuthority(bool facetedSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(facetedSearchFeatureEnabled);
+        var (page, authority, _) = await SetupNavigateInitPage(facetedSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        if (facetedSearchFeatureEnabled)
-        {
-            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}/local-authority", HttpStatusCode.NotFound);
-        }
-        else
-        {
-            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
-        }
+        DocumentAssert.AssertPageUrl(page, facetedSearchFeatureEnabled
+            ? $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}#" // todo
+            : $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
     }
 
     [Fact]
