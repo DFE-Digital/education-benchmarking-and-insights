@@ -34,9 +34,9 @@
       },
       "Reqnroll": {
         "type": "Direct",
-        "requested": "[2.3.0, )",
-        "resolved": "2.3.0",
-        "contentHash": "1qkF+6/XT6Qx0aXeTkUJ9J5wXLsVqy4lRyqI48UMWf4scWSUHHa5zgQE4Nui1JTVaSqV5yN8+92WbvXbbZSTwg==",
+        "requested": "[2.4.0, )",
+        "resolved": "2.4.0",
+        "contentHash": "JmeI9Idbiao5dPS4jeeof+esLBDjcx2BXjww4UW654IL6sDM/p7Rbkr2qWH+Ac8A3fC96rmO4w0x3TYYFzVuwQ==",
         "dependencies": {
           "Cucumber.CucumberExpressions": "17.1.0",
           "Gherkin": "30.0.0",
@@ -46,14 +46,14 @@
       },
       "Reqnroll.xUnit": {
         "type": "Direct",
-        "requested": "[2.3.0, )",
-        "resolved": "2.3.0",
-        "contentHash": "uxhBklLqzNOAKoHWnhu4tZy9wuXa0iGXOAP9W89betizpoWroByWBrhQ84MvBRY1EvufbOg1Oumd2ElcDD96Ig==",
+        "requested": "[2.4.0, )",
+        "resolved": "2.4.0",
+        "contentHash": "Qw7tx2+++/cSaTm6nFm+C1CjJpiYBVsaXDOe/4y57tXZ/X0DPUykvhYJH8cUCmI2wLl5nM3LwZrvi3y1k+1mig==",
         "dependencies": {
-          "Reqnroll": "[2.3.0]",
-          "Reqnroll.Tools.MsBuild.Generation": "[2.3.0]",
+          "Reqnroll": "[2.4.0]",
+          "Reqnroll.Tools.MsBuild.Generation": "[2.4.0]",
           "Xunit.SkippableFact": "1.4.13",
-          "xunit.core": "2.4.2"
+          "xunit.core": "2.8.1"
         }
       },
       "xunit": {
@@ -960,10 +960,10 @@
       },
       "Reqnroll.Tools.MsBuild.Generation": {
         "type": "Transitive",
-        "resolved": "2.3.0",
-        "contentHash": "55/Bznrpv+QGSFxmBDuD88d/+vnAHlSYgpTw/G5ip4eufcgt3b4JrOmCEbviyYnGb0JnxA4t262w5xd5HsBdeA==",
+        "resolved": "2.4.0",
+        "contentHash": "/OZ7emUyrNsykdt5X0g6TWVa8EVxv6J1kM6E/Qe5auksnCKim+nYNJ+LWrQzHD/NvX/yS0Akub0zMTEnyzMQxQ==",
         "dependencies": {
-          "Reqnroll": "[2.3.0]"
+          "Reqnroll": "[2.4.0]"
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
@@ -2563,7 +2563,7 @@
       },
       "System.Text.Json": {
         "type": "CentralTransitive",
-        "requested": "[8.0.4, )",
+        "requested": "[8.0.5, )",
         "resolved": "9.0.2",
         "contentHash": "4TY2Yokh5Xp8XHFhsY9y84yokS7B0rhkaZCXuRiKppIiKwPVH4lVSFD9EEFzRpXdBM5ZeZXD43tc2vB6njEwwQ==",
         "dependencies": {
