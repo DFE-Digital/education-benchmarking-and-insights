@@ -6,7 +6,8 @@ public record SchoolSearchResultsPageViewModel
     public int TotalResults { get; set; }
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
-    public string PageQuery { get; set; } = "page";
 
     public SchoolSearchResultViewModel[] Results { get; set; } = [];
+
+    public Func<int, string?> UrlBuilder { get; set; } = _ => null;
 }

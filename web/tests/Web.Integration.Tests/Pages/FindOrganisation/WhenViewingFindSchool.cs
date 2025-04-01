@@ -32,7 +32,7 @@ public class WhenViewingFindSchool(SchoolBenchmarkingWebAppClient client) : Page
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolSearch(term).ToAbsolute()}&redirect=true");
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term).ToAbsolute());
     }
 
     [Fact]

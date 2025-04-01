@@ -129,8 +129,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
 
         return RedirectToAction("Index", "SchoolSearch", new
         {
-            term = viewModel.Term,
-            redirect = bool.TrueString.ToLower()
+            term = viewModel.Term
         });
     }
 

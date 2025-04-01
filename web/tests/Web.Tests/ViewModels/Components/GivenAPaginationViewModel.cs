@@ -23,7 +23,7 @@ public class GivenAPaginationViewModel
     [InlineData(10, 1, 10, "")]
     public void ShouldAllowRenderingOfPagination(int totalResults, int pageNumber, int pageSize, string expected)
     {
-        var model = new PaginationViewModel(totalResults, pageNumber, pageSize, string.Empty, string.Empty, string.Empty);
+        var model = new PaginationViewModel(totalResults, pageNumber, pageSize, _ => null);
 
         var actual = new StringBuilder();
         if (!model.Visible)
@@ -65,18 +65,5 @@ public class GivenAPaginationViewModel
         }
 
         Assert.Equal(expected, actual.ToString());
-    }
-
-    [Theory]
-    [InlineData("page", "/path/goes/here", "", 123, "/path/goes/here?page=123")]
-    [InlineData("page", "/path/goes/here", "?", 123, "/path/goes/here?page=123")]
-    [InlineData("page", "/path/goes/here", "?key=value", 123, "/path/goes/here?key=value&page=123")]
-    [InlineData("page", "/path/goes/here", "?page=321", 123, "/path/goes/here?page=123")]
-    [InlineData("page", "/path/goes/here", "?key=value&page=321", 123, "/path/goes/here?key=value&page=123")]
-    [InlineData("page", "/path/goes/here", "?page=321&key=value", 123, "/path/goes/here?key=value&page=123")]
-    public void ShouldBuildPageUrl(string pageQuery, string path, string query, int page, string expected)
-    {
-        var model = new PaginationViewModel(0, 0, 0, pageQuery, path, query);
-        Assert.Equal(expected, model.BuildPageUrl(page));
     }
 }

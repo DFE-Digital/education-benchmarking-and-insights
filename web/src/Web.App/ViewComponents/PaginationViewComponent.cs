@@ -5,8 +5,8 @@ namespace Web.App.ViewComponents;
 
 public class PaginationViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(int totalResults, int pageNumber, int pageSize, string pageQuery, string path, string query)
+    public IViewComponentResult Invoke(int totalResults, int pageNumber, int pageSize, Func<int, string?> urlBuilder)
     {
-        return View(new PaginationViewModel(totalResults, pageNumber, pageSize, pageQuery, path, query));
+        return View(new PaginationViewModel(totalResults, pageNumber, pageSize, urlBuilder));
     }
 }
