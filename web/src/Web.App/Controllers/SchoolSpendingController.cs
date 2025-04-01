@@ -21,7 +21,8 @@ public class SchoolSpendingController(
     IExpenditureApi expenditureApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
-    IUserDataService userDataService)
+    IUserDataService userDataService,
+    IConfigurationManager configuration)
     : Controller
 {
     [HttpGet]
@@ -29,9 +30,9 @@ public class SchoolSpendingController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -69,7 +70,7 @@ public class SchoolSpendingController(
                 }
 
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
-                    userData.ComparatorSet, userData.CustomData);
+                    userData.ComparatorSet, userData.CustomData, configuration.GetValue<bool?>("ssr") == true);
 
                 return View(viewModel);
             }
@@ -90,9 +91,9 @@ public class SchoolSpendingController(
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
