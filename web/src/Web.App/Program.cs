@@ -47,6 +47,8 @@ builder.Services
     .AddScoped<ILocalAuthorityComparatorSetService, LocalAuthorityComparatorSetService>()
     .AddActionResults();
 
+builder.Services.AddSingleton<IConfigurationManager>(builder.Configuration);
+
 builder.Services.AddHealthChecks()
     .AddCheck<ApiHealthCheck>("API Health Check");
 
