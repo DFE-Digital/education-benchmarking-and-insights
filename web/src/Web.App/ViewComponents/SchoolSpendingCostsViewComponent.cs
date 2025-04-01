@@ -15,9 +15,10 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
         string urn,
         bool hasIncompleteData,
         bool isCustomData,
-        bool isPartOfTrust)
+        bool isPartOfTrust,
+        bool ssr)
     {
-        var categories = new List<SchoolSpendingCostsViewModelCostCategory>();
+        var categories = new List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>();
         var requests = new List<PostVerticalBarChartRequest<PriorityCostCategoryDatum>>();
         foreach (var costCategory in costs)
         {
@@ -26,11 +27,12 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
             var hasNegativeOrZeroValues = data.Length > filteredData.Length;
             var uuid = Guid.NewGuid().ToString();
 
-            categories.Add(new SchoolSpendingCostsViewModelCostCategory
+            categories.Add(new SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>
             {
                 Uuid = uuid,
                 Category = costCategory,
-                HasNegativeOrZeroValues = hasNegativeOrZeroValues
+                HasNegativeOrZeroValues = hasNegativeOrZeroValues,
+                Data = filteredData
             });
             requests.Add(new PostVerticalBarChartRequest<PriorityCostCategoryDatum>
             {
@@ -45,13 +47,16 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
             });
         }
 
-        var charts = await chartRenderingApi.PostVerticalBarCharts(new PostVerticalBarChartsRequest<PriorityCostCategoryDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
-        foreach (var chart in charts)
+        if (ssr)
         {
-            var category = categories.FirstOrDefault(r => r.Uuid == chart.Id);
-            if (category != null)
+            var charts = await chartRenderingApi.PostVerticalBarCharts(new PostVerticalBarChartsRequest<PriorityCostCategoryDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
+            foreach (var chart in charts)
             {
-                category.ChartSvg = chart.Html;
+                var category = categories.FirstOrDefault(r => r.Uuid == chart.Id);
+                if (category != null)
+                {
+                    category.ChartSvg = chart.Html;
+                }
             }
         }
 

@@ -1,5 +1,7 @@
 locals {
-  host_name = lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name
+  host_name = (lower(var.environment) == "production" ?
+    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name :
+  azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -62,8 +64,9 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   patterns_to_match      = ["/*"]
   supported_protocols    = ["Http", "Https"]
 
-  cdn_frontdoor_custom_domain_ids = lower(var.environment) == "production" ? [azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id] : null
-  link_to_default_domain          = true
+  cdn_frontdoor_custom_domain_ids = (lower(var.environment) == "production" ?
+  [azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id] : null)
+  link_to_default_domain = true
 }
 
 resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy" {
@@ -104,7 +107,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "custom_rule" {
-    for_each = var.environment == "test" ? ["apply"] : []
+    for_each = (var.environment == "test" || var.environment == "feature") ? ["apply"] : []
 
     content {
       name     = "allowsynthetictraffic"
@@ -123,7 +126,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
+    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
+    ["apply"] : [])
     content {
       type    = "DefaultRuleSet"
       version = "1.0"
@@ -132,7 +136,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
+    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
+    ["apply"] : [])
     content {
       type    = "Microsoft_BotManagerRuleSet"
       version = "1.0"

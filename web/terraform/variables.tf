@@ -114,11 +114,11 @@ variable "configuration" {
       }
     }
     feature = {
-      sku_name               = "B1"
+      sku_name               = "P0v3" # revert
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Detection"
+      waf_mode               = "Prevention" # revert
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true

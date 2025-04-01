@@ -167,7 +167,6 @@ module "chart-rendering-fa" {
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
   os-type             = "Linux"
   worker-runtime      = "node"
-  sku                 = { size = "EP1" }
 }
 
 module "data-clean-up-fa" {
