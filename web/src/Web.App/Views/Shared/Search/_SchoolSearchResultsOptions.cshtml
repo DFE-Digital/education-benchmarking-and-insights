@@ -1,4 +1,3 @@
-@using Web.App.Domain
 @using Web.App.ViewModels.Search
 @model Web.App.ViewModels.Search.SchoolSearchResultsOptionsViewModel
 
@@ -53,16 +52,16 @@
                         Education Phase
                     </h2>
                 </legend>
-                <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                     @foreach (var facet in Model.OverallPhaseFacets)
                     {
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input"
                                    id="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value"
-                                   name="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)" type="radio"
+                                   name="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)" type="checkbox"
                                    value="@facet.Value"
-                                   @(Model.OverallPhase == facet.Value ? "checked" : string.Empty)>
-                            <label class="govuk-label govuk-radios__label"
+                                   @(Model.OverallPhase.Any(o => o == facet.Value) ? "checked" : string.Empty)>
+                            <label class="govuk-label govuk-checkboxes__label"
                                    for="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value">
                                 @facet.Value (@facet.Count)
                             </label>
@@ -78,10 +77,6 @@
     <div class="govuk-button-group govuk-!-padding-top-2 govuk-!-margin-bottom-1">
         <button type="submit" class="govuk-button" data-module="govuk-button">
             Apply
-        </button>
-        <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action"
-                value="@FormAction.Reset">
-            Clear filters
         </button>
     </div>
 </div>

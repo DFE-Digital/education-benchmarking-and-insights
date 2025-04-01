@@ -22,11 +22,11 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
     public async Task CanSubmitSearch()
     {
         var page = await Client.Navigate(Paths.SchoolSearch());
-        var action = page.QuerySelector("button[type='submit']");
+        var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);
 
         const string term = nameof(term);
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        page = await Client.SubmitForm(page.Forms.First(), action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
@@ -43,13 +43,13 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
     public async Task CanFilterSearch()
     {
         var page = await Client.Navigate(Paths.SchoolSearch());
-        var action = page.QuerySelector("button[type='submit']");
+        var action = page.QuerySelectorAll("button[type='submit']").Last();
         Assert.NotNull(action);
 
         const string term = nameof(term);
         const string orderBy = nameof(orderBy);
         const string overallPhase = nameof(overallPhase);
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        page = await Client.SubmitForm(page.Forms.Last(), action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
@@ -65,21 +65,7 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase).ToAbsolute());
-    }
-
-    [Fact]
-    public async Task CanClearFilterSearch()
-    {
-        const string term = nameof(term);
-        const string orderBy = nameof(orderBy);
-        const string overallPhase = nameof(overallPhase);
-        var page = await Client.Navigate(Paths.SchoolSearch(term, null, orderBy, overallPhase));
-        var action = page.QuerySelector("button[name='action'][value='reset']");
-        Assert.NotNull(action);
-
-        page = await Client.SubmitForm(page.Forms[0], action, _ => { });
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, orderBy, [overallPhase]).ToAbsolute());
     }
 
     [Fact]
@@ -88,16 +74,16 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
         const string term = nameof(term);
         const string orderBy = nameof(orderBy);
         const string overallPhase = nameof(overallPhase);
-        var page = await Client.Navigate(Paths.SchoolSearch(term, null, orderBy, overallPhase));
+        var page = await Client.Navigate(Paths.SchoolSearch(term, orderBy, [overallPhase]));
 
         var pagination = page.QuerySelectorAll("a.govuk-pagination__link");
         Assert.NotNull(pagination);
 
         page = await Client.Follow(pagination.ElementAt(0));
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase, 1).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, orderBy, [overallPhase], 1).ToAbsolute());
 
         page = await Client.Follow(pagination.ElementAt(1));
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, null, orderBy, overallPhase, 2).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch(term, orderBy, [overallPhase], 2).ToAbsolute());
     }
 
     [Fact]

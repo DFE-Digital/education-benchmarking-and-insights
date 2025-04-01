@@ -672,7 +672,20 @@ table#current-comparators-la {
     }
   }
 
-  .search-results-option {
+  .govuk-radios {
+    .govuk-radios__label {
+      &:before {
+        background-color: govuk-colour("white");
+      }
+    }
+  }
+
+  .govuk-checkboxes {
+    .govuk-checkboxes__label {
+      &:before {
+        background-color: govuk-colour("white");
+      }
+    }
   }
 }
 

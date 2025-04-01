@@ -1,8 +1,6 @@
-using System.Text.RegularExpressions;
-
 namespace Web.App.ViewModels.Components;
 
-public class PaginationViewModel(int totalResults, int pageNumber, int pageSize, string pageQuery, string path, string query)
+public class PaginationViewModel(int totalResults, int pageNumber, int pageSize, Func<int, string?> urlBuilder)
 {
     public bool Visible => totalResults > pageSize;
     public int CurrentPage => pageNumber;
@@ -28,10 +26,5 @@ public class PaginationViewModel(int totalResults, int pageNumber, int pageSize,
     public bool SkipAfterMidPages => MidPages.LastOrDefault(LastPage) < LastPage - 1;
     public bool HasPreviousPage => CurrentPage > FirstPage;
     public bool HasNextPage => CurrentPage * pageSize < totalResults;
-
-    public string BuildPageUrl(int page)
-    {
-        var q = Regex.Replace(query, "&{0,1}" + pageQuery + "=\\d+", string.Empty).Replace("?&", "?").TrimEnd('?');
-        return $"{path}{q}{(q.Length <= 1 ? "?" : "&")}{pageQuery}={page}";
-    }
+    public Func<int, string?> BuildPageUrl => urlBuilder;
 }

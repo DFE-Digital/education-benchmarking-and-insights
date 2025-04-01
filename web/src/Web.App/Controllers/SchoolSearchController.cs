@@ -17,16 +17,14 @@ public class SchoolSearchController(
         [FromQuery] string? term,
         [FromQuery(Name = "sort")] string? orderBy,
         [FromQuery] int? page,
-        [FromQuery(Name = "phase")] string? overallPhase,
-        [FromQuery(Name = "redirect")] bool redirectIfDistinct = false)
+        [FromQuery(Name = "phase")] string[] overallPhase)
     {
         using (logger.BeginScope(new
         {
             term,
             orderBy,
             page,
-            overallPhase,
-            redirectIfDistinct
+            overallPhase
         }))
         {
             await Task.CompletedTask; // todo: call search api
