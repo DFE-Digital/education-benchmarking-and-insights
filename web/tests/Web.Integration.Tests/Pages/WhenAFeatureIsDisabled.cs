@@ -114,9 +114,9 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     public async Task SchoolFacetedSearchRedirectsToFeatureDisabled()
     {
         var page = await Client.SetupDisableFeatureFlags(FeatureFlags.FacetedSearch)
-            .Navigate(Paths.FindSchool);
+            .Navigate(Paths.SchoolSearch);
 
         PageAssert.IsFeatureDisabledPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.FindSchool.ToAbsolute(), HttpStatusCode.Forbidden);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute(), HttpStatusCode.Forbidden);
     }
 }

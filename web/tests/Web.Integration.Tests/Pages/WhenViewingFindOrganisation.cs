@@ -1,7 +1,7 @@
 using AngleSharp.Dom;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages.FindOrganisation;
+namespace Web.Integration.Tests.Pages;
 
 public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
@@ -37,7 +37,7 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
         switch (type)
         {
             case "school":
-                DocumentAssert.AssertPageUrl(page, Paths.FindSchool.ToAbsolute());
+                DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute());
                 break;
         }
     }

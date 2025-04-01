@@ -1,0 +1,68 @@
+@using Web.App.ViewModels
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.SchoolSearchResultsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationSchool;
+}
+
+@using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+{
+    @await Html.PartialAsync("Search/_SchoolSearchTerm", new FindSchoolViewModel
+    {
+        Term = Model.Term
+    })
+}
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
+
+@if (Model.TotalResults == 0)
+{
+    <p class="govuk-body-s">
+        We couldn't find any schools matching your search criteria
+    </p>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+}
+else
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            &nbsp;
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body-s">
+                @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
+            </p>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+            {
+                <input type="hidden" name="@nameof(FindSchoolViewModel.Term)" value="@Model.Term"/>
+                @await Html.PartialAsync("Search/_SchoolSearchResultsOptions", new SchoolSearchResultsOptionsViewModel
+                {
+                    OrderBy = Model.OrderBy,
+                    OverallPhase = Model.OverallPhase,
+                    OverallPhaseFacets = Model.OverallPhaseFacets
+                })
+            }
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            @await Html.PartialAsync("Search/_SchoolSearchResults", new SchoolSearchResultsPageViewModel
+            {
+                TotalResults = Model.TotalResults,
+                PageNumber = Model.PageNumber,
+                PageSize = Model.PageSize,
+                Results = Model.Results,
+                UrlBuilder = page => Url.Action("Search", "SchoolSearch", new
+                {
+                    term = Model.Term,
+                    sort = Model.OrderBy,
+                    phase = Model.OverallPhase,
+                    page
+                })
+            })
+        </div>
+    </div>
+}

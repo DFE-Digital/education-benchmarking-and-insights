@@ -98,14 +98,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         page = await Client.Follow(anchor);
 
-        if (facetedSearchFeatureEnabled)
-        {
-            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}/school");
-        }
-        else
-        {
-            DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
-        }
+        DocumentAssert.AssertPageUrl(page, facetedSearchFeatureEnabled
+            ? Paths.SchoolSearch.ToAbsolute()
+            : $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
     }
 
     [Fact]
