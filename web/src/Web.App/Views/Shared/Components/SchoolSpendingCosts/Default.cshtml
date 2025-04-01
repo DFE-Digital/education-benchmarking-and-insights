@@ -95,19 +95,24 @@
                             </div>
                         }
 
-                        @* <div class="govuk-!-margin-bottom-2 composed-container" *@
-                        @*      data-spending-and-costs-composed *@
-                        @*      data-json="@filteredData.ToJson(Formatting.None)" *@
-                        @*      data-highlight="@Model.Urn" *@
-                        @*      data-suffix="@category.Rating.Unit" *@
-                        @*      data-sort-direction="asc" *@
-                        @*      data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)" *@
-                        @*      data-has-incomplete-data="@Model.HasIncompleteData" *@
-                        @* > *@
-
-                        <div class="govuk-!-margin-bottom-2 ssr-chart">
-                            @Html.Raw(cost?.ChartSvg)
-                        </div>
+                        @if (!string.IsNullOrWhiteSpace(cost?.ChartSvg))
+                        {
+                            <div class="govuk-!-margin-bottom-2 ssr-chart">
+                                @Html.Raw(cost.ChartSvg)
+                            </div>
+                        }
+                        else if (category != null)
+                        {
+                            <div class="govuk-!-margin-bottom-2 composed-container"
+                                 data-spending-and-costs-composed
+                                 data-json="@cost?.Data.ToJson(Formatting.None)"
+                                 data-highlight="@Model.Urn"
+                                 data-suffix="@category.Rating.Unit"
+                                 data-sort-direction="asc"
+                                 data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
+                                 data-has-incomplete-data="@Model.HasIncompleteData"
+                            ></div>
+                        }
                     </div>
 
                     @{
