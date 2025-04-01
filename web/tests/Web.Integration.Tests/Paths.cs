@@ -266,9 +266,35 @@ public static class Paths
     {
         return $"/school/{urn}/comparators/revert";
     }
-    public static string SchoolSearch(string? term = null)
+    public static string SchoolSearch(string? term = null, bool? redirect = null, string? sort = null, string? phase = null, int? page = null)
     {
-        return $"/school/search?term={term}";
+        var queryString = new QueryString();
+        if (!string.IsNullOrWhiteSpace(term))
+        {
+            queryString = queryString.Add(nameof(term), term);
+        }
+
+        if (redirect.HasValue)
+        {
+            queryString = queryString.Add(nameof(redirect), redirect.Value.ToString().ToLower());
+        }
+
+        if (!string.IsNullOrWhiteSpace(sort))
+        {
+            queryString = queryString.Add(nameof(sort), sort);
+        }
+
+        if (!string.IsNullOrWhiteSpace(phase))
+        {
+            queryString = queryString.Add(nameof(phase), phase);
+        }
+
+        if (page.HasValue)
+        {
+            queryString = queryString.Add(nameof(page), page.Value.ToString());
+        }
+
+        return $"/school/search{queryString.ToUriComponent()}";
     }
 
     public static string TrustComparators(string? companyNumber)
