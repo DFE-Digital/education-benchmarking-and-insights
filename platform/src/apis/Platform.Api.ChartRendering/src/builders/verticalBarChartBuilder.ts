@@ -1,27 +1,25 @@
-import * as d3 from "d3";
-import { JSDOM } from "jsdom";
+const dee3 = import("d3");
 import classnames from "classnames";
 import { ChartBuilderOptions, ChartBuilderResult } from ".";
 
 export default class VerticalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
-  buildChart<T>({
+  async buildChart<T>({
     data,
     height,
     highlightKey,
     id,
+    jsDom,
     keyField,
     sort,
     valueField,
     width,
-  }: ChartBuilderOptions<T>): ChartBuilderResult {
+  }: ChartBuilderOptions<T>): Promise<ChartBuilderResult> {
     const timerMessage = `Finished building vertical bar chart ${id}`;
     console.time(timerMessage);
 
-    const window = new JSDOM(`<html><head></head><body></body></html>`, {
-      pretendToBeVisual: true,
-    }).window;
-
+    const window = jsDom.window;
+    const d3 = await dee3;
     window.d3 = d3.select(window.document); // get d3 into the dom
 
     // Declare the chart dimensions and margins.
