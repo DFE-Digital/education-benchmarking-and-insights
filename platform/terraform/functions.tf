@@ -157,7 +157,9 @@ module "chart-rendering-fa" {
   enable-restrictions         = lower(var.cip-environment) != "dev"
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
-  app-settings                = local.default_app_settings
+  app-settings = merge(local.default_app_settings, {
+    "FUNCTIONS_WORKER_PROCESS_COUNT" = 10
+  })
   subnet_ids = [
     data.azurerm_subnet.web-app-subnet.id,
     data.azurerm_subnet.load-test-subnet.id

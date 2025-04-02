@@ -1,4 +1,5 @@
 const dee3 = import("d3");
+import { JSDOM } from "jsdom";
 import classnames from "classnames";
 import { ChartBuilderOptions, ChartBuilderResult } from ".";
 
@@ -9,7 +10,6 @@ export default class VerticalBarChartBuilder {
     height,
     highlightKey,
     id,
-    jsDom,
     keyField,
     sort,
     valueField,
@@ -17,6 +17,10 @@ export default class VerticalBarChartBuilder {
   }: ChartBuilderOptions<T>): Promise<ChartBuilderResult> {
     const timerMessage = `Finished building vertical bar chart ${id}`;
     console.time(timerMessage);
+
+    const jsDom = new JSDOM(`<html><head></head><body></body></html>`, {
+      pretendToBeVisual: true,
+    });
 
     const window = jsDom.window;
     const d3 = await dee3;

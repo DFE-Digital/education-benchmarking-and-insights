@@ -8,7 +8,10 @@ import { ChartDefinition, VerticalBarChartPayload } from ".";
 import { ChartBuilderResult } from "../builders";
 import { Piscina } from "piscina";
 
-const piscina = new Piscina({
+const piscina = new Piscina<
+  { definition: ChartDefinition },
+  ChartBuilderResult
+>({
   filename: "./dist/src/workers/verticalBarChartWorker.js",
 });
 
@@ -26,17 +29,16 @@ export async function verticalBarChart(
     };
   }
 
-  let charts: ChartBuilderResult[] = [];
+  const charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    charts = await new Promise<ChartBuilderResult[]>((resolve, reject) => {
-      piscina
-        .run({
-          definitions,
-        })
-        .then(resolve)
-        .catch(reject);
+    definitions.forEach(async (definition) => {
+      charts.push(
+        await piscina.run({
+          definition,
+        }),
+      );
     });
   } catch (e) {
     context.error(e);
