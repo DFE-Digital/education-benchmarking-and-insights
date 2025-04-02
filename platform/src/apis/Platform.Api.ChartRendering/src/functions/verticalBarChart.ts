@@ -11,8 +11,8 @@ import appInsights from "applicationinsights";
 const client = new appInsights.TelemetryClient();
 
 const piscina = new Piscina<
-  { definition: ChartDefinition },
-  ChartBuilderResult
+  { definitions: ChartDefinition[] },
+  ChartBuilderResult[]
 >({
   filename: "./dist/src/workers/verticalBarChartWorker.js",
 });
@@ -32,16 +32,12 @@ export async function verticalBarChart(
     };
   }
 
-  const charts: ChartBuilderResult[] = [];
+  let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    definitions.forEach(async (definition) => {
-      charts.push(
-        await piscina.run({
-          definition,
-        }),
-      );
+    charts = await piscina.run({
+      definitions,
     });
   } catch (e) {
     context.error(e);
@@ -51,7 +47,6 @@ export async function verticalBarChart(
         name: "Piscina",
         duration: Date.now() - startTime,
         success: false,
-        measurements: piscina.runTime,
       });
     } catch (e) {
       context.warn(e);
@@ -85,11 +80,21 @@ export async function verticalBarChart(
   }
 
   try {
+    const measurements: {
+      [propertyName: string]: number;
+    } = {};
+    Object.keys(piscina.runTime).forEach((k) => {
+      const value = piscina.runTime[k] as number;
+      if (!isNaN(value)) {
+        measurements[k] = value;
+      }
+    });
+
     client.trackDependency({
       name: "Piscina",
       duration: Date.now() - startTime,
       success: true,
-      measurements: piscina.runTime,
+      measurements,
     });
   } catch (e) {
     context.warn(e);
