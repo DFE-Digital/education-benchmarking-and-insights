@@ -1,7 +1,4 @@
-import { InvocationContext } from "@azure/functions";
-
-type ChartBuilderOptions<T> = {
-  context: InvocationContext;
+export type ChartBuilderOptions<T> = {
   data: T[];
   height: number;
   highlightKey?: string | undefined;
@@ -12,7 +9,7 @@ type ChartBuilderOptions<T> = {
   width: number;
 };
 
-type ChartBuilderResult = {
+export type ChartBuilderResult = {
   id: string;
   html: string | undefined;
 };
