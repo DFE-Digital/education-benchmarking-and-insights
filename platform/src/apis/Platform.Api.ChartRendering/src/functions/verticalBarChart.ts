@@ -7,6 +7,8 @@ import {
 import { ChartDefinition, VerticalBarChartPayload } from ".";
 import { ChartBuilderResult } from "../builders";
 import { Piscina } from "piscina";
+import appInsights from "applicationinsights";
+const client = new appInsights.TelemetryClient();
 
 const piscina = new Piscina<
   { definition: ChartDefinition },
@@ -19,6 +21,7 @@ export async function verticalBarChart(
   request: HttpRequest,
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
+  const startTime = Date.now();
   context.debug(`Received HTTP request for vertical bar chart`);
 
   const payload = (await request.json()) as VerticalBarChartPayload;
@@ -42,6 +45,17 @@ export async function verticalBarChart(
     });
   } catch (e) {
     context.error(e);
+
+    try {
+      client.trackDependency({
+        name: "Piscina",
+        duration: Date.now() - startTime,
+        success: false,
+        measurements: piscina.runTime,
+      });
+    } catch (e) {
+      context.warn(e);
+    }
 
     return {
       body: e,
@@ -68,6 +82,17 @@ export async function verticalBarChart(
     result = {
       jsonBody: charts[0],
     };
+  }
+
+  try {
+    client.trackDependency({
+      name: "Piscina",
+      duration: Date.now() - startTime,
+      success: true,
+      measurements: piscina.runTime,
+    });
+  } catch (e) {
+    context.warn(e);
   }
 
   return result;
