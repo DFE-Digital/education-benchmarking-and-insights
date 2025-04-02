@@ -4,19 +4,14 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { v4 as uuidv4 } from "uuid";
-import VerticalBarChartBuilder from "../builders/verticalBarChartBuilder.js";
 import { ChartDefinition, VerticalBarChartPayload } from ".";
 import { ChartBuilderResult } from "../builders";
-
-const builder = new VerticalBarChartBuilder();
+import { Worker } from "worker_threads";
 
 export async function verticalBarChart(
   request: HttpRequest,
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
-  const timerMessage = "Finished request for vertical bar chart";
-  console.time(timerMessage);
   context.debug(`Received HTTP request for vertical bar chart`);
 
   const payload = (await request.json()) as VerticalBarChartPayload;
@@ -29,21 +24,19 @@ export async function verticalBarChart(
 
   let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
+  let worker: Worker | undefined;
 
   try {
-    charts = definitions.map(
-      ({ data, height, id, keyField, valueField, width, ...rest }) =>
-        builder.buildChart({
-          context,
-          data,
-          height: height || 500,
-          id: id || uuidv4(),
-          keyField: keyField as never,
-          valueField: valueField as never,
-          width: width || 928,
-          ...rest,
-        }),
-    );
+    charts = await new Promise<ChartBuilderResult[]>((resolve, reject) => {
+      worker = new Worker("./dist/src/workers/verticalBarChartWorker.js", {
+        workerData: {
+          definitions,
+        },
+      });
+
+      worker.on("message", (charts: ChartBuilderResult[]) => resolve(charts));
+      worker.on("error", (e) => reject(e));
+    });
   } catch (e) {
     context.error(e);
 
@@ -51,6 +44,10 @@ export async function verticalBarChart(
       body: e,
       status: 500,
     };
+  } finally {
+    if (worker) {
+      await worker.terminate();
+    }
   }
 
   let result: HttpResponseInit;
@@ -74,7 +71,6 @@ export async function verticalBarChart(
     };
   }
 
-  console.timeEnd(timerMessage);
   return result;
 }
 
