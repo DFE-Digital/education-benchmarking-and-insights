@@ -2,6 +2,8 @@ import * as d3 from "d3";
 import { JSDOM } from "jsdom";
 import classnames from "classnames";
 import { ChartBuilderOptions, ChartBuilderResult } from ".";
+import appInsights from "applicationinsights";
+const client = new appInsights.TelemetryClient();
 
 export default class VerticalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -16,6 +18,7 @@ export default class VerticalBarChartBuilder {
     valueField,
     width,
   }: ChartBuilderOptions<T>): ChartBuilderResult {
+    const startTime = Date.now();
     const timerMessage = `Finished building vertical bar chart ${id}`;
     console.time(timerMessage);
     context.debug(`Start building vertical bar chart ${id}`);
@@ -83,6 +86,15 @@ export default class VerticalBarChartBuilder {
       );
 
     console.timeEnd(timerMessage);
+    client.trackDependency({
+      target: "VerticalBarChartBuilder",
+      name: "buildChart",
+      data: id,
+      duration: Date.now() - startTime,
+      resultCode: 0,
+      success: true,
+      dependencyTypeName: "Node.js",
+    });
     return { id, html: svg.node()?.outerHTML || undefined };
   }
 }

@@ -154,7 +154,7 @@ module "chart-rendering-fa" {
   storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                = data.azurerm_key_vault.key-vault.id
   location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
+  enable-restrictions         = true # lower(var.cip-environment) != "dev" # todo
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings                = local.default_app_settings
