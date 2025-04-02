@@ -6,7 +6,11 @@ import {
 } from "@azure/functions";
 import { ChartDefinition, VerticalBarChartPayload } from ".";
 import { ChartBuilderResult } from "../builders";
-import { Worker } from "worker_threads";
+import { Piscina } from "piscina";
+
+const piscina = new Piscina({
+  filename: "./dist/src/workers/verticalBarChartWorker.js",
+});
 
 export async function verticalBarChart(
   request: HttpRequest,
@@ -24,18 +28,15 @@ export async function verticalBarChart(
 
   let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
-  let worker: Worker | undefined;
 
   try {
     charts = await new Promise<ChartBuilderResult[]>((resolve, reject) => {
-      worker = new Worker("./dist/src/workers/verticalBarChartWorker.js", {
-        workerData: {
+      piscina
+        .run({
           definitions,
-        },
-      });
-
-      worker.on("message", (charts: ChartBuilderResult[]) => resolve(charts));
-      worker.on("error", (e) => reject(e));
+        })
+        .then(resolve)
+        .catch(reject);
     });
   } catch (e) {
     context.error(e);
@@ -44,10 +45,6 @@ export async function verticalBarChart(
       body: e,
       status: 500,
     };
-  } finally {
-    if (worker) {
-      await worker.terminate();
-    }
   }
 
   let result: HttpResponseInit;
