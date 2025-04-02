@@ -87,13 +87,9 @@ export default class VerticalBarChartBuilder {
 
     console.timeEnd(timerMessage);
     client.trackDependency({
-      target: "VerticalBarChartBuilder",
-      name: "buildChart",
-      data: id,
+      name: "VerticalBarChartBuilder.buildChart()",
       duration: Date.now() - startTime,
-      resultCode: 0,
       success: true,
-      dependencyTypeName: "Node.js",
     });
     return { id, html: svg.node()?.outerHTML || undefined };
   }

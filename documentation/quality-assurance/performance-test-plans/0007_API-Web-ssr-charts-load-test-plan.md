@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0007 - Web School Spending and Priorities load tests for SSR charts
+﻿# Performance Test Plan - 0007 - API and Web School Spending and Priorities load tests for SSR charts
 
 **Test run date:**
 
@@ -7,11 +7,13 @@ March 2025
 ## Goal
 
 The goal of this test is to measure the impact of replacing client rendered charts with server side rendered ones.
-This includes both URL tests and Web tests in order to include coverage over downloaded Web assets.
+This includes API, URL and Web tests in order to include coverage over downloaded Web assets.
 
 ## Objective
 
 - Establish performance baselines for:
+  - typical load conditions using a URL based test on the API directly
+  - peak conditions using a URL based test on the API directly
   - typical load conditions using a URL based test
   - peak conditions using a URL based test
   - typical load conditions using a Web based test
@@ -62,6 +64,27 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | `/school/{identifier}/spending-and-costs` | URL       | Peak      | S2      |
 | `/school/{identifier}/spending-and-costs` | Web       | Average   | S1      |
 | `/school/{identifier}/spending-and-costs` | Web       | Peak      | S2      |
+| `POST /api/verticalBarChart`              | URL       | Average   | S1      |
+| `POST /api/verticalBarChart`              | URL       | Peak      | S2      |
+
+**Endpoints Under Test:**
+
+| Endpoint                                  | Load Type | DB DTUs | Target Throughput |
+|-------------------------------------------|-----------|---------|-------------------|
+| `POST /api/verticalBarChart`              | Average   | S1      | 105 /s            |
+| `POST /api/verticalBarChart`              | Peak      | S2      | 158 /s            |
+
+## API Performance Success Criteria
+
+- Response Time:
+  - P50 below 100ms
+  - P95 below 150ms
+  - P99 below 500ms
+- Peak Response Time:
+  - P75 below 250ms
+  - P95 below 500ms
+  - P99 below 1000ms
+- Error Rate: below 0.1% *
 
 ## Test Execution
 
@@ -87,6 +110,7 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Average Web (P0v3 web; baseline)             | `d13`       | 01/04/2025, 16:04:39 | 15      | 5m 9s    | 400 ms        | 0.00 % | 90.45 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/1dbf0f3b-009a-4472-aa8f-972105af40c9) |
 | Average Web (P0v3 web; ssr enabled)          | `d13`       | 01/04/2025, 16:15:58 | 15      | 5m 6s    | 1.69 s        | 0.00 % | 27.27 /s   | [⚠️ Degraded](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/1dbf0f3b-009a-4472-aa8f-972105af4297) |
 | Average Web (P0v3 web; EP1 api; ssr enabled) | `d13`       | 01/04/2025, 16:34:42 | 15      | 5m 2s    | 2.55 s        | 0.00 % | 15.57 /s   | [⚠️ Degraded](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/1dbf0f3b-009a-4472-aa8f-972105af4297) |
+| VerticalBarChart API                         | `d13`       | 02/04/2025, 11:17:29 | 5       | 5m 55s   | 241 ms        | 0.00 % | 35.50 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb/testRunId/d0183981-0b55-4b03-b84d-547a477a7bcc) |
 
 **Findings and Recommendations:**
 
