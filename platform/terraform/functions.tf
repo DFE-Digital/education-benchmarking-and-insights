@@ -158,7 +158,8 @@ module "chart-rendering-fa" {
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
-    "FUNCTIONS_WORKER_PROCESS_COUNT" = 10
+    "FUNCTIONS_WORKER_PROCESS_COUNT"      = 10
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   })
   subnet_ids = [
     data.azurerm_subnet.web-app-subnet.id,
@@ -172,7 +173,8 @@ module "chart-rendering-fa" {
   sku = {
     size = "EP1"
   }
-  maximum-elastic-worker-count = 1
+  maximum-elastic-worker-count   = 50
+  minimum-elastic-instance-count = 10
 }
 
 module "data-clean-up-fa" {
@@ -192,7 +194,7 @@ module "data-clean-up-fa" {
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
-  subnet_ids = [data.azurerm_subnet.web-app-subnet.id]
+  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
@@ -228,7 +230,7 @@ module "orchestrator-fa" {
     "Cache__Host"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
     "Cache__Port"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
   })
-  subnet_ids = [data.azurerm_subnet.web-app-subnet.id]
+  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
   sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
