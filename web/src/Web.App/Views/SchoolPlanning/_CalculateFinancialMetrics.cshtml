@@ -49,7 +49,7 @@
             @Model.AverageTeacherCost.ToCurrency()
         </td>
     </tr>
-    @if (Model.IsPrimary)
+    @if (Model.IsPrimaryOrNursery)
     {
         <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Average teaching assistant cost</th>

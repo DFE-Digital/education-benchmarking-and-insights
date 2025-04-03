@@ -20,11 +20,11 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
     [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
     [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
     [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
-    public async Task CanDisplay(string financeType, string phase)
+    public async Task CanDisplay(string financeType, string overallPhase)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, phase);
+        var (page, school) = await SetupNavigateInitPage(financeType, overallPhase);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, overallPhase);
     }
 
     /*[Fact]
@@ -120,13 +120,13 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, string overallPhase)
     {
-        var expectBack = school.IsPrimary
+        var expectedBackLink = overallPhase is OverallPhaseTypes.Primary or OverallPhaseTypes.Nursery
             ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
-        DocumentAssert.BackLink(page, "Back", expectBack);
+        DocumentAssert.BackLink(page, "Back", expectedBackLink);
         DocumentAssert.TitleAndH1(page,
             "What are your teacher period allocation figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your teacher period allocation figures?");

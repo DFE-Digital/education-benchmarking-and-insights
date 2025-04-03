@@ -35,7 +35,7 @@
                             <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["ManagementRoles"]?.Errors.First().ErrorMessage
                         </p>
                     }
-                    @if (Model.School.IsPrimary)
+                    @if (Model.School.IsPrimaryOrNursery)
                     {
                         @await Html.PartialAsync("_ManagementRolesPrimary", Model)
                     }
