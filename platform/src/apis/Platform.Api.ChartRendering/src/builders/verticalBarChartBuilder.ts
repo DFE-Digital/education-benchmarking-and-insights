@@ -1,6 +1,7 @@
 const dee3 = import("d3");
 import classnames from "classnames";
 import { ChartBuilderOptions, ChartBuilderResult } from ".";
+import { DOMImplementation } from "@xmldom/xmldom";
 
 export default class VerticalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -9,7 +10,6 @@ export default class VerticalBarChartBuilder {
     height,
     highlightKey,
     id,
-    jsDom,
     keyField,
     sort,
     valueField,
@@ -18,9 +18,12 @@ export default class VerticalBarChartBuilder {
     const timerMessage = `Finished building vertical bar chart ${id}`;
     console.time(timerMessage);
 
-    const window = jsDom.window;
+    const document = new DOMImplementation().createDocument(
+      "http://www.w3.org/2000/svg",
+      "svg",
+      null,
+    );
     const d3 = await dee3;
-    window.d3 = d3.select(window.document); // get d3 into the dom
 
     // Declare the chart dimensions and margins.
     const marginTop = 5;
@@ -50,11 +53,8 @@ export default class VerticalBarChartBuilder {
       .range([height - marginBottom, marginTop]);
 
     // Create the SVG container.
-    const svg = (
-      window.d3 as d3.Selection<SVGSVGElement, unknown, null, undefined>
-    )
-      .select("body")
-      .append("svg")
+    const svg = d3
+      .select(document.documentElement as unknown as Element)
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", `0 0 ${width} ${height}`)
