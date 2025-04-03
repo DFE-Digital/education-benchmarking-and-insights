@@ -64,15 +64,13 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | `/school/{identifier}/spending-and-costs` | URL       | Peak      | S2      |
 | `/school/{identifier}/spending-and-costs` | Web       | Average   | S1      |
 | `/school/{identifier}/spending-and-costs` | Web       | Peak      | S2      |
-| `POST /api/verticalBarChart`              | URL       | Average   | S1      |
-| `POST /api/verticalBarChart`              | URL       | Peak      | S2      |
 
 **Endpoints Under Test:**
 
-| Endpoint                                  | Load Type | DB DTUs | Target Throughput |
-|-------------------------------------------|-----------|---------|-------------------|
-| `POST /api/verticalBarChart`              | Average   | S1      | 105 /s            |
-| `POST /api/verticalBarChart`              | Peak      | S2      | 158 /s            |
+| Endpoint                     | Load Type | Target Throughput |
+|------------------------------|-----------|-------------------|
+| `POST /api/verticalBarChart` | Average   | 105 /s            |
+| `POST /api/verticalBarChart` | Peak      | 158 /s            |
 
 ## API Performance Success Criteria
 
@@ -100,7 +98,7 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Average URL (baseline)                             | `t01`       | 20/03/2025, 07:06:46 | 15      | 6m       | 320 ms        | 0.01 % | 49.99 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/64328db8-47e9-4214-9182-b5b7505ff027/testRunId/ffdcb805-e405-4f6b-a735-cbcb90ad7027) |
 | Peak URL (baseline)                                | `t01`       | 20/03/2025, 10:46:26 | 30      | 6m  5s   | 694 ms        | 0.00 % | 67.49 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/c661f194-eb06-4513-82fc-a3234deca4ae/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd96d1) |
 | Average Web (baseline)                             | `t01`       | 20/03/2025, 11:10:07 | 15      | 5m 7s    | 350 ms        | 0.00 % | 113.76 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b3f) |
-| Peak Web (baseline)                                | `t01`       | 20/03/2025, 10:46:26 | 30      | 5m  4s   | 420 ms        | 0.00 % | 68.72 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd98aa) |
+| Peak Web (baseline)                                | `t01`       | 20/03/2025, 10:46:26 | 30      | 5m 4s    | 420 ms        | 0.00 % | 68.72 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd98aa) |
 | Average Web (baseline)                             | `d13`       | 26/03/2025, 10:10:28 | 15      | 5m 1s    | 1.23 s        | 0.00 % | 34.28 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/466a5fff-5bcf-4705-8f2a-003ae8055257) |
 | Peak Web (baseline)                                | `d13`       | 26/03/2025, 10:22:23 | 30      | 5m 6s    | 2.3 s         | 0.00 % | 35.05 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/466a5fff-5bcf-4705-8f2a-003ae805559b) |
 | Average Web                                        | `d13`       | 26/03/2025, 15:17:57 | 15      | 4m 59s   | 5.8 s         | 0.00 % | 7.18 /s    | [⚠️ Degraded](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/9489cc8c-f442-4eca-a191-391e02dbc036) |
@@ -114,6 +112,10 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | VerticalBarChart API (worker pool)                 | `d13`       | 02/04/2025, 14:08:48 | 5       | 5m 55s   | 256 ms        | 0.02 % | 29.21 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb/testRunId/07f703c0-c9ef-4af3-b853-6d2f45f0901b) |
 | VerticalBarChart API (worker pool/worker count 10) | `d13`       | 02/04/2025, 14:20:48 | 5       | 5m 56s   | 155 ms        | 0.00 % | 27.41 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb/testRunId/07f703c0-c9ef-4af3-b853-6d2f45f0925c) |
 | VerticalBarChart API (worker per chart)            | `d13`       | 02/04/2025, 14:58:07 | 5       | 5m 49s   | 340 ms        | 0.00 % | 16.40 /s   | [❌ Failed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb/testRunId/07f703c0-c9ef-4af3-b853-6d2f45f095ad) |
+| VerticalBarChart API (XMLDOM; warmed & scaled EP)  | `d13`       | 03/04/2025, 09:48:33 | 2 + 2   | 5m 33s   | 40 ms         | 0.00 % | 162.03 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb/testRunId/ac6d0ead-aeff-48bc-a09a-5533ee2d2047) |
+| Peak VerticalBarChart API                          | `d13`       | 03/04/2025, 10:34:29 | 5 + 5   | 5m 53s   | 65 ms         | 0.00 % | 248.93 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/9bb3b42b-c2c2-4489-a85e-bf0cfdb9800e/testRunId/9bb3b42b-c2c2-4489-a85e-bf0cfdb982cf) |
+| Average Web (with most performant API config)      | `d13`       | 03/04/2025, 09:56:42 | 15      | 5m 9s    | 430 ms        | 0.00 % | 85.19 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/ac6d0ead-aeff-48bc-a09a-5533ee2d22ed) |
+| Peak Web (with most performant API config)         | `d13`       | 03/04/2025, 10:41:16 | 30      | 5m 1s    | 837 ms        | 0.00 % | 94.61 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/9bb3b42b-c2c2-4489-a85e-bf0cfdb98481) |
 
 **Findings and Recommendations:**
 
@@ -129,7 +131,20 @@ After moving to Elastic Plan 1 performance was improved, but still around 50% wo
 
 After moving the Web service plan to match that in `t01` (`P0v3`) there were definite improvements, but results still not great. This in combination with EP1 on the function app actually seemed to reduce performance.
 
-Further investigation required to isolate the performance overhead on each request.
+When running the API tests directly, however, when the Elastic plan was tweaked (to a maximum burst of 50 with 10 warmed instances on the app service) performance was greatly improved. This was especially with the usage of [xmldom](https://www.npmjs.com/package/@xmldom/xmldom) instead of [jsdom](https://www.npmjs.com/package/jsdom) along with [worker_threads](https://nodejs.org/api/worker_threads.html) pooling.
+
+![Performance of verticalBarChart API](../images/school-spending-priorities-d13-004.png)
+
+The combination of the above for average load full Web load test with SSR enabled vs. disabled concluded with the following results:
+
+| Run                    | Date                  | Response time | Throughput |
+|------------------------|-----------------------|---------------|------------|
+| SSR disabled (average) | [01/04/2025, 16:04:39](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/1dbf0f3b-009a-4472-aa8f-972105af40c9) | 400 ms        | 90.45 /s   |
+| SSR enabled (average)  | [03/04/2025, 09:56:42](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/ac6d0ead-aeff-48bc-a09a-5533ee2d22ed) | 430 ms        | 85.19 /s   |
+| SSR disabled (peak)    | [26/03/2025, 10:22:23](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/466a5fff-5bcf-4705-8f2a-003ae805559b) | 2.3 s         | 35.05 /s   |
+| SSR enabled (peak)     | [03/04/2025, 10:41:16](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/1f5453f4-9d9c-4cab-8911-b676df16842a/testRunId/9bb3b42b-c2c2-4489-a85e-bf0cfdb98481) |  837 ms       | 94.61 /s   |
+
+![Performance of School Spending Priorities](../images/school-spending-priorities-d13-005.png)
 
 <!-- Leave the rest of this page blank -->
 \newpage
