@@ -150,7 +150,8 @@ Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "node"
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": ""
   }
 }
 ```
