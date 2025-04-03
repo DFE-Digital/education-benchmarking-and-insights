@@ -53,7 +53,8 @@ No modules.
 | <a name="input_key-vault-id"></a> [key-vault-id](#input\_key-vault-id) | n/a | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | n/a | yes |
 | <a name="input_log-analytics-id"></a> [log-analytics-id](#input\_log-analytics-id) | n/a | `string` | n/a | yes |
-| <a name="input_node-version"></a> [node-version](#input\_node-version) | n/a | `string` | `"22"` | no |
+| <a name="input_maximum-elastic-worker-count"></a> [maximum-elastic-worker-count](#input\_maximum-elastic-worker-count) | n/a | `number` | `null` | no |
+| <a name="input_node-version"></a> [node-version](#input\_node-version) | n/a | `string` | `"20"` | no |
 | <a name="input_os-type"></a> [os-type](#input\_os-type) | n/a | `string` | `"Windows"` | no |
 | <a name="input_redis-cache-id"></a> [redis-cache-id](#input\_redis-cache-id) | n/a | `string` | `null` | no |
 | <a name="input_requires-keys"></a> [requires-keys](#input\_requires-keys) | n/a | `bool` | `true` | no |
