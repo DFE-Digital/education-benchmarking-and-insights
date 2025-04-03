@@ -172,7 +172,7 @@ module "chart-rendering-fa" {
   sku = {
     size = "EP1"
   }
-  maximum-elastic-worker-count = 50
+  maximum-elastic-worker-count = 1
 }
 
 module "data-clean-up-fa" {

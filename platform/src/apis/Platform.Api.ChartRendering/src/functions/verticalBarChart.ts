@@ -44,7 +44,7 @@ export async function verticalBarChart(
 
     try {
       client.trackDependency({
-        name: "worker",
+        name: "verticalBarChartWorker",
         duration: Date.now() - startTime,
         success: false,
       });
@@ -81,7 +81,7 @@ export async function verticalBarChart(
 
   try {
     client.trackDependency({
-      name: "worker",
+      name: "verticalBarChartWorker",
       duration: Date.now() - startTime,
       success: true,
     });
