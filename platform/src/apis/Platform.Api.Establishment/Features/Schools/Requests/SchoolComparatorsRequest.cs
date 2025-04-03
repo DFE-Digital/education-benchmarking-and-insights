@@ -41,6 +41,7 @@ public record SchoolComparatorsRequest
 
     public string FilterExpression(string urn) => new List<string>()
         .NotValueFilter("URN", urn)
+        .NotNullValueFilter("PeriodCoveredByReturn")
         .RangeFilter(nameof(TotalPupils), TotalPupils)
         .RangeFilter(nameof(BuildingAverageAge), BuildingAverageAge)
         .RangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)

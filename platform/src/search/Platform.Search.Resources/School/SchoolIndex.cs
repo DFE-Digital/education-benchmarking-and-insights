@@ -1,4 +1,5 @@
 using Azure.Search.Documents.Indexes;
+// ReSharper disable UnusedMember.Global
 
 namespace Platform.Search.Resources.School;
 
@@ -30,4 +31,7 @@ public class SchoolIndex
 
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = true)]
     public string? OverallPhase { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public int? PeriodCoveredByReturn { get; set; }
 }
