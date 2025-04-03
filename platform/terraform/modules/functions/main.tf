@@ -62,6 +62,7 @@ resource "azurerm_windows_function_app" "func-app" {
     http2_enabled                          = true
     application_insights_connection_string = var.instrumentation-conn-string
     use_32_bit_worker                      = var.use-32-bit-worker
+    elastic_instance_minimum               = (substr(var.sku.size, 0, 2) == "EP" ? var.minimum-elastic-instance-count : null)
 
     application_stack {
       dotnet_version              = var.dotnet-version
@@ -123,6 +124,7 @@ resource "azurerm_linux_function_app" "func-app" {
     http2_enabled                          = true
     application_insights_connection_string = var.instrumentation-conn-string
     use_32_bit_worker                      = var.use-32-bit-worker
+    elastic_instance_minimum               = (substr(var.sku.size, 0, 2) == "EP" ? var.minimum-elastic-instance-count : null)
 
     application_stack {
       node_version = var.node-version
@@ -260,7 +262,7 @@ resource "azurerm_redis_cache_access_policy_assignment" "owner" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "func-app" {
-  name               = "${(var.os-type == "Windows" ? azurerm_windows_function_app.func-app[0].name: azurerm_linux_function_app.func-app[0].name)}-logs"
+  name               = "${(var.os-type == "Windows" ? azurerm_windows_function_app.func-app[0].name : azurerm_linux_function_app.func-app[0].name)}-logs"
   target_resource_id = (var.os-type == "Windows" ? azurerm_windows_function_app.func-app[0].id :
     azurerm_linux_function_app.func-app[0].id)
   log_analytics_workspace_id = var.log-analytics-id
