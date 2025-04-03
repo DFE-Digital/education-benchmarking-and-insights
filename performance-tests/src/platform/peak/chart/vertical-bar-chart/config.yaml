@@ -1,8 +1,8 @@
-displayName: Average_API_Charts - Vertical Bar
+displayName: Peak_API_Charts - Vertical Bar
 testPlan: url-test.json
-description: Average load test for POST /verticalBarChart
+description: Peak load test for POST /verticalBarChart
 engineInstances: 2
-testId: 323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb
+testId: 9bb3b42b-c2c2-4489-a85e-bf0cfdb9800e
 testType: URL
 splitAllCSVs: False
 regionalLoadTestConfig:
@@ -12,9 +12,9 @@ regionalLoadTestConfig:
   engineInstances: 1
 failureCriteria:
   clientMetrics:
-  - p50(response_time_ms) > 100
-  - p95(response_time_ms) > 200
-  - p99(response_time_ms) > 500
+  - p75(response_time_ms) > 250
+  - p95(response_time_ms) > 500
+  - p99(response_time_ms) > 1000
   - percentage(error) > 0.1
 secrets:
 - name: chart-rendering-host-key
