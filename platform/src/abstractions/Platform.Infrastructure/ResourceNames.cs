@@ -18,41 +18,23 @@ public static class ResourceNames
         public static class Indexers
         {
             public const string School = "school-indexer";
-            public const string SchoolFaceted = "school-faceted-indexer";
             public const string Trust = "trust-indexer";
             public const string LocalAuthority = "local-authority-indexer";
             public const string SchoolComparators = "school-comparators-indexer";
             public const string TrustComparators = "trust-comparators-indexer";
 
-            public static readonly string[] All =
-                [
-                    School,
-                    SchoolFaceted,
-                    Trust,
-                    LocalAuthority,
-                    SchoolComparators,
-                    TrustComparators
-                ];
+            public static readonly string[] All = [School, Trust, LocalAuthority, SchoolComparators, TrustComparators];
         }
 
         public static class Indexes
         {
             public const string School = "school-index";
-            public const string SchoolFaceted = "school-faceted-index";
             public const string Trust = "trust-index";
             public const string LocalAuthority = "local-authority-index";
             public const string SchoolComparators = "school-comparators-index";
             public const string TrustComparators = "trust-comparators-index";
 
-            public static readonly string[] All =
-                [
-                    School,
-                    SchoolFaceted,
-                    Trust,
-                    LocalAuthority,
-                    SchoolComparators,
-                    TrustComparators
-                ];
+            public static readonly string[] All = [School, Trust, LocalAuthority, SchoolComparators, TrustComparators];
         }
 
         public static class Suggesters
