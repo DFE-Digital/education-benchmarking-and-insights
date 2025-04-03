@@ -251,7 +251,7 @@ public class SchoolPlanningCreateController(
                         urn,
                         year
                     })
-                    : school.IsPrimary
+                    : school.IsPrimaryOrNursery
                         ? RedirectToAction("PrimaryHasMixedAgeClasses", new
                         {
                             urn,
@@ -468,7 +468,7 @@ public class SchoolPlanningCreateController(
                         urn,
                         year
                     })
-                    : school.IsPrimary
+                    : school.IsPrimaryOrNursery
                         ? RedirectToAction("TotalEducationSupport", new
                         {
                             urn,
@@ -578,7 +578,7 @@ public class SchoolPlanningCreateController(
         async Task<IActionResult> Action()
         {
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? TotalEducationSupportBackLink(urn, year)
                 : TotalTeacherCostsBackLink(urn, year);
 
@@ -623,7 +623,7 @@ public class SchoolPlanningCreateController(
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? TotalEducationSupportBackLink(urn, year)
                 : TotalTeacherCostsBackLink(urn, year);
 
@@ -905,7 +905,7 @@ public class SchoolPlanningCreateController(
         async Task<IActionResult> Action()
         {
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? PrimaryPupilFiguresBackLink(urn, year)
                 : PupilFiguresBackLink(urn, year);
 
@@ -935,7 +935,7 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return school.IsPrimary
+                return school.IsPrimaryOrNursery
                     ? RedirectToAction("TeachingAssistantFigures", new
                     {
                         urn,
@@ -948,7 +948,7 @@ public class SchoolPlanningCreateController(
                     });
             }
 
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? PrimaryPupilFiguresBackLink(urn, year)
                 : PupilFiguresBackLink(urn, year);
 
@@ -1037,7 +1037,7 @@ public class SchoolPlanningCreateController(
         async Task<IActionResult> Action()
         {
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? TeachingAssistantFiguresBackLink(urn, year)
                 : TeacherPeriodAllocationBackLink(urn, year);
 
@@ -1096,7 +1096,7 @@ public class SchoolPlanningCreateController(
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var backAction = school.IsPrimary
+            var backAction = school.IsPrimaryOrNursery
                 ? TeachingAssistantFiguresBackLink(urn, year)
                 : TeacherPeriodAllocationBackLink(urn, year);
 

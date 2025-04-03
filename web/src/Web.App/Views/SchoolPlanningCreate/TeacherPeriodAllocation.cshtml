@@ -34,7 +34,7 @@
                         </p>
                     </div>
 
-                    @if (Model.School.IsPrimary)
+                    @if (Model.School.IsPrimaryOrNursery)
                     {
                         @await Html.PartialAsync("_TeacherPeriodAllocationPrimary", Model)
                     }

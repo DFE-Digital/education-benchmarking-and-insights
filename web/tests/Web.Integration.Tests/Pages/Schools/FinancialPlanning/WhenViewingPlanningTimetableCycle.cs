@@ -20,7 +20,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [InlineData(EstablishmentTypes.Maintained, false)]
     public async Task CanDisplay(string financeType, bool useFigures)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, useFigures);
+        var (page, school) = await SetupNavigateInitPage(financeType, OverallPhaseTypes.Secondary, useFigures);
 
         AssertPageLayout(page, school, useFigures);
     }
@@ -31,7 +31,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     public async Task CanDisplayWithPreviousValue(string? timetablePeriods)
     {
         var (page, _) =
-            await SetupNavigateInitPage(EstablishmentTypes.Academies, timetablePeriods: timetablePeriods);
+            await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, timetablePeriods: timetablePeriods);
 
         var input = page.GetElementById("timetable-periods");
         Assert.NotNull(input);
@@ -40,17 +40,21 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true, true)]
-    [InlineData(EstablishmentTypes.Academies, true, false)]
-    [InlineData(EstablishmentTypes.Academies, false, true)]
-    [InlineData(EstablishmentTypes.Academies, false, false)]
-    [InlineData(EstablishmentTypes.Maintained, true, true)]
-    [InlineData(EstablishmentTypes.Maintained, true, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, true)]
-    [InlineData(EstablishmentTypes.Maintained, false, false)]
-    public async Task CanSubmit(string financeType, bool useFigures, bool isPrimary)
+    [InlineData(EstablishmentTypes.Academies, true, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Academies, true, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Academies, true, OverallPhaseTypes.Secondary)]
+    [InlineData(EstablishmentTypes.Academies, false, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Academies, false, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Academies, false, OverallPhaseTypes.Secondary)]
+    [InlineData(EstablishmentTypes.Maintained, true, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Maintained, true, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Maintained, true, OverallPhaseTypes.Secondary)]
+    [InlineData(EstablishmentTypes.Maintained, false, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Maintained, false, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Maintained, false, OverallPhaseTypes.Secondary)]
+    public async Task CanSubmit(string financeType, bool useFigures, string overallPhase)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, useFigures, isPrimary: isPrimary);
+        var (page, school) = await SetupNavigateInitPage(financeType, overallPhase, useFigures);
         AssertPageLayout(page, school, useFigures);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
@@ -67,7 +71,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        var expectedPage = school.IsPrimary
+        var expectedPage = overallPhase is OverallPhaseTypes.Primary or OverallPhaseTypes.Nursery
             ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
@@ -81,7 +85,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [InlineData("1.1", "Number of periods in one timetable cycle must be a whole number")]
     public async Task ShowsErrorOnInValidSubmit(string timetablePeriods, string expectedMsg)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         AssertPageLayout(page, school);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
@@ -122,7 +126,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
@@ -154,7 +158,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
@@ -171,13 +175,12 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType,
-        bool? useFigures = true, string? timetablePeriods = null, bool isPrimary = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, bool? useFigures = true, string? timetablePeriods = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
-            .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
+            .With(x => x.OverallPhase, overallPhase)
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()

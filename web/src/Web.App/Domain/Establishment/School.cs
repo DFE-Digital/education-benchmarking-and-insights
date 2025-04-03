@@ -34,7 +34,7 @@ public record School
     public string? AddressCounty { get; set; }
     public string? AddressPostcode { get; set; }
     public string? Address { get; set; }
-    public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
+    public bool IsPrimaryOrNursery => OverallPhase is OverallPhaseTypes.Primary or OverallPhaseTypes.Nursery;
     public bool IsPartOfTrust => !string.IsNullOrEmpty(TrustCompanyNumber);
     public FederationSchool[] FederationSchools { get; set; } = [];
 }

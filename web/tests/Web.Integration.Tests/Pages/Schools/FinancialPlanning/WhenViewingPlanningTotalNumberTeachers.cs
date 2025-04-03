@@ -12,15 +12,17 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true)]
-    [InlineData(EstablishmentTypes.Academies, false)]
-    [InlineData(EstablishmentTypes.Maintained, true)]
-    [InlineData(EstablishmentTypes.Maintained, false)]
-    public async Task CanDisplay(string financeType, bool isPrimary)
+    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]
+    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
+    public async Task CanDisplay(string financeType, string overallPhase)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, isPrimary);
+        var (page, school) = await SetupNavigateInitPage(financeType, overallPhase);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, overallPhase);
     }
 
     /*
@@ -48,8 +50,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanSubmit(string financeType)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, false);
-        AssertPageLayout(page, school);
+        const string overallPhase = OverallPhaseTypes.Secondary;
+        var (page, school) = await SetupNavigateInitPage(financeType, overallPhase);
+        AssertPageLayout(page, school, overallPhase);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
@@ -86,7 +89,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
@@ -118,7 +121,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary);
         var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
@@ -142,9 +145,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
     [InlineData(0.9)]
     public async Task ShowsErrorOnInValidSubmit(double? value)
     {
-
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
-        AssertPageLayout(page, school);
+        const string overallPhase = OverallPhaseTypes.Secondary;
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, overallPhase);
+        AssertPageLayout(page, school, overallPhase);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
@@ -169,12 +172,12 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         DocumentAssert.FormErrors(page, ("TotalNumberOfTeachersFte", expectedMsg));
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
-            .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
+            .With(x => x.OverallPhase, overallPhase)
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
@@ -191,9 +194,9 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, string overallPhase)
     {
-        var expectedBackLink = school.IsPrimary
+        var expectedBackLink = overallPhase is OverallPhaseTypes.Primary or OverallPhaseTypes.Nursery
             ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute();
 

@@ -7,7 +7,7 @@ namespace Web.App.ViewModels;
 public class SchoolDeploymentPlanViewModel(School school, DeploymentPlan plan)
 {
     public string? Name => school.SchoolName;
-    public bool IsPrimary => school.IsPrimary;
+    public bool IsPrimaryOrNursery => school.IsPrimaryOrNursery;
     public int Year => plan.Year;
     public string? Urn => plan.URN;
     public int TotalIncome => plan.TotalIncome;
@@ -35,7 +35,7 @@ public class SchoolDeploymentPlanViewModel(School school, DeploymentPlan plan)
     public decimal TotalPupils => plan.TotalPupils;
     public decimal TotalTeachingAssistants => plan.TotalTeachingAssistants;
     public decimal TotalTeachingPeriods => plan.TotalTeachingPeriods;
-    public string ChartData => IsPrimary
+    public string ChartData => IsPrimaryOrNursery
         ? PrimaryStaffDeployment.Select((x, i) => new
         {
             group = x.Description,

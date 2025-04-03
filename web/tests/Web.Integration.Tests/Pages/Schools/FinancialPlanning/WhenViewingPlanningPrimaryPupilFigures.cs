@@ -14,13 +14,17 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true)]
-    [InlineData(EstablishmentTypes.Academies, false)]
-    [InlineData(EstablishmentTypes.Maintained, true)]
-    [InlineData(EstablishmentTypes.Maintained, false)]
-    public async Task CanDisplay(string financeType, bool hasMixedAge)
+    [InlineData(EstablishmentTypes.Academies, true, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Academies, true, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Academies, false, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Academies, false, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Maintained, true, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Maintained, true, OverallPhaseTypes.Nursery)]
+    [InlineData(EstablishmentTypes.Maintained, false, OverallPhaseTypes.Primary)]
+    [InlineData(EstablishmentTypes.Maintained, false, OverallPhaseTypes.Nursery)]
+    public async Task CanDisplay(string financeType, bool hasMixedAge, string overallPhase)
     {
-        var (page, school, plan) = await SetupNavigateInitPage(financeType, hasMixedAge);
+        var (page, school, plan) = await SetupNavigateInitPage(financeType, hasMixedAge, overallPhase);
 
         AssertPageLayout(page, school, plan);
     }
@@ -65,7 +69,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     [InlineData(false)]
     public async Task CanDisplayNotFoundOnSubmit(bool hasMixed)
     {
-        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, hasMixed);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, hasMixed, OverallPhaseTypes.Primary);
         var action = page.QuerySelector("main .govuk-button");
 
         Assert.NotNull(action);
@@ -129,7 +133,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             .Without(x => x.PupilsYear5)
             .Without(x => x.PupilsYear6);
 
-        var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, composer);
+        var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, OverallPhaseTypes.Primary, composer);
         AssertPageLayout(page, school, plan);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
@@ -182,7 +186,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             .Without(x => x.PupilsMixedYear4Year5)
             .Without(x => x.PupilsMixedYear5Year6);
 
-        var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, composer);
+        var (page, school, plan) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, OverallPhaseTypes.Primary, composer);
         AssertPageLayout(page, school, plan);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
@@ -205,12 +209,12 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     }
 
     private async Task<(IHtmlDocument page, School school, FinancialPlanInput plan)> SetupNavigateInitPage(
-        string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
+        string financeType, bool hasMixedClasses, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
-            .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
+            .With(x => x.OverallPhase, overallPhase)
             .Create();
 
         planComposer ??= Fixture.Build<FinancialPlanInput>();

@@ -36,7 +36,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Staff deployment</h2>
-        @if (Model.IsPrimary)
+        @if (Model.IsPrimaryOrNursery)
         {
             @await Html.PartialAsync("_StaffDeploymentPrimary", Model)
         }
