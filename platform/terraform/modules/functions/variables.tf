@@ -134,3 +134,8 @@ variable "node-version" {
   type    = string
   default = "20"
 }
+
+variable "maximum-elastic-worker-count" {
+  type    = number
+  default = null
+}

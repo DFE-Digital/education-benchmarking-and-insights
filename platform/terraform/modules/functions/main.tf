@@ -32,12 +32,13 @@ resource "azurerm_role_assignment" "func-storage-role-file" {
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
   #checkov:skip=CKV_AZURE_225:See ADO backlog AB#206517
-  name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
-  location            = var.location
-  resource_group_name = var.resource-group-name
-  os_type             = var.os-type
-  sku_name            = var.sku.size
-  tags                = var.common-tags
+  name                         = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
+  location                     = var.location
+  resource_group_name          = var.resource-group-name
+  os_type                      = var.os-type
+  sku_name                     = var.sku.size
+  tags                         = var.common-tags
+  maximum_elastic_worker_count = substr(var.sku.size, 0, 2) == "EP" ? var.maximum-elastic-worker-count : null
 }
 
 resource "azurerm_windows_function_app" "func-app" {
