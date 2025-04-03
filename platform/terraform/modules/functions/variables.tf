@@ -139,3 +139,8 @@ variable "maximum-elastic-worker-count" {
   type    = number
   default = null
 }
+
+variable "minimum-elastic-instance-count" {
+  type    = number
+  default = null
+}
