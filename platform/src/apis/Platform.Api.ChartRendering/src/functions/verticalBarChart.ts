@@ -44,7 +44,7 @@ export async function verticalBarChart(
 
     try {
       client.trackDependency({
-        name: "Piscina",
+        name: "worker",
         duration: Date.now() - startTime,
         success: false,
       });
@@ -80,21 +80,10 @@ export async function verticalBarChart(
   }
 
   try {
-    const measurements: {
-      [propertyName: string]: number;
-    } = {};
-    Object.keys(piscina.runTime).forEach((k) => {
-      const value = piscina.runTime[k] as number;
-      if (!isNaN(value)) {
-        measurements[k] = value;
-      }
-    });
-
     client.trackDependency({
-      name: "Piscina",
+      name: "worker",
       duration: Date.now() - startTime,
       success: true,
-      measurements,
     });
   } catch (e) {
     context.warn(e);
