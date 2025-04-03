@@ -174,7 +174,7 @@ module "chart-rendering-fa" {
     size = "EP1"
   }
   maximum-elastic-worker-count   = 50
-  minimum-elastic-instance-count = 10
+  minimum-elastic-instance-count = 1
 }
 
 module "data-clean-up-fa" {
