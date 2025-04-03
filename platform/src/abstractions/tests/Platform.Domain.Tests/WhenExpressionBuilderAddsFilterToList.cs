@@ -7,6 +7,51 @@ public class WhenExpressionBuilderAddsFilterToList
     private const string Default = nameof(Default);
     private readonly List<string> _list = [Default];
 
+    public static TheoryData<bool?, Func<List<string>, List<string>>?, Func<List<string>, List<string>>?, string> ConditionallyAddExpressionToListData => new()
+    {
+        {
+            true, x =>
+            {
+                x.Add("(field eq 'true')");
+                return x;
+            },
+            x =>
+            {
+                x.Add("(field eq 'false')");
+                return x;
+            },
+            $"{Default} (field eq 'true')"
+        },
+        { true, null, null, Default },
+        {
+            false, x =>
+            {
+                x.Add("(field eq 'true')");
+                return x;
+            },
+            x =>
+            {
+                x.Add("(field eq 'false')");
+                return x;
+            },
+            $"{Default} (field eq 'false')"
+        },
+        { false, null, null, Default },
+        {
+            null, x =>
+            {
+                x.Add("(field eq 'true')");
+                return x;
+            },
+            x =>
+            {
+                x.Add("(field eq 'false')");
+                return x;
+            },
+            Default
+        }
+    };
+
     [Theory]
     [InlineData("field", "value", $"{Default} (field ne 'value')")]
     [InlineData("field", null, Default)]
@@ -72,6 +117,70 @@ public class WhenExpressionBuilderAddsFilterToList
             {
                 Values = value.Split(",")
             });
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [InlineData("field", "item1,item2,item3", $"{Default} ((field eq 'item1') or (field eq 'item2') or (field eq 'item3'))")]
+    [InlineData("field", null, Default)]
+    public void ShouldAddValuesFilterToList(string fieldName, string? value, string expected)
+    {
+        _list.ValuesFilter(fieldName, value == null
+            ? null
+            : new CharacteristicList
+            {
+                Values = value.Split(",")
+            });
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [InlineData("field", "item1,item2,item3", $"{Default} (field ne 'item1') and (field ne 'item2') and (field ne 'item3')")]
+    [InlineData("field", null, Default)]
+    public void ShouldAddNotValuesFilterToList(string fieldName, string? value, string expected)
+    {
+        _list.NotValuesFilter(fieldName, value == null
+            ? null
+            : new CharacteristicList
+            {
+                Values = value.Split(",")
+            });
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [InlineData("field", $"{Default} (field eq null)")]
+    public void ShouldAddNullExpressionToList(string fieldName, string expected)
+    {
+        _list.NullValueFilter(fieldName);
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [InlineData("field", $"{Default} (field ne null)")]
+    public void ShouldAddNotNullExpressionToList(string fieldName, string expected)
+    {
+        _list.NotNullValueFilter(fieldName);
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [InlineData("field", true, "eq 'true'", "eq 'false'", $"{Default} (field eq 'true')")]
+    [InlineData("field", true, "", "eq 'false'", Default)]
+    [InlineData("field", false, "eq 'true'", "eq 'false'", $"{Default} (field eq 'false')")]
+    [InlineData("field", false, "eq 'true'", "", Default)]
+    [InlineData("field", null, "eq 'true'", "eq 'false'", Default)]
+    public void ShouldConditionallyAddValueToList(string fieldName, bool? condition, string expressionIfTrue, string? expressionIfFalse, string expected)
+    {
+        _list.ConditionalValueFilter(fieldName, condition, expressionIfTrue, expressionIfFalse);
+        Assert.Equal(expected, string.Join(" ", _list));
+    }
+
+    [Theory]
+    [MemberData(nameof(ConditionallyAddExpressionToListData))]
+    public void ShouldConditionallyAddExpressionToList(bool? condition, Func<List<string>, List<string>>? expressionIfTrue, Func<List<string>, List<string>>? expressionIfFalse, string expected)
+    {
+        _list.ConditionalExpressionFilter(condition, expressionIfTrue, expressionIfFalse);
         Assert.Equal(expected, string.Join(" ", _list));
     }
 
