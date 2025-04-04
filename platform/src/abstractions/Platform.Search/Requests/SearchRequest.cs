@@ -13,10 +13,17 @@ public record SearchRequest
     public int PageSize { get; set; } = 15;
     public int Page { get; set; } = 1;
     public FilterCriteria[]? Filters { get; set; }
+    public OrderByCriteria? OrderBy { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
 public record FilterCriteria
+{
+    public string? Field { get; set; }
+    public string? Value { get; set; }
+}
+
+public record OrderByCriteria
 {
     public string? Field { get; set; }
     public string? Value { get; set; }

@@ -33,7 +33,7 @@ public abstract class SearchService<T>(IIndexClient client)
         return response.Value;
     }
 
-    protected async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
+    protected virtual async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
@@ -55,6 +55,12 @@ public abstract class SearchService<T>(IIndexClient client)
             }
         }
 
+        if (request.OrderBy is not null)
+        {
+            var orderByItem = $"{request.OrderBy.Field} {request.OrderBy.Value?.ToLower()}";
+            options.OrderBy.Add(orderByItem);
+        }
+
         var searchResponse = await client.SearchAsync<T>(request.SearchText, options);
         var searchResults = searchResponse.Value;
         var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : null;
@@ -63,7 +69,7 @@ public abstract class SearchService<T>(IIndexClient client)
         return SearchResponse<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
-    protected async Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected virtual async Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
         ArgumentNullException.ThrowIfNull(client);
 

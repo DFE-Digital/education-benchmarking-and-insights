@@ -1,11 +1,10 @@
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Establishment.Features.Schools.Models;
-using Platform.Api.Establishment.Features.Schools.Requests;
 using Platform.Api.Establishment.Features.Schools.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -14,19 +13,19 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
-public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<SuggestRequest> validator)
+public class PostSchoolsSearchFunction(ISchoolsService service, IValidator<SearchRequest> validator)
 {
-    [Function(nameof(PostSchoolsSuggestFunction))]
+    [Function(nameof(PostSchoolsSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), "Schools")]
-    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The suggest object")]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<School>))]
+    [OpenApiOperation(nameof(PostSchoolsSearchFunction), "Schools")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<School>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSuggest)]
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)]
         HttpRequestData req)
     {
-        var body = await req.ReadAsJsonAsync<SchoolSuggestRequest>();
+        var body = await req.ReadAsJsonAsync<SearchRequest>();
 
         var validationResult = await validator.ValidateAsync(body);
         if (!validationResult.IsValid)
@@ -34,7 +33,7 @@ public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<Sugg
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var schools = await service.SchoolsSuggestAsync(body);
+        var schools = await service.SchoolsSearchAsync(body);
         return await req.CreateJsonResponseAsync(schools);
     }
 }

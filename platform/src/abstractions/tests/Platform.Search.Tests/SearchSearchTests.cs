@@ -89,6 +89,98 @@ public class SearchSearchTests
     }
 
     [Fact]
+    public async Task SearchShouldCorrectlyPassOrderByWithOrderBy()
+    {
+        SearchOptions? capturedOptions = null;
+
+        var orderBy = new OrderByCriteria
+        {
+            Field = nameof(OrderByCriteria.Field),
+            Value = nameof(OrderByCriteria.Value)
+        };
+
+        string[] expectedOrderBy = [$"{orderBy.Field} {orderBy.Value.ToLower()}"];
+
+        var request = new SearchRequest
+        {
+            OrderBy = orderBy,
+            PageSize = Size,
+            Page = Page,
+            SearchText = Search
+        };
+
+        var result = new TestType();
+        var searchResults = SearchModelFactory.SearchResults(
+            [SearchModelFactory.SearchResult(result, ResultScore, new Dictionary<string, IList<string>>())],
+            TotalCount,
+            null,
+            null,
+            Mock.Of<Response>());
+
+        _client
+            .Setup(c => c.SearchAsync<TestType>(
+                Search,
+                It.Is<SearchOptions>(o =>
+                    o.Size == Size
+                    && o.Skip == 0
+                    && o.IncludeTotalCount == true
+                    && o.Filter == null
+                    && o.QueryType == SearchQueryType.Simple)))
+            .Callback((string _, SearchOptions options) =>
+            {
+                capturedOptions = options;
+            })
+            .ReturnsAsync(Response.FromValue(searchResults, Mock.Of<Response>()));
+
+        await _service.CallSearchAsync(request);
+
+        Assert.NotNull(capturedOptions);
+        Assert.NotEmpty(capturedOptions.OrderBy);
+        Assert.Equal(expectedOrderBy, capturedOptions.OrderBy);
+    }
+
+    [Fact]
+    public async Task SearchShouldCorrectlyNotPassOrderByWithoutOrderBy()
+    {
+        SearchOptions? capturedOptions = null;
+
+        var request = new SearchRequest
+        {
+            PageSize = Size,
+            Page = Page,
+            SearchText = Search
+        };
+
+        var result = new TestType();
+        var searchResults = SearchModelFactory.SearchResults(
+            [SearchModelFactory.SearchResult(result, ResultScore, new Dictionary<string, IList<string>>())],
+            TotalCount,
+            null,
+            null,
+            Mock.Of<Response>());
+
+        _client
+            .Setup(c => c.SearchAsync<TestType>(
+                Search,
+                It.Is<SearchOptions>(o =>
+                    o.Size == Size
+                    && o.Skip == 0
+                    && o.IncludeTotalCount == true
+                    && o.Filter == null
+                    && o.QueryType == SearchQueryType.Simple)))
+            .Callback((string _, SearchOptions options) =>
+            {
+                capturedOptions = options;
+            })
+            .ReturnsAsync(Response.FromValue(searchResults, Mock.Of<Response>()));
+
+        await _service.CallSearchAsync(request);
+
+        Assert.NotNull(capturedOptions);
+        Assert.Empty(capturedOptions.OrderBy);
+    }
+
+    [Fact]
     public async Task SearchShouldReturnExpectedResultsWithFacets()
     {
         FilterCriteria[] filters =
