@@ -99,7 +99,7 @@ public class SearchSearchTests
             Value = nameof(OrderByCriteria.Value)
         };
 
-        string[] expectedOrderBy = [$"{orderBy.Field} {orderBy.Value}"];
+        string[] expectedOrderBy = [$"{orderBy.Field} {orderBy.Value.ToLower()}"];
 
         var request = new SearchRequest
         {

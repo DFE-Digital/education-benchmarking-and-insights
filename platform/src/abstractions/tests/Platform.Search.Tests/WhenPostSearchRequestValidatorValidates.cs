@@ -80,7 +80,7 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
                     SearchText = "test",
                     OrderBy = new OrderByCriteria { Field = "SchoolName", Value = "test" }
                 },
-                "OrderBy Value must be 'asc' or 'desc'"
+                $"Order By must empty or be one of the supported values: {string.Join(", ", Sort.All)}"
             ];
     }
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
