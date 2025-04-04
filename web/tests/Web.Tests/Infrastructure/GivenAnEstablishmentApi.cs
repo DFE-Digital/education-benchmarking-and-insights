@@ -72,6 +72,19 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
     }
 
     [Fact]
+    public async Task SuggestSchoolsWithFinancialExclusionShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+
+        await api.SuggestSchools("term", null, true);
+
+        VerifyCall(
+            HttpMethod.Post,
+            "api/schools/suggest",
+            "{\"searchText\":\"term\",\"size\":10,\"excludeMissingFinancialData\":true}");
+    }
+
+    [Fact]
     public async Task SuggestTrustsShouldCallCorrectUrl()
     {
         var api = new EstablishmentApi(HttpClient);

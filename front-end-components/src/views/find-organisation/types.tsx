@@ -21,6 +21,7 @@ export type SchoolInputProps = {
   input: string;
   urn: string;
   exclude?: string[];
+  excludeMissingFinancialData?: boolean;
 };
 
 export type SuggestResult<T> = {

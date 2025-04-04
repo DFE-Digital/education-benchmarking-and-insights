@@ -1,3 +1,6 @@
+DROP VIEW IF EXISTS VW_SchoolSummary
+GO
+
 CREATE VIEW VW_SchoolSummary
 AS
     SELECT s.URN,
