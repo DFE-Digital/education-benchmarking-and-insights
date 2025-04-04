@@ -13,6 +13,12 @@
 
 @if (Model.HasHighNeeds)
 {
+    @await Component.InvokeAsync("DataSource", new
+    {
+        organisationType = OrganisationTypes.LocalAuthority,
+        sourceType = DataSourceTypes.HighNeeds
+    })
+
     <div id="historic-data-high-needs" data-code="@Model.Code"></div>
 }
 else

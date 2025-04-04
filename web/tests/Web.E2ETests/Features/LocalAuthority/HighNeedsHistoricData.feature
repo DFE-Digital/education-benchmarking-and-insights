@@ -18,7 +18,7 @@
           | Primary place funding per head 2-18 population                                 |
           | Secondary place funding per head 2-18 population                               |
           | Special place funding per head 2-18 population                                 |
-          | Alternative provision place funding per head 2-18 population                   |
+          | PRU and alternative provision place funding per head 2-18                      |
           | Early years top up funding per head 2-18 population (maintained)               |
           | Primary top up funding per head 2-18 population (maintained)                   |
           | Secondary top up funding per head 2-18 population (maintained)                 |
@@ -38,11 +38,11 @@
     Scenario: Expected categories are displayed on Section 251 tab
         Given I am on 'section 251' high needs history page for local authority with code '201'
         Then the expected categories should be displayed on 'section 251':
-          | Category                                                                      |
-          | High needs amount per head 2-18 population                                    |
-          | Place funding                                                                 |
-          | Top up funding (maintained schools, academies, free schools and colleges)     |
-          | Top up funding (non-maintained schools, and independent schools and colleges) |
+          | Category                                                                                                                                                                                                          |
+          | High needs amount per head of 2 to 18 population                                                                                                                                                                |
+          | High needs amount per head of 2 to 18 population: place funding split by phase (for mainstream) and type of institution (for specialist provision)                                                                |
+          | High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)    |
+          | High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision) |
 
     @HighNeedsFlagEnabled
     Scenario Outline: Expected number of charts are displayed
@@ -124,7 +124,7 @@
     Scenario: Viewing data in table view send 2
         Given I am on 'send 2' high needs history page for local authority with code '201'
         When I click on view as table on 'send 2' tab
-        Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)' chart contains:
+        Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan (per 1000 of 2 to 18 population)' chart contains:
           | Year         | Amount |
           | 2019 to 2020 |        |
           | 2020 to 2021 | 11.94  |
