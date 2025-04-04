@@ -59,14 +59,7 @@ public class SchoolsService(
             nameof(School.AddressPostcode)
         };
 
-        return SuggestAsync(request, CreateFilterExpression, fields);
-
-        string? CreateFilterExpression()
-        {
-            return request.Exclude is not { Length: > 0 }
-                ? null
-                : $"({string.Join(") and ( ", request.Exclude.Select(a => $"URN ne '{a}'"))})";
-        }
+        return SuggestAsync(request, request.FilterExpression, fields);
     }
 
     public Task<SearchResponse<School>> SchoolsSearchAsync(SearchRequest request)

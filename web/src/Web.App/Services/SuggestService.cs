@@ -7,16 +7,16 @@ namespace Web.App.Services;
 
 public interface ISuggestService
 {
-    Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null);
+    Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null);
     Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
 {
-    public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null)
+    public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null)
     {
-        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools).GetResultOrThrow<SuggestOutput<School>>();
+        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools, excludeMissingFinancialData).GetResultOrThrow<SuggestOutput<School>>();
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 

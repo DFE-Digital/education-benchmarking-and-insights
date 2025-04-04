@@ -17,7 +17,11 @@ public class SuggestProxyController(
     [ProducesResponseType<IEnumerable<SuggestValue<Trust>>>(StatusCodes.Status200OK)]
     [ProducesResponseType<IEnumerable<SuggestValue<School>>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Suggest([FromQuery] string search, [FromQuery] string type, [FromQuery] string[]? exclude = null)
+    public async Task<IActionResult> Suggest(
+        [FromQuery] string search,
+        [FromQuery] string type,
+        [FromQuery] string[]? exclude = null,
+        [FromQuery] bool? excludeMissingFinancialData = null)
     {
         using (logger.BeginScope(new
         {
@@ -29,7 +33,7 @@ public class SuggestProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        var schools = await suggestService.SchoolSuggestions(search, exclude);
+                        var schools = await suggestService.SchoolSuggestions(search, exclude, excludeMissingFinancialData == true);
                         return new JsonResult(schools);
                     case OrganisationTypes.Trust:
                         var trusts = await suggestService.TrustSuggestions(search, exclude);

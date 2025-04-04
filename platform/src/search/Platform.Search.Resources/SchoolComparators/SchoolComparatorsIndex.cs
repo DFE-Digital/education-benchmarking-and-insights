@@ -1,5 +1,6 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
+// ReSharper disable UnusedMember.Global
 
 namespace Platform.Search.Resources.SchoolComparators;
 
@@ -91,4 +92,7 @@ public class SchoolComparatorsIndex
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
     public double? PercentWithASD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public int? PeriodCoveredByReturn { get; set; }
 }

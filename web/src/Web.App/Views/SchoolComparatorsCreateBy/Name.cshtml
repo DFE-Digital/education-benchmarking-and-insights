@@ -32,7 +32,7 @@
             <p class="govuk-body govuk-hint">Search by name, address, postcode or unique reference number (URN)</p>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-three-quarters">
-                    <div id="school-suggester" data-exclude="@(string.Join(",", Model.ExcludeUrns))"></div>
+                    <div id="school-suggester" data-exclude="@(string.Join(",", Model.ExcludeUrns))" data-exclude-missing-financial-data="true"></div>
                 </div>
                 <div class="govuk-grid-column-one-quarter">
                     <button
