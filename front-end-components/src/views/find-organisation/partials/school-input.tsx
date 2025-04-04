@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { suggestionFormatter } from "../utils";
 
 const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
-  const { input, urn, exclude } = props;
+  const { input, urn, exclude, excludeMissingFinancialData } = props;
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedUrn, setSelectedUrn] = useState<string>(urn);
 
@@ -18,10 +18,18 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
       type: "school",
       search: query,
     });
+
     if (exclude) {
       exclude.forEach((e) => {
         params.append("exclude", e);
       });
+    }
+
+    if (excludeMissingFinancialData) {
+      params.append(
+        "excludeMissingFinancialData",
+        excludeMissingFinancialData.toString().toLowerCase()
+      );
     }
 
     try {

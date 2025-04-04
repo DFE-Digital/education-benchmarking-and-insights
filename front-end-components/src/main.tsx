@@ -829,7 +829,8 @@ if (spendingAndCostsComposedElements) {
 
 const schoolSuggesterElement = document.getElementById(SchoolSuggesterId);
 if (schoolSuggesterElement) {
-  const { input, urn, exclude } = schoolSuggesterElement.dataset;
+  const { input, urn, exclude, excludeMissingFinancialData } =
+    schoolSuggesterElement.dataset;
   const root = ReactDOM.createRoot(schoolSuggesterElement);
   root.render(
     <React.StrictMode>
@@ -837,6 +838,9 @@ if (schoolSuggesterElement) {
         input={input || ""}
         urn={urn || ""}
         exclude={exclude ? exclude.split(",") : undefined}
+        excludeMissingFinancialData={
+          excludeMissingFinancialData === "true" ? true : undefined
+        }
       />
     </React.StrictMode>
   );
