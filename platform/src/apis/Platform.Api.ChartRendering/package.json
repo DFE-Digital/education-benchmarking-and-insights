@@ -18,6 +18,8 @@
     "@azure/functions": "^4.0.0",
     "@xmldom/xmldom": "^0.9.8",
     "applicationinsights": "^3.6.0",
+    "chart.js": "^4.4.8",
+    "chartjs-node-canvas": "^5.0.0",
     "classnames": "^2.5.1",
     "d3": "^7.9.0",
     "piscina": "^4.9.2",
