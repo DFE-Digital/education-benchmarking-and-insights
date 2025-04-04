@@ -7,7 +7,7 @@ IF EXISTS(SELECT 1
 GO
 
 CREATE VIEW FileIntegrity AS
-  SELECT DatasetName,
+  SELECT DatasetShortCode,
          DatasetYear,
          FileName,
          FileSizeBytes,
@@ -16,7 +16,7 @@ CREATE VIEW FileIntegrity AS
          Description,
          CreatedAt
     FROM (
-           SELECT DatasetName,
+           SELECT DatasetShortCode,
                   DatasetYear,
                   FileName,
                   FileSizeBytes,
@@ -24,7 +24,7 @@ CREATE VIEW FileIntegrity AS
                   HashAlgorithm,
                   Description,
                   CreatedAt,
-                  Row_Number() OVER (PARTITION BY DatasetName ORDER BY DatasetYear DESC) AS rn
+                  Row_Number() OVER (PARTITION BY DatasetShortCode ORDER BY DatasetYear DESC) AS rn
              FROM FileIntegrityHistory
          ) AS RankedHistory
      WHERE rn = 1
