@@ -13,3 +13,8 @@ export type ChartBuilderResult = {
   id: string;
   html: string | undefined;
 };
+
+export type ChartJsBuilderResult = {
+  id: string;
+  buffer: Buffer<ArrayBufferLike>;
+};
