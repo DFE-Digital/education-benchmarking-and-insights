@@ -261,8 +261,8 @@
       },
       "Microsoft.AspNetCore.JsonPatch": {
         "type": "Transitive",
-        "resolved": "8.0.13",
-        "contentHash": "w4zb3w1iSS0rsUed17KYrJKadV2FxIRl3u9MmPd7Haw87UyKts6IGDdhYAop2zddbYxeET/4mfGoLw6MNtv63g==",
+        "resolved": "8.0.14",
+        "contentHash": "S0ZPiwLvRCYWYz7WTxaTZIyBEYOTPR+Rujdiwz4gUGauWpAhXu846I29xjOTBPX1d5HUcBNlJ46cgDDAev94Gg==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
           "Newtonsoft.Json": "13.0.3"
@@ -1860,7 +1860,7 @@
           "JsonSubTypes": "[2.0.1, )",
           "Microsoft.ApplicationInsights.AspNetCore": "[2.23.0, )",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "[8.0.13, )",
-          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "[8.0.13, )",
+          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "[8.0.14, )",
           "Microsoft.Extensions.Caching.Cosmos": "[1.7.0, )",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "[9.0.2, )",
           "Microsoft.Extensions.Configuration": "[9.0.2, )",
@@ -1963,11 +1963,11 @@
       },
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
         "type": "CentralTransitive",
-        "requested": "[8.0.13, )",
-        "resolved": "8.0.13",
-        "contentHash": "a0taGyYyRA/CZj8Iw2IJYqOyOO5BaZbHgqLXfxF3+xsr5un0XqRtrsR5PApSQX4fIvZSqm+9WLUjFyYryLb+Sw==",
+        "requested": "[8.0.14, )",
+        "resolved": "8.0.14",
+        "contentHash": "322+FAPeMslfd320h8sASJSJ3h5s4dVr6W0xypr28Vz/cbMFjVCLHOou418cc2Xh0kXRzMy3irD3jBzSA+EiDA==",
         "dependencies": {
-          "Microsoft.AspNetCore.JsonPatch": "8.0.13",
+          "Microsoft.AspNetCore.JsonPatch": "8.0.14",
           "Newtonsoft.Json": "13.0.3",
           "Newtonsoft.Json.Bson": "1.0.2"
         }
