@@ -12,7 +12,7 @@ public class SchoolsSearchValidator : AbstractValidator<SearchRequest>
     {
 
         Include(new PostSearchRequestValidator());
-        
+
         RuleFor(x => x.Filters)
             .Must(filters => filters == null || filters.All(f => f.Field == nameof(School.OverallPhase)))
             .WithMessage($"Each Filter Field must be {nameof(School.OverallPhase)}");
@@ -23,6 +23,6 @@ public class SchoolsSearchValidator : AbstractValidator<SearchRequest>
 
         RuleFor(x => x.OrderBy)
             .Must(orderBy => orderBy == null || orderBy.Field == nameof(School.SchoolName))
-            .WithMessage($"OrderBy Field must be {nameof(School.SchoolName)}");	
+            .WithMessage($"OrderBy Field must be {nameof(School.SchoolName)}");
     }
 }

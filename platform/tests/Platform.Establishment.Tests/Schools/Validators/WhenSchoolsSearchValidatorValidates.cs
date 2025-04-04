@@ -144,7 +144,7 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
                 Filters = [new FilterCriteria { Field = "OverallPhase", Value = "test" }]
             },
             $"Filters must be one of the supported values: {string.Join(", ", OverallPhase.All)}"
-        ];	
+        ];
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
