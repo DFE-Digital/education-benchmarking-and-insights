@@ -6,12 +6,12 @@ public class ChartRenderingApi(HttpClient httpClient, string? key = default) : A
     {
         var content = new JsonContent(request);
         content.Headers.Add("x-accept", "image/svg+xml");
-        return PostAsync(Api.Charts.VerticalBarChart, content, cancellationToken);
+        return PostAsync(Api.Charts.VerticalBarChartJs, content, cancellationToken);
     }
 
     public Task<ApiResult> PostVerticalBarCharts<T>(PostVerticalBarChartsRequest<T> request, CancellationToken cancellationToken = default)
     {
-        return PostAsync(Api.Charts.VerticalBarChart, new JsonContent(request.ToArray()), cancellationToken);
+        return PostAsync(Api.Charts.VerticalBarChartJs, new JsonContent(request.ToArray()), cancellationToken);
     }
 }
 
