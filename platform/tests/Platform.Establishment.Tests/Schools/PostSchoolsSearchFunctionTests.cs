@@ -31,7 +31,7 @@ public class PostSchoolsSearchFunctionTests : FunctionsTestBase
     {
         _service
             .Setup(d => d.SchoolsSearchAsync(It.IsAny<SearchRequest>()))
-            .ReturnsAsync(new SearchResponse<School>());
+            .ReturnsAsync(new SearchResponse<SchoolSummary>());
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
@@ -44,7 +44,7 @@ public class PostSchoolsSearchFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<SearchResponse<School>>();
+        var body = await result.ReadAsJsonAsync<SearchResponse<SchoolSummary>>();
         Assert.NotNull(body);
     }
 

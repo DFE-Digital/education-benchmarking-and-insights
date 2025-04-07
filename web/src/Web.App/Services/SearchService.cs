@@ -7,12 +7,12 @@ namespace Web.App.Services;
 
 public interface ISearchService
 {
-    Task<SearchResponse<School>> SchoolSearch(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null);
+    Task<SearchResponse<SchoolSummary>> SchoolSearch(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null);
 }
 
 public class SearchService(IEstablishmentApi establishmentApi) : ISearchService
 {
-    public async Task<SearchResponse<School>> SchoolSearch(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null)
+    public async Task<SearchResponse<SchoolSummary>> SchoolSearch(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null)
     {
         List<(string Field, string Filter)>? flattenedFilters = null;
         if (filters is { Keys.Count: > 0, Values.Count: > 0 })
@@ -22,6 +22,6 @@ public class SearchService(IEstablishmentApi establishmentApi) : ISearchService
         }
 
         return await establishmentApi.SearchSchools(SearchRequest.Create(term, pageSize, page, flattenedFilters, orderBy))
-            .GetResultOrThrow<SearchResponse<School>>();
+            .GetResultOrThrow<SearchResponse<SchoolSummary>>();
     }
 }

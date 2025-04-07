@@ -55,7 +55,7 @@ public class SchoolSearchController(
             orderBy
         }))
         {
-            SearchResponse<School> results;
+            SearchResponse<SchoolSummary> results;
             try
             {
                 results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0

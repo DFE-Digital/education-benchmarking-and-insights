@@ -7,16 +7,16 @@ namespace Web.App.Services;
 
 public interface ISuggestService
 {
-    Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null);
+    Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null);
     Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
 {
-    public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null)
+    public async Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null)
     {
-        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools, excludeMissingFinancialData).GetResultOrThrow<SuggestOutput<School>>();
+        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools, excludeMissingFinancialData).GetResultOrThrow<SuggestOutput<SchoolSummary>>();
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 
@@ -75,7 +75,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
     }
 
 
-    private static SuggestValue<School> SchoolSuggestValue(SuggestValue<School> value)
+    private static SuggestValue<SchoolSummary> SchoolSuggestValue(SuggestValue<SchoolSummary> value)
     {
         var text = value.Text?.Replace("*", "");
 
@@ -95,7 +95,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return value;
     }
 
-    private static List<string?> SchoolAdditionalDetails(SuggestValue<School> value, string? text)
+    private static List<string?> SchoolAdditionalDetails(SuggestValue<SchoolSummary> value, string? text)
     {
 
         return text == value.Document?.URN
@@ -103,7 +103,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
             : SchoolAddressAdditionalDetails(value, text);
     }
 
-    private static List<string?> SchoolAddressAdditionalDetails(SuggestValue<School> value, string? text)
+    private static List<string?> SchoolAddressAdditionalDetails(SuggestValue<SchoolSummary> value, string? text)
     {
         var additionalDetails = new List<string?>();
 

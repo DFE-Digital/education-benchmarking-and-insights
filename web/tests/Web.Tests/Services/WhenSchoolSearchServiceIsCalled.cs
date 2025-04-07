@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using Moq;
+﻿using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -11,7 +10,6 @@ namespace Web.Tests.Services;
 public class WhenSchoolSearchServiceIsCalled
 {
     private readonly Mock<IEstablishmentApi> _api = new();
-    private readonly Fixture _fixture = new();
 
     public static TheoryData<string?, int?, int?, Dictionary<string, IEnumerable<string>>?, (string Field, string Order)?, SearchRequest?> WhenSendRequestData = new()
     {
@@ -58,7 +56,7 @@ public class WhenSchoolSearchServiceIsCalled
     [MemberData(nameof(WhenSendRequestData))]
     public async Task ShouldSendRequest(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null, SearchRequest? expected = null)
     {
-        var response = new SearchResponse<School>();
+        var response = new SearchResponse<SchoolSummary>();
 
         SearchRequest? actualRequest = null;
         _api.Setup(x => x.SearchSchools(It.IsAny<SearchRequest>()))

@@ -12,7 +12,7 @@ public class GivenASchoolSearchResultViewModel
     [Fact]
     public void WhenCreateShouldMapFacetsIfSupplied()
     {
-        var school = _fixture.Create<School>();
+        var school = _fixture.Create<SchoolSummary>();
 
         var actual = SchoolSearchResultViewModel.Create(school);
 
@@ -24,5 +24,7 @@ public class GivenASchoolSearchResultViewModel
         Assert.Equal(school.AddressTown, actual.AddressTown);
         Assert.Equal(school.AddressCounty, actual.AddressCounty);
         Assert.Equal(school.AddressPostcode, actual.AddressPostcode);
+        Assert.Equal(school.PeriodCoveredByReturn, actual.PeriodCoveredByReturn);
+        Assert.Equal(school.TotalPupils, actual.TotalPupils);
     }
 }

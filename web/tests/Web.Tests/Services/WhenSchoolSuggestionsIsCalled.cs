@@ -16,14 +16,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayUrnOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.URN,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -32,7 +32,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.URN})", array.First().Text);
@@ -41,14 +41,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplaySchoolNameOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.SchoolName,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -57,7 +57,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressTown}, {school.AddressPostcode})", array.First().Text);
@@ -66,14 +66,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressStreetOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressStreet,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -82,7 +82,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressStreet}, {school.AddressTown}, {school.AddressPostcode})", array.First().Text);
@@ -91,14 +91,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressLocalityOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressLocality,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -107,7 +107,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressLocality}, {school.AddressTown}, {school.AddressPostcode})", array.First().Text);
@@ -116,14 +116,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressLine3OnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressLine3,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -132,7 +132,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressLine3}, {school.AddressTown}, {school.AddressPostcode})", array.First().Text);
@@ -141,14 +141,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressTownOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressTown,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -157,7 +157,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressTown}, {school.AddressPostcode})", array.First().Text);
@@ -166,14 +166,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressCountyOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressCounty,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -182,7 +182,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressTown}, {school.AddressCounty}, {school.AddressPostcode})", array.First().Text);
@@ -191,14 +191,14 @@ public class WhenSchoolSuggestionsIsCalled
     [Fact]
     public async Task ShouldDisplayAddressPostcodeOnMatch()
     {
-        var school = _fixture.Create<School>();
-        var value = new SuggestValue<School>
+        var school = _fixture.Create<SchoolSummary>();
+        var value = new SuggestValue<SchoolSummary>
         {
             Text = school.AddressPostcode,
             Document = school
         };
 
-        var response = new SuggestOutput<School>
+        var response = new SuggestOutput<SchoolSummary>
         {
             Results = [value]
         };
@@ -207,7 +207,7 @@ public class WhenSchoolSuggestionsIsCalled
 
         var service = new SuggestService(_api.Object);
         var actual = await service.SchoolSuggestions("school");
-        var array = actual as SuggestValue<School>[] ?? actual.ToArray();
+        var array = actual as SuggestValue<SchoolSummary>[] ?? actual.ToArray();
 
         Assert.Single(array);
         Assert.Equal($"{school.SchoolName} ({school.AddressTown}, {school.AddressPostcode})", array.First().Text);

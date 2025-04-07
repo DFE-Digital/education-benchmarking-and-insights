@@ -13,8 +13,10 @@ public record SchoolSearchResultViewModel
     public string? AddressTown { get; init; }
     public string? AddressCounty { get; init; }
     public string? AddressPostcode { get; init; }
+    public int? PeriodCoveredByReturn { get; init; }
+    public double? TotalPupils { get; init; }
 
-    public static SchoolSearchResultViewModel Create(School school)
+    public static SchoolSearchResultViewModel Create(SchoolSummary school)
     {
         return new SchoolSearchResultViewModel
         {
@@ -25,7 +27,9 @@ public record SchoolSearchResultViewModel
             AddressLine3 = school.AddressLine3,
             AddressTown = school.AddressTown,
             AddressCounty = school.AddressCounty,
-            AddressPostcode = school.AddressPostcode
+            AddressPostcode = school.AddressPostcode,
+            PeriodCoveredByReturn = school.PeriodCoveredByReturn,
+            TotalPupils = school.TotalPupils
         };
     }
 }

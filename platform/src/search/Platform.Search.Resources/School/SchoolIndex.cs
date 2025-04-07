@@ -34,4 +34,7 @@ public class SchoolIndex
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
     public int? PeriodCoveredByReturn { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? TotalPupils { get; set; }
 }
