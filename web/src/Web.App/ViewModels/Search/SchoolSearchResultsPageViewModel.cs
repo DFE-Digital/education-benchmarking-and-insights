@@ -3,7 +3,7 @@ namespace Web.App.ViewModels.Search;
 
 public record SchoolSearchResultsPageViewModel
 {
-    public int TotalResults { get; set; }
+    public long TotalResults { get; set; }
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 

@@ -657,33 +657,44 @@ table#current-comparators-la {
         > img {
           filter: invert(0);
         }
+
+        &:hover {
+          background-color: govuk-colour("yellow");
+        }
       }
     }
   }
 }
 
-.search-results {
-  &.search-results__options {
-    padding: govuk-spacing(4);
-    background-color: govuk-colour("light-grey");
-
-    button {
-      margin-bottom: 0;
-    }
+.search-results-wrapper {
+  @include govuk-media-query($from: tablet) {
+    position: sticky;
+    top: govuk-spacing(4);
   }
 
-  .govuk-radios {
-    .govuk-radios__label {
-      &:before {
-        background-color: govuk-colour("white");
+  .search-results {
+    &.search-results__options {
+      padding: govuk-spacing(4);
+      background-color: govuk-colour("light-grey");
+
+      button {
+        margin-bottom: 0;
       }
     }
-  }
 
-  .govuk-checkboxes {
-    .govuk-checkboxes__label {
-      &:before {
-        background-color: govuk-colour("white");
+    .govuk-radios {
+      .govuk-radios__label {
+        &:before {
+          background-color: govuk-colour("white");
+        }
+      }
+    }
+
+    .govuk-checkboxes {
+      .govuk-checkboxes__label {
+        &:before {
+          background-color: govuk-colour("white");
+        }
       }
     }
   }

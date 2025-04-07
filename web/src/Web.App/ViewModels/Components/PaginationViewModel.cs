@@ -1,6 +1,6 @@
 namespace Web.App.ViewModels.Components;
 
-public class PaginationViewModel(int totalResults, int pageNumber, int pageSize, Func<int, string?> urlBuilder)
+public class PaginationViewModel(long totalResults, int pageNumber, int pageSize, Func<int, string?> urlBuilder)
 {
     public bool Visible => totalResults > pageSize;
     public int CurrentPage => pageNumber;

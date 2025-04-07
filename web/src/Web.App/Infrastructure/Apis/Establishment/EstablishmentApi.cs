@@ -67,6 +67,16 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
             Content = new JsonContent(new { SearchText = search, Size = 10, Exclude = exclude })
         });
     }
+
+    public Task<ApiResult> SearchSchools(SearchRequest request)
+    {
+        return SendAsync(new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(Api.Establishment.SchoolSearch, UriKind.Relative),
+            Content = new JsonContent(request)
+        });
+    }
 }
 
 public interface IEstablishmentApi
@@ -80,4 +90,5 @@ public interface IEstablishmentApi
     Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null);
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
+    Task<ApiResult> SearchSchools(SearchRequest request);
 }
