@@ -1,10 +1,57 @@
 using AngleSharp.Dom;
+using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Search;
 
 public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static SearchResponse<School> SearchResults => new()
+    {
+        Facets = new Dictionary<string, IList<FacetValueResponseModel>>
+        {
+            {
+                "OverallPhase", new List<FacetValueResponseModel>
+                {
+                    new()
+                    {
+                        Value = "Primary",
+                        Count = 1
+                    },
+                    new()
+                    {
+                        Value = "Secondary",
+                        Count = 2
+                    }
+                }
+            }
+        },
+        TotalResults = 54,
+        Page = 1,
+        PageSize = 10,
+        PageCount = 2,
+        Results =
+        [
+            new School
+            {
+                URN = "123456",
+                SchoolName = "School Name 1",
+                AddressStreet = "Street",
+                AddressTown = "Town",
+                AddressPostcode = "Postcode"
+            },
+            new School
+            {
+                URN = "654321",
+                SchoolName = "School Name 2",
+                AddressStreet = "Street",
+                AddressTown = "Town",
+                AddressPostcode = "Postcode"
+            }
+        ]
+    };
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -17,12 +64,14 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
     [Fact]
     public async Task CanSubmitSearch()
     {
-        var page = await Client.Navigate(Paths.SchoolSearch);
-        var action = page.QuerySelector("button[type='submit']");
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearch);
+        var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);
 
         const string term = nameof(term);
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        page = await Client.SubmitForm(page.Forms.First(), action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {

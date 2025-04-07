@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Xunit;
@@ -133,5 +135,16 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
         await api.GetLocalAuthorityStatisticalNeighbours(identifier);
 
         VerifyCall(HttpMethod.Get, $"api/local-authority/{identifier}/statistical-neighbours");
+    }
+
+    [Fact]
+    public async Task SearchSchoolsShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+        var request = new SearchRequest();
+
+        await api.SearchSchools(request);
+
+        VerifyCall(HttpMethod.Post, $"api/schools/search", request.ToJson(Formatting.None));
     }
 }

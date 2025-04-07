@@ -42,7 +42,7 @@ public class SchoolSearchController(
     public async Task<IActionResult> Search(
         [FromQuery] string? term,
         [FromQuery] int? page,
-        [FromQuery(Name = "phase")] string[]? overallPhase,
+        [FromQuery(Name = "phase")] string[] overallPhase,
         [FromQuery(Name = "sort")] string? orderBy
     )
     {
@@ -54,7 +54,7 @@ public class SchoolSearchController(
             orderBy
         }))
         {
-            var results = await searchService.SchoolSearch(term, 50, page, overallPhase == null
+            var results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
                     ? null
                     : new Dictionary<string, IEnumerable<string>>
                     {
@@ -72,7 +72,7 @@ public class SchoolSearchController(
                 TotalResults = results.TotalResults,
                 PageNumber = results.Page,
                 PageSize = results.PageSize,
-                OverallPhase = overallPhase ?? [],
+                OverallPhase = overallPhase,
                 Facets = SearchResultFacetViewModel.Create(results.Facets),
                 Results = results.Results.Select(SchoolSearchResultViewModel.Create).ToArray()
             });
