@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Services;
 using Web.App.ViewModels;
 using Web.App.ViewModels.Search;
 
@@ -12,7 +13,8 @@ namespace Web.App.Controllers;
 [SchoolRequestTelemetry(TrackedRequestFeature.Search)]
 [FeatureGate(FeatureFlags.FacetedSearch)]
 public class SchoolSearchController(
-    ILogger<SchoolSearchController> logger)
+    ILogger<SchoolSearchController> logger,
+    ISearchService searchService)
     : Controller
 {
     [HttpGet]
@@ -39,64 +41,40 @@ public class SchoolSearchController(
     [Route("search")]
     public async Task<IActionResult> Search(
         [FromQuery] string? term,
-        [FromQuery(Name = "sort")] string? orderBy,
         [FromQuery] int? page,
-        [FromQuery(Name = "phase")] string[] overallPhase)
+        [FromQuery(Name = "phase")] string[]? overallPhase,
+        [FromQuery(Name = "sort")] string? orderBy
+    )
     {
         using (logger.BeginScope(new
         {
             term,
-            orderBy,
             page,
-            overallPhase
+            overallPhase,
+            orderBy
         }))
         {
-            await Task.CompletedTask; // todo: call search api
+            var results = await searchService.SchoolSearch(term, 50, page, overallPhase == null
+                    ? null
+                    : new Dictionary<string, IEnumerable<string>>
+                    {
+                        {
+                            "OverallPhase", overallPhase
+                        }
+                    },
+                string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolName", orderBy)
+            );
 
             return View(new SchoolSearchResultsViewModel
             {
                 Term = term,
                 OrderBy = orderBy,
-                TotalResults = 54,
-                PageNumber = page ?? 1,
-                OverallPhase = overallPhase,
-                Facets = new Dictionary<string, IList<SearchResultFacetViewModel>>
-                {
-                    {
-                        "OverallPhase", new List<SearchResultFacetViewModel>
-                        {
-                            new()
-                            {
-                                Value = "Primary",
-                                Count = 1
-                            },
-                            new()
-                            {
-                                Value = "Secondary",
-                                Count = 2
-                            }
-                        }
-                    }
-                },
-                Results =
-                [
-                    new SchoolSearchResultViewModel
-                    {
-                        URN = "123456",
-                        SchoolName = "School Name 1",
-                        AddressStreet = "Street",
-                        AddressTown = "Town",
-                        AddressPostcode = "Postcode"
-                    },
-                    new SchoolSearchResultViewModel
-                    {
-                        URN = "654321",
-                        SchoolName = "School Name 2",
-                        AddressStreet = "Street",
-                        AddressTown = "Town",
-                        AddressPostcode = "Postcode"
-                    }
-                ]
+                TotalResults = results.TotalResults,
+                PageNumber = results.Page,
+                PageSize = results.PageSize,
+                OverallPhase = overallPhase ?? [],
+                Facets = SearchResultFacetViewModel.Create(results.Facets),
+                Results = results.Results.Select(SchoolSearchResultViewModel.Create).ToArray()
             });
         }
     }

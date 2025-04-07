@@ -6,6 +6,7 @@ public static class Api
     {
         public static string Schools => "api/schools";
         public static string SchoolSuggest => "api/schools/suggest";
+        public static string SchoolSearch => "api/schools/search";
         public static string TrustSuggest => "api/trusts/suggest";
         public static string LocalAuthorities => "api/local-authorities";
         public static string LocalAuthoritySuggest => "api/local-authorities/suggest";

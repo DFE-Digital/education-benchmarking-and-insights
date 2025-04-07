@@ -45,6 +45,7 @@ builder.Services
     .AddScoped<IUserDataService, UserDataService>()
     .AddScoped<IClaimsIdentifierService, ClaimsIdentifierService>()
     .AddScoped<ILocalAuthorityComparatorSetService, LocalAuthorityComparatorSetService>()
+    .AddScoped<ISearchService, SearchService>()
     .AddActionResults();
 
 builder.Services.AddHealthChecks()
