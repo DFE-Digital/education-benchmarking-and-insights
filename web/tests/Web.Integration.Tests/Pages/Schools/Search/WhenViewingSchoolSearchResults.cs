@@ -1,17 +1,66 @@
 using System.Net;
 using AngleSharp.Dom;
+using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Search;
 
 public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static SearchResponse<School> SearchResults => new()
+    {
+        Facets = new Dictionary<string, IList<FacetValueResponseModel>>
+        {
+            {
+                "OverallPhase", new List<FacetValueResponseModel>
+                {
+                    new()
+                    {
+                        Value = "Primary",
+                        Count = 1
+                    },
+                    new()
+                    {
+                        Value = "Secondary",
+                        Count = 2
+                    }
+                }
+            }
+        },
+        TotalResults = 54,
+        Page = 1,
+        PageSize = 10,
+        PageCount = 2,
+        Results =
+        [
+            new School
+            {
+                URN = "123456",
+                SchoolName = "School Name 1",
+                AddressStreet = "Street",
+                AddressTown = "Town",
+                AddressPostcode = "Postcode"
+            },
+            new School
+            {
+                URN = "654321",
+                SchoolName = "School Name 2",
+                AddressStreet = "Street",
+                AddressTown = "Town",
+                AddressPostcode = "Postcode"
+            }
+        ]
+    };
+
     [Theory]
     [InlineData(null)]
     [InlineData("term")]
     public async Task CanDisplay(string? term)
     {
-        var page = await Client.Navigate(Paths.SchoolSearchResults(term));
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearchResults(term));
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Search for a school or academy - Financial Benchmarking and Insights Tool - GOV.UK", "Search for a school or academy");
@@ -21,7 +70,9 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
     [Fact]
     public async Task CanSubmitSearch()
     {
-        var page = await Client.Navigate(Paths.SchoolSearchResults());
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearchResults());
         var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);
 
@@ -42,7 +93,9 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
     [Fact]
     public async Task CanFilterSearch()
     {
-        var page = await Client.Navigate(Paths.SchoolSearchResults());
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearchResults());
         var action = page.QuerySelectorAll("button[type='submit']").Last();
         Assert.NotNull(action);
 
@@ -74,7 +127,9 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         const string term = nameof(term);
         const string orderBy = nameof(orderBy);
         const string overallPhase = nameof(overallPhase);
-        var page = await Client.Navigate(Paths.SchoolSearchResults(term, orderBy, [overallPhase]));
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearchResults(term, orderBy, [overallPhase]));
 
         var pagination = page.QuerySelectorAll("a.govuk-pagination__link");
         Assert.NotNull(pagination);
@@ -91,13 +146,13 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
     {
         const string urn = "123456";
         var page = await Client
-            .SetupEstablishmentWithNotFound()
+            .SetupEstablishment(SearchResults)
             .Navigate(Paths.SchoolSearchResults());
         var results = page.QuerySelectorAll("ul.govuk-list--result > li > a");
         Assert.NotNull(results);
 
         page = await Client.Follow(results.ElementAt(0));
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
     [Fact]

@@ -17,7 +17,7 @@ public record SearchResultFacetViewModel
 
         return facets.Keys
             .ToDictionary(
-                key => key,
+                key => $"{key[..1].ToUpper()}{key[1..]}",
                 key => facets[key]
                     .Select(x => new SearchResultFacetViewModel { Value = x.Value, Count = x.Count }));
     }
