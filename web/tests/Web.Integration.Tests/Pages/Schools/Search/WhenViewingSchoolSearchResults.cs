@@ -159,11 +159,57 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
     public async Task CanDisplayErrorIfMissingSearchTerm()
     {
         var page = await Client.Navigate(Paths.SchoolSearchResults());
-        var action = page.QuerySelector("button[type='submit']");
+        var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);
 
-        page = await Client.SubmitForm(page.Forms[0], action);
+        page = await Client.SubmitForm(page.Forms.First(), action);
 
         Assert.Equal("Error: Enter a school name or URN to start a search", page.QuerySelector("#Term-error")?.GetInnerText());
+    }
+
+    [Fact]
+    public async Task CanDisplayWarningIfNoResultsFound()
+    {
+        var page = await Client
+            .SetupEstablishment(new SearchResponse<School>())
+            .Navigate(Paths.SchoolSearchResults());
+        var action = page.QuerySelectorAll("button[type='submit']").First();
+        Assert.NotNull(action);
+
+        const string term = nameof(term);
+        page = await Client.SubmitForm(page.Forms.First(), action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "Term", term
+                }
+            });
+        });
+
+        Assert.Equal("We couldn't find any schools matching your search criteria.", page.QuerySelector("#search-warning")?.GetInnerText());
+    }
+
+    [Fact]
+    public async Task CanDisplayWarningIfSearchFailed()
+    {
+        var page = await Client
+            .SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolSearchResults());
+        var action = page.QuerySelectorAll("button[type='submit']").First();
+        Assert.NotNull(action);
+
+        const string term = nameof(term);
+        page = await Client.SubmitForm(page.Forms.First(), action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "Term", term
+                }
+            });
+        });
+
+        Assert.Equal("Unable to search for schools. Update your search criteria and try again.", page.QuerySelector("#search-warning")?.GetInnerText());
     }
 }
