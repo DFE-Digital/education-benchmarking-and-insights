@@ -32,7 +32,7 @@ public class PostSchoolsSuggestFunctionTests : FunctionsTestBase
     {
         _service
             .Setup(d => d.SchoolsSuggestAsync(It.IsAny<SchoolSuggestRequest>()))
-            .ReturnsAsync(new SuggestResponse<School>());
+            .ReturnsAsync(new SuggestResponse<SchoolSummary>());
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
@@ -45,7 +45,7 @@ public class PostSchoolsSuggestFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<SuggestResponse<School>>();
+        var body = await result.ReadAsJsonAsync<SuggestResponse<SchoolSummary>>();
         Assert.NotNull(body);
     }
 

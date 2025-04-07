@@ -12,7 +12,8 @@ AS
            s.AddressCounty,
            s.AddressPostcode,
            s.OverallPhase,
-           f.PeriodCoveredByReturn
+           f.PeriodCoveredByReturn,
+           CONVERT(float, f.TotalPupils) AS TotalPupils
     FROM School s
              LEFT JOIN CurrentDefaultFinancial f on f.URN = s.URN
 GO

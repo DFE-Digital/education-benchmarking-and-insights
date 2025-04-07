@@ -13,16 +13,16 @@ namespace Platform.Api.Establishment.Features.Schools.Services;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<School>> SchoolsSuggestAsync(SchoolSuggestRequest request);
+    Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request);
     Task<School?> GetAsync(string urn);
-    Task<SearchResponse<School>> SchoolsSearchAsync(SearchRequest request);
+    Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request);
 }
 
 [ExcludeFromCodeCoverage]
 public class SchoolsService(
     [FromKeyedServices(ResourceNames.Search.Indexes.School)] IIndexClient client,
     IDatabaseFactory dbFactory)
-    : SearchService<School>(client), ISchoolsService
+    : SearchService<SchoolSummary>(client), ISchoolsService
 {
     public async Task<School?> GetAsync(string urn)
     {
@@ -45,28 +45,28 @@ public class SchoolsService(
         return school;
     }
 
-    public Task<SuggestResponse<School>> SchoolsSuggestAsync(SchoolSuggestRequest request)
+    public Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request)
     {
         var fields = new[]
         {
-            nameof(School.SchoolName),
-            nameof(School.URN),
-            nameof(School.AddressStreet),
-            nameof(School.AddressLocality),
-            nameof(School.AddressLine3),
-            nameof(School.AddressTown),
-            nameof(School.AddressCounty),
-            nameof(School.AddressPostcode)
+            nameof(SchoolSummary.SchoolName),
+            nameof(SchoolSummary.URN),
+            nameof(SchoolSummary.AddressStreet),
+            nameof(SchoolSummary.AddressLocality),
+            nameof(SchoolSummary.AddressLine3),
+            nameof(SchoolSummary.AddressTown),
+            nameof(SchoolSummary.AddressCounty),
+            nameof(SchoolSummary.AddressPostcode)
         };
 
         return SuggestAsync(request, request.FilterExpression, fields);
     }
 
-    public Task<SearchResponse<School>> SchoolsSearchAsync(SearchRequest request)
+    public Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request)
     {
         var facets = new[]
         {
-            nameof(School.OverallPhase),
+            nameof(SchoolSummary.OverallPhase),
         };
 
         var response = SearchAsync(request, CreateSearchFilterExpression, facets);
