@@ -15,10 +15,17 @@
 
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
 
-@if (Model.TotalResults == 0)
+@if (!Model.Success)
 {
-    <p class="govuk-body-s">
-        We couldn't find any schools matching your search criteria
+    <p id="search-warning" class="govuk-body-s">
+        Unable to search for schools. Update your search criteria and try again. 
+    </p>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+}
+else if (Model.TotalResults == 0)
+{
+    <p id="search-warning" class="govuk-body-s">
+        We couldn't find any schools matching your search criteria.
     </p>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
 }

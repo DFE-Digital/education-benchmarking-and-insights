@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Web.App.Services;
 using Web.App.ViewModels;
 using Web.App.ViewModels.Search;
@@ -54,25 +55,38 @@ public class SchoolSearchController(
             orderBy
         }))
         {
-            var results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
-                    ? null
-                    : new Dictionary<string, IEnumerable<string>>
-                    {
+            SearchResponse<School> results;
+            try
+            {
+                results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
+                        ? null
+                        : new Dictionary<string, IEnumerable<string>>
                         {
-                            "OverallPhase", overallPhase
-                        }
-                    },
-                string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolName", orderBy)
-            );
+                            {
+                                "OverallPhase", overallPhase
+                            }
+                        },
+                    string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolName", orderBy)
+                );
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Unable to search for school");
+                return View(new SchoolSearchResultsViewModel
+                {
+                    Term = term,
+                    Success = false
+                });
+            }
 
             return View(new SchoolSearchResultsViewModel
             {
                 Term = term,
                 OrderBy = orderBy,
+                OverallPhase = overallPhase,
                 TotalResults = results.TotalResults,
                 PageNumber = results.Page,
                 PageSize = results.PageSize,
-                OverallPhase = overallPhase,
                 Facets = SearchResultFacetViewModel.Create(results.Facets),
                 Results = results.Results.Select(SchoolSearchResultViewModel.Create).ToArray()
             });
