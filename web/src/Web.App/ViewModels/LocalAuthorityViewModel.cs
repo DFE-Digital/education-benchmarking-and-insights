@@ -3,19 +3,13 @@ namespace Web.App.ViewModels;
 
 public class LocalAuthorityViewModel(LocalAuthority localAuthority)
 {
-    public LocalAuthorityViewModel(LocalAuthority localAuthority, FinanceYears years) : this(localAuthority)
-    {
-        Section251Year = years.S251;
-    }
-
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
-    public int? Section251Year { get; }
-
     public IEnumerable<IGrouping<string?, LocalAuthoritySchool>> GroupedSchools { get; } = localAuthority.Schools
         .OrderBy(x => x.SchoolName)
         .GroupBy(x => x.OverallPhase)
         .OrderBy(x => GetLaPhaseOrder(x.Key));
+
 
     private static int GetLaPhaseOrder(string? phase)
     {

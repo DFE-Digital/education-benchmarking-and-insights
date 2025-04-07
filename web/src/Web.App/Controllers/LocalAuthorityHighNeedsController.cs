@@ -35,7 +35,7 @@ public class LocalAuthorityHighNeedsController(
 
                 var authority = await LocalAuthority(code);
                 var years = await financeService.GetYears();
-                var viewModel = new LocalAuthorityViewModel(authority, years);
+                var viewModel = new LocalAuthorityHighNeedsViewModel(authority, years);
                 return View(viewModel);
             }
             catch (Exception e)
