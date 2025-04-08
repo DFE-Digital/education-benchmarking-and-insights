@@ -6,37 +6,28 @@
         <li id="search-result-@result.URN">
             <a href="@Url.Action("Index", "School", new { urn = result.URN })"
                class="govuk-link govuk-link--no-visited-state govuk-heading-s govuk-!-margin-bottom-2">@result.SchoolName</a>
-            <p class="govuk-body-s">
-                @if (!string.IsNullOrWhiteSpace(result.AddressStreet))
+            <ul class="govuk-list">
+                @if (!string.IsNullOrWhiteSpace(result.Address))
                 {
-                    @result.AddressStreet
-                    <br/>
+                    <li class="govuk-!-padding-bottom-1">
+                        <span>@result.Address</span>
+                    </li>
                 }
-                @if (!string.IsNullOrWhiteSpace(result.AddressLocality))
+                @if (!string.IsNullOrWhiteSpace(result.OverallPhase))
                 {
-                    @result.AddressLocality
-                    <br/>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Education phase:</span>
+                        <span>@(result.OverallPhase)</span>
+                    </li>
                 }
-                @if (!string.IsNullOrWhiteSpace(result.AddressLine3))
+                @if (result.TotalPupils.GetValueOrDefault() > 0)
                 {
-                    @result.AddressLine3
-                    <br/>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Number of pupils:</span>
+                        <span class="govuk-!-font-tabular-numbers">@(result.TotalPupils)</span>
+                    </li>
                 }
-                @if (!string.IsNullOrWhiteSpace(result.AddressTown))
-                {
-                    @result.AddressTown
-                    <br/>
-                }
-                @if (!string.IsNullOrWhiteSpace(result.AddressCounty))
-                {
-                    @result.AddressCounty
-                    <br/>
-                }
-                @if (!string.IsNullOrWhiteSpace(result.AddressPostcode))
-                {
-                    @result.AddressPostcode
-                }
-            </p>
+            </ul>
         </li>
     }
 </ul>
