@@ -20,6 +20,4 @@ public record SchoolSummary
     public string? OverallPhase { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
     public double? TotalPupils { get; set; }
-
-    public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
 }

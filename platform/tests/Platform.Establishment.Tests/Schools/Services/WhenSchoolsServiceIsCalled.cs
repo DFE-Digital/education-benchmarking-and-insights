@@ -26,7 +26,7 @@ public class WhenSchoolsServiceIsCalled
         string[]? capturedFacets = null;
 
         _service.Protected()
-            .Setup<Task<SearchResponse<School>>>(
+            .Setup<Task<SearchResponse<SchoolSummary>>>(
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<FilterCriteria[], string?>>(),
@@ -36,7 +36,7 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedFacets = facets;
             })
-            .ReturnsAsync(Mock.Of<SearchResponse<School>>());
+            .ReturnsAsync(Mock.Of<SearchResponse<SchoolSummary>>());
 
         var request = new SearchRequest();
 
@@ -52,7 +52,7 @@ public class WhenSchoolsServiceIsCalled
         SearchRequest? capturedRequest = null;
 
         _service.Protected()
-            .Setup<Task<SearchResponse<School>>>(
+            .Setup<Task<SearchResponse<SchoolSummary>>>(
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<FilterCriteria[], string?>>(),
@@ -62,7 +62,7 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedRequest = request;
             })
-            .ReturnsAsync(Mock.Of<SearchResponse<School>>());
+            .ReturnsAsync(Mock.Of<SearchResponse<SchoolSummary>>());
 
         var request = new SearchRequest
         {
@@ -84,7 +84,7 @@ public class WhenSchoolsServiceIsCalled
         Func<FilterCriteria[], string?>? capturedFilterExpBuilder = null;
 
         _service.Protected()
-            .Setup<Task<SearchResponse<School>>>(
+            .Setup<Task<SearchResponse<SchoolSummary>>>(
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<FilterCriteria[], string?>>(),
@@ -94,7 +94,7 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedFilterExpBuilder = filterExpBuilder;
             })
-            .ReturnsAsync(Mock.Of<SearchResponse<School>>());
+            .ReturnsAsync(Mock.Of<SearchResponse<SchoolSummary>>());
 
         var request = new SearchRequest
         {
@@ -125,7 +125,7 @@ public class WhenSchoolsServiceIsCalled
         };
 
         _service.Protected()
-            .Setup<Task<SuggestResponse<School>>>(
+            .Setup<Task<SuggestResponse<SchoolSummary>>>(
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
@@ -135,7 +135,7 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedFields = fields;
             })
-            .ReturnsAsync(Mock.Of<SuggestResponse<School>>());
+            .ReturnsAsync(Mock.Of<SuggestResponse<SchoolSummary>>());
 
         var request = new SchoolSuggestRequest();
 
@@ -151,7 +151,7 @@ public class WhenSchoolsServiceIsCalled
         SuggestRequest? capturedRequest = null;
 
         _service.Protected()
-            .Setup<Task<SuggestResponse<School>>>(
+            .Setup<Task<SuggestResponse<SchoolSummary>>>(
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
@@ -161,7 +161,7 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedRequest = request;
             })
-            .ReturnsAsync(Mock.Of<SuggestResponse<School>>());
+            .ReturnsAsync(Mock.Of<SuggestResponse<SchoolSummary>>());
 
         var request = new SchoolSuggestRequest
         {

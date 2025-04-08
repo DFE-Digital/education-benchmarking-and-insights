@@ -15,5 +15,4 @@ public record SchoolSummary
     public string? OverallPhase { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
     public double? TotalPupils { get; set; }
-    public string? Address { get; set; }
-};
+}
