@@ -16,7 +16,8 @@
     @await Component.InvokeAsync("DataSource", new
     {
         organisationType = OrganisationTypes.LocalAuthority,
-        sourceType = DataSourceTypes.HighNeeds
+        sourceType = DataSourceTypes.HighNeeds,
+        flagAggregatedHighNeeds = true
     })
 
     <div id="historic-data-high-needs" data-code="@Model.Code"></div>

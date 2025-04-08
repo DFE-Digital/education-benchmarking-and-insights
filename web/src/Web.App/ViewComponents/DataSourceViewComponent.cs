@@ -11,8 +11,10 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         string sourceType,
         bool? isPartOfTrust,
         string[]? additionText,
+        bool? flagAggregatedHighNeeds,
         string wrapperClassName = "govuk-grid-row",
-        string className = "govuk-grid-column-full")
+        string className = "govuk-grid-column-full"
+        )
     {
         var dataSource = sourceType switch
         {
@@ -23,7 +25,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
                 "Workforce data is taken from the workforce census.",
                 "Pupil data is taken from the school census data set in January."
             ],
-            DataSourceTypes.HighNeeds => await GetHighNeedsDataSource(),
+            DataSourceTypes.HighNeeds => await GetHighNeedsDataSource(flagAggregatedHighNeeds == true),
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
@@ -56,12 +58,16 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         };
     }
 
-    private async Task<string[]> GetHighNeedsDataSource()
+    private async Task<string[]> GetHighNeedsDataSource(bool flagAggregatedHighNeeds)
     {
         var years = await financeService.GetYears();
-        return
-        [
-            $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}. The Outturn does not include place funding for pupils with special educational needs taught in academies."
-        ];
+        return flagAggregatedHighNeeds ?
+            [
+                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}. It also includes budgeted and outturn spend per head, using aggregated s251 categories.",
+                "The Outturn does not include place funding for pupils with special educational needs taught in academies."
+            ] :
+            [
+                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}. The Outturn does not include place funding for pupils with special educational needs taught in academies."
+            ];
     }
 }
