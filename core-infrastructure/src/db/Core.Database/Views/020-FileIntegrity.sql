@@ -24,7 +24,7 @@ CREATE VIEW FileIntegrity AS
                   HashAlgorithm,
                   Description,
                   CreatedAt,
-                  Row_Number() OVER (PARTITION BY DatasetShortCode ORDER BY DatasetYear DESC) AS rn
+                  Row_Number() OVER (PARTITION BY DatasetShortCode, DatasetYear ORDER BY DatasetYear DESC) AS rn
              FROM FileIntegrityHistory
          ) AS RankedHistory
      WHERE rn = 1
