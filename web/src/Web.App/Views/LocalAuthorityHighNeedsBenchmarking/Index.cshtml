@@ -14,7 +14,8 @@
 @await Component.InvokeAsync("DataSource", new
 {
 organisationType = OrganisationTypes.LocalAuthority,
-sourceType = DataSourceTypes.HighNeeds
+sourceType = DataSourceTypes.HighNeeds,
+flagAggregatedHighNeeds = true
 })
 
 <div id="benchmark-data-high-needs" data-code="@Model.Code"></div>
