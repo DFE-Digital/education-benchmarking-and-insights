@@ -1,4 +1,6 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Pages.School;
+
 namespace Web.E2ETests.Pages;
 
 public enum OrganisationTypes
@@ -41,11 +43,18 @@ public class FindOrganisationPage(IPage page)
         await page.Keyboard.PressAsync(Keyboard.EnterKey);
     }
 
-    public async Task<School.HomePage> ClickContinue()
+    public async Task<School.HomePage> ClickContinueToSchool()
     {
         await ContinueButton.ClickAsync();
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         return new School.HomePage(page);
+    }
+
+    public async Task<SearchPage> ClickContinueToSchoolSearch()
+    {
+        await ContinueButton.ClickAsync();
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        return new SearchPage(page);
     }
 
     public async Task SelectOrganisationType(OrganisationTypes type)
