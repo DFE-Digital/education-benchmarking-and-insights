@@ -28,7 +28,7 @@ public class HighNeedsDashboardPage(IPage page)
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
         {
-            HasText = "Total number of EHC plans and cost"
+            HasText = "Total number of EHC plans"
         })
     });
     private ILocator NationalRankingsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
