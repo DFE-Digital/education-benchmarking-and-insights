@@ -19,8 +19,6 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Total place funding for special schools and AP/PRUs",
           field: "highNeedsAmountTotalPlaceFunding",
-          commentary:
-            "This data shows budgeted and outturn spend per head, using aggregated s251 categories. Place funding includes academies for the budget but excludes the amount given to academies for pupils with special educational needs in the outturn.",
         },
         {
           name: "Top up funding (maintained schools, academies, free schools and colleges)",

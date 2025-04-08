@@ -7,7 +7,7 @@ import {
 import { useChartModeContext } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { HistoricDataHighNeedsProps } from "../types";
-import { section251Sections, section251MainHeading } from ".";
+import { section251Sections } from ".";
 import classNames from "classnames";
 import { DataWarning } from "src/components/charts/data-warning";
 import { HighNeedsApi } from "src/services/high-needs-api";
@@ -54,9 +54,7 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
   return (
     <>
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">
-          {section251MainHeading}
-        </div>
+        <div className="govuk-grid-column-two-thirds">&nbsp;</div>
         <div className="govuk-grid-column-one-third">
           <ChartMode
             chartMode={chartMode}

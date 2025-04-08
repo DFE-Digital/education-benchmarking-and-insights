@@ -9,12 +9,7 @@ import { DataWarning } from "src/components/charts/data-warning";
 
 export function BenchmarkChartSection251<
   TData extends LocalAuthoritySection251,
->({
-  chartTitle,
-  data,
-  valueField,
-  chartCommentary,
-}: BenchmarkChartSection251Props<TData>) {
+>({ chartTitle, data, valueField }: BenchmarkChartSection251Props<TData>) {
   const mergedData = useMemo(() => {
     const dataPoints: LaChartData[] = [];
 
@@ -83,7 +78,6 @@ export function BenchmarkChartSection251<
       valueUnit="currency"
     >
       <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
-      {chartCommentary && <p className="govuk-body">{chartCommentary}</p>}
       {missingDataKeys.length > 0 && (
         <DataWarning className="govuk-!-margin-top-3">
           {missingDataKeys.length > 1

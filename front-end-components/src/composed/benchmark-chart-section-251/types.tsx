@@ -10,5 +10,4 @@ export interface BenchmarkChartSection251Props<
   chartTitle: string;
   data: LocalAuthoritySection251Benchmark<TData>[] | undefined;
   valueField: ResolvedStatProps<TData>["valueField"];
-  chartCommentary?: string;
 }
