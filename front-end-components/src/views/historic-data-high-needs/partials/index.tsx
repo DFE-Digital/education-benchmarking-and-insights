@@ -11,9 +11,6 @@ import {
 export * from "src/views/historic-data-high-needs/partials/section-251-section.tsx";
 export * from "src/views/historic-data-high-needs/partials/send-2-section.tsx";
 
-export const section251MainHeading =
-  "This data shows budgeted and outturn spend per head, using aggregated s251 categories. Place funding includes academies for the budget but excludes the amount given to academies for pupils with special educational needs in the outturn.";
-
 export const section251Sections: HistoricChartSection251Section<LocalAuthoritySection251>[] =
   [
     {

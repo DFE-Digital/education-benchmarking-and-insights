@@ -33,7 +33,6 @@ export type BenchmarkDataHighNeedsSection251Chart<
     label: string;
     content: ReactNode;
   };
-  commentary?: string;
 };
 
 export type BenchmarkChartSend2Section<
