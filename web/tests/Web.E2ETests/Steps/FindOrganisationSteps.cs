@@ -1,6 +1,6 @@
-﻿using Reqnroll;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages;
+using Web.E2ETests.Pages.School;
 using Xunit;
 using HomePage = Web.E2ETests.Pages.School.HomePage;
 
@@ -12,6 +12,7 @@ public class FindOrganisationSteps(PageDriver driver)
 {
     private FindOrganisationPage? _findOrganisationPage;
     private HomePage? _schoolHomePage;
+    private SearchPage? _schoolSearchPage;
 
     [Given(@"I am on find organisation page")]
     public async Task GivenIAmOnFindOrganisationPage()
@@ -39,12 +40,11 @@ public class FindOrganisationSteps(PageDriver driver)
         await _findOrganisationPage.TypeIntoSchoolSearchBox(keyword);
     }
 
-
     [When("I click Continue")]
     public async Task WhenIClickContinue()
     {
         Assert.NotNull(_findOrganisationPage);
-        _schoolHomePage = await _findOrganisationPage.ClickContinue();
+        _schoolHomePage = await _findOrganisationPage.ClickContinueToSchool();
     }
 
     [Then("the school homepage is displayed")]
@@ -69,5 +69,22 @@ public class FindOrganisationSteps(PageDriver driver)
         await _findOrganisationPage.AssertSearchResults(keyword);
     }
 
-    private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
+    [When("I click Continue to school search")]
+    public async Task WhenIClickContinueToSchoolSearch()
+    {
+        Assert.NotNull(_findOrganisationPage);
+        _schoolSearchPage = await _findOrganisationPage.ClickContinueToSchoolSearch();
+    }
+
+    [Then("the school search page is displayed")]
+    public async Task ThenTheSchoolSearchPageIsDisplayed()
+    {
+        Assert.NotNull(_schoolSearchPage);
+        await _schoolSearchPage.IsDisplayed();
+    }
+
+    private static string FindOrganisationUrl()
+    {
+        return $"{TestConfiguration.ServiceUrl}/find-organisation";
+    }
 }
