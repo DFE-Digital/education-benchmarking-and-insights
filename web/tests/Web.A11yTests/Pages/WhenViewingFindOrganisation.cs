@@ -32,6 +32,7 @@ public class WhenViewingFindOrganisation(
     [InlineData("local-authority")]
     [InlineData("school")]
     [InlineData("trust")]
+    [Xunit.TraitAttribute("Category", "FindOrganisationEnabled")]
     public async Task ThenThereAreNoAccessibilityIssues(string organisationType)
     {
         await GoToPage();
@@ -43,11 +44,24 @@ public class WhenViewingFindOrganisation(
     [InlineData("local-authority")]
     [InlineData("school")]
     [InlineData("trust")]
+    [Xunit.TraitAttribute("Category", "FindOrganisationEnabled")]
     public async Task ValidationErrorThenThereAreNoAccessibilityIssues(string organisationType)
     {
         await GoToPage();
         await Page.Locator($"#{organisationType}").ClickAsync();
         await Page.Locator(":text('Continue')").ClickAsync();
         await EvaluatePage(_context);
+    }
+
+    [Theory]
+    [InlineData("local-authority")]
+    [InlineData("school")]
+    [InlineData("trust")]
+    [Xunit.TraitAttribute("Category", "FacetedSearchEnabled")]
+    public async Task ThenThereAreNoAccessibilityIssuesWithFacetedSearch(string organisationType)
+    {
+        await GoToPage();
+        await Page.Locator($"#{organisationType}").ClickAsync();
+        await EvaluatePage();
     }
 }
