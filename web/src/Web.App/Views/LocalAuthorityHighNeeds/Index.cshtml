@@ -1,5 +1,5 @@
 ﻿@using Web.App.TagHelpers
-@model Web.App.ViewModels.LocalAuthorityViewModel
+@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeeds;
 }
@@ -45,7 +45,8 @@
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHeadlines", new
                 {
-                    identifier = Model.Code
+                    identifier = Model.Code,
+                    commentary = $"Taken from SEN data for January {Model.Section251Year}"
                 })
             </div>
         </div>
@@ -63,7 +64,7 @@
                 {
                     identifier = Model.Code,
                     ranking = "SpendAsPercentageOfBudget",
-                    commentary = "Local authorities ranked based on outturn compared to budget as a percentage.",
+                    commentary = $"Local authorities ranked based on outturn compared to budget as a percentage using {Model.Section251Year-1}-{Model.Section251Year} data.",
                     valueLabel = "Outturn as percentage of budget"
                 })
             </div>
@@ -77,7 +78,8 @@
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
                 {
-                    identifier = Model.Code
+                    identifier = Model.Code,
+                    commentary = "This data displays only budget vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies"
                 })
             </div>
         </div>

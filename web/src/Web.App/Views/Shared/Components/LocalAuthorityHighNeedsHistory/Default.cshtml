@@ -54,17 +54,16 @@
                 </ul>
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
-                @await Html.PartialAsync("_TrendIndicator", new TrendIndicatorViewModel
-                {
-                    ComparisonValue = nextValue,
-                    CurrentValue = rank.Balance
-                })
                 @(rank.Balance?.ToString("C0"))
             </td>
         </tr>
     }
     </tbody>
 </table>
+
+<p class="govuk-body">
+    @Model.Commentary
+</p>
 
 <a
     href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"

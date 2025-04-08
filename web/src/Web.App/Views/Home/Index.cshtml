@@ -15,11 +15,18 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">This service helps schools view and improve their spending. It is replacing the View my financial insights tool and the Schools financial benchmarking service.</p>
+        
         <p class="govuk-body">
             Anyone can use it to compare schools, academies or trusts across England, though you will need a 
             <a href="@settings?.SignInUri" class="govuk-link govuk-link--no-visited-state">DfE Sign-in account</a> 
             to access some parts of the service.
         </p>
+
+        <feature name="@FeatureFlags.HighNeeds">
+            <p class="govuk-body">
+                Local authorities can use the service to review and help plan their high needs spending and provision.
+            </p>
+        </feature>
         
         <h2 class="govuk-heading-m">At a school level</h2>
         <p class="govuk-body">You can:</p>
@@ -31,8 +38,18 @@
             <li>plan school curriculum finances</li>
             <li>see tailored commercial recommendations for each school based on data</li>
         </ul>
+
+        <h2 class="govuk-heading-m">At a local authority level</h2>
+            <p class="govuk-body">You can:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>get an overview of all your schools</li>
+                <li>identify where schools need more support with their spending </li>
+                <feature name="@FeatureFlags.HighNeeds">
+                    <li>benchmark your high needs spending with similar local authorities</li>
+                </feature>
+            </ul>
         
-        <h2 class="govuk-heading-m">At a trust or local authority level</h2>
+        <h2 class="govuk-heading-m">At a trust level</h2>
         <p class="govuk-body">You can:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>get an overview of all your schools and see how spending compares with similar schools</li>

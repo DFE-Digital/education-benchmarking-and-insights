@@ -19,6 +19,8 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Total place funding for special schools and AP/PRUs",
           field: "highNeedsAmountTotalPlaceFunding",
+          commentary:
+            "This data shows budgeted and outturn spend per head, using aggregated s251 categories. Place funding includes academies for the budget but excludes the amount given to academies for pupils with special educational needs in the outturn.",
         },
         {
           name: "Top up funding (maintained schools, academies, free schools and colleges)",
@@ -47,7 +49,8 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
       ],
     },
     {
-      heading: "Place funding",
+      heading:
+        "High needs amount per head of 2 to 18 population: place funding split by phase (for mainstream and type of institution (for specialist provision)",
       charts: [
         {
           name: "Primary place funding per head 2-18 population",
@@ -62,14 +65,14 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "placeFundingSpecial",
         },
         {
-          name: "Alternative provision place funding per head 2-18 population",
+          name: "PRU and alternative provision place funding per head 2-18",
           field: "placeFundingAlternativeProvision",
         },
       ],
     },
     {
       heading:
-        "Top up funding (maintained schools, academies, free schools and colleges)",
+        "High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
           name: "Early years top up funding per head 2-18 population (maintained)",
@@ -103,7 +106,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
     },
     {
       heading:
-        "Top up funding (non-maintained schools, and independent schools and colleges)",
+        "High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
           name: "Early years top up funding per head 2-18 population (non-maintained)",
@@ -141,7 +144,7 @@ export const send2Sections: BenchmarkChartSend2Section<LocalAuthorityEducationHe
   [
     {
       heading:
-        "Number aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)",
+        "Number aged up to 25 with SEN statement or EHC plan (per 1000 of 2 to 18 population)",
       charts: [
         {
           name: "Total",
@@ -151,7 +154,7 @@ export const send2Sections: BenchmarkChartSend2Section<LocalAuthorityEducationHe
     },
     {
       heading:
-        "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)",
+        "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 of 2 to 18 population)",
       charts: [
         {
           name: "Mainstream schools or academies",

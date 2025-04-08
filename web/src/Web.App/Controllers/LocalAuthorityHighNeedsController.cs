@@ -6,6 +6,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -15,7 +16,8 @@ namespace Web.App.Controllers;
 [Route("local-authority/{code}/high-needs")]
 public class LocalAuthorityHighNeedsController(
     ILogger<LocalAuthorityHighNeedsController> logger,
-    IEstablishmentApi establishmentApi)
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService)
     : Controller
 {
     [HttpGet]
@@ -32,7 +34,8 @@ public class LocalAuthorityHighNeedsController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
                 var authority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityViewModel(authority);
+                var years = await financeService.GetYears();
+                var viewModel = new LocalAuthorityHighNeedsViewModel(authority, years);
                 return View(viewModel);
             }
             catch (Exception e)
