@@ -40,13 +40,13 @@
     <div class="dashboard-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Total number of EHC plans and cost</h2>
+                <h2 class="govuk-summary-card__title">Total number of EHC plans</h2>
             </div>
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHeadlines", new
                 {
                     identifier = Model.Code,
-                    commentary = $"Taken from SEN data for January {Model.Section251Year}"
+                    commentary = $"Taken from SEN data for January {Model.Section251Year}."
                 })
             </div>
         </div>
@@ -79,7 +79,7 @@
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
                 {
                     identifier = Model.Code,
-                    commentary = "This data displays only budget vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies"
+                    commentary = "This data displays only budget vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies."
                 })
             </div>
         </div>
