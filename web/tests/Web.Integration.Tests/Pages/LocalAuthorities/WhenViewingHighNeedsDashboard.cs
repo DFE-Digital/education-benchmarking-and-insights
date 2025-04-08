@@ -186,7 +186,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         var cards = page.QuerySelectorAll(".govuk-summary-card");
 
-        var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans and cost"));
+        var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans"));
         AssertHeadlinesCard(headlinesCard, highNeeds, plans);
 
         var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National view"));
