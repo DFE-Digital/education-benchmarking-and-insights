@@ -14,6 +14,8 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-school";
     private const string SuggestRequestKey = "suggest-school";
+    private const string SearchRequestKey = "search-school";
+    private List<FilterCriteria> _filters = [];
 
     [Given("a valid school request with id '(.*)'")]
     private void GivenAValidSchoolRequestWithId(string id)
@@ -64,6 +66,88 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/suggest", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("I have the following filters:")]
+    private void GivenIHaveTheFollowingFilters(Table table)
+    {
+        _filters = table.Rows
+            .Select(row => new FilterCriteria
+            {
+                Field = row["Field"],
+                Value = row["Value"]
+            })
+            .ToList();
+    }
+
+    [Given(
+        "a valid schools search request with searchText '(.*)' page '(.*)' size '(.*)' orderByField '(.*)' orderByValue '(.*)'")]
+    private void GivenAValidSchoolsSearchRequest(
+        string searchText,
+        int page,
+        int size,
+        string? orderByField,
+        string? orderByValue)
+    {
+        var content = new SearchRequest
+        {
+            SearchText = searchText,
+            Page = page,
+            PageSize = size,
+            OrderBy = string.IsNullOrEmpty(orderByField) && string.IsNullOrEmpty(orderByValue)
+                ? null
+                : new OrderByCriteria
+                {
+                    Field = orderByField,
+                    Value = orderByValue
+                },
+            Filters = _filters.ToArray()
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/schools/search", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid schools search request with searchText '(.*)' page '(.*)' size '(.*)'")]
+    private void GivenSearchRequestWithoutOrderBy(string searchText, int page, int size)
+    {
+        GivenAValidSchoolsSearchRequest(searchText, page, size, null, null);
+    }
+
+    [Given("an invalid schools search request")]
+    private void GivenAnInvalidSchoolsSearchRequest()
+    {
+        var invalidFilters = new[]
+        {
+            new FilterCriteria
+            {
+                Field = "test",
+                Value = "test"
+            }
+        };
+        var content = new SearchRequest
+        {
+            SearchText = "te",
+            Page = 1,
+            PageSize = 5,
+            OrderBy = new OrderByCriteria
+            {
+                Field = "test",
+                Value = "test"
+            },
+            Filters = invalidFilters
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/schools/search", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
@@ -160,5 +244,79 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         }
 
         filteredTable.CompareToSet(results);
+    }
+
+    [Then("the search schools response should be ok and have the following values:")]
+    private async Task ThenTheSchoolSearchResponseShouldBeValidWithTheFollowingValues(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var actual = content.FromJson<SearchResponse<SchoolSummary>>();
+
+        table.CompareToInstance(actual);
+    }
+
+    [Then("the response should contain the following facets:")]
+    private async Task ThenTheResponseShouldContainTheFollowingFacets(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var actual = content.FromJson<SearchResponse<School>>();
+
+        var facets = actual.Facets?
+            .SelectMany(kvp => kvp.Value.Select(f => new
+            {
+                Key = kvp.Key,
+                Value = f.Value,
+                Count = f.Count
+            }))
+            .ToList();
+
+        table.CompareToSet(facets);
+    }
+
+    [Then("the results should include the following schools:")]
+    private async Task ThenTheResultsShouldIncludeTheFollowingSchools(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<SchoolSummary>>().Results.ToList(); ;
+
+        table.CompareToSet(results);
+    }
+
+    [Then("the schools search result should be empty")]
+    private async Task ThenTheSchoolsSearchResultShouldBeEmpty()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<SchoolSummary>>().Results;
+        Assert.Empty(results);
+    }
+
+    [Then("the search schools response should be bad request containing validation errors")]
+    private async Task ThenTheSchoolsSearchResultShouldBeBadRequest()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<ValidationError[]>();
+
+        Assert.NotEmpty(results);
+
+        foreach (var error in results)
+        {
+            Assert.NotNull(error.PropertyName);
+            Assert.NotNull(error.ErrorMessage);
+        }
     }
 }
