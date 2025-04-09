@@ -69,5 +69,9 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
 
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Benchmark High needs - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark High needs");
+
+        var backLink = page.QuerySelector("a.govuk-back-link") as IHtmlAnchorElement;
+        Assert.NotNull(backLink);
+        Assert.Equal(Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute(), backLink.Href);
     }
 }
