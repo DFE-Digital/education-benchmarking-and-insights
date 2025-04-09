@@ -66,6 +66,13 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.ClickViewAsTable();
     }
 
+    [Then("comparator commentary label is visible, showing local authority count of '(\\d+)'")]
+    public async Task ThenComparatorCommentaryLabelIsVisibleShowingLocalAuthorityCountOf(string comparators)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.IsComparatorCommentaryDisplayed(int.Parse(comparators));
+    }
+
     [Then("chart view is visible, showing '(\\d+)' charts")]
     public async Task ThenChartViewIsVisibleShowingCharts(string charts)
     {
@@ -92,6 +99,20 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
         await _highNeedsBenchmarkingPage.TableContainsSend2(25, table);
+    }
+
+    [When("I click the Change comparators button")]
+    public async Task WhenIClickTheChangeComparatorsButton()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        _highNeedsStartBenchmarkingPage = await _highNeedsBenchmarkingPage.ClickChangeComparatorsButton();
+    }
+
+    [Then("the local authority high needs start benchmarking page is displayed")]
+    public async Task ThenTheLocalAuthorityHighNeedsStartBenchmarkingPageIsDisplayed()
+    {
+        Assert.NotNull(_highNeedsStartBenchmarkingPage);
+        await _highNeedsStartBenchmarkingPage.IsDisplayed();
     }
 
     private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode)
