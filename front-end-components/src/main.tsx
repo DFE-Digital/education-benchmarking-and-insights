@@ -1034,14 +1034,14 @@ const benchmarkDataHighNeedsElement = document.getElementById(
   BenchmarkDataHighNeedsElementId
 );
 if (benchmarkDataHighNeedsElement) {
-  const { code, count, editLink } = benchmarkDataHighNeedsElement.dataset;
+  const { code, editLink, set } = benchmarkDataHighNeedsElement.dataset;
   if (code) {
     const root = ReactDOM.createRoot(benchmarkDataHighNeedsElement);
     root.render(
       <React.StrictMode>
         <BenchmarkDataHighNeeds
           code={code}
-          count={count ? parseInt(count) : undefined}
+          set={set ? (JSON.parse(set) as string[]) : []}
           editLink={editLink}
           fetchTimeout={30_000}
         />

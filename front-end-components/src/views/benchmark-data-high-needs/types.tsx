@@ -7,9 +7,9 @@ import {
 
 export type BenchmarkDataHighNeedsProps = {
   code: string;
-  count?: number;
   editLink?: string;
   fetchTimeout?: number;
+  set: string[];
 };
 
 export type BenchmarkDataHighNeedsViewProps = BenchmarkDataHighNeedsProps & {};

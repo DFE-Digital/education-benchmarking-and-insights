@@ -1,3 +1,5 @@
+@using Newtonsoft.Json
+@using Web.App.Extensions
 @model Web.App.ViewModels.LocalAuthorityHighNeedsBenchmarkingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsBenchmarking;
@@ -20,5 +22,5 @@
     flagAggregatedHighNeeds = true
 })
 
-<div id="benchmark-data-high-needs" data-code="@Model.Code" data-count="@Model.Comparators.Length"
+<div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"
      data-edit-link="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { code = Model.Code, referrer = "benchmarking" })"></div>

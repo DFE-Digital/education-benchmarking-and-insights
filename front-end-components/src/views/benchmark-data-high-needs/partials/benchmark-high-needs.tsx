@@ -20,7 +20,7 @@ import { HighNeedsApi } from "src/services/high-needs-api";
 
 export const BenchmarkHighNeeds: React.FC<
   BenchmarkDataHighNeedsAccordionProps
-> = ({ count, editLink, fetchTimeout }) => {
+> = ({ set, editLink, fetchTimeout }) => {
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { chartMode, setChartMode } = useChartModeContext();
   const [section251LoadError, setSection251LoadError] = useState<string>();
@@ -37,18 +37,20 @@ export const BenchmarkHighNeeds: React.FC<
     setSection251Data(undefined);
     return await HighNeedsApi.comparison(
       selectedEstabishment,
+      set,
       fetchTimeout ? [AbortSignal.timeout(fetchTimeout)] : undefined
     );
-  }, [fetchTimeout, selectedEstabishment]);
+  }, [fetchTimeout, selectedEstabishment, set]);
 
   const getSend2Data = useCallback(async () => {
     setSend2LoadError(undefined);
     setSend2Data(undefined);
     return await EducationHealthCarePlanApi.comparison(
       selectedEstabishment,
+      set,
       fetchTimeout ? [AbortSignal.timeout(fetchTimeout)] : undefined
     );
-  }, [fetchTimeout, selectedEstabishment]);
+  }, [fetchTimeout, selectedEstabishment, set]);
 
   useEffect(() => {
     getSend2Data()
@@ -82,10 +84,10 @@ export const BenchmarkHighNeeds: React.FC<
     <>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          {count && (
+          {set.length && (
             <p className="govuk-body govuk-!-font-weight-bold">
-              Currently comparing against {count} local
-              {count === 1 ? " authority" : " authorities"}
+              Currently comparing against {set.length} local
+              {set.length === 1 ? " authority" : " authorities"}
             </p>
           )}
           {editLink && (

@@ -14,22 +14,21 @@ namespace Web.App.Controllers.Api;
 [Route("api/local-authorities/education-health-care-plans")]
 public class EducationHealthCarePlansProxyController(
     ILogger<EducationHealthCarePlansProxyController> logger,
-    IEducationHealthCarePlansApi educationHealthCarePlansApi,
-    ILocalAuthorityComparatorSetService comparatorSetService) : Controller
+    IEducationHealthCarePlansApi educationHealthCarePlansApi) : Controller
 {
     /// <param name="code" example="201"></param>
+    /// <param name="set" example="202,203,204"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<EducationHealthCarePlansComparisonResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("comparison")]
-    public async Task<IActionResult> Comparison([FromQuery] string code, CancellationToken cancellationToken)
+    public async Task<IActionResult> Comparison([FromQuery] string code, [FromQuery] string[]? set = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            var set = comparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
-            if (set.Length == 0)
+            if (set == null || set.All(string.IsNullOrWhiteSpace))
             {
                 return NotFound();
             }
