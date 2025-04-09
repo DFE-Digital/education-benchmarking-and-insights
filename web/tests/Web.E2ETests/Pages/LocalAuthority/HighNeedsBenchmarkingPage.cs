@@ -11,6 +11,11 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
     private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator Tables => page.Locator(Selectors.GovTable);
+    private ILocator Commentary => page.Locator("#benchmark-data-high-needs > .govuk-grid-row > .govuk-grid-column-two-thirds > p");
+    private ILocator ChangeComparatorsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
+    {
+        HasText = "Change comparators"
+    });
 
     public async Task IsDisplayed()
     {
@@ -20,6 +25,18 @@ public class HighNeedsBenchmarkingPage(IPage page)
     public async Task ClickViewAsChart()
     {
         await ViewAsChartRadio.Click();
+    }
+
+    public async Task IsComparatorCommentaryDisplayed(int comparators)
+    {
+        await Commentary.ShouldBeVisible();
+        await Commentary.ShouldContainText($"Currently comparing against {comparators} local authorit");
+    }
+
+    public async Task<HighNeedsStartBenchmarkingPage> ClickChangeComparatorsButton()
+    {
+        await ChangeComparatorsButton.ClickAsync();
+        return new HighNeedsStartBenchmarkingPage(page);
     }
 
     public async Task AreChartsDisplayed(int count)

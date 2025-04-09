@@ -1,4 +1,4 @@
-@model Web.App.ViewModels.LocalAuthorityViewModel
+@model Web.App.ViewModels.LocalAuthorityHighNeedsBenchmarkingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsBenchmarking;
 }
@@ -13,9 +13,10 @@
 
 @await Component.InvokeAsync("DataSource", new
 {
-organisationType = OrganisationTypes.LocalAuthority,
-sourceType = DataSourceTypes.HighNeeds,
-flagAggregatedHighNeeds = true
+    organisationType = OrganisationTypes.LocalAuthority,
+    sourceType = DataSourceTypes.HighNeeds,
+    flagAggregatedHighNeeds = true
 })
 
-<div id="benchmark-data-high-needs" data-code="@Model.Code"></div>
+<div id="benchmark-data-high-needs" data-code="@Model.Code" data-count="@Model.Comparators.Length"
+     data-edit-link="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { code = Model.Code, referrer = "benchmarking" })"></div>

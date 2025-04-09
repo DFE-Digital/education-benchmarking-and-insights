@@ -6,13 +6,13 @@ import { BenchmarkHighNeeds } from "./partials/benchmark-high-needs";
 
 export const BenchmarkDataHighNeeds: React.FC<
   BenchmarkDataHighNeedsViewProps
-> = ({ code, fetchTimeout }) => {
+> = ({ code, ...props }) => {
   useGovUk();
 
   return (
     <SelectedEstablishmentContext.Provider value={code}>
       <ChartModeProvider initialValue={ChartModeChart}>
-        <BenchmarkHighNeeds fetchTimeout={fetchTimeout} />
+        <BenchmarkHighNeeds {...props} />
       </ChartModeProvider>
     </SelectedEstablishmentContext.Provider>
   );

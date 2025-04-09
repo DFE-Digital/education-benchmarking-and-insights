@@ -7,6 +7,17 @@
         And I click the Save and continue button
 
     @HighNeedsFlagEnabled
+    Scenario: Can view local authority benchmarking commentary
+        Given I am on local authority high needs benchmarking for local authority with code '201'
+        Then comparator commentary label is visible, showing local authority count of '1'
+
+    @HighNeedsFlagEnabled
+    Scenario: Can click local authority benchmarking CTA
+        Given I am on local authority high needs benchmarking for local authority with code '201'
+        When I click the Change comparators button
+        Then the local authority high needs start benchmarking page is displayed
+
+    @HighNeedsFlagEnabled
     Scenario: Can view local authority benchmarking charts
         Given I am on local authority high needs benchmarking for local authority with code '201'
         Then chart view is visible, showing '33' charts

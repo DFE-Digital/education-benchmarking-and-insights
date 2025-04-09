@@ -48,7 +48,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     return NotFound();
                 }
 
-                return View(new LocalAuthorityViewModel(localAuthority));
+                return View(new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, set));
             }
             catch (Exception e)
             {
@@ -74,7 +74,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
-                var viewModel = new LocalAuthorityHighNeedsBenchmarkingViewModel(
+                var viewModel = new LocalAuthorityHighNeedsStartBenchmarkingViewModel(
                     localAuthority,
                     localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set,
                     referrer);
@@ -134,7 +134,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 }
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
-                return View(nameof(Comparators), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray(), viewModel.Referrer));
+                return View(nameof(Comparators), new LocalAuthorityHighNeedsStartBenchmarkingViewModel(localAuthority, comparators.ToArray(), viewModel.Referrer));
             }
             catch (Exception e)
             {
