@@ -153,19 +153,28 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanCancel()
+    [Theory]
+    [InlineData("")]
+    [InlineData("benchmarking")]
+    public async Task CanCancel(string referrer)
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _) = await SetupNavigateInitPage(null, referrer);
 
-        var cancelButton = page.QuerySelector("a.govuk-button--secondary") as IHtmlAnchorElement;
+        var cancelButton = page.QuerySelector("a.govuk-link:contains('Cancel')") as IHtmlAnchorElement;
         Assert.NotNull(cancelButton);
 
         page = await client.Follow(cancelButton);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
+        if (referrer == "benchmarking")
+        {
+            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute(), HttpStatusCode.NotFound);
+        }
+        else
+        {
+            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
+        }
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null)
+    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .Create();
@@ -183,7 +192,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, comparators ?? [])
-            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code));
+            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, referrer));
 
         return (page, authority, authorities);
     }
@@ -198,7 +207,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Choose local authorities to benchmark against - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to benchmark against");
 
-        var orderedList = page.QuerySelector(".govuk-inset-text > ol.govuk-list--number");
+        var orderedList = page.QuerySelector("ol.govuk-list--number");
         Assert.NotNull(orderedList);
         var listItems = orderedList.QuerySelectorAll("li").Select(q => q.TextContent).ToArray();
         var expectedListItems = authority.StatisticalNeighbours?
@@ -222,7 +231,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var continueButton = page.QuerySelector("button[name='action'][value='continue']");
         Assert.NotNull(continueButton);
 
-        var cancelButton = page.QuerySelector("a.govuk-button--secondary");
+        var cancelButton = page.QuerySelector("a.govuk-link:contains('Cancel')");
         Assert.NotNull(cancelButton);
     }
 }

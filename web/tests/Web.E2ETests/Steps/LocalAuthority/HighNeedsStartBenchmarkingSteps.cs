@@ -22,12 +22,13 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
     [Given("I am on local authority high needs start benchmarking for local authority with code '(.*)'")]
     public async Task GivenIAmOnLocalAuthorityHighNeedsStartBenchmarkingForLocalAuthorityWithCode(string laCode)
     {
-        var url = LocalAuthorityHighNeedsStartBenchmarkingUrl(laCode);
-        var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
-        await page.GotoAndWaitForLoadAsync(url);
+        await SetupHighNeedsStartBenchmarkingPage(laCode);
+    }
 
-        _highNeedsStartBenchmarkingPage = new HighNeedsStartBenchmarkingPage(page);
-        await _highNeedsStartBenchmarkingPage.IsDisplayed();
+    [Given("I am on local authority high needs start benchmarking from referrer '(.*)' for local authority with code '(.*)'")]
+    public async Task GivenIAmOnLocalAuthorityHighNeedsStartBenchmarkingFromReferrerForLocalAuthorityWithCode(string referrer, string laCode)
+    {
+        await SetupHighNeedsStartBenchmarkingPage(laCode, referrer);
     }
 
     [When("I select the first valid item from the select")]
@@ -87,7 +88,15 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
     public async Task WhenIClickTheCancelButton()
     {
         Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        _highNeedsDashboardPage = await _highNeedsStartBenchmarkingPage.ClickCancelButton();
+        var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
+        if (page.Url.Contains("?referrer=benchmarking"))
+        {
+            _highNeedsBenchmarkingPage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HighNeedsBenchmarkingPage(p));
+        }
+        else
+        {
+            _highNeedsDashboardPage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HighNeedsDashboardPage(p));
+        }
     }
 
     [Then("the local authority high needs dashboard page is displayed")]
@@ -97,8 +106,24 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
         await _highNeedsDashboardPage.IsDisplayed();
     }
 
-    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode)
+    private async Task SetupHighNeedsStartBenchmarkingPage(string laCode, string? referrer = null)
     {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators";
+        var url = LocalAuthorityHighNeedsStartBenchmarkingUrl(laCode, referrer);
+        var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _highNeedsStartBenchmarkingPage = new HighNeedsStartBenchmarkingPage(page);
+        await _highNeedsStartBenchmarkingPage.IsDisplayed();
+    }
+
+    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode, string? referrer = null)
+    {
+        var suffix = string.Empty;
+        if (!string.IsNullOrWhiteSpace(referrer))
+        {
+            suffix = $"?referrer={referrer}";
+        }
+
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators{suffix}";
     }
 }

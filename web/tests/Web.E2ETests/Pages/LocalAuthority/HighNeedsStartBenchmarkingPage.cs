@@ -13,7 +13,7 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     {
         HasText = "Save and continue"
     });
-    private ILocator CancelButton => page.Locator(".govuk-button--secondary", new PageLocatorOptions
+    private ILocator CancelButton => page.Locator(".govuk-link", new PageLocatorOptions
     {
         HasText = "Cancel"
     });
@@ -70,10 +70,10 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
         return new HighNeedsBenchmarkingPage(page);
     }
 
-    public async Task<HighNeedsDashboardPage> ClickCancelButton()
+    public async Task<T> ClickCancelButton<T>(Func<IPage, T> next)
     {
         await CancelButton.ClickAsync();
-        return new HighNeedsDashboardPage(page);
+        return next(page);
     }
 
     public async Task<bool> HasComparators()

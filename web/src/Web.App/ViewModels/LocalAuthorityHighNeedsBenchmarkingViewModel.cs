@@ -2,10 +2,11 @@ using Web.App.Domain;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityHighNeedsBenchmarkingViewModel(LocalAuthorityStatisticalNeighbours localAuthority, string[] comparators)
+public class LocalAuthorityHighNeedsBenchmarkingViewModel(LocalAuthorityStatisticalNeighbours localAuthority, string[] comparators, string? referrer)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
+    public string? Referrer => referrer;
 
     public string[] StatisticalNeighbours => localAuthority.StatisticalNeighbours?
         .OrderBy(n => n.Position)
