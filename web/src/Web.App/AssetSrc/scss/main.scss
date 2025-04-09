@@ -559,14 +559,6 @@ hr.govuk-section-break--print {
   }
 }
 
-.govuk-inset-text {
-  > .govuk-list {
-    &.govuk-list--number {
-      padding-left: govuk-spacing(6);
-    }
-  }
-}
-
 table#current-comparators-la {
   > tbody > tr > td.govuk-table__cell {
     vertical-align: middle;

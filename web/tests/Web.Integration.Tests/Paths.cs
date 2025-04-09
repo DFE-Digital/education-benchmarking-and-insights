@@ -389,9 +389,15 @@ public static class Paths
     {
         return $"/local-authority/{code}/high-needs/benchmarking";
     }
-    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code)
+    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, string? referrer = null)
     {
-        return $"/local-authority/{code}/high-needs/benchmarking/comparators";
+        var suffix = string.Empty;
+        if (!string.IsNullOrWhiteSpace(referrer))
+        {
+            suffix = $"?referrer={referrer}";
+        }
+
+        return $"/local-authority/{code}/high-needs/benchmarking/comparators{suffix}";
     }
     public static string LocalAuthorityHighNeedsNationalRankings(string? code)
     {

@@ -61,11 +61,12 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     [HttpGet]
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.HighNeeds)]
     [Route("comparators")]
-    public async Task<IActionResult> Comparators(string code)
+    public async Task<IActionResult> Comparators(string code, [FromQuery] string? referrer = null)
     {
         using (logger.BeginScope(new
         {
-            code
+            code,
+            referrer
         }))
         {
             try
@@ -75,7 +76,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
                 var viewModel = new LocalAuthorityHighNeedsBenchmarkingViewModel(
                     localAuthority,
-                    localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set);
+                    localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set,
+                    referrer);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -132,7 +134,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 }
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
-                return View(nameof(Comparators), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray()));
+                return View(nameof(Comparators), new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, comparators.ToArray(), viewModel.Referrer));
             }
             catch (Exception e)
             {
