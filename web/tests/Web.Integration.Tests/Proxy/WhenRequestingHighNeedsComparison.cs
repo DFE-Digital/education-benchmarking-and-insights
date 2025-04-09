@@ -26,9 +26,8 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
             .ToArray();
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
             .SetupHighNeeds(localAuthorities, null)
-            .Get(Paths.ApiHighNeedsComparison(code));
+            .Get(Paths.ApiHighNeedsComparison(code, set));
 
         Assert.IsType<HttpResponseMessage>(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -55,8 +54,7 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
         string[] set = [];
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
-            .Get(Paths.ApiHighNeedsComparison(code));
+            .Get(Paths.ApiHighNeedsComparison(code, set));
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
@@ -68,9 +66,8 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
         var set = new[] { "code2", "code3" };
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
             .SetupLocalAuthoritiesWithException()
-            .Get(Paths.ApiHighNeedsComparison(code));
+            .Get(Paths.ApiHighNeedsComparison(code, set));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

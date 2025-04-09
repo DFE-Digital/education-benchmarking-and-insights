@@ -25,9 +25,8 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
             .ToArray();
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
             .SetupEducationHealthCarePlans(plans, null)
-            .Get(Paths.ApiEducationHealthCarePlansComparison(code));
+            .Get(Paths.ApiEducationHealthCarePlansComparison(code, set));
 
         Assert.IsType<HttpResponseMessage>(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -62,8 +61,7 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
         string[] set = [];
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
-            .Get(Paths.ApiEducationHealthCarePlansComparison(code));
+            .Get(Paths.ApiEducationHealthCarePlansComparison(code, set));
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
@@ -75,9 +73,8 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
         var set = new[] { "code2", "code3" };
 
         var response = await client
-            .SetupLocalAuthoritiesComparators(code, set)
             .SetupEducationHealthCarePlansWithException()
-            .Get(Paths.ApiEducationHealthCarePlansComparison(code));
+            .Get(Paths.ApiEducationHealthCarePlansComparison(code, set));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

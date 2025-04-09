@@ -7,10 +7,15 @@ import { v4 as uuidv4 } from "uuid";
 export class EducationHealthCarePlanApi {
   static async comparison(
     code: string,
+    set?: string[],
     signals?: AbortSignal[]
   ): Promise<LocalAuthoritySend2Benchmark[]> {
     const params = new URLSearchParams({
       code,
+    });
+
+    (set || []).forEach((s) => {
+      params.append("set", s);
     });
 
     const response = await fetch(

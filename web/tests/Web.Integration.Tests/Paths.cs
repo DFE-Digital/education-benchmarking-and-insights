@@ -357,17 +357,17 @@ public static class Paths
     {
         return $"api/local-authorities/national-rank?ranking={ranking}&sort={sort}";
     }
-    public static string ApiHighNeedsComparison(string code)
+    public static string ApiHighNeedsComparison(string code, string[] set)
     {
-        return $"api/local-authorities/high-needs/comparison?code={code}";
+        return $"api/local-authorities/high-needs/comparison?code={code}&set={string.Join("&set=", set)}";
     }
     public static string ApiHighNeedsHistory(string code)
     {
         return $"api/local-authorities/high-needs/history?code={code}";
     }
-    public static string ApiEducationHealthCarePlansComparison(string code)
+    public static string ApiEducationHealthCarePlansComparison(string code, string[] set)
     {
-        return $"api/local-authorities/education-health-care-plans/comparison?code={code}";
+        return $"api/local-authorities/education-health-care-plans/comparison?code={code}&set={string.Join("&set=", set)}";
     }
     public static string ApiEducationHealthCarePlansHistory(string code)
     {
