@@ -17,9 +17,9 @@
 
 @await Component.InvokeAsync("DataSource", new
 {
-    organisationType = OrganisationTypes.LocalAuthority,
-    sourceType = DataSourceTypes.HighNeeds,
-    flagAggregatedHighNeeds = true
+organisationType = OrganisationTypes.LocalAuthority,
+sourceType = DataSourceTypes.HighNeeds,
+pageTitle = ViewData[ViewDataKeys.Title]
 })
 
 <div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"

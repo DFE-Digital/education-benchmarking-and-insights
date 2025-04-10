@@ -15,7 +15,8 @@
 @await Component.InvokeAsync("DataSource", new
 {
     organisationType = OrganisationTypes.LocalAuthority,
-    sourceType = DataSourceTypes.HighNeeds
+    sourceType = DataSourceTypes.HighNeeds,
+    pageTitle = ViewData[ViewDataKeys.Title]
 })
 
 <div class="dashboard-row">
