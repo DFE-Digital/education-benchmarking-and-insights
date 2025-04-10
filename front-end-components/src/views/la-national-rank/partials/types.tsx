@@ -3,3 +3,7 @@ export type LocalAuthorityRankData = {
   laName: string;
   value: number;
 };
+
+export type LaNationalRankChartProps = {
+  title: string;
+};
