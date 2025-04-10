@@ -58,7 +58,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         };
     }
 
-    private async Task<string[]> GetHighNeedsDataSource(string pageTitle)
+    private async Task<string[]> GetHighNeedsDataSource(string? pageTitle)
     {
         var years = await financeService.GetYears();
         return pageTitle switch
