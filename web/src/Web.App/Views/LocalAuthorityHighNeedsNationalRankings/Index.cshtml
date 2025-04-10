@@ -15,7 +15,8 @@
 {
 organisationType = OrganisationTypes.LocalAuthority,
 sourceType = DataSourceTypes.HighNeeds,
-additionText = new[] { "This data shows local authorities ranked based on budget vs outturn, funding vs outturn is not available." }
+additionText = new[] { "This data shows local authorities ranked based on budget vs outturn, funding vs outturn is not available." },
+pageTitle = ViewData[ViewDataKeys.Title]
 })
 
 <div id="la-national-rank" data-code="@Model.Code"></div>
