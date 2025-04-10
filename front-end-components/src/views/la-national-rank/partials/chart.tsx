@@ -16,9 +16,11 @@ import {
 import { NationalRankApi, LocalAuthorityRank } from "src/services";
 import { ChartMode } from "src/components";
 import { ErrorBanner } from "src/components/error-banner";
-import { LocalAuthorityRankData } from "./types";
+import { LocalAuthorityRankData, LaNationalRankChartProps } from "./types";
 
-export const LaNationalRankChart: React.FC = () => {
+export const LaNationalRankChart: React.FC<LaNationalRankChartProps> = ({
+  title,
+}) => {
   const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { chartMode, setChartMode } = useChartModeContext();
   const [data, setData] = useState<LocalAuthorityRank[] | null>();
@@ -52,7 +54,6 @@ export const LaNationalRankChart: React.FC = () => {
     };
   }, [data]);
 
-  const title = "National ranking";
   const notInRanking = useMemo(() => {
     if (!data) {
       return false;

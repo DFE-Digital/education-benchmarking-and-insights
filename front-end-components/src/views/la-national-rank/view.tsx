@@ -6,11 +6,12 @@ import { LaNationalRankChart } from "./partials/chart";
 
 export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
   code,
+  title,
 }) => {
   return (
     <SelectedEstablishmentContext.Provider value={code}>
       <ChartModeProvider initialValue={ChartModeChart}>
-        <LaNationalRankChart />
+        <LaNationalRankChart title={title} />
       </ChartModeProvider>
     </SelectedEstablishmentContext.Provider>
   );

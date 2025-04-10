@@ -996,13 +996,13 @@ const laNationalRankViewElement = document.getElementById(
 );
 
 if (laNationalRankViewElement) {
-  const { code } = laNationalRankViewElement.dataset;
-  if (code) {
+  const { code, title } = laNationalRankViewElement.dataset;
+  if (code && title) {
     const root = ReactDOM.createRoot(laNationalRankViewElement);
 
     root.render(
       <React.StrictMode>
-        <LaNationalRankView code={code} />
+        <LaNationalRankView code={code} title={title} />
       </React.StrictMode>
     );
   }
