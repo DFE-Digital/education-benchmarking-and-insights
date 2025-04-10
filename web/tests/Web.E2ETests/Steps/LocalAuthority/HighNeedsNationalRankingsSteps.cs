@@ -51,7 +51,7 @@ public class HighNeedsNationalRankingsSteps(PageDriver driver)
         Assert.NotNull(_highNeedsNationalRankingsPage);
         Assert.NotNull(_download);
         var downloadedFilePath = _download.SuggestedFilename;
-        Assert.Equal("national-ranking.png", downloadedFilePath);
+        Assert.Matches("national-view.*\\.png$", downloadedFilePath);
     }
 
     [When("I click on copy image")]

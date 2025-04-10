@@ -8,8 +8,8 @@ public class HighNeedsNationalRankingsPage(IPage page)
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator Table => page.Locator($"#la-national-rank {Selectors.GovTable}");
-    private ILocator SaveImageButton => page.Locator("xpath=//*[@data-custom-event-chart-name='National ranking'][@data-custom-event-id='save-chart-as-image']");
-    private ILocator CopyImageButton => page.Locator("xpath=//*[@data-custom-event-chart-name='National ranking'][@data-custom-event-id='copy-chart-as-image']");
+    private ILocator SaveImageButton => page.Locator("xpath=//*[contains(@data-custom-event-chart-name, 'National view')][@data-custom-event-id='save-chart-as-image']");
+    private ILocator CopyImageButton => page.Locator("xpath=//*[contains(@data-custom-event-chart-name, 'National view')][@data-custom-event-id='copy-chart-as-image']");
     private ILocator WarningMessage => page.Locator(Selectors.GovWarning);
 
     public async Task IsDisplayed()
