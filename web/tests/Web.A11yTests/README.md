@@ -11,8 +11,9 @@ To run the tests locally and ensure they match pipeline behavior, follow these s
 
 Follow the configuration structure outlined in [`web/README.md`](../../README.md#accessibility-tests) and create or update your `appsettings.local.json` file in the `Web.A11yTests` project directory.
 
-- Set the correct `"ServiceUrl"` for the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
+Ensure you:
 
+- Set the correct `"ServiceUrl"` for the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
 
 ### 2. Manage Secrets Securely
 

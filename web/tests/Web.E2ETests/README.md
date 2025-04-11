@@ -10,6 +10,7 @@ To run the tests locally and ensure they mirror the CI/CD pipeline environment, 
 ### 1. Configure `appsettings.local.json`
 
 Follow the detailed instructions in [`web/README.md`](../../README.md#end-to-end-tests) to create or update your `appsettings.local.json` file in the `Web.E2ETests` project.  
+
 Ensure you:
 
 - Set the correct `"ServiceUrl"` for the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
