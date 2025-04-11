@@ -1,26 +1,32 @@
-﻿# Running Accessibility (A11y) Automated Tests locally
+﻿# Running Accessibility (A11y) Tests Locally
 
-This guide outlines how to configure and run the automated accessibility (A11y) tests for the project. These tests are designed to run against the same environment used by the CI/CD pipeline to ensure accessibility compliance and coverage.
+This guide provides an overview for setting up and running accessibility (A11y) tests for the project, consistent with the CI/CD pipeline configuration.  
+It complements the detailed setup instructions already available in [`web/README.md`](../../README.md#accessibility-tests).
 
 ## 🚀 Getting Started
 
-Follow these steps to set up and execute A11y tests locally:
+To run the tests locally and ensure they match pipeline behavior, follow these steps:
 
-### 1. Update Your `appsettings.local.json`
+### 1. Configure `appsettings.local.json`
 
-Create or update the `appsettings.local.json` file in the test project directory to point to the correct  [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
+Follow the configuration structure outlined in [`web/README.md`](../../README.md#accessibility-tests) and create or update your `appsettings.local.json` file in the `Web.A11yTests` project directory.
 
-### 2. Populate Required Variables
+- Set the correct `"ServiceUrl"` for the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
 
-Refer to the `appsettings.json` file for all required configuration keys. You must replicate these keys in `appsettings.local.json` with appropriate values.
 
-### 3. Authentication
+### 2. Manage Secrets Securely
 
-The A11y tests use the following test account:
+- **Credentials** (`dfe-signin-testa11y-username` and `dfe-signin-testa11y-password`) are stored securely in Azure DevOps:
 
-- **Username:** `dsi.ebfi.a11yacc1@outlook.com`
-- **Password:** _Obtain this from a member of the Tech Team._
+  > `Library` → `Automated Tests App Settings`
 
-> ⚠️ **Important:** Do not commit credentials to version control. Treat this account as sensitive and follow your team's security practices.
-### Running the tests
-Once you've configured appsettings.local.json, you need to build the project and then can run as per your preferred command line tool. 
+Fetch any other required variable values from the same library.
+
+- **Benchmark Host and Key** must be retrieved from **Azure Key Vault**.  
+
+### 3. Running the Tests
+
+Once your local settings are configured, run the tests from the `web` directory root with:
+
+```bash
+dotnet test tests/Web.A11yTests
