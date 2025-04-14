@@ -40,6 +40,11 @@ data "azurerm_windows_function_app" "non-financial-api" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
+data "azurerm_windows_function_app" "chart-rendering-api" {
+  name                = "${var.environment-prefix}-ebis-chart-rendering-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
 data "azurerm_log_analytics_workspace" "application-insights-workspace" {
   name                = "${var.environment-prefix}-ebis-aiw"
   resource_group_name = "${var.environment-prefix}-ebis-core"

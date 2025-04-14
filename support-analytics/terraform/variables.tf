@@ -55,9 +55,9 @@ variable "configuration" {
       }
     }
     feature = {
-      alerts_enabled       = false
+      alerts_enabled       = true
       email_alerts_enabled = false
-      smart_alerts_enabled = false
+      smart_alerts_enabled = true
       thresholds = {
         availability = 90
         cpu          = 95
