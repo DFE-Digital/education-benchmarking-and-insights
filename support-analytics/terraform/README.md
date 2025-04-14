@@ -75,9 +75,9 @@ No modules.
 | [azurerm_monitor_action_group.service-support-action](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_metric_alert.availability-alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_metric_alert.benchmark_api_error_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.chart_rendering_api_cpu_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_metric_alert.chart_rendering_api_error_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
-| [azurerm_monitor_metric_alert.chart_rendering_api_memory_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.chart_rendering_asp_cpu_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
+| [azurerm_monitor_metric_alert.chart_rendering_asp_memory_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_metric_alert.cpu_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_metric_alert.establishment_api_error_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
 | [azurerm_monitor_metric_alert.insight_api_error_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) | resource |
@@ -126,13 +126,14 @@ No modules.
 | [azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/cdn_frontdoor_custom_domain) | data source |
 | [azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/cdn_frontdoor_endpoint) | data source |
 | [azurerm_client_config.client](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_linux_function_app.chart-rendering-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/linux_function_app) | data source |
 | [azurerm_log_analytics_workspace.application-insights-workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_managed_api.teams-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/managed_api) | data source |
+| [azurerm_service_plan.chart-rendering-asp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/service_plan) | data source |
 | [azurerm_service_plan.web-app-service-plan](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/service_plan) | data source |
 | [azurerm_storage_account.data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [azurerm_windows_function_app.benchmark-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/windows_function_app) | data source |
-| [azurerm_windows_function_app.chart-rendering-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/windows_function_app) | data source |
 | [azurerm_windows_function_app.establishment-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/windows_function_app) | data source |
 | [azurerm_windows_function_app.insight-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/windows_function_app) | data source |
 | [azurerm_windows_function_app.local-authority-finances-api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/windows_function_app) | data source |

@@ -79,6 +79,6 @@ export default class VerticalBarChartBuilder {
       );
 
     console.timeEnd(timerMessage);
-    return { id, html: svg.node()?.outerHTML || undefined };
+    return { id, html: svg.node()?.toString() || undefined };
   }
 }

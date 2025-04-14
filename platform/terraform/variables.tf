@@ -56,9 +56,9 @@ variable "configuration" {
       cache_sku                    = "Basic"
       cache_capacity               = 1
       ssr_fa_worker_process_count  = 10
-      ssr_fa_sku                   = "Y1"
-      ssr_fa_elastic_max_workers   = 1
-      ssr_fa_elastic_min_instances = 0
+      ssr_fa_sku                   = "EP1"
+      ssr_fa_elastic_max_workers   = 10
+      ssr_fa_elastic_min_instances = 1
     }
     pre-production = {
       search_sku                   = "basic"
@@ -78,7 +78,7 @@ variable "configuration" {
       cache_sku                    = "Standard"
       cache_capacity               = 1
       ssr_fa_worker_process_count  = 10
-      ssr_fa_sku                   = "Y1"
+      ssr_fa_sku                   = "EP1"
       ssr_fa_elastic_max_workers   = 10
       ssr_fa_elastic_min_instances = 1
     }
