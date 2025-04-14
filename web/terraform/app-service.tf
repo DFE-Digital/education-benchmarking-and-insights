@@ -109,6 +109,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "Storage__ReturnsContainer"                               = azurerm_storage_container.return-container.name
     "CacheOptions__ReturnYears__SlidingExpiration"            = var.configuration[var.environment].CacheOptions.ReturnYears.SlidingExpiration
     "CacheOptions__ReturnYears__AbsoluteExpiration"           = var.configuration[var.environment].CacheOptions.ReturnYears.AbsoluteExpiration
+    "Ssr"                                                     = "true"
   }
   tags = local.common-tags
 }
