@@ -542,8 +542,7 @@ la_sen2_eval = {
             "`Mainstream school__Mainstream - Free school - Resourced provision` + "
             "`Mainstream school__Mainstream - Free school - SEN unit` + "
             "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
-            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
-            "`Mainstream school__Total`"
+            "`Mainstream school__Mainstream - LA maintained - SEN unit`"
         ),
         "EHCPSpecial": (
             "`Special school__Special - LA maintained` + "
@@ -562,9 +561,9 @@ la_sen2_eval = {
         ),
         "EHCPPost16": (
             "`Further education__General FE and tertiary colleges/HE` + "
-            "`Further education__Independent specialist providers` + "
             "`Further education__Other FE` + "
-            "`Further education__Sixth form college`"
+            "`Further education__Sixth form college` + "
+            "`Further education__Specialist post-16 institutions`"
         ),
         "EHCPOther": (
             "`Alternative provision/Pupil referral unit__Total` + "
@@ -619,8 +618,7 @@ la_sen2_eval = {
             "`Mainstream school__Mainstream - Free school - Resourced provision` + "
             "`Mainstream school__Mainstream - Free school - SEN unit` + "
             "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
-            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
-            "`Mainstream school__Total`"
+            "`Mainstream school__Mainstream - LA maintained - SEN unit`"
         ),
         "EHCPSpecial": (
             "`Special school__Special - LA maintained` + "
@@ -639,9 +637,9 @@ la_sen2_eval = {
         ),
         "EHCPPost16": (
             "`Further education__General FE and tertiary colleges/HE` + "
-            "`Further education__Independent specialist providers` + "
             "`Further education__Other FE` + "
-            "`Further education__Sixth form college`"
+            "`Further education__Sixth form college` + "
+            "`Further education__Specialist post-16 institutions`"
         ),
         "EHCPOther": (
             "`Alternative provision/Pupil referral unit__Total` + "
@@ -696,8 +694,7 @@ la_sen2_eval = {
             "`Mainstream school__Mainstream - Free school - Resourced provision` + "
             "`Mainstream school__Mainstream - Free school - SEN unit` + "
             "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
-            "`Mainstream school__Mainstream - LA maintained - SEN unit` + "
-            "`Mainstream school__Total`"
+            "`Mainstream school__Mainstream - LA maintained - SEN unit`"
         ),
         "EHCPSpecial": (
             "`Special school__Special - LA maintained` + "
@@ -716,9 +713,9 @@ la_sen2_eval = {
         ),
         "EHCPPost16": (
             "`Further education__General FE and tertiary colleges/HE` + "
-            "`Further education__Independent specialist providers` + "
             "`Further education__Other FE` + "
-            "`Further education__Sixth form college`"
+            "`Further education__Sixth form college` + "
+            "`Further education__Specialist post-16 institutions`"
         ),
         "EHCPOther": (
             "`Alternative provision/Pupil referral unit__Total` + "
