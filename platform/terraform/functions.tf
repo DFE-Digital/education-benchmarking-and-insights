@@ -158,7 +158,7 @@ module "chart-rendering-fa" {
   instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
   log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
   app-settings = merge(local.default_app_settings, {
-    "FUNCTIONS_WORKER_PROCESS_COUNT"      = 10
+    "FUNCTIONS_WORKER_PROCESS_COUNT"      = var.configuration[var.environment].ssr_fa_worker_process_count
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   })
   subnet_ids = [
@@ -170,11 +170,11 @@ module "chart-rendering-fa" {
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
   os-type             = "Linux"
   worker-runtime      = "node"
-  # sku = {
-  #   size = "EP1"
-  # }
-  # maximum-elastic-worker-count   = 50
-  # minimum-elastic-instance-count = 1
+  sku = {
+    size = var.configuration[var.environment].ssr_fa_sku
+  }
+  maximum-elastic-worker-count   = var.configuration[var.environment].ssr_fa_elastic_max_workers
+  minimum-elastic-instance-count = var.configuration[var.environment].ssr_fa_elastic_min_instances
 }
 
 module "data-clean-up-fa" {
