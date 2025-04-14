@@ -182,7 +182,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "High needs benchmarking - Financial Benchmarking and Insights Tool - GOV.UK", "High needs benchmarking");
+        DocumentAssert.TitleAndH1(page, "High needs benchmarking overview - Financial Benchmarking and Insights Tool - GOV.UK", "High needs benchmarking overview");
 
         var cards = page.QuerySelectorAll(".govuk-summary-card");
 

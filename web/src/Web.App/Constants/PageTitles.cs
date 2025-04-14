@@ -63,7 +63,7 @@ public static class PageTitles
     public const string LocalAuthorityHome = "Your local authority";
     public const string LocalAuthorityComparison = "View school spending";
     public const string LocalAuthorityCensus = "View pupil and workforce data";
-    public const string LocalAuthorityHighNeeds = "High needs benchmarking";
+    public const string LocalAuthorityHighNeeds = "High needs benchmarking overview";
     public const string LocalAuthorityHighNeedsBenchmarking = "Benchmark High needs";
     public const string LocalAuthorityHighNeedsStartBenchmarking = "Choose local authorities to benchmark against";
     public const string LocalAuthorityHighNeedsHistoricData = "High needs historic data";
