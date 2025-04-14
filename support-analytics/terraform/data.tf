@@ -40,8 +40,13 @@ data "azurerm_windows_function_app" "non-financial-api" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
-data "azurerm_windows_function_app" "chart-rendering-api" {
+data "azurerm_linux_function_app" "chart-rendering-api" {
   name                = "${var.environment-prefix}-ebis-chart-rendering-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
+data "azurerm_service_plan" "chart-rendering-asp" {
+  name                = "${var.environment-prefix}-ebis-chart-rendering-function-asp"
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
