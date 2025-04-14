@@ -11,9 +11,9 @@
     "@x-govuk/govuk-prototype-filters": "^1.4.0",
     "govuk-frontend": "^5.7.1",
     "govuk-prototype-kit": "^13.16.2",
-    "body-parser": "^1.20.3",
+    "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
-    "express": "^4.21.2"
+    "express": "^5.1.0"
   }
 }
