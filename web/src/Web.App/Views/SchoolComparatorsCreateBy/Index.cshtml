@@ -16,6 +16,9 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
+        <p class="govuk-body">
+            You can only select schools who have made a submission in the current year.
+        </p>
         @using (Html.BeginForm("Index", "SchoolComparatorsCreateBy", new
                 {
                     urn = Model.Urn
