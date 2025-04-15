@@ -21,7 +21,7 @@ public class WhenSchoolsServiceIsCalled
     }
 
     [Fact]
-    public async Task SchoolSearchesAsyncShouldCorrectlyPassFacets()
+    public async Task SchoolSearchesAsyncShouldNotPassFacets()
     {
         string[]? capturedFacets = null;
 
@@ -42,8 +42,7 @@ public class WhenSchoolsServiceIsCalled
 
         await _service.Object.SchoolsSearchAsync(request);
 
-        Assert.NotNull(capturedFacets);
-        Assert.Contains(nameof(School.OverallPhase), capturedFacets);
+        Assert.Null(capturedFacets);
     }
 
     [Fact]

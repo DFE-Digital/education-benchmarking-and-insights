@@ -10,24 +10,6 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
 {
     private static SearchResponse<School> SearchResults => new()
     {
-        Facets = new Dictionary<string, IList<FacetValueResponseModel>>
-        {
-            {
-                "OverallPhase", new List<FacetValueResponseModel>
-                {
-                    new()
-                    {
-                        Value = "Primary",
-                        Count = 1
-                    },
-                    new()
-                    {
-                        Value = "Secondary",
-                        Count = 2
-                    }
-                }
-            }
-        },
         TotalResults = 54,
         Page = 1,
         PageSize = 10,
@@ -119,6 +101,23 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         });
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase]).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanClearFilteredSearch()
+    {
+        const string term = nameof(term);
+        const string orderBy = nameof(orderBy);
+        const string overallPhase = nameof(overallPhase);
+        var page = await Client
+            .SetupEstablishment(SearchResults)
+            .Navigate(Paths.SchoolSearchResults(term, orderBy, [overallPhase]));
+        var action = page.QuerySelector("a.govuk-link:contains('Clear filters')");
+        Assert.NotNull(action);
+
+        page = await Client.Follow(action);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term).ToAbsolute());
     }
 
     [Fact]

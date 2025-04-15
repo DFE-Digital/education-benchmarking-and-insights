@@ -18,29 +18,25 @@
 @if (!Model.Success)
 {
     <p id="search-warning" class="govuk-body-s">
-        Unable to search for schools. Update your search criteria and try again. 
-    </p>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
-}
-else if (Model.TotalResults == 0)
-{
-    <p id="search-warning" class="govuk-body-s">
-        We couldn't find any schools matching your search criteria.
+        Unable to search for schools. Update your search criteria and try again.
     </p>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
 }
 else
 {
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-            &nbsp;
+    @if (Model.TotalResults > 0)
+    {
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                &nbsp;
+            </div>
+            <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body-s">
+                    @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
+                </p>
+            </div>
         </div>
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body-s">
-                @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
-            </p>
-        </div>
-    </div>
+    }
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third search-results-wrapper">
@@ -51,25 +47,35 @@ else
                 {
                     OrderBy = Model.OrderBy,
                     OverallPhase = Model.OverallPhase,
-                    OverallPhaseFacets = Model.OverallPhaseFacets
+                    ResetUrl = Url.Action("Search", new { term = Model.Term })
                 })
             }
         </div>
         <div class="govuk-grid-column-two-thirds">
-            @await Html.PartialAsync("Search/_SchoolSearchResults", new SchoolSearchResultsPageViewModel
+            @if (Model.TotalResults == 0)
             {
-                TotalResults = Model.TotalResults,
-                PageNumber = Model.PageNumber,
-                PageSize = Model.PageSize,
-                Results = Model.Results,
-                UrlBuilder = page => Url.Action("Search", "SchoolSearch", new
+                <p id="search-warning" class="govuk-body-s govuk-!-margin-top-1">
+                    We couldn't find any schools matching your search criteria.
+                </p>
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+            }
+            else
+            {
+                @await Html.PartialAsync("Search/_SchoolSearchResults", new SchoolSearchResultsPageViewModel
                 {
-                    term = Model.Term,
-                    sort = Model.OrderBy,
-                    phase = Model.OverallPhase,
-                    page
+                    TotalResults = Model.TotalResults,
+                    PageNumber = Model.PageNumber,
+                    PageSize = Model.PageSize,
+                    Results = Model.Results,
+                    UrlBuilder = page => Url.Action("Search", "SchoolSearch", new
+                    {
+                        term = Model.Term,
+                        sort = Model.OrderBy,
+                        phase = Model.OverallPhase,
+                        page
+                    })
                 })
-            })
+            }
         </div>
-    </div>
+        </div>
 }

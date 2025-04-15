@@ -5,5 +5,5 @@ public record SchoolSearchResultsOptionsViewModel
 {
     public string? OrderBy { get; set; }
     public string[] OverallPhase { get; set; } = [];
-    public SearchResultFacetViewModel[] OverallPhaseFacets { get; set; } = [];
+    public string? ResetUrl { get; set; }
 }

@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.ViewModels.Search
 @model Web.App.ViewModels.Search.SchoolSearchResultsOptionsViewModel
 
@@ -43,40 +44,38 @@
 
     <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
 
-    @if (Model.OverallPhaseFacets.Any())
-    {
-        <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
-            <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                    <h2 class="govuk-fieldset__heading">
-                        Education phase
-                    </h2>
-                </legend>
-                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-                    @foreach (var facet in Model.OverallPhaseFacets)
-                    {
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input"
-                                   id="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value"
-                                   name="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)" type="checkbox"
-                                   value="@facet.Value"
-                                   @(Model.OverallPhase.Any(o => o == facet.Value) ? "checked" : string.Empty)>
-                            <label class="govuk-label govuk-checkboxes__label"
-                                   for="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value">
-                                @facet.Value (@facet.Count)
-                            </label>
-                        </div>
-                    }
-                </div>
-            </fieldset>
-        </div>
+    <div class="search-option govuk-form-group govuk-!-margin-bottom-3">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <h2 class="govuk-fieldset__heading">
+                    Education phase
+                </h2>
+            </legend>
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                @foreach (var phase in OverallPhaseTypes.All.OrderBy(o => o))
+                {
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input"
+                               id="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@phase"
+                               name="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)" type="checkbox"
+                               value="@phase"
+                               @(Model.OverallPhase.Any(o => o == phase) ? "checked" : string.Empty)>
+                        <label class="govuk-label govuk-checkboxes__label"
+                               for="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@phase">
+                            @phase
+                        </label>
+                    </div>
+                }
+            </div>
+        </fieldset>
+    </div>
 
-        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
-    }
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-4">
 
     <div class="govuk-button-group govuk-!-padding-top-2 govuk-!-margin-bottom-1">
         <button type="submit" class="govuk-button" data-module="govuk-button">
             Apply
         </button>
+        <a href="@Model.ResetUrl" class="govuk-link govuk-link--no-visited-state">Clear filters</a>
     </div>
 </div>

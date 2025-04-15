@@ -9,24 +9,6 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
 {
     private static SearchResponse<School> SearchResults => new()
     {
-        Facets = new Dictionary<string, IList<FacetValueResponseModel>>
-        {
-            {
-                "OverallPhase", new List<FacetValueResponseModel>
-                {
-                    new()
-                    {
-                        Value = "Primary",
-                        Count = 1
-                    },
-                    new()
-                    {
-                        Value = "Secondary",
-                        Count = 2
-                    }
-                }
-            }
-        },
         TotalResults = 54,
         Page = 1,
         PageSize = 10,
