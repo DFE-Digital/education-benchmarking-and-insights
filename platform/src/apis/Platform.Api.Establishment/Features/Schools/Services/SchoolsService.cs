@@ -64,14 +64,7 @@ public class SchoolsService(
 
     public Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request)
     {
-        var facets = new[]
-        {
-            nameof(SchoolSummary.OverallPhase),
-        };
-
-        var response = SearchAsync(request, CreateSearchFilterExpression, facets);
-
-        return response;
+        return SearchAsync(request, CreateSearchFilterExpression);
 
         string? CreateSearchFilterExpression(FilterCriteria[]? filterCriteriaArray)
         {

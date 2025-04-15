@@ -29,7 +29,7 @@ public class SchoolIndex
     [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
     public string? AddressPostcode { get; set; }
 
-    [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = true)]
+    [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
     public string? OverallPhase { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]

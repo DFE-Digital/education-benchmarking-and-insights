@@ -87,7 +87,6 @@ public class SchoolSearchController(
                 TotalResults = results.TotalResults,
                 PageNumber = results.Page,
                 PageSize = results.PageSize,
-                Facets = SearchResultFacetViewModel.Create(results.Facets),
                 Results = results.Results.Select(SchoolSearchResultViewModel.Create).ToArray()
             });
         }
