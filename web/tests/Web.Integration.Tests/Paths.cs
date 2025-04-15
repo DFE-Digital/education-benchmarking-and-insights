@@ -266,7 +266,7 @@ public static class Paths
     {
         return $"/school/{urn}/comparators/revert";
     }
-    public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
+    public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, string[]? allPhases = null, int? page = null)
     {
         var queryString = new QueryString();
         if (!string.IsNullOrWhiteSpace(term))
@@ -282,6 +282,11 @@ public static class Paths
         if (phases != null)
         {
             queryString = phases.Aggregate(queryString, (current, phase) => current.Add(nameof(phase), phase));
+        }
+
+        if (allPhases != null)
+        {
+            queryString = allPhases.Aggregate(queryString, (current, phaseAll) => current.Add(nameof(phaseAll), phaseAll));
         }
 
         if (page.HasValue)

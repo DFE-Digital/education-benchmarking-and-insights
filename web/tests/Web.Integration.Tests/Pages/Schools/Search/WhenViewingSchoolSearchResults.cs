@@ -102,6 +102,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         const string term = nameof(term);
         const string orderBy = nameof(orderBy);
         const string overallPhase = nameof(overallPhase);
+        const string overallPhaseAll = nameof(overallPhaseAll);
         page = await Client.SubmitForm(page.Forms.Last(), action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
@@ -114,11 +115,14 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
                 },
                 {
                     "OverallPhase", overallPhase
+                },
+                {
+                    "OverallPhaseAll", overallPhaseAll
                 }
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase]).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase], [overallPhaseAll, "Secondary"]).ToAbsolute());
     }
 
     [Fact]
@@ -127,18 +131,19 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         const string term = nameof(term);
         const string orderBy = nameof(orderBy);
         const string overallPhase = nameof(overallPhase);
+        const string overallPhaseAll = nameof(overallPhaseAll);
         var page = await Client
             .SetupEstablishment(SearchResults)
-            .Navigate(Paths.SchoolSearchResults(term, orderBy, [overallPhase]));
+            .Navigate(Paths.SchoolSearchResults(term, orderBy, [overallPhase], [overallPhaseAll]));
 
         var pagination = page.QuerySelectorAll("a.govuk-pagination__link");
         Assert.NotNull(pagination);
 
         page = await Client.Follow(pagination.ElementAt(0));
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase], 1).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase], [overallPhaseAll], 1).ToAbsolute());
 
         page = await Client.Follow(pagination.ElementAt(1));
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase], 2).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearchResults(term, orderBy, [overallPhase], [overallPhaseAll], 2).ToAbsolute());
     }
 
     [Fact]

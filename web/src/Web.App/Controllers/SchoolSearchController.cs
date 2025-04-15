@@ -44,6 +44,7 @@ public class SchoolSearchController(
         [FromQuery] string? term,
         [FromQuery] int? page,
         [FromQuery(Name = "phase")] string[] overallPhase,
+        [FromQuery(Name = "phaseAll")] string[] overallPhaseAll,
         [FromQuery(Name = "sort")] string? orderBy
     )
     {
@@ -52,6 +53,7 @@ public class SchoolSearchController(
             term,
             page,
             overallPhase,
+            allOverallPhase = overallPhaseAll,
             orderBy
         }))
         {
@@ -79,11 +81,21 @@ public class SchoolSearchController(
                 });
             }
 
+            if (overallPhaseAll.Length == 0 && results.Facets != null)
+            {
+                overallPhaseAll = results.Facets
+                    .Where(f => f.Key.Equals("OverallPhase", StringComparison.OrdinalIgnoreCase))
+                    .SelectMany(f => f.Value)
+                    .Select(v => v.Value!)
+                    .ToArray();
+            }
+
             return View(new SchoolSearchResultsViewModel
             {
                 Term = term,
                 OrderBy = orderBy,
                 OverallPhase = overallPhase,
+                OverallPhaseAll = overallPhaseAll,
                 TotalResults = results.TotalResults,
                 PageNumber = results.Page,
                 PageSize = results.PageSize,
@@ -103,7 +115,8 @@ public class SchoolSearchController(
             {
                 Term = viewModel.Term,
                 OrderBy = viewModel.OrderBy,
-                OverallPhase = viewModel.OverallPhase
+                OverallPhase = viewModel.OverallPhase,
+                OverallPhaseAll = viewModel.OverallPhaseAll
             });
         }
 
@@ -120,7 +133,8 @@ public class SchoolSearchController(
         {
             term = viewModel.Term,
             sort = viewModel.OrderBy,
-            phase = viewModel.OverallPhase
+            phase = viewModel.OverallPhase,
+            phaseAll = viewModel.OverallPhaseAll
         });
     }
 }

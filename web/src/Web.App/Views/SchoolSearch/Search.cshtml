@@ -47,6 +47,11 @@ else
             @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
             {
                 <input type="hidden" name="@nameof(FindSchoolViewModel.Term)" value="@Model.Term"/>
+                @foreach (var phase in Model.OverallPhaseAll)
+                {
+                    <input type="hidden" name="@nameof(Model.OverallPhaseAll)" value="@phase"/>
+                }
+                
                 @await Html.PartialAsync("Search/_SchoolSearchResultsOptions", new SchoolSearchResultsOptionsViewModel
                 {
                     OrderBy = Model.OrderBy,
@@ -67,6 +72,7 @@ else
                     term = Model.Term,
                     sort = Model.OrderBy,
                     phase = Model.OverallPhase,
+                    phaseAll = Model.OverallPhaseAll,
                     page
                 })
             })

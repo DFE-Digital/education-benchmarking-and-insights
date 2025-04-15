@@ -63,7 +63,7 @@
                                    @(Model.OverallPhase.Any(o => o == facet.Value) ? "checked" : string.Empty)>
                             <label class="govuk-label govuk-checkboxes__label"
                                    for="@nameof(SchoolSearchResultsOptionsViewModel.OverallPhase)-@facet.Value">
-                                @facet.Value (@facet.Count)
+                                @facet.Value
                             </label>
                         </div>
                     }

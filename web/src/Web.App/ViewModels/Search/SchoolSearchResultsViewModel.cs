@@ -1,5 +1,7 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
+using Web.App.Domain;
+
 namespace Web.App.ViewModels.Search;
 
 public class SchoolSearchResultsViewModel : SchoolSearchViewModel
@@ -14,5 +16,12 @@ public class SchoolSearchResultsViewModel : SchoolSearchViewModel
     public SearchResultFacetViewModel[] OverallPhaseFacets => Facets
         .Where(f => f.Key == "OverallPhase")
         .SelectMany(f => f.Value)
+        .Union(OverallPhaseAllFacets)
+        .OrderBy(f => f.Value)
+        .ToArray();
+
+    private SearchResultFacetViewModel[] OverallPhaseAllFacets => OverallPhaseAll
+        .Where(f => OverallPhaseTypes.All.Contains(f))
+        .Select(f => new SearchResultFacetViewModel { Value = f, Count = 0 })
         .ToArray();
 }
