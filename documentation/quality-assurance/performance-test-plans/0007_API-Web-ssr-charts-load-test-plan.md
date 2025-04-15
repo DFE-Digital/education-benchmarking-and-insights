@@ -69,11 +69,10 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 
 **Endpoints Under Test:**
 
-| Endpoint                     | Load Type | Target Throughput |
-|------------------------------|-----------|-------------------|
-| `POST /api/verticalBarChart` | Average   | 105 /s            |
-| `POST /api/verticalBarChart` | Peak      | 158 /s            |
-| `POST /api/verticalBarChart` | Soak      | 158 /s            |
+| Endpoint                     | Load Type       | Target Throughput |
+|------------------------------|-----------------|-------------------|
+| `POST /api/verticalBarChart` | Average         | 105 /s            |
+| `POST /api/verticalBarChart` | Peak/Soak/Spike | 158 /s            |
 
 ## API Performance Success Criteria
 
@@ -137,8 +136,10 @@ Manually scale core database to S2 tier to replicate production infrastucture fo
 | Peak API                       | `d13`/`EP1`, 10 burst ASP/`1` instance             | 15/04/2025, 12:10:01 | 5 + 5       | 5m 48s   | 81 ms         | 0.00 % | 173.65 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Ff155d7d4-a235-4563-b077-c19686c7c92a%2Fresourcegroups%2Fs198d13-ebis-support%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198d13-load-tests-manual/testId/161b5781-34f4-4a8d-b495-c10d71ccf00b/testRunId/161b5781-34f4-4a8d-b495-c10d71ccf031) |
 | Peak API                       | `d13`/`Y1` ASP                                     | 04/04/2025, 10:47:06 | 5 + 5       | 5m 48s   | 118 ms        | 0.00 % | 171.79 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/9bb3b42b-c2c2-4489-a85e-bf0cfdb9800e/testRunId/76acaa0e-b37a-4094-a86f-c76fd2578031)     |
 | Soak API                       | `d13`/`EP1`, 10 burst ASP/`1` instance             | 15/04/2025, 12:30:14 | 5 + 5       | 1hr 2s   | 72 ms         | 0.00 % | 236.75 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Ff155d7d4-a235-4563-b077-c19686c7c92a%2Fresourcegroups%2Fs198d13-ebis-support%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198d13-load-tests-manual/testId/161b5781-34f4-4a8d-b495-c10d71ccf00b/testRunId/161b5781-34f4-4a8d-b495-c10d71ccf031) |
+| Soak API                       | `d13`/`Y1` ASP                                     | 15/04/2025, 16:20:56 | 5 + 5       | 1hr 2s   | 118 ms        | 0.00 % | 141.80 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Ff155d7d4-a235-4563-b077-c19686c7c92a%2Fresourcegroups%2Fs198d13-ebis-support%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198d13-load-tests-manual/testId/161b5781-34f4-4a8d-b495-c10d71ccf00b/testRunId/00d67278-9ac8-46f2-9d9b-612426a9c02b) |
 | Spike API                      | `d13`/`EP1`, 10 burst ASP/`1` instance             | 15/04/2025, 14:49:33 | 5 + 5 (x5)  | 10m 1s   | 95 ms         | 0.00 % | 159.86 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/734cbbd4-7613-4980-a8cb-d8124423000e/testRunId/734cbbd4-7613-4980-a8cb-d81244230052)     |
 | Spike API                      | `d13`/`EP1`, 10 burst ASP/`1` instance             | 15/04/2025, 15:06:15 | 5 + 5 (x10) | 10m 8s   | 81 ms         | 0.00 % | 210.29 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/734cbbd4-7613-4980-a8cb-d8124423000e/testRunId/4e5d6cfb-754c-4316-8d66-dbdcb36ef051)     |
+| Spike API                      | `d13`/`Y1` ASP                                     | 15/04/2025, 16:05:04 | 5 + 5 (x10) | 10m 6s   | 145 ms        | 0.00 % | 110.49 /s  | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/734cbbd4-7613-4980-a8cb-d8124423000e/testRunId/a1421ceb-a3fa-44cc-8ddb-b09158bec930)     |
 | Average Web                    | `d13`/`P0v3` Web/`EP1`, 50 burst ASP/`10` instance | 03/04/2025, 09:56:42 | 15          | 5m 9s    | 430 ms        | 0.00 % | 85.19 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/ac6d0ead-aeff-48bc-a09a-5533ee2d22ed)     |
 | Average Web                    | `d13`/`P0v3` Web/`EP1`, 50 burst ASP/`1` instance  | 03/04/2025, 13:42:07 | 15          | 5m 3s    | 610 ms        | 0.00 % | 55.35 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/e9e6bd04-c6ce-4796-8deb-0310ea46cdba)     |
 | Average Web                    | `d13`/`P0v3` Web/`Y1` ASP                          | 04/04/2025, 11:00:14 | 15          | 5m 7s    | 441 ms        | 0.00 % | 86.85 /s   | [✅ Passed](https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testId/6a131fd9-7a2e-4b7e-8140-9a9ed9dd9b0b/testRunId/76acaa0e-b37a-4094-a86f-c76fd25781a5)     |
@@ -175,7 +176,7 @@ When running the API tests directly, however, when the Elastic plan was tweaked 
 
 ![Performance of School Spending Priorities](../images/school-spending-priorities-d13-005.png)
 
-As part of the Soak API test, a requirement for monitoring CPU and Memory usage was required, which produced the following acceptable results:
+As part of the Soak API test, a requirement for monitoring CPU and Memory usage was required, which produced the following acceptable results with `EP1` (performance metrics are [not available](https://learn.microsoft.com/en-us/azure/azure-functions/monitor-functions?tabs=portal#azure-monitor-platform-metrics) with Linux consumption plans):
 
 ![Performance of School Spending Priorities](../images/school-spending-priorities-d13-006.png)
 
@@ -185,9 +186,13 @@ These performance metric can also be seen split amongst the (up to) 10 burst ins
 
 ![Performance of School Spending Priorities](../images/school-spending-priorities-d13-008.png)
 
-As part of the Spike API test, a requirement for monitoring the recovery of worker instances was required, which returned the following acceptable results:
+As part of the Spike API test, a requirement for monitoring the recovery of worker instances was required, which returned the following acceptable results with `EP1`:
 
 ![Performance of School Spending Priorities](../images/school-spending-priorities-d13-009.png)
+
+The equivalent results when using `Y1` were:
+
+![Performance of School Spending Priorities](../images/school-spending-priorities-d13-010.png)
 
 <!-- Leave the rest of this page blank -->
 \newpage
