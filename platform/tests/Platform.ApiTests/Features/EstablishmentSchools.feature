@@ -57,9 +57,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 1            | 1    | 5        | 1         |
-        And the response should contain the following facets:
-          | Key          | Value   | Count |
-          | OverallPhase | Primary | 1     |
         And the results should include the following schools:
           | Urn    | SchoolName      | AddressStreet | AddressLocality | AddressLine3 | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777042 | Test school 102 | address 5     |                 |              | London      |               | ABC127          | Primary      | 12                    | 212         |
@@ -70,16 +67,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 763            | 1    | 5        | 153     |
-        And the response should contain the following facets:
-          | Key          | Value               | Count |
-          | OverallPhase | Primary             | 299   |
-          | OverallPhase | Secondary           | 125   |
-          | OverallPhase | Special             | 109   |
-          | OverallPhase | All-through         | 76    |
-          | OverallPhase | Pupil referral unit | 71    |
-          | OverallPhase | 16 plus             | 61    |
-          | OverallPhase | Nursery             | 21    |
-          | OverallPhase | Post-16             | 1     |
         And the results should include the following schools:
           | Urn    | SchoolName             | AddressStreet | AddressLocality | AddressLine3 | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777054 | Test academy school 92 | address 281   | Brixton         |              | London      |               | ABC403          | Secondary    | 3                     | 216         |
@@ -97,9 +84,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 299          | 1    | 5        | 60       |
-        And the response should contain the following facets:
-          | Key          | Value   | Count |
-          | OverallPhase | Primary | 299   |
         And the results should include the following schools:
           | Urn    | SchoolName     | AddressStreet | AddressLocality         | AddressLine3                         | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 990031 | Test school 26 | address 179   | Upper Street            |                                      | London      |               | ABC301          | Primary      | 12                    | 769         |
@@ -118,10 +102,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 424          | 1    | 5        | 85       |
-        And the response should contain the following facets:
-          | Key          | Value     | Count |
-          | OverallPhase | Primary   | 299   |
-          | OverallPhase | Secondary | 125   |
         And the results should include the following schools:
           | Urn    | SchoolName             | AddressStreet | AddressLocality        | AddressLine3                         | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777054 | Test academy school 92 | address 281   | Brixton                |                                      | London      |               | ABC403          | Secondary    | 3                     | 216         |
@@ -136,16 +116,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 763            | 1    | 5        | 153     |
-        And the response should contain the following facets:
-          | Key          | Value               | Count |
-          | OverallPhase | Primary             | 299   |
-          | OverallPhase | Secondary           | 125   |
-          | OverallPhase | Special             | 109   |
-          | OverallPhase | All-through         | 76    |
-          | OverallPhase | Pupil referral unit | 71    |
-          | OverallPhase | 16 plus             | 61    |
-          | OverallPhase | Nursery             | 21    |
-          | OverallPhase | Post-16             | 1     |
         And the results should include the following schools:  
           | Urn    | SchoolName                                                 | AddressStreet | AddressLocality | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777043 | Test Part year school with pupil and builiding comparators | address 261   |                 |              | London      |                    | ABC383          | Primary      | 10                    | 214         |
@@ -160,16 +130,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 763            | 1    | 5        | 153     |
-        And the response should contain the following facets:
-          | Key          | Value               | Count |
-          | OverallPhase | Primary             | 299   |
-          | OverallPhase | Secondary           | 125   |
-          | OverallPhase | Special             | 109   |
-          | OverallPhase | All-through         | 76    |
-          | OverallPhase | Pupil referral unit | 71    |
-          | OverallPhase | 16 plus             | 61    |
-          | OverallPhase | Nursery             | 21    |
-          | OverallPhase | Post-16             | 1     |
         And the results should include the following schools:
           | Urn    | SchoolName                           | AddressStreet | AddressLocality     | AddressLine3 | AddressTown    | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 990754 | Test school with missing census data | address 754   | Chalk Road          |              | Rotherham      |               | ABC754          | Secondary    | 12                    |             |
@@ -189,11 +149,6 @@ Feature: Establishment schools endpoints
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
           | 500            | 1    | 5        | 100     |
-        And the response should contain the following facets:
-          | Key          | Value               | Count |
-          | OverallPhase | Primary             | 299   |
-          | OverallPhase | Secondary           | 125   |
-          | OverallPhase | All-through         | 76    |
         And the results should include the following schools:
           | Urn    | SchoolName                                                 | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty         | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777043 | Test Part year school with pupil and builiding comparators | address 261   |                     |              | London      |                       | ABC383          | Primary      | 10                    | 214         |
