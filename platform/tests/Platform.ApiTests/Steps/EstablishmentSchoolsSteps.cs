@@ -258,27 +258,6 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         table.CompareToInstance(actual);
     }
 
-    [Then("the response should contain the following facets:")]
-    private async Task ThenTheResponseShouldContainTheFollowingFacets(DataTable table)
-    {
-        var response = api[SearchRequestKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var actual = content.FromJson<SearchResponse<School>>();
-
-        var facets = actual.Facets?
-            .SelectMany(kvp => kvp.Value.Select(f => new
-            {
-                Key = kvp.Key,
-                Value = f.Value,
-                Count = f.Count
-            }))
-            .ToList();
-
-        table.CompareToSet(facets);
-    }
-
     [Then("the results should include the following schools:")]
     private async Task ThenTheResultsShouldIncludeTheFollowingSchools(DataTable table)
     {
