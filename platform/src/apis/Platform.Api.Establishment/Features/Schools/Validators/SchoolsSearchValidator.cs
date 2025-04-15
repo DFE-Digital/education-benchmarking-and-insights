@@ -22,7 +22,7 @@ public class SchoolsSearchValidator : AbstractValidator<SearchRequest>
             .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.OrderBy)
-            .Must(orderBy => orderBy == null || orderBy.Field == nameof(School.SchoolName))
-            .WithMessage($"OrderBy Field must be {nameof(School.SchoolName)}");
+            .Must(orderBy => orderBy == null || orderBy.Field == "SchoolNameSortable")
+            .WithMessage("OrderBy Field must be SchoolNameSortable");
     }
 }

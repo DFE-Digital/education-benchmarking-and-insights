@@ -111,7 +111,7 @@ Feature: Establishment schools endpoints
           | 990111 | Test school 94         | address 272   | Lambeth                | Kennington                           | London      |               | ABC394          | Primary      | 12                    | 1040        |
 
     Scenario: Sending a valid search schools request with order by ascending
-        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolName' orderByValue 'asc'
+        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'asc'
         When I submit the schools request
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
@@ -125,7 +125,7 @@ Feature: Establishment schools endpoints
           | 990335 | Test academy school 100                                    | address 289   | Brixton         |              | Manchester  | Greater Manchester | ABC411          | Secondary    | 12                    | 37          |
 
     Scenario: Sending a valid search schools request with order by descending
-        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolName' orderByValue 'desc'
+        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'desc'
         When I submit the schools request
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |
@@ -144,7 +144,7 @@ Feature: Establishment schools endpoints
           | OverallPhase | Primary     |
           | OverallPhase | Secondary   |
           | OverallPhase | All-through |
-        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolName' orderByValue 'asc'
+        Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'asc'
         When I submit the schools request
         Then the search schools response should be ok and have the following values:  
           | TotalResults | Page | PageSize | PageCount |

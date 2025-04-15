@@ -25,7 +25,8 @@ public class SchoolIndexerBuilder : IndexerBuilder
                 new FieldMapping("AddressLine3") { TargetFieldName = nameof(SchoolIndex.AddressLine3) },
                 new FieldMapping("AddressTown") { TargetFieldName = nameof(SchoolIndex.AddressTown) },
                 new FieldMapping("AddressCounty") { TargetFieldName = nameof(SchoolIndex.AddressCounty) },
-                new FieldMapping("AddressPostcode") { TargetFieldName = nameof(SchoolIndex.AddressPostcode) }
+                new FieldMapping("AddressPostcode") { TargetFieldName = nameof(SchoolIndex.AddressPostcode) },
+                new FieldMapping("SchoolNameSortable") { TargetFieldName = nameof(SchoolIndex.SchoolNameSortable) }
             }
         };
 

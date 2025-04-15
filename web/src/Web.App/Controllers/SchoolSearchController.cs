@@ -66,7 +66,7 @@ public class SchoolSearchController(
                                 "OverallPhase", overallPhase
                             }
                         },
-                    string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolName", orderBy)
+                    string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolNameSortable", orderBy)
                 );
             }
             catch (Exception e)
