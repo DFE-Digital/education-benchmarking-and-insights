@@ -26,7 +26,7 @@
       | Greater Manchester |
       | ABC                |
 
-    @FacetedSearchEnabled
+    @FilteredSearchEnabled
     Scenario: Go to school search page
         Given I am on find organisation page
         And 'school' organisation type is selected

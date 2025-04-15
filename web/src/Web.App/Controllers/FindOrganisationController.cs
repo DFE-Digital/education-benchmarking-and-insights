@@ -24,9 +24,9 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
         {
             try
             {
-                if (await featureManager.IsEnabledAsync(FeatureFlags.FacetedSearch))
+                if (await featureManager.IsEnabledAsync(FeatureFlags.FilteredSearch))
                 {
-                    return FacetedSearchResult(viewModel);
+                    return FilteredSearchResult(viewModel);
                 }
 
                 return SearchResult(viewModel);
@@ -88,7 +88,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
         }
     }
 
-    private IActionResult FacetedSearchResult(FindOrganisationSelectViewModel viewModel)
+    private IActionResult FilteredSearchResult(FindOrganisationSelectViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {

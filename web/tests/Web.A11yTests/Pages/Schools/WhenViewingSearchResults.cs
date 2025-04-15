@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.Schools;
 
-[Trait("Category", "FacetedSearchEnabled")]
+[Trait("Category", "FilteredSearchEnabled")]
 public class WhenViewingSearchResults(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)

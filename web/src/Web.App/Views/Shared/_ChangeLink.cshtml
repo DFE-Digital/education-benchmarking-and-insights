@@ -11,7 +11,7 @@
     };
 }
 
-<feature name="@FeatureFlags.FacetedSearch">
+<feature name="@FeatureFlags.FilteredSearch">
     @{
         var href = Model.Type switch
         {
@@ -23,7 +23,7 @@
     @Html.TrackedAnchor(TrackedLinks.ChangeOrganisation, href, content)
 </feature>
 
-<feature negate="true" name="@FeatureFlags.FacetedSearch">
+<feature negate="true" name="@FeatureFlags.FilteredSearch">
     @Html.TrackedAnchor(
         TrackedLinks.ChangeOrganisation,
         Url.Action("Index", "FindOrganisation", new { method = Model.Type }) ?? "",

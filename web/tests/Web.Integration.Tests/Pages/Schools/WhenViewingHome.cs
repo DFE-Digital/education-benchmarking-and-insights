@@ -89,16 +89,16 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task CanNavigateToChangeSchool(bool facetedSearchFeatureEnabled)
+    public async Task CanNavigateToChangeSchool(bool filteredSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, facetedSearchFeatureEnabled);
+        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, facetedSearchFeatureEnabled
+        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
             ? Paths.SchoolSearch.ToAbsolute()
             : $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
     }
@@ -134,7 +134,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false, bool facetedSearchFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false, bool filteredSearchFeatureEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
@@ -151,9 +151,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .Create();
 
         string[] disabledFlags = [];
-        if (!facetedSearchFeatureEnabled)
+        if (!filteredSearchFeatureEnabled)
         {
-            disabledFlags = [FeatureFlags.FacetedSearch];
+            disabledFlags = [FeatureFlags.FilteredSearch];
         }
 
         var page = await Client
