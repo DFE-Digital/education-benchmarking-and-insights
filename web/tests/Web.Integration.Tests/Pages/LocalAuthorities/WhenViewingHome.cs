@@ -30,16 +30,16 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task CanNavigateToChangeAuthority(bool facetedSearchFeatureEnabled)
+    public async Task CanNavigateToChangeAuthority(bool filteredSearchFeatureEnabled)
     {
-        var (page, authority, _) = await SetupNavigateInitPage(facetedSearchFeatureEnabled);
+        var (page, authority, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, facetedSearchFeatureEnabled
+        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
             ? $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}#" // todo
             : $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
     }
@@ -127,15 +127,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(bool facetedSearchFeatureEnabled = false, params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(bool filteredSearchFeatureEnabled = false, params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .Create();
 
         string[] disabledFlags = [];
-        if (!facetedSearchFeatureEnabled)
+        if (!filteredSearchFeatureEnabled)
         {
-            disabledFlags = [FeatureFlags.FacetedSearch];
+            disabledFlags = [FeatureFlags.FilteredSearch];
         }
 
         Assert.NotNull(authority.Name);

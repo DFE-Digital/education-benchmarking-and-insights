@@ -13,5 +13,5 @@ public static class FeatureFlags
     public const string FinancialBenchmarkingInsightsSummary = nameof(FinancialBenchmarkingInsightsSummary);
     public const string HistoricalTrends = nameof(HistoricalTrends);
     public const string HighNeeds = nameof(HighNeeds);
-    public const string FacetedSearch = nameof(FacetedSearch);
+    public const string FilteredSearch = nameof(FilteredSearch);
 }

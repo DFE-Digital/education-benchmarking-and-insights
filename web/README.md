@@ -93,7 +93,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                   |
 | `HistoricalTrends`                     | Toggles the Benchmarking Historical trends feature, which affects the Financial History pages |
 | `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                       |
-| `FacetedSearch`                        | Replaces the single page autocomplete version of organisation search with accessible version  |
+| `FilteredSearch`                       | Replaces the single page autocomplete version of organisation search with accessible version  |
 
 #### CacheOptions
 

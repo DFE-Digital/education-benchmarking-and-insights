@@ -6,7 +6,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisation;
 }
 
-<feature name="@FeatureFlags.FacetedSearch">
+<feature name="@FeatureFlags.FilteredSearch">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             @await Html.PartialAsync("_ErrorSummary")
@@ -66,7 +66,7 @@
     </div>
 </feature>
 
-<feature negate="true" name="@FeatureFlags.FacetedSearch">
+<feature negate="true" name="@FeatureFlags.FilteredSearch">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             @await Html.PartialAsync("_ErrorSummary")

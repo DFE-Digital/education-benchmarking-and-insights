@@ -80,16 +80,16 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task CanNavigateToChangeSchool(bool facetedSearchFeatureEnabled)
+    public async Task CanNavigateToChangeSchool(bool filteredSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(false, facetedSearchFeatureEnabled);
+        var (page, _, _) = await SetupNavigateInitPage(false, filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, facetedSearchFeatureEnabled
+        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
             ? Paths.SchoolSearch.ToAbsolute()
             : $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
     }
@@ -123,7 +123,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false, bool facetedSearchFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false, bool filteredSearchFeatureEnabled = false)
     {
         var federationLeadSchool = new FederationSchool
         {
@@ -153,9 +153,9 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .Create();
 
         string[] disabledFlags = [];
-        if (!facetedSearchFeatureEnabled)
+        if (!filteredSearchFeatureEnabled)
         {
-            disabledFlags = [FeatureFlags.FacetedSearch];
+            disabledFlags = [FeatureFlags.FilteredSearch];
         }
 
         var page = await Client

@@ -12,7 +12,7 @@ namespace Web.App.Controllers;
 [Controller]
 [Route("school")]
 [SchoolRequestTelemetry(TrackedRequestFeature.Search)]
-[FeatureGate(FeatureFlags.FacetedSearch)]
+[FeatureGate(FeatureFlags.FilteredSearch)]
 public class SchoolSearchController(
     ILogger<SchoolSearchController> logger,
     ISearchService searchService)
