@@ -117,12 +117,12 @@ Feature: Establishment schools endpoints
           | TotalResults | Page | PageSize | PageCount |
           | 763            | 1    | 5        | 153     |
         And the results should include the following schools:  
-          | Urn    | SchoolName                                                 | AddressStreet | AddressLocality | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
-          | 777043 | Test Part year school with pupil and builiding comparators | address 261   |                 |              | London      |                    | ABC383          | Primary      | 10                    | 214         |
-          | 777047 | Test Post -16 Academy of Excellence                        | Academy House | 322 High Street | Stratford    | London      |                    | X11 11X         | Post-16      | 12                    | 380         |
-          | 990324 | Test academy school 1                                      | address 293   | Brixton         |              | Manchester  | Greater Manchester | ABC415          | Primary      | 12                    | 270         |
-          | 990372 | Test academy school 10                                     | address 291   | Brixton         |              | Manchester  | Greater Manchester | ABC413          | Primary      | 12                    | 114         |
-          | 990335 | Test academy school 100                                    | address 289   | Brixton         |              | Manchester  | Greater Manchester | ABC411          | Secondary    | 12                    | 37          |
+          | Urn    | SchoolName              | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase        | PeriodCoveredByReturn | TotalPupils |
+          | 990324 | Test academy school 1   | address 293   | Brixton             |              | Manchester  | Greater Manchester | ABC415          | Primary             | 12                    | 270         |
+          | 990372 | Test academy school 10  | address 291   | Brixton             |              | Manchester  | Greater Manchester | ABC413          | Primary             | 12                    | 114         |
+          | 990335 | Test academy school 100 | address 289   | Brixton             |              | Manchester  | Greater Manchester | ABC411          | Secondary           | 12                    | 37          |
+          | 990512 | Test academy school 101 | address 378   | Camberwell New Road |              | Manchester  | Greater Manchester | ABC500          | Pupil referral unit | 12                    | 17          |
+          | 990550 | Test academy school 102 | address 379   | Brixton             |              | London      |                    | ABC501          | Pupil referral unit | 12                    | 335         |
 
     Scenario: Sending a valid search schools request with order by descending
         Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'desc'
@@ -150,12 +150,12 @@ Feature: Establishment schools endpoints
           | TotalResults | Page | PageSize | PageCount |
           | 500            | 1    | 5        | 100     |
         And the results should include the following schools:
-          | Urn    | SchoolName                                                 | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty         | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
-          | 777043 | Test Part year school with pupil and builiding comparators | address 261   |                     |              | London      |                       | ABC383          | Primary      | 10                    | 214         |
-          | 990324 | Test academy school 1                                      | address 293   | Brixton             |              | Manchester  | Greater Manchester    | ABC415          | Primary      | 12                    | 270         |
-          | 990372 | Test academy school 10                                     | address 291   | Brixton             |              | Manchester  | Greater Manchester    | ABC413          | Primary      | 12                    | 114         |
-          | 990335 | Test academy school 100                                    | address 289   | Brixton             |              | Manchester  | Greater Manchester    | ABC411          | Secondary    | 12                    | 37          |
-          | 990395 | Test academy school 11                                     | address 294   | Camberwell New Road |              | London      |                       | ABC416          | Primary      | 12                    | 339         |
+          | Urn    | SchoolName              | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
+          | 990324 | Test academy school 1   | address 293   | Brixton             |              | Manchester  | Greater Manchester | ABC415          | Primary      | 12                    | 270         |
+          | 990372 | Test academy school 10  | address 291   | Brixton             |              | Manchester  | Greater Manchester | ABC413          | Primary      | 12                    | 114         |
+          | 990335 | Test academy school 100 | address 289   | Brixton             |              | Manchester  | Greater Manchester | ABC411          | Secondary    | 12                    | 37          |
+          | 990395 | Test academy school 11  | address 294   | Camberwell New Road |              | London      |                    | ABC416          | Primary      | 12                    | 339         |
+          | 990420 | Test academy school 12  | address 303   | Brixton             |              | London      |                    | ABC425          | Primary      | 12                    | 232         |
 
     Scenario: Sending a valid search schools request
         Given a valid schools search request with searchText 'willNotBeFound' page '1' size '5'
