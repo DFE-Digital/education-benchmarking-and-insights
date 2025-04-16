@@ -26,7 +26,15 @@ public class SchoolIndexerBuilder : IndexerBuilder
                 new FieldMapping("AddressTown") { TargetFieldName = nameof(SchoolIndex.AddressTown) },
                 new FieldMapping("AddressCounty") { TargetFieldName = nameof(SchoolIndex.AddressCounty) },
                 new FieldMapping("AddressPostcode") { TargetFieldName = nameof(SchoolIndex.AddressPostcode) },
-                new FieldMapping("SchoolNameSortable") { TargetFieldName = nameof(SchoolIndex.SchoolNameSortable) }
+                new FieldMapping("SchoolNameSortable") { TargetFieldName = nameof(SchoolIndex.SchoolNameSortable) },
+                new FieldMapping("SchoolName") { TargetFieldName = nameof(SchoolIndex.SchoolNameNGram) },
+                new FieldMapping("AddressStreet") { TargetFieldName = nameof(SchoolIndex.AddressStreetNGram) },
+                new FieldMapping("AddressLocality") { TargetFieldName = nameof(SchoolIndex.AddressLocalityNGram) },
+                new FieldMapping("AddressLine3") { TargetFieldName = nameof(SchoolIndex.AddressLine3NGram) },
+                new FieldMapping("AddressTown") { TargetFieldName = nameof(SchoolIndex.AddressTownNGram) },
+                new FieldMapping("AddressCounty") { TargetFieldName = nameof(SchoolIndex.AddressCountyNGram) },
+                new FieldMapping("AddressPostcode") { TargetFieldName = nameof(SchoolIndex.AddressPostcodeNGram) },
+                new FieldMapping("AddressPostcode") { TargetFieldName = nameof(SchoolIndex.AddressPostcodeKeyword) }
             }
         };
 
