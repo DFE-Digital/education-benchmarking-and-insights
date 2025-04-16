@@ -1,6 +1,7 @@
 ﻿# Running Accessibility (A11y) Tests Locally
 
-This guide provides an overview for setting up and running accessibility (A11y) tests for the project, consistent with the CI/CD pipeline configuration.  
+This guide provides an overview for setting up and running accessibility (A11y) tests for the project,
+consistent with the CI/CD pipeline configuration.  
 It complements the detailed setup instructions already available in [`web/README.md`](../../README.md#accessibility-tests).
 
 ## 🚀 Getting Started
@@ -9,7 +10,8 @@ To run the tests locally and ensure they match pipeline behavior, follow these s
 
 ### 1. Configure `appsettings.local.json`
 
-Follow the configuration structure outlined in [`web/README.md`](../../README.md#accessibility-tests) and create or update your `appsettings.local.json` file in the `Web.A11yTests` project directory.
+Follow the configuration structure outlined in [`web/README.md`](../../README.md#accessibility-tests).
+Create or update your `appsettings.local.json` file in the `Web.A11yTests` project directory.
 
 Ensure you:
 

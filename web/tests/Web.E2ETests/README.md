@@ -9,7 +9,8 @@ To run the tests locally and ensure they mirror the CI/CD pipeline environment, 
 
 ### 1. Configure `appsettings.local.json`
 
-Follow the detailed instructions in [`web/README.md`](../../README.md#end-to-end-tests) to create or update your `appsettings.local.json` file in the `Web.E2ETests` project.  
+Follow the detailed instructions in [`web/README.md`](../../README.md#end-to-end-tests).
+Create or update your `appsettings.local.json` file in the `Web.E2ETests` project.
 
 Ensure you:
 
