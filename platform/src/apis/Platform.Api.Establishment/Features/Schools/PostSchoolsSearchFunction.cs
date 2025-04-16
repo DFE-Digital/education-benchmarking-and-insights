@@ -19,7 +19,7 @@ public class PostSchoolsSearchFunction(ISchoolsService service, IValidator<Searc
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(PostSchoolsSearchFunction), "Schools")]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<School>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<SchoolSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)]

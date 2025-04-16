@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Trusts.Models;
@@ -14,16 +13,16 @@ namespace Platform.Api.Establishment.Features.Trusts.Services;
 
 public interface ITrustsService
 {
-    Task<SuggestResponse<Trust>> SuggestAsync(TrustSuggestRequest request);
+    Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request);
     Task<Trust?> GetAsync(string companyNumber);
+    Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request);
 }
-
 
 [ExcludeFromCodeCoverage]
 public class TrustsService(
     [FromKeyedServices(ResourceNames.Search.Indexes.Trust)] IIndexClient client,
     IDatabaseFactory dbFactory)
-    : SearchService<Trust>(client), ITrustsService
+    : SearchService<TrustSummary>(client), ITrustsService
 {
     public async Task<Trust?> GetAsync(string companyNumber)
     {
@@ -46,7 +45,7 @@ public class TrustsService(
         return trust;
     }
 
-    public Task<SuggestResponse<Trust>> SuggestAsync(TrustSuggestRequest request)
+    public Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request)
     {
         var fields = new[]
         {
@@ -54,13 +53,11 @@ public class TrustsService(
             nameof(Trust.TrustName)
         };
 
-        return SuggestAsync(request, CreateFilterExpression, fields);
+        return SuggestAsync(request, request.FilterExpression, fields);
+    }
 
-        string? CreateFilterExpression()
-        {
-            return request.Exclude is not { Length: > 0 }
-                ? null
-                : $"({string.Join(") and ( ", request.Exclude.Select(a => $"{nameof(Trust.CompanyNumber)} ne '{a}'"))})";
-        }
+    public Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request)
+    {
+        return SearchAsync(request, request.FilterExpression);
     }
 }

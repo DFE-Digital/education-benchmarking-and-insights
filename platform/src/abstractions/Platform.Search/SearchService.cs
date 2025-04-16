@@ -33,14 +33,14 @@ public abstract class SearchService<T>(IIndexClient client)
         return response.Value;
     }
 
-    protected virtual async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
+    protected virtual async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
             Size = request.PageSize,
             Skip = (request.Page - 1) * request.PageSize,
             IncludeTotalCount = true,
-            Filter = request.Filters != null ? filterExpBuilder?.Invoke(request.Filters) : null,
+            Filter = request.Filters != null ? filterExpBuilder?.Invoke() : null,
             QueryType = SearchQueryType.Simple
         };
 

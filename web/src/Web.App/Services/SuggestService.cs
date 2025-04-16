@@ -8,7 +8,7 @@ namespace Web.App.Services;
 public interface ISuggestService
 {
     Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null);
-    Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
+    Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
@@ -20,9 +20,9 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 
-    public async Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
+    public async Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
     {
-        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts).GetResultOrThrow<SuggestOutput<Trust>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts).GetResultOrThrow<SuggestOutput<TrustSummary>>();
         return suggestions.Results.Select(TrustSuggestValue);
     }
 
@@ -32,7 +32,7 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
 
-    private static SuggestValue<Trust> TrustSuggestValue(SuggestValue<Trust> value)
+    private static SuggestValue<TrustSummary> TrustSuggestValue(SuggestValue<TrustSummary> value)
     {
         var text = value.Text?.Replace("*", "");
 

@@ -10,12 +10,13 @@ public class TestService(IIndexClient client) : SearchService<TestType>(client)
         return await SearchWithScoreAsync(search, filters, size);
     }
 
-    public async Task<SearchResponse<TestType>> CallSearchAsync(SearchRequest request,
-        Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
+    public async Task<SearchResponse<TestType>> CallSearchAsync(
+        SearchRequest request,
+        Func<string?>? filterExpBuilder = null,
+        string[]? facets = null)
     {
         return await SearchAsync(request, filterExpBuilder, facets);
     }
-
 
     public async Task<TestType> CallLookUpAsync(string? key)
     {
