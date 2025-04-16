@@ -43,7 +43,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         var content = new
         {
             SearchText = searchText,
-            Size = 5,
+            Size = 5
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -166,7 +166,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<School>();
+        var result = content.FromJson<SchoolSummary>();
 
         table.CompareToInstance(result);
     }
@@ -184,7 +184,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<School>>().Results;
+        var results = content.FromJson<SuggestResponse<SchoolSummary>>().Results;
         var result = results.FirstOrDefault();
         Assert.NotNull(result);
 
@@ -205,7 +205,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<School>>().Results.ToList();
+        var results = content.FromJson<SuggestResponse<SchoolSummary>>().Results.ToList();
 
         var set = results.Select(result => new
         {
@@ -224,7 +224,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<School>>().Results;
+        var results = content.FromJson<SuggestResponse<SchoolSummary>>().Results;
         Assert.Empty(results);
     }
 
@@ -265,7 +265,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SearchResponse<SchoolSummary>>().Results.ToList(); ;
+        var results = content.FromJson<SearchResponse<SchoolSummary>>().Results.ToList();
 
         table.CompareToSet(results);
     }

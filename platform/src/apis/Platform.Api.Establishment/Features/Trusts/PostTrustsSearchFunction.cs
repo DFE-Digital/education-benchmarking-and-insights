@@ -4,8 +4,10 @@ using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Api.Establishment.Features.Trusts.Services;
+using Platform.Api.Establishment.Features.Trusts.Validators;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
@@ -13,7 +15,9 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
-public class PostTrustsSearchFunction(ITrustsService service, IValidator<SearchRequest> validator)
+public class PostTrustsSearchFunction(
+    ITrustsService service,
+    [FromKeyedServices(nameof(TrustsSearchValidator))] IValidator<SearchRequest> validator)
 {
     [Function(nameof(PostTrustsSearchFunction))]
     [OpenApiSecurityHeader]

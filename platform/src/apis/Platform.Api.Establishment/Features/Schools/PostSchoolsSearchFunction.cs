@@ -4,8 +4,10 @@ using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.Api.Establishment.Features.Schools.Services;
+using Platform.Api.Establishment.Features.Schools.Validators;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
@@ -13,7 +15,9 @@ using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
-public class PostSchoolsSearchFunction(ISchoolsService service, IValidator<SearchRequest> validator)
+public class PostSchoolsSearchFunction(
+    ISchoolsService service,
+    [FromKeyedServices(nameof(SchoolsSearchValidator))] IValidator<SearchRequest> validator)
 {
     [Function(nameof(PostSchoolsSearchFunction))]
     [OpenApiSecurityHeader]
