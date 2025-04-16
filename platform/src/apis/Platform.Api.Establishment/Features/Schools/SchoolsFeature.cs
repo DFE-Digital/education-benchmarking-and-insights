@@ -17,7 +17,7 @@ public static class SchoolsFeature
             .AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
 
         serviceCollection
-            .AddTransient<IValidator<SearchRequest>, SchoolsSearchValidator>();
+            .AddKeyedTransient<IValidator<SearchRequest>, SchoolsSearchValidator>(nameof(SchoolsSearchValidator));
 
         return serviceCollection;
     }

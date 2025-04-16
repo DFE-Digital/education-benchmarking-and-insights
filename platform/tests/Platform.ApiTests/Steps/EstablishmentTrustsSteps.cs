@@ -14,6 +14,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-trust";
     private const string SuggestRequestKey = "suggest-trust";
+    private const string SearchRequestKey = "search-trust";
 
     [Given("a valid trust request with id '(.*)'")]
     private void GivenAValidTrustRequestWithId(string id)
@@ -41,7 +42,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         var content = new
         {
             SearchText = searchText,
-            Size = 5,
+            Size = 5
         };
 
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
@@ -64,6 +65,74 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid trusts search request with searchText '(.*)' page '(.*)' size '(.*)' orderByField '(.*)' orderByValue '(.*)'")]
+    private void GivenAValidTrustsSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(
+        string searchText,
+        int page,
+        int size,
+        string? orderByField,
+        string? orderByValue)
+    {
+        var content = new SearchRequest
+        {
+            SearchText = searchText,
+            Page = page,
+            PageSize = size,
+            OrderBy = string.IsNullOrEmpty(orderByField) && string.IsNullOrEmpty(orderByValue)
+                ? null
+                : new OrderByCriteria
+                {
+                    Field = orderByField,
+                    Value = orderByValue
+                }
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/trusts/search", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid trusts search request with searchText '(.*)' page '(.*)' size '(.*)'")]
+    private void GivenAValidTrustsSearchRequestWithSearchTextPageSize(string searchText, int page, int size)
+    {
+        GivenAValidTrustsSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(searchText, page, size, null, null);
+    }
+
+    [Given("an invalid trusts search request")]
+    private void GivenAnInvalidTrustsSearchRequest()
+    {
+        var invalidFilters = new[]
+        {
+            new FilterCriteria
+            {
+                Field = "test",
+                Value = "test"
+            }
+        };
+        var content = new SearchRequest
+        {
+            SearchText = "te",
+            Page = 1,
+            PageSize = 5,
+            OrderBy = new OrderByCriteria
+            {
+                Field = "test",
+                Value = "test"
+            },
+            Filters = invalidFilters
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/trusts/search", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
@@ -118,7 +187,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+        var results = content.FromJson<SuggestResponse<TrustSummary>>().Results;
         var result = results.FirstOrDefault();
         Assert.NotNull(result);
 
@@ -139,7 +208,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+        var results = content.FromJson<SuggestResponse<TrustSummary>>().Results;
 
         var set = results.Select(result => new
         {
@@ -158,7 +227,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<Trust>>().Results;
+        var results = content.FromJson<SuggestResponse<TrustSummary>>().Results;
         Assert.Empty(results);
     }
 
@@ -178,5 +247,58 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         }
 
         filteredTable.CompareToSet(results);
+    }
+
+    [Then("the search trusts response should be ok and have the following values:")]
+    private async Task ThenTheSearchTrustsResponseShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var actual = content.FromJson<SearchResponse<TrustSummary>>();
+
+        table.CompareToInstance(actual);
+    }
+
+    [Then("the results should include the following trusts:")]
+    private async Task ThenTheResultsShouldIncludeTheFollowingTrusts(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<TrustSummary>>().Results.ToList();
+
+        table.CompareToSet(results);
+    }
+
+    [Then("the trusts search result should be empty")]
+    private async Task ThenTheTrustsSearchResultShouldBeEmpty()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<TrustSummary>>().Results;
+        Assert.Empty(results);
+    }
+
+    [Then("the search trusts response should be bad request containing validation errors")]
+    private async Task ThenTheSearchTrustsResponseShouldBeBadRequestContainingValidationErrors()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<ValidationError[]>();
+
+        Assert.NotEmpty(results);
+
+        foreach (var error in results)
+        {
+            Assert.NotNull(error.PropertyName);
+            Assert.NotNull(error.ErrorMessage);
+        }
     }
 }
