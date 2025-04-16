@@ -37,4 +37,7 @@ public class SchoolIndex
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
     public double? TotalPupils { get; set; }
+
+    [SimpleField(IsFilterable = false, IsSortable = true, IsFacetable = false, IsHidden = true)]
+    public string? SchoolNameSortable { get; set; }
 }

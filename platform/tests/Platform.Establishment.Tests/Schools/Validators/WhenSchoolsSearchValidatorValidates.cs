@@ -70,12 +70,12 @@ public class ValidSearchRequestData : IEnumerable<object[]>
         yield return
             [
                 new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolName", Value = "asc" } }
+                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "asc" } }
             ];
         yield return
             [
                 new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolName", Value = "desc" } }
+                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "desc" } }
             ];
         yield return
             [
@@ -83,7 +83,7 @@ public class ValidSearchRequestData : IEnumerable<object[]>
                 {
                     SearchText = "test",
                     Filters = [new FilterCriteria { Field = "OverallPhase", Value = "Primary" }],
-                    OrderBy = new OrderByCriteria { Field = "SchoolName", Value = "asc" }
+                    OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "asc" }
                 }
             ];
     }
@@ -116,14 +116,14 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
                 SearchText = "test",
                 OrderBy = new OrderByCriteria { Field = "test", Value = "asc" }
             },
-            $"OrderBy Field must be {nameof(School.SchoolName)}"
+            "OrderBy Field must be SchoolNameSortable"
         ];
         yield return
         [
             new SearchRequest
             {
                 SearchText = "test",
-                OrderBy = new OrderByCriteria { Field = "SchoolName", Value = "test" }
+                OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "test" }
             },
             $"Order By must empty or be one of the supported values: {string.Join(", ", Sort.All)}"
         ];
