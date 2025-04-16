@@ -15,6 +15,16 @@ public record SearchRequest
     public int Page { get; set; } = 1;
     public FilterCriteria[]? Filters { get; set; }
     public OrderByCriteria? OrderBy { get; set; }
+
+    public string? FilterExpression()
+    {
+        if (Filters == null || Filters.Length == 0)
+        {
+            return null;
+        }
+
+        return $"({string.Join(" or ", Filters.Select(f => $"{f.Field} eq '{f.Value}'"))})";
+    }
 }
 
 [ExcludeFromCodeCoverage]

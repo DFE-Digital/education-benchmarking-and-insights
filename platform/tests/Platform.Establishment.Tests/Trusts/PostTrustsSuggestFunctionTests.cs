@@ -31,8 +31,8 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.SuggestAsync(It.IsAny<TrustSuggestRequest>()))
-            .ReturnsAsync(new SuggestResponse<Trust>());
+            .Setup(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>()))
+            .ReturnsAsync(new SuggestResponse<TrustSummary>());
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
@@ -45,7 +45,7 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<SuggestResponse<Trust>>();
+        var body = await result.ReadAsJsonAsync<SuggestResponse<TrustSummary>>();
         Assert.NotNull(body);
     }
 
@@ -69,6 +69,6 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
 
         _service
-            .Verify(d => d.SuggestAsync(It.IsAny<TrustSuggestRequest>()), Times.Never);
+            .Verify(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>()), Times.Never);
     }
 }

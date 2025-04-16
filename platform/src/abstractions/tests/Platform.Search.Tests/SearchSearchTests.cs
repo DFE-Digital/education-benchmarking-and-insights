@@ -60,7 +60,7 @@ public class SearchSearchTests
             SearchText = Search
         };
 
-        Func<FilterCriteria[], string?> filterBuilder = _ => nameof(filterBuilder);
+        Func<string?> filterBuilder = () => nameof(filterBuilder);
 
         var result = new TestType();
         var searchResults = SearchModelFactory.SearchResults(
@@ -202,7 +202,7 @@ public class SearchSearchTests
             SearchText = Search
         };
 
-        Func<FilterCriteria[], string?> filterBuilder = _ => nameof(filterBuilder);
+        Func<string?> filterBuilder = () => nameof(filterBuilder);
 
         const int facetCount = 3;
         const string facetResultKey = nameof(facetResultKey);

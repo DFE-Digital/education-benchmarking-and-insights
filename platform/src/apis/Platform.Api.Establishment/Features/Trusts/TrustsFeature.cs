@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Trusts.Services;
+using Platform.Api.Establishment.Features.Trusts.Validators;
+using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.Trusts;
 
@@ -12,6 +15,9 @@ public static class TrustsFeature
         serviceCollection
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ITrustComparatorsService, TrustComparatorsService>();
+
+        serviceCollection
+            .AddTransient<IValidator<SearchRequest>, TrustsSearchValidator>();
 
         return serviceCollection;
     }

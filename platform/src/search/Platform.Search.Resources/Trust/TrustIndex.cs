@@ -5,10 +5,10 @@ namespace Platform.Search.Resources.Trust;
 
 public class TrustIndex
 {
-    [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
+    [SearchableField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
     public string? CompanyNumber { get; set; }
 
-    [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
+    [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
     public string? TrustName { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]

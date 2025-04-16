@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Models;
@@ -64,14 +63,6 @@ public class SchoolsService(
 
     public Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request)
     {
-        return SearchAsync(request, CreateSearchFilterExpression);
-
-        string? CreateSearchFilterExpression(FilterCriteria[]? filterCriteriaArray)
-        {
-            if (filterCriteriaArray == null || filterCriteriaArray.Length == 0)
-                return null;
-
-            return $"({string.Join(" or ", filterCriteriaArray.Select(f => $"{f.Field} eq '{f.Value}'"))})";
-        }
+        return SearchAsync(request, request.FilterExpression);
     }
 }

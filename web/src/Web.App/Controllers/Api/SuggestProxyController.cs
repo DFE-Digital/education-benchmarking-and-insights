@@ -14,8 +14,8 @@ public class SuggestProxyController(
     [Produces("application/json")]
     // https://github.com/dotnet/aspnetcore/issues/55412
     [ProducesResponseType<IEnumerable<SuggestValue<LocalAuthority>>>(StatusCodes.Status200OK)]
-    [ProducesResponseType<IEnumerable<SuggestValue<Trust>>>(StatusCodes.Status200OK)]
-    [ProducesResponseType<IEnumerable<SuggestValue<School>>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<SuggestValue<TrustSummary>>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<SuggestValue<SchoolSummary>>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Suggest(
         [FromQuery] string search,

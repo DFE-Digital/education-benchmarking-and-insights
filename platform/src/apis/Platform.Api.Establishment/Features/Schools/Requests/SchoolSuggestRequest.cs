@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Platform.Domain;
 using Platform.Infrastructure;
 using Platform.Search;
-
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.Api.Establishment.Features.Schools.Requests;
 
-[ExcludeFromCodeCoverage]
 public record SchoolSuggestRequest : SuggestRequest
 {
     public override string SuggesterName => ResourceNames.Search.Suggesters.School;
     public string[] Exclude { get; set; } = [];
-    public bool ExcludeMissingFinancialData { get; set; } = false;
+    public bool ExcludeMissingFinancialData { get; set; }
 
     public string FilterExpression() => new List<string>()
         .NotValuesFilter("URN", Exclude.Length > 0
