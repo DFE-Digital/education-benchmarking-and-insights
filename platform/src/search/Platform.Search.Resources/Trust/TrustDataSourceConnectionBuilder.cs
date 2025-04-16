@@ -16,7 +16,7 @@ public class TrustDataSourceConnectionBuilder(string? connectionString) : DataSo
             name: Name,
             type: SearchIndexerDataSourceType.AzureSql,
             connectionString: _connectionString,
-            container: new SearchIndexerDataContainer("Trust"));
+            container: new SearchIndexerDataContainer("VW_TrustSummary"));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }
