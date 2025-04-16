@@ -40,4 +40,10 @@ public class SchoolIndex
 
     [SimpleField(IsFilterable = false, IsSortable = true, IsFacetable = false, IsHidden = true)]
     public string? SchoolNameSortable { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? SchoolNameNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "normalizedKeywordAnalyzer")]
+    public string? AddressPostcodeKeyword { get; set; }
 }
