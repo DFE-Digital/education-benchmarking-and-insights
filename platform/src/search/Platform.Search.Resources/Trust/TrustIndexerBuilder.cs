@@ -19,7 +19,8 @@ public class TrustIndexerBuilder : IndexerBuilder
             FieldMappings =
             {
                 new FieldMapping("CompanyNumber") { TargetFieldName = nameof(TrustIndex.CompanyNumber) },
-                new FieldMapping("TrustName") { TargetFieldName = nameof(TrustIndex.TrustName)  }
+                new FieldMapping("TrustName") { TargetFieldName = nameof(TrustIndex.TrustName) },
+                new FieldMapping("TrustNameSortable") { TargetFieldName = nameof(TrustIndex.TrustNameSortable) }
             }
         };
 
