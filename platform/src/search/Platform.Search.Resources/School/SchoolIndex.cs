@@ -40,4 +40,28 @@ public class SchoolIndex
 
     [SimpleField(IsFilterable = false, IsSortable = true, IsFacetable = false, IsHidden = true)]
     public string? SchoolNameSortable { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? SchoolNameNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressStreetNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressLocalityNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressLine3NGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressTownNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressCountyNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "ngramAnalyzer")]
+    public string? AddressPostcodeNGram { get; set; }
+
+    [SearchableField(IsFilterable = false, IsSortable = false, IsFacetable = false, IsHidden = true, AnalyzerName = "normalizedKeywordAnalyzer")]
+    public string? AddressPostcodeKeyword { get; set; }
 }

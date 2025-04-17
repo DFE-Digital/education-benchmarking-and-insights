@@ -2,6 +2,7 @@ using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using Platform.Infrastructure;
 using Platform.Search.Resources.Builders;
+using Platform.Search.Resources.CustomTextProcessing;
 
 namespace Platform.Search.Resources.School;
 
@@ -12,7 +13,15 @@ public class SchoolIndexBuilder : IndexBuilder
     public override async Task Build(SearchIndexClient client)
     {
         var searchFields = new FieldBuilder().Build(typeof(SchoolIndex));
+
         var definition = new SearchIndex(Name, searchFields);
+
+        definition.Tokenizers.Add(CustomTokenizers.NGramTokenizer);
+        definition.TokenFilters.Add(CustomTokenFilters.RemoveWhitespace);
+        definition.Analyzers.Add(CustomAnalyzers.NGramAnalyzer);
+        definition.Analyzers.Add(CustomAnalyzers.NormalizedKeywordAnalyzer);
+
+
         var suggestFields = new[]
         {
             nameof(SchoolIndex.SchoolName),
