@@ -1,0 +1,29 @@
+displayName: Average_API_Charts - Vertical Bar
+testPlan: url-test.json
+description: Average load test for POST /verticalBarChart
+engineInstances: 2
+testId: 323ec97f-7ef8-4035-b0e7-85dbd6f8a0eb
+testType: URL
+splitAllCSVs: False
+regionalLoadTestConfig:
+- region: westeurope
+  engineInstances: 1
+- region: uksouth
+  engineInstances: 1
+failureCriteria:
+  clientMetrics:
+  - p50(response_time_ms) > 100
+  - p95(response_time_ms) > 200
+  - p99(response_time_ms) > 500
+  - percentage(error) > 0.1
+secrets:
+- name: chart-rendering-host-key
+  value: https://s198t01-ebis-keyvault.vault.azure.net/secrets/chart-rendering-host-key
+referenceIdentities:
+- kind: KeyVault
+  type: SystemAssigned
+- kind: Metrics
+  type: SystemAssigned
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
