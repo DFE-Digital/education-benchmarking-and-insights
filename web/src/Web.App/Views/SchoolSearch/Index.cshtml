@@ -1,12 +1,12 @@
-@using Web.App.ViewModels
-@model Web.App.ViewModels.FindSchoolViewModel
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.FindSchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationSchool;
 }
 
 @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
-{
-    @await Html.PartialAsync("Search/_SchoolSearchTerm", new FindSchoolViewModel
+{ 
+    @await Html.PartialAsync("Search/_SearchTerm", new FindSchoolViewModel
     {
         Term = Model.Term
     })

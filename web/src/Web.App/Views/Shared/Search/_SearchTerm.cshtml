@@ -1,9 +1,9 @@
 @using Web.App.Domain
 @using Web.App.Extensions
-@using Web.App.ViewModels
-@model Web.App.ViewModels.FindSchoolViewModel
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.ISearchTermViewModel
 @{
-    var hasError = ViewData.ModelState.HasError(nameof(FindSchoolViewModel.Term));
+    var hasError = ViewData.ModelState.HasError(nameof(ISearchTermViewModel.Term));
 }
 
 <div class="govuk-grid-row">
@@ -11,25 +11,25 @@
         @await Html.PartialAsync("_ErrorSummary")
         <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
             <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--l" for="@nameof(FindSchoolViewModel.Term)">
+                <label class="govuk-label govuk-label--l" for="@nameof(ISearchTermViewModel.Term)">
                     @ViewData[ViewDataKeys.Title]
                 </label>
             </h1>
-            <div id="@nameof(FindSchoolViewModel.Term)-hint" class="govuk-hint">
-                Search by name, address, postcode or unique reference number (URN)
+            <div id="@nameof(ISearchTermViewModel.Term)-hint" class="govuk-hint">
+                @Model.Hint
             </div>
             @if (hasError)
             {
-                <p id="@nameof(FindSchoolViewModel.Term)-error" class="govuk-error-message">
+                <p id="@nameof(ISearchTermViewModel.Term)-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
-                    @ViewData.ModelState[nameof(FindSchoolViewModel.Term)]?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()
+                    @ViewData.ModelState[nameof(ISearchTermViewModel.Term)]?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()
                 </p>
             }
             <div class="govuk-input__wrapper">
-                <input class="govuk-input" id="@nameof(FindSchoolViewModel.Term)"
-                       name="@nameof(FindSchoolViewModel.Term)"
+                <input class="govuk-input" id="@nameof(ISearchTermViewModel.Term)"
+                       name="@nameof(ISearchTermViewModel.Term)"
                        type="text" spellcheck="false"
-                       aria-describedby="search-term-hint @(hasError ? $"{nameof(FindSchoolViewModel.Term)}-error" : string.Empty)"
+                       aria-describedby="search-term-hint @(hasError ? $"{nameof(ISearchTermViewModel.Term)}-error" : string.Empty)"
                        value="@Model.Term">
                 <div class="govuk-input__suffix govuk-input__suffix__button">
                     <button type="submit" class="govuk-button" data-module="govuk-button" name="action"

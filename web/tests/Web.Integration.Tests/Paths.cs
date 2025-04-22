@@ -14,6 +14,7 @@ public static class Paths
     public const string Error = "/error";
     public const string DataSources = "/data-sources";
     public const string SchoolSearch = "/school";
+    public const string TrustSearch = "/trust";
 
     public static string StatusError(int statusCode)
     {
@@ -290,6 +291,26 @@ public static class Paths
         }
 
         return $"/school/search{queryString.ToUriComponent()}";
+    }
+    public static string TrustSearchResults(string? term = null, string? sort = null, int? page = null)
+    {
+        var queryString = new QueryString();
+        if (!string.IsNullOrWhiteSpace(term))
+        {
+            queryString = queryString.Add(nameof(term), term);
+        }
+
+        if (!string.IsNullOrWhiteSpace(sort))
+        {
+            queryString = queryString.Add(nameof(sort), sort);
+        }
+
+        if (page.HasValue)
+        {
+            queryString = queryString.Add(nameof(page), page.Value.ToString());
+        }
+
+        return $"/trust/search{queryString.ToUriComponent()}";
     }
 
     public static string TrustComparators(string? companyNumber)
