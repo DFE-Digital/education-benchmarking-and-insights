@@ -1,0 +1,41 @@
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.SearchResultsOptionsViewModel
+
+<div class="search-option govuk-form-group govuk-!-margin-bottom-3">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            <h2 class="govuk-fieldset__heading">
+                Filter and sort
+            </h2>
+        </legend>
+        <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="@nameof(SearchResultsOptionsViewModel.OrderBy)-default"
+                       name="@nameof(SearchResultsOptionsViewModel.OrderBy)" type="radio" value=""
+                       @(string.IsNullOrWhiteSpace(Model.OrderBy) ? "checked" : string.Empty)>
+                <label class="govuk-label govuk-radios__label"
+                       for="@nameof(SearchResultsOptionsViewModel.OrderBy)-default">
+                    Relevance
+                </label>
+            </div>
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="@nameof(SearchResultsOptionsViewModel.OrderBy)-asc"
+                       name="@nameof(SearchResultsOptionsViewModel.OrderBy)" type="radio" value="asc"
+                       @(Model.OrderBy == "asc" ? "checked" : string.Empty)>
+                <label class="govuk-label govuk-radios__label"
+                       for="@nameof(SearchResultsOptionsViewModel.OrderBy)-asc">
+                    A-Z
+                </label>
+            </div>
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="@nameof(SearchResultsOptionsViewModel.OrderBy)-desc"
+                       name="@nameof(SearchResultsOptionsViewModel.OrderBy)" type="radio" value="desc"
+                       @(Model.OrderBy == "desc" ? "checked" : string.Empty)>
+                <label class="govuk-label govuk-radios__label"
+                       for="@nameof(SearchResultsOptionsViewModel.OrderBy)-desc">
+                    Z-A
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</div>

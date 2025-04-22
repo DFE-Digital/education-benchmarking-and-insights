@@ -1,7 +1,7 @@
-@model Web.App.ViewModels.Search.SchoolSearchResultsPageViewModel
+@model Web.App.ViewModels.Search.SchoolSearchResultViewModel[]
 
 <ul class="govuk-list govuk-list--result">
-    @foreach (var result in Model.Results)
+    @foreach (var result in Model)
     {
         <li id="search-result-@result.URN">
             <a href="@Url.Action("Index", "School", new { urn = result.URN })"
@@ -31,11 +31,3 @@
         </li>
     }
 </ul>
-
-@await Component.InvokeAsync("Pagination", new
-{
-    totalResults = Model.TotalResults,
-    pageNumber = Model.PageNumber,
-    pageSize = Model.PageSize,
-    urlBuilder = Model.UrlBuilder
-})
