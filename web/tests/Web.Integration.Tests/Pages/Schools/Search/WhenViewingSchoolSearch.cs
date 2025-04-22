@@ -7,7 +7,7 @@ namespace Web.Integration.Tests.Pages.Schools.Search;
 
 public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    private static SearchResponse<School> SearchResults => new()
+    private static SearchResponse<SchoolSummary> SearchResults => new()
     {
         TotalResults = 54,
         Page = 1,
@@ -15,7 +15,7 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
         PageCount = 2,
         Results =
         [
-            new School
+            new SchoolSummary
             {
                 URN = "123456",
                 SchoolName = "School Name 1",
@@ -23,7 +23,7 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
                 AddressTown = "Town",
                 AddressPostcode = "Postcode"
             },
-            new School
+            new SchoolSummary
             {
                 URN = "654321",
                 SchoolName = "School Name 2",

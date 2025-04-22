@@ -8,7 +8,7 @@ namespace Web.Integration.Tests.Pages.Schools.Search;
 
 public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    private static SearchResponse<School> SearchResults => new()
+    private static SearchResponse<SchoolSummary> SearchResults => new()
     {
         TotalResults = 54,
         Page = 1,
@@ -16,7 +16,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         PageCount = 2,
         Results =
         [
-            new School
+            new SchoolSummary
             {
                 URN = "123456",
                 SchoolName = "School Name 1",
@@ -24,7 +24,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
                 AddressTown = "Town",
                 AddressPostcode = "Postcode"
             },
-            new School
+            new SchoolSummary
             {
                 URN = "654321",
                 SchoolName = "School Name 2",
@@ -170,7 +170,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
     public async Task CanDisplayWarningIfNoResultsFound()
     {
         var page = await Client
-            .SetupEstablishment(new SearchResponse<School>())
+            .SetupEstablishment(new SearchResponse<SchoolSummary>())
             .Navigate(Paths.SchoolSearchResults());
         var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);

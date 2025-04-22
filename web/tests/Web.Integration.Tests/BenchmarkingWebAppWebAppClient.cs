@@ -236,7 +236,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<School> schools)
+    public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<SchoolSummary> schools)
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(schools));
