@@ -58,7 +58,7 @@ public class WhenViewingTrustSearch(SchoolBenchmarkingWebAppClient client) : Pag
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustSearchResults(term).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustSearchResults(term).ToAbsolute());
     }
 
     [Fact]

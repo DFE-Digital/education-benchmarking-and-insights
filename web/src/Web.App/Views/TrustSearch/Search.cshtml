@@ -1,19 +1,18 @@
 @using Web.App.ViewModels.Search
-@model Web.App.ViewModels.Search.SchoolSearchResultsViewModel
+@model Web.App.ViewModels.Search.TrustSearchResultsViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationSchool;
-    Func<int, string?> urlBuilder = page => Url.Action("Search", "SchoolSearch", new
+    ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationTrust;
+    Func<int, string?> urlBuilder = page => Url.Action("Search", "TrustSearch", new
     {
         term = Model.Term,
         sort = Model.OrderBy,
-        phase = Model.OverallPhase,
         page
     });
 }
 
 @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
 {
-    @await Html.PartialAsync("Search/_SearchTerm", new FindSchoolViewModel
+    @await Html.PartialAsync("Search/_SearchTerm", new FindTrustViewModel
     {
         Term = Model.Term
     })
@@ -24,7 +23,7 @@
 @if (!Model.Success)
 {
     <p id="search-warning" class="govuk-body-s">
-        Unable to search for schools. Update your search criteria and try again.
+        Unable to search for trusts. Update your search criteria and try again.
     </p>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
 }
@@ -48,11 +47,10 @@ else
         <div class="govuk-grid-column-one-third search-results-wrapper">
             @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
             {
-                <input type="hidden" name="@nameof(FindSchoolViewModel.Term)" value="@Model.Term"/>
-                @await Html.PartialAsync("Search/_SearchResultsOptions", new SchoolSearchResultsOptionsViewModel
+                <input type="hidden" name="@nameof(FindTrustViewModel.Term)" value="@Model.Term"/>
+                @await Html.PartialAsync("Search/_SearchResultsOptions", new SearchResultsOptionsViewModel
                 {
                     OrderBy = Model.OrderBy,
-                    OverallPhase = Model.OverallPhase,
                     ResetUrl = Url.Action("Search", new { term = Model.Term })
                 })
             }
@@ -61,13 +59,13 @@ else
             @if (Model.TotalResults == 0)
             {
                 <p id="search-warning" class="govuk-body-s govuk-!-margin-top-1">
-                    We couldn't find any schools matching your search criteria.
+                    We couldn't find any trusts matching your search criteria.
                 </p>
                 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
             }
             else
             {
-                @await Html.PartialAsync("Search/_SchoolSearchResults", Model.Results)
+                @await Html.PartialAsync("Search/_TrustSearchResults", Model.Results)
                 @await Component.InvokeAsync("Pagination", new
                 {
                     totalResults = Model.TotalResults,
@@ -77,5 +75,5 @@ else
                 })
             }
         </div>
-        </div>
+    </div>
 }

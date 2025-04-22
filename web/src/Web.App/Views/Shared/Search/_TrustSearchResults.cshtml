@@ -1,0 +1,27 @@
+@model Web.App.ViewModels.Search.TrustSearchResultViewModel[]
+
+<ul class="govuk-list govuk-list--result">
+    @foreach (var result in Model)
+    {
+        <li id="search-result-@result.CompanyNumber">
+            <a href="@Url.Action("Index", "Trust", new { companyNumber = result.CompanyNumber })"
+               class="govuk-link govuk-link--no-visited-state govuk-heading-s govuk-!-margin-bottom-2">@result.TrustName</a>
+            <ul class="govuk-list">
+                @if (result.SchoolsInTrust.GetValueOrDefault() > 0)
+                {
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Number of schools:</span>
+                        <span class="govuk-!-font-tabular-numbers">@(result.SchoolsInTrust)</span>
+                    </li>
+                }
+                @if (result.TotalPupils.GetValueOrDefault() > 0)
+                {
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Number of pupils:</span>
+                        <span class="govuk-!-font-tabular-numbers">@(result.TotalPupils)</span>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
