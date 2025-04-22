@@ -11,7 +11,7 @@ public class WhenSchoolSearchServiceIsCalled
 {
     private readonly Mock<IEstablishmentApi> _api = new();
 
-    public static TheoryData<string?, int?, int?, Dictionary<string, IEnumerable<string>>?, (string Field, string Order)?, SearchRequest?> WhenSendRequestData = new()
+    public static TheoryData<string?, int?, int?, SearchFilters?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
         {
             "term",
@@ -25,7 +25,7 @@ public class WhenSchoolSearchServiceIsCalled
             "term",
             null,
             null,
-            new Dictionary<string, IEnumerable<string>>(),
+            new SearchFilters(),
             null,
             new SearchRequest { SearchText = "term" }
         },
@@ -33,11 +33,8 @@ public class WhenSchoolSearchServiceIsCalled
             "term",
             1,
             2,
-            new Dictionary<string, IEnumerable<string>>
-            {
-                { "field", ["value1", "value2"] }
-            },
-            ("field2", "value3"),
+            new SearchFilters("field", ["value1", "value2"]),
+            new SearchOrderBy("field2", "value3"),
             new SearchRequest
             {
                 SearchText = "term",
@@ -54,7 +51,7 @@ public class WhenSchoolSearchServiceIsCalled
 
     [Theory]
     [MemberData(nameof(WhenSendRequestData))]
-    public async Task ShouldSendRequest(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null, SearchRequest? expected = null)
+    public async Task ShouldSendRequest(string? term, int? pageSize = null, int? page = null, SearchFilters? filters = null, SearchOrderBy? orderBy = null, SearchRequest? expected = null)
     {
         var response = new SearchResponse<SchoolSummary>();
 

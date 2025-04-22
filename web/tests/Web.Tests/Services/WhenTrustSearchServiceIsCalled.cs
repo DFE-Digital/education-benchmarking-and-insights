@@ -11,7 +11,7 @@ public class WhenTrustSearchServiceIsCalled
 {
     private readonly Mock<IEstablishmentApi> _api = new();
 
-    public static TheoryData<string?, int?, int?, (string Field, string Order)?, SearchRequest?> WhenSendRequestData = new()
+    public static TheoryData<string?, int?, int?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
         {
             "term",
@@ -31,7 +31,7 @@ public class WhenTrustSearchServiceIsCalled
             "term",
             1,
             2,
-            ("field2", "value3"),
+            new SearchOrderBy("field2", "value3"),
             new SearchRequest
             {
                 SearchText = "term",
@@ -44,7 +44,7 @@ public class WhenTrustSearchServiceIsCalled
 
     [Theory]
     [MemberData(nameof(WhenSendRequestData))]
-    public async Task ShouldSendRequest(string? term, int? pageSize = null, int? page = null, (string Field, string Order)? orderBy = null, SearchRequest? expected = null)
+    public async Task ShouldSendRequest(string? term, int? pageSize = null, int? page = null, SearchOrderBy? orderBy = null, SearchRequest? expected = null)
     {
         var response = new SearchResponse<TrustSummary>();
 
