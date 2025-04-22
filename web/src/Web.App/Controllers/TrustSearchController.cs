@@ -50,7 +50,7 @@ public class TrustSearchController(
             orderBy
         }))
         {
-            var results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : ("TrustNameSortable", orderBy));
+            var results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("TrustNameSortable", orderBy));
 
             // todo: display results 
             return NotFound();

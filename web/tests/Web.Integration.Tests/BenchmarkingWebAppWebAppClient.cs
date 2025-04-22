@@ -244,10 +244,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<TrustSummary> schools)
+    public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<TrustSummary> trusts)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(schools));
+        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(trusts));
         return this;
     }
 

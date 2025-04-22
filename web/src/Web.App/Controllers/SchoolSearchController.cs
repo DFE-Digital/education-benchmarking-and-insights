@@ -4,7 +4,6 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Services;
-using Web.App.ViewModels;
 using Web.App.ViewModels.Search;
 
 namespace Web.App.Controllers;
@@ -60,13 +59,8 @@ public class SchoolSearchController(
             {
                 results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
                         ? null
-                        : new Dictionary<string, IEnumerable<string>>
-                        {
-                            {
-                                "OverallPhase", overallPhase
-                            }
-                        },
-                    string.IsNullOrWhiteSpace(orderBy) ? null : ("SchoolNameSortable", orderBy)
+                        : new SearchFilters("OverallPhase", overallPhase),
+                    string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("SchoolNameSortable", orderBy)
                 );
             }
             catch (Exception e)
