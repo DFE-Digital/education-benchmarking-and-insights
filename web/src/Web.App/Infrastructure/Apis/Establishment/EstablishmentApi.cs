@@ -77,6 +77,16 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
             Content = new JsonContent(request)
         });
     }
+
+    public Task<ApiResult> SearchTrusts(SearchRequest request)
+    {
+        return SendAsync(new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(Api.Establishment.TrustSearch, UriKind.Relative),
+            Content = new JsonContent(request)
+        });
+    }
 }
 
 public interface IEstablishmentApi
@@ -91,4 +101,5 @@ public interface IEstablishmentApi
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
     Task<ApiResult> SearchSchools(SearchRequest request);
+    Task<ApiResult> SearchTrusts(SearchRequest request);
 }

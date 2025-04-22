@@ -8,6 +8,7 @@ namespace Web.App.Services;
 public interface ISearchService
 {
     Task<SearchResponse<SchoolSummary>> SchoolSearch(string? term, int? pageSize = null, int? page = null, Dictionary<string, IEnumerable<string>>? filters = null, (string Field, string Order)? orderBy = null);
+    Task<SearchResponse<TrustSummary>> TrustSearch(string? term, int? pageSize = null, int? page = null, (string Field, string Order)? orderBy = null);
 }
 
 public class SearchService(IEstablishmentApi establishmentApi) : ISearchService
@@ -23,5 +24,11 @@ public class SearchService(IEstablishmentApi establishmentApi) : ISearchService
 
         return await establishmentApi.SearchSchools(SearchRequest.Create(term, pageSize, page, flattenedFilters, orderBy))
             .GetResultOrThrow<SearchResponse<SchoolSummary>>();
+    }
+
+    public async Task<SearchResponse<TrustSummary>> TrustSearch(string? term, int? pageSize = null, int? page = null, (string Field, string Order)? orderBy = null)
+    {
+        return await establishmentApi.SearchTrusts(SearchRequest.Create(term, pageSize, page, null, orderBy))
+            .GetResultOrThrow<SearchResponse<TrustSummary>>();
     }
 }
