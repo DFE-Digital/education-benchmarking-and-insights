@@ -1,11 +1,34 @@
 using System.Net;
 using AngleSharp.Dom;
+using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Trusts.Search;
 
 public class WhenViewingTrustSearch(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    private static SearchResponse<TrustSummary> SearchResults => new()
+    {
+        TotalResults = 54,
+        Page = 1,
+        PageSize = 10,
+        PageCount = 2,
+        Results =
+        [
+            new TrustSummary
+            {
+                CompanyNumber = "123456",
+                TrustName = "Trust Name 1"
+            },
+            new TrustSummary
+            {
+                CompanyNumber = "654321",
+                TrustName = "Trust Name 2"
+            }
+        ]
+    };
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -19,6 +42,7 @@ public class WhenViewingTrustSearch(SchoolBenchmarkingWebAppClient client) : Pag
     public async Task CanSubmitSearch()
     {
         var page = await Client
+            .SetupEstablishment(SearchResults)
             .Navigate(Paths.TrustSearch);
         var action = page.QuerySelectorAll("button[type='submit']").First();
         Assert.NotNull(action);
