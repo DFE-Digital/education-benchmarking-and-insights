@@ -1,0 +1,15 @@
+AppEvents
+| where Name == "Search"
+| extend
+    IndexName = tostring(Properties["IndexName"]),
+    SearchText = tostring(Properties["SearchText"]),
+    Filter = tostring(Properties["Filter"]),
+    SuggesterName = tostring(Properties["SuggesterName"]),
+    ResultCount = toint(Properties["ResultCount"])
+| project
+    TimeGenerated,
+    IndexName,
+    SearchText,
+    Filter,
+    SuggesterName,
+    ResultCount

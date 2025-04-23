@@ -545,3 +545,62 @@ resource "azurerm_log_analytics_query_pack_query" "polly-warnings" {
 
   body = file("${path.module}/queries/polly-warnings.kql")
 }
+
+resource "azurerm_log_analytics_saved_search" "get-search-results" {
+  name                       = "GetSearchResults"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSearchResults"
+  function_alias             = "GetSearchResults"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-search-results.kql")
+}
+
+resource "random_uuid" "suggest-results-id" {
+  for_each = toset(var.establishmentTypes)
+}
+
+locals {
+  establishmentTypeSuggestResultUuids = tomap({
+    for establishmentType, uuid in random_uuid.suggest-results-id : establishmentType => uuid.result
+  })
+}
+
+resource "azurerm_log_analytics_query_pack_query" "suggest-results" {
+  for_each      = local.establishmentTypeSuggestResultUuids
+  name          = each.value
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Suggest results - ${each.key}"
+  description   = "Suggest terms and number of matching results for ${each.key}"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = templatefile("${path.module}/queries/suggest-results.kql", {
+    establishmentType = each.key
+  })
+}
+
+resource "random_uuid" "search-results-id" {
+  for_each = toset(var.establishmentTypes)
+}
+
+locals {
+  establishmentTypeSearchResultUuids = tomap({
+    for establishmentType, uuid in random_uuid.search-results-id : establishmentType => uuid.result
+  })
+}
+
+resource "azurerm_log_analytics_query_pack_query" "search-results" {
+  for_each      = local.establishmentTypeSearchResultUuids
+  name          = each.value
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Search results - ${each.key}"
+  description   = "Search terms, filters and number of matching results for ${each.key}"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = templatefile("${path.module}/queries/search-results.kql", {
+    establishmentType = each.key
+  })
+}

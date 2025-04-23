@@ -106,3 +106,12 @@ variable "trackedEvents" {
     "survey"
   ]
 }
+
+variable "establishmentTypes" {
+  type = list(string)
+  default = [
+    "school",
+    "trust",
+    "local-authority"
+  ]
+}
