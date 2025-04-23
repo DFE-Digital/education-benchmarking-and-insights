@@ -16,19 +16,41 @@ One of the main benefits of this approach is that it integrates well with existi
 
 ## Branch naming
 
-Branches should be named using the following pattern `category/<reference>/description-in-kebab-case`. With categories;
+Branches must be named following this pattern:
 
-- `feature` is for adding, refactoring or removing a feature
-- `bugfix` is for fixing a bug
-- `hotfix` is for changing code with a temporary solution and/or without following the usual process (usually because of an emergency)
-- `exp` is for experimenting outside an issue/ticket
-- `tech-debt` is for technical debt
-- `doc` is for documentation changes
-- `prototype` is for prototype changes
-- `dependabot` is for managing dependencies by [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
-- `chore` is for minor admin tasks, such as toggling features or bumping dependencies
+```text
+<category>/<backlog-item>/<task>-description-in-kebab-case
+```
 
-Reference should be the user story and/or bug id, avoid using task, feature or epic id. If you have no ticket then leave off the reference.
+- **Category** should be one of:
+  - `feature`: adding, refactoring, or removing a feature
+  - `bugfix`: fixing a bug
+  - `hotfix`: urgent temporary fix
+  - `exp`: experimental work outside a formal ticket
+  - `tech-debt`: addressing technical debt
+  - `doc`: documentation changes
+  - `prototype`: work on prototypes
+  - `dependabot`: dependency management (handled by [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide))
+  - `chore`: minor admin tasks (e.g. toggling features, bumping versions)
+
+- **Backlog item** must be the ID for the user story, bug, or spike.  
+  Example: `1234` for user story 1234.
+
+- **Task**: Each task must have a prefix ID for clarity and must be described using **kebab-case** (lowercase words separated by hyphens).  
+  Example: `5678-add-login-validation`.
+
+### Additional Rules
+
+- Branches should be created **per task** (i.e. work on one task per branch).
+- If there is no formal backlog item, omit the `<backlog-item>` but still follow the structure for `<category>/<task>-description-in-kebab-case`.
+
+### Example
+
+For a feature related to user story 1234, and a task with ID 5678 that adds login validation:
+
+```text
+feature/1234/5678-add-login-validation
+```
 
 <!-- Leave the rest of this page blank -->
 \newpage
