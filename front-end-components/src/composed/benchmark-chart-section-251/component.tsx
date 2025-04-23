@@ -33,12 +33,18 @@ export function BenchmarkChartSection251<
             isNaN(budgetValue)
               ? undefined
               : budgetValue,
+          population: s.population2To18,
         });
       });
     }
 
     return {
-      tableHeadings: ["Local authority", "Outturn", "Budget"],
+      tableHeadings: [
+        "Local authority",
+        "Outturn",
+        "Budget",
+        "2 to 18 Population",
+      ],
       dataPoints,
     };
   }, [data, valueField]);
