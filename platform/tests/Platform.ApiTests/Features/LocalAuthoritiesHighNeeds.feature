@@ -143,17 +143,20 @@ Feature: Local authorities high needs endpoints
           | 203  |
         When I submit the high needs request
         Then the high needs result should be ok and have the following values for '201':
-          | Field | Value          |
-          | Code  | 201            |
-          | Name  | City of London |
+          | Field           | Value          |
+          | Code            | 201            |
+          | Name            | City of London |
+          | Population2To18 | 1756              |
         And the high needs result should have the following values for '202':
-          | Field | Value  |
-          | Code  | 202    |
-          | Name  | Camden |
+          | Field           | Value  |
+          | Code            | 202    |
+          | Name            | Camden |
+          | Population2To18 | 52239  |
         And the high needs result should have the following values for '203':
-          | Field | Value     |
-          | Code  | 203       |
-          | Name  | Greenwich |
+          | Field           | Value     |
+          | Code            | 203       |
+          | Name            | Greenwich |
+          | Population2To18 | 65643     |
         And the high needs result should contain the following outturn values for '201':
           | Field | Value  |
           | Total | 476694 |
@@ -206,17 +209,20 @@ Feature: Local authorities high needs endpoints
           | 203  |
         When I submit the high needs request
         Then the high needs result should be ok and have the following values for '201':
-          | Field | Value          |
-          | Code  | 201            |
-          | Name  | City of London |
+          | Field           | Value          |
+          | Code            | 201            |
+          | Name            | City of London |
+          | Population2To18 | 1756           |
         And the high needs result should have the following values for '202':
-          | Field | Value  |
-          | Code  | 202    |
-          | Name  | Camden |
+          | Field           | Value  |
+          | Code            | 202    |
+          | Name            | Camden |
+          | Population2To18 | 52239  |
         And the high needs result should have the following values for '203':
-          | Field | Value     |
-          | Code  | 203       |
-          | Name  | Greenwich |
+          | Field           | Value     |
+          | Code            | 203       |
+          | Name            | Greenwich |
+          | Population2To18 | 65643     |
         And the high needs result should contain the following budget values for '201':
           | Field | Value  |
           | Total | 641000 |

@@ -45,6 +45,7 @@ public class WhenHighNeedsMapperMaps
         // assert
         Assert.Equal(localAuthority.Code, actual.Code);
         Assert.Equal(localAuthority.Name, actual.Name);
+        Assert.Equal(localAuthority.Population2To18, actual.Population2To18);
         Assert.Equal(outturn.Total, actual.Outturn?.Total);
         Assert.Equal(outturnHighNeedsAmount, actual.Outturn?.HighNeedsAmount);
         Assert.Equal(outturnTopFundingMaintained, actual.Outturn?.Maintained);
