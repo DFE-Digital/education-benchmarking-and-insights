@@ -41,7 +41,7 @@ public class HighNeedsProxyController(
         }
         catch (Exception e)
         {
-            logger.LogError(e, "An error getting local authority high needs history data: {DisplayUrl}", Request.GetDisplayUrl());
+            logger.LogError(e, "An error getting local authority high needs data: {DisplayUrl}", Request.GetDisplayUrl());
             return StatusCode(500);
         }
     }
