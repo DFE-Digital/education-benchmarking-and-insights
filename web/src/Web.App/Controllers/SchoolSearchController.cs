@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Infrastructure.Apis;
 using Web.App.Services;
 using Web.App.ViewModels.Search;
 
@@ -54,24 +53,11 @@ public class SchoolSearchController(
             orderBy
         }))
         {
-            SearchResponse<SchoolSummary> results;
-            try
-            {
-                results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
-                        ? null
-                        : new SearchFilters("OverallPhase", overallPhase),
-                    string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("SchoolNameSortable", orderBy)
-                );
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Unable to search for school");
-                return View(new SchoolSearchResultsViewModel
-                {
-                    Term = term,
-                    Success = false
-                });
-            }
+            var results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
+                    ? null
+                    : new SearchFilters("OverallPhase", overallPhase),
+                string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("SchoolNameSortable", orderBy)
+            );
 
             return View(new SchoolSearchResultsViewModel
             {

@@ -8,5 +8,4 @@ public class SchoolSearchResultsViewModel : SchoolSearchViewModel
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
     public SchoolSearchResultViewModel[] Results { get; set; } = [];
-    public bool Success { get; set; } = true;
 }

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
-using Web.App.Infrastructure.Apis;
 using Web.App.Services;
 using Web.App.ViewModels.Search;
 
@@ -52,20 +51,7 @@ public class TrustSearchController(
             orderBy
         }))
         {
-            SearchResponse<TrustSummary> results;
-            try
-            {
-                results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("TrustNameSortable", orderBy));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Unable to search for trust");
-                return View(new TrustSearchResultsViewModel
-                {
-                    Term = term,
-                    Success = false
-                });
-            }
+            var results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("TrustNameSortable", orderBy));
 
             return View(new TrustSearchResultsViewModel
             {
