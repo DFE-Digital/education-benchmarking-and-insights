@@ -4,22 +4,20 @@ namespace Platform.Api.NonFinancial.Features.EducationHealthCarePlans;
 
 public static class Mapper
 {
-    public static LocalAuthorityNumberOfPlansResponse MapToLocalAuthorityNumberOfPlansResponse(LocalAuthorityNumberOfPlans value)
+    public static LocalAuthorityNumberOfPlansResponse MapToLocalAuthorityNumberOfPlansResponse(LocalAuthorityNumberOfPlans value) => new()
     {
-        return new LocalAuthorityNumberOfPlansResponse
-        {
-            Code = value.LaCode,
-            Name = value.Name,
-            Total = value.Total,
-            Mainstream = value.Mainstream,
-            Resourced = value.Resourced,
-            Special = value.Special,
-            Independent = value.Independent,
-            Hospital = value.Hospital,
-            Post16 = value.Post16,
-            Other = value.Other
-        };
-    }
+        Code = value.LaCode,
+        Name = value.Name,
+        Population2To18 = value.Population2To18,
+        Total = value.Total,
+        Mainstream = value.Mainstream,
+        Resourced = value.Resourced,
+        Special = value.Special,
+        Independent = value.Independent,
+        Hospital = value.Hospital,
+        Post16 = value.Post16,
+        Other = value.Other
+    };
 
     public static LocalAuthorityNumberOfPlansYearResponse MapToLocalAuthorityNumberOfPlansYearResponse(LocalAuthorityNumberOfPlansYear value)
     {

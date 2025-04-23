@@ -8,6 +8,7 @@ public record LocalAuthorityNumberOfPlans
 {
     public string? LaCode { get; set; }
     public string? Name { get; set; }
+    public double? Population2To18 { get; set; }
     public decimal? Total { get; set; }
     public decimal? Mainstream { get; set; }
     public decimal? Resourced { get; set; }
