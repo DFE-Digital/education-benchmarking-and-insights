@@ -26,6 +26,7 @@ export function TableCellEstablishmentName<
       className={classNames("govuk-table__cell", {
         "table-cell-warning":
           periodCoveredByReturn !== undefined && periodCoveredByReturn < 12,
+        "govuk-!-width-one-third": !!localAuthority,
       })}
     >
       <SelectedAnchor
