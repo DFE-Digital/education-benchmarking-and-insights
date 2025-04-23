@@ -20,60 +20,50 @@
 
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
 
-@if (!Model.Success)
+@if (Model.TotalResults > 0)
 {
-    <p id="search-warning" class="govuk-body-s">
-        Unable to search for trusts. Update your search criteria and try again.
-    </p>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
-}
-else
-{
-    @if (Model.TotalResults > 0)
-    {
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-third">
-                &nbsp;
-            </div>
-            <div class="govuk-grid-column-two-thirds">
-                <p class="govuk-body-s">
-                    @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
-                </p>
-            </div>
-        </div>
-    }
-
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third search-results-wrapper">
-            @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
-            {
-                <input type="hidden" name="@nameof(FindTrustViewModel.Term)" value="@Model.Term"/>
-                @await Html.PartialAsync("Search/_SearchResultsOptions", new SearchResultsOptionsViewModel
-                {
-                    OrderBy = Model.OrderBy,
-                    ResetUrl = Url.Action("Search", new { term = Model.Term })
-                })
-            }
+        <div class="govuk-grid-column-one-third">
+            &nbsp;
         </div>
         <div class="govuk-grid-column-two-thirds">
-            @if (Model.TotalResults == 0)
-            {
-                <p id="search-warning" class="govuk-body-s govuk-!-margin-top-1">
-                    We couldn't find any trusts matching your search criteria.
-                </p>
-                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
-            }
-            else
-            {
-                @await Html.PartialAsync("Search/_TrustSearchResults", Model.Results)
-                @await Component.InvokeAsync("Pagination", new
-                {
-                    totalResults = Model.TotalResults,
-                    pageNumber = Model.PageNumber,
-                    pageSize = Model.PageSize,
-                    urlBuilder
-                })
-            }
+            <p class="govuk-body-s">
+                @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
+            </p>
         </div>
     </div>
 }
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third search-results-wrapper">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden" name="@nameof(FindTrustViewModel.Term)" value="@Model.Term"/>
+            @await Html.PartialAsync("Search/_SearchResultsOptions", new SearchResultsOptionsViewModel
+            {
+                OrderBy = Model.OrderBy,
+                ResetUrl = Url.Action("Search", new { term = Model.Term })
+            })
+        }
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        @if (Model.TotalResults == 0)
+        {
+            <p id="search-warning" class="govuk-body-s govuk-!-margin-top-1">
+                We couldn't find any trusts matching your search criteria.
+            </p>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+        }
+        else
+        {
+            @await Html.PartialAsync("Search/_TrustSearchResults", Model.Results)
+            @await Component.InvokeAsync("Pagination", new
+            {
+                totalResults = Model.TotalResults,
+                pageNumber = Model.PageNumber,
+                pageSize = Model.PageSize,
+                urlBuilder
+            })
+        }
+    </div>
+</div>

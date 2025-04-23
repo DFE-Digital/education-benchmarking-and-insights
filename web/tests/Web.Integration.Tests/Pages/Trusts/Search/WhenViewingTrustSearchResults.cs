@@ -178,25 +178,14 @@ public class WhenViewingTrustSearchResults(SchoolBenchmarkingWebAppClient client
     }
 
     [Fact]
-    public async Task CanDisplayWarningIfSearchFailed()
+    public async Task CanDisplayProblemWithService()
     {
+        const string term = nameof(term);
         var page = await Client
             .SetupEstablishmentWithException()
-            .Navigate(Paths.TrustSearchResults());
-        var action = page.QuerySelectorAll("button[type='submit']").First();
-        Assert.NotNull(action);
+            .Navigate(Paths.TrustSearchResults(term));
 
-        const string term = nameof(term);
-        page = await Client.SubmitForm(page.Forms.First(), action, f =>
-        {
-            f.SetFormValues(new Dictionary<string, string>
-            {
-                {
-                    "Term", term
-                }
-            });
-        });
-
-        Assert.Equal("Unable to search for trusts. Update your search criteria and try again.", page.QuerySelector("#search-warning")?.GetInnerText());
+        PageAssert.IsProblemPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustSearchResults(term).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 }
