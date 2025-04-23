@@ -310,13 +310,13 @@ def _prepare_ons_la_population_data(
     `AREA_CODE`) will be summed to provide a single figure, to be
     rounded to a whole integer.
 
-    Population data is published July of the given year.
+    Population data is published for July of each calendar year.
     The data we ingest for the given year needs to fall within
     April to March financial year, here we ingest the data for
-    the year prior to the passed year (run_id).
+    the year prior to the input year.
 
-    ie: 2024 year will be for period 2023/2024 and therefore 2023 data
-    is required.
+    For example, if the year is 2024, the relevant data is for the 2023/2024 financial year,
+    and thus data from 2023 should be ingested.
 
     :param ons_filepath_or_buffer: source for ONS LA population data
     :param year: financial year in question
