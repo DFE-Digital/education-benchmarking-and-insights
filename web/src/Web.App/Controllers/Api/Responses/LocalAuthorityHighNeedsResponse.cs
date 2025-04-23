@@ -14,6 +14,7 @@ public record LocalAuthorityHighNeedsComparisonResponse
 {
     public string? Code { get; init; }
     public string? Name { get; init; }
+    public double? Population2To18 { get; init; }
     public LocalAuthorityHighNeedsApiResponse? Outturn { get; init; }
     public LocalAuthorityHighNeedsApiResponse? Budget { get; init; }
 }

@@ -11,6 +11,7 @@ public static class LocalAuthorityHighNeedsResponseMapper
         {
             Code = l.Code,
             Name = l.Name,
+            Population2To18 = l.Population2To18,
             Outturn = l.Outturn?.MapToApiResponse(),
             Budget = l.Budget?.MapToApiResponse()
         });
