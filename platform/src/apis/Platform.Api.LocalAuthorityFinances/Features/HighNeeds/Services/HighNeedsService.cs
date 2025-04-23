@@ -24,6 +24,7 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             // LocalAuthorityBase
             "LaCode AS [Code]",
             "[Name]",
+            "[Population2To18]",
             // HighNeedsBase
             "OutturnTotalHighNeeds AS [Total]",
             // HighNeedsAmount
