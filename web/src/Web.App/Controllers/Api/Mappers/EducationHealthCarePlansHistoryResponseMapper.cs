@@ -11,6 +11,7 @@ public static class EducationHealthCarePlansResponseMapper
         {
             Code = item.Code,
             Name = item.Name,
+            Population2To18 = item.Population2To18,
             Total = item.Total,
             Mainstream = item.Mainstream,
             Resourced = item.Resourced,

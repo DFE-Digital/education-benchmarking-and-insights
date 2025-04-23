@@ -29,6 +29,7 @@ public class WhenEducationHealthCarePlansComparisonResponseMapperMaps
 
             Assert.Equal(expected.Code, actual.Code);
             Assert.Equal(expected.Name, actual.Name);
+            Assert.Equal(expected.Population2To18, actual.Population2To18);
             Assert.Equal(expected.Total, actual.Total);
             Assert.Equal(expected.Mainstream, actual.Mainstream);
             Assert.Equal(expected.Resourced, actual.Resourced);
