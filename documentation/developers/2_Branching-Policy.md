@@ -23,15 +23,15 @@ Branches must be named following this pattern:
 ```
 
 - **Category** should be one of:
-    - `feature`: adding, refactoring, or removing a feature
-    - `bugfix`: fixing a bug
-    - `hotfix`: urgent temporary fix
-    - `exp`: experimental work outside a formal ticket
-    - `tech-debt`: addressing technical debt
-    - `doc`: documentation changes
-    - `prototype`: work on prototypes
-    - `dependabot`: dependency management (handled by [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide))
-    - `chore`: minor admin tasks (e.g. toggling features, bumping versions)
+  - `feature`: adding, refactoring, or removing a feature
+  - `bugfix`: fixing a bug
+  - `hotfix`: urgent temporary fix
+  - `exp`: experimental work outside a formal ticket
+  - `tech-debt`: addressing technical debt
+  - `doc`: documentation changes
+  - `prototype`: work on prototypes
+  - `dependabot`: dependency management (handled by [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide))
+  - `chore`: minor admin tasks (e.g. toggling features, bumping versions)
 
 - **Backlog item** must be the ID for the user story, bug, or spike.  
   Example: `1234` for user story 1234.
@@ -39,11 +39,12 @@ Branches must be named following this pattern:
 - **Task**: Each task must have a prefix ID for clarity and must be described using **kebab-case** (lowercase words separated by hyphens).  
   Example: `5678-add-login-validation`.
 
-### Additional Rules:
+### Additional Rules
+
 - Branches should be created **per task** (i.e. work on one task per branch).
 - If there is no formal backlog item, omit the `<backlog-item>` but still follow the structure for `<category>/<task>-description-in-kebab-case`.
 
-### Example:
+### Example
 
 For a feature related to user story 1234, and a task with ID 5678 that adds login validation:
 
