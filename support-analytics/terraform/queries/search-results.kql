@@ -1,0 +1,4 @@
+GetSearchResults
+| where IndexName == "${establishmentType}-index"
+| where isempty(SuggesterName)
+| summarize by SearchText, Filter, ResultCount
