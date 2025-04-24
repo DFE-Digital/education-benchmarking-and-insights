@@ -5,27 +5,27 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Establishment.Features.Trusts.Models;
-using Platform.Api.Establishment.Features.Trusts.Services;
+using Platform.Api.Establishment.Features.LocalAuthorities.Models;
+using Platform.Api.Establishment.Features.LocalAuthorities.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
 
-namespace Platform.Api.Establishment.Features.Trusts;
+namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
-public class PostTrustsSearchFunction(
-    ITrustsService service,
-    [FromKeyedServices(nameof(TrustsFeature))] IValidator<SearchRequest> validator)
+public class PostLocalAuthoritiesSearchFunction(
+    ILocalAuthoritiesService service,
+    [FromKeyedServices(nameof(LocalAuthoritiesFeature))] IValidator<SearchRequest> validator)
 {
-    [Function(nameof(PostTrustsSearchFunction))]
+    [Function(nameof(PostLocalAuthoritiesSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostTrustsSearchFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostLocalAuthoritiesSearchFunction), Constants.Features.LocalAuthorities)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<TrustSummary>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSearch)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSearch)] HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<SearchRequest>();
 
@@ -35,7 +35,7 @@ public class PostTrustsSearchFunction(
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var trusts = await service.TrustsSearchAsync(body);
-        return await req.CreateJsonResponseAsync(trusts);
+        var localAuthorities = await service.LocalAuthoritiesSearchAsync(body);
+        return await req.CreateJsonResponseAsync(localAuthorities);
     }
 }

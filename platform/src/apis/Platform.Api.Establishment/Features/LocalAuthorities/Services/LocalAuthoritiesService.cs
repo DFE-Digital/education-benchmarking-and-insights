@@ -15,10 +15,11 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
 public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthoritySummary>> SuggestAsync(LocalAuthoritySuggestRequest request);
+    Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
     Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier);
     Task<IEnumerable<LocalAuthority>> GetAllAsync();
+    Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request);
 }
 
 [ExcludeFromCodeCoverage]
@@ -48,13 +49,9 @@ public class LocalAuthoritiesService(
         return localAuthority;
     }
 
-    public Task<SuggestResponse<LocalAuthoritySummary>> SuggestAsync(LocalAuthoritySuggestRequest request)
+    public Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request)
     {
-        var fields = new[]
-        {
-            nameof(LocalAuthority.Code),
-            nameof(LocalAuthority.Name)
-        };
+        var fields = new[] { nameof(LocalAuthority.Code), nameof(LocalAuthority.Name) };
 
         return SuggestAsync(request, CreateFilterExpression, fields);
 
@@ -85,4 +82,6 @@ public class LocalAuthoritiesService(
         var localAuthorities = await conn.QueryAsync<LocalAuthority>(laBuilder);
         return localAuthorities;
     }
+
+    public Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request) => SearchAsync(request, request.FilterExpression);
 }

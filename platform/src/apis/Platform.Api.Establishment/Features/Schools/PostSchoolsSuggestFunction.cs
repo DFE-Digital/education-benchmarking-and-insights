@@ -18,13 +18,12 @@ public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<Sugg
 {
     [Function(nameof(PostSchoolsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), "Schools")]
+    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), Constants.Features.Schools)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<SchoolSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSuggest)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSuggest)] HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<SchoolSuggestRequest>();
 

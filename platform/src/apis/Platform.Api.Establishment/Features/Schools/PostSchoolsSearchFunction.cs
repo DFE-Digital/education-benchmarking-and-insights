@@ -7,7 +7,6 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.Api.Establishment.Features.Schools.Services;
-using Platform.Api.Establishment.Features.Schools.Validators;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
@@ -17,17 +16,16 @@ namespace Platform.Api.Establishment.Features.Schools;
 
 public class PostSchoolsSearchFunction(
     ISchoolsService service,
-    [FromKeyedServices(nameof(SchoolsSearchValidator))] IValidator<SearchRequest> validator)
+    [FromKeyedServices(nameof(SchoolsFeature))] IValidator<SearchRequest> validator)
 {
     [Function(nameof(PostSchoolsSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolsSearchFunction), "Schools")]
+    [OpenApiOperation(nameof(PostSchoolsSearchFunction), Constants.Features.Schools)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<SchoolSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)] HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<SearchRequest>();
 

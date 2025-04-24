@@ -7,9 +7,9 @@ using Platform.Api.Establishment.Features.LocalAuthorities.Models;
 using Platform.Api.Establishment.Features.LocalAuthorities.Requests;
 using Platform.Api.Establishment.Features.LocalAuthorities.Services;
 using Platform.Functions;
-using Platform.Test.Extensions;
 using Platform.Search;
 using Platform.Test;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.LocalAuthorities;
@@ -31,7 +31,7 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.SuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()))
+            .Setup(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<LocalAuthoritySummary>());
 
         _validator
@@ -67,6 +67,6 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
         Assert.Contains(body, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
 
         _service
-            .Verify(d => d.SuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()), Times.Never);
+            .Verify(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()), Times.Never);
     }
 }

@@ -3,7 +3,7 @@ using Platform.Api.Establishment.Features.LocalAuthorities.Parameters;
 using Platform.Api.Establishment.Features.LocalAuthorities.Validators;
 using Xunit;
 
-namespace Platform.Establishment.Tests.LocalAuthorities;
+namespace Platform.Establishment.Tests.LocalAuthorities.Validators;
 
 public class WhenLocalAuthoritiesNationalRankParametersValidatorValidates
 {

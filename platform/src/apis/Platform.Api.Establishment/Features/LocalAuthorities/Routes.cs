@@ -7,4 +7,5 @@ public static class Routes
     public const string LocalAuthoritiesNationalRank = "local-authorities/national-rank";
     public const string LocalAuthority = "local-authority/{identifier}";
     public const string LocalAuthorityStatisticalNeighbours = "local-authority/{identifier}/statistical-neighbours";
+    public const string LocalAuthoritiesSearch = "local-authorities/search";
 }

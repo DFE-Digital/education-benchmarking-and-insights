@@ -7,7 +7,7 @@ using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 using Xunit;
 
-namespace Platform.Establishment.Tests.LocalAuthorities;
+namespace Platform.Establishment.Tests.LocalAuthorities.Services;
 
 public class WhenLocalAuthorityRankingServiceQueriesAsync
 {

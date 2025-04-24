@@ -17,6 +17,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     private const string NationalRankRequestKey = "get-local-authority-national-rank";
     private const string SuggestRequestKey = "suggest-local-authority";
     private const string StatisticalNeighboursRequestKey = "get-local-authority-statistical-neighbours";
+    private const string SearchRequestKey = "search-local-authority";
 
     [Given("a valid local authority request with id '(.*)'")]
     private void GivenAValidLocalAuthorityRequestWithId(string id)
@@ -99,6 +100,74 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         {
             RequestUri = new Uri("/api/local-authorities", UriKind.Relative),
             Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid local authorities search request with searchText '(.*)' page '(.*)' size '(.*)' orderByField '(.*)' orderByValue '(.*)'")]
+    private void GivenAValidLocalAuthoritiesSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(
+        string searchText,
+        int page,
+        int size,
+        string? orderByField,
+        string? orderByValue)
+    {
+        var content = new SearchRequest
+        {
+            SearchText = searchText,
+            Page = page,
+            PageSize = size,
+            OrderBy = string.IsNullOrEmpty(orderByField) && string.IsNullOrEmpty(orderByValue)
+                ? null
+                : new OrderByCriteria
+                {
+                    Field = orderByField,
+                    Value = orderByValue
+                }
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/local-authorities/search", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        });
+    }
+
+    [Given("a valid local authorities search request with searchText '(.*)' page '(.*)' size '(.*)'")]
+    private void GivenAValidLocalAuthoritiesSearchRequestWithSearchTextPageSize(string searchText, int page, int size)
+    {
+        GivenAValidLocalAuthoritiesSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(searchText, page, size, null, null);
+    }
+
+    [Given("an invalid local authorities search request")]
+    private void GivenAnInvalidLocalAuthoritiesSearchRequest()
+    {
+        var invalidFilters = new[]
+        {
+            new FilterCriteria
+            {
+                Field = "test",
+                Value = "test"
+            }
+        };
+        var content = new SearchRequest
+        {
+            SearchText = "te",
+            Page = 1,
+            PageSize = 5,
+            OrderBy = new OrderByCriteria
+            {
+                Field = "test",
+                Value = "test"
+            },
+            Filters = invalidFilters
+        };
+
+        api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/local-authorities/search", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
     }
 
@@ -276,5 +345,58 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         }).ToList();
 
         table.CompareToSet(set);
+    }
+
+    [Then("the search local authorities response should be ok and have the following values:")]
+    private async Task ThenTheSearchLocalAuthoritiesResponseShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var actual = content.FromJson<SearchResponse<LocalAuthoritySummary>>();
+
+        table.CompareToInstance(actual);
+    }
+
+    [Then("the results should include the following local authorities:")]
+    private async Task ThenTheResultsShouldIncludeTheFollowingLocalAuthorities(DataTable table)
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<LocalAuthoritySummary>>().Results.ToList();
+
+        table.CompareToSet(results);
+    }
+
+    [Then("the local authorities search result should be empty")]
+    private async Task ThenTheLocalAuthoritiesSearchResultShouldBeEmpty()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<SearchResponse<LocalAuthoritySummary>>().Results;
+        Assert.Empty(results);
+    }
+
+    [Then("the search local authorities response should be bad request containing validation errors")]
+    private async Task ThenTheSearchLocalAuthoritiesResponseShouldBeBadRequestContainingValidationErrors()
+    {
+        var response = api[SearchRequestKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var results = content.FromJson<ValidationError[]>();
+
+        Assert.NotEmpty(results);
+
+        foreach (var error in results)
+        {
+            Assert.NotNull(error.PropertyName);
+            Assert.NotNull(error.ErrorMessage);
+        }
     }
 }
