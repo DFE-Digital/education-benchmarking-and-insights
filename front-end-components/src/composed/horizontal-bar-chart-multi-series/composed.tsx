@@ -7,6 +7,7 @@ import {
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { HorizontalBarChartMultiSeriesProps } from "src/composed/horizontal-bar-chart-multi-series";
+import { ContextCodesList } from "src/components/context-codes-list";
 import {
   ChartModeChart,
   ChartModeTable,
@@ -93,13 +94,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
           {hasData ? (
             <>
               {lineCodes && lineCodes.length > 0 && (
-                <ul className="app-cost-code-list">
-                  {lineCodes.map((code) => (
-                    <li key={code}>
-                      <strong className="govuk-tag">{code}</strong>
-                    </li>
-                  ))}
-                </ul>
+                <ContextCodesList codes={lineCodes} />
               )}
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
