@@ -90,8 +90,12 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
 
     public Task<ApiResult> SearchLocalAuthorities(SearchRequest request)
     {
-        // todo on follow-up task
-        throw new NotImplementedException();
+        return SendAsync(new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(Api.Establishment.LocalAuthoritySearch, UriKind.Relative),
+            Content = new JsonContent(request)
+        });
     }
 }
 

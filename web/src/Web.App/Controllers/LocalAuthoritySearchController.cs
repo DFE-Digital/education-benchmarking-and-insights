@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
+using Web.App.Services;
 using Web.App.ViewModels.Search;
 
 namespace Web.App.Controllers;
@@ -9,7 +10,9 @@ namespace Web.App.Controllers;
 [Route("local-authority")]
 [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Search)]
 [FeatureGate(FeatureFlags.FilteredSearch)]
-public class LocalAuthoritySearchController(ILogger<LocalAuthoritySearchController> logger)
+public class LocalAuthoritySearchController(
+    ILogger<LocalAuthoritySearchController> logger,
+    ISearchService searchService)
     : Controller
 {
     [HttpGet]
@@ -34,7 +37,7 @@ public class LocalAuthoritySearchController(ILogger<LocalAuthoritySearchControll
 
     [HttpGet]
     [Route("search")]
-    public IActionResult Search(
+    public async Task<IActionResult> Search(
         [FromQuery] string? term,
         [FromQuery] int? page,
         [FromQuery(Name = "sort")] string? orderBy
@@ -47,6 +50,8 @@ public class LocalAuthoritySearchController(ILogger<LocalAuthoritySearchControll
             orderBy
         }))
         {
+            var results = await searchService.LocalAuthoritySearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("LocalAuthorityNameSortable", orderBy));
+
             return NotFound();
         }
     }

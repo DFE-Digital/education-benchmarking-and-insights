@@ -11,6 +11,7 @@ public static class Api
         public static string TrustSearch => "api/trusts/search";
         public static string LocalAuthorities => "api/local-authorities";
         public static string LocalAuthoritySuggest => "api/local-authorities/suggest";
+        public static string LocalAuthoritySearch => "api/local-authorities/search";
         public static string LocalAuthorityNationalRank => "api/local-authorities/national-rank";
         public static string School(string? identifier)
         {
