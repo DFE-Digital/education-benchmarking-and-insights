@@ -15,7 +15,7 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
 public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request);
+    Task<SuggestResponse<LocalAuthoritySummary>> SuggestAsync(LocalAuthoritySuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
     Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier);
     Task<IEnumerable<LocalAuthority>> GetAllAsync();
@@ -25,7 +25,7 @@ public interface ILocalAuthoritiesService
 public class LocalAuthoritiesService(
     [FromKeyedServices(ResourceNames.Search.Indexes.LocalAuthority)] IIndexClient client,
     IDatabaseFactory dbFactory)
-    : SearchService<LocalAuthority>(client), ILocalAuthoritiesService
+    : SearchService<LocalAuthoritySummary>(client), ILocalAuthoritiesService
 {
     public async Task<LocalAuthority?> GetAsync(string code)
     {
@@ -48,7 +48,7 @@ public class LocalAuthoritiesService(
         return localAuthority;
     }
 
-    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(LocalAuthoritySuggestRequest request)
+    public Task<SuggestResponse<LocalAuthoritySummary>> SuggestAsync(LocalAuthoritySuggestRequest request)
     {
         var fields = new[]
         {

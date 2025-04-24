@@ -17,7 +17,7 @@ public class LocalAuthorityDataSourceConnectionBuilder(string? connectionString)
             name: Name,
             type: SearchIndexerDataSourceType.AzureSql,
             connectionString: _connectionString,
-            container: new SearchIndexerDataContainer("LocalAuthority"));
+            container: new SearchIndexerDataContainer("VW_LocalAuthoritySummary"));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }

@@ -150,7 +150,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results;
+        var results = content.FromJson<SuggestResponse<LocalAuthoritySummary>>().Results;
         var result = results.FirstOrDefault();
         Assert.NotNull(result);
 
@@ -171,7 +171,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results.ToList();
+        var results = content.FromJson<SuggestResponse<LocalAuthoritySummary>>().Results.ToList();
 
         var set = results.Select(result => new
         {
@@ -190,7 +190,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponse<LocalAuthority>>().Results;
+        var results = content.FromJson<SuggestResponse<LocalAuthoritySummary>>().Results;
         Assert.Empty(results);
     }
 

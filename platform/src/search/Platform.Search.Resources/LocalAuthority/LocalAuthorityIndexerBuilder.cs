@@ -19,7 +19,8 @@ public class LocalAuthorityIndexerBuilder : IndexerBuilder
             FieldMappings =
             {
                 new FieldMapping("Code") { TargetFieldName = nameof(LocalAuthorityIndex.Code) },
-                new FieldMapping("Name") { TargetFieldName = nameof(LocalAuthorityIndex.Name) }
+                new FieldMapping("Name") { TargetFieldName = nameof(LocalAuthorityIndex.Name) },
+                new FieldMapping("LocalAuthorityNameSortable") { TargetFieldName = nameof(LocalAuthorityIndex.LocalAuthorityNameSortable) }
             }
         };
 

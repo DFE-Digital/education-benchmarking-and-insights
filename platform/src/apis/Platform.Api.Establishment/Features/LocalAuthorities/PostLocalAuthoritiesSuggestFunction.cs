@@ -20,7 +20,7 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(PostLocalAuthoritiesSuggestFunction), Constants.Features.LocalAuthorities)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(LocalAuthoritySuggestRequest), Description = "The suggest object")]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthority>))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)]
