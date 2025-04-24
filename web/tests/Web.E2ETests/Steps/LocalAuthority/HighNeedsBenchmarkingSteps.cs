@@ -115,6 +115,14 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsStartBenchmarkingPage.IsDisplayed();
     }
 
+    [Then("the line codes are present")]
+    public async Task ThenTheLineCodesArePresent()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+
+        await _highNeedsBenchmarkingPage.LineCodesArePresent();
+    }
+
     private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode)
     {
         return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
