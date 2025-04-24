@@ -45,3 +45,8 @@
           | Name           | Amount | Population |
           | City of London | 10.82  | 1,756      |
           | Hackney        | 51.31  | 59,677     |
+    
+    @HighNeedsFlagEnabled      
+    Scenario: Line codes are displayed
+        Given I am on local authority high needs benchmarking for local authority with code '201'
+        Then the line codes are present 

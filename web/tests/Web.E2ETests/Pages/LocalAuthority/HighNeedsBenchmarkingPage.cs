@@ -100,4 +100,20 @@ public class HighNeedsBenchmarkingPage(IPage page)
 
         expected.CompareToDynamicSet(set, false);
     }
+
+    public async Task LineCodesArePresent()
+    {
+        var costCodes = await page.Locator(Selectors.CostCodesList).AllAsync();
+        Assert.Equal(33, costCodes.Count);
+
+        var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
+            .Filter(new() { Has = page.Locator("li") })
+            .AllAsync();
+        Assert.Equal(25, costCodesWithLiChildren.Count);
+
+        foreach (var costCodeList in costCodesWithLiChildren)
+        {
+            await costCodeList.IsVisibleAsync();
+        }
+    }
 }
