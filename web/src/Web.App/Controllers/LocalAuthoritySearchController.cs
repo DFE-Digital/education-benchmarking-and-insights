@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
+using Web.App.Domain;
 using Web.App.Services;
 using Web.App.ViewModels.Search;
 
@@ -52,7 +53,44 @@ public class LocalAuthoritySearchController(
         {
             var results = await searchService.LocalAuthoritySearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("LocalAuthorityNameSortable", orderBy));
 
-            return NotFound();
+            return View(new LocalAuthoritySearchResultsViewModel
+            {
+                Term = term,
+                OrderBy = orderBy,
+                TotalResults = results.TotalResults,
+                PageNumber = results.Page,
+                PageSize = results.PageSize,
+                Results = results.Results.Select(LocalAuthoritySearchResultViewModel.Create).ToArray()
+            });
         }
+    }
+
+    [HttpPost]
+    [Route("search")]
+    public IActionResult Search(LocalAuthoritySearchViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(new LocalAuthoritySearchResultsViewModel
+            {
+                Term = viewModel.Term,
+                OrderBy = viewModel.OrderBy
+            });
+        }
+
+        // reset search options if new search term provided
+        if (viewModel.Action == FormAction.Reset)
+        {
+            return RedirectToAction("Search", new
+            {
+                term = viewModel.Term
+            });
+        }
+
+        return RedirectToAction("Search", new
+        {
+            term = viewModel.Term,
+            sort = viewModel.OrderBy
+        });
     }
 }

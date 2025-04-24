@@ -1,0 +1,69 @@
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.LocalAuthoritySearchResultsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationLocalAuthority;
+    Func<int, string?> urlBuilder = page => Url.Action("Search", "LocalAuthoritySearch", new
+    {
+        term = Model.Term,
+        sort = Model.OrderBy,
+        page
+    });
+}
+
+@using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+{
+    @await Html.PartialAsync("Search/_SearchTerm", new FindLocalAuthorityViewModel
+    {
+        Term = Model.Term
+    })
+}
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
+
+@if (Model.TotalResults > 0)
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            &nbsp;
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body-s">
+                @Model.TotalResults @(Model.TotalResults == 1 ? "result" : "results")
+            </p>
+        </div>
+    </div>
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third search-results-wrapper">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden" name="@nameof(FindLocalAuthorityViewModel.Term)" value="@Model.Term"/>
+            @await Html.PartialAsync("Search/_SearchResultsOptions", new SearchResultsOptionsViewModel
+            {
+                OrderBy = Model.OrderBy,
+                ResetUrl = Url.Action("Search", new { term = Model.Term })
+            })
+        }
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        @if (Model.TotalResults == 0)
+        {
+            <p id="search-warning" class="govuk-body-s govuk-!-margin-top-1">
+                We couldn't find any local authorities matching your search criteria.
+            </p>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+        }
+        else
+        {
+            @await Html.PartialAsync("Search/_LocalAuthoritySearchResults", Model.Results)
+            @await Component.InvokeAsync("Pagination", new
+            {
+                totalResults = Model.TotalResults,
+                pageNumber = Model.PageNumber,
+                pageSize = Model.PageSize,
+                urlBuilder
+            })
+        }
+    </div>
+</div>
