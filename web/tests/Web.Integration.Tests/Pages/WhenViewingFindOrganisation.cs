@@ -15,10 +15,10 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
     }
 
     [Theory]
-    [InlineData("school")]
-    [InlineData("trust")]
-    [InlineData("local-authority")]
-    public async Task CanChooseOrganisationType(string type)
+    [InlineData("school", Paths.SchoolSearch)]
+    [InlineData("trust", Paths.TrustSearch)]
+    [InlineData("local-authority", Paths.LocalAuthoritySearch)]
+    public async Task CanChooseOrganisationType(string type, string expectedPath)
     {
         var page = await Client.Navigate(Paths.FindOrganisation);
         var action = page.QuerySelector("button[type='submit']");
@@ -34,12 +34,7 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
             });
         });
 
-        switch (type)
-        {
-            case "school":
-                DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute());
-                break;
-        }
+        DocumentAssert.AssertPageUrl(page, expectedPath.ToAbsolute());
     }
 
     [Fact]

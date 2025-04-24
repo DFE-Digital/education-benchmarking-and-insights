@@ -9,6 +9,7 @@ public static class PageTitles
     public const string FindOrganisation = "Find a school, trust or local authority";
     public const string FindOrganisationSchool = "Search for a school or academy";
     public const string FindOrganisationTrust = "Search for a trust";
+    public const string FindOrganisationLocalAuthority = "Search for a local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Benchmark spending";

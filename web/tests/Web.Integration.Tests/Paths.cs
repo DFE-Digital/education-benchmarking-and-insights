@@ -15,6 +15,7 @@ public static class Paths
     public const string DataSources = "/data-sources";
     public const string SchoolSearch = "/school";
     public const string TrustSearch = "/trust";
+    public const string LocalAuthoritySearch = "/local-authority";
 
     public static string StatusError(int statusCode)
     {
@@ -311,6 +312,26 @@ public static class Paths
         }
 
         return $"/trust/search{queryString.ToUriComponent()}";
+    }
+    public static string LocalAuthoritySearchResults(string? term = null, string? sort = null, int? page = null)
+    {
+        var queryString = new QueryString();
+        if (!string.IsNullOrWhiteSpace(term))
+        {
+            queryString = queryString.Add(nameof(term), term);
+        }
+
+        if (!string.IsNullOrWhiteSpace(sort))
+        {
+            queryString = queryString.Add(nameof(sort), sort);
+        }
+
+        if (page.HasValue)
+        {
+            queryString = queryString.Add(nameof(page), page.Value.ToString());
+        }
+
+        return $"/local-authority/search{queryString.ToUriComponent()}";
     }
 
     public static string TrustComparators(string? companyNumber)

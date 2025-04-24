@@ -234,6 +234,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>())).Throws(new Exception());
         return this;
     }
 
@@ -248,6 +249,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(trusts));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<LocalAuthoritySummary> localAuthorities)
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(localAuthorities));
         return this;
     }
 

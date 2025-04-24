@@ -1,0 +1,13 @@
+@using Web.App.ViewModels.Search
+@model Web.App.ViewModels.Search.FindLocalAuthorityViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.FindOrganisationLocalAuthority;
+}
+
+@using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+{
+    @await Html.PartialAsync("Search/_SearchTerm", new FindLocalAuthorityViewModel
+    {
+        Term = Model.Term
+    })
+}

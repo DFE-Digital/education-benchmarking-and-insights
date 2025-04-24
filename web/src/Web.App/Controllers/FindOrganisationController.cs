@@ -99,7 +99,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
         {
             OrganisationTypes.School => RedirectToAction("Index", "SchoolSearch"),
             OrganisationTypes.Trust => RedirectToAction("Index", "TrustSearch"),
-            OrganisationTypes.LocalAuthority => NotFound(), // todo
+            OrganisationTypes.LocalAuthority => RedirectToAction("Index", "LocalAuthoritySearch"),
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod))
         };
     }
