@@ -158,4 +158,15 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
 
         VerifyCall(HttpMethod.Post, $"api/trusts/search", request.ToJson(Formatting.None));
     }
+
+    [Fact]
+    public async Task SearchLocalAuthoritiesShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+        var request = new SearchRequest();
+
+        await api.SearchLocalAuthorities(request);
+
+        VerifyCall(HttpMethod.Post, $"api/local-authorities/search", request.ToJson(Formatting.None));
+    }
 }
