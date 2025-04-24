@@ -32,7 +32,7 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
     {
         _service
             .Setup(d => d.SuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()))
-            .ReturnsAsync(new SuggestResponse<LocalAuthority>());
+            .ReturnsAsync(new SuggestResponse<LocalAuthoritySummary>());
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
@@ -44,7 +44,7 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<SuggestResponse<LocalAuthority>>();
+        var body = await result.ReadAsJsonAsync<SuggestResponse<LocalAuthoritySummary>>();
         Assert.NotNull(body);
     }
 
