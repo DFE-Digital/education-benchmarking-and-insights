@@ -28,6 +28,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   showCopyImageButton,
   xAxisLabel,
   valueUnit,
+  lineCodes,
 }: HorizontalBarChartMultiSeriesProps<TData>) {
   const { chartMode } = useChartModeContext();
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
@@ -91,6 +92,15 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
         >
           {hasData ? (
             <>
+              {lineCodes && lineCodes.length > 0 && (
+                <ul className="app-cost-code-list">
+                  {lineCodes.map((code) => (
+                    <li key={code}>
+                      <strong className="govuk-tag">{code}</strong>
+                    </li>
+                  ))}
+                </ul>
+              )}
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={5}

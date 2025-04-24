@@ -15,6 +15,7 @@ export type HorizontalBarChartMultiSeriesProps<TData extends LaChartData> =
     children?: React.ReactNode[] | React.ReactNode;
     data: HorizontalBarChartMultiSeriesPropsData<TData>;
     xAxisLabel?: string;
+    lineCodes?: string[];
   };
 
 export type HorizontalBarChartMultiSeriesPropsData<TData extends LaChartData> =

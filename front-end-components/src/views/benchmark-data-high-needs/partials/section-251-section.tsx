@@ -23,6 +23,7 @@ export const Section251Section: React.FC<
                 chartTitle={chart.name}
                 data={data}
                 valueField={chart.field}
+                lineCodes={chart.lineCodes}
               />
             </section>
           ))}
