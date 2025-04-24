@@ -58,7 +58,7 @@ public class WhenViewingLocalAuthoritySearch(SchoolBenchmarkingWebAppClient clie
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySearchResults(term).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySearchResults(term).ToAbsolute());
     }
 
     [Fact]

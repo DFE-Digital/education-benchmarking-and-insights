@@ -1,0 +1,11 @@
+@model Web.App.ViewModels.Search.LocalAuthoritySearchResultViewModel[]
+
+<ul class="govuk-list govuk-list--result">
+    @foreach (var result in Model)
+    {
+        <li id="search-result-@result.Code">
+            <a href="@Url.Action("Index", "LocalAuthority", new { code = result.Code })"
+               class="govuk-link govuk-link--no-visited-state govuk-heading-s govuk-!-margin-bottom-3">@result.Name</a>
+        </li>
+    }
+</ul>

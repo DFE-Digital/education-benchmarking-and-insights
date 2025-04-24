@@ -1,4 +1,3 @@
-using System.Text;
 using Web.App.Domain;
 
 // ReSharper disable MemberCanBePrivate.Global
