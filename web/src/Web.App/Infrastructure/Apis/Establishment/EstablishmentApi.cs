@@ -87,6 +87,12 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
             Content = new JsonContent(request)
         });
     }
+
+    public Task<ApiResult> SearchLocalAuthorities(SearchRequest request)
+    {
+        // todo on follow-up task
+        throw new NotImplementedException();
+    }
 }
 
 public interface IEstablishmentApi
@@ -102,4 +108,5 @@ public interface IEstablishmentApi
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
     Task<ApiResult> SearchSchools(SearchRequest request);
     Task<ApiResult> SearchTrusts(SearchRequest request);
+    Task<ApiResult> SearchLocalAuthorities(SearchRequest request);
 }
