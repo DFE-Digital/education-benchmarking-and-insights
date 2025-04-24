@@ -515,10 +515,16 @@ def _trust_revenue_reserve(
     """
     Calculate the "revenue reserve" for each Academy.
 
-    Revenue reserve is a balance that is legally "owned" by the Trust,
-    not the Academies. As such, the _total_ revenue reserve is
-    calculated for the whole Trust and then apportioned—pro rata based
-    on time spent in the period—to Academies.
+    We currently calculate and persist two revenue reserve calculations:
+
+    - _Share Revenue reserve_ is a balance that is legally "owned" by
+      the Trust, not the Academies. As such, the _total_ revenue
+      reserve is calculated for the whole Trust and then
+      apportioned—pro rata based on time spent in the period—to
+      Academies
+    - _Revenue reserve_ reflects the value submitted by each Academy,
+      plus the (pro rata) apportioned amount from the Central Services
+      value submitted by the Trust
 
     Note: revenue reserve is a balance and as such, only pertains to
     schools in the Trust at the end of the period.
@@ -539,7 +545,7 @@ def _trust_revenue_reserve(
 
     trust_revenue_reserve = trust_revenue_reserve.merge(
         central_services.reset_index()[["Trust UPIN", "Revenue reserve"]].rename(
-            columns={"Revenue reserve": "Revenue reserve_CS"}
+            columns={"Revenue reserve": "Trust Revenue reserve_CS"}
         ),
         on="Trust UPIN",
         how="inner",
@@ -547,26 +553,41 @@ def _trust_revenue_reserve(
 
     trust_revenue_reserve["Trust Revenue reserve"] = (
         trust_revenue_reserve["Sum Revenue reserve"]
-        + trust_revenue_reserve["Revenue reserve_CS"]
+        + trust_revenue_reserve["Trust Revenue reserve_CS"]
     )
 
     _academies = _academies.reset_index().merge(
-        trust_revenue_reserve[["Trust UPIN", "Trust Revenue reserve"]],
+        trust_revenue_reserve[
+            ["Trust UPIN", "Trust Revenue reserve", "Trust Revenue reserve_CS"]
+        ],
         on="Trust UPIN",
     )
 
     academies = academies.merge(
-        _academies[["URN", "Trust UPIN", "Trust Revenue reserve"]],
+        _academies[
+            ["URN", "Trust UPIN", "Trust Revenue reserve", "Trust Revenue reserve_CS"]
+        ],
         on=["URN", "Trust UPIN"],
         how="left",
     )
 
-    academies["Revenue reserve"] = (
+    academies["Share Revenue reserve"] = (
         (
             academies["Trust Revenue reserve"]
             / academies["Total pupils in trust_pro_rata"]
         )
         * academies["Number of pupils_pro_rata"]
+    ).fillna(0.0)
+
+    academies["Revenue reserve"] = (
+        academies["Revenue reserve"]
+        + (
+            (
+                academies["Trust Revenue reserve_CS"]
+                / academies["Total pupils in trust_pro_rata"]
+            )
+            * academies["Number of pupils_pro_rata"]
+        )
     ).fillna(0.0)
 
     return academies
