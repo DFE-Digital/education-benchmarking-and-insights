@@ -163,7 +163,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var cancelButton = page.QuerySelector("a.govuk-link:contains('Cancel')") as IHtmlAnchorElement;
         Assert.NotNull(cancelButton);
 
-        page = await client.Follow(cancelButton);
+        page = await Client.Follow(cancelButton);
         if (referrer == "benchmarking")
         {
             DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute(), HttpStatusCode.NotFound);

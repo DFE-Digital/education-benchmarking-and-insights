@@ -33,15 +33,15 @@
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'High needs amount per head 2-18 population' contains the following S251 values:
-          | Name           | Actual  | Planned |
-          | City of London | £0.00   | £0.00   |
-          | Hackney        | £115.22 | £113.85 |
+          | Name           | Actual  | Planned | Population |
+          | City of London | £0.00   | £0.00   | 1,756      |
+          | Hackney        | £115.22 | £113.85 | 59,677     |
 
     @HighNeedsFlagEnabled
     Scenario: Can view local authority benchmarking table data for SEND2
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:
-          | Name           | Amount |
-          | City of London | 10.82  |
-          | Hackney        | 51.31  |
+          | Name           | Amount | Population |
+          | City of London | 10.82  | 1,756      |
+          | Hackney        | 51.31  | 59,677     |

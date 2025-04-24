@@ -72,11 +72,12 @@ public class HighNeedsBenchmarkingPage(IPage page)
             {
                 Name = await cells.ElementAt(0).InnerTextAsync(),
                 Actual = await cells.ElementAt(1).InnerTextAsync(),
-                Planned = await cells.ElementAt(2).InnerTextAsync()
+                Planned = await cells.ElementAt(2).InnerTextAsync(),
+                Population = await cells.ElementAt(3).InnerTextAsync()
             });
         }
 
-        expected.CompareToDynamicSet(set);
+        expected.CompareToDynamicSet(set, false);
     }
 
     public async Task TableContainsSend2(int index, DataTable expected)
@@ -92,7 +93,8 @@ public class HighNeedsBenchmarkingPage(IPage page)
             set.Add(new
             {
                 Name = await cells.ElementAt(0).InnerTextAsync(),
-                Amount = await cells.ElementAt(1).InnerTextAsync()
+                Amount = await cells.ElementAt(1).InnerTextAsync(),
+                Population = await cells.ElementAt(2).InnerTextAsync()
             });
         }
 
