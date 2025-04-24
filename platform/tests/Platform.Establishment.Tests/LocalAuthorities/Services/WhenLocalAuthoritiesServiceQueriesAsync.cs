@@ -7,12 +7,12 @@ using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 using Xunit;
 
-namespace Platform.Establishment.Tests.LocalAuthorities;
+namespace Platform.Establishment.Tests.LocalAuthorities.Services;
 
 public class WhenLocalAuthoritiesServiceQueriesAsync
 {
-    private readonly Fixture _fixture = new();
     private readonly Mock<IDatabaseConnection> _connection;
+    private readonly Fixture _fixture = new();
     private readonly LocalAuthoritiesService _service;
 
     public WhenLocalAuthoritiesServiceQueriesAsync()

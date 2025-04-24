@@ -23,8 +23,7 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)] HttpRequestData req)
     {
         var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>();
 
@@ -34,7 +33,7 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var localAuthorities = await service.SuggestAsync(body);
+        var localAuthorities = await service.LocalAuthoritiesSuggestAsync(body);
         return await req.CreateJsonResponseAsync(localAuthorities);
     }
 }

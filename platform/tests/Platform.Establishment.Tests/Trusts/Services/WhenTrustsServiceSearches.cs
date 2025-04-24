@@ -1,32 +1,35 @@
 using Moq;
 using Moq.Protected;
-using Platform.Api.Establishment.Features.Schools.Models;
-using Platform.Api.Establishment.Features.Schools.Requests;
-using Platform.Api.Establishment.Features.Schools.Services;
+using Platform.Api.Establishment.Features.Trusts.Models;
+using Platform.Api.Establishment.Features.Trusts.Requests;
+using Platform.Api.Establishment.Features.Trusts.Services;
 using Platform.Search;
 using Platform.Sql;
 using Xunit;
 
-namespace Platform.Establishment.Tests.Schools.Services;
+namespace Platform.Establishment.Tests.Trusts.Services;
 
-public class WhenSchoolsServiceIsCalled
+public class WhenTrustsServiceSearches
 {
     private readonly Mock<IIndexClient> _client = new();
     private readonly Mock<IDatabaseFactory> _db = new();
-    private readonly Mock<SchoolsService> _service;
+    private readonly Mock<TrustsService> _service;
 
-    public WhenSchoolsServiceIsCalled()
+    public WhenTrustsServiceSearches()
     {
-        _service = new Mock<SchoolsService>(_client.Object, _db.Object) { CallBase = true };
+        _service = new Mock<TrustsService>(_client.Object, _db.Object)
+        {
+            CallBase = true
+        };
     }
 
     [Fact]
-    public async Task SchoolSearchesAsyncShouldNotPassFacets()
+    public async Task TrustSearchesAsyncShouldNotPassFacets()
     {
         string[]? capturedFacets = null;
 
         _service.Protected()
-            .Setup<Task<SearchResponse<SchoolSummary>>>(
+            .Setup<Task<SearchResponse<TrustSummary>>>(
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<string?>>(),
@@ -36,22 +39,22 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedFacets = facets;
             })
-            .ReturnsAsync(Mock.Of<SearchResponse<SchoolSummary>>());
+            .ReturnsAsync(Mock.Of<SearchResponse<TrustSummary>>());
 
         var request = new SearchRequest();
 
-        await _service.Object.SchoolsSearchAsync(request);
+        await _service.Object.TrustsSearchAsync(request);
 
         Assert.Null(capturedFacets);
     }
 
     [Fact]
-    public async Task SchoolSearchesAsyncShouldCorrectlyPassSearchText()
+    public async Task TrustSearchesAsyncShouldCorrectlyPassSearchText()
     {
         SearchRequest? capturedRequest = null;
 
         _service.Protected()
-            .Setup<Task<SearchResponse<SchoolSummary>>>(
+            .Setup<Task<SearchResponse<TrustSummary>>>(
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<string?>>(),
@@ -61,38 +64,28 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedRequest = request;
             })
-            .ReturnsAsync(Mock.Of<SearchResponse<SchoolSummary>>());
+            .ReturnsAsync(Mock.Of<SearchResponse<TrustSummary>>());
 
         var request = new SearchRequest
         {
             SearchText = nameof(SearchRequest.SearchText)
         };
 
-        await _service.Object.SchoolsSearchAsync(request);
+        await _service.Object.TrustsSearchAsync(request);
 
         Assert.NotNull(capturedRequest);
         Assert.Contains(request.SearchText, capturedRequest.SearchText);
     }
 
     [Fact]
-    public async Task SchoolsSuggestAsyncShouldCorrectlyPassFields()
+    public async Task TrustsSuggestAsyncShouldCorrectlyPassFields()
     {
         string[]? capturedFields = null;
 
-        var expected = new[]
-        {
-            nameof(School.SchoolName),
-            nameof(School.URN),
-            nameof(School.AddressStreet),
-            nameof(School.AddressLocality),
-            nameof(School.AddressLine3),
-            nameof(School.AddressTown),
-            nameof(School.AddressCounty),
-            nameof(School.AddressPostcode)
-        };
+        var expected = new[] { nameof(TrustSummary.TrustName), nameof(TrustSummary.CompanyNumber) };
 
         _service.Protected()
-            .Setup<Task<SuggestResponse<SchoolSummary>>>(
+            .Setup<Task<SuggestResponse<TrustSummary>>>(
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
@@ -102,23 +95,23 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedFields = fields;
             })
-            .ReturnsAsync(Mock.Of<SuggestResponse<SchoolSummary>>());
+            .ReturnsAsync(Mock.Of<SuggestResponse<TrustSummary>>());
 
-        var request = new SchoolSuggestRequest();
+        var request = new TrustSuggestRequest();
 
-        await _service.Object.SchoolsSuggestAsync(request);
+        await _service.Object.TrustsSuggestAsync(request);
 
         Assert.NotNull(capturedFields);
         Assert.Equivalent(expected, capturedFields);
     }
 
     [Fact]
-    public async Task SchoolsSuggestAsyncShouldCorrectlyPassSearchText()
+    public async Task TrustsSuggestAsyncShouldCorrectlyPassSearchText()
     {
         SuggestRequest? capturedRequest = null;
 
         _service.Protected()
-            .Setup<Task<SuggestResponse<SchoolSummary>>>(
+            .Setup<Task<SuggestResponse<TrustSummary>>>(
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
@@ -128,14 +121,14 @@ public class WhenSchoolsServiceIsCalled
             {
                 capturedRequest = request;
             })
-            .ReturnsAsync(Mock.Of<SuggestResponse<SchoolSummary>>());
+            .ReturnsAsync(Mock.Of<SuggestResponse<TrustSummary>>());
 
-        var request = new SchoolSuggestRequest
+        var request = new TrustSuggestRequest
         {
-            SearchText = nameof(SchoolSuggestRequest.SearchText)
+            SearchText = nameof(TrustSuggestRequest.SearchText)
         };
 
-        await _service.Object.SchoolsSuggestAsync(request);
+        await _service.Object.TrustsSuggestAsync(request);
 
         Assert.NotNull(capturedRequest);
         Assert.Contains(request.SearchText, capturedRequest.SearchText);

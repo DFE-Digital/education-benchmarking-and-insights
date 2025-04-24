@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.LocalAuthorities.Parameters;
 using Platform.Api.Establishment.Features.LocalAuthorities.Services;
 using Platform.Api.Establishment.Features.LocalAuthorities.Validators;
+using Platform.Search;
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities;
 
@@ -17,8 +18,8 @@ public static class LocalAuthoritiesFeature
             .AddSingleton<ILocalAuthorityRankingService, LocalAuthorityRankingService>();
 
         serviceCollection
-            .AddTransient<IValidator<LocalAuthoritiesNationalRankParameters>, LocalAuthoritiesNationalRankParametersValidator>();
-
+            .AddTransient<IValidator<LocalAuthoritiesNationalRankParameters>, LocalAuthoritiesNationalRankParametersValidator>()
+            .AddKeyedTransient<IValidator<SearchRequest>, LocalAuthoritiesSearchValidator>(nameof(LocalAuthoritiesFeature));
         return serviceCollection;
     }
 }

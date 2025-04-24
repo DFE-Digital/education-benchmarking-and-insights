@@ -251,3 +251,65 @@ Feature: Establishment local authorities endpoints
           | 336  | Wolverhampton                     |
           | 885  | Worcestershire                    |
           | 816  | York                              |
+
+    Scenario: Sending a valid search local authorities request with la code
+        Given a valid local authorities search request with searchText '201' page '1' size '5'
+        When I submit the local authorities request
+        Then the search local authorities response should be ok and have the following values:
+          | TotalResults | Page | PageSize | PageCount |
+          | 1            | 1    | 5        | 1         |
+        And the results should include the following local authorities:
+          | Code | Name           |
+          | 201  | City of London |
+
+    Scenario: Sending a valid search local authorities request with search text
+        Given a valid local authorities search request with searchText 'and' page '1' size '5'
+        When I submit the local authorities request
+        Then the search local authorities response should be ok and have the following values:
+          | TotalResults | Page | PageSize | PageCount |
+          | 9            | 1    | 5        | 2         |
+        And the results should include the following local authorities:
+          | Code | Name                         |
+          | 894  | Telford and Wrekin           |
+          | 868  | Windsor and Maidenhead       |
+          | 301  | Barking and Dagenham         |
+          | 807  | Redcar and Cleveland         |
+          | 800  | Bath and North East Somerset |
+
+    Scenario: Sending a valid search local authorities request with order by ascending
+        Given a valid local authorities search request with searchText 'and' page '1' size '5' orderByField 'LocalAuthorityNameSortable' orderByValue 'asc'
+        When I submit the local authorities request
+        Then the search local authorities response should be ok and have the following values:
+          | TotalResults | Page | PageSize | PageCount |
+          | 9            | 1    | 5        | 2         |
+        And the results should include the following local authorities:
+          | Code | Name                         |
+          | 205  | Hammersmith and Fulham       |
+          | 207  | Kensington and Chelsea       |
+          | 301  | Barking and Dagenham         |
+          | 800  | Bath and North East Somerset |
+          | 846  | Brighton and Hove            |
+
+    Scenario: Sending a valid search local authorities request with order by descending
+        Given a valid local authorities search request with searchText 'and' page '1' size '5' orderByField 'LocalAuthorityNameSortable' orderByValue 'desc'
+        When I submit the local authorities request
+        Then the search local authorities response should be ok and have the following values:
+          | TotalResults | Page | PageSize | PageCount |
+          | 9            | 1    | 5        | 2         |
+        And the results should include the following local authorities:
+          | Code | Name                    |
+          | 207  | Kensington and Chelsea  |
+          | 868  | Windsor and Maidenhead  |
+          | 943  | Westmorland and Furness |
+          | 894  | Telford and Wrekin      |
+          | 807  | Redcar and Cleveland    |
+
+    Scenario: Sending a valid search local authorities request
+        Given a valid local authorities search request with searchText 'willNotBeFound' page '1' size '5'
+        When I submit the local authorities request
+        Then the local authorities search result should be empty
+
+    Scenario: Sending an invalid search local authorities request
+        Given an invalid local authorities search request
+        When I submit the local authorities request
+        Then the search local authorities response should be bad request containing validation errors

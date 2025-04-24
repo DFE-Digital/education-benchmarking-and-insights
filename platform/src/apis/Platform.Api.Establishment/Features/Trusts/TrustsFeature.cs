@@ -17,7 +17,7 @@ public static class TrustsFeature
             .AddSingleton<ITrustComparatorsService, TrustComparatorsService>();
 
         serviceCollection
-            .AddKeyedTransient<IValidator<SearchRequest>, TrustsSearchValidator>(nameof(TrustsSearchValidator));
+            .AddKeyedTransient<IValidator<SearchRequest>, TrustsSearchValidator>(nameof(TrustsFeature));
 
         return serviceCollection;
     }
