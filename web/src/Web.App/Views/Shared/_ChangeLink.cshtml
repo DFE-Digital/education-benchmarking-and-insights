@@ -1,4 +1,3 @@
-@using Microsoft.FeatureManagement.Mvc.TagHelpers
 @using Web.App.Extensions
 @model Web.App.ViewModels.ChangeLinkViewModel
 @{
@@ -16,7 +15,8 @@
         var href = Model.Type switch
         {
             OrganisationTypes.School => Url.Action("Index", "SchoolSearch"),
-            OrganisationTypes.Trust or OrganisationTypes.LocalAuthority => "#", // todo
+            OrganisationTypes.Trust => Url.Action("Index", "TrustSearch"),
+            OrganisationTypes.LocalAuthority => Url.Action("Index", "LocalAuthoritySearch"),
             _ => ""
         };
     }

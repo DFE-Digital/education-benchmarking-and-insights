@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Trusts;
@@ -77,7 +78,24 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertPageLayout(page, trust, balance, ratings, schools);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage(bool includeRatings = true, bool includeSchools = true, bool includeBalance = true)
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToChangeTrust(bool filteredSearchFeatureEnabled)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled: filteredSearchFeatureEnabled);
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change trust");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
+            ? Paths.TrustSearch.ToAbsolute()
+            : $"{Paths.FindOrganisation.ToAbsolute()}?method=trust");
+    }
+
+    private async Task<(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage(bool includeRatings = true, bool includeSchools = true, bool includeBalance = true, bool filteredSearchFeatureEnabled = false)
     {
         var random = new Random();
 
@@ -89,6 +107,12 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
                 .CreateMany(20).ToArray()
             : [];
+
+        string[] disabledFlags = [];
+        if (!filteredSearchFeatureEnabled)
+        {
+            disabledFlags = [FeatureFlags.FilteredSearch];
+        }
 
         var values = AllCostCategories.Select(c => c.Value);
         var queue = new Queue<string>();
@@ -117,7 +141,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var balance = includeBalance ? Fixture.Create<TrustBalance>() : null;
 
-        var client = Client.SetupEstablishment(trust, schools)
+        var client = Client
+            .SetupDisableFeatureFlags(disabledFlags)
+            .SetupEstablishment(trust, schools)
             .SetupInsights()
             .SetupMetricRagRating(ratings);
         if (balance != null)
