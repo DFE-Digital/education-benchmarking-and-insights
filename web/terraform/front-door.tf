@@ -1,5 +1,9 @@
 locals {
-  host_name = lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name
+  host_name = (lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
+  custom-domain-ids = (lower(var.environment) == "production" ? [
+    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
+    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain-sfb[0].id,
+  ] : [])
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -62,7 +66,7 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   patterns_to_match      = ["/*"]
   supported_protocols    = ["Http", "Https"]
 
-  cdn_frontdoor_custom_domain_ids = lower(var.environment) == "production" ? [azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id] : null
+  cdn_frontdoor_custom_domain_ids = local.custom-domain-ids
   link_to_default_domain          = true
 }
 
@@ -123,7 +127,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
+    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : [])
     content {
       type    = "DefaultRuleSet"
       version = "1.0"
@@ -132,7 +136,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : []
+    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : [])
     content {
       type    = "Microsoft_BotManagerRuleSet"
       version = "1.0"
@@ -156,9 +160,9 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
         }
 
         dynamic "domain" {
-          for_each = lower(var.environment) == "production" ? ["apply"] : []
+          for_each = toset(local.custom-domain-ids)
           content {
-            cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id
+            cdn_frontdoor_domain_id = each.value
           }
         }
 
@@ -186,6 +190,23 @@ resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domai
   cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
 }
 
+resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain-sfb" {
+  count                    = lower(var.environment) == "production" ? 1 : 0
+  name                     = "${var.environment-prefix}-custom-domain-sfb"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+  host_name                = "schools-financial-benchmarking.service.gov.uk"
+
+  tls {
+    certificate_type    = "ManagedCertificate"
+    minimum_tls_version = "TLS12"
+  }
+}
+
+resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domain-sfb" {
+  count                          = lower(var.environment) == "production" ? 1 : 0
+  cdn_frontdoor_custom_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain-sfb[0].id
+  cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
+}
 
 resource "random_uuid" "idgen" {
 }
