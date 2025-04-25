@@ -101,7 +101,8 @@ if (!builder.Environment.IsIntegration())
         options.AllowedHosts = new List<string>
         {
             "*.azurefd.net",
-            "financial-benchmarking-and-insights-tool.education.gov.uk"
+            "financial-benchmarking-and-insights-tool.education.gov.uk",
+            "schools-financial-benchmarking.service.gov.uk"
         };
     });
 
