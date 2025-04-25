@@ -25,7 +25,6 @@ public static class Selectors
     public const string GovSummaryCard = ".govuk-summary-card";
     public const string GovSummaryCardTitle = ".govuk-summary-card__title";
 
-    public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
     public const string SpendingModeTable = "#spending-mode-table";

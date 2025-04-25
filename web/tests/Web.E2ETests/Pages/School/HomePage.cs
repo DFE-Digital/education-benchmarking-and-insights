@@ -8,7 +8,6 @@ public class HomePage(IPage page)
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
     private ILocator PageH2Headings => page.Locator($"main {Selectors.H2}{Selectors.GovHeadingM}");
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
-    private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Benchmark spending"
@@ -66,7 +65,6 @@ public class HomePage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
 
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
         if (!isPartYear && !isUserDefinedComparator && !isMissingRags)
