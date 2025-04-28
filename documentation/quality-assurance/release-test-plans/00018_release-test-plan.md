@@ -35,11 +35,6 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 
 - Functional Testing:
   - Features: Test new and updated features for correct functionality.
-  - Regression: Verify that existing functionality remains intact with new changes.
-- Non-Functional Testing:
-  - Performance: Load testing on peak usage scenarios.
-  - Security: Test for SQL injection, XSS, and other vulnerabilities.
-- Exploratory Testing: Explore features and functionality without predefined scripts, to uncover issues and assess quality.
 - User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 - Sanity Testing: Perform sanity checks on bug fixes to confirm their resolution.
