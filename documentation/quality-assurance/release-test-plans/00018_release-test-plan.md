@@ -11,27 +11,22 @@ Ensure that all new features, enhancements, and bug fixes in `[TBC]` are functio
 This release encompasses CFO details update/refresh, as well as the High Needs data ingestion.
 
 ## Scope
->
->[!NOTE]
->In-scope lists/describes the scope of testing. This shouldn't simply be a list of items from the sprint.
->Ticket title may be adequate to describe the feature/enhancement/bug fix,
->however if it doesn't than a meaning title should be added here.
-> Link to the ADO ticket should be included in the notes.
->
->Out-of-scope list any other areas that are explicitly out of scope.
 
 **In-scope:**
 
 - New features
-  - [List new features]
+  - High Needs Benchmarking feature consisting of the dashboard page, benchmarking, national view, and historic data.
 - Enhancements
-  - [List enhancements]
+  - CFO contact details in the service have been updated with the latest data.
+  - The "-T" suffix has been removed from cost codes in the service.
+  - Custom comparators will now exclude schools that have not submitted their returns.
 - Bug fixes
-  - [List bug fixes]
+  - The Nursery School ICFP journey now correctly displays the applicable years.
 
 **Out-of-Scope:**
 
 - Any new functionality not targeted for this release
+- Dependency updates 
 
 ## Test Strategy
 >
