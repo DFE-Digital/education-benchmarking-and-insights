@@ -10,5 +10,7 @@ public class FindSchoolViewModel : ISearchTermViewModel
     [MinLength(3, ErrorMessage = "Enter a school name or URN (minimum 3 characters)")]
     public string? Term { get; set; }
 
+    public string? EstablishmentId { get; set; }
+
     public string Hint => "Search by name, address, postcode or unique reference number (URN)";
 }
