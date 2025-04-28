@@ -8,7 +8,7 @@
 This plan defines the approach for testing release `[TBC]`, covering all functional, non-functional, and regression testing necessary.
 Ensure that all new features, enhancements, and bug fixes in `[TBC]` are functioning as expected without adversely impacting existing functionality.
 
-This release encompasses CFO details update/refresh, as well as the High Needs data ingestion. 
+This release encompasses CFO details update/refresh, as well as the High Needs data ingestion.
 
 ## Scope
 >
@@ -23,11 +23,11 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 **In-scope:**
 
 - New features
-    - [List new features]
+  - [List new features]
 - Enhancements
-    - [List enhancements]
+  - [List enhancements]
 - Bug fixes
-    - [List bug fixes]
+  - [List bug fixes]
 
 **Out-of-Scope:**
 
@@ -39,11 +39,11 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 >Add/remove/update where necessary to reflect the types of testings for this release.
 
 - Functional Testing:
-    - Features: Test new and updated features for correct functionality.
-    - Regression: Verify that existing functionality remains intact with new changes.
+  - Features: Test new and updated features for correct functionality.
+  - Regression: Verify that existing functionality remains intact with new changes.
 - Non-Functional Testing:
-    - Performance: Load testing on peak usage scenarios.
-    - Security: Test for SQL injection, XSS, and other vulnerabilities.
+  - Performance: Load testing on peak usage scenarios.
+  - Security: Test for SQL injection, XSS, and other vulnerabilities.
 - Exploratory Testing: Explore features and functionality without predefined scripts, to uncover issues and assess quality.
 - User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
@@ -79,7 +79,7 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 >Add risks (with mitigation) for this release.
 
 - **Risk:**
-    - **Mitigation:**
+  - **Mitigation:**
 
 ## Test Deliverables
 >
