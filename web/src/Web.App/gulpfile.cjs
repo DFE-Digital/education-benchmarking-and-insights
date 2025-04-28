@@ -4,6 +4,7 @@ var async = require("async");
 var cleanCSS = require("gulp-clean-css");
 var sourcemaps = require("gulp-sourcemaps");
 var rename = require("gulp-rename");
+var swc = require("gulp-swc");
 
 const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
     .pipe(sourcemaps.init())
@@ -11,6 +12,13 @@ const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
     .pipe(cleanCSS())
     .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest("wwwroot/css"));
+
+const buildTs = () => gulp.src("AssetSrc/ts/*.ts")
+    .pipe(sourcemaps.init())
+    .pipe(swc())
+    .pipe(rename("main.min.js"))
+    .pipe(sourcemaps.write("./"))
+    .pipe(gulp.dest("wwwroot/js"));
 
 const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/**/*"], {encoding: false}).pipe(gulp.dest("wwwroot/assets"))
     .on("end", () =>
@@ -40,6 +48,7 @@ const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk
 gulp.task("build-fe", () => {
     return async.series([
         (next) => buildSass().on("end", next),
+        (next) => buildTs().on("end", next),
         (next) => copyStaticAssets().on("end", next)
     ])
 }); 
