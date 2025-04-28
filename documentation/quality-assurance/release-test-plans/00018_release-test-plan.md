@@ -53,6 +53,7 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 
 - All code changes for release are completed and deployed to the pre-production environment.
 - Pre-production environment is set up with required data.
+- Pipeline run is completed.
 
 **Exit Criteria:**
 
