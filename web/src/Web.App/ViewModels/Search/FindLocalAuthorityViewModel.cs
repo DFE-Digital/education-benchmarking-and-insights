@@ -10,5 +10,7 @@ public class FindLocalAuthorityViewModel : ISearchTermViewModel
     [MinLength(3, ErrorMessage = "Enter a local authority name or code (minimum 3 characters)")]
     public string? Term { get; set; }
 
+    public string? EstablishmentId { get; set; }
+
     public string Hint => "Search by name or code";
 }

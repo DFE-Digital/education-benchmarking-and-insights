@@ -701,3 +701,11 @@ table#current-comparators-la {
     }
   }
 }
+
+.govuk-input-autocomplete {
+  width: 411px;
+
+  @include govuk-media-query($from: tablet) {
+    width: 586px;
+  }
+}
