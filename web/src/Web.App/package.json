@@ -2,17 +2,21 @@
   "name": "web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "wwwroot/js/main.js",
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
     "front-end": "^1.0.0",
-    "govuk-frontend": "^5.7.0",
+    "govuk-frontend": "^5.7.0"
+  },
+  "devDependencies": {
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",
     "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^3.0.0"
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-swc": "^2.2.0",
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "glob-parent": "^6.0.2",
