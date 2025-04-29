@@ -1,12 +1,12 @@
-# Release Test Plan - [TBC]
+# Release Test Plan - 2025.04.0
 
-**Release Date:** [TBC]
-**Release Label:** [TBC]
+**Release Date:** 29/04/2025
+**Release Label:** 2025.04.0
 
 ## Introduction
 
-This plan defines the approach for testing release `[TBC]`, covering all functional, non-functional, and regression testing necessary.
-Ensure that all new features, enhancements, and bug fixes in `[TBC]` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.04.0`, covering all functional, non-functional, and regression testing necessary.
+Ensure that all new features, enhancements, and bug fixes in `2025.04.0` are functioning as expected without adversely impacting existing functionality.
 
 This release encompasses CFO details update/refresh, as well as the High Needs data ingestion.
 
@@ -29,25 +29,19 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - Dependency updates 
 
 ## Test Strategy
->
->[!NOTE]
->Add/remove/update where necessary to reflect the types of testings for this release.
 
-- Functional Testing:
-  - Features: Test new and updated features for correct functionality.
-- User Acceptance Testing: Coordinate with business stakeholders to validate functionality aligns with business needs.
-- Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
+- Functional Testing: Check the high needs feature is functionality as expected. 
+- Exploratory Testing: Coordinate with business stakeholders to do an exploratory testing of the release features. 
 - Sanity Testing: Perform sanity checks on bug fixes to confirm their resolution.
+- Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 
 ## Entry and Exit Criteria
->
->[!NOTE]
->Add/remove/update where necessary to reflect the criteria for this release.
 
 **Entry Criteria:**
 
 - All code changes for release are completed and deployed to the pre-production environment.
 - Pre-production environment is set up with required data.
+- High needs feature is enabled. 
 - Pipeline run is completed.
 
 **Exit Criteria:**
@@ -65,17 +59,17 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - **Project lead:** Go/no-go decisions.
 
 ## Risk Analysis
->
->[!NOTE]
->Add risks (with mitigation) for this release.
 
-- **Risk:**
-  - **Mitigation:**
+- **Risk:** Bugs & Defects in Production. Unexpected software defects can cause system crashes, data corruption, or functional failures.
+  - **Mitigation:** Conduct thorough testing (unit, integration, regression testing). Implement automated testing to catch issues early.
+
+- **Risk:** Poor User Adoption. Users may struggle with new features or frustration.
+  - **Mitigation:** Gather post-release feedback and quickly address usability concerns.
+
+- **Risk:** High needs feature might fail in the UAT. 
+  - **Mitigation:** Turn off the High needs feature and proceed with the release of other updates. 
 
 ## Test Deliverables
->
->[!NOTE]
->Add/remove/update where necessary to reflect the deliverables for this release.
 
 - Test plan document
 - Test cases (Functional, Regression, Non-Functional)
@@ -90,6 +84,8 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - Technical lead
 
 ## Notes
+
+**[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=259145&suiteId=259146)**
 
 **Azure DevOps tickets:**
 
@@ -133,7 +129,19 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - [250287 - Trust Journey - Filtered search](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/250287)
 - [250286 - Local Authority Journey - Filtered search](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/250286)
 
+## Appendix
 
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category     | Total Tests | Passed | Failed | Pass Rate |
+|-------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests       |      X      |   X    |   X    |    X%     |
+| Functional Tests  |      X      |   X    |   X    |    X%     |
+| Sanity Tests      |      X      |   X    |   X    |    X%     |
+| Exploratory Tests |      X      |   X    |   X    |    X%     |
+| Total             |      X      |   X    |   X    |    X%     |
 
 <!-- Leave the rest of this page blank -->
 \newpage
