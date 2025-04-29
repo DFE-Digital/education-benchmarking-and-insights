@@ -1,9 +1,12 @@
+const path = require("path");
+
 module.exports = {
     mode: "production",
+    entry: "./AssetSrc/ts/index.ts",
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.ts$/,
                 exclude: /(node_modules)/,
                 use: {
                     // `.swcrc` can be used to configure swc
@@ -17,8 +20,8 @@ module.exports = {
     },
     output: {
         libraryTarget: "module",
-        filename: "main.min.js",
-        clean: true,
+        path: path.join(__dirname, "./dist"),
+        filename: "[name].min.js",
     },
     devtool: "source-map"
 };
