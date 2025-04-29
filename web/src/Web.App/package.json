@@ -34,5 +34,7 @@
     "build": "gulp build-fe"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module",
+  "types": "./types"
 }

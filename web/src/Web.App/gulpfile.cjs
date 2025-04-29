@@ -26,7 +26,7 @@ const buildTs = () => gulp.src("AssetSrc/ts/*.ts")
 // noinspection JSCheckFunctionSignatures
 const buildWebpack = () => gulp.src("wwwroot/js/main.js")
     .pipe(named())
-    .pipe(webpack(require("./webpack.config.js")))
+    .pipe(webpack(require("./webpack.config.cjs")))
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(through.obj(function (file, enc, cb) {
         const isSourceMap = /\.map$/.test(file.path);
@@ -63,9 +63,9 @@ const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk
 
 gulp.task("build-fe", () => {
     return async.series([
-        (next) => buildSass().on("end", next),
+        //(next) => buildSass().on("end", next),
         (next) => buildTs().on("end", next),
         (next) => buildWebpack().on("end", next),
-        (next) => copyStaticAssets().on("end", next)
+        //(next) => copyStaticAssets().on("end", next)
     ])
 }); 

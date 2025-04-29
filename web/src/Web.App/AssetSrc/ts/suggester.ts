@@ -1,4 +1,3 @@
-// @ts-ignore
 import accessibleAutocomplete from "accessible-autocomplete";
 import debounce from "lodash.debounce";
 
@@ -11,9 +10,10 @@ export function suggester<T>(
     type: "school" | "trust" | "local-authority",
     inputElementId: string,
     targetElementId: string,
-    documentKey: keyof T): void {
+    documentKey: keyof T,
+    exclude?: string[]): void {
 
-    const handleSuggest = async (query: string, exclude?: string[]): Promise<SuggestResult<T>[]> => {
+    const handleSuggest = async (query: string): Promise<SuggestResult<T>[]> => {
         const params = new URLSearchParams({
             type,
             search: query,
@@ -40,13 +40,15 @@ export function suggester<T>(
         return [];
     };
 
+    const suggestHighlightRegex = /\*([^\\*]+)\*/g;
+
     const templates = {
         inputValue: itemFormatter,
-        suggestion: (item: SuggestResult<T>) => item?.text ? item.text.replace(/\*([^\\*]+)\*/g, "<b>$1</b>") : "",
+        suggestion: (item: SuggestResult<T>) => item?.text ? item.text.replace(suggestHighlightRegex, "<b>$1</b>") : "",
     }
 
     function itemFormatter(item: SuggestResult<T>): string {
-        return item?.text ? item.text.replace(/\*([^\\*]+)\*/g, "$1") : "";
+        return item?.text ? item.text.replace(suggestHighlightRegex, "$1") : "";
     }
 
     function valueFormatter(item: SuggestResult<T>): string {
@@ -69,11 +71,11 @@ export function suggester<T>(
 
     const source = debounce(
         async (query: string, populateResults: (results: SuggestResult<T>[]) => void) => {
-            const results = await handleSuggest(query, []);
+            const results = await handleSuggest(query);
             populateResults(results);
         },
         300
-    );
+    ) as SourceFunction;
 
     const inputElement = document.getElementById(inputElementId) as HTMLInputElement;
     if (inputElement) {
