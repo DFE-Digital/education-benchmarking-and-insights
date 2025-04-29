@@ -15,7 +15,7 @@
   "module": {
     "type": "es6"
   },
-  "minify": true,
+  "minify": false,
   "sourceMaps": true,
   "isModule": true
 }

@@ -1,19 +1,17 @@
 // @ts-ignore
 import accessibleAutocomplete from "accessible-autocomplete";
+import debounce from "lodash.debounce";
 
 interface SuggestResult<T> {
     text: string;
     document: T;
 }
-accessibleAutocomplete.enhanceSelectElement();
+
 export function suggester<T>(
     type: "school" | "trust" | "local-authority",
     inputElementId: string,
     targetElementId: string,
     documentKey: keyof T): void {
-    if (accessibleAutocomplete === undefined) {
-        throw new Error("`accessibleAutocomplete` could not be found")
-    }
 
     const handleSuggest = async (query: string, exclude?: string[]): Promise<SuggestResult<T>[]> => {
         const params = new URLSearchParams({
@@ -26,7 +24,6 @@ export function suggester<T>(
             });
         }
 
-        // todo: debounce
         const res = await fetch("/api/suggest?" + params, {
             redirect: "manual",
             method: "GET",
@@ -70,10 +67,13 @@ export function suggester<T>(
         }
     }
 
-    async function source(query: string, populateResults: (results: SuggestResult<T>[]) => void) {
-        const results = await handleSuggest(query, []);
-        populateResults(results);
-    }
+    const source = debounce(
+        async (query: string, populateResults: (results: SuggestResult<T>[]) => void) => {
+            const results = await handleSuggest(query, []);
+            populateResults(results);
+        },
+        300
+    );
 
     const inputElement = document.getElementById(inputElementId) as HTMLInputElement;
     if (inputElement) {

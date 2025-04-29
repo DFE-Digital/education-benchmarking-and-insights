@@ -7,16 +7,24 @@
     "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
     "front-end": "^1.0.0",
-    "govuk-frontend": "^5.7.0"
+    "govuk-frontend": "^5.7.0",
+    "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
+    "@swc/core": "^1.11.21",
+    "@types/lodash.debounce": "^4.0.9",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-swc": "^2.2.0",
-    "typescript": "^5.8.3"
+    "swc-loader": "^0.2.6",
+    "through2": "^4.0.2",
+    "typescript": "^5.8.3",
+    "vinyl-named": "^1.1.0",
+    "webpack": "^5.99.7",
+    "webpack-stream": "^7.0.0"
   },
   "overrides": {
     "glob-parent": "^6.0.2",

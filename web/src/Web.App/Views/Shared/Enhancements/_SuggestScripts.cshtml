@@ -1,8 +1,7 @@
 @model Web.App.ViewModels.Enhancements.SuggestScriptsViewModel
 
-<script src="/js/accessible-autocomplete.min.js"></script>
 <script type="module" add-nonce="true">
-    import {suggester} from "./js/main.js";
+    import {suggester} from "/js/main.min.js"; // todo: append version to cache bust
 
     suggester("school", "@Model.InputElementId", "@Model.SelectedEstablishmentField", "urn");
 </script>
