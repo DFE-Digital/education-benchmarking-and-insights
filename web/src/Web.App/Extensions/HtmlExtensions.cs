@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 namespace Web.App.Extensions;
 
 public static class HtmlHelperExtensions
@@ -37,5 +39,12 @@ public static class HtmlHelperExtensions
         }
 
         return anchorTag;
+    }
+
+    public static IHtmlContent FileVersionedPath(this IHtmlHelper htmlHelper, string path)
+    {
+        var provider = htmlHelper.ViewContext.HttpContext.RequestServices.GetService(typeof(IFileVersionProvider)) as IFileVersionProvider;
+        var versioned = provider?.AddFileVersionToPath(htmlHelper.ViewContext.HttpContext.Request.PathBase, path);
+        return new HtmlString(versioned ?? path);
     }
 }

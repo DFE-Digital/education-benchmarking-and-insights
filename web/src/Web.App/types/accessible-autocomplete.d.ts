@@ -1,17 +1,11 @@
-declare class AccessibleAutocomplete<T> {
-    constructor(options: AccessibleAutocompleteOptions<T>);
-
-    static enhanceSelectElement<T>(options: {
-        selectElement: HTMLSelectElement
-    } & AccessibleAutocompleteOptions<T>): void;
-}
+type SourceFunction = (query: string, populateResults: (results: T[]) => void) => Promise<void>;
 
 // https://github.com/alphagov/accessible-autocomplete#api-documentation
 interface AccessibleAutocompleteOptions<T> {
     // required
     element: HTMLElement,
     id: string,
-    source: (query: string, populateResults: (results: T[]) => void) => Promise<void> | T[],
+    source: SourceFunction | T[],
 
     // optional
     inputClasses?: string,
@@ -45,6 +39,14 @@ interface AccessibleAutocompleteOptions<T> {
     tAssistiveHint?: () => string;
 }
 
+declare function accessibleAutocomplete(options: AccessibleAutocompleteOptions<T>): void
+
+declare namespace accessibleAutocomplete {
+    const enhanceSelectElement: (options: {
+        selectElement: HTMLSelectElement
+    } & AccessibleAutocompleteOptions<T>) => void
+}
+
 declare module "accessible-autocomplete" {
-    export = AccessibleAutocomplete;
+    export = accessibleAutocomplete;
 }

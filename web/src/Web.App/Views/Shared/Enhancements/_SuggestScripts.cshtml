@@ -1,7 +1,8 @@
+@using Web.App.Extensions
 @model Web.App.ViewModels.Enhancements.SuggestScriptsViewModel
 
 <script type="module" add-nonce="true">
-    import {suggester} from "/js/main.min.js"; // todo: append version to cache bust
+    import {suggester} from "@Html.FileVersionedPath("/js/main.min.js")";
 
     suggester("school", "@Model.InputElementId", "@Model.SelectedEstablishmentField", "urn");
 </script>
