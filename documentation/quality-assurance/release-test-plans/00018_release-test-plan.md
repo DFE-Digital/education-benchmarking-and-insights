@@ -39,9 +39,15 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 
 **Entry Criteria:**
 
-- All code changes for release are completed and deployed to the pre-production environment.
-- Pre-production environment is set up with required data.
-- High needs feature is enabled. 
+- All code changes for the release are completed and deployed to the pre-production environment.
+- The pre-production environment is set up with the required data. As part of the release, the following files have been added or updated:
+  - `High-needs-local-authority-benchmarking-tool.xlsm`
+  - `sen2_estab_caseload.csv`
+  - `2018 SNPP Population persons.csv`
+  - `s251_alleducation_la_regional_national.csv`
+  - `plannedexpenditure_schools_other_education_la_unrounded_data.csv`
+  - `CFO.xlsx`
+- High Needs feature is enabled.
 - Pipeline run is completed.
 
 **Exit Criteria:**
