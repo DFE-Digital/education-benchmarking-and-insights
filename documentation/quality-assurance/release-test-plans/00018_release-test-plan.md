@@ -108,7 +108,6 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - [253282 - LA non-financial data projection/storage](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/253282)
 - [253286 - LA Statistical Neighbours data projection/storage](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/253286)
 - [253802 - High needs snagging / UR prep](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/253802)
-- [254431 - Identify if the data or information is required to be retained as part of the decommissioning](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/254431)
 - [254433 - Nursery schools try to use this feature, it asks for pupils from Year 7 to Year 11 (Bug)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/254433)
 - [254434 - Custom comparators include schools that didn't submit a return](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/254434)
 - [254814 - CFO contact detail - refresh](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/254814)
