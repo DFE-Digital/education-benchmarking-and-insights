@@ -18,11 +18,8 @@
     "gulp-dart-sass": "^1.1.0",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-swc": "^2.2.0",
     "swc-loader": "^0.2.6",
-    "through2": "^4.0.2",
     "typescript": "^5.8.3",
-    "vinyl-named": "^1.1.0",
     "webpack": "^5.99.7",
     "webpack-stream": "^7.0.0"
   },
