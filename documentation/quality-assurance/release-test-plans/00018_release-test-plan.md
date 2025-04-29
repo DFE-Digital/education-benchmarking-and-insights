@@ -26,12 +26,12 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 **Out-of-Scope:**
 
 - Any new functionality not targeted for this release
-- Dependency updates 
+- Dependency updates
 
 ## Test Strategy
 
-- Functional Testing: Check the high needs feature is functionality as expected. 
-- Exploratory Testing: Coordinate with business stakeholders to do an exploratory testing of the release features. 
+- Functional Testing: Check the high needs feature is functionality as expected.
+- Exploratory Testing: Coordinate with business stakeholders to do an exploratory testing of the release features.
 - Sanity Testing: Perform sanity checks on bug fixes to confirm their resolution.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 
@@ -72,8 +72,8 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 - **Risk:** Poor User Adoption. Users may struggle with new features or frustration.
   - **Mitigation:** Gather post-release feedback and quickly address usability concerns.
 
-- **Risk:** High needs feature might fail in the UAT. 
-  - **Mitigation:** Turn off the High needs feature and proceed with the release of other updates. 
+- **Risk:** High needs feature might fail in the UAT.
+  - **Mitigation:** Turn off the High needs feature and proceed with the release of other updates.
 
 ## Test Deliverables
 
