@@ -4,5 +4,5 @@
 <script type="module" add-nonce="true">
     import {suggester} from "@Html.FileVersionedPath("/js/main.min.js")";
 
-    suggester("school", "@Model.InputElementId", "@Model.SelectedEstablishmentField", "urn");
+    suggester("@Model.Type", "@Model.InputElementId", "@Model.SelectedEstablishmentField", "@Model.IdField");
 </script>

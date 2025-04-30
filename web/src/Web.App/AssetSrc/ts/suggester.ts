@@ -162,6 +162,11 @@ export function suggester<T>(
       }
 
       inputElement.value = value;
+
+      // clear any previously selected establishment
+      if (e.key !== "Enter") {
+        selectedElement.value = "";
+      }
     });
   }
 }
