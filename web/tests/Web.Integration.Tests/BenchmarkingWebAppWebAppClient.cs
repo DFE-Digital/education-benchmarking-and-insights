@@ -231,7 +231,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetLocalAuthorities()).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<bool?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>())).Throws(new Exception());
