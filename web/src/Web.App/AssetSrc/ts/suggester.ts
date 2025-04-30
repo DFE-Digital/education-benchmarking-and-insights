@@ -146,16 +146,22 @@ export function suggester<T>(
 
     inputElement.type = "hidden";
 
-    // extend autocomplete key handler to automatically select item (if chosen) and submit form
     element.addEventListener("keydown", (e) => {
-      const target = e.target as HTMLInputElement;
-
-      // enter
+      // submit form automatically on enter press, whether an item has been selected or not
       if (e.key === "Enter") {
-        inputElement.value =
-          target?.value?.toString() === "0" ? target.innerText : target.value;
         element.closest("form")?.submit();
       }
+    });
+
+    element.addEventListener("keyup", (e) => {
+      // keep original input in sync with autocomplete input
+      const target = e.target as HTMLInputElement;
+      let value = target.value?.toString();
+      if (value === "0") {
+        value = target.innerText;
+      }
+
+      inputElement.value = value;
     });
   }
 }
