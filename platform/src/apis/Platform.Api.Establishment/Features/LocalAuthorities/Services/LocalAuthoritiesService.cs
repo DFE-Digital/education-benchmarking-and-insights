@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.LocalAuthorities.Models;
@@ -15,7 +16,7 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 
 public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request);
+    Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request, CancellationToken cancellationToken = default);
     Task<LocalAuthority?> GetAsync(string code);
     Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier);
     Task<IEnumerable<LocalAuthority>> GetAllAsync();
@@ -49,11 +50,11 @@ public class LocalAuthoritiesService(
         return localAuthority;
     }
 
-    public Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request)
+    public Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request, CancellationToken cancellationToken = default)
     {
         var fields = new[] { nameof(LocalAuthority.Code), nameof(LocalAuthority.Name) };
 
-        return SuggestAsync(request, CreateFilterExpression, fields);
+        return SuggestAsync(request, CreateFilterExpression, fields, cancellationToken);
 
         string? CreateFilterExpression()
         {

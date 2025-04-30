@@ -40,7 +40,7 @@ public class SuggestProxyController(
                         var trusts = await suggestService.TrustSuggestions(search, exclude, cancellationToken);
                         return new JsonResult(trusts);
                     case OrganisationTypes.LocalAuthority:
-                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude);
+                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude, cancellationToken);
                         return new JsonResult(localAuthorities);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));

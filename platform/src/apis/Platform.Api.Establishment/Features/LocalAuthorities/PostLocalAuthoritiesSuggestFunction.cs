@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -23,17 +24,18 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>();
 
-        var validationResult = await validator.ValidateAsync(body);
+        var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var localAuthorities = await service.LocalAuthoritiesSuggestAsync(body);
+        var localAuthorities = await service.LocalAuthoritiesSuggestAsync(body, cancellationToken);
         return await req.CreateJsonResponseAsync(localAuthorities);
     }
 }

@@ -9,7 +9,7 @@ public interface ISuggestService
 {
     Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
     Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null, CancellationToken cancellationToken = default);
-    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
+    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null, CancellationToken cancellationToken = default);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
@@ -26,9 +26,9 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(TrustSuggestValue);
     }
 
-    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
+    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null, CancellationToken cancellationToken = default)
     {
-        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, excludeLas).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
+        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, excludeLas, cancellationToken).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
 
