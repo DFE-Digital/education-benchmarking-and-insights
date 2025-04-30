@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
 
-namespace Web.E2ETests.Pages.School;
+namespace Web.E2ETests.Pages.LocalAuthority;
 
 public class SearchPage(IPage page)
 {
