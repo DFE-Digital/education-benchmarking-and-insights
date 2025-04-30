@@ -162,7 +162,7 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
         dynamic "domain" {
           for_each = toset(local.custom-domain-ids)
           content {
-            cdn_frontdoor_domain_id = each.value
+            cdn_frontdoor_domain_id = domain.value
           }
         }
 
