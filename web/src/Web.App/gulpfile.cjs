@@ -45,7 +45,7 @@ const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk
 gulp.task("build-fe", () => {
     return async.series([
         (next) => buildSass().on("end", next),
-        (next) => buildTs().on("end", next),
-        (next) => copyStaticAssets().on("end", next)
+        (next) => copyStaticAssets().on("end", next),
+        (next) => buildTs().on("end", next)
     ])
 }); 

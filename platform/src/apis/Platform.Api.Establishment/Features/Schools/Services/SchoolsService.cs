@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Models;
@@ -12,7 +13,7 @@ namespace Platform.Api.Establishment.Features.Schools.Services;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request);
+    Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default);
     Task<School?> GetAsync(string urn);
     Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request);
 }
@@ -44,7 +45,7 @@ public class SchoolsService(
         return school;
     }
 
-    public Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request)
+    public Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default)
     {
         var fields = new[]
         {
@@ -58,7 +59,7 @@ public class SchoolsService(
             nameof(SchoolSummary.AddressPostcode)
         };
 
-        return SuggestAsync(request, request.FilterExpression, fields);
+        return SuggestAsync(request, request.FilterExpression, fields, cancellationToken);
     }
 
     public Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request)

@@ -69,7 +69,11 @@ public abstract class SearchService<T>(IIndexClient client)
         return SearchResponse<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
-    protected virtual async Task<SuggestResponse<T>> SuggestAsync(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected virtual async Task<SuggestResponse<T>> SuggestAsync(
+        SuggestRequest request,
+        Func<string?>? filterExpBuilder = null,
+        string[]? selectFields = null,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(client);
 
@@ -93,7 +97,7 @@ public abstract class SearchService<T>(IIndexClient client)
             }
         }
 
-        var response = await client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
+        var response = await client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options, cancellationToken);
         var results = response.Value.Results.Select(SuggestValue<T>.Create);
 
         return new SuggestResponse<T> { Results = results };
