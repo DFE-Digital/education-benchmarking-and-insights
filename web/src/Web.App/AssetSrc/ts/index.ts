@@ -1,3 +1,3 @@
-import {suggester} from "./suggester.ts";
+import { suggester } from "./suggester.ts";
 
-export {suggester};
+export { suggester };
