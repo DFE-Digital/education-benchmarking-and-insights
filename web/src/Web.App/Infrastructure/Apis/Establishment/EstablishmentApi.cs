@@ -32,7 +32,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
         return GetAsync(Api.Establishment.LocalAuthorities);
     }
 
-    public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null)
+    public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default)
     {
         return SendAsync(new HttpRequestMessage
         {
@@ -45,7 +45,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
                 Exclude = exclude,
                 ExcludeMissingFinancialData = excludeMissingFinancialData
             })
-        });
+        }, cancellationToken);
     }
 
     public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null)
@@ -107,7 +107,7 @@ public interface IEstablishmentApi
     Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier);
     Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorities();
-    Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null);
+    Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
     Task<ApiResult> SearchSchools(SearchRequest request);

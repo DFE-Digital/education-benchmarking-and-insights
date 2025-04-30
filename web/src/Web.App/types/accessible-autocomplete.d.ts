@@ -1,4 +1,4 @@
-type SourceFunction = (query: string, populateResults: (results: T[]) => void) => Promise<void>;
+type SourceFunction = (query: string, populateResults: (results: T[]) => void) => (Promise<void> | void);
 
 // https://github.com/alphagov/accessible-autocomplete#api-documentation
 interface AccessibleAutocompleteOptions<T> {

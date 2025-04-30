@@ -29,7 +29,7 @@ public class SchoolSearchController(
         {
             return View(viewModel);
         }
-        
+
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
             return RedirectToAction("Index", "School", new { urn = viewModel.EstablishmentId });
