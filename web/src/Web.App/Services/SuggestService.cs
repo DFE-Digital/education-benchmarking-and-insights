@@ -8,7 +8,7 @@ namespace Web.App.Services;
 public interface ISuggestService
 {
     Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
-    Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
+    Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null, CancellationToken cancellationToken = default);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
@@ -20,9 +20,9 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 
-    public async Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
+    public async Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null, CancellationToken cancellationToken = default)
     {
-        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts).GetResultOrThrow<SuggestOutput<TrustSummary>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts, cancellationToken).GetResultOrThrow<SuggestOutput<TrustSummary>>();
         return suggestions.Results.Select(TrustSuggestValue);
     }
 

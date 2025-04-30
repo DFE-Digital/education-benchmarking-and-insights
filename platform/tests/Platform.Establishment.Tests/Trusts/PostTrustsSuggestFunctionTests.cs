@@ -31,7 +31,7 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>()))
+            .Setup(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new SuggestResponse<TrustSummary>());
 
         _validator
@@ -69,6 +69,6 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
 
         _service
-            .Verify(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>()), Times.Never);
+            .Verify(d => d.TrustsSuggestAsync(It.IsAny<TrustSuggestRequest>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

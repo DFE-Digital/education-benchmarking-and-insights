@@ -148,7 +148,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupEstablishment(SuggestOutput<Trust> trustTestData)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(trustTestData));
+        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustTestData));
         return this;
     }
 
@@ -230,7 +230,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthorities()).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<bool?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).Throws(new Exception());
