@@ -1,12 +1,14 @@
-# Release Test Plan - 2025.04.0
+# Release Test Plan - 2025.04.1
 
-**Release Date:** 29/04/2025
-**Release Label:** 2025.04.0
+_*Release version incremented to 2025.04.1 after 2025.04.0 encountered an error during production deployment. The issue was related to SFB decommissioning changes._
+
+**Release Date:** 30/04/2025
+**Release Label:** 2025.04.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.04.0`, covering all functional, non-functional, and regression testing necessary.
-Ensure that all new features, enhancements, and bug fixes in `2025.04.0` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.04.1`, covering all functional, non-functional, and regression testing necessary.
+Ensure that all new features, enhancements, and bug fixes in `2025.04.1` are functioning as expected without adversely impacting existing functionality.
 
 This release encompasses CFO details update/refresh, as well as the High Needs data ingestion.
 
@@ -91,6 +93,16 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 
 ## Notes
 
+**Release Overview:**
+
+A deployment issue in production with version 2025.04.0 caused by SFB decommissioning changes that could only be validated in the live environment—required us to increment the release version. The original release was abandoned, and the fix was included in the new version.
+
+- **Original Planned Release:** 2025.04.0
+- **New Release Version:** 2025.04.1
+- **Hotfixes Included:** Fix for a Terraform deployment error encountered during the production deployment.
+- **Current Release (2025.04.1):** Contains the necessary hotfix.
+- **Testing Impact:** No impact to the release testing plan.
+
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=259145&suiteId=259146)**
 
 **Azure DevOps tickets:**
@@ -142,11 +154,18 @@ This release encompasses CFO details update/refresh, as well as the High Needs d
 
 | Test Category     | Total Tests | Passed | Failed | Pass Rate |
 |-------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests       |      X      |   X    |   X    |    X%     |
-| Functional Tests  |      X      |   X    |   X    |    X%     |
-| Sanity Tests      |      X      |   X    |   X    |    X%     |
-| Exploratory Tests |      X      |   X    |   X    |    X%     |
-| Total             |      X      |   X    |   X    |    X%     |
+| Smoke Tests       |      1      |   1    |   0    |   100%    |
+| Functional Tests  |      7      |   7    |   0    |   100%    |
+| Sanity Tests      |      1      |   1    |   0    |   100%    |
+| Exploratory Tests |     10      |   8    |   2    |    80%    |
+| Total             |     19      |   17   |   2    |   89.4%   |
+
+**Known issues:**
+
+1. [259519 - able to add closed LA- HN Benchmarking](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259519)
+  - Status: discovered during pre-production testing but not a blocker - fix pending and added to the backlog.
+2. [259520 - show all sections is not consistent - HN Historic data page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259520)
+- Status: discovered during pre-production testing but not a blocker - fix pending and added to the backlog.
 
 <!-- Leave the rest of this page blank -->
 \newpage
