@@ -30,6 +30,11 @@ public class TrustSearchController(
             return View(viewModel);
         }
 
+        if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
+        {
+            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.EstablishmentId });
+        }
+
         return RedirectToAction("Search", new
         {
             term = viewModel.Term
@@ -76,6 +81,11 @@ public class TrustSearchController(
                 Term = viewModel.Term,
                 OrderBy = viewModel.OrderBy
             });
+        }
+
+        if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
+        {
+            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.EstablishmentId });
         }
 
         // reset search options if new search term provided

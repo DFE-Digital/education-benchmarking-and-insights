@@ -76,6 +76,8 @@
     @await Html.PartialAsync("Enhancements/_SuggestScripts", new SuggestScriptsViewModel
     {
         InputElementId = nameof(ISearchTermViewModel.Term),
-        SelectedEstablishmentField = nameof(ISearchTermViewModel.EstablishmentId)
+        SelectedEstablishmentField = nameof(ISearchTermViewModel.EstablishmentId),
+        Type = OrganisationTypes.School,
+        IdField = "urn"
     })
 }
