@@ -22,6 +22,13 @@ steps:
       verbose: false
 
   - task: Npm@1
+    displayName: 'Run lint'
+    inputs:
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: 'web/src/Web.App'
+
+  - task: Npm@1
     displayName: 'Run front-end build task' 
     inputs:
       command: 'custom'
