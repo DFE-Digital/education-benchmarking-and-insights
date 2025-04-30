@@ -1,3 +1,4 @@
+@using Web.App.ViewModels.Enhancements
 @using Web.App.ViewModels.Search
 @model Web.App.ViewModels.Search.LocalAuthoritySearchResultsViewModel
 @{
@@ -67,3 +68,14 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+    @await Html.PartialAsync("Enhancements/_SuggestScripts", new SuggestScriptsViewModel
+    {
+        InputElementId = nameof(ISearchTermViewModel.Term),
+        SelectedEstablishmentField = nameof(ISearchTermViewModel.EstablishmentId),
+        Type = OrganisationTypes.LocalAuthority,
+        IdField = "code"
+    })
+}
