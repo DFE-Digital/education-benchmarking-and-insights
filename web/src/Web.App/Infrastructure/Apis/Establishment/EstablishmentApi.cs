@@ -48,14 +48,14 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
         }, cancellationToken);
     }
 
-    public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null)
+    public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri($"{Api.Establishment.TrustSuggest}", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, Exclude = exclude })
-        });
+        }, cancellationToken);
     }
 
     public Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null)
@@ -108,7 +108,7 @@ public interface IEstablishmentApi
     Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorities();
     Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
-    Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null);
+    Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null);
     Task<ApiResult> SearchSchools(SearchRequest request);
     Task<ApiResult> SearchTrusts(SearchRequest request);
