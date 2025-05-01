@@ -157,8 +157,8 @@ A deployment issue in production with version 2025.04.0 caused by SFB decommissi
 | Smoke Tests       |      1      |   1    |   0    |   100%    |
 | Functional Tests  |      7      |   7    |   0    |   100%    |
 | Sanity Tests      |      1      |   1    |   0    |   100%    |
-| Exploratory Tests |     10      |   8    |   2    |    80%    |
-| Total             |     19      |   17   |   2    |   89.4%   |
+| Exploratory Tests |     10      |   10   |   0    |   100%    |
+| Total             |     19      |   17   |   2    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
