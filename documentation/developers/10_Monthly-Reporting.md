@@ -4,7 +4,7 @@ Report location:  [DfE Sharepoint](https://educationgovuk.sharepoint.com/:f:/r/s
 
 ## School engagement
 
-On `p01` Log Analytics workspace, run the following query to cover whole of the last month. The maximum number of rows being shown need to be updated in the query results.
+On `p01` Log Analytics workspace, run the following query to cover whole of the last month. The maximum number of rows being shown needs to be updated in the query results in order for them to not be truncated.
 
 ```kql
 let time_start = startofmonth(datetime(now), -1); 
@@ -25,7 +25,7 @@ GetEstablishmentRequests
     ExcelDate = format_datetime(TimeGenerated, 'dd/MM/yyyy HH:mm:ss')
 ```
 
-Export the results to a .csv file and append the `Urn` and `ExcelDate` columns into the `SpendingPrioritiesRequestData` table.
+Export the results to a .csv file and append the `Urn` and `ExcelDate` rows into the `SpendingPrioritiesRequestData` table.
 Then expand to add the `Sector` and `Month` calculated columns from the existing rows.
 If the date is not parsed correctly in the `Month` column then the format in the original query may need to be adjusted until Excel is happy.
 Ensure the `PivotTables` sheet has updated and then copy the values into the relevant section in `Summary`.
@@ -33,7 +33,7 @@ Also update the totals from the second PivotTable in the same `Summary` section.
 
 > **NOTE:** Although the query above could be modified to capture the whole of the past year, this is not advised due to potentially exceeding the row limit if executing from within Log Analytics in Azure Portal.
 
-### Total Schools
+### Total Schools (optional)
 
 To update the `SchoolData` tab, use the results of the following on `p01` database:
 
@@ -45,6 +45,8 @@ SELECT
 FROM [dbo].[School]
 ORDER BY [URN]
 ```
+
+This only needs to be done after a new academic/financial year data import. Ensure column types are properly set in the `SchoolData` table to resolve `VLOOKUP`s in the spreadsheet in the `SpendingPrioritiesRequestData` table.
 
 ## School features
 
@@ -65,10 +67,10 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=count_distinct(Identifier)
+    Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
 | sort by 
-    Count desc
+    Visits desc
 ```
 
 ## Trust features
@@ -90,10 +92,10 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=count_distinct(Identifier)
+    Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
 | sort by 
-    Count desc
+    Visits desc
 ```
 
 ## Local Authority features
@@ -115,10 +117,10 @@ GetEstablishmentRequests
     Feature, 
     Identifier
 | summarize 
-    Count=count(), DistinctCount=count_distinct(Identifier)
+    Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
 | sort by 
-    Count desc
+    Visits desc
 ```
 
 ## CFP Completion
