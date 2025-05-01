@@ -11,22 +11,24 @@ namespace Platform.Benchmark.Tests.FinancialPlans;
 public class WhenGetFinancialPlanFunctionRuns : FunctionsTestBase
 {
     private readonly GetFinancialPlanFunction _function;
-    private readonly Mock<IFinancialPlansService> _service;
+    private readonly Mock<IFinancialPlansService> _service = new();
 
     public WhenGetFinancialPlanFunctionRuns()
     {
-        _service = new Mock<IFinancialPlansService>();
         _function = new GetFinancialPlanFunction(_service.Object);
     }
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
+        const string urn = nameof(urn);
+        const int year = 2021;
+
         _service
-            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.DetailsAsync(urn, year))
             .ReturnsAsync(new FinancialPlanDetails());
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -35,11 +37,14 @@ public class WhenGetFinancialPlanFunctionRuns : FunctionsTestBase
     [Fact]
     public async Task ShouldReturn404OnInvalidRequest()
     {
+        const string urn = nameof(urn);
+        const int year = 2021;
+
         _service
-            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.DetailsAsync(urn, year))
             .ReturnsAsync((FinancialPlanDetails?)null);
 
-        var result = await _function.RunAsync(CreateHttpRequestData(), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);

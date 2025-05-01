@@ -21,9 +21,12 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task RemoveUserDefinedShouldRemoveSuccessfully()
     {
+        const string urn = nameof(urn);
+        const string identifier = nameof(identifier);
+        const string runType = "default";
+
         _service
-            .Setup(d => d.UserDefinedSchoolAsync(
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType))
             .ReturnsAsync(new ComparatorSetUserDefinedSchool());
 
         _service
@@ -31,7 +34,7 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
                 It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313", "testIdentifier");
+            await _function.RunAsync(CreateHttpRequestData(), urn, identifier);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -43,9 +46,12 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task RemoveUserDefinedShouldBeNotFoundWhenInvalid()
     {
+        const string urn = nameof(urn);
+        const string identifier = nameof(identifier);
+        const string runType = "default";
+
         _service
-            .Setup(d => d.UserDefinedSchoolAsync(
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType))
             .ReturnsAsync((ComparatorSetUserDefinedSchool?)null);
 
         _service
@@ -53,7 +59,7 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
                 It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313", "testIdentifier");
+            await _function.RunAsync(CreateHttpRequestData(), urn, identifier);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);

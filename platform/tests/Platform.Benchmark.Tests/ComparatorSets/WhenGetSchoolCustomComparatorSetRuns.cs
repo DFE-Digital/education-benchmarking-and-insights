@@ -21,12 +21,15 @@ public class WhenGetSchoolCustomComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task CustomShouldBeOkOnValidRequest()
     {
+        const string urn = nameof(urn);
+        const string identifier = nameof(identifier);
+
         _service
-            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.CustomSchoolAsync(identifier, urn))
             .ReturnsAsync(new ComparatorSetSchool());
 
         var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313", "testIdentifier");
+            await _function.RunAsync(CreateHttpRequestData(), urn, identifier);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

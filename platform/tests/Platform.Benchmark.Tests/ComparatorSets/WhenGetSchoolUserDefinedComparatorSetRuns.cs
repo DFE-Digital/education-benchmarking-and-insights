@@ -21,12 +21,16 @@ public class WhenGetSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task UserDefinedShouldBeOkOnValidRequest()
     {
+        const string urn = nameof(urn);
+        const string identifier = nameof(identifier);
+        const string runType = "default";
+
         _service
-            .Setup(d => d.UserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType))
             .ReturnsAsync(new ComparatorSetUserDefinedSchool());
 
         var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313", "testIdentifier");
+            await _function.RunAsync(CreateHttpRequestData(), urn, identifier);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

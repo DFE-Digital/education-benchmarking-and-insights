@@ -21,12 +21,14 @@ public class WhenGetSchoolDefaultComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task DefaultShouldBeOkOnValidRequest()
     {
+        const string urn = nameof(urn);
+
         _service
-            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>()))
+            .Setup(d => d.DefaultSchoolAsync(urn))
             .ReturnsAsync(new ComparatorSetSchool());
 
         var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313");
+            await _function.RunAsync(CreateHttpRequestData(), urn);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
