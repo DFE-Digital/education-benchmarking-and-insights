@@ -1,5 +1,6 @@
 ﻿using Moq;
-using Platform.Api.Insight.Schools;
+using Platform.Api.Insight.Features.Schools.Models;
+using Platform.Api.Insight.Features.Schools.Services;
 using Platform.Sql;
 using Xunit;
 
