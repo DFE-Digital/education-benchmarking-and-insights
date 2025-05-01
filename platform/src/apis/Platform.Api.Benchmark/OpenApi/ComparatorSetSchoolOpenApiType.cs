@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Platform.Api.Benchmark.Features.ComparatorSets.Models;
 
 // any types that inherit from a base collection type fail to generate OpenApi spec,
 // so until the below is fixed redeclare using base collection type explicitly:
@@ -6,7 +7,7 @@
 namespace Platform.Api.Benchmark.OpenApi;
 
 /// <summary>
-///     <see cref="ComparatorSets.ComparatorSetSchool" />
+///     <see cref="ComparatorSetSchool" />
 /// </summary>
 internal interface IComparatorSetSchool
 {
@@ -16,7 +17,7 @@ internal interface IComparatorSetSchool
 }
 
 /// <summary>
-///     <see cref="ComparatorSets.ComparatorSetUserDefinedSchool" />
+///     <see cref="ComparatorSetUserDefinedSchool" />
 /// </summary>
 internal interface IComparatorSetUserDefinedSchool
 {
@@ -27,7 +28,7 @@ internal interface IComparatorSetUserDefinedSchool
 }
 
 /// <summary>
-///     <see cref="ComparatorSets.ComparatorSetUserDefinedTrust" />
+///     <see cref="ComparatorSetUserDefinedTrust" />
 /// </summary>
 internal interface IComparatorSetUserDefinedTrust
 {
