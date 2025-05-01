@@ -64,8 +64,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Reqnroll" Version="2.4.0" />
-    <PackageVersion Include="Reqnroll.xUnit" Version="2.4.0" />
+    <PackageVersion Include="Reqnroll" Version="2.4.1" />
+    <PackageVersion Include="Reqnroll.xUnit" Version="2.4.1" />
     <PackageVersion Include="Dynamitey" Version="3.0.3" />
   </ItemGroup>
 </Project>
