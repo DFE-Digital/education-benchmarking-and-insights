@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Platform.Api.Benchmark.Features.CustomData.Models;
 using Platform.Domain.Messages;
 using Platform.Json;
 
-namespace Platform.Api.Benchmark.Features.CustomData.Models;
+namespace Platform.Api.Benchmark.Features.CustomData.Requests;
 
 [ExcludeFromCodeCoverage]
 public record CustomDataRequest

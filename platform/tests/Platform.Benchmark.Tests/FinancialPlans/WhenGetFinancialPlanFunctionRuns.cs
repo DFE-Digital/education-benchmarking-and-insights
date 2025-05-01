@@ -1,20 +1,33 @@
 using System.Net;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Platform.Api.Benchmark.Features.FinancialPlans;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
+using Platform.Api.Benchmark.Features.FinancialPlans.Services;
+using Platform.Test;
 using Xunit;
 
 namespace Platform.Benchmark.Tests.FinancialPlans;
 
-public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunctionsTestBase
+public class WhenGetFinancialPlanFunctionRuns : FunctionsTestBase
 {
+    private readonly GetFinancialPlanFunction _function;
+    private readonly Mock<IFinancialPlansService> _service;
+
+    public WhenGetFinancialPlanFunctionRuns()
+    {
+        _service = new Mock<IFinancialPlansService>();
+        _function = new GetFinancialPlanFunction(new NullLogger<GetFinancialPlanFunction>(), _service.Object);
+    }
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Service
+        _service
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new FinancialPlanDetails());
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -23,12 +36,11 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunc
     [Fact]
     public async Task ShouldReturn404OnInvalidRequest()
     {
-
-        Service
+        _service
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync((FinancialPlanDetails?)null);
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
@@ -37,11 +49,11 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunc
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Service
+        _service
             .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleFinancialPlanAsync(CreateHttpRequestData(), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestData(), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);

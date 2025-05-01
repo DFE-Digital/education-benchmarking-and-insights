@@ -18,10 +18,10 @@ using Platform.Json;
 
 namespace Platform.Api.Benchmark.Features.CustomData;
 
-public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDataService service)
+public class GetSchoolCustomDataFunction(ILogger<GetSchoolCustomDataFunction> logger, ICustomDataService service)
 {
     [Function(nameof(SchoolCustomDataAsync))]
-    [OpenApiOperation(nameof(SchoolCustomDataAsync), "Custom Data")]
+    [OpenApiOperation(nameof(SchoolCustomDataAsync), Constants.Features.CustomData)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
@@ -29,7 +29,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.CustomDataItem)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.SchoolCustomDataItem)] HttpRequestData req,
         string urn,
         string identifier)
     {
@@ -67,7 +67,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<MultiResponse> CreateSchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = Routes.CustomData)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = Routes.SchoolCustomData)] HttpRequestData req,
         string urn)
     {
         var correlationId = req.GetCorrelationId();
@@ -123,7 +123,7 @@ public class CustomDataFunctions(ILogger<CustomDataFunctions> logger, ICustomDat
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RemoveSchoolCustomDataAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.CustomDataItem)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.SchoolCustomDataItem)] HttpRequestData req,
         string urn,
         string identifier)
     {

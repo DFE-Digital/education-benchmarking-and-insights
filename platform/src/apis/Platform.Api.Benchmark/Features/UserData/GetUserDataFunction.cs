@@ -14,10 +14,10 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Benchmark.Features.UserData;
 
-public class UserDataFunctions(IUserDataService service, IValidator<UserDataParameters> validator)
+public class GetUserDataFunction(IUserDataService service, IValidator<UserDataParameters> validator)
 {
-    [Function(nameof(QueryAsync))]
-    [OpenApiOperation(nameof(QueryAsync), "User Data")]
+    [Function(nameof(GetUserDataFunction))]
+    [OpenApiOperation(nameof(GetUserDataFunction), Constants.Features.UserData)]
     [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id as a Guid", Type = typeof(string), Required = true)]
     [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataType))]
     [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false, Example = typeof(ExampleOrganisationType))]
@@ -27,7 +27,7 @@ public class UserDataFunctions(IUserDataService service, IValidator<UserDataPara
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Models.UserData>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-    public async Task<HttpResponseData> QueryAsync(
+    public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.UserData)] HttpRequestData req)
     {
         var queryParams = req.GetParameters<UserDataParameters>();

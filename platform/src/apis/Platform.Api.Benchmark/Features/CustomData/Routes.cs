@@ -2,6 +2,6 @@
 
 public static class Routes
 {
-    public const string CustomData = "custom-data/school/{urn}";
-    public const string CustomDataItem = "custom-data/school/{urn}/{identifier}";
+    public const string SchoolCustomData = "custom-data/school/{urn}";
+    public const string SchoolCustomDataItem = "custom-data/school/{urn}/{identifier}";
 }
