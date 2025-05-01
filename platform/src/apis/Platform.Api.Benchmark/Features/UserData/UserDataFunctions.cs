@@ -5,7 +5,6 @@ using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.Features.UserData.Parameters;
 using Platform.Api.Benchmark.Features.UserData.Services;
@@ -15,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Benchmark.Features.UserData;
 
-public class UserDataFunctions(ILogger<UserDataFunctions> logger, IUserDataService service, IValidator<UserDataParameters> validator)
+public class UserDataFunctions(IUserDataService service, IValidator<UserDataParameters> validator)
 {
     [Function(nameof(QueryAsync))]
     [OpenApiOperation(nameof(QueryAsync), "User Data")]

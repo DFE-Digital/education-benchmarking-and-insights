@@ -8,11 +8,13 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Platform.Api.Benchmark.Features.FinancialPlans.Models;
+using Platform.Api.Benchmark.Features.FinancialPlans.Services;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Functions.OpenApi.Examples;
 
-namespace Platform.Api.Benchmark.FinancialPlans;
+namespace Platform.Api.Benchmark.Features.FinancialPlans;
 
 public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IFinancialPlansService service)
 {
@@ -25,7 +27,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> SingleFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}/{year}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.FinancialPlan)] HttpRequestData req,
         string urn,
         int year)
     {
@@ -71,7 +73,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> DeploymentPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}/{year}/deployment")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.DeploymentPlan)] HttpRequestData req,
         string urn,
         int year)
     {
@@ -115,7 +117,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<FinancialPlanSummary>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> QueryFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plans")] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.FinancialPlans)] HttpRequestData req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -154,7 +156,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [OpenApiResponseWithoutBody(HttpStatusCode.Conflict)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> UpsertFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "financial-plan/{urn}/{year}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = Routes.FinancialPlan)] HttpRequestData req,
         string urn,
         int year)
     {
@@ -201,7 +203,7 @@ public class FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IF
     [OpenApiResponseWithoutBody(HttpStatusCode.OK)]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RemoveFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "financial-plan/{urn}/{year}")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.FinancialPlan)] HttpRequestData req,
         string urn,
         int year)
     {
