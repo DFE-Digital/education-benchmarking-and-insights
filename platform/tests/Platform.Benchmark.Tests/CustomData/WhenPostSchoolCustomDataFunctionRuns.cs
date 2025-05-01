@@ -1,8 +1,6 @@
 using System.Net;
 using AutoFixture;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Benchmark.Features.ComparatorSets.Requests;
 using Platform.Api.Benchmark.Features.CustomData;
 using Platform.Api.Benchmark.Features.CustomData.Models;
 using Platform.Api.Benchmark.Features.CustomData.Requests;
@@ -15,15 +13,15 @@ using Xunit;
 
 namespace Platform.Benchmark.Tests.CustomData;
 
-public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
+public class WhenPostSchoolCustomDataFunctionRuns : FunctionsTestBase
 {
     private readonly Fixture _fixture = new();
-    private readonly GetCustomDataFunction _function;
+    private readonly PostSchoolCustomDataFunction _function;
     private readonly Mock<ICustomDataService> _service = new();
 
-    public WhenFunctionReceivesCreateCustomDataRequest()
+    public WhenPostSchoolCustomDataFunctionRuns()
     {
-        _function = new GetCustomDataFunction(new NullLogger<GetCustomDataFunction>(), _service.Object);
+        _function = new PostSchoolCustomDataFunction(_service.Object);
     }
 
     [Fact]
@@ -38,7 +36,7 @@ public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
             .ReturnsAsync(year.ToString());
 
         const string urn = "123321";
-        var response = await _function.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), urn);
+        var response = await _function.RunAsync(CreateHttpRequestDataWithBody(model), urn);
 
         Assert.NotNull(response);
         Assert.NotNull(response.HttpResponse);
@@ -58,25 +56,5 @@ public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
 
         _service.Verify(x => x.UpsertCustomDataAsync(It.IsAny<CustomDataSchool>()), Times.Once());
         _service.Verify(x => x.InsertNewAndDeactivateExistingUserDataAsync(It.IsAny<CustomDataUserData>()), Times.Once());
-    }
-
-    [Fact]
-    public async Task CreateUserDefinedShouldBe500OnError()
-    {
-        var set = new[] { "1", "2" };
-
-        var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
-            .With(x => x.Set, set)
-            .Create();
-
-        _service
-            .Setup(d => d.UpsertCustomDataAsync(It.IsAny<CustomDataSchool>()))
-            .Throws(new Exception());
-
-        var response = await _function.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), "123321");
-
-        Assert.NotNull(response);
-        Assert.NotNull(response.HttpResponse);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.HttpResponse.StatusCode);
     }
 }

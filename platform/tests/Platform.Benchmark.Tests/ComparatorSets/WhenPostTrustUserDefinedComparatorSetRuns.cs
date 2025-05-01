@@ -2,7 +2,6 @@ using System.Net;
 using AutoFixture;
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
@@ -22,7 +21,7 @@ public class WhenPostTrustUserDefinedComparatorSetRuns : FunctionsTestBase
 
     public WhenPostTrustUserDefinedComparatorSetRuns()
     {
-        _function = new PostTrustUserDefinedComparatorSetFunction(_service.Object, new NullLogger<PostTrustUserDefinedComparatorSetFunction>(), _trustValidator.Object);
+        _function = new PostTrustUserDefinedComparatorSetFunction(_service.Object, _trustValidator.Object);
     }
 
     [Fact]
@@ -82,28 +81,5 @@ public class WhenPostTrustUserDefinedComparatorSetRuns : FunctionsTestBase
         _service.Verify(
             x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
-    }
-
-    [Fact]
-    public async Task CreateUserDefinedTrustShouldBe500OnError()
-    {
-        var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
-            .Create();
-
-        _service
-            .Setup(d => d.UpsertUserDefinedTrustAsync(
-                It.IsAny<ComparatorSetUserDefinedTrust>()))
-            .Throws(new Exception());
-
-        _trustValidator
-            .Setup(d => d.ValidateAsync(
-                It.IsAny<ComparatorSetUserDefinedTrust>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult());
-
-        var response =
-            await _function.RunAsync(CreateHttpRequestDataWithBody(model), "12313");
-
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

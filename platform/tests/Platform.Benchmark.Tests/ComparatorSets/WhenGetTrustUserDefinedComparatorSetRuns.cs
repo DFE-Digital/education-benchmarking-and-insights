@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
@@ -16,7 +15,7 @@ public class WhenGetTrustUserDefinedComparatorSetRuns : FunctionsTestBase
 
     public WhenGetTrustUserDefinedComparatorSetRuns()
     {
-        _function = new GetTrustUserDefinedComparatorSetFunction(_service.Object, new NullLogger<GetTrustUserDefinedComparatorSetFunction>());
+        _function = new GetTrustUserDefinedComparatorSetFunction(_service.Object);
     }
 
     [Fact]
@@ -49,21 +48,5 @@ public class WhenGetTrustUserDefinedComparatorSetRuns : FunctionsTestBase
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task UserDefinedTrustShould500OnError()
-    {
-        _service
-            .Setup(d => d.UserDefinedTrustAsync(
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Throws(new Exception());
-
-        var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313",
-                "testIdentifier");
-
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

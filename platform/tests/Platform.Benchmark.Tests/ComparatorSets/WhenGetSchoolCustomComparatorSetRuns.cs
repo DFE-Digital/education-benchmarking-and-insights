@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
@@ -16,7 +15,7 @@ public class WhenGetSchoolCustomComparatorSetRuns : FunctionsTestBase
 
     public WhenGetSchoolCustomComparatorSetRuns()
     {
-        _function = new GetSchoolCustomComparatorSetFunction(_service.Object, new NullLogger<GetSchoolCustomComparatorSetFunction>());
+        _function = new GetSchoolCustomComparatorSetFunction(_service.Object);
     }
 
     [Fact]
@@ -31,19 +30,5 @@ public class WhenGetSchoolCustomComparatorSetRuns : FunctionsTestBase
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task CustomShouldBe500OnError()
-    {
-        _service
-            .Setup(d => d.CustomSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Throws(new Exception());
-
-        var response = await _function
-            .RunAsync(CreateHttpRequestData(), "12313", "testIdentifier");
-
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

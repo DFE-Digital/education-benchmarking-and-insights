@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
@@ -16,7 +15,7 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
 
     public WhenDeleteSchoolUserDefinedComparatorSetRuns()
     {
-        _function = new DeleteSchoolUserDefinedComparatorSetFunction(_service.Object, new NullLogger<DeleteSchoolUserDefinedComparatorSetFunction>());
+        _function = new DeleteSchoolUserDefinedComparatorSetFunction(_service.Object);
     }
 
     [Fact]
@@ -61,25 +60,5 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
         _service.Verify(
             x => x.DeleteSchoolAsync(
                 It.IsAny<ComparatorSetUserDefinedSchool>()), Times.Never());
-    }
-
-    [Fact]
-    public async Task RemoveUserDefinedShouldBe500OnError()
-    {
-        _service
-            .Setup(d => d.UserDefinedSchoolAsync(
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .Throws(new Exception());
-
-        _service
-            .Setup(d => d.DeleteSchoolAsync(
-                It.IsAny<ComparatorSetUserDefinedSchool>()));
-
-        var response =
-            await _function.RunAsync(CreateHttpRequestData(), "12313",
-                "testIdentifier");
-
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

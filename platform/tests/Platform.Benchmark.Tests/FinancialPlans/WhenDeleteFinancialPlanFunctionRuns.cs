@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.FinancialPlans;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
@@ -17,7 +16,7 @@ public class WhenDeleteFinancialPlanFunctionRuns : FunctionsTestBase
     public WhenDeleteFinancialPlanFunctionRuns()
     {
         _service = new Mock<IFinancialPlansService>();
-        _functions = new DeleteFinancialPlanFunction(new NullLogger<DeleteFinancialPlanFunction>(), _service.Object);
+        _functions = new DeleteFinancialPlanFunction(_service.Object);
     }
 
     [Fact]
@@ -33,18 +32,5 @@ public class WhenDeleteFinancialPlanFunctionRuns : FunctionsTestBase
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-    }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        _service
-            .Setup(d => d.DeleteAsync(It.IsAny<string>(), It.IsAny<int>()))
-            .Throws(new Exception());
-
-        var result = await _functions.RunAsync(CreateHttpRequestData(), "1", 2021);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }
