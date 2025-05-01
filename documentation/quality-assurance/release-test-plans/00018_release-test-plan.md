@@ -160,12 +160,5 @@ A deployment issue in production with version 2025.04.0 caused by SFB decommissi
 | Exploratory Tests |     10      |   8    |   2    |    80%    |
 | Total             |     19      |   17   |   2    |   89.4%   |
 
-**Known issues:**
-
-1. [259519 - able to add closed LA- HN Benchmarking](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259519)
-   - Status: discovered during pre-production testing but not a blocker - fix pending and added to the backlog.
-2. [259520 - show all sections is not consistent - HN Historic data page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259520)
-   - Status: discovered during pre-production testing but not a blocker - fix pending and added to the backlog.
-
 <!-- Leave the rest of this page blank -->
 \newpage
