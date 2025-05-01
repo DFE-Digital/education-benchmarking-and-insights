@@ -2,7 +2,6 @@ using System.Net;
 using AutoFixture;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Benchmark.Features.ComparatorSets.Models;
 using Platform.Api.Benchmark.Features.ComparatorSets.Requests;
 using Platform.Api.Benchmark.Features.CustomData;
 using Platform.Api.Benchmark.Features.CustomData.Models;
@@ -19,12 +18,12 @@ namespace Platform.Benchmark.Tests.CustomData;
 public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
 {
     private readonly Fixture _fixture = new();
-    private readonly CustomDataFunctions _functions;
+    private readonly GetCustomDataFunction _function;
     private readonly Mock<ICustomDataService> _service = new();
 
     public WhenFunctionReceivesCreateCustomDataRequest()
     {
-        _functions = new CustomDataFunctions(new NullLogger<CustomDataFunctions>(), _service.Object);
+        _function = new GetCustomDataFunction(new NullLogger<GetCustomDataFunction>(), _service.Object);
     }
 
     [Fact]
@@ -39,7 +38,7 @@ public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
             .ReturnsAsync(year.ToString());
 
         const string urn = "123321";
-        var response = await _functions.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), urn);
+        var response = await _function.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), urn);
 
         Assert.NotNull(response);
         Assert.NotNull(response.HttpResponse);
@@ -74,7 +73,7 @@ public class WhenFunctionReceivesCreateCustomDataRequest : FunctionsTestBase
             .Setup(d => d.UpsertCustomDataAsync(It.IsAny<CustomDataSchool>()))
             .Throws(new Exception());
 
-        var response = await _functions.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), "123321");
+        var response = await _function.CreateSchoolCustomDataAsync(CreateHttpRequestDataWithBody(model), "123321");
 
         Assert.NotNull(response);
         Assert.NotNull(response.HttpResponse);

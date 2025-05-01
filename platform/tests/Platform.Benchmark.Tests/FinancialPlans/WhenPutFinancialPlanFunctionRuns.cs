@@ -1,21 +1,34 @@
 using System.Net;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Platform.Api.Benchmark.Features.FinancialPlans;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
+using Platform.Api.Benchmark.Features.FinancialPlans.Services;
 using Platform.Functions;
+using Platform.Test;
 using Xunit;
 
 namespace Platform.Benchmark.Tests.FinancialPlans;
 
-public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlansFunctionsTestBase
+public class WhenPutFinancialPlanFunctionRuns : FunctionsTestBase
 {
+    private readonly PutFinancialPlanFunction _function;
+    private readonly Mock<IFinancialPlansService> _service;
+
+    public WhenPutFinancialPlanFunctionRuns()
+    {
+        _service = new Mock<IFinancialPlansService>();
+        _function = new PutFinancialPlanFunction(new NullLogger<PutFinancialPlanFunction>(), _service.Object);
+    }
+
     [Fact]
     public async Task ShouldReturn201OnValidRequest()
     {
-        Service
+        _service
             .Setup(d => d.UpsertAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<FinancialPlanDetails>()))
             .ReturnsAsync(new CreatedResult<FinancialPlanDetails>(new FinancialPlanDetails(), ""));
 
-        var result = await Functions.UpsertFinancialPlanAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.Created, result.StatusCode);
@@ -24,11 +37,11 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlansFunc
     [Fact]
     public async Task ShouldReturn204OnValidRequest()
     {
-        Service
+        _service
             .Setup(d => d.UpsertAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<FinancialPlanDetails>()))
             .ReturnsAsync(new UpdatedResult());
 
-        var result = await Functions.UpsertFinancialPlanAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
@@ -37,12 +50,11 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlansFunc
     [Fact]
     public async Task ShouldReturn409OnInvalidRequest()
     {
-
-        Service
+        _service
             .Setup(d => d.UpsertAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<FinancialPlanDetails>()))
             .ReturnsAsync(new DataConflictResult());
 
-        var result = await Functions.UpsertFinancialPlanAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
@@ -51,11 +63,11 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlansFunc
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Service
+        _service
             .Setup(d => d.UpsertAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<FinancialPlanDetails>()))
             .Throws(new Exception());
 
-        var result = await Functions.UpsertFinancialPlanAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
+        var result = await _function.RunAsync(CreateHttpRequestDataWithBody(new FinancialPlanDetails()), "1", 2021);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
