@@ -3,23 +3,22 @@ using Platform.Api.Insight.Features.Balance.Parameters;
 using Platform.Domain;
 using Xunit;
 
-namespace Platform.Insight.Tests.Balance;
+namespace Platform.Insight.Tests.Balance.Parameters;
 
-public class BalanceQueryTrustsParametersTests
+public class BalanceParametersTests
 {
     [Fact]
     public void ShouldSetValuesFromQuery()
     {
         var values = new NameValueCollection
         {
-            { "companyNumbers", "1,2,3" }
+            { "dimension", "PercentExpenditure" }
         };
 
-        var parameters = new BalanceQueryTrustsParameters();
+        var parameters = new BalanceParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
-        Assert.Equal(["1", "2", "3"], parameters.Trusts);
+        Assert.Equal("PercentExpenditure", parameters.Dimension);
     }
 
     [Fact]
@@ -27,10 +26,9 @@ public class BalanceQueryTrustsParametersTests
     {
         var values = new NameValueCollection();
 
-        var parameters = new BalanceQueryTrustsParameters();
+        var parameters = new BalanceParameters();
         parameters.SetValues(values);
 
         Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
-        Assert.Equal([], parameters.Trusts);
     }
 }

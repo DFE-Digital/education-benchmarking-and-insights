@@ -3,7 +3,7 @@ using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Domain;
 using Xunit;
 
-namespace Platform.Insight.Tests.Census;
+namespace Platform.Insight.Tests.Census.Parameters;
 
 public class CensusParametersTests
 {
