@@ -3,7 +3,7 @@ using Platform.Api.Insight.Features.Income.Parameters;
 using Platform.Domain;
 using Xunit;
 
-namespace Platform.Insight.Tests.Income;
+namespace Platform.Insight.Tests.Income.Parameters;
 
 public class IncomeParametersTests
 {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Specialized;
-using Platform.Api.Insight.Features.Expenditure.Parameters;
+using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Domain;
 using Xunit;
 
-namespace Platform.Insight.Tests.Expenditure;
+namespace Platform.Insight.Tests.Census.Parameters;
 
-public class ExpenditureNationalAvgParametersTests
+public class CensusNationalAvgParametersTests
 {
     [Fact]
     public void ShouldSetValuesFromQuery()
@@ -16,10 +16,10 @@ public class ExpenditureNationalAvgParametersTests
             { "phase", "phase" }
         };
 
-        var parameters = new ExpenditureNationalAvgParameters();
+        var parameters = new CensusNationalAvgParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
+        Assert.Equal(Dimensions.Census.Total, parameters.Dimension);
         Assert.Null(parameters.Category);
         Assert.Equal("financeType", parameters.FinanceType);
         Assert.Equal("phase", parameters.OverallPhase);
@@ -30,10 +30,10 @@ public class ExpenditureNationalAvgParametersTests
     {
         var values = new NameValueCollection();
 
-        var parameters = new ExpenditureNationalAvgParameters();
+        var parameters = new CensusNationalAvgParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
+        Assert.Equal(Dimensions.Census.Total, parameters.Dimension);
         Assert.Null(parameters.Category);
         Assert.Equal(string.Empty, parameters.FinanceType);
         Assert.Equal(string.Empty, parameters.OverallPhase);

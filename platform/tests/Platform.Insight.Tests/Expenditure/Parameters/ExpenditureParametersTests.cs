@@ -3,7 +3,7 @@ using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Domain;
 using Xunit;
 
-namespace Platform.Insight.Tests.Expenditure;
+namespace Platform.Insight.Tests.Expenditure.Parameters;
 
 public class ExpenditureParametersTests
 {
