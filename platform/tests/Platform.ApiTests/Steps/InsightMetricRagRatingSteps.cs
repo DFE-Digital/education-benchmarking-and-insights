@@ -1,4 +1,4 @@
-﻿using Platform.Api.Insight.MetricRagRatings;
+﻿using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;

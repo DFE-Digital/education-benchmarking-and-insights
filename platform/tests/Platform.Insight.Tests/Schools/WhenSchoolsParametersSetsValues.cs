@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using Platform.Api.Insight.Schools;
+﻿using System.Collections.Specialized;
+using Platform.Api.Insight.Features.Schools.Parameters;
 using Xunit;
 
 namespace Platform.Insight.Tests.Schools;
@@ -13,12 +12,10 @@ public class WhenSchoolsParametersSetsValues
     public void ShouldSetValuesFromIQueryCollection(string? urns, string expectedSchools)
     {
         var parameters = new SchoolsParameters();
-        var query = new QueryCollection(new Dictionary<string, StringValues>
+        var query = new NameValueCollection
         {
-            {
-                "urns", urns
-            }
-        });
+            { "urns", urns }
+        };
 
         parameters.SetValues(query);
 
