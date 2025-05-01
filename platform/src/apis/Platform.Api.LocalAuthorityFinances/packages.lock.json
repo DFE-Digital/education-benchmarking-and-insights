@@ -2046,7 +2046,7 @@
       },
       "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": {
         "type": "CentralTransitive",
-        "requested": "[5.5.1, )",
+        "requested": "[5.5.2, )",
         "resolved": "5.5.1",
         "contentHash": "TkExkIQRRU78NCawbYHuBQYcTZEpUnSAWgr9ZDJy1JAHQlKe9xEoAeqqYQz9lR5rXMjmFUxQ94QqrEbmAz2Fpg==",
         "dependencies": {
