@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.FinancialPlans;
 using Platform.Api.Benchmark.Features.FinancialPlans.Services;
@@ -16,7 +15,7 @@ public class WhenGetFinancialPlansRuns : FunctionsTestBase
     public WhenGetFinancialPlansRuns()
     {
         _service = new Mock<IFinancialPlansService>();
-        _function = new GetFinancialPlansFunction(new NullLogger<GetFinancialPlansFunction>(), _service.Object);
+        _function = new GetFinancialPlansFunction(_service.Object);
     }
 
     [Fact]
@@ -30,18 +29,5 @@ public class WhenGetFinancialPlansRuns : FunctionsTestBase
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-    }
-
-    [Fact]
-    public async Task ShouldReturn500OnError()
-    {
-        _service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
-            .Throws(new Exception());
-
-        var result = await _function.RunAsync(CreateHttpRequestData());
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
     }
 }

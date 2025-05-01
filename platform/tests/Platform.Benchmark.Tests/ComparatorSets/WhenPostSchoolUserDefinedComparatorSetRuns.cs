@@ -2,7 +2,6 @@ using System.Net;
 using AutoFixture;
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
@@ -25,7 +24,7 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
 
     public WhenPostSchoolUserDefinedComparatorSetRuns()
     {
-        _function = new PostSchoolUserDefinedComparatorSetFunction(_service.Object, new NullLogger<PostSchoolUserDefinedComparatorSetFunction>(), _schoolValidator.Object);
+        _function = new PostSchoolUserDefinedComparatorSetFunction(_service.Object, _schoolValidator.Object);
     }
 
     [Fact]
@@ -153,28 +152,5 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
         _service.Verify(
             x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Never());
-    }
-
-    [Fact]
-    public async Task CreateUserDefinedShouldBe500OnError()
-    {
-        var set = new[] { "1", "2" };
-
-        var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
-            .With(x => x.Set, set)
-            .Create();
-
-        _service
-            .Setup(d => d.UpsertUserDefinedSchoolAsync(
-                It.IsAny<ComparatorSetUserDefinedSchool>())).Throws(new Exception());
-
-        var response =
-            await _function.RunAsync(
-                CreateHttpRequestDataWithBody(model),
-                "123321");
-
-        Assert.NotNull(response);
-        Assert.NotNull(response.HttpResponse);
-        Assert.Equal(HttpStatusCode.InternalServerError, response.HttpResponse.StatusCode);
     }
 }

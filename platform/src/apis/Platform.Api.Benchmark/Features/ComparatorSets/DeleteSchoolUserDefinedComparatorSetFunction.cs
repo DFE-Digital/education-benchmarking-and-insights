@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.Features.ComparatorSets.Services;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Benchmark.Features.ComparatorSets;
 
-public class DeleteSchoolUserDefinedComparatorSetFunction(IComparatorSetsService service, ILogger<DeleteSchoolUserDefinedComparatorSetFunction> logger)
+public class DeleteSchoolUserDefinedComparatorSetFunction(IComparatorSetsService service)
 {
     [Function(nameof(DeleteSchoolUserDefinedComparatorSetFunction))]
     [OpenApiOperation(nameof(DeleteSchoolUserDefinedComparatorSetFunction), Constants.Features.ComparatorSets)]
@@ -27,32 +24,13 @@ public class DeleteSchoolUserDefinedComparatorSetFunction(IComparatorSetsService
         string urn,
         string identifier)
     {
-        var correlationId = req.GetCorrelationId();
-
-        using (logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn },
-                   { "Identifier", identifier }
-               }))
+        var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
+        if (comparatorSet == null)
         {
-            try
-            {
-                var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
-                if (comparatorSet == null)
-                {
-                    return req.CreateNotFoundResponse();
-                }
-
-                await service.DeleteSchoolAsync(comparatorSet);
-                return req.CreateResponse(HttpStatusCode.OK);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "Failed to delete user defined school comparator set");
-                return req.CreateErrorResponse();
-            }
+            return req.CreateNotFoundResponse();
         }
+
+        await service.DeleteSchoolAsync(comparatorSet);
+        return req.CreateResponse(HttpStatusCode.OK);
     }
 }
