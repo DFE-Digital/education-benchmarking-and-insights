@@ -15,8 +15,8 @@ namespace Platform.Api.Establishment.Features.Trusts.Services;
 public interface ITrustsService
 {
     Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request, CancellationToken cancellationToken = default);
-    Task<Trust?> GetAsync(string companyNumber);
-    Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request);
+    Task<Trust?> GetAsync(string companyNumber, CancellationToken cancellationToken = default);
+    Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -25,13 +25,13 @@ public class TrustsService(
     IDatabaseFactory dbFactory)
     : SearchService<TrustSummary>(client), ITrustsService
 {
-    public async Task<Trust?> GetAsync(string companyNumber)
+    public async Task<Trust?> GetAsync(string companyNumber, CancellationToken cancellationToken = default)
     {
         var trustBuilder = new TrustQuery()
             .WhereCompanyNumberEqual(companyNumber);
 
         using var conn = await dbFactory.GetConnection();
-        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(trustBuilder);
+        var trust = await conn.QueryFirstOrDefaultAsync<Trust>(trustBuilder, cancellationToken);
         if (trust is null)
         {
             return null;
@@ -42,23 +42,16 @@ public class TrustsService(
             .WhereFinanceTypeEqual(FinanceType.Academy)
             .WhereUrnInCurrentFinances();
 
-        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsBuilder);
+        trust.Schools = await conn.QueryAsync<TrustSchool>(schoolsBuilder, cancellationToken);
         return trust;
     }
 
     public Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request, CancellationToken cancellationToken = default)
     {
-        var fields = new[]
-        {
-            nameof(Trust.CompanyNumber),
-            nameof(Trust.TrustName)
-        };
+        var fields = new[] { nameof(Trust.CompanyNumber), nameof(Trust.TrustName) };
 
         return SuggestAsync(request, request.FilterExpression, fields, cancellationToken);
     }
 
-    public Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request)
-    {
-        return SearchAsync(request, request.FilterExpression);
-    }
+    public Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request, CancellationToken cancellationToken = default) => SearchAsync(request, request.FilterExpression, cancellationToken: cancellationToken);
 }

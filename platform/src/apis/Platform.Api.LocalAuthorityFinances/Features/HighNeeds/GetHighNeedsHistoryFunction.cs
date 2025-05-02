@@ -28,17 +28,17 @@ public class GetHighNeedsHistoryFunction(IHighNeedsService service, IValidator<H
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeedsHistory)] HttpRequestData req,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<HighNeedsDimensionedParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var history = await service.GetHistory(queryParams.Codes, queryParams.Dimension, token);
+        var history = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return history == null
             ? req.CreateNotFoundResponse()
             : await req.CreateJsonResponseAsync(history);

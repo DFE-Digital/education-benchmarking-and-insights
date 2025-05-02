@@ -14,9 +14,9 @@ namespace Platform.Establishment.Tests.Trusts;
 public class GetTrustFunctionTests : FunctionsTestBase
 {
     private readonly string _companyNumber;
-    private readonly Trust _trust;
     private readonly GetTrustFunction _function;
     private readonly Mock<ITrustsService> _service;
+    private readonly Trust _trust;
 
     public GetTrustFunctionTests()
     {
@@ -40,7 +40,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(_companyNumber))
+            .Setup(d => d.GetAsync(_companyNumber, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_trust);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _companyNumber);
@@ -58,7 +58,7 @@ public class GetTrustFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnInvalidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(_companyNumber))
+            .Setup(d => d.GetAsync(_companyNumber, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Trust?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _companyNumber);

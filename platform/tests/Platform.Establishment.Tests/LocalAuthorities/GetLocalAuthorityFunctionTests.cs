@@ -13,9 +13,9 @@ namespace Platform.Establishment.Tests.LocalAuthorities;
 
 public class GetLocalAuthorityFunctionTests : FunctionsTestBase
 {
+    private readonly GetLocalAuthorityFunction _function;
     private readonly string _laCode;
     private readonly LocalAuthority _localAuthority;
-    private readonly GetLocalAuthorityFunction _function;
     private readonly Mock<ILocalAuthoritiesService> _service;
 
     public GetLocalAuthorityFunctionTests()
@@ -40,7 +40,7 @@ public class GetLocalAuthorityFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(_laCode))
+            .Setup(d => d.GetAsync(_laCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_localAuthority);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);
@@ -58,7 +58,7 @@ public class GetLocalAuthorityFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnInvalidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(_laCode))
+            .Setup(d => d.GetAsync(_laCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync((LocalAuthority?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);

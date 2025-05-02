@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Schools.Models;
@@ -12,7 +13,7 @@ namespace Platform.Api.Establishment.Features.Schools.Services;
 
 public interface ISchoolComparatorsService
 {
-    Task<SchoolComparators> ComparatorsAsync(string urn, SchoolComparatorsRequest request);
+    Task<SchoolComparators> ComparatorsAsync(string urn, SchoolComparatorsRequest request, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -20,12 +21,12 @@ public class SchoolComparatorsService(
     [FromKeyedServices(ResourceNames.Search.Indexes.SchoolComparators)] IIndexClient client)
     : SearchService<SchoolComparator>(client), ISchoolComparatorsService
 {
-    public async Task<SchoolComparators> ComparatorsAsync(string urn, SchoolComparatorsRequest request)
+    public async Task<SchoolComparators> ComparatorsAsync(string urn, SchoolComparatorsRequest request, CancellationToken cancellationToken = default)
     {
-        var school = await LookUpAsync(urn);
+        var school = await LookUpAsync(urn, cancellationToken);
 
         var filter = request.FilterExpression(urn);
-        var result = await SearchWithScoreAsync("*", filter, 100000);
+        var result = await SearchWithScoreAsync("*", filter, 100000, cancellationToken);
 
         return new SchoolComparators
         {

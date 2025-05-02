@@ -33,9 +33,10 @@ public class WhenLocalAuthoritiesServiceSearches
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<string?>>(),
-                ItExpr.IsAny<string[]?>()
+                ItExpr.IsAny<string[]?>(),
+                ItExpr.IsAny<CancellationToken>()
             )
-            .Callback((SearchRequest _, Func<string?> _, string[] facets) =>
+            .Callback((SearchRequest _, Func<string?> _, string[] facets, CancellationToken _) =>
             {
                 capturedFacets = facets;
             })
@@ -58,9 +59,10 @@ public class WhenLocalAuthoritiesServiceSearches
                 "SearchAsync",
                 ItExpr.IsAny<SearchRequest>(),
                 ItExpr.IsAny<Func<string?>>(),
-                ItExpr.IsAny<string[]?>()
+                ItExpr.IsAny<string[]?>(),
+                ItExpr.IsAny<CancellationToken>()
             )
-            .Callback((SearchRequest request, Func<string?> _, string[] _) =>
+            .Callback((SearchRequest request, Func<string?> _, string[] _, CancellationToken _) =>
             {
                 capturedRequest = request;
             })

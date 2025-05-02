@@ -31,7 +31,7 @@ public class SearchSearchTests
         var result = new TestType();
 
         _client
-            .Setup(c => c.GetDocumentAsync<TestType>(key))
+            .Setup(c => c.GetDocumentAsync<TestType>(key, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Response.FromValue(result, Mock.Of<Response>()));
 
         var results = await _service.CallLookUpAsync(key);
@@ -78,7 +78,7 @@ public class SearchSearchTests
                     && o.Skip == 0
                     && o.IncludeTotalCount == true
                     && o.Filter == nameof(filterBuilder)
-                    && o.QueryType == SearchQueryType.Simple)))
+                    && o.QueryType == SearchQueryType.Simple), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Response.FromValue(searchResults, Mock.Of<Response>()));
 
 
@@ -125,8 +125,8 @@ public class SearchSearchTests
                     && o.Skip == 0
                     && o.IncludeTotalCount == true
                     && o.Filter == null
-                    && o.QueryType == SearchQueryType.Simple)))
-            .Callback((string _, SearchOptions options) =>
+                    && o.QueryType == SearchQueryType.Simple), It.IsAny<CancellationToken>()))
+            .Callback((string _, SearchOptions options, CancellationToken _) =>
             {
                 capturedOptions = options;
             })
@@ -167,8 +167,8 @@ public class SearchSearchTests
                     && o.Skip == 0
                     && o.IncludeTotalCount == true
                     && o.Filter == null
-                    && o.QueryType == SearchQueryType.Simple)))
-            .Callback((string _, SearchOptions options) =>
+                    && o.QueryType == SearchQueryType.Simple), It.IsAny<CancellationToken>()))
+            .Callback((string _, SearchOptions options, CancellationToken _) =>
             {
                 capturedOptions = options;
             })
@@ -209,9 +209,7 @@ public class SearchSearchTests
         const string facetValue = nameof(facetValue);
         var facetResult = SearchModelFactory.FacetResult(facetCount, new Dictionary<string, object>
         {
-            {
-                "value", facetValue
-            }
+            { "value", facetValue }
         });
         var resultFacets = new Dictionary<string, IList<FacetResult>>
         {
@@ -242,7 +240,7 @@ public class SearchSearchTests
                     && o.IncludeTotalCount == true
                     && o.Filter == nameof(filterBuilder)
                     && o.QueryType == SearchQueryType.Simple
-                    && o.Facets[0] == facets[0])))
+                    && o.Facets[0] == facets[0]), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Response.FromValue(searchResults, Mock.Of<Response>()));
 
         var expectedFacets = new Dictionary<string, IList<FacetValueResponseModel>>
@@ -289,7 +287,7 @@ public class SearchSearchTests
                     o.Size == Size
                     && o.IncludeTotalCount == true
                     && o.Filter == filters
-                    && o.QueryType == SearchQueryType.Full)))
+                    && o.QueryType == SearchQueryType.Full), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Response.FromValue(searchResults, Mock.Of<Response>()));
 
         var (total, results) = await _service.CallSearchWithScoreAsync(Search, filters, Size);

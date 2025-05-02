@@ -10,8 +10,8 @@ namespace Platform.Search;
 
 public interface IIndexClient
 {
-    Task<Response<SearchResults<T>>> SearchAsync<T>(string? searchText, SearchOptions options);
-    Task<Response<T>> GetDocumentAsync<T>(string? key);
+    Task<Response<SearchResults<T>>> SearchAsync<T>(string? searchText, SearchOptions options, CancellationToken cancellationToken = default);
+    Task<Response<T>> GetDocumentAsync<T>(string? key, CancellationToken cancellationToken = default);
     Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options, CancellationToken cancellationToken = default);
 }
 
@@ -20,14 +20,14 @@ public abstract class IndexClient(Uri endpoint, AzureKeyCredential credential, s
 {
     private readonly SearchClient _client = new(endpoint, indexName, credential);
 
-    public async Task<Response<SearchResults<T>>> SearchAsync<T>(string? searchText, SearchOptions options)
+    public async Task<Response<SearchResults<T>>> SearchAsync<T>(string? searchText, SearchOptions options, CancellationToken cancellationToken = default)
     {
         var id = Guid.NewGuid();
 
         Response<SearchResults<T>> response;
         using (HttpPipeline.CreateClientRequestIdScope(id.ToString()))
         {
-            response = await _client.SearchAsync<T>(searchText, options);
+            response = await _client.SearchAsync<T>(searchText, options, cancellationToken);
         }
 
         var searchResults = response.Value;
@@ -37,8 +37,7 @@ public abstract class IndexClient(Uri endpoint, AzureKeyCredential credential, s
         return response;
     }
 
-
-    public Task<Response<T>> GetDocumentAsync<T>(string? key) => _client.GetDocumentAsync<T>(key);
+    public Task<Response<T>> GetDocumentAsync<T>(string? key, CancellationToken cancellationToken = default) => _client.GetDocumentAsync<T>(key, cancellationToken: cancellationToken);
 
     public async Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options, CancellationToken cancellationToken = default)
     {

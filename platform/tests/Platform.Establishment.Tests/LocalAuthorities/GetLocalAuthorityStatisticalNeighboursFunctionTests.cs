@@ -35,7 +35,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetStatisticalNeighboursAsync(_laCode))
+            .Setup(d => d.GetStatisticalNeighboursAsync(_laCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync(_neighboursResponse);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);
@@ -53,7 +53,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunctionTests : FunctionsTest
     public async Task ShouldReturn404OnInvalidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(_laCode))
+            .Setup(d => d.GetAsync(_laCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync((LocalAuthority?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _laCode);

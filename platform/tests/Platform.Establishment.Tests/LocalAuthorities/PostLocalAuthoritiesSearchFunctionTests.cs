@@ -30,7 +30,7 @@ public class PostLocalAuthoritiesSearchFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.LocalAuthoritiesSearchAsync(It.IsAny<SearchRequest>()))
+            .Setup(d => d.LocalAuthoritiesSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new SearchResponse<LocalAuthoritySummary>());
 
         _validator
@@ -68,6 +68,6 @@ public class PostLocalAuthoritiesSearchFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SearchRequest.SearchText));
 
         _service
-            .Verify(d => d.LocalAuthoritiesSearchAsync(It.IsAny<SearchRequest>()), Times.Never);
+            .Verify(d => d.LocalAuthoritiesSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

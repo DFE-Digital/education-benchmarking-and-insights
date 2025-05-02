@@ -32,7 +32,7 @@ public class GetLocalAuthoritiesFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetAllAsync())
+            .Setup(d => d.GetAllAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(_localAuthorities);
 
         var result = await _function.RunAsync(CreateHttpRequestData());

@@ -14,11 +14,11 @@ namespace Platform.Establishment.Tests.Schools;
 
 public class PostSchoolComparatorsFunctionTests : FunctionsTestBase
 {
-    private readonly string _urn;
     private readonly SchoolComparators _comparators;
-    private readonly SchoolComparatorsRequest _request;
     private readonly PostSchoolComparatorsFunction _function;
+    private readonly SchoolComparatorsRequest _request;
     private readonly Mock<ISchoolComparatorsService> _service;
+    private readonly string _urn;
 
     public PostSchoolComparatorsFunctionTests()
     {
@@ -36,7 +36,7 @@ public class PostSchoolComparatorsFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.ComparatorsAsync(_urn, It.IsAny<SchoolComparatorsRequest>()))
+            .Setup(d => d.ComparatorsAsync(_urn, It.IsAny<SchoolComparatorsRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_comparators);
 
         var result = await _function.RunAsync(CreateHttpRequestDataWithBody(_request), _urn);

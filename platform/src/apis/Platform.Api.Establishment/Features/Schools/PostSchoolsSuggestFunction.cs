@@ -27,15 +27,15 @@ public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<Sugg
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSuggest)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SchoolSuggestRequest>();
+        var body = await req.ReadAsJsonAsync<SchoolSuggestRequest>(cancellationToken: cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var schools = await service.SchoolsSuggestAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(schools);
+        return await req.CreateJsonResponseAsync(schools, cancellationToken: cancellationToken);
     }
 }

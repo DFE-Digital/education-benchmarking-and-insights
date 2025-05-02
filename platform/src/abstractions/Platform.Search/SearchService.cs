@@ -5,7 +5,7 @@ namespace Platform.Search;
 
 public abstract class SearchService<T>(IIndexClient client)
 {
-    protected async Task<(long? Total, IEnumerable<ScoreResponse<T>> Response)> SearchWithScoreAsync(string? search, string? filters, int? size = null)
+    protected async Task<(long? Total, IEnumerable<ScoreResponse<T>> Response)> SearchWithScoreAsync(string? search, string? filters, int? size = null, CancellationToken cancellationToken = default)
     {
         var options = new SearchOptions
         {
@@ -15,7 +15,7 @@ public abstract class SearchService<T>(IIndexClient client)
             QueryType = SearchQueryType.Full
         };
 
-        var response = await client.SearchAsync<T>(search, options);
+        var response = await client.SearchAsync<T>(search, options, cancellationToken);
         var value = response.Value;
 
         return (value.TotalCount, value
@@ -27,13 +27,13 @@ public abstract class SearchService<T>(IIndexClient client)
             }));
     }
 
-    protected async Task<T> LookUpAsync(string? key)
+    protected async Task<T> LookUpAsync(string? key, CancellationToken cancellationToken = default)
     {
-        var response = await client.GetDocumentAsync<T>(key);
+        var response = await client.GetDocumentAsync<T>(key, cancellationToken);
         return response.Value;
     }
 
-    protected virtual async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<string?>? filterExpBuilder = null, string[]? facets = null)
+    protected virtual async Task<SearchResponse<T>> SearchAsync(SearchRequest request, Func<string?>? filterExpBuilder = null, string[]? facets = null, CancellationToken cancellationToken = default)
     {
         var options = new SearchOptions
         {
@@ -61,7 +61,7 @@ public abstract class SearchService<T>(IIndexClient client)
             options.OrderBy.Add(orderByItem);
         }
 
-        var searchResponse = await client.SearchAsync<T>(request.SearchText, options);
+        var searchResponse = await client.SearchAsync<T>(request.SearchText, options, cancellationToken);
         var searchResults = searchResponse.Value;
         var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : null;
         var results = searchResults.GetResults().Select(result => result.Document);
@@ -100,7 +100,10 @@ public abstract class SearchService<T>(IIndexClient client)
         var response = await client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options, cancellationToken);
         var results = response.Value.Results.Select(SuggestValue<T>.Create);
 
-        return new SuggestResponse<T> { Results = results };
+        return new SuggestResponse<T>
+        {
+            Results = results
+        };
     }
 
     private static Dictionary<string, IList<FacetValueResponseModel>> BuildFacetOutput(IDictionary<string, IList<FacetResult>> facetResults)

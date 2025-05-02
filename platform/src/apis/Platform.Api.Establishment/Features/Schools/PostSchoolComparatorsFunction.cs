@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -6,9 +7,9 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Establishment.Features.Schools.Models;
 using Platform.Api.Establishment.Features.Schools.Requests;
 using Platform.Api.Establishment.Features.Schools.Services;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
-using Platform.Functions;
 
 namespace Platform.Api.Establishment.Features.Schools;
 
@@ -22,12 +23,12 @@ public class PostSchoolComparatorsFunction(ISchoolComparatorsService service)
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolComparators))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolComparators)]
-        HttpRequestData req,
-        string identifier)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolComparators)] HttpRequestData req,
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SchoolComparatorsRequest>();
-        var comparators = await service.ComparatorsAsync(identifier, body);
-        return await req.CreateJsonResponseAsync(comparators);
+        var body = await req.ReadAsJsonAsync<SchoolComparatorsRequest>(cancellationToken: cancellationToken);
+        var comparators = await service.ComparatorsAsync(identifier, body, cancellationToken);
+        return await req.CreateJsonResponseAsync(comparators, cancellationToken: cancellationToken);
     }
 }
