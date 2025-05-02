@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -8,10 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
-        <PackageReference Include="Microsoft.Azure.StackExchangeRedis"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
-        <PackageReference Include="Newtonsoft.Json"/>
-        <PackageReference Include="Newtonsoft.Json.Bson"/>
+        <PackageReference Include="AspNetCore.HealthChecks.Redis" />
+        <PackageReference Include="Microsoft.Azure.StackExchangeRedis" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="Newtonsoft.Json.Bson" />
     </ItemGroup>
 </Project>
