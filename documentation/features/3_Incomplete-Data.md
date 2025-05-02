@@ -6,9 +6,9 @@ This document provides detailed information for developers about the implementat
 
 ## Overview
 
-The <b>Incomplete Data</b> feature provides a clear visual indicator when users are viewing financial data that may be incomplete. This ensures transparency and helps users make well-informed decisions based on the available information.
+The **Incomplete Data** feature provides a clear visual indicator when users are viewing financial data that may be incomplete. This ensures transparency and helps users make well-informed decisions based on the available information.
 
-As part of financial submissions from schools, the field `Periods covered by return` indicates the number of months reported. An establishment reporting fewer than 12 months is considered to have <b>part-year</b> status.
+As part of financial submissions from schools, the field `Periods covered by return` indicates the number of months reported. An establishment reporting fewer than 12 months is considered to have **part-year** status.
 
 For such schools, a warning banner is prominently displayed on relevant pages.
 
@@ -138,7 +138,7 @@ For an example in context, refer to the `SchoolComparison` feature.
 
 ### Part-year warning Financial Benchmarking Insights Summary
 
-Within the <b>Financial Benchmarking Insights Summary</b> feature, schools identified as having part-year status are also flagged. In such cases, users are shown a dedicated warning view.
+Within the **Financial Benchmarking Insights Summary** feature, schools identified as having part-year status are also flagged. In such cases, users are shown a dedicated warning view.
 
 This is implemented by returning a custom `ViewResult` accompanied by an HTTP status code `Status404NotFound`, to clearly indicate that a full insights summary is unavailable due to insufficient data.
 
