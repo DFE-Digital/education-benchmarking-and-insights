@@ -1,11 +1,11 @@
 ﻿using AutoFixture;
+using Platform.Api.Insight.Features.BudgetForecast;
 using Platform.Api.Insight.Features.BudgetForecast.Models;
-using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Xunit;
 
-namespace Platform.Insight.Tests.BudgetForecast.Responses;
+namespace Platform.Insight.Tests.BudgetForecast;
 
-public class WhenBudgetForecastReturnsResponseFactoryCreatesResponseForMetric
+public class WhenMapperMapsToApiResponseForMetric
 {
     private readonly Fixture _fixture = new();
 
@@ -16,7 +16,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponseForMetric
         var model = _fixture.Create<BudgetForecastReturnMetricModel>();
 
         // act
-        var actual = BudgetForecastReturnsResponseFactory.Create(model);
+        var actual = Mapper.MapToApiResponse(model);
 
         // assert
         Assert.Equal(model.Year, actual.Year);

@@ -1,10 +1,10 @@
-﻿using Platform.Api.Insight.Features.BudgetForecast.Models;
-using Platform.Api.Insight.Features.BudgetForecast.Responses;
+﻿using Platform.Api.Insight.Features.BudgetForecast;
+using Platform.Api.Insight.Features.BudgetForecast.Models;
 using Xunit;
 
-namespace Platform.Insight.Tests.BudgetForecast.Responses;
+namespace Platform.Insight.Tests.BudgetForecast;
 
-public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
+public class WhenMapperMapsToApiResponse
 {
     /// <summary>
     ///     Sample source input:
@@ -93,7 +93,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         };
 
         // act
-        var actual = BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(bfr, ar);
+        var actual = Mapper.MapToApiResponse(bfr, ar);
 
         // assert
         var year2020 = actual.ElementAt(0);
@@ -169,7 +169,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         };
 
         // act
-        var actual = BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(bfr, ar).Single();
+        var actual = Mapper.MapToApiResponse(bfr, ar).Single();
 
         // assert
         Assert.Equal(status, actual.VarianceStatus);
@@ -242,7 +242,7 @@ public class WhenBudgetForecastReturnsResponseFactoryCreatesResponse
         };
 
         // act
-        var actual = BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(bfr, ar);
+        var actual = Mapper.MapToApiResponse(bfr, ar);
 
         // assert
         var year2020 = actual.ElementAt(0);

@@ -124,4 +124,51 @@ public class WhenBudgetForecastServiceQueriesAsync
 
         Assert.Equal("SELECT Value FROM Parameters WHERE Name = @Name", actualSql);
     }
+
+    [Theory]
+    [InlineData("123", "revenue reserve", 2021)]
+    public async Task ShouldQueryAsyncWhenGetActualReturnsAsyncWithValidCategory(string companyNumber, string category, int runId)
+    {
+        // arrange
+        var models = new List<ActualReturnModel>
+        {
+            new()
+        };
+
+        string? actualSql = null;
+        object? actualParam = null;
+
+        _connection
+            .Setup(c => c.QueryAsync<ActualReturnModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
+            .Callback((string sql, object? param, CancellationToken _) =>
+            {
+                actualSql = sql;
+                actualParam = param;
+            })
+            .ReturnsAsync(models);
+
+        // act
+        var results = await _service.GetActualReturnsAsync(companyNumber, category, runId.ToString());
+
+        // assert
+        Assert.Equal("SELECT Year, RevenueReserve 'Value', TotalPupils FROM TrustBalanceHistoric WHERE CompanyNumber = @CompanyNumber AND Year >= @StartYear AND Year <= @EndYear", actualSql);
+        Assert.Equal(models, results);
+        Assert.Equivalent(new
+        {
+            CompanyNumber = companyNumber,
+            StartYear = runId - 2,
+            EndYear = runId
+        }, actualParam, true);
+    }
+
+    [Theory]
+    [InlineData("123", "invalid", 2021)]
+    public async Task ShouldNotQueryAsyncWhenGetActualReturnsAsyncWithInvalidCategory(string companyNumber, string category, int runId)
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => _service.GetActualReturnsAsync(companyNumber, category, runId.ToString()));
+
+        Assert.NotNull(exception);
+        _connection
+            .Verify(c => c.QueryAsync<ActualReturnModel>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
 }

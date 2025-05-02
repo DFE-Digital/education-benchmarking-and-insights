@@ -25,6 +25,6 @@ public class GetBudgetForecastMetricsFunction(IBudgetForecastService service)
         string companyNumber)
     {
         var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default);
-        return await req.CreateJsonResponseAsync(result.Select(BudgetForecastReturnsResponseFactory.Create));
+        return await req.CreateJsonResponseAsync(result.Select(Mapper.MapToApiResponse));
     }
 }
