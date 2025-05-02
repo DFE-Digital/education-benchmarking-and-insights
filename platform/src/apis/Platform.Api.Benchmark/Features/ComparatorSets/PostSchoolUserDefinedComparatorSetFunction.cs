@@ -8,7 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Benchmark.Features.ComparatorSets.Models;
 using Platform.Api.Benchmark.Features.ComparatorSets.Requests;
 using Platform.Api.Benchmark.Features.ComparatorSets.Services;
-using Platform.Api.Benchmark.Responses;
+using Platform.Api.Benchmark.Shared;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
