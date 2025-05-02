@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-namespace Platform.Api.Benchmark.Responses;
+
+namespace Platform.Api.Benchmark.Shared;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 public class MultiResponse

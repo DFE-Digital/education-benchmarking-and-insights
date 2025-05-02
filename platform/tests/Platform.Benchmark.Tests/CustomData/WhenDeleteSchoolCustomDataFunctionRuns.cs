@@ -40,4 +40,23 @@ public class WhenDeleteSchoolCustomDataFunctionRuns : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         _service.Verify();
     }
+
+    [Fact]
+    public async Task ShouldReturn404OnInvalidRequest()
+    {
+        CustomDataSchool? data = null;
+        const string urn = nameof(urn);
+        const string identifier = nameof(identifier);
+
+        _service
+            .Setup(d => d.CustomDataSchoolAsync(urn, identifier))
+            .ReturnsAsync(data)
+            .Verifiable();
+
+        var result = await _functions.RunAsync(CreateHttpRequestData(), urn, identifier);
+
+        Assert.NotNull(result);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        _service.Verify();
+    }
 }
