@@ -17,10 +17,10 @@ namespace Platform.Insight.Tests.Expenditure;
 
 public class GetExpenditureSchoolsFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetExpenditureSchoolsFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureQuerySchoolParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetExpenditureSchoolsFunctionTests()
     {
@@ -39,7 +39,7 @@ public class GetExpenditureSchoolsFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.QuerySchoolsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.QuerySchoolsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData());
@@ -72,6 +72,6 @@ public class GetExpenditureSchoolsFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(ExpenditureParameters.Dimension));
 
         _service
-            .Verify(d => d.QuerySchoolsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            .Verify(d => d.QuerySchoolsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

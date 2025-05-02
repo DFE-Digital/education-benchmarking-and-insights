@@ -26,22 +26,21 @@ public class GetCensusHistoryComparatorSetAverageFunctions(ICensusService servic
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryComparatorSetAverage)]
-        HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryComparatorSetAverage)] HttpRequestData req,
         string urn,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<CensusParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var (years, rows) = await service.GetComparatorAveHistoryAsync(urn, queryParams.Dimension, token);
+        var (years, rows) = await service.GetComparatorAveHistoryAsync(urn, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

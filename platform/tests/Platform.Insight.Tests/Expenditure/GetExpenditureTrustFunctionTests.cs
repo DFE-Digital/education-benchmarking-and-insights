@@ -17,10 +17,10 @@ namespace Platform.Insight.Tests.Expenditure;
 
 public class GetExpenditureTrustFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetExpenditureTrustFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetExpenditureTrustFunctionTests()
     {
@@ -39,7 +39,7 @@ public class GetExpenditureTrustFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -60,7 +60,7 @@ public class GetExpenditureTrustFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ExpenditureTrustModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -89,6 +89,6 @@ public class GetExpenditureTrustFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(ExpenditureParameters.Dimension));
 
         _service.Verify(
-            x => x.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            x => x.GetTrustAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -27,21 +28,21 @@ public class GetExpenditureSchoolFunction(IExpenditureService service, IValidato
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
-        HttpRequestData req,
-        string urn)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)] HttpRequestData req,
+        string urn,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.GetSchoolAsync(urn, queryParams.Dimension);
+        var result = await service.GetSchoolAsync(urn, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category));
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
     }
 }

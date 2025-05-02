@@ -28,22 +28,21 @@ public class GetCensusHistoryNationalAverageFunction(ICensusService service, IVa
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryNationalAverage)]
-        HttpRequestData req,
-        CancellationToken token)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryNationalAverage)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<CensusNationalAvgParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType,
-            queryParams.Dimension, token);
+            queryParams.Dimension, cancellationToken);
         return years == null
-            ? await req.CreateJsonResponseAsync(new CensusHistoryResponse())
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            ? await req.CreateJsonResponseAsync(new CensusHistoryResponse(), cancellationToken: cancellationToken)
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

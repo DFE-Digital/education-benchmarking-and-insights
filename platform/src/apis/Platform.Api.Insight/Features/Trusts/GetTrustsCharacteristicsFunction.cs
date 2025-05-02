@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -23,12 +24,12 @@ public class GetTrustsCharacteristicsFunction(ITrustsService service)
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(TrustCharacteristic[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Characteristics)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Characteristics)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<TrustsParameters>();
 
-        var trusts = await service.QueryAsync(queryParams.Trusts);
-        return await req.CreateJsonResponseAsync(trusts);
+        var trusts = await service.QueryAsync(queryParams.Trusts, cancellationToken);
+        return await req.CreateJsonResponseAsync(trusts, cancellationToken: cancellationToken);
     }
 }

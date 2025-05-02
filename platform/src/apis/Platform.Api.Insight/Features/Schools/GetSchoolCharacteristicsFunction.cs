@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -20,11 +21,12 @@ public class GetSchoolCharacteristicsFunction(ISchoolsService service)
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.SchoolCharacteristics)] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken = default)
     {
-        var result = await service.CharacteristicAsync(urn);
+        var result = await service.CharacteristicAsync(urn, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result);
+            : await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }

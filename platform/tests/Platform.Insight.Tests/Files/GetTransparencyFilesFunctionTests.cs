@@ -31,7 +31,7 @@ public class GetTransparencyFilesFunctionTests : FunctionsTestBase
         var models = _fixture.CreateMany<FileModel>();
 
         _service
-            .Setup(d => d.GetActiveFilesByType("transparency-aar", "transparency-cfr"))
+            .Setup(d => d.GetActiveFilesByType(It.IsAny<CancellationToken>(), "transparency-aar", "transparency-cfr"))
             .ReturnsAsync(models);
 
         var result = await _function.RunAsync(CreateHttpRequestData());

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -20,13 +21,13 @@ public class GetCensusFunction(ICensusService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
-        HttpRequestData req,
-        string urn)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)] HttpRequestData req,
+        string urn,
+        CancellationToken cancellationToken = default)
     {
-        var result = await service.GetAsync(urn);
+        var result = await service.GetAsync(urn, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse());
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
     }
 }

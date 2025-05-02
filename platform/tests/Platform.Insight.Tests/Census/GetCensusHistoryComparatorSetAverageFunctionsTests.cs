@@ -19,10 +19,10 @@ namespace Platform.Insight.Tests.Census;
 public class GetCensusHistoryComparatorSetAverageFunctionsTests : FunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
+    private readonly Fixture _fixture;
     private readonly GetCensusHistoryComparatorSetAverageFunctions _function;
     private readonly Mock<ICensusService> _service;
     private readonly Mock<IValidator<CensusParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetCensusHistoryComparatorSetAverageFunctionsTests()
     {
@@ -36,7 +36,11 @@ public class GetCensusHistoryComparatorSetAverageFunctionsTests : FunctionsTestB
     public async Task ShouldReturn200OnValidRequest()
     {
         var history = _fixture.CreateMany<CensusHistoryModel>(5);
-        var years = new YearsModel { StartYear = 2019, EndYear = 2023 };
+        var years = new YearsModel
+        {
+            StartYear = 2019,
+            EndYear = 2023
+        };
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
@@ -65,7 +69,7 @@ public class GetCensusHistoryComparatorSetAverageFunctionsTests : FunctionsTestB
 
         _service
             .Setup(d => d.GetComparatorAveHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((null, Array.Empty<CensusHistoryModel>()));
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
 

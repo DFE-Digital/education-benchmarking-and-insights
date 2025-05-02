@@ -15,9 +15,9 @@ namespace Platform.Insight.Tests.Balance;
 
 public class GetBalanceSchoolHistoryFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetBalanceSchoolHistoryFunction _function;
     private readonly Mock<IBalanceService> _service;
-    private readonly Fixture _fixture;
 
     public GetBalanceSchoolHistoryFunctionTests()
     {
@@ -30,10 +30,14 @@ public class GetBalanceSchoolHistoryFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         var history = _fixture.CreateMany<BalanceHistoryModel>(5);
-        var years = new YearsModel { StartYear = 2019, EndYear = 2023 };
+        var years = new YearsModel
+        {
+            StartYear = 2019,
+            EndYear = 2023
+        };
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((years, history));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -50,8 +54,8 @@ public class GetBalanceSchoolHistoryFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnNotFound()
     {
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((null, Array.Empty<BalanceHistoryModel>()));
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 

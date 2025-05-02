@@ -14,9 +14,9 @@ namespace Platform.Insight.Tests.Balance;
 
 public class GetBalanceTrustsFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetBalanceTrustsFunction _function;
     private readonly Mock<IBalanceService> _service;
-    private readonly Fixture _fixture;
 
     public GetBalanceTrustsFunctionTests()
     {
@@ -31,7 +31,7 @@ public class GetBalanceTrustsFunctionTests : FunctionsTestBase
         var trusts = _fixture.CreateMany<BalanceTrustModel>(5);
 
         _service
-            .Setup(d => d.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>()))
+            .Setup(d => d.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(trusts);
 
         var result = await _function.RunAsync(CreateHttpRequestData());

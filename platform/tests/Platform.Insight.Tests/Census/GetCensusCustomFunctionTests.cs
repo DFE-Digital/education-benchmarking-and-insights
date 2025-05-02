@@ -17,10 +17,10 @@ namespace Platform.Insight.Tests.Census;
 public class GetCensusCustomFunctionTests : FunctionsTestBase
 {
     private const string Urn = "URN";
+    private readonly Fixture _fixture;
     private readonly GetCensusCustomFunction _function;
     private readonly Mock<ICensusService> _service;
     private readonly Mock<IValidator<CensusParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetCensusCustomFunctionTests()
     {
@@ -40,7 +40,7 @@ public class GetCensusCustomFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn, Guid.Empty.ToString());
@@ -61,7 +61,7 @@ public class GetCensusCustomFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((CensusSchoolModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn, Guid.Empty.ToString());
@@ -90,6 +90,6 @@ public class GetCensusCustomFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(CensusParameters.Dimension));
 
         _service
-            .Verify(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            .Verify(d => d.GetCustomAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

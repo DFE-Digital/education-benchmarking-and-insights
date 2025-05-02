@@ -29,22 +29,21 @@ public class GetExpenditureSchoolHistoryNationalAverageFunction(IExpenditureServ
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryNationalAverage)]
-        HttpRequestData req,
-        CancellationToken token)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistoryNationalAverage)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<ExpenditureNationalAvgParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType,
-            queryParams.Dimension, token);
+            queryParams.Dimension, cancellationToken);
         return years == null
-            ? await req.CreateJsonResponseAsync(new ExpenditureHistoryResponse())
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            ? await req.CreateJsonResponseAsync(new ExpenditureHistoryResponse(), cancellationToken: cancellationToken)
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

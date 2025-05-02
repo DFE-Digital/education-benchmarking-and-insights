@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -22,9 +23,10 @@ public class GetBudgetForecastMetricsFunction(IBudgetForecastService service)
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.Metrics)] HttpRequestData req,
-        string companyNumber)
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
-        var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default);
-        return await req.CreateJsonResponseAsync(result.Select(Mapper.MapToApiResponse));
+        var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default, cancellationToken);
+        return await req.CreateJsonResponseAsync(result.Select(Mapper.MapToApiResponse), cancellationToken: cancellationToken);
     }
 }

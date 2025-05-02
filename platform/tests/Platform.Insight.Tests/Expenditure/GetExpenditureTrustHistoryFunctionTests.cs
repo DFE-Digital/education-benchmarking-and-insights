@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Features.Expenditure;
-using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.Api.Insight.Features.Expenditure.Services;
@@ -36,8 +35,8 @@ public class GetExpenditureTrustHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((new YearsModel(), Array.Empty<ExpenditureHistoryModel>()));
+            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((new YearsModel(), []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
@@ -57,8 +56,8 @@ public class GetExpenditureTrustHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((null, Array.Empty<ExpenditureHistoryModel>()));
+            .Setup(d => d.GetTrustHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 

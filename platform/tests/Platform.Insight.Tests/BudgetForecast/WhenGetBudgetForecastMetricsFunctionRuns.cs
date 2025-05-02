@@ -31,7 +31,7 @@ public class WhenGetBudgetForecastMetricsFunctionRuns : FunctionsTestBase
         var results = Fixture.Build<BudgetForecastReturnMetricModel>().CreateMany().ToArray();
 
         _service
-            .Setup(d => d.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default))
+            .Setup(d => d.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default, It.IsAny<CancellationToken>()))
             .ReturnsAsync(results);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), companyNumber);

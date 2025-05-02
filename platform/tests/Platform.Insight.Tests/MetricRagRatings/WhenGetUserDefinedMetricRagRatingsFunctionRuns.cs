@@ -30,7 +30,7 @@ public class WhenGetUserDefinedMetricRagRatingsFunctionRuns : FunctionsTestBase
         const string identifier = nameof(identifier);
 
         _service
-            .Setup(d => d.UserDefinedAsync(identifier, Pipeline.RunType.Default, It.IsAny<bool>()))
+            .Setup(d => d.UserDefinedAsync(identifier, Pipeline.RunType.Default, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(results);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), identifier);

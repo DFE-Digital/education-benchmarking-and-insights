@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Features.Census;
-using Platform.Api.Insight.Features.Census.Models;
 using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Functions;
@@ -34,8 +33,8 @@ public class GetCensusQueryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<CensusSchoolModel>());
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
 
         var result = await _function.RunAsync(CreateHttpRequestData());
 
@@ -53,8 +52,8 @@ public class GetCensusQueryFunctionTests : FunctionsTestBase
             ]));
 
         _service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<CensusSchoolModel>());
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
 
         var result = await _function.RunAsync(CreateHttpRequestData());
 
@@ -67,6 +66,6 @@ public class GetCensusQueryFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(CensusQuerySchoolsParameters.Dimension));
 
         _service
-            .Verify(x => x.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            .Verify(x => x.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

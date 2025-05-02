@@ -2,10 +2,7 @@ using System.Net;
 using AutoFixture;
 using Moq;
 using Platform.Api.Insight.Features.BudgetForecast;
-using Platform.Api.Insight.Features.BudgetForecast.Models;
-using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Platform.Api.Insight.Features.BudgetForecast.Services;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -31,7 +28,7 @@ public class WhenGetBudgetForecastCurrentYearFunctionRuns : FunctionsTestBase
         const int year = 2021;
 
         _service
-            .Setup(d => d.GetBudgetForecastCurrentYearAsync())
+            .Setup(d => d.GetBudgetForecastCurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(year);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), companyNumber);
@@ -51,7 +48,7 @@ public class WhenGetBudgetForecastCurrentYearFunctionRuns : FunctionsTestBase
         int? year = null;
 
         _service
-            .Setup(d => d.GetBudgetForecastCurrentYearAsync())
+            .Setup(d => d.GetBudgetForecastCurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(year);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), companyNumber);

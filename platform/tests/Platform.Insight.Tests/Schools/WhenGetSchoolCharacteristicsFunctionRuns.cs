@@ -29,7 +29,7 @@ public class WhenGetSchoolCharacteristicsFunctionRuns : FunctionsTestBase
         var results = Fixture.Create<SchoolCharacteristic>();
 
         _service
-            .Setup(d => d.CharacteristicAsync(urn))
+            .Setup(d => d.CharacteristicAsync(urn, It.IsAny<CancellationToken>()))
             .ReturnsAsync(results);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), urn);

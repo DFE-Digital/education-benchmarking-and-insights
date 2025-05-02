@@ -27,22 +27,21 @@ public class GetCensusHistoryFunction(ICensusService service, IValidator<CensusP
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistory)]
-        HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistory)] HttpRequestData req,
         string urn,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<CensusParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension, token);
+        var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }
