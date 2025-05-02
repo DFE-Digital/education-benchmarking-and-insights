@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -29,11 +30,12 @@ public class PostSchoolUserDefinedComparatorSetFunction(IComparatorSetsService s
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<MultiResponse> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = Routes.SchoolUserDefinedComparatorSet)] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken = default)
     {
         var response = new MultiResponse();
 
-        var body = await req.ReadAsJsonAsync<ComparatorSetUserDefinedRequest>();
+        var body = await req.ReadAsJsonAsync<ComparatorSetUserDefinedRequest>(cancellationToken);
         var identifier = Guid.NewGuid().ToString();
         var comparatorSet = new ComparatorSetUserDefinedSchool
         {
@@ -43,7 +45,7 @@ public class PostSchoolUserDefinedComparatorSetFunction(IComparatorSetsService s
             URN = urn
         };
 
-        var validationResult = await schoolValidator.ValidateAsync(comparatorSet);
+        var validationResult = await schoolValidator.ValidateAsync(comparatorSet, cancellationToken);
         if (!validationResult.IsValid)
         {
             response.HttpResponse = req.CreateResponse(HttpStatusCode.BadRequest);
@@ -56,7 +58,7 @@ public class PostSchoolUserDefinedComparatorSetFunction(IComparatorSetsService s
         {
             await service.InsertNewAndDeactivateExistingUserDataAsync(
                 ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
-            var year = await service.CurrentYearAsync();
+            var year = await service.CurrentYearAsync(cancellationToken);
 
             var message = new PipelineStartCustom
             {

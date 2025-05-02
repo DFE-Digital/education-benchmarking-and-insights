@@ -45,7 +45,7 @@ public class WhenGetUserDataFunctionRuns : FunctionsTestBase
         var userData = _fixture.CreateMany<Api.Benchmark.Features.UserData.Models.UserData>();
 
         _service
-            .Setup(d => d.QueryAsync(userId, type, status, id, organisationId, organisationType))
+            .Setup(d => d.QueryAsync(userId, type, status, id, organisationId, organisationType, It.IsAny<CancellationToken>()))
             .ReturnsAsync(userData)
             .Verifiable(Times.Once);
 
@@ -86,7 +86,7 @@ public class WhenGetUserDataFunctionRuns : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(UserDataParameters.UserId));
 
         _service
-            .Setup(d => d.QueryAsync(It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
+            .Setup(d => d.QueryAsync(It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .Verifiable(Times.Never);
     }
 }

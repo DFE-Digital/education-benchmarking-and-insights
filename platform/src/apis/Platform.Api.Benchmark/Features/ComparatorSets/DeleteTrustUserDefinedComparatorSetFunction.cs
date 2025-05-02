@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -22,9 +23,10 @@ public class DeleteTrustUserDefinedComparatorSetFunction(IComparatorSetsService 
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.TrustUserDefinedComparatorSetItem)] HttpRequestData req,
         string companyNumber,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
+        var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier, cancellationToken: cancellationToken);
         if (comparatorSet == null)
         {
             return req.CreateNotFoundResponse();

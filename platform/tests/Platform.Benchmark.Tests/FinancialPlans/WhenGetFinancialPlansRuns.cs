@@ -33,7 +33,7 @@ public class WhenGetFinancialPlansRuns : FunctionsTestBase
         var data = _fixture.Build<FinancialPlanSummary>().CreateMany();
 
         _service
-            .Setup(d => d.QueryAsync(urns))
+            .Setup(d => d.QueryAsync(urns, It.IsAny<CancellationToken>()))
             .ReturnsAsync(data);
 
         var result = await _function.RunAsync(CreateHttpRequestData(query));

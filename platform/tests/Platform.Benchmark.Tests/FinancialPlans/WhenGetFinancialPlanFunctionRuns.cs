@@ -25,7 +25,7 @@ public class WhenGetFinancialPlanFunctionRuns : FunctionsTestBase
         const int year = 2021;
 
         _service
-            .Setup(d => d.DetailsAsync(urn, year))
+            .Setup(d => d.DetailsAsync(urn, year, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new FinancialPlanDetails());
 
         var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);
@@ -41,7 +41,7 @@ public class WhenGetFinancialPlanFunctionRuns : FunctionsTestBase
         const int year = 2021;
 
         _service
-            .Setup(d => d.DetailsAsync(urn, year))
+            .Setup(d => d.DetailsAsync(urn, year, It.IsAny<CancellationToken>()))
             .ReturnsAsync((FinancialPlanDetails?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);

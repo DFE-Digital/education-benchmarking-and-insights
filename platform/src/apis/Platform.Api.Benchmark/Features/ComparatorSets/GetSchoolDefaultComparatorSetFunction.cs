@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -21,11 +22,12 @@ public class GetSchoolDefaultComparatorSetFunction(IComparatorSetsService servic
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.SchoolDefaultComparatorSet)] HttpRequestData req,
-        string urn)
+        string urn,
+        CancellationToken cancellationToken = default)
     {
-        var comparatorSet = await service.DefaultSchoolAsync(urn);
+        var comparatorSet = await service.DefaultSchoolAsync(urn, cancellationToken);
         return comparatorSet == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(comparatorSet);
+            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken: cancellationToken);
     }
 }

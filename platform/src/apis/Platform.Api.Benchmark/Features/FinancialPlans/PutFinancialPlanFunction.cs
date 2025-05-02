@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -26,9 +27,10 @@ public class PutFinancialPlanFunction(IFinancialPlansService service)
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = Routes.FinancialPlan)] HttpRequestData req,
         string urn,
-        int year)
+        int year,
+        CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<FinancialPlanDetails>();
+        var body = await req.ReadAsJsonAsync<FinancialPlanDetails>(cancellationToken);
 
         //TODO : Consider adding request validator
         var result = await service.UpsertAsync(urn, year, body);

@@ -28,12 +28,12 @@ public static class HttpRequestDataExtensions
         return guid;
     }
 
-    public static async Task<T> ReadAsJsonAsync<T>(this HttpRequestData req)
+    public static async Task<T> ReadAsJsonAsync<T>(this HttpRequestData req, CancellationToken cancellationToken = default)
     {
         var result = default(T);
         try
         {
-            result = await req.ReadFromJsonAsync<T>();
+            result = await req.ReadFromJsonAsync<T>(cancellationToken);
         }
         catch (Exception)
         {
@@ -56,25 +56,37 @@ public static class HttpRequestDataExtensions
         return parameters;
     }
 
-    public static async Task<HttpResponseData> CreateJsonResponseAsync(this HttpRequestData req, object obj, HttpStatusCode statusCode = HttpStatusCode.OK)
+    public static async Task<HttpResponseData> CreateJsonResponseAsync(
+        this HttpRequestData req,
+        object obj,
+        HttpStatusCode statusCode = HttpStatusCode.OK,
+        CancellationToken cancellationToken = default)
     {
         var response = req.CreateResponse(statusCode);
-        await response.WriteAsJsonAsync(obj);
+        await response.WriteAsJsonAsync(obj, cancellationToken);
         return response;
     }
 
-    public static async Task<HttpResponseData> CreateObjectResponseAsync(this HttpRequestData req, object obj, HttpStatusCode statusCode = HttpStatusCode.OK)
+    public static async Task<HttpResponseData> CreateObjectResponseAsync(
+        this HttpRequestData req,
+        object obj,
+        HttpStatusCode statusCode = HttpStatusCode.OK,
+        CancellationToken cancellationToken = default)
     {
         var response = req.CreateResponse(statusCode);
         var bytes = Encoding.UTF8.GetBytes(obj.ToString() ?? string.Empty);
         response.Headers.Add("Content-Type", ContentType.TextPlain);
-        await response.WriteBytesAsync(bytes);
+        await response.WriteBytesAsync(bytes, cancellationToken);
         return response;
     }
 
-    public static async Task<HttpResponseData> CreateValidationErrorsResponseAsync(this HttpRequestData req, IEnumerable<ValidationFailure> failures, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+    public static async Task<HttpResponseData> CreateValidationErrorsResponseAsync(
+        this HttpRequestData req,
+        IEnumerable<ValidationFailure> failures,
+        HttpStatusCode statusCode = HttpStatusCode.BadRequest,
+        CancellationToken cancellationToken = default)
     {
-        return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode);
+        return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode, cancellationToken: cancellationToken);
     }
 
     public static HttpResponseData CreateErrorResponse(this HttpRequestData req, int statusCode = (int)HttpStatusCode.InternalServerError) => req.CreateResponse((HttpStatusCode)statusCode);

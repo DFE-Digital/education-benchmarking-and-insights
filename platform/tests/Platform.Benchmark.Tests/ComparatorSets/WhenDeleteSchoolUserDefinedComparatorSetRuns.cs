@@ -26,7 +26,7 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
         const string runType = "default";
 
         _service
-            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType))
+            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ComparatorSetUserDefinedSchool());
 
         _service
@@ -51,7 +51,7 @@ public class WhenDeleteSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
         const string runType = "default";
 
         _service
-            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType))
+            .Setup(d => d.UserDefinedSchoolAsync(urn, identifier, runType, It.IsAny<CancellationToken>()))
             .ReturnsAsync((ComparatorSetUserDefinedSchool?)null);
 
         _service

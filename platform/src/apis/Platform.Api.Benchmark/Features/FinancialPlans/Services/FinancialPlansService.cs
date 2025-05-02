@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper.Contrib.Extensions;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
@@ -12,41 +13,37 @@ namespace Platform.Api.Benchmark.Features.FinancialPlans.Services;
 
 public interface IFinancialPlansService
 {
-    Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns);
-    Task<FinancialPlanDetails?> DetailsAsync(string urn, int year);
-    Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year);
+    Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns, CancellationToken cancellationToken = default);
+    Task<FinancialPlanDetails?> DetailsAsync(string urn, int year, CancellationToken cancellationToken = default);
+    Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year, CancellationToken cancellationToken = default);
     Task<Result> UpsertAsync(string urn, int year, FinancialPlanDetails plan);
     Task DeleteAsync(string urn, int year);
 }
 
 [ExcludeFromCodeCoverage]
-public class FinancialPlansService : IFinancialPlansService
+public class FinancialPlansService(IDatabaseFactory dbFactory) : IFinancialPlansService
 {
-    private readonly IDatabaseFactory _dbFactory;
-
-    public FinancialPlansService(IDatabaseFactory dbFactory)
-    {
-        _dbFactory = dbFactory;
-    }
-
-    public async Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns)
+    public async Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from FinancialPlan where URN IN @URNS";
-        var parameters = new { URNS = urns };
+        var parameters = new
+        {
+            URNS = urns
+        };
 
-        using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryAsync<FinancialPlanSummary>(sql, parameters);
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<FinancialPlanSummary>(sql, parameters, cancellationToken);
     }
 
-    public async Task<FinancialPlanDetails?> DetailsAsync(string urn, int year)
+    public async Task<FinancialPlanDetails?> DetailsAsync(string urn, int year, CancellationToken cancellationToken = default)
     {
-        var result = await GetFinancialPlan(urn, year);
+        var result = await GetFinancialPlan(urn, year, cancellationToken);
         return result?.Input?.FromJson<FinancialPlanDetails>();
     }
 
-    public async Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year)
+    public async Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year, CancellationToken cancellationToken = default)
     {
-        var result = await GetFinancialPlan(urn, year);
+        var result = await GetFinancialPlan(urn, year, cancellationToken);
         return result?.DeploymentPlan?.FromJson<FinancialPlanDeployment>();
     }
 
@@ -65,7 +62,7 @@ public class FinancialPlansService : IFinancialPlansService
     {
         var existing = await GetFinancialPlan(urn, year);
 
-        using var connection = await _dbFactory.GetConnection();
+        using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
         await connection.DeleteAsync(existing, transaction);
@@ -73,18 +70,22 @@ public class FinancialPlansService : IFinancialPlansService
         transaction.Commit();
     }
 
-    private async Task<FinancialPlan?> GetFinancialPlan(string urn, int year)
+    private async Task<FinancialPlan?> GetFinancialPlan(string urn, int year, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from FinancialPlan where URN = @URN AND Year = @Year";
-        var parameters = new { URN = urn, Year = year };
+        var parameters = new
+        {
+            URN = urn,
+            Year = year
+        };
 
-        using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<FinancialPlan>(sql, parameters);
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<FinancialPlan>(sql, parameters, cancellationToken);
     }
 
     private async Task<Result> Update(FinancialPlanDetails plan, FinancialPlan existing)
     {
-        using var connection = await _dbFactory.GetConnection();
+        using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
         var deployment = plan.IsComplete ? DeploymentPlanFactory.Create(plan) : null;
@@ -111,7 +112,7 @@ public class FinancialPlansService : IFinancialPlansService
 
     private async Task<Result> Create(string urn, int year, FinancialPlanDetails plan)
     {
-        using var connection = await _dbFactory.GetConnection();
+        using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
         var deployment = plan.IsComplete ? DeploymentPlanFactory.Create(plan) : null;

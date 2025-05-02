@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -22,9 +23,10 @@ public class DeleteSchoolCustomDataFunction(ICustomDataService service)
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.SchoolCustomDataItem)] HttpRequestData req,
         string urn,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var data = await service.CustomDataSchoolAsync(urn, identifier);
+        var data = await service.CustomDataSchoolAsync(urn, identifier, cancellationToken);
         if (data == null)
         {
             return req.CreateNotFoundResponse();

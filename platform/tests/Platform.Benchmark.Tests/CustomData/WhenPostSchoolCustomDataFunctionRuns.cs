@@ -32,7 +32,7 @@ public class WhenPostSchoolCustomDataFunctionRuns : FunctionsTestBase
 
         const int year = 2024;
         _service
-            .Setup(d => d.CurrentYearAsync())
+            .Setup(d => d.CurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(year.ToString());
 
         const string urn = "123321";

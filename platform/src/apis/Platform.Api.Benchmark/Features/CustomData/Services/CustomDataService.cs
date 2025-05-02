@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper.Contrib.Extensions;
 using Platform.Api.Benchmark.Features.CustomData.Models;
@@ -10,9 +11,9 @@ namespace Platform.Api.Benchmark.Features.CustomData.Services;
 public interface ICustomDataService
 {
     Task UpsertCustomDataAsync(CustomDataSchool data);
-    Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier);
+    Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier, CancellationToken cancellationToken = default);
     Task InsertNewAndDeactivateExistingUserDataAsync(CustomDataUserData userData);
-    Task<string> CurrentYearAsync();
+    Task<string> CurrentYearAsync(CancellationToken cancellationToken = default);
     Task DeleteSchoolAsync(CustomDataSchool data);
 }
 
@@ -46,7 +47,7 @@ public class CustomDataService(IDatabaseFactory dbFactory) : ICustomDataService
         transaction.Commit();
     }
 
-    public async Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier)
+    public async Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id";
         var parameters = new
@@ -56,7 +57,7 @@ public class CustomDataService(IDatabaseFactory dbFactory) : ICustomDataService
         };
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters, cancellationToken);
     }
 
     public async Task InsertNewAndDeactivateExistingUserDataAsync(CustomDataUserData userData)
@@ -78,11 +79,11 @@ public class CustomDataService(IDatabaseFactory dbFactory) : ICustomDataService
         transaction.Commit();
     }
 
-    public async Task<string> CurrentYearAsync()
+    public async Task<string> CurrentYearAsync(CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryFirstAsync<string>(sql);
+        return await conn.QueryFirstAsync<string>(sql, cancellationToken: cancellationToken);
     }
 
     public async Task DeleteSchoolAsync(CustomDataSchool data)

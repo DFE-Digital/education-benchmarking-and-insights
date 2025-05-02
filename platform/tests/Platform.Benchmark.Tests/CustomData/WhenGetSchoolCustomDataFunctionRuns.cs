@@ -28,7 +28,7 @@ public class WhenGetSchoolCustomDataFunctionRuns : FunctionsTestBase
         var result = _fixture.Create<CustomDataSchool>();
 
         _service
-            .Setup(d => d.CustomDataSchoolAsync(urn, identifier))
+            .Setup(d => d.CustomDataSchoolAsync(urn, identifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
 
         var response =
