@@ -35,12 +35,12 @@ public class GetHighNeedsHistoryFunction(IHighNeedsService service, IValidator<H
         var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var history = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return history == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(history);
+            : await req.CreateJsonResponseAsync(history, cancellationToken: cancellationToken);
     }
 }

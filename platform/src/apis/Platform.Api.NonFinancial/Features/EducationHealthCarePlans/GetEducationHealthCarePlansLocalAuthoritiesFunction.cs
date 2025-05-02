@@ -36,10 +36,10 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunction(
         var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var result = await service.Get(queryParams.Codes, queryParams.Dimension, cancellationToken);
-        return await req.CreateJsonResponseAsync(result);
+        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }

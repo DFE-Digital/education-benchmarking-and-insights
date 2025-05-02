@@ -36,12 +36,12 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction(
         var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var result = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result);
+            : await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }
