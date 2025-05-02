@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -23,11 +24,12 @@ public class GetTrustUserDefinedComparatorSetFunction(IComparatorSetsService ser
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.TrustUserDefinedComparatorSetItem)] HttpRequestData req,
         string companyNumber,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier);
+        var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier, cancellationToken: cancellationToken);
         return comparatorSet == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(comparatorSet);
+            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken: cancellationToken);
     }
 }

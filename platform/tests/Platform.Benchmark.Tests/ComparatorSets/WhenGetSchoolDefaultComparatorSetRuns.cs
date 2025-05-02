@@ -24,7 +24,7 @@ public class WhenGetSchoolDefaultComparatorSetRuns : FunctionsTestBase
         const string urn = nameof(urn);
 
         _service
-            .Setup(d => d.DefaultSchoolAsync(urn))
+            .Setup(d => d.DefaultSchoolAsync(urn, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ComparatorSetSchool());
 
         var response =

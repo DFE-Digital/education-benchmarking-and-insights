@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -28,14 +29,15 @@ public class GetUserDataFunction(IUserDataService service, IValidator<UserDataPa
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Models.UserData>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.UserData)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.UserData)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<UserDataParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var data = await service.QueryAsync(
@@ -44,8 +46,9 @@ public class GetUserDataFunction(IUserDataService service, IValidator<UserDataPa
             queryParams.Status,
             queryParams.Id,
             queryParams.OrganisationId,
-            queryParams.OrganisationType);
+            queryParams.OrganisationType,
+            cancellationToken);
 
-        return await req.CreateJsonResponseAsync(data);
+        return await req.CreateJsonResponseAsync(data, cancellationToken: cancellationToken);
     }
 }

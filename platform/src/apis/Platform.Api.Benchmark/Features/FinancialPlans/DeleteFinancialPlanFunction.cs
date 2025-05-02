@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -21,7 +22,8 @@ public class DeleteFinancialPlanFunction(IFinancialPlansService service)
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.FinancialPlan)] HttpRequestData req,
         string urn,
-        int year)
+        int year,
+        CancellationToken cancellationToken = default)
     {
         await service.DeleteAsync(urn, year);
         return req.CreateResponse(HttpStatusCode.OK);

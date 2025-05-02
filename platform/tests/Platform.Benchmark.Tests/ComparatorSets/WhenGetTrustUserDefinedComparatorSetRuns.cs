@@ -26,7 +26,7 @@ public class WhenGetTrustUserDefinedComparatorSetRuns : FunctionsTestBase
         const string runType = "default";
 
         _service
-            .Setup(d => d.UserDefinedTrustAsync(urn, identifier, runType))
+            .Setup(d => d.UserDefinedTrustAsync(urn, identifier, runType, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ComparatorSetUserDefinedTrust());
 
         var response =
@@ -45,7 +45,7 @@ public class WhenGetTrustUserDefinedComparatorSetRuns : FunctionsTestBase
         const string runType = "default";
 
         _service
-            .Setup(d => d.UserDefinedTrustAsync(urn, identifier, runType))
+            .Setup(d => d.UserDefinedTrustAsync(urn, identifier, runType, It.IsAny<CancellationToken>()))
             .ReturnsAsync((ComparatorSetUserDefinedTrust?)null);
 
         var response =

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Platform.Domain;
 using Platform.Sql;
@@ -15,7 +16,8 @@ public interface IUserDataService
         string? status = null,
         string? id = null,
         string? organisationId = null,
-        string? organisationType = null);
+        string? organisationType = null,
+        CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,7 +29,8 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
         string? status = null,
         string? id = null,
         string? organisationId = null,
-        string? organisationType = null)
+        string? organisationType = null,
+        CancellationToken cancellationToken = default)
     {
         var userDataBuilder = new UserDataQuery()
             .WhereUserIdEqual(userId)
@@ -60,6 +63,6 @@ public class UserDataService(IDatabaseFactory dbFactory) : IUserDataService
         }
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<Models.UserData>(userDataBuilder);
+        return await conn.QueryAsync<Models.UserData>(userDataBuilder, cancellationToken);
     }
 }

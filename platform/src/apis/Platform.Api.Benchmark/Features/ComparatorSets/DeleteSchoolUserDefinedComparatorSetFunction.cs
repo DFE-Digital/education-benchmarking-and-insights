@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -22,9 +23,10 @@ public class DeleteSchoolUserDefinedComparatorSetFunction(IComparatorSetsService
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = Routes.SchoolUserDefinedComparatorSetItem)] HttpRequestData req,
         string urn,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier);
+        var comparatorSet = await service.UserDefinedSchoolAsync(urn, identifier, cancellationToken: cancellationToken);
         if (comparatorSet == null)
         {
             return req.CreateNotFoundResponse();

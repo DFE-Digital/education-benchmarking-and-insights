@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
@@ -10,15 +11,15 @@ namespace Platform.Api.Benchmark.Features.ComparatorSets.Services;
 
 public interface IComparatorSetsService
 {
-    Task<string> CurrentYearAsync();
-    Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn);
-    Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn);
+    Task<string> CurrentYearAsync(CancellationToken cancellationToken = default);
+    Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn, CancellationToken cancellationToken = default);
+    Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn, CancellationToken cancellationToken = default);
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
-    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default);
+    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default, CancellationToken cancellationToken = default);
     Task InsertNewAndDeactivateExistingUserDataAsync(ComparatorSetUserData userData);
     Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
     Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
-    Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default);
+    Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default, CancellationToken cancellationToken = default);
     Task UpsertUserDefinedTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
 }
 
@@ -33,29 +34,29 @@ public class ComparatorSetsService : IComparatorSetsService
         SqlMapper.AddTypeHandler(new ComparatorSetIdsTypeHandler());
     }
 
-    public async Task<string> CurrentYearAsync()
+    public async Task<string> CurrentYearAsync(CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstAsync<string>(sql);
+        return await conn.QueryFirstAsync<string>(sql, cancellationToken: cancellationToken);
     }
 
-    public async Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn)
+    public async Task<ComparatorSetSchool?> DefaultSchoolAsync(string urn, CancellationToken cancellationToken = default)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         const string setSql = "SELECT * from ComparatorSet where RunType = 'default' AND RunId = @RunId AND URN = @URN";
 
         using var conn = await _dbFactory.GetConnection();
-        var year = await conn.QueryFirstAsync<string>(paramSql);
+        var year = await conn.QueryFirstAsync<string>(paramSql, cancellationToken: cancellationToken);
         var parameters = new
         {
             URN = urn,
             RunId = year
         };
-        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters, cancellationToken);
     }
 
-    public async Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn)
+    public async Task<ComparatorSetSchool?> CustomSchoolAsync(string runId, string urn, CancellationToken cancellationToken = default)
     {
         const string setSql = "SELECT * from ComparatorSet where RunType = 'custom' AND RunId = @RunId AND URN = @URN";
 
@@ -65,7 +66,7 @@ public class ComparatorSetsService : IComparatorSetsService
             URN = urn,
             RunId = runId
         };
-        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetSchool>(setSql, parameters, cancellationToken);
     }
 
     public async Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet)
@@ -96,7 +97,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default)
+    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = Pipeline.RunType.Default, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from UserDefinedSchoolComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
         var parameters = new
@@ -107,7 +108,7 @@ public class ComparatorSetsService : IComparatorSetsService
         };
 
         using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedSchool>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedSchool>(sql, parameters, cancellationToken);
     }
 
     public async Task InsertNewAndDeactivateExistingUserDataAsync(ComparatorSetUserData userData)
@@ -165,7 +166,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default)
+    public async Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = Pipeline.RunType.Default, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT * from UserDefinedTrustComparatorSet where CompanyNumber = @CompanyNumber AND RunId = @RunId AND RunType = @RunType";
         var parameters = new
@@ -176,7 +177,7 @@ public class ComparatorSetsService : IComparatorSetsService
         };
 
         using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedTrust>(sql, parameters);
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedTrust>(sql, parameters, cancellationToken);
     }
 
     public async Task UpsertUserDefinedTrustAsync(ComparatorSetUserDefinedTrust comparatorSet)

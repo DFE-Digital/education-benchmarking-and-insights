@@ -26,7 +26,7 @@ public class WhenDeleteSchoolCustomDataFunctionRuns : FunctionsTestBase
         const string identifier = nameof(identifier);
 
         _service
-            .Setup(d => d.CustomDataSchoolAsync(urn, identifier))
+            .Setup(d => d.CustomDataSchoolAsync(urn, identifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(data)
             .Verifiable();
 
@@ -49,7 +49,7 @@ public class WhenDeleteSchoolCustomDataFunctionRuns : FunctionsTestBase
         const string identifier = nameof(identifier);
 
         _service
-            .Setup(d => d.CustomDataSchoolAsync(urn, identifier))
+            .Setup(d => d.CustomDataSchoolAsync(urn, identifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(data)
             .Verifiable();
 

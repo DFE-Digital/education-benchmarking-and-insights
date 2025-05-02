@@ -39,7 +39,7 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
                 It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         _service
-            .Setup(d => d.CurrentYearAsync())
+            .Setup(d => d.CurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync("2024");
 
         _schoolValidator
@@ -79,7 +79,7 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
 
         const int year = 2024;
         _service
-            .Setup(d => d.CurrentYearAsync())
+            .Setup(d => d.CurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(year.ToString());
 
         _schoolValidator
@@ -126,7 +126,7 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
                 It.IsAny<ComparatorSetUserDefinedSchool>()));
 
         _service
-            .Setup(d => d.CurrentYearAsync())
+            .Setup(d => d.CurrentYearAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync("2024");
 
         _schoolValidator

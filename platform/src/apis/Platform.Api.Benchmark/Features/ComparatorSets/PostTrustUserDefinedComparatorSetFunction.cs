@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -26,9 +27,10 @@ public class PostTrustUserDefinedComparatorSetFunction(IComparatorSetsService se
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = Routes.TrustUserDefinedComparatorSet)] HttpRequestData req,
-        string companyNumber)
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<ComparatorSetUserDefinedRequest>();
+        var body = await req.ReadAsJsonAsync<ComparatorSetUserDefinedRequest>(cancellationToken);
         var identifier = Guid.NewGuid().ToString();
         var comparatorSet = new ComparatorSetUserDefinedTrust
         {
@@ -38,7 +40,7 @@ public class PostTrustUserDefinedComparatorSetFunction(IComparatorSetsService se
             CompanyNumber = companyNumber
         };
 
-        var validationResult = await trustValidator.ValidateAsync(comparatorSet);
+        var validationResult = await trustValidator.ValidateAsync(comparatorSet, cancellationToken);
         if (!validationResult.IsValid)
         {
             return req.CreateResponse(HttpStatusCode.BadRequest);

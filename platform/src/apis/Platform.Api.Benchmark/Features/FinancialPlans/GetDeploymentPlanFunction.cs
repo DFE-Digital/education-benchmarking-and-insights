@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -24,11 +25,12 @@ public class GetDeploymentPlanFunction(IFinancialPlansService service)
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.DeploymentPlan)] HttpRequestData req,
         string urn,
-        int year)
+        int year,
+        CancellationToken cancellationToken = default)
     {
-        var plan = await service.DeploymentPlanAsync(urn, year);
+        var plan = await service.DeploymentPlanAsync(urn, year, cancellationToken);
         return plan != null
-            ? await req.CreateJsonResponseAsync(plan)
+            ? await req.CreateJsonResponseAsync(plan, cancellationToken: cancellationToken)
             : req.CreateNotFoundResponse();
     }
 }

@@ -25,7 +25,7 @@ public class WhenGetDeploymentPlanFunctionRuns : FunctionsTestBase
         const int year = 2021;
 
         _service
-            .Setup(d => d.DeploymentPlanAsync(urn, year))
+            .Setup(d => d.DeploymentPlanAsync(urn, year, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new FinancialPlanDeployment());
 
         var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);
@@ -41,7 +41,7 @@ public class WhenGetDeploymentPlanFunctionRuns : FunctionsTestBase
         const int year = 2021;
 
         _service
-            .Setup(d => d.DeploymentPlanAsync(urn, year))
+            .Setup(d => d.DeploymentPlanAsync(urn, year, It.IsAny<CancellationToken>()))
             .ReturnsAsync((FinancialPlanDeployment?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), urn, year);
