@@ -35,10 +35,10 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
         var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension, cancellationToken);
-        return await req.CreateJsonResponseAsync(highNeeds);
+        return await req.CreateJsonResponseAsync(highNeeds, cancellationToken: cancellationToken);
     }
 }
