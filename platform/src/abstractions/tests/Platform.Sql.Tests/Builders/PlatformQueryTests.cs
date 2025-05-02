@@ -13,8 +13,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE URN = @URN");
 
         var builder = new MockPlatformQuery().WhereUrnEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -29,8 +30,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE URN IN @URNS");
         var builder = new MockPlatformQuery().WhereUrnIn(expectedValue);
 
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -47,8 +49,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE RunId BETWEEN @StartYear AND @EndYear");
 
         var builder = new MockPlatformQuery().WhereRunIdBetween(expectedValue1, expectedValue2);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam1, expectedParam2);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam1, expectedParam2);
 
+        Assert.NotNull(parameters);
         Assert.Equal(2, parameters.Count);
         Assert.Contains(expectedParam1, parameters.Keys);
         Assert.Contains(expectedParam2, parameters.Keys);
@@ -65,8 +68,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE RunId = @RunId");
 
         var builder = new MockPlatformQuery().WhereRunIdEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -81,8 +85,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE TrustCompanyNumber = @CompanyNumber");
 
         var builder = new MockPlatformQuery().WhereTrustCompanyNumberEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -97,8 +102,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE CompanyNumber = @CompanyNumber");
 
         var builder = new MockPlatformQuery().WhereCompanyNumberEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -113,8 +119,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE CompanyNumber IN @CompanyNumbers");
 
         var builder = new MockPlatformQuery().WhereCompanyNumberIn(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -129,8 +136,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE LaCode = @LaCode");
 
         var builder = new MockPlatformQuery().WhereLaCodeEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -145,8 +153,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE LaCode IN @LaCodes");
 
         var builder = new MockPlatformQuery().WhereLaCodesIn(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -161,8 +170,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE OverallPhase = @Phase");
 
         var builder = new MockPlatformQuery().WhereOverallPhaseEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -177,8 +187,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE FinanceType = @FinanceType");
 
         var builder = new MockPlatformQuery().WhereFinanceTypeEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -193,8 +204,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE FederationLeadURN = @FederationLeadURN");
 
         var builder = new MockPlatformQuery().WhereFederationLeadUrnEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -209,8 +221,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE Code = @Code");
 
         var builder = new MockPlatformQuery().WhereCodeEqual(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
@@ -235,8 +248,9 @@ public class PlatformQueryTests
         var expectedSql = BuildExpectedQuery("WHERE Type IN @Types");
 
         var builder = new MockPlatformQuery().WhereTypeIn(expectedValue);
-        var parameters = builder.QueryTemplate.Parameters.GetTemplateParameters(expectedParam);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
 
+        Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);

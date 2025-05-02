@@ -41,6 +41,6 @@ public class GetBudgetForecastReturnFunction(IBudgetForecastService service)
             queryParams.Category,
             queryParams.RunId);
 
-        return await req.CreateJsonResponseAsync(BudgetForecastReturnsResponseFactory.CreateForDefaultRunType(bfr, ar));
+        return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar));
     }
 }

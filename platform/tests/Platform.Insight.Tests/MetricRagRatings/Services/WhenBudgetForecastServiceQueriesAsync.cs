@@ -165,4 +165,14 @@ public class WhenMetricRagRatingsServiceQueriesAsync
 
         Assert.Equal(expectedParam, actualParam);
     }
+
+    [Fact]
+    public async Task ShouldNotQueryAndThrowExceptionWhenNoFilterSupplied()
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _service.QueryAsync([], [], [], null, null, null));
+
+        Assert.NotNull(exception);
+        _connection
+            .Verify(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
 }
