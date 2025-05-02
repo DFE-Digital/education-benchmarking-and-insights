@@ -28,17 +28,17 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeeds)] HttpRequestData req,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<HighNeedsDimensionedParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension, token);
+        var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return await req.CreateJsonResponseAsync(highNeeds);
     }
 }

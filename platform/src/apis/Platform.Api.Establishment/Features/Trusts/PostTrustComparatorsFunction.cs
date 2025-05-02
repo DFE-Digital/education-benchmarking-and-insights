@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -22,12 +23,12 @@ public class PostTrustComparatorsFunction(ITrustComparatorsService service)
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(TrustComparators))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustComparators)]
-        HttpRequestData req,
-        string identifier)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustComparators)] HttpRequestData req,
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<TrustComparatorsRequest>();
-        var comparators = await service.ComparatorsAsync(identifier, body);
-        return await req.CreateJsonResponseAsync(comparators);
+        var body = await req.ReadAsJsonAsync<TrustComparatorsRequest>(cancellationToken: cancellationToken);
+        var comparators = await service.ComparatorsAsync(identifier, body, cancellationToken);
+        return await req.CreateJsonResponseAsync(comparators, cancellationToken: cancellationToken);
     }
 }

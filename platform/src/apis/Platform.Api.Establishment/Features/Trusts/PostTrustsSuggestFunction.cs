@@ -24,19 +24,18 @@ public class PostTrustsSuggestFunction(ITrustsService service, IValidator<Sugges
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSuggest)]
-        HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSuggest)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<TrustSuggestRequest>();
+        var body = await req.ReadAsJsonAsync<TrustSuggestRequest>(cancellationToken: cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var trusts = await service.TrustsSuggestAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(trusts);
+        return await req.CreateJsonResponseAsync(trusts, cancellationToken: cancellationToken);
     }
 }

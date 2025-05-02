@@ -30,7 +30,7 @@ public class PostSchoolsSearchFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.SchoolsSearchAsync(It.IsAny<SearchRequest>()))
+            .Setup(d => d.SchoolsSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new SearchResponse<SchoolSummary>());
 
         _validator
@@ -68,6 +68,6 @@ public class PostSchoolsSearchFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SearchRequest.SearchText));
 
         _service
-            .Verify(d => d.SchoolsSearchAsync(It.IsAny<SearchRequest>()), Times.Never);
+            .Verify(d => d.SchoolsSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

@@ -30,7 +30,7 @@ public class PostTrustsSearchFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.TrustsSearchAsync(It.IsAny<SearchRequest>()))
+            .Setup(d => d.TrustsSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new SearchResponse<TrustSummary>());
 
         _validator
@@ -68,6 +68,6 @@ public class PostTrustsSearchFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(SearchRequest.SearchText));
 
         _service
-            .Verify(d => d.TrustsSearchAsync(It.IsAny<SearchRequest>()), Times.Never);
+            .Verify(d => d.TrustsSearchAsync(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

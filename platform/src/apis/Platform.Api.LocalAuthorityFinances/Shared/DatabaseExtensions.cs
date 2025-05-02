@@ -12,9 +12,9 @@ public static class DatabaseExtensions
     public static async Task<YearsModel?> QueryYearsLocalAuthorityAsync(
         this IDatabaseConnection conn,
         string code,
-        CancellationToken token = default)
+        CancellationToken cancellationToken = default)
     {
         var builder = new YearsLocalAuthorityQuery(code);
-        return await conn.QueryFirstOrDefaultAsync<YearsModel>(builder, token);
+        return await conn.QueryFirstOrDefaultAsync<YearsModel>(builder, cancellationToken);
     }
 }

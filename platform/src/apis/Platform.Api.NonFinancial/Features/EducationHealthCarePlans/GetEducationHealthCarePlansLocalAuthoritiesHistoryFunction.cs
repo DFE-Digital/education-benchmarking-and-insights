@@ -29,17 +29,17 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction(
     [OpenApiResponseWithoutBody(HttpStatusCode.BadRequest)]
     public async Task<HttpResponseData> EducationHealthCarePlans(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthoritiesHistory)] HttpRequestData req,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<EducationHealthCarePlansDimensionedParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var result = await service.GetHistory(queryParams.Codes, queryParams.Dimension, token);
+        var result = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
             : await req.CreateJsonResponseAsync(result);

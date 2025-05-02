@@ -17,10 +17,10 @@ namespace Platform.Api.Establishment.Features.LocalAuthorities.Services;
 public interface ILocalAuthoritiesService
 {
     Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request, CancellationToken cancellationToken = default);
-    Task<LocalAuthority?> GetAsync(string code);
-    Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier);
-    Task<IEnumerable<LocalAuthority>> GetAllAsync();
-    Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request);
+    Task<LocalAuthority?> GetAsync(string code, CancellationToken cancellationToken = default);
+    Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string identifier, CancellationToken cancellationToken = default);
+    Task<IEnumerable<LocalAuthority>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -29,13 +29,13 @@ public class LocalAuthoritiesService(
     IDatabaseFactory dbFactory)
     : SearchService<LocalAuthoritySummary>(client), ILocalAuthoritiesService
 {
-    public async Task<LocalAuthority?> GetAsync(string code)
+    public async Task<LocalAuthority?> GetAsync(string code, CancellationToken cancellationToken = default)
     {
         var laBuilder = new LocalAuthorityQuery()
             .WhereCodeEqual(code);
 
         using var conn = await dbFactory.GetConnection();
-        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(laBuilder);
+        var localAuthority = await conn.QueryFirstOrDefaultAsync<LocalAuthority>(laBuilder, cancellationToken);
         if (localAuthority is null)
         {
             return null;
@@ -46,7 +46,7 @@ public class LocalAuthoritiesService(
             .WhereFinanceTypeEqual(FinanceType.Maintained)
             .WhereUrnInCurrentFinances();
 
-        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsBuilder);
+        localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchool>(schoolsBuilder, cancellationToken);
         return localAuthority;
     }
 
@@ -64,25 +64,25 @@ public class LocalAuthoritiesService(
         }
     }
 
-    public async Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string code)
+    public async Task<LocalAuthorityStatisticalNeighboursResponse?> GetStatisticalNeighboursAsync(string code, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var laBuilder = new LocalAuthorityStatisticalNeighbourQuery()
             .WhereLaCodeEqual(code);
 
-        var results = await conn.QueryAsync<LocalAuthorityStatisticalNeighbour>(laBuilder);
+        var results = await conn.QueryAsync<LocalAuthorityStatisticalNeighbour>(laBuilder, cancellationToken);
         return LocalAuthorityStatisticalNeighbourResponseFactory.Create(results.ToArray());
     }
 
-    public async Task<IEnumerable<LocalAuthority>> GetAllAsync()
+    public async Task<IEnumerable<LocalAuthority>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var laBuilder = new LocalAuthorityQuery()
             .OrderBy(nameof(LocalAuthority.Name));
 
         using var conn = await dbFactory.GetConnection();
-        var localAuthorities = await conn.QueryAsync<LocalAuthority>(laBuilder);
+        var localAuthorities = await conn.QueryAsync<LocalAuthority>(laBuilder, cancellationToken);
         return localAuthorities;
     }
 
-    public Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request) => SearchAsync(request, request.FilterExpression);
+    public Task<SearchResponse<LocalAuthoritySummary>> LocalAuthoritiesSearchAsync(SearchRequest request, CancellationToken cancellationToken = default) => SearchAsync(request, request.FilterExpression, cancellationToken: cancellationToken);
 }

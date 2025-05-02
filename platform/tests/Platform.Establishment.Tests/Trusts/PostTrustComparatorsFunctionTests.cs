@@ -15,8 +15,8 @@ public class PostTrustComparatorsFunctionTests : FunctionsTestBase
 {
     private readonly string _companyNumber;
     private readonly TrustComparators _comparators;
-    private readonly TrustComparatorsRequest _request;
     private readonly PostTrustComparatorsFunction _function;
+    private readonly TrustComparatorsRequest _request;
     private readonly Mock<ITrustComparatorsService> _service;
 
     public PostTrustComparatorsFunctionTests()
@@ -35,7 +35,7 @@ public class PostTrustComparatorsFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.ComparatorsAsync(_companyNumber, It.IsAny<TrustComparatorsRequest>()))
+            .Setup(d => d.ComparatorsAsync(_companyNumber, It.IsAny<TrustComparatorsRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_comparators);
 
         var result = await _function.RunAsync(CreateHttpRequestDataWithBody(_request), _companyNumber);

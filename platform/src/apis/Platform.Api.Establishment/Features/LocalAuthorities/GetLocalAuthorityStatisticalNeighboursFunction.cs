@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -21,14 +22,15 @@ public class GetLocalAuthorityStatisticalNeighboursFunction(ILocalAuthoritiesSer
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityStatisticalNeighbours)] HttpRequestData req,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var response = await service.GetStatisticalNeighboursAsync(identifier);
+        var response = await service.GetStatisticalNeighboursAsync(identifier, cancellationToken);
         if (response == null)
         {
             return req.CreateNotFoundResponse();
         }
 
-        return await req.CreateJsonResponseAsync(response);
+        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
     }
 }

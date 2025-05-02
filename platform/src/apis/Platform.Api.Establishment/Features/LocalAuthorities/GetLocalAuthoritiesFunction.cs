@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -19,9 +20,10 @@ public class GetLocalAuthoritiesFunction(ILocalAuthoritiesService service)
     [OpenApiOperation(nameof(GetLocalAuthoritiesFunction), Constants.Features.LocalAuthorities)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IEnumerable<LocalAuthority>))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
-        var response = await service.GetAllAsync();
-        return await req.CreateJsonResponseAsync(response);
+        var response = await service.GetAllAsync(cancellationToken);
+        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
     }
 }

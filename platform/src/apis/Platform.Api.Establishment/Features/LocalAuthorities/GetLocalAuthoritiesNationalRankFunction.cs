@@ -27,16 +27,16 @@ public class GetLocalAuthoritiesNationalRankFunction(ILocalAuthorityRankingServi
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthoritiesNationalRank)] HttpRequestData req,
-        CancellationToken token)
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<LocalAuthoritiesNationalRankParameters>();
-        var validationResult = await validator.ValidateAsync(queryParams, token);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var response = await service.GetRanking(queryParams.Ranking, queryParams.Sort, token);
-        return await req.CreateJsonResponseAsync(response);
+        var response = await service.GetRanking(queryParams.Ranking, queryParams.Sort, cancellationToken);
+        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
     }
 }

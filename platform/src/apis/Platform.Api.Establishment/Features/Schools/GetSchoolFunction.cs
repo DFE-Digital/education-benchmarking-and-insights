@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -20,14 +21,14 @@ public class GetSchoolFunction(ISchoolsService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(School))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)]
-        HttpRequestData req,
-        string identifier)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.School)] HttpRequestData req,
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
-        var school = await service.GetAsync(identifier);
+        var school = await service.GetAsync(identifier, cancellationToken);
 
         return school == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(school);
+            : await req.CreateJsonResponseAsync(school, cancellationToken: cancellationToken);
     }
 }

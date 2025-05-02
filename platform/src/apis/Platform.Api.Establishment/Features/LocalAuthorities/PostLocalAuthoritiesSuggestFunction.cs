@@ -27,15 +27,15 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSuggest)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>();
+        var body = await req.ReadAsJsonAsync<LocalAuthoritySuggestRequest>(cancellationToken: cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
         var localAuthorities = await service.LocalAuthoritiesSuggestAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(localAuthorities);
+        return await req.CreateJsonResponseAsync(localAuthorities, cancellationToken: cancellationToken);
     }
 }

@@ -25,7 +25,7 @@ public class GetSchoolFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .Setup(d => d.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new School());
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -41,9 +41,8 @@ public class GetSchoolFunctionTests : FunctionsTestBase
     [Fact]
     public async Task ShouldReturn404OnInvalidRequest()
     {
-
         _service
-            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .Setup(d => d.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((School?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");

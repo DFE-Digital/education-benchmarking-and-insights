@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -25,17 +26,18 @@ public class PostTrustsSearchFunction(
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSearch)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSearch)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SearchRequest>();
+        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken: cancellationToken);
 
-        var validationResult = await validator.ValidateAsync(body);
+        var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var trusts = await service.TrustsSearchAsync(body);
-        return await req.CreateJsonResponseAsync(trusts);
+        var trusts = await service.TrustsSearchAsync(body, cancellationToken);
+        return await req.CreateJsonResponseAsync(trusts, cancellationToken: cancellationToken);
     }
 }
