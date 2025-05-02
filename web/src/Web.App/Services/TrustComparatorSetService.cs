@@ -8,7 +8,7 @@ namespace Web.App.Services;
 
 public interface ITrustComparatorSetService
 {
-    Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier);
+    Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier, CancellationToken cancellationToken = default);
     UserDefinedTrustComparatorSet ReadUserDefinedComparatorSetFromSession(string companyNumber);
     UserDefinedTrustComparatorSet SetUserDefinedComparatorSetInSession(string companyNumber, UserDefinedTrustComparatorSet set);
     void ClearUserDefinedComparatorSetFromSession(string companyNumber, string? identifier = null);
@@ -19,9 +19,11 @@ public interface ITrustComparatorSetService
 
 public class TrustComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ITrustComparatorSetService
 {
-    public async Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier) =>
+    public async Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier, CancellationToken cancellationToken = default)
+    {
         //Do not add to session state. Locking on session state blocks requests
-        await api.GetUserDefinedTrustAsync(companyNumber, identifier).GetResultOrThrow<UserDefinedTrustComparatorSet>();
+        return await api.GetUserDefinedTrustAsync(companyNumber, identifier, cancellationToken).GetResultOrThrow<UserDefinedTrustComparatorSet>();
+    }
 
     public UserDefinedTrustComparatorSet ReadUserDefinedComparatorSetFromSession(string companyNumber)
     {

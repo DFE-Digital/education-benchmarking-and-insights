@@ -6,6 +6,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -19,6 +20,7 @@ public class BalanceProxyController(
     /// <param name="type" example="school"></param>
     /// <param name="id" example="148793"></param>
     /// <param name="dimension" example="PerUnit"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<BalanceHistoryRows>(StatusCodes.Status200OK)]
@@ -27,7 +29,8 @@ public class BalanceProxyController(
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension)
+        [FromQuery] string dimension,
+        CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -40,10 +43,10 @@ public class BalanceProxyController(
                 var result = type.ToLower() switch
                 {
                     OrganisationTypes.School => await api
-                        .SchoolHistory(id, BuildQuery(dimension))
+                        .SchoolHistory(id, BuildQuery(dimension), cancellationToken)
                         .GetResultOrDefault<BalanceHistoryRows>(),
                     OrganisationTypes.Trust => await api
-                        .TrustHistory(id, BuildQuery(dimension))
+                        .TrustHistory(id, BuildQuery(dimension), cancellationToken)
                         .GetResultOrDefault<BalanceHistoryRows>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
@@ -61,6 +64,7 @@ public class BalanceProxyController(
     /// <param name="type" example="trust"></param>
     /// <param name="id" example="07465701"></param>
     /// <param name="dimension" example="PerUnit"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<TrustBalance[]>(StatusCodes.Status200OK)]
@@ -70,7 +74,8 @@ public class BalanceProxyController(
     public async Task<IActionResult> UserDefined(
         [FromQuery] string type,
         [FromQuery] string id,
-        [FromQuery] string dimension)
+        [FromQuery] string dimension,
+        CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -82,7 +87,7 @@ public class BalanceProxyController(
             {
                 return type.ToLower() switch
                 {
-                    OrganisationTypes.Trust => await TrustBalanceUserDefined(id, dimension),
+                    OrganisationTypes.Trust => await TrustBalanceUserDefined(id, dimension, cancellationToken),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
             }
@@ -94,17 +99,17 @@ public class BalanceProxyController(
         }
     }
 
-    private async Task<IActionResult> TrustBalanceUserDefined(string id, string? dimension)
+    private async Task<IActionResult> TrustBalanceUserDefined(string id, string? dimension, CancellationToken cancellationToken = default)
     {
-        var userData = await userDataService.GetTrustDataAsync(User, id);
+        var userData = await userDataService.GetTrustDataAsync(User, id, cancellationToken);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             return new NotFoundResult();
         }
 
-        var userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        var userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet, cancellationToken);
         var userDefinedResult = await api
-            .QueryTrusts(BuildQuery(dimension, userDefinedSet.Set, "companyNumbers"))
+            .QueryTrusts(BuildQuery(dimension, userDefinedSet.Set, "companyNumbers"), cancellationToken)
             .GetResultOrThrow<TrustBalance[]>();
 
         return new JsonResult(userDefinedResult);

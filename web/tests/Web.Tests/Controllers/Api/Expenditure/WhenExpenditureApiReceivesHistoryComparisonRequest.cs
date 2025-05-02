@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Expenditure;
 
 public class WhenExpenditureApiReceivesHistoryComparisonRequest
@@ -36,15 +37,15 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
         // arrange
         var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = _fixture.Build<School>()
             .With(s => s.URN, urn)
             .Create();
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        var cancellationToken = CancellationToken.None;
         SetupExpenditureHistory(urn, results, q => actualQuery = q, cancellationToken);
 
         // act
@@ -63,16 +64,17 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
         // arrange
         var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = _fixture.Build<School>()
             .With(s => s.URN, urn)
             .Create();
+
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        SetupExpenditureHistory(urn);
-        var cancellationToken = CancellationToken.None;
+        SetupExpenditureHistory(urn, cancellationToken: cancellationToken);
         _expenditureApi
             .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
             .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
@@ -100,6 +102,7 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
         // arrange
         var results = new ExpenditureHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = new School
         {
@@ -107,12 +110,12 @@ public class WhenExpenditureApiReceivesHistoryComparisonRequest
             FinanceType = schoolFinanceType,
             OverallPhase = schoolOverallPhase
         };
+
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        SetupExpenditureHistory(urn);
-        var cancellationToken = CancellationToken.None;
+        SetupExpenditureHistory(urn, cancellationToken: cancellationToken);
         _expenditureApi
             .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
             .Callback<ApiQuery?, CancellationToken>((query, _) =>

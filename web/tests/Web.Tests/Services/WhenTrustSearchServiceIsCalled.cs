@@ -9,7 +9,6 @@ namespace Web.Tests.Services;
 
 public class WhenTrustSearchServiceIsCalled
 {
-    private readonly Mock<IEstablishmentApi> _api = new();
 
     public static TheoryData<string?, int?, int?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
@@ -37,10 +36,12 @@ public class WhenTrustSearchServiceIsCalled
                 SearchText = "term",
                 PageSize = 1,
                 Page = 2,
-                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3"}
+                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3" }
             }
         }
     };
+
+    private readonly Mock<IEstablishmentApi> _api = new();
 
     [Theory]
     [MemberData(nameof(WhenSendRequestData))]
@@ -49,8 +50,8 @@ public class WhenTrustSearchServiceIsCalled
         var response = new SearchResponse<TrustSummary>();
 
         SearchRequest? actualRequest = null;
-        _api.Setup(x => x.SearchTrusts(It.IsAny<SearchRequest>()))
-            .Callback<SearchRequest>(r =>
+        _api.Setup(x => x.SearchTrusts(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<SearchRequest, CancellationToken>((r, _) =>
             {
                 actualRequest = r;
             })

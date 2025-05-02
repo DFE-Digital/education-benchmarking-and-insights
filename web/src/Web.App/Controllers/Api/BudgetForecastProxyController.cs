@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -12,11 +14,12 @@ namespace Web.App.Controllers.Api;
 public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController> logger, IBudgetForecastApi budgetForecastApi) : Controller
 {
     /// <param name="companyNumber" example="07465701"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<BudgetForecastReturn[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Index([FromQuery] string companyNumber)
+    public async Task<IActionResult> Index([FromQuery] string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -26,7 +29,7 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
             try
             {
                 var metrics = await budgetForecastApi
-                    .BudgetForecastReturnsMetrics(companyNumber)
+                    .BudgetForecastReturnsMetrics(companyNumber, cancellationToken: cancellationToken)
                     .GetResultOrDefault<BudgetForecastReturnMetric[]>() ?? [];
                 var metricsYear = metrics
                     .Select(x => x.Year)
@@ -35,7 +38,7 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
 
                 var query = new ApiQuery().AddIfNotNull("runId", metricsYear.ToString());
                 var result = await budgetForecastApi
-                    .BudgetForecastReturns(companyNumber, query)
+                    .BudgetForecastReturns(companyNumber, query, cancellationToken)
                     .GetResultOrDefault<BudgetForecastReturn[]>();
 
                 return new JsonResult(result);

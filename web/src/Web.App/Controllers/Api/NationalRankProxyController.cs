@@ -20,7 +20,7 @@ public class NationalRankProxyController(
     [Produces("application/json")]
     [ProducesResponseType<LocalAuthorityRanking>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Query([FromQuery] string ranking, [FromQuery] string? sort, CancellationToken cancellationToken)
+    public async Task<IActionResult> Query([FromQuery] string ranking, [FromQuery] string? sort, CancellationToken cancellationToken = default)
     {
         try
         {
