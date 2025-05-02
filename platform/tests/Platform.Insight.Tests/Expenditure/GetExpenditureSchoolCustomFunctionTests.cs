@@ -18,10 +18,10 @@ namespace Platform.Insight.Tests.Expenditure;
 public class GetExpenditureSchoolCustomFunctionTests : FunctionsTestBase
 {
     private const string Urn = "URN";
+    private readonly Fixture _fixture;
     private readonly GetExpenditureSchoolCustomFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetExpenditureSchoolCustomFunctionTests()
     {
@@ -40,7 +40,7 @@ public class GetExpenditureSchoolCustomFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn, "id");
@@ -61,7 +61,7 @@ public class GetExpenditureSchoolCustomFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ExpenditureSchoolModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn, "id");
@@ -90,6 +90,6 @@ public class GetExpenditureSchoolCustomFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(ExpenditureParameters.Dimension));
 
         _service
-            .Verify(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            .Verify(d => d.GetCustomSchoolAsync(Urn, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

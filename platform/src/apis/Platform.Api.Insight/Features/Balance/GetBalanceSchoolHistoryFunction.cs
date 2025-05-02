@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -25,15 +26,15 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistory)]
-        HttpRequestData req,
-        string urn)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.SchoolHistory)] HttpRequestData req,
+        string urn,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension);
+        var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

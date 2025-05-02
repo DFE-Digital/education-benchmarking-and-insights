@@ -15,9 +15,9 @@ namespace Platform.Insight.Tests.Census;
 public class GetCensusFunctionTests : FunctionsTestBase
 {
     private const string Urn = "URN";
+    private readonly Fixture _fixture;
     private readonly GetCensusFunction _function;
     private readonly Mock<ICensusService> _service;
-    private readonly Fixture _fixture;
 
     public GetCensusFunctionTests()
     {
@@ -32,7 +32,7 @@ public class GetCensusFunctionTests : FunctionsTestBase
         var model = _fixture.Build<CensusSchoolModel>().Create();
 
         _service
-            .Setup(d => d.GetAsync(Urn))
+            .Setup(d => d.GetAsync(Urn, It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn);
@@ -49,7 +49,7 @@ public class GetCensusFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnNotFound()
     {
         _service
-            .Setup(d => d.GetAsync(Urn))
+            .Setup(d => d.GetAsync(Urn, It.IsAny<CancellationToken>()))
             .ReturnsAsync((CensusSchoolModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), Urn);

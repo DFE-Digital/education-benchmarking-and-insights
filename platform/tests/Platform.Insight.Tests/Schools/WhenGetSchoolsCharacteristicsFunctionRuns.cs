@@ -35,7 +35,7 @@ public class WhenGetSchoolsCharacteristicsFunctionRuns : FunctionsTestBase
         var results = Fixture.Build<SchoolCharacteristic>().CreateMany().ToArray();
 
         _service
-            .Setup(d => d.QueryCharacteristicAsync(QueryParams.Schools))
+            .Setup(d => d.QueryCharacteristicAsync(QueryParams.Schools, It.IsAny<CancellationToken>()))
             .ReturnsAsync(results);
 
         var result = await _function.RunAsync(CreateHttpRequestData(_query));

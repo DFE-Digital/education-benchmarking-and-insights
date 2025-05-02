@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -28,18 +29,19 @@ public class GetExpenditureTrustsFunction(IExpenditureService service, IValidato
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IEnumerable<ExpenditureTrustResponse>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<ExpenditureQueryTrustParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.QueryTrustsAsync(queryParams.CompanyNumbers, queryParams.Dimension);
+        var result = await service.QueryTrustsAsync(queryParams.CompanyNumbers, queryParams.Dimension, cancellationToken);
         return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category,
-            queryParams.ExcludeCentralServices));
+            queryParams.ExcludeCentralServices), cancellationToken: cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -24,14 +25,15 @@ public class GetBudgetForecastCurrentYearFunction(IBudgetForecastService service
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.CurrentYear)] HttpRequestData req,
-        string companyNumber)
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
-        var year = await service.GetBudgetForecastCurrentYearAsync();
+        var year = await service.GetBudgetForecastCurrentYearAsync(cancellationToken);
         if (year == null)
         {
             return req.CreateNotFoundResponse();
         }
 
-        return await req.CreateJsonResponseAsync(year);
+        return await req.CreateJsonResponseAsync(year, cancellationToken: cancellationToken);
     }
 }

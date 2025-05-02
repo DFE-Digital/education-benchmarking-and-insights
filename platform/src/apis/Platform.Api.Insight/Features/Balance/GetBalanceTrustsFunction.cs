@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -25,12 +26,12 @@ public class GetBalanceTrustsFunction(IBalanceService service)
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<BalanceQueryTrustsParameters>();
 
-        var result = await service.QueryTrustsAsync(queryParams.Trusts, queryParams.Dimension);
-        return await req.CreateJsonResponseAsync(result.MapToApiResponse());
+        var result = await service.QueryTrustsAsync(queryParams.Trusts, queryParams.Dimension, cancellationToken);
+        return await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
     }
 }

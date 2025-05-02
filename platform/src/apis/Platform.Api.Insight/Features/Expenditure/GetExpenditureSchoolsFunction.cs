@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -29,19 +30,18 @@ public class GetExpenditureSchoolsFunction(IExpenditureService service, IValidat
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureSchoolResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Schools)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Schools)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<ExpenditureQuerySchoolParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.QuerySchoolsAsync(queryParams.Urns, queryParams.CompanyNumber, queryParams.LaCode,
-            queryParams.Phase, queryParams.Dimension);
-        return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category));
+        var result = await service.QuerySchoolsAsync(queryParams.Urns, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase, queryParams.Dimension, cancellationToken);
+        return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
     }
 }

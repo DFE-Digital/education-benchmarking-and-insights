@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -18,9 +19,10 @@ public class GetTransparencyFilesFunction(IFilesService service)
     [OpenApiOperation(nameof(GetTransparencyFilesFunction), Constants.Features.Files)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(FileResponse[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Transparency)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Transparency)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
-        var result = await service.GetActiveFilesByType("transparency-aar", "transparency-cfr");
-        return await req.CreateJsonResponseAsync(result.MapToApiResponse());
+        var result = await service.GetActiveFilesByType(cancellationToken, "transparency-aar", "transparency-cfr");
+        return await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
     }
 }

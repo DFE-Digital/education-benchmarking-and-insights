@@ -7,7 +7,6 @@ using Platform.Api.Insight.Features.BudgetForecast.Models;
 using Platform.Api.Insight.Features.BudgetForecast.Parameters;
 using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Platform.Api.Insight.Features.BudgetForecast.Services;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;
@@ -41,11 +40,11 @@ public class WhenGetBudgetForecastReturnFunctionRuns : FunctionsTestBase
         var ar = Fixture.Build<ActualReturnModel>().CreateMany().ToArray();
 
         _service
-            .Setup(d => d.GetBudgetForecastReturnsAsync(companyNumber, QueryParams.RunType, QueryParams.Category, QueryParams.RunId))
+            .Setup(d => d.GetBudgetForecastReturnsAsync(companyNumber, QueryParams.RunType, QueryParams.Category, QueryParams.RunId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(bfr);
 
         _service
-            .Setup(d => d.GetActualReturnsAsync(companyNumber, QueryParams.Category, QueryParams.RunId))
+            .Setup(d => d.GetActualReturnsAsync(companyNumber, QueryParams.Category, QueryParams.RunId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(ar);
 
         var result = await _function.RunAsync(CreateHttpRequestData(_query), companyNumber);

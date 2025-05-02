@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -26,21 +27,15 @@ public class GetBudgetForecastReturnFunction(IBudgetForecastService service)
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.Return)] HttpRequestData req,
-        string companyNumber)
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<BudgetForecastReturnParameters>();
 
-        var bfr = await service.GetBudgetForecastReturnsAsync(
-            companyNumber,
-            queryParams.RunType,
-            queryParams.Category,
-            queryParams.RunId);
+        var bfr = await service.GetBudgetForecastReturnsAsync(companyNumber, queryParams.RunType, queryParams.Category, queryParams.RunId, cancellationToken);
 
-        var ar = await service.GetActualReturnsAsync(
-            companyNumber,
-            queryParams.Category,
-            queryParams.RunId);
+        var ar = await service.GetActualReturnsAsync(companyNumber, queryParams.Category, queryParams.RunId, cancellationToken);
 
-        return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar));
+        return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar), cancellationToken: cancellationToken);
     }
 }

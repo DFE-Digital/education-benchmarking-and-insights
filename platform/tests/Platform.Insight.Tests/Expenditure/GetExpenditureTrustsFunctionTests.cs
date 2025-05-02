@@ -17,10 +17,10 @@ namespace Platform.Insight.Tests.Expenditure;
 
 public class GetExpenditureTrustsFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetExpenditureTrustsFunction _function;
     private readonly Mock<IExpenditureService> _service;
     private readonly Mock<IValidator<ExpenditureQueryTrustParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetExpenditureTrustsFunctionTests()
     {
@@ -39,7 +39,7 @@ public class GetExpenditureTrustsFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>()))
+            .Setup(d => d.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData());
@@ -72,6 +72,6 @@ public class GetExpenditureTrustsFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(ExpenditureQueryTrustParameters.Dimension));
 
         _service.Verify(
-            x => x.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>()), Times.Never());
+            x => x.QueryTrustsAsync(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

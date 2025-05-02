@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Api.Insight.Features.MetricRagRatings.Models;
@@ -18,9 +19,14 @@ public interface IMetricRagRatingsService
         string? laCode,
         string? phase,
         string runType = Pipeline.RunType.Default,
-        bool includeSubCategories = false);
+        bool includeSubCategories = false,
+        CancellationToken cancellationToken = default);
 
-    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = Pipeline.RunType.Default, bool includeSubCategories = false);
+    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(
+        string identifier,
+        string runType = Pipeline.RunType.Default,
+        bool includeSubCategories = false,
+        CancellationToken cancellationToken = default);
 }
 
 public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRatingsService
@@ -33,12 +39,13 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         string? laCode,
         string? phase,
         string runType = Pipeline.RunType.Default,
-        bool includeSubCategories = false)
+        bool includeSubCategories = false,
+        CancellationToken cancellationToken = default)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
 
         using var conn = await dbFactory.GetConnection();
-        var year = await conn.QueryFirstAsync<string>(paramSql);
+        var year = await conn.QueryFirstAsync<string>(paramSql, cancellationToken: cancellationToken);
 
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from SchoolMetricRAG /**where**/");
@@ -96,11 +103,14 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
             });
         }
 
-        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters);
+        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters, cancellationToken);
     }
 
-    public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = Pipeline.RunType.Default,
-        bool includeSubCategories = false)
+    public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(
+        string identifier,
+        string runType = Pipeline.RunType.Default,
+        bool includeSubCategories = false,
+        CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
 
@@ -118,6 +128,6 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
             builder.Where("SubCategory = 'Total'");
         }
 
-        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters);
+        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters, cancellationToken);
     }
 }

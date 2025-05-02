@@ -26,7 +26,7 @@ public class GetIncomeSchoolFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.GetSchoolAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new IncomeSchoolModel());
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -43,7 +43,7 @@ public class GetIncomeSchoolFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnNotFound()
     {
         _service
-            .Setup(d => d.GetSchoolAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((IncomeSchoolModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");

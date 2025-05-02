@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.Insight.Features.Trusts.Models;
 using Platform.Sql;
@@ -9,18 +10,18 @@ namespace Platform.Api.Insight.Features.Trusts.Services;
 
 public interface ITrustsService
 {
-    Task<IEnumerable<TrustCharacteristic>> QueryAsync(string[] companyNumbers);
+    Task<IEnumerable<TrustCharacteristic>> QueryAsync(string[] companyNumbers, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
 public class TrustsService(IDatabaseFactory dbFactory) : ITrustsService
 {
-    public async Task<IEnumerable<TrustCharacteristic>> QueryAsync(string[] companyNumbers)
+    public async Task<IEnumerable<TrustCharacteristic>> QueryAsync(string[] companyNumbers, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new TrustCharacteristicsQuery()
             .WhereCompanyNumberIn(companyNumbers);
 
-        return await conn.QueryAsync<TrustCharacteristic>(builder);
+        return await conn.QueryAsync<TrustCharacteristic>(builder, cancellationToken);
     }
 }

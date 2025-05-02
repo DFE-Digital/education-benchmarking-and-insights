@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -24,15 +25,15 @@ public class GetBalanceTrustHistoryFunction(IBalanceService service)
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustHistory)]
-        HttpRequestData req,
-        string companyNumber)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustHistory)] HttpRequestData req,
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<BalanceParameters>();
 
-        var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension);
+        var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

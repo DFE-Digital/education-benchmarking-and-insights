@@ -13,13 +13,13 @@ namespace Platform.Api.Insight.Features.Expenditure.Services;
 
 public interface IExpenditureService
 {
-    Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension);
+    Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
-    Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension);
-    Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension);
-    Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension);
-    Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension);
-    Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension);
+    Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension, CancellationToken cancellationToken = default);
+    Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension, CancellationToken cancellationToken = default);
+    Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension, CancellationToken cancellationToken = default);
+    Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);
 }
@@ -27,13 +27,13 @@ public interface IExpenditureService
 [ExcludeFromCodeCoverage]
 public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKeyFactory, IDistributedCache cache) : IExpenditureService
 {
-    public async Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension)
+    public async Task<ExpenditureSchoolModel?> GetSchoolAsync(string urn, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureSchoolDefaultCurrentQuery(dimension)
             .WhereUrnEqual(urn);
 
-        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder);
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder, cancellationToken);
     }
 
     public async Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetSchoolHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
@@ -43,7 +43,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
 
         if (years == null)
         {
-            return (null, Array.Empty<ExpenditureHistoryModel>());
+            return (null, []);
         }
 
         var historyBuilder = new ExpenditureSchoolDefaultQuery(dimension)
@@ -53,7 +53,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
     }
 
-    public async Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension)
+    public async Task<IEnumerable<ExpenditureSchoolModel>> QuerySchoolsAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension, CancellationToken cancellationToken = default)
     {
         var builder = new ExpenditureSchoolDefaultCurrentQuery(dimension);
 
@@ -80,51 +80,51 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         }
 
         using var conn = await dbFactory.GetConnection();
-        return await conn.QueryAsync<ExpenditureSchoolModel>(builder);
+        return await conn.QueryAsync<ExpenditureSchoolModel>(builder, cancellationToken);
     }
 
-    public async Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension)
+    public async Task<ExpenditureSchoolModel?> GetCustomSchoolAsync(string urn, string identifier, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureSchoolCustomQuery(dimension)
             .WhereUrnEqual(urn);
 
-        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder);
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder, cancellationToken);
     }
 
-    public async Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension)
+    public async Task<ExpenditureTrustModel?> GetTrustAsync(string companyNumber, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureTrustDefaultCurrentQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber);
 
-        return await conn.QueryFirstOrDefaultAsync<ExpenditureTrustModel>(builder);
+        return await conn.QueryFirstOrDefaultAsync<ExpenditureTrustModel>(builder, cancellationToken);
     }
 
-    public async Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension)
+    public async Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetTrustHistoryAsync(string companyNumber, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
-        var years = await conn.QueryYearsTrustAsync(companyNumber);
+        var years = await conn.QueryYearsTrustAsync(companyNumber, cancellationToken);
 
         if (years == null)
         {
-            return (null, Array.Empty<ExpenditureHistoryModel>());
+            return (null, []);
         }
 
         var historyBuilder = new ExpenditureTrustDefaultQuery(dimension)
             .WhereCompanyNumberEqual(companyNumber)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
 
-        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder));
+        return (years, await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken));
     }
 
-    public async Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension)
+    public async Task<IEnumerable<ExpenditureTrustModel>> QueryTrustsAsync(string[] companyNumbers, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureTrustDefaultCurrentQuery(dimension)
             .WhereCompanyNumberIn(companyNumbers);
 
-        return await conn.QueryAsync<ExpenditureTrustModel>(builder);
+        return await conn.QueryAsync<ExpenditureTrustModel>(builder, cancellationToken);
     }
 
     public async Task<(YearsModel?, IEnumerable<ExpenditureHistoryModel>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
@@ -134,7 +134,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
 
         if (years == null)
         {
-            return (null, Array.Empty<ExpenditureHistoryModel>());
+            return (null, []);
         }
 
         var historyBuilder = new ExpenditureSchoolDefaultComparatorAvgQuery(dimension)
@@ -151,7 +151,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
 
         if (years == null)
         {
-            return (null, Array.Empty<ExpenditureHistoryModel>());
+            return (null, []);
         }
 
         var cacheKey = cacheKeyFactory.CreateExpenditureHistoryNationalAverageCacheKey(years.EndYear, overallPhase, financeType, dimension);
@@ -159,7 +159,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         return (years, history);
     }
 
-    private static async Task<IEnumerable<ExpenditureHistoryModel>> GetNationalAvgHistoryAsync(IDatabaseConnection conn, YearsModel years, string overallPhase, string financeType, string dimension, CancellationToken cancellationToken)
+    private static async Task<IEnumerable<ExpenditureHistoryModel>> GetNationalAvgHistoryAsync(IDatabaseConnection conn, YearsModel years, string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default)
     {
         var historyBuilder = new ExpenditureSchoolDefaultNationalAveQuery(dimension)
             .WhereOverallPhaseEqual(overallPhase)

@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Features.Expenditure;
-using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.Api.Insight.Features.Expenditure.Services;
@@ -38,7 +37,7 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
 
         _service
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((new YearsModel(), Array.Empty<ExpenditureHistoryModel>()));
+            .ReturnsAsync((new YearsModel(), []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
 
@@ -59,7 +58,7 @@ public class GetExpenditureSchoolHistoryFunctionTests : FunctionsTestBase
 
         _service
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((null, Array.Empty<ExpenditureHistoryModel>()));
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
 

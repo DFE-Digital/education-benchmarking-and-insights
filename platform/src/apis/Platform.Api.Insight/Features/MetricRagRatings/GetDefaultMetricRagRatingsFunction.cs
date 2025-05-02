@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -33,17 +34,18 @@ public class GetDefaultMetricRagRatingsFunction(
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.Default)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.Default)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<MetricRagRatingsParameters>();
 
-        var validationResult = await metricRagRatingsParametersValidator.ValidateAsync(queryParams);
+        var validationResult = await metricRagRatingsParametersValidator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.QueryAsync(queryParams.Urns, queryParams.Categories, queryParams.Statuses, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase);
-        return await req.CreateJsonResponseAsync(result);
+        var result = await service.QueryAsync(queryParams.Urns, queryParams.Categories, queryParams.Statuses, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }

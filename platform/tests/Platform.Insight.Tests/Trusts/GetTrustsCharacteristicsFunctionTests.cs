@@ -13,9 +13,9 @@ namespace Platform.Insight.Tests.Trusts;
 
 public class GetTrustsCharacteristicsFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetTrustsCharacteristicsFunction _function;
     private readonly Mock<ITrustsService> _service;
-    private readonly Fixture _fixture;
 
     public GetTrustsCharacteristicsFunctionTests()
     {
@@ -33,7 +33,7 @@ public class GetTrustsCharacteristicsFunctionTests : FunctionsTestBase
             .CreateMany(5);
 
         _service
-            .Setup(d => d.QueryAsync(It.IsAny<string[]>()))
+            .Setup(d => d.QueryAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData());

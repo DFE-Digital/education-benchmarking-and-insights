@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Features.Expenditure;
-using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 using Platform.Api.Insight.Features.Expenditure.Services;
 using Platform.Api.Insight.Shared;
@@ -35,7 +34,7 @@ public class GetExpenditureSchoolHistoryNationalAverageFunctionTests : Functions
 
         _service
             .Setup(d => d.GetNationalAvgHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((new YearsModel(), Array.Empty<ExpenditureHistoryModel>()));
+            .ReturnsAsync((new YearsModel(), []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), _cancellationToken);
 

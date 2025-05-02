@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Platform.Api.Insight.Features.Income;
-using Platform.Api.Insight.Features.Income.Models;
 using Platform.Api.Insight.Features.Income.Parameters;
 using Platform.Api.Insight.Features.Income.Responses;
 using Platform.Api.Insight.Features.Income.Services;
@@ -36,8 +35,8 @@ public class GetIncomeSchoolHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((new YearsModel(), Array.Empty<IncomeHistoryModel>()));
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((new YearsModel(), []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
@@ -57,8 +56,8 @@ public class GetIncomeSchoolHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((null, Array.Empty<IncomeHistoryModel>()));
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
 
@@ -86,6 +85,6 @@ public class GetIncomeSchoolHistoryFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(IncomeParameters.Dimension));
 
         _service
-            .Verify(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            .Verify(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

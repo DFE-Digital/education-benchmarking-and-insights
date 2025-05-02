@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -23,11 +24,12 @@ public class GetUserDefinedMetricRagRatingsFunction(IMetricRagRatingsService ser
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.UserDefined)] HttpRequestData req,
-        string identifier)
+        string identifier,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<MetricRagRatingParameters>();
 
-        var result = await service.UserDefinedAsync(identifier, queryParams.DataContext);
-        return await req.CreateJsonResponseAsync(result);
+        var result = await service.UserDefinedAsync(identifier, queryParams.DataContext, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -26,21 +27,21 @@ public class GetExpenditureTrustHistoryFunction(IExpenditureService service, IVa
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustHistory)]
-        HttpRequestData req,
-        string companyNumber)
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustHistory)] HttpRequestData req,
+        string companyNumber,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<ExpenditureParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams);
+        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
+            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension);
+        var (years, rows) = await service.GetTrustHistoryAsync(companyNumber, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows));
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -21,11 +22,12 @@ public class GetSchoolsCharacteristicsFunction(ISchoolsService service)
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolCharacteristic[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.SchoolsCharacteristics)] HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = Routes.SchoolsCharacteristics)] HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var queryParams = req.GetParameters<SchoolsParameters>();
 
-        var schools = await service.QueryCharacteristicAsync(queryParams.Schools);
-        return await req.CreateJsonResponseAsync(schools);
+        var schools = await service.QueryCharacteristicAsync(queryParams.Schools, cancellationToken);
+        return await req.CreateJsonResponseAsync(schools, cancellationToken: cancellationToken);
     }
 }

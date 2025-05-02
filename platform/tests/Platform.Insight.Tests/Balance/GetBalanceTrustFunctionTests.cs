@@ -14,9 +14,9 @@ namespace Platform.Insight.Tests.Balance;
 
 public class GetBalanceTrustFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetBalanceTrustFunction _function;
     private readonly Mock<IBalanceService> _service;
-    private readonly Fixture _fixture;
 
     public GetBalanceTrustFunctionTests()
     {
@@ -31,7 +31,7 @@ public class GetBalanceTrustFunctionTests : FunctionsTestBase
         var model = _fixture.Build<BalanceTrustModel>().Create();
 
         _service
-            .Setup(d => d.GetTrustAsync(It.IsAny<string>()))
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -48,7 +48,7 @@ public class GetBalanceTrustFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnNotFound()
     {
         _service
-            .Setup(d => d.GetTrustAsync(It.IsAny<string>()))
+            .Setup(d => d.GetTrustAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((BalanceTrustModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");

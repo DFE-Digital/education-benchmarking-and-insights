@@ -19,10 +19,10 @@ namespace Platform.Insight.Tests.Census;
 public class GetCensusHistoryFunctionTests : FunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
+    private readonly Fixture _fixture;
     private readonly GetCensusHistoryFunction _function;
     private readonly Mock<ICensusService> _service;
     private readonly Mock<IValidator<CensusParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetCensusHistoryFunctionTests()
     {
@@ -35,7 +35,11 @@ public class GetCensusHistoryFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         var history = _fixture.CreateMany<CensusHistoryModel>(5);
-        var years = new YearsModel { StartYear = 2019, EndYear = 2023 };
+        var years = new YearsModel
+        {
+            StartYear = 2019,
+            EndYear = 2023
+        };
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<CensusParameters>(), It.IsAny<CancellationToken>()))
@@ -64,7 +68,7 @@ public class GetCensusHistoryFunctionTests : FunctionsTestBase
 
         _service
             .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((null, Array.Empty<CensusHistoryModel>()));
+            .ReturnsAsync((null, []));
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1", _cancellationToken);
 

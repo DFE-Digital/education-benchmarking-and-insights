@@ -14,9 +14,9 @@ namespace Platform.Insight.Tests.Balance;
 
 public class GetBalanceSchoolFunctionTests : FunctionsTestBase
 {
+    private readonly Fixture _fixture;
     private readonly GetBalanceSchoolFunction _function;
     private readonly Mock<IBalanceService> _service;
-    private readonly Fixture _fixture;
 
     public GetBalanceSchoolFunctionTests()
     {
@@ -31,7 +31,7 @@ public class GetBalanceSchoolFunctionTests : FunctionsTestBase
         var model = _fixture.Build<BalanceSchoolModel>().Create();
 
         _service
-            .Setup(d => d.GetSchoolAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
@@ -48,7 +48,7 @@ public class GetBalanceSchoolFunctionTests : FunctionsTestBase
     public async Task ShouldReturn404OnNotFound()
     {
         _service
-            .Setup(d => d.GetSchoolAsync(It.IsAny<string>()))
+            .Setup(d => d.GetSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((BalanceSchoolModel?)null);
 
         var result = await _function.RunAsync(CreateHttpRequestData(), "1");
