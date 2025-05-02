@@ -4,7 +4,9 @@ using Moq;
 using Web.App.Controllers.Api;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Insight;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.BudgetForecast;
 
 public class WhenBudgetForecastApiReceivesRequest
@@ -43,11 +45,11 @@ public class WhenBudgetForecastApiReceivesRequest
         var actualQuery = string.Empty;
 
         _budgetForecastApi
-            .Setup(e => e.BudgetForecastReturnsMetrics(companyNumber, null))
+            .Setup(e => e.BudgetForecastReturnsMetrics(companyNumber, null, It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(metrics));
         _budgetForecastApi
-            .Setup(e => e.BudgetForecastReturns(companyNumber, It.IsAny<ApiQuery?>()))
-            .Callback<string, ApiQuery?>((_, query) =>
+            .Setup(e => e.BudgetForecastReturns(companyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })

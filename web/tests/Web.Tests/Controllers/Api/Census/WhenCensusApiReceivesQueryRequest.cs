@@ -8,6 +8,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Census;
 
 public class WhenCensusApiReceivesQueryRequest
@@ -33,8 +34,8 @@ public class WhenCensusApiReceivesQueryRequest
         var actualQuery = string.Empty;
 
         _censusApi
-            .Setup(e => e.Query(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(c =>
+            .Setup(e => e.Query(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((c, _) =>
             {
                 actualQuery = c?.ToQueryString();
             })
@@ -58,8 +59,8 @@ public class WhenCensusApiReceivesQueryRequest
         var actualQuery = string.Empty;
 
         _censusApi
-            .Setup(e => e.Query(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(c =>
+            .Setup(e => e.Query(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((c, _) =>
             {
                 actualQuery = c?.ToQueryString();
             })

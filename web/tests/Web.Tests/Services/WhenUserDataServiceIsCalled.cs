@@ -2,21 +2,21 @@
 using AutoFixture;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Xunit;
-using Web.App.Services;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Services;
+using Xunit;
 
 namespace Web.Tests.Services;
 
 public class WhenUserDataServiceIsCalled
 {
-    private readonly Fixture _fixture = new();
-    private readonly Mock<IUserDataApi> _api = new();
-    private readonly NullLogger<UserDataService> _logger = new();
     private static readonly string UserGuid = Guid.NewGuid().ToString();
+    private readonly Mock<IUserDataApi> _api = new();
     private readonly ClaimsPrincipal _authUser = new(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, UserGuid)], "authenticated"));
+    private readonly Fixture _fixture = new();
+    private readonly NullLogger<UserDataService> _logger = new();
 
     [Fact]
     public async Task ShouldReturnUserDataWhenGettingSchoolComparatorSetActive()
@@ -25,8 +25,8 @@ public class WhenUserDataServiceIsCalled
         string? actualQuery = null;
         var response = _fixture.Build<UserData>().CreateMany().ToArray();
 
-        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(q =>
+        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((q, _) =>
             {
                 actualQuery = q?.ToQueryString();
             })
@@ -46,8 +46,8 @@ public class WhenUserDataServiceIsCalled
         string? actualQuery = null;
         var response = _fixture.Build<UserData>().CreateMany().ToArray();
 
-        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(q =>
+        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((q, _) =>
             {
                 actualQuery = q?.ToQueryString();
             })
@@ -67,8 +67,8 @@ public class WhenUserDataServiceIsCalled
         string? actualQuery = null;
         var response = _fixture.Build<UserData>().CreateMany().ToArray();
 
-        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(q =>
+        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((q, _) =>
             {
                 actualQuery = q?.ToQueryString();
             })
@@ -92,8 +92,8 @@ public class WhenUserDataServiceIsCalled
         response.First().Type = "comparator-set";
         response.Last().Type = "custom-data";
 
-        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(q =>
+        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((q, _) =>
             {
                 actualQuery = q?.ToQueryString();
             })
@@ -118,8 +118,8 @@ public class WhenUserDataServiceIsCalled
         response.First().Type = "comparator-set";
         response.Last().Type = "custom-data";
 
-        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(q =>
+        _api.Setup(api => api.GetAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((q, _) =>
             {
                 actualQuery = q?.ToQueryString();
             })
