@@ -56,9 +56,9 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.51.0, )",
-        "resolved": "1.51.0",
-        "contentHash": "4nOOBtTwXyB+cE+XwkjnQGJVmjbrTrZ+nuKzLz+oCnv5z1FiB7PQLT9FH8wETmHLSawzXh/ucPdBeGA8mRGJEw==",
+        "requested": "[1.52.0, )",
+        "resolved": "1.52.0",
+        "contentHash": "zH8a7OiXtq8BC6i0yYHAG/DSN8J8/bVyQYVESK7mK1ZJF19eY1ca51BAQpQxzF+Qm/A20x6Rsl8cT+QYXSfxbw==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -73,9 +73,9 @@
       },
       "Reqnroll": {
         "type": "Direct",
-        "requested": "[2.4.0, )",
-        "resolved": "2.4.0",
-        "contentHash": "JmeI9Idbiao5dPS4jeeof+esLBDjcx2BXjww4UW654IL6sDM/p7Rbkr2qWH+Ac8A3fC96rmO4w0x3TYYFzVuwQ==",
+        "requested": "[2.4.1, )",
+        "resolved": "2.4.1",
+        "contentHash": "Ui229q21Kmkrv3L89THgsxGMXooJGK5OrFPLvYDXfE2nO/u4tqYsbmMRddyEE3fsR40IDP++HsRrDxlkR6reVw==",
         "dependencies": {
           "Cucumber.CucumberExpressions": "17.1.0",
           "Gherkin": "30.0.0",
@@ -85,12 +85,12 @@
       },
       "Reqnroll.xUnit": {
         "type": "Direct",
-        "requested": "[2.4.0, )",
-        "resolved": "2.4.0",
-        "contentHash": "Qw7tx2+++/cSaTm6nFm+C1CjJpiYBVsaXDOe/4y57tXZ/X0DPUykvhYJH8cUCmI2wLl5nM3LwZrvi3y1k+1mig==",
+        "requested": "[2.4.1, )",
+        "resolved": "2.4.1",
+        "contentHash": "FIJ1CjLM9XY3wVmRwZT2csgQCpNSUVdtHIOaXHrFLPEHBH36ioEK9+iWbD8g6gyAm8Tfg/O0Mz8WqK0VJnWc7w==",
         "dependencies": {
-          "Reqnroll": "[2.4.0]",
-          "Reqnroll.Tools.MsBuild.Generation": "[2.4.0]",
+          "Reqnroll": "[2.4.1]",
+          "Reqnroll.Tools.MsBuild.Generation": "[2.4.1]",
           "Xunit.SkippableFact": "1.4.13",
           "xunit.core": "2.8.1"
         }
@@ -225,10 +225,10 @@
       },
       "Reqnroll.Tools.MsBuild.Generation": {
         "type": "Transitive",
-        "resolved": "2.4.0",
-        "contentHash": "/OZ7emUyrNsykdt5X0g6TWVa8EVxv6J1kM6E/Qe5auksnCKim+nYNJ+LWrQzHD/NvX/yS0Akub0zMTEnyzMQxQ==",
+        "resolved": "2.4.1",
+        "contentHash": "+Up0eUWnKRKPdRIttE52DYzwayUd4bGMyRytYeeCwtqwZA4tLhK2NspOZJ8axPcmATOM9QSTCUHUlyp9pgcfQg==",
         "dependencies": {
-          "Reqnroll": "[2.4.0]"
+          "Reqnroll": "[2.4.1]"
         }
       },
       "System.ComponentModel": {
