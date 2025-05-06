@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export class BudgetForecastApi {
   static async budgetForecastReturns(
-    id: string
+    id: string,
+    signals?: AbortSignal[]
   ): Promise<BudgetForecastReturn[]> {
     const params = new URLSearchParams({
       companyNumber: id,
@@ -16,6 +17,7 @@ export class BudgetForecastApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {

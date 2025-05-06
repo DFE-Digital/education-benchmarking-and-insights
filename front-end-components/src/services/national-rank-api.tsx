@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 export class NationalRankApi {
   static async get(
     ranking: "SpendAsPercentageOfBudget",
-    sort?: "asc" | "desc"
+    sort?: "asc" | "desc",
+    signals?: AbortSignal[]
   ): Promise<LocalAuthorityRanking> {
     const params: { ranking: string; sort?: string } = { ranking };
     if (sort) {
@@ -19,6 +20,7 @@ export class NationalRankApi {
           "Content-Type": "application/json",
           "X-Correlation-ID": uuidv4(),
         },
+        signal: signals?.length ? AbortSignal.any(signals) : undefined,
       }
     );
 

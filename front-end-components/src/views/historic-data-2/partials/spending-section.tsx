@@ -19,6 +19,7 @@ import { CateringCostsHistoryChart } from "./catering-costs-history-chart";
 import { spendingSections } from ".";
 import classNames from "classnames";
 import { DataWarning } from "src/components/charts/data-warning";
+import { useAbort } from "src/hooks/useAbort";
 
 export const SpendingSection: React.FC<HistoricData2Props> = ({
   financeType,
@@ -35,9 +36,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
     SchoolHistoryComparison<ExpenditureHistoryItem>
   >({});
   const [loadError, setLoadError] = useState<string>();
-  const [cancelSignal, setCancelSignal] = useState<AbortController>(
-    new AbortController()
-  );
+  const { abort, signal } = useAbort();
 
   const getData = useCallback(async () => {
     if (!load) {
@@ -52,9 +51,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
       dimension.value,
       overallPhase,
       financeType,
-      fetchTimeout
-        ? [cancelSignal.signal, AbortSignal.timeout(fetchTimeout)]
-        : [cancelSignal.signal]
+      fetchTimeout ? [signal, AbortSignal.timeout(fetchTimeout)] : [signal]
     );
   }, [
     dimension.value,
@@ -64,7 +61,7 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
     overallPhase,
     type,
     fetchTimeout,
-    cancelSignal,
+    signal,
   ]);
 
   useEffect(() => {
@@ -84,14 +81,12 @@ export const SpendingSection: React.FC<HistoricData2Props> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    cancelSignal?.abort();
+    abort();
 
     const dimension =
       CostCategories.find((x) => x.value === event.target.value) ??
       defaultDimension;
     setDimension(dimension);
-
-    setCancelSignal(new AbortController());
   };
 
   return (

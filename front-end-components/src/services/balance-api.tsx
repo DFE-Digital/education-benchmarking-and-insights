@@ -9,7 +9,8 @@ export class BalanceApi {
   static async history(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<BalanceHistoryRows> {
     const params = new URLSearchParams({
       type: type,
@@ -24,6 +25,7 @@ export class BalanceApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     });
 
     const json = await response.json();
@@ -37,7 +39,8 @@ export class BalanceApi {
   static async trust(
     id: string,
     dimension: string,
-    excludeCentralServices?: boolean
+    excludeCentralServices?: boolean,
+    signals?: AbortSignal[]
   ): Promise<TrustBalance[]> {
     const params = new URLSearchParams({
       type: "trust",
@@ -59,6 +62,7 @@ export class BalanceApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {
@@ -71,7 +75,8 @@ export class BalanceApi {
   }
 
   static async budgetForecastReturns(
-    id: string
+    id: string,
+    signals?: AbortSignal[]
   ): Promise<BudgetForecastReturn[]> {
     const params = new URLSearchParams({
       companyNumber: id,
@@ -84,6 +89,7 @@ export class BalanceApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {

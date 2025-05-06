@@ -184,6 +184,7 @@ public class CompareYourCostsPage(IPage page)
     public async Task SelectDimensionForChart(ComparisonChartNames chartName, string value)
     {
         await ChartDimensionDropdown(chartName).SelectOption(value);
+        await page.WaitForRequestFinishedAsync();
     }
 
     public async Task IsDimensionSelectedForChart(ComparisonChartNames chartName, string value)
@@ -369,6 +370,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task IsGraphTickTextEqual(int nth, string text)
     {
+        await page.WaitForRequestFinishedAsync();
         var actual = await ChartTicks.Nth(nth).Locator("text").TextContentAsync();
         Assert.Equal(text, actual);
     }

@@ -14,12 +14,14 @@ import { PhaseContext, CustomDataContext } from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, UtilitiesExpenditure } from "src/services";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<UtilitiesExpenditure[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<UtilitiesExpenditure>(
@@ -28,9 +30,10 @@ export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
       dimension.value,
       "Utilities",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [type, id, dimension.value, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -50,6 +53,8 @@ export const Utilities: React.FC<CompareYourCostsProps> = ({ type, id }) => {
   );
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       PremisesCategories.find((x) => x.value === value) ?? PoundsPerMetreSq;
     setDimension(dimension);

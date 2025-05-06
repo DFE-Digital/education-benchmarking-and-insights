@@ -18,6 +18,7 @@ import {
 } from "src/components/central-services-breakdown";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const CateringStaffServices: React.FC<{
   id: string;
@@ -29,15 +30,17 @@ export const CateringStaffServices: React.FC<{
   >();
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust<CateringStaffServicesTrustExpenditure>(
       id,
       dimension.value,
       "CateringStaffServices",
-      breakdown === BreakdownExclude
+      breakdown === BreakdownExclude,
+      [signal]
     );
-  }, [id, dimension, breakdown]);
+  }, [id, dimension.value, breakdown, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -59,6 +62,8 @@ export const CateringStaffServices: React.FC<{
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === event.target.value) ??
       PoundsPerPupil;

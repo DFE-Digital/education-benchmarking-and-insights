@@ -16,6 +16,7 @@ import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart
 import { ExpenditureApi, TotalExpenditureExpenditure } from "src/services";
 import { CompareYourCostsProps } from "./accordion-sections/types";
 import { DimensionedChart } from "src/composed/dimensioned-chart";
+import { useAbort } from "src/hooks/useAbort";
 
 export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   id,
@@ -26,6 +27,7 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<TotalExpenditureExpenditure[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<TotalExpenditureExpenditure>(
@@ -34,9 +36,10 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
       dimension.value,
       "TotalExpenditure",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [type, id, dimension.value, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -73,6 +76,8 @@ export const TotalExpenditure: React.FC<CompareYourCostsProps> = ({
     }, [dimension, data]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);

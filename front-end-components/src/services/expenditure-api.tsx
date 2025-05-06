@@ -11,7 +11,8 @@ export class ExpenditureApi {
   static async history(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<ExpenditureHistoryRows> {
     const params = new URLSearchParams({
       type: type,
@@ -26,6 +27,7 @@ export class ExpenditureApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     });
 
     const json = await response.json();
@@ -79,7 +81,8 @@ export class ExpenditureApi {
     dimension: string,
     category: string,
     phase?: string,
-    customDataId?: string
+    customDataId?: string,
+    signals?: AbortSignal[]
   ): Promise<T[]> {
     const params = new URLSearchParams({
       type: type,
@@ -103,6 +106,7 @@ export class ExpenditureApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {
@@ -118,7 +122,8 @@ export class ExpenditureApi {
     id: string,
     dimension: string,
     category: string,
-    excludeCentralServices?: boolean
+    excludeCentralServices?: boolean,
+    signals?: AbortSignal[]
   ): Promise<T[]> {
     const params = new URLSearchParams({
       type: "trust",
@@ -141,6 +146,7 @@ export class ExpenditureApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {

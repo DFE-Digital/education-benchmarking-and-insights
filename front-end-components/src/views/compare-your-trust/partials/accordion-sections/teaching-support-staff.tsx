@@ -12,6 +12,7 @@ import {
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
@@ -19,15 +20,17 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
   const [data, setData] = useState<
     TeachingSupportStaffTrustExpenditure[] | null
   >();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust<TeachingSupportStaffTrustExpenditure>(
       id,
       dimension.value,
       "TeachingTeachingSupportStaff",
-      breakdown === BreakdownExclude
+      breakdown === BreakdownExclude,
+      [signal]
     );
-  }, [id, dimension, breakdown]);
+  }, [id, dimension.value, breakdown, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -47,6 +50,8 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
   }, [dimension, breakdown]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);

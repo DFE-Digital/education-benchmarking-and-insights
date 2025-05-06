@@ -140,13 +140,9 @@ public class BenchmarkCensusPage(IPage page)
         await ViewAsChartRadio.Click();
     }
 
-    public async Task AreTableHeadersForChartDisplayed(CensusChartNames chartName, string[] expected,
-        bool waitForRequest)
+    public async Task AreTableHeadersForChartDisplayed(CensusChartNames chartName, string[] expected)
     {
-        if (waitForRequest)
-        {
-            await page.WaitForRequestFinishedAsync();
-        }
+        await page.WaitForRequestFinishedAsync();
 
         var table = chartName switch
         {

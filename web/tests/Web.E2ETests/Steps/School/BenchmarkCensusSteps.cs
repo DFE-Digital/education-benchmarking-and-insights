@@ -74,8 +74,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
     public async Task ThenTheFollowingHeadersAreDisplayedFor(string chartName, Table table)
     {
         Assert.NotNull(_censusPage);
-        await _censusPage.AreTableHeadersForChartDisplayed(ChartNameFromFriendlyName(chartName),
-            table.Header.ToArray(), !table.Header.Contains("Pupils per staff role"));
+        await _censusPage.AreTableHeadersForChartDisplayed(ChartNameFromFriendlyName(chartName), table.Header.ToArray());
     }
 
     [Then("the table view is showing")]

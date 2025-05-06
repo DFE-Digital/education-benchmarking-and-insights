@@ -17,26 +17,29 @@ export class HistoryService {
   static async getBalanceHistory(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<BalanceHistoryItem[]> {
-    const historyRows = await BalanceApi.history(type, id, dimension);
+    const historyRows = await BalanceApi.history(type, id, dimension, signals);
     return HistoryService.populateHistoricYears(historyRows);
   }
 
   static async getIncomeHistory(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<IncomeHistoryItem[]> {
-    const historyRows = await IncomeApi.history(type, id, dimension);
+    const historyRows = await IncomeApi.history(type, id, dimension, signals);
     return HistoryService.populateHistoricYears(historyRows);
   }
 
   static async getCensusHistory(
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<CensusHistoryItem[]> {
-    const historyRows = await CensusApi.history(id, dimension);
+    const historyRows = await CensusApi.history(id, dimension, signals);
     return HistoryService.populateHistoricYears(historyRows);
   }
 
@@ -87,9 +90,15 @@ export class HistoryService {
   static async getExpenditureHistory(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<ExpenditureHistoryItem[]> {
-    const historyRows = await ExpenditureApi.history(type, id, dimension);
+    const historyRows = await ExpenditureApi.history(
+      type,
+      id,
+      dimension,
+      signals
+    );
     return HistoryService.populateHistoricYears(historyRows);
   }
 

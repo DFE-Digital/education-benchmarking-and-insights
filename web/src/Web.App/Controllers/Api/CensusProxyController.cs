@@ -93,7 +93,7 @@ public class CensusProxyController(
         [FromQuery] string dimension,
         [FromQuery] string? phase,
         [FromQuery] string? financeType,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {

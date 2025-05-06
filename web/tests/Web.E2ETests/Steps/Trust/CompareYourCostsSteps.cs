@@ -150,7 +150,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), false, "Show", "chart");
     }
 
-    [Then(@"additional information is displayed")]
+    [Then("additional information is displayed")]
     public async Task ThenAdditionalInformationIsDisplayed()
     {
         Assert.NotNull(_comparisonPage);

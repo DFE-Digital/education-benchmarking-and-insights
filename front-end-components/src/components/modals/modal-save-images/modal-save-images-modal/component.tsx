@@ -7,6 +7,7 @@ import {
 } from "src/hooks/useDownloadImage";
 import { ElementSelector } from "src/components/element-selector";
 import { ProgressWithAria } from "src/components/progress-with-aria";
+import { useAbort } from "src/hooks/useAbort";
 
 export function ModalSaveImagesModal({
   all,
@@ -23,9 +24,7 @@ export function ModalSaveImagesModal({
 }: ModalSaveImagesModalProps) {
   const [imagesLoading, setImagesLoading] = useState<boolean>();
   const [progress, setProgress] = useState<number>();
-  const [cancelSignal, setCancelSignal] = useState<AbortController>(
-    new AbortController()
-  );
+  const { abort, signal } = useAbort();
   const [cancelMode, setCancelMode] = useState(false);
   const modalRef = useRef<ModalHandler>(null);
   const [allElements, setAllElements] = useState<ElementAndAttributes[]>([]);
@@ -47,7 +46,7 @@ export function ModalSaveImagesModal({
     onImagesLoading: setImagesLoading,
     onProgress: handleProgress,
     showTitles,
-    signal: cancelSignal.signal,
+    signal,
   });
 
   useEffect(() => {
@@ -74,17 +73,16 @@ export function ModalSaveImagesModal({
   }, [elementClassName, elementTitleAttr, costCodesAttr]);
 
   const handleCloseModal = useCallback(
-    (abort: boolean) => {
-      if (imagesLoading && abort) {
-        cancelSignal.abort();
-        setCancelSignal(new AbortController());
+    (shouldAbort: boolean) => {
+      if (imagesLoading && shouldAbort) {
+        abort();
       }
 
       setProgress(undefined);
       setCancelMode(false);
       onCloseModal();
     },
-    [cancelSignal, imagesLoading, onCloseModal]
+    [abort, imagesLoading, onCloseModal]
   );
 
   const handleDownloadStart = async () => {

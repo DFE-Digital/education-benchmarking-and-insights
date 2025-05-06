@@ -120,6 +120,7 @@ public class CompareYourCostsPage(IPage page)
     public async Task SelectDimensionForChart(ComparisonChartNames chartName, string value)
     {
         await ChartDimensionDropdown(chartName).SelectOption(value);
+        await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
     }
 
     public async Task IsDimensionSelectedForChart(ComparisonChartNames chartName, string value)
@@ -240,6 +241,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task HoverOnGraphBar(int nth = 0)
     {
+        await page.WaitForRequestFinishedAsync();
         await ChartBars.Nth(nth).HoverAsync();
     }
 
