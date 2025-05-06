@@ -1956,7 +1956,7 @@
       "platform.functions": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.11.0, )",
+          "FluentValidation": "[12.0.0, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.0.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.41, )",
@@ -1983,7 +1983,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
           "Azure.Search.Documents": "[11.6.0, )",
-          "FluentValidation": "[11.11.0, )",
+          "FluentValidation": "[12.0.0, )",
           "Microsoft.ApplicationInsights": "[2.23.0, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.4, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[9.0.4, )",
@@ -2053,9 +2053,9 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[11.11.0, )",
-        "resolved": "11.11.0",
-        "contentHash": "cyIVdQBwSipxWG8MA3Rqox7iNbUNUTK5bfJi9tIdm4CAfH71Oo5ABLP4/QyrUwuakqpUEPGtE43BDddvEehuYw=="
+        "requested": "[12.0.0, )",
+        "resolved": "12.0.0",
+        "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",
