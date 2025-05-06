@@ -17,6 +17,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/census")]
+[ValidateUrn]
 public class SchoolCensusController(
     IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
@@ -120,16 +121,25 @@ public class SchoolCensusController(
         }
     }
 
-    private async Task<School> School(string urn) => await establishmentApi
-        .GetSchool(urn)
-        .GetResultOrThrow<School>();
+    private async Task<School> School(string urn)
+    {
+        return await establishmentApi
+            .GetSchool(urn)
+            .GetResultOrThrow<School>();
+    }
 
-    private async Task<Census?> Census(string urn) => await censusApi
-        .Get(urn)
-        .GetResultOrDefault<Census>();
+    private async Task<Census?> Census(string urn)
+    {
+        return await censusApi
+            .Get(urn)
+            .GetResultOrDefault<Census>();
+    }
 
-    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
-        .GetSchoolDataAsync(User, urn);
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn)
+    {
+        return await userDataService
+            .GetSchoolDataAsync(User, urn);
+    }
 
     private async Task<Census[]> GetCustomAsync(string urn, string customDataId)
     {

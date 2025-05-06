@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
@@ -15,6 +16,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
+[ValidateUrn]
 public class SchoolComparatorsController(
     ILogger<SchoolComparatorsController> logger,
     IEstablishmentApi establishmentApi,

@@ -18,6 +18,7 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/spending-comparison")]
 [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
+[ValidateUrn]
 public class SchoolSpendingComparisonController(
     IEstablishmentApi establishmentApi,
     IUserDataService userDataService,

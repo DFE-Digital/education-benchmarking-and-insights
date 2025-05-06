@@ -13,12 +13,14 @@ using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.Validators;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning/create")]
+[ValidateUrn]
 public class SchoolPlanningCreateController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
@@ -1395,106 +1397,168 @@ public class SchoolPlanningCreateController(
         }
     }
 
-    private BacklinkInfo DeploymentPlanLink(string urn, int year) => new(Url.Action("View", "SchoolPlanning", new
+    private BacklinkInfo DeploymentPlanLink(string urn, int year)
     {
-        urn,
-        year
-    }));
+        return new BacklinkInfo(Url.Action("View", "SchoolPlanning", new
+        {
+            urn,
+            year
+        }));
+    }
 
-    private BacklinkInfo IndexBackLink(string urn) => new(Url.Action("Index", "SchoolPlanning", new
+    private BacklinkInfo IndexBackLink(string urn)
     {
-        urn
-    }));
-    private BacklinkInfo StartBackLink(string urn) => new(Url.Action("Start", new
+        return new BacklinkInfo(Url.Action("Index", "SchoolPlanning", new
+        {
+            urn
+        }));
+    }
+    private BacklinkInfo StartBackLink(string urn)
     {
-        urn
-    }));
-    private BacklinkInfo SelectYearBackLink(string urn) => new(Url.Action("SelectYear", new
+        return new BacklinkInfo(Url.Action("Start", new
+        {
+            urn
+        }));
+    }
+    private BacklinkInfo SelectYearBackLink(string urn)
     {
-        urn
-    }));
-    private BacklinkInfo PrePopulateDataBackLink(string urn, int year) => new(Url.Action("PrePopulateData", new
+        return new BacklinkInfo(Url.Action("SelectYear", new
+        {
+            urn
+        }));
+    }
+    private BacklinkInfo PrePopulateDataBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TotalIncomeBackLink(string urn, int year) => new(Url.Action("TotalIncome", new
+        return new BacklinkInfo(Url.Action("PrePopulateData", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TotalIncomeBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TotalExpenditureBackLink(string urn, int year) => new(Url.Action("TotalExpenditure", new
+        return new BacklinkInfo(Url.Action("TotalIncome", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TotalExpenditureBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TotalNumberTeachersBackLink(string urn, int year) => new(Url.Action("TotalNumberTeachers", new
+        return new BacklinkInfo(Url.Action("TotalExpenditure", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TotalNumberTeachersBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TotalEducationSupportBackLink(string urn, int year) => new(Url.Action("TotalEducationSupport", new
+        return new BacklinkInfo(Url.Action("TotalNumberTeachers", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TotalEducationSupportBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TotalTeacherCostsBackLink(string urn, int year) => new(Url.Action("TotalTeacherCosts", new
+        return new BacklinkInfo(Url.Action("TotalEducationSupport", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TotalTeacherCostsBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TimetableCycleBackLink(string urn, int year) => new(Url.Action("TimetableCycle", new
+        return new BacklinkInfo(Url.Action("TotalTeacherCosts", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TimetableCycleBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo PrimaryHasMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryHasMixedAgeClasses", new
+        return new BacklinkInfo(Url.Action("TimetableCycle", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo PrimaryHasMixedAgeClassesBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo PrimaryMixedAgeClassesBackLink(string urn, int year) => new(Url.Action("PrimaryMixedAgeClasses", new
+        return new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo PrimaryMixedAgeClassesBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo PupilFiguresBackLink(string urn, int year) => new(Url.Action("PupilFigures", new
+        return new BacklinkInfo(Url.Action("PrimaryMixedAgeClasses", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo PupilFiguresBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year) => new(Url.Action("PrimaryPupilFigures", new
+        return new BacklinkInfo(Url.Action("PupilFigures", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new
+        return new BacklinkInfo(Url.Action("PrimaryPupilFigures", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new
+        return new BacklinkInfo(Url.Action("TeacherPeriodAllocation", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year) => new(Url.Action("OtherTeachingPeriods", new
+        return new BacklinkInfo(Url.Action("TeachingAssistantFigures", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new
+        return new BacklinkInfo(Url.Action("OtherTeachingPeriods", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo ManagementRolesBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
-    private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new
+        return new BacklinkInfo(Url.Action("ManagementRoles", new
+        {
+            urn,
+            year
+        }));
+    }
+    private BacklinkInfo ManagersPerRoleBackLink(string urn, int year)
     {
-        urn,
-        year
-    }));
+        return new BacklinkInfo(Url.Action("ManagersPerRole", new
+        {
+            urn,
+            year
+        }));
+    }
 
-    private static bool SkipPrePopulateData(SchoolIncome income, SchoolExpenditure expenditure, Census workforce) =>
-        income.TotalIncome == null || expenditure.TotalExpenditure == null || expenditure.TeachingStaffCosts == null
-        || expenditure.EducationSupportStaffCosts == null || workforce.Teachers == null;
+    private static bool SkipPrePopulateData(SchoolIncome income, SchoolExpenditure expenditure, Census workforce)
+    {
+        return income.TotalIncome == null || expenditure.TotalExpenditure == null || expenditure.TeachingStaffCosts == null
+               || expenditure.EducationSupportStaffCosts == null || workforce.Teachers == null;
+    }
 }
