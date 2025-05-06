@@ -51,7 +51,7 @@ resource "azurerm_linux_web_app" "web-app" {
     app_command_line    = "npm run start:custom"
     ftps_state          = "Disabled"
     application_stack {
-      node_version = "20-lts"
+      node_version = "22-lts"
     }
   }
 
