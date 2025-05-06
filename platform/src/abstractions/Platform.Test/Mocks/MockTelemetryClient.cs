@@ -14,7 +14,7 @@ public static class MockTelemetryClient
         var mockTelemetryConfig = new TelemetryConfiguration
         {
             TelemetryChannel = mockTelemetryChannel,
-            InstrumentationKey = Guid.NewGuid().ToString()
+            ConnectionString = $"InstrumentationKey={Guid.NewGuid()}"
         };
 
         var mockTelemetryClient = new TelemetryClient(mockTelemetryConfig);
