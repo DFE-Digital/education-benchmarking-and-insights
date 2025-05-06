@@ -9,6 +9,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Expenditure;
 
 public class WhenExpenditureApiReceivesHistoryRequest
@@ -60,8 +61,8 @@ public class WhenExpenditureApiReceivesHistoryRequest
         var actualQuery = string.Empty;
 
         _expenditureApi
-            .Setup(e => e.TrustHistory(companyNumber, It.IsAny<ApiQuery?>()))
-            .Callback<string, ApiQuery?>((_, query) =>
+            .Setup(e => e.TrustHistory(companyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
             {
                 actualQuery = query?.ToQueryString();
             })

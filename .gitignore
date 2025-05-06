@@ -435,3 +435,6 @@ web/src/Web.App/appsettings.Test.json
 
 # Azure Portal authored jMeter configuration files
 performance-tests/**/url_test.jmx
+
+# VS Code generated file when editing project src folder
+web/src/Web.App/Web.App.sln

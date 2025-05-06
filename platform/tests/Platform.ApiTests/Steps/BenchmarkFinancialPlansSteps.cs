@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text;
-using Platform.Api.Benchmark.FinancialPlans;
+using Platform.Api.Benchmark.Features.FinancialPlans.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;

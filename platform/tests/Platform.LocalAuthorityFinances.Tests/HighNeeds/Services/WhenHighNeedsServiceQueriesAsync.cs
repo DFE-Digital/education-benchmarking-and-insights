@@ -108,4 +108,24 @@ public class WhenHighNeedsServiceQueriesAsync
         Assert.Equal(expectedTypes, actualTypes);
         Assert.Equal(expectedSplitOn, actualSplitOn);
     }
+
+    [Fact]
+    public async Task ShouldNotQueryAndMultiMapWhenGetHistoryWithMissingYears()
+    {
+        // arrange
+        string[] codes = ["code1", "code2", "code3"];
+        const string dimension = "Actuals";
+        YearsModel? years = null;
+        _connection
+            .Setup(c => c.QueryFirstOrDefaultAsync<YearsModel>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(years);
+
+        // act
+        var actual = await _service.GetHistory(codes, dimension);
+
+        // assert
+        Assert.Null(actual);
+        _connection
+            .Verify(c => c.QueryAsync(It.IsAny<PlatformQuery>(), It.IsAny<Type[]>(), It.IsAny<Func<object[], (HighNeedsYear outturn, HighNeedsYear budget)>>(), It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
 }

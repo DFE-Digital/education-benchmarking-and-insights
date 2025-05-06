@@ -7,28 +7,28 @@ namespace Web.App.Services;
 
 public interface ISuggestService
 {
-    Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null);
-    Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
-    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
+    Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null, CancellationToken cancellationToken = default);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
 {
-    public async Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null)
+    public async Task<IEnumerable<SuggestValue<SchoolSummary>>> SchoolSuggestions(string search, string[]? excludeSchools = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default)
     {
-        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools, excludeMissingFinancialData).GetResultOrThrow<SuggestOutput<SchoolSummary>>();
+        var suggestions = await establishmentApi.SuggestSchools(search, excludeSchools, excludeMissingFinancialData, cancellationToken).GetResultOrThrow<SuggestOutput<SchoolSummary>>();
         return suggestions.Results.Select(SchoolSuggestValue);
     }
 
-    public async Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
+    public async Task<IEnumerable<SuggestValue<TrustSummary>>> TrustSuggestions(string search, string[]? excludeTrusts = null, CancellationToken cancellationToken = default)
     {
-        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts).GetResultOrThrow<SuggestOutput<TrustSummary>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search, excludeTrusts, cancellationToken).GetResultOrThrow<SuggestOutput<TrustSummary>>();
         return suggestions.Results.Select(TrustSuggestValue);
     }
 
-    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
+    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null, CancellationToken cancellationToken = default)
     {
-        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, excludeLas).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
+        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, excludeLas, cancellationToken).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
         return suggestions.Results.Select(LocalAuthoritySuggestValue);
     }
 

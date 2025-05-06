@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Benchmark.ComparatorSets;
-using Platform.Api.Benchmark.CustomData;
+using Platform.Api.Benchmark.Features.ComparatorSets;
+using Platform.Api.Benchmark.Features.CustomData;
+using Platform.Api.Benchmark.Features.FinancialPlans;
 using Platform.Api.Benchmark.Features.UserData;
-using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Json;
 using Platform.Sql;
+
 // ReSharper disable UnusedMethodReturnValue.Local
 
 namespace Platform.Api.Benchmark.Configuration;
@@ -20,15 +20,6 @@ internal static class Services
 {
     internal static void Configure(IServiceCollection serviceCollection)
     {
-        serviceCollection
-            .AddSingleton<IComparatorSetsService, ComparatorSetsService>()
-            .AddSingleton<IFinancialPlansService, FinancialPlansService>()
-            .AddSingleton<ICustomDataService, CustomDataService>();
-
-        serviceCollection
-            .AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>()
-            .AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
-
         serviceCollection
             .AddTelemetry()
             .AddHealthCheckServices()
@@ -65,15 +56,15 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddPlatformSql();
-    }
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformSql();
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
     {
         return serviceCollection
+            .AddComparatorSetsFeature()
+            .AddCustomDataFeature()
+            .AddFinancialPlansFeature()
             .AddUserDataFeature();
     }
 }

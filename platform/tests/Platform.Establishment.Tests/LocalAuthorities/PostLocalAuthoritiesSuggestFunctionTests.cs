@@ -31,7 +31,7 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         _service
-            .Setup(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()))
+            .Setup(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new SuggestResponse<LocalAuthoritySummary>());
 
         _validator
@@ -67,6 +67,6 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
         Assert.Contains(body, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
 
         _service
-            .Verify(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>()), Times.Never);
+            .Verify(d => d.LocalAuthoritiesSuggestAsync(It.IsAny<LocalAuthoritySuggestRequest>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

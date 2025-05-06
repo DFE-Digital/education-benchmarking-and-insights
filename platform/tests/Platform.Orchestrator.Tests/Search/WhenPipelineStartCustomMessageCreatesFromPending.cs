@@ -1,5 +1,6 @@
 using AutoFixture;
-using Platform.Api.Benchmark.CustomData;
+using Platform.Api.Benchmark.Features.CustomData.Models;
+using Platform.Api.Benchmark.Features.CustomData.Requests;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Xunit;

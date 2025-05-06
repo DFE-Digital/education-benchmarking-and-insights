@@ -6,7 +6,6 @@ using Web.App.Domain.NonFinancial;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Extensions;
-using Web.App.Services;
 
 namespace Web.App.Controllers.Api;
 
@@ -54,7 +53,7 @@ public class EducationHealthCarePlansProxyController(
     [ProducesResponseType<EducationHealthCarePlansHistoryResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
-    public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken)
+    public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken = default)
     {
         try
         {

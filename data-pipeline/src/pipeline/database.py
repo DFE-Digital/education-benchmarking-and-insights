@@ -454,6 +454,7 @@ def insert_financial_data(
         "Number of pupils": "TotalPupils",
         "In year balance": "InYearBalance",
         "Revenue reserve": "RevenueReserve",
+        "Share Revenue reserve": "ShareRevenueReserve",
         "Finance Type": "FinanceType",
         "SchoolPhaseType": "OverallPhase",
         "Income_Total grant funding": "TotalGrantFunding",

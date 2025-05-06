@@ -2,22 +2,37 @@
 
 public interface IBalanceApi
 {
-    Task<ApiResult> School(string? urn, ApiQuery? query = null);
-    Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null);
-    Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null);
-    Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null);
-    Task<ApiResult> QueryTrusts(ApiQuery? query = null);
+    Task<ApiResult> School(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryTrusts(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }
 
 public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBalanceApi
 {
-    public async Task<ApiResult> School(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Balance.School(urn)}{query?.ToQueryString()}");
+    public async Task<ApiResult> School(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        return await GetAsync($"{Api.Balance.School(urn)}{query?.ToQueryString()}", cancellationToken);
+    }
 
-    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null) => await GetAsync($"{Api.Balance.SchoolHistory(urn)}{query?.ToQueryString()}");
+    public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        return await GetAsync($"{Api.Balance.SchoolHistory(urn)}{query?.ToQueryString()}", cancellationToken);
+    }
 
-    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Balance.Trust(companyNo)}{query?.ToQueryString()}");
+    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        return await GetAsync($"{Api.Balance.Trust(companyNo)}{query?.ToQueryString()}", cancellationToken);
+    }
 
-    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null) => await GetAsync($"{Api.Balance.TrustHistory(companyNo)}{query?.ToQueryString()}");
+    public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        return await GetAsync($"{Api.Balance.TrustHistory(companyNo)}{query?.ToQueryString()}", cancellationToken);
+    }
 
-    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null) => await GetAsync($"{Api.Balance.Trusts}{query?.ToQueryString()}");
+    public async Task<ApiResult> QueryTrusts(ApiQuery? query = null, CancellationToken cancellationToken = default)
+    {
+        return await GetAsync($"{Api.Balance.Trusts}{query?.ToQueryString()}", cancellationToken);
+    }
 }

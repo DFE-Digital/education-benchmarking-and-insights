@@ -30,6 +30,11 @@ public class SchoolSearchController(
             return View(viewModel);
         }
 
+        if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
+        {
+            return RedirectToAction("Index", "School", new { urn = viewModel.EstablishmentId });
+        }
+
         return RedirectToAction("Search", new
         {
             term = viewModel.Term
@@ -84,6 +89,11 @@ public class SchoolSearchController(
                 OrderBy = viewModel.OrderBy,
                 OverallPhase = viewModel.OverallPhase
             });
+        }
+
+        if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
+        {
+            return RedirectToAction("Index", "School", new { urn = viewModel.EstablishmentId });
         }
 
         // reset search options if new search term provided

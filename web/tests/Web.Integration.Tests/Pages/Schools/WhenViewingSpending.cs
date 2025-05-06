@@ -6,6 +6,7 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
@@ -171,7 +172,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         if (comparatorSet != null)
         {
             client.SetupComparatorSet(school, comparatorSet);
-            var setup = client.ExpenditureApi.SetupSequence(api => api.QuerySchools(It.IsAny<ApiQuery?>()));
+            var setup = client.ExpenditureApi.SetupSequence(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()));
             if (comparatorSet.Pupil.Length > 0 && comparatorSet.Building.Length == 0 || comparatorSet.Pupil.Length == 0 && comparatorSet.Building.Length > 0)
             {
                 setup.ReturnsAsync(ApiResult.Ok(expenditures));
@@ -209,13 +210,13 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             var expectedCostCodeList = new Dictionary<string, int>
             {
                 { "Teaching and Teaching support staff", 5 },
-                { "Non-educational support staff", financeType == EstablishmentTypes.Maintained ? 3 : 4  },
+                { "Non-educational support staff", financeType == EstablishmentTypes.Maintained ? 3 : 4 },
                 { "Educational supplies", 2 },
                 { "Educational ICT", 1 },
                 { "Premises staff and services", 4 },
                 { "Utilities", 2 },
                 { "Administrative supplies", 1 },
-                { "Catering staff and supplies", 2 },
+                { "Catering staff and supplies", 2 }
             };
 
             Assert.NotNull(costCodeList);
