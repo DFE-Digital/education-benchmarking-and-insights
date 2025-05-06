@@ -1,10 +1,10 @@
 ﻿using Moq;
-using Xunit;
-using Web.App.Services;
-using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Domain;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Services;
+using Xunit;
 
 namespace Web.Tests.Services;
 
@@ -22,14 +22,14 @@ public class WhenClaimsIdentifierServiceIsCalled
         var organisation = new Organisation
         {
             Category = organisationItem,
-            CompanyRegistrationNumber = 12345678,
+            CompanyRegistrationNumber = 12345678
         };
         var response = new Trust
         {
-            Schools = [new TrustSchool { URN = "123456" }],
+            Schools = [new TrustSchool { URN = "123456" }]
         };
 
-        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -51,17 +51,18 @@ public class WhenClaimsIdentifierServiceIsCalled
         var organisation = new Organisation
         {
             Category = organisationItem,
-            CompanyRegistrationNumber = 12345678,
+            CompanyRegistrationNumber = 12345678
         };
         var response = new Trust
         {
-            Schools = [
+            Schools =
+            [
                 new TrustSchool { URN = "123456" },
                 new TrustSchool { URN = "987654" }
-            ],
+            ]
         };
 
-        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -84,16 +85,17 @@ public class WhenClaimsIdentifierServiceIsCalled
         var organisation = new Organisation
         {
             Category = organisationItem,
-            EstablishmentNumber = 123,
+            EstablishmentNumber = 123
         };
         var response = new LocalAuthority
         {
-            Schools = [
+            Schools =
+            [
                 new LocalAuthoritySchool { URN = "123456" },
                 new LocalAuthoritySchool { URN = "987654" }
-            ],
+            ]
         };
-        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -108,7 +110,7 @@ public class WhenClaimsIdentifierServiceIsCalled
     [Fact]
     public async Task ShouldReturnCorrectlyWhenAcademy()
     {
-        var organisationItem = new OrganisationItem()
+        var organisationItem = new OrganisationItem
         {
             Id = "001"
         };
@@ -119,7 +121,7 @@ public class WhenClaimsIdentifierServiceIsCalled
         };
 
         var response = new School { URN = "123456", TrustCompanyNumber = "12345678" };
-        _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString()))
+        _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -134,7 +136,7 @@ public class WhenClaimsIdentifierServiceIsCalled
     [Fact]
     public async Task ShouldReturnCorrectlyWhenNotAcademy()
     {
-        var organisationItem = new OrganisationItem()
+        var organisationItem = new OrganisationItem
         {
             Id = "001"
         };
@@ -145,7 +147,7 @@ public class WhenClaimsIdentifierServiceIsCalled
         };
         var response = new School { URN = "123456" };
 
-        _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString()))
+        _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -160,13 +162,13 @@ public class WhenClaimsIdentifierServiceIsCalled
     public async Task ShouldReturnCorrectlyWhenOrganisationIsNull()
     {
         Organisation? organisation = null;
-        _mockApi.Setup(api => api.GetSchool(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok());
 
-        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok());
 
-        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>()))
+        _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok());
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
@@ -174,8 +176,8 @@ public class WhenClaimsIdentifierServiceIsCalled
 
         Assert.Empty(schools);
         Assert.Empty(trusts);
-        _mockApi.Verify(api => api.GetSchool(It.IsAny<string>()), Times.Never);
-        _mockApi.Verify(api => api.GetTrust(It.IsAny<string>()), Times.Never);
-        _mockApi.Verify(api => api.GetLocalAuthority(It.IsAny<string>()), Times.Never);
+        _mockApi.Verify(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _mockApi.Verify(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _mockApi.Verify(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

@@ -23,7 +23,14 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<Census[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase, [FromQuery] string? customDataId)
+    public async Task<IActionResult> Query(
+        [FromQuery] string type,
+        [FromQuery] string id,
+        [FromQuery] string category,
+        [FromQuery] string dimension,
+        [FromQuery] string? phase,
+        [FromQuery] string? customDataId,
+        CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -34,8 +41,8 @@ public class CensusProxyController(
             try
             {
                 var result = customDataId is not null
-                    ? await GetCustomAsync(id, category, dimension, customDataId)
-                    : await GetDefaultAsync(type, id, category, dimension, phase);
+                    ? await GetCustomAsync(id, category, dimension, customDataId, cancellationToken)
+                    : await GetDefaultAsync(type, id, category, dimension, phase, cancellationToken);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -51,7 +58,7 @@ public class CensusProxyController(
     [ProducesResponseType<CensusHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
-    public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension)
+    public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -60,7 +67,7 @@ public class CensusProxyController(
         {
             try
             {
-                var result = await SchoolCensusHistory(id, dimension, CancellationToken.None);
+                var result = await SchoolCensusHistory(id, dimension, cancellationToken);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -111,10 +118,9 @@ public class CensusProxyController(
         }
     }
 
-    private async Task<Census[]> GetCustomAsync(string id, string? category, string dimension, string customDataId)
+    private async Task<Census[]> GetCustomAsync(string id, string? category, string dimension, string customDataId, CancellationToken cancellationToken = default)
     {
-
-        var set = await schoolComparatorSetService.ReadComparatorSet(id, customDataId);
+        var set = await schoolComparatorSetService.ReadComparatorSet(id, customDataId, cancellationToken);
         if (set == null || set.Pupil.Length == 0)
         {
             return [];
@@ -124,38 +130,38 @@ public class CensusProxyController(
         var setQuery = BuildApiQuery(category, dimension, schools);
         var customQuery = BuildApiQuery(category, dimension);
 
-        var defaultResults = await censusApi.Query(setQuery).GetResultOrDefault<Census[]>() ?? [];
-        var customResult = await censusApi.GetCustom(id, customDataId, customQuery).GetResultOrDefault<Census>();
+        var defaultResults = await censusApi.Query(setQuery, cancellationToken).GetResultOrDefault<Census[]>() ?? [];
+        var customResult = await censusApi.GetCustom(id, customDataId, customQuery, cancellationToken).GetResultOrDefault<Census>();
 
         return customResult != null
             ? defaultResults.Append(customResult).ToArray()
             : defaultResults;
     }
 
-    private async Task<Census[]> GetDefaultAsync(string type, string id, string? category, string dimension, string? phase)
+    private async Task<Census[]> GetDefaultAsync(string type, string id, string? category, string dimension, string? phase, CancellationToken cancellationToken = default)
     {
         var query = type.ToLower() switch
         {
-            OrganisationTypes.School => BuildApiQuery(category, dimension, await GetSchoolSet(id)),
+            OrganisationTypes.School => BuildApiQuery(category, dimension, await GetSchoolSet(id, cancellationToken)),
             OrganisationTypes.Trust => BuildApiQuery(category, dimension, null, phase, id),
             OrganisationTypes.LocalAuthority => BuildApiQuery(category, dimension, null, phase, null, id),
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
 
-        var result = await censusApi.Query(query).GetResultOrDefault<Census[]>();
+        var result = await censusApi.Query(query, cancellationToken).GetResultOrDefault<Census[]>();
         return result ?? [];
     }
 
-    private async Task<string[]> GetSchoolSet(string id)
+    private async Task<string[]> GetSchoolSet(string id, CancellationToken cancellationToken = default)
     {
-        var userData = await userDataService.GetSchoolDataAsync(User, id);
+        var userData = await userDataService.GetSchoolDataAsync(User, id, cancellationToken);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
-            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
+            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id, cancellationToken);
             return defaultSet?.Pupil ?? [];
         }
 
-        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet, cancellationToken);
         return userDefinedSet?.Set ?? [];
     }
 
@@ -184,21 +190,27 @@ public class CensusProxyController(
         return query;
     }
 
-    private async Task<CensusHistoryRows?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
-        .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-        .GetResultOrDefault<CensusHistoryRows>();
-
-    private async Task<CensusHistoryRows?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken) => await censusApi
-        .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-        .GetResultOrDefault<CensusHistoryRows>();
-
-    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken)
+    private async Task<CensusHistoryRows?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken = default)
     {
-        var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+        return await censusApi
+            .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
+            .GetResultOrDefault<CensusHistoryRows>();
+    }
+
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken = default)
+    {
+        return await censusApi
+            .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
+            .GetResultOrDefault<CensusHistoryRows>();
+    }
+
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken = default)
+    {
+        var school = await establishmentApi.GetSchool(urn, cancellationToken).GetResultOrThrow<School>();
         return await SchoolCensusHistoryNationalAverage(school.OverallPhase, school.FinanceType, dimension, cancellationToken);
     }
 
-    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken)
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string? phase, string? financeType, string dimension, CancellationToken cancellationToken = default)
     {
         var query = BuildApiQuery(null, dimension, phase: phase, financeType: financeType);
         return await censusApi
@@ -206,7 +218,7 @@ public class CensusProxyController(
             .GetResultOrDefault<CensusHistoryRows>();
     }
 
-    private async Task<HistoryComparison<CensusHistory>?> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken)
+    private async Task<HistoryComparison<CensusHistory>?> GetSchoolHistoryComparison(string urn, string dimension, string? phase, string? financeType, CancellationToken cancellationToken = default)
     {
         var school = await SchoolCensusHistory(urn, dimension, cancellationToken);
         if (school == null)

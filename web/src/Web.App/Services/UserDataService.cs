@@ -9,11 +9,11 @@ namespace Web.App.Services;
 
 public interface IUserDataService
 {
-    Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn);
-    Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn);
-    Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber);
-    Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn);
-    Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber);
+    Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default);
+    Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default);
+    Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber, CancellationToken cancellationToken = default);
+    Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default);
+    Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user, string companyNumber, CancellationToken cancellationToken = default);
 }
 
 public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) : IUserDataService
@@ -23,7 +23,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
     private const string ComparatorSet = "comparator-set";
     private const string CustomData = "custom-data";
 
-    public async Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn)
+    public async Task<UserData?> GetSchoolComparatorSetActiveAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -36,7 +36,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
-        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        var userSets = await api.GetAsync(query, cancellationToken).GetResultOrDefault<UserData[]>();
         if (userSets?.Length > 1)
         {
             logger.LogWarning(
@@ -51,7 +51,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn)
+    public async Task<UserData?> GetCustomDataActiveAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -64,7 +64,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
-        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        var userSets = await api.GetAsync(query, cancellationToken).GetResultOrDefault<UserData[]>();
         if (userSets?.Length > 1)
         {
             logger.LogWarning(
@@ -79,7 +79,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber)
+    public async Task<UserData?> GetTrustComparatorSetAsync(ClaimsPrincipal user, string companyNumber, CancellationToken cancellationToken = default)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -92,7 +92,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
 
-        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        var userSets = await api.GetAsync(query, cancellationToken).GetResultOrDefault<UserData[]>();
         if (userSets?.Length > 1)
         {
             logger.LogWarning(
@@ -107,7 +107,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn)
+    public async Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(ClaimsPrincipal user, string urn, CancellationToken cancellationToken = default)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -120,13 +120,13 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
 
-        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        var userSets = await api.GetAsync(query, cancellationToken).GetResultOrDefault<UserData[]>();
         return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,
             userSets?.FirstOrDefault(x => x.Type == ComparatorSet)?.Id);
     }
 
     public async Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(ClaimsPrincipal user,
-        string companyNumber)
+        string companyNumber, CancellationToken cancellationToken = default)
     {
         if (user.Identity is not { IsAuthenticated: true })
         {
@@ -138,7 +138,7 @@ public class UserDataService(IUserDataApi api, ILogger<UserDataService> logger) 
             .AddIfNotNull("organisationType", OrganisationTrust)
             .AddIfNotNull("organisationId", companyNumber);
 
-        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        var userSets = await api.GetAsync(query, cancellationToken).GetResultOrDefault<UserData[]>();
         return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,
             userSets?.FirstOrDefault(x => x.Type == ComparatorSet)?.Id);
     }

@@ -12,7 +12,7 @@ public interface IIndexClient
 {
     Task<Response<SearchResults<T>>> SearchAsync<T>(string? searchText, SearchOptions options);
     Task<Response<T>> GetDocumentAsync<T>(string? key);
-    Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options);
+    Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -40,13 +40,13 @@ public abstract class IndexClient(Uri endpoint, AzureKeyCredential credential, s
 
     public Task<Response<T>> GetDocumentAsync<T>(string? key) => _client.GetDocumentAsync<T>(key);
 
-    public async Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options)
+    public async Task<Response<SuggestResults<T>>> SuggestAsync<T>(string? searchText, string? suggesterName, SuggestOptions options, CancellationToken cancellationToken = default)
     {
         var id = Guid.NewGuid();
         Response<SuggestResults<T>> response;
         using (HttpPipeline.CreateClientRequestIdScope(id.ToString()))
         {
-            response = await _client.SuggestAsync<T>(searchText, suggesterName, options);
+            response = await _client.SuggestAsync<T>(searchText, suggesterName, options, cancellationToken);
         }
 
         var props = new SuggestTelemetryProperties(

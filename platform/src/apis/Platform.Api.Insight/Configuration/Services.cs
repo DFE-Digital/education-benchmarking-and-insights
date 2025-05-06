@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using FluentValidation;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.Api.Insight.BudgetForecast;
 using Platform.Api.Insight.Features.Balance;
+using Platform.Api.Insight.Features.BudgetForecast;
 using Platform.Api.Insight.Features.Census;
 using Platform.Api.Insight.Features.Expenditure;
 using Platform.Api.Insight.Features.Files;
 using Platform.Api.Insight.Features.Income;
+using Platform.Api.Insight.Features.MetricRagRatings;
+using Platform.Api.Insight.Features.Schools;
 using Platform.Api.Insight.Features.Trusts;
-using Platform.Api.Insight.MetricRagRatings;
-using Platform.Api.Insight.Schools;
-using Platform.Api.Insight.Validators;
 using Platform.Cache;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
+
 // ReSharper disable UnusedMethodReturnValue.Local
 
 namespace Platform.Api.Insight.Configuration;
@@ -29,13 +28,7 @@ internal static class Services
     internal static void Configure(IServiceCollection serviceCollection)
     {
         serviceCollection
-            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>()
-            .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
-            .AddSingleton<ISchoolsService, SchoolsService>()
-            .AddSingleton<IBudgetForecastService, BudgetForecastService>();
-
-        serviceCollection
-            .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>();
+            .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>();
 
         serviceCollection
             .AddTelemetry()
@@ -74,21 +67,18 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddPlatformCache()
-            .AddPlatformSql();
-    }
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformCache()
+        .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddBalanceFeature()
-            .AddCensusFeature()
-            .AddExpenditureFeature()
-            .AddFilesFeature()
-            .AddIncomeFeature()
-            .AddTrustsFeature();
-    }
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddBalanceFeature()
+        .AddBudgetForecastFeature()
+        .AddCensusFeature()
+        .AddExpenditureFeature()
+        .AddFilesFeature()
+        .AddIncomeFeature()
+        .AddMetricRagRatingsFeature()
+        .AddSchoolsFeature()
+        .AddTrustsFeature();
 }

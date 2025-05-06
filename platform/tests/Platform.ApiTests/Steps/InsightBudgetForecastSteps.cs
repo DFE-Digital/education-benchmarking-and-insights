@@ -1,4 +1,4 @@
-﻿using Platform.Api.Insight.BudgetForecast;
+﻿using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;

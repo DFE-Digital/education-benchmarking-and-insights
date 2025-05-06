@@ -30,6 +30,6 @@ public abstract class ApiBase
     protected async Task<ApiResult> PostAsync(string requestUri, MultipartFormDataContent content) =>
         await _httpClient.PostAsync(requestUri, content).ToApiResult();
 
-    protected async Task<ApiResult> SendAsync(HttpRequestMessage message) =>
-        await _httpClient.SendAsync(message).ToApiResult();
+    protected async Task<ApiResult> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken = default) =>
+        await _httpClient.SendAsync(message, cancellationToken).ToApiResult(cancellationToken);
 }

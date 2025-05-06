@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.26.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.27.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.26.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.27.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | 2.3.4 |
 
 ## Modules
@@ -58,7 +58,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    search_sku            = string<br>    search_replica_count  = number<br>    sql_telemetry_enabled = bool<br>    cache_sku             = string<br>    cache_capacity        = number<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false<br>  },<br>  "development": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": true<br>  },<br>  "feature": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": true<br>  },<br>  "pre-production": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Standard",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false<br>  },<br>  "production": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Standard",<br>    "search_replica_count": 3,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false<br>  },<br>  "test": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br/>    search_sku            = string<br/>    search_replica_count  = number<br/>    sql_telemetry_enabled = bool<br/>    cache_sku             = string<br/>    cache_capacity        = number<br/>  }))</pre> | <pre>{<br/>  "automated-test": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Basic",<br/>    "search_replica_count": 1,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": false<br/>  },<br/>  "development": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Basic",<br/>    "search_replica_count": 1,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": true<br/>  },<br/>  "feature": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Basic",<br/>    "search_replica_count": 1,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": true<br/>  },<br/>  "pre-production": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Standard",<br/>    "search_replica_count": 1,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": false<br/>  },<br/>  "production": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Standard",<br/>    "search_replica_count": 3,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": false<br/>  },<br/>  "test": {<br/>    "cache_capacity": 1,<br/>    "cache_sku": "Basic",<br/>    "search_replica_count": 1,<br/>    "search_sku": "basic",<br/>    "sql_telemetry_enabled": false<br/>  }<br/>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |

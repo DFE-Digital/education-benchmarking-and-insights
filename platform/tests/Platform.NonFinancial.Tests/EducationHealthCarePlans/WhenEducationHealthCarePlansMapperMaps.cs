@@ -46,7 +46,7 @@ public class WhenEducationHealthCarePlansMapperMaps
         // assert
         Assert.Equal(value.LaCode, actual.Code);
         Assert.Equal(value.Name, actual.Name);
-        Assert.Equal(int.Parse(value.RunId), actual.Year);
+        Assert.Equal(int.Parse(value.RunId!), actual.Year);
         Assert.Equal(value.Total, actual.Total);
         Assert.Equal(value.Mainstream, actual.Mainstream);
         Assert.Equal(value.Resourced, actual.Resourced);

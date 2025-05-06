@@ -89,9 +89,10 @@ public class WhenLocalAuthoritiesServiceSearches
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
-                ItExpr.IsAny<string[]?>()
+                ItExpr.IsAny<string[]?>(),
+                ItExpr.IsAny<CancellationToken>()
             )
-            .Callback((SuggestRequest _, Func<string?>? _, string[] fields) =>
+            .Callback((SuggestRequest _, Func<string?>? _, string[] fields, CancellationToken _) =>
             {
                 capturedFields = fields;
             })
@@ -115,9 +116,10 @@ public class WhenLocalAuthoritiesServiceSearches
                 "SuggestAsync",
                 ItExpr.IsAny<SuggestRequest>(),
                 ItExpr.IsAny<Func<string?>?>(),
-                ItExpr.IsAny<string[]?>()
+                ItExpr.IsAny<string[]?>(),
+                ItExpr.IsAny<CancellationToken>()
             )
-            .Callback((SuggestRequest request, Func<string?>? _, string[] _) =>
+            .Callback((SuggestRequest request, Func<string?>? _, string[] _, CancellationToken _) =>
             {
                 capturedRequest = request;
             })

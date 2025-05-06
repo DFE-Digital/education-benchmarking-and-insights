@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.Benchmark.Tests.UserData.Validators;
 
-public class WhenHighNeedsHistoryParametersValidatorValidates
+public class WhenUserDataParametersValidatorValidates
 {
     private readonly UserDataParametersValidator _validator = new();
 

@@ -148,21 +148,21 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupEstablishment(SuggestOutput<Trust> trustTestData)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).ReturnsAsync(ApiResult.Ok(trustTestData));
+        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustTestData));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetSchool(school.URN)).ReturnsAsync(ApiResult.Ok(school));
+        EstablishmentApi.Setup(api => api.GetSchool(school.URN, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(school));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(Trust trust)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
+        EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trust));
         return this;
     }
 
@@ -170,14 +170,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         EstablishmentApi.Reset();
         trust.Schools = schools;
-        EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
+        EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trust));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
         return this;
     }
 
@@ -185,7 +185,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         EstablishmentApi.Reset();
         authority.Schools = schools;
-        EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
         return this;
     }
 
@@ -197,79 +197,79 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         SetupEstablishment(authority, []);
         EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
-        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
-        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).ReturnsAsync(ApiResult.Ok(authorities));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
-        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).ReturnsAsync(ApiResult.Ok(authorities));
-        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities));
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishmentWithNotFound()
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
-        EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
-        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
-        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
+        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+        EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishmentWithException()
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.GetLocalAuthorities()).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<bool?>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.GetLocalAuthorities(It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<bool?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestLocalAuthorities(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<SchoolSummary> schools)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(schools));
+        EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schools));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<TrustSummary> trusts)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(trusts));
+        EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trusts));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<LocalAuthoritySummary> localAuthorities)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>())).ReturnsAsync(ApiResult.Ok(localAuthorities));
+        EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(localAuthorities));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupCensus(School school, Census census)
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.Get(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(census));
+        CensusApi.Setup(api => api.Get(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(census));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupCensus(Census[] censuses)
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(censuses));
+        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(censuses));
         return this;
     }
 
@@ -292,9 +292,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         CensusApi.Reset();
         CensusApi
-            .Setup(api => api.SchoolHistory(It.IsAny<string?>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Setup(api => api.SchoolHistory(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
-        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
@@ -331,7 +331,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupIncome(School school, SchoolIncome? income = null)
     {
         IncomeApi.Reset();
-        IncomeApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
+        IncomeApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(income));
         return this;
     }
@@ -339,14 +339,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupBalance(School school, SchoolBalance? balance = null)
     {
         BalanceApi.Reset();
-        BalanceApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance()));
+        BalanceApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance()));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null)
     {
         BalanceApi.Reset();
-        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new TrustBalance()));
+        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(balance ?? new TrustBalance()));
         return this;
     }
 
@@ -357,9 +357,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         int? currentYear = null)
     {
         BudgetForecastApi.Reset();
-        BudgetForecastApi.Setup(api => api.BudgetForecastReturns(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(returns ?? []));
-        BudgetForecastApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
-        BudgetForecastApi.Setup(api => api.GetCurrentBudgetForecastYear(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(currentYear ?? 2022));
+        BudgetForecastApi.Setup(api => api.BudgetForecastReturns(trust.CompanyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(returns ?? []));
+        BudgetForecastApi.Setup(api => api.BudgetForecastReturnsMetrics(trust.CompanyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(metrics ?? []));
+        BudgetForecastApi.Setup(api => api.GetCurrentBudgetForecastYear(trust.CompanyNumber, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(currentYear ?? 2022));
         return this;
     }
 
@@ -381,7 +381,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         BalanceApi.Reset();
 
-        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance
+        BalanceApi.Setup(api => api.School(It.IsAny<string?>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance
         {
             PeriodCoveredByReturn = 12
         }));
@@ -393,7 +393,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         MetricRagRatingApi.Reset();
 
-        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(ratings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(ratings ?? []));
 
         return this;
     }
@@ -401,7 +401,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupMetricRagRatingUserDefined(IEnumerable<RagRating>? ratings = null)
     {
         MetricRagRatingApi.Reset();
-        MetricRagRatingApi.Setup(api => api.UserDefinedAsync(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(ratings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.UserDefinedAsync(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(ratings ?? []));
         return this;
     }
 
@@ -409,7 +409,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         MetricRagRatingApi.Reset();
 
-        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(originalRatings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(originalRatings ?? []));
         MetricRagRatingApi.Setup(api => api.CustomAsync(customData)).ReturnsAsync(ApiResult.Ok(customRatings));
 
         return this;
@@ -419,7 +419,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ExpenditureApi.Reset();
         ExpenditureApi
-            .Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
+            .Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure
             {
                 PeriodCoveredByReturn = 12
@@ -431,7 +431,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ExpenditureApi.Reset();
         ExpenditureApi
-            .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>()))
+            .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(expenditures));
         return this;
     }
@@ -440,7 +440,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ExpenditureApi.Reset();
         ExpenditureApi
-            .Setup(api => api.SchoolCustom(school.URN, identifier, It.IsAny<ApiQuery?>()))
+            .Setup(api => api.SchoolCustom(school.URN, identifier, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
         return this;
     }
@@ -449,7 +449,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ExpenditureApi.Reset();
         ExpenditureApi
-            .Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>()))
+            .Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
         return this;
     }
@@ -490,14 +490,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupSchoolInsight(IEnumerable<SchoolCharacteristic>? characteristics = null)
     {
         SchoolInsightApi.Reset();
-        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? Array.Empty<SchoolCharacteristic>()));
+        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? []));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupTrustInsightApi(IEnumerable<TrustCharacteristic>? characteristics = null)
     {
         TrustInsightApi.Reset();
-        TrustInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? Array.Empty<TrustCharacteristic>()));
+        TrustInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? []));
         return this;
     }
 
@@ -522,21 +522,21 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupComparatorSetApi(UserDefinedTrustComparatorSet trustComparatorSet)
     {
         ComparatorApi.Reset();
-        ComparatorSetApi.Setup(api => api.GetUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(trustComparatorSet));
+        ComparatorSetApi.Setup(api => api.GetUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustComparatorSet));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupComparatorSetApiWithException()
     {
         ComparatorSetApi.Reset();
-        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>())).Throws(new Exception());
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
     public BenchmarkingWebAppClient SetupComparatorSet(School school, SchoolComparatorSet? comparatorSet)
     {
         ComparatorSetApi.Reset();
-        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(school.URN!)).ReturnsAsync(ApiResult.Ok(comparatorSet));
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(school.URN!, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(comparatorSet));
         return this;
     }
 
@@ -598,7 +598,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupUserData(UserData[]? data = null)
     {
         UserDataApi.Reset();
-        UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>())).ReturnsAsync(ApiResult.Ok(data ?? []));
+        UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(data ?? []));
         return this;
     }
 
