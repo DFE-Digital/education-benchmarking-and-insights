@@ -17,6 +17,7 @@ import {
   NonEducationalSupportStaffExpenditure,
 } from "src/services";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
   type,
@@ -28,6 +29,7 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
   const [data, setData] = useState<
     NonEducationalSupportStaffExpenditure[] | null
   >();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<NonEducationalSupportStaffExpenditure>(
@@ -36,9 +38,10 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
       dimension.value,
       "NonEducationalSupportStaff",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [type, id, dimension.value, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -58,6 +61,8 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCostsProps> = ({
   );
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);

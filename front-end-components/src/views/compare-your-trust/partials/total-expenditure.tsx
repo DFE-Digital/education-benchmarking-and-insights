@@ -13,6 +13,7 @@ import {
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
 import { DimensionedChart } from "src/composed/dimensioned-chart";
+import { useAbort } from "src/hooks/useAbort";
 
 export const TotalExpenditure: React.FC<{
   id: string;
@@ -20,15 +21,17 @@ export const TotalExpenditure: React.FC<{
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const { breakdown } = useCentralServicesBreakdownContext(true);
   const [data, setData] = useState<TotalExpenditureTrustExpenditure[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust<TotalExpenditureTrustExpenditure>(
       id,
       dimension.value,
       "TotalExpenditure",
-      breakdown === BreakdownExclude
+      breakdown === BreakdownExclude,
+      [signal]
     );
-  }, [id, dimension, breakdown]);
+  }, [id, dimension.value, breakdown, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -63,6 +66,8 @@ export const TotalExpenditure: React.FC<{
     }, [dimension, data, breakdown]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);

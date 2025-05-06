@@ -23,6 +23,7 @@ import {
 } from "src/services";
 import { TotalCateringCostsType } from "src/components/total-catering-costs-type";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
   type,
@@ -34,6 +35,7 @@ export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
   const [data, setData] = useState<CateringStaffServicesExpenditure[] | null>();
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<CateringStaffServicesExpenditure>(
@@ -42,9 +44,10 @@ export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
       dimension.value,
       "CateringStaffServices",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [type, id, dimension.value, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -66,6 +69,8 @@ export const CateringStaffServices: React.FC<CompareYourCostsProps> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === event.target.value) ??
       PoundsPerPupil;

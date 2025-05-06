@@ -9,7 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 export class CensusApi {
   static async history(
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<CensusHistoryRows> {
     const response = await fetch(
       "/api/census/history?" +
@@ -21,6 +22,7 @@ export class CensusApi {
           "Content-Type": "application/json",
           "X-Correlation-ID": uuidv4(),
         },
+        signal: signals?.length ? AbortSignal.any(signals) : undefined,
       }
     );
 
@@ -70,7 +72,8 @@ export class CensusApi {
     dimension: string,
     category: string,
     phase?: string,
-    customDataId?: string
+    customDataId?: string,
+    signals?: AbortSignal[]
   ): Promise<Census[]> {
     const params = new URLSearchParams({
       type: type,
@@ -94,6 +97,7 @@ export class CensusApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     })
       .then((res) => res.json())
       .then((res) => {

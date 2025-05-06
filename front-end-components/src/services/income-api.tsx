@@ -5,7 +5,8 @@ export class IncomeApi {
   static async history(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    signals?: AbortSignal[]
   ): Promise<IncomeHistoryRows> {
     const params = new URLSearchParams({
       type: type,
@@ -20,6 +21,7 @@ export class IncomeApi {
         "Content-Type": "application/json",
         "X-Correlation-ID": uuidv4(),
       },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
     });
 
     const json = await response.json();

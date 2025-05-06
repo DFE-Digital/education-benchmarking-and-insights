@@ -16,6 +16,7 @@ import { Loading } from "src/components/loading";
 import { HistoricData2Props } from "../types";
 import { censusCharts } from ".";
 import { DataWarning } from "src/components/charts/data-warning";
+import { useAbort } from "src/hooks/useAbort";
 
 export const CensusSection: React.FC<HistoricData2Props> = ({
   financeType,
@@ -32,9 +33,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
     {}
   );
   const [loadError, setLoadError] = useState<string>();
-  const [cancelSignal, setCancelSignal] = useState<AbortController>(
-    new AbortController()
-  );
+  const { abort, signal } = useAbort();
 
   const getData = useCallback(async () => {
     if (!load) {
@@ -48,9 +47,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
       dimension.value,
       overallPhase,
       financeType,
-      fetchTimeout
-        ? [cancelSignal.signal, AbortSignal.timeout(fetchTimeout)]
-        : [cancelSignal.signal]
+      fetchTimeout ? [signal, AbortSignal.timeout(fetchTimeout)] : [signal]
     );
   }, [
     dimension.value,
@@ -59,7 +56,7 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
     load,
     overallPhase,
     fetchTimeout,
-    cancelSignal,
+    signal,
   ]);
 
   useEffect(() => {
@@ -79,14 +76,12 @@ export const CensusSection: React.FC<HistoricData2Props> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    cancelSignal?.abort();
+    abort();
 
     const dimension =
       CensusCategories.find((x) => x.value === event.target.value) ??
       defaultDimension;
     setDimension(dimension);
-
-    setCancelSignal(new AbortController());
   };
 
   return (

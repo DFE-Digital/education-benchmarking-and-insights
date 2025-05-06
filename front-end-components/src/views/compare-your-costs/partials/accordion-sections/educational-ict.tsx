@@ -14,6 +14,7 @@ import { PhaseContext, CustomDataContext } from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, EducationalIctExpenditure } from "src/services";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const EducationalIct: React.FC<CompareYourCostsProps> = ({
   type,
@@ -23,6 +24,7 @@ export const EducationalIct: React.FC<CompareYourCostsProps> = ({
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
   const [data, setData] = useState<EducationalIctExpenditure[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.query<EducationalIctExpenditure>(
@@ -31,9 +33,10 @@ export const EducationalIct: React.FC<CompareYourCostsProps> = ({
       dimension.value,
       "EducationalIct",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [type, id, dimension.value, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -42,6 +45,8 @@ export const EducationalIct: React.FC<CompareYourCostsProps> = ({
   }, [getData]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CostCategories.find((x) => x.value === value) ?? PoundsPerPupil;
     setDimension(dimension);

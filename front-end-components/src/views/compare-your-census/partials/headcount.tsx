@@ -16,6 +16,7 @@ import { HeadcountData } from "src/views/compare-your-census/partials";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { Census, CensusApi } from "src/services";
 import { DimensionedChart } from "src/composed/dimensioned-chart";
+import { useAbort } from "src/hooks/useAbort";
 
 export const Headcount: React.FC<{ type: string; id: string }> = ({
   type,
@@ -25,6 +26,7 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
   const customDataId = useContext(CustomDataContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const [data, setData] = useState<Census[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await CensusApi.query(
@@ -33,9 +35,10 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
       dimension.value,
       "WorkforceHeadcount",
       phase,
-      customDataId
+      customDataId,
+      [signal]
     );
-  }, [id, dimension, type, phase, customDataId]);
+  }, [id, dimension, type, phase, customDataId, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -66,6 +69,8 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
     }, [dimension, data]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       CensusCategories.find((x) => x.value === value) ?? PupilsPerStaffRole;
     setDimension(dimension);

@@ -53,7 +53,7 @@ public class HighNeedsProxyController(
     [ProducesResponseType<LocalAuthorityHighNeedsHistoryResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
-    public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken)
+    public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken = default)
     {
         try
         {

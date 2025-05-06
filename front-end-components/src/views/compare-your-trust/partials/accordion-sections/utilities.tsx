@@ -9,6 +9,7 @@ import {
   BreakdownInclude,
 } from "src/components/central-services-breakdown";
 import { AccordionSection } from "src/composed/accordion-section";
+import { useAbort } from "src/hooks/useAbort";
 
 export const Utilities: React.FC<{
   id: string;
@@ -16,15 +17,17 @@ export const Utilities: React.FC<{
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const { breakdown } = useCentralServicesBreakdownContext(true);
   const [data, setData] = useState<UtilitiesTrustExpenditure[] | null>();
+  const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust<UtilitiesTrustExpenditure>(
       id,
       dimension.value,
       "Utilities",
-      breakdown === BreakdownExclude
+      breakdown === BreakdownExclude,
+      [signal]
     );
-  }, [id, dimension, breakdown]);
+  }, [id, dimension.value, breakdown, signal]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -44,6 +47,8 @@ export const Utilities: React.FC<{
   }, [dimension, breakdown]);
 
   const handleDimensionChange = (value: string) => {
+    abort();
+
     const dimension =
       PremisesCategories.find((x) => x.value === value) ?? PoundsPerMetreSq;
     setDimension(dimension);
