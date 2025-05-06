@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment.Features.Trusts.Models;
@@ -13,7 +14,7 @@ namespace Platform.Api.Establishment.Features.Trusts.Services;
 
 public interface ITrustsService
 {
-    Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request);
+    Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request, CancellationToken cancellationToken = default);
     Task<Trust?> GetAsync(string companyNumber);
     Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request);
 }
@@ -45,7 +46,7 @@ public class TrustsService(
         return trust;
     }
 
-    public Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request)
+    public Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request, CancellationToken cancellationToken = default)
     {
         var fields = new[]
         {
@@ -53,7 +54,7 @@ public class TrustsService(
             nameof(Trust.TrustName)
         };
 
-        return SuggestAsync(request, request.FilterExpression, fields);
+        return SuggestAsync(request, request.FilterExpression, fields, cancellationToken);
     }
 
     public Task<SearchResponse<TrustSummary>> TrustsSearchAsync(SearchRequest request)

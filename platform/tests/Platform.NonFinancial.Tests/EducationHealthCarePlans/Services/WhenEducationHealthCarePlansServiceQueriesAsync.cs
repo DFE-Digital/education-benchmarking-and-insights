@@ -83,4 +83,25 @@ public class WhenEducationHealthCarePlansServiceQueriesAsync
         Assert.Equal(results.Select(Mapper.MapToLocalAuthorityNumberOfPlansYearResponse), actual?.Plans);
         Assert.Equal("SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation WHERE LaCode IN @LaCodes AND RunId BETWEEN @StartYear AND @EndYear", actualSql);
     }
+
+    [Fact]
+    public async Task ShouldNotQueryAsyncWhenGetHistoryWithMissingYears()
+    {
+        // arrange
+        const string dimension = Dimensions.EducationHealthCarePlans.Per1000;
+        string[] codes = ["code1", "code2", "code3"];
+
+        YearsModel? years = null;
+        _connection
+            .Setup(c => c.QueryFirstOrDefaultAsync<YearsModel>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(years);
+
+        // act
+        var actual = await _service.GetHistory(codes, dimension, CancellationToken.None);
+
+        // assert
+        Assert.Null(actual);
+        _connection
+            .Verify(c => c.QueryAsync<LocalAuthorityNumberOfPlansYear>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
 }

@@ -21,7 +21,8 @@ public class SuggestProxyController(
         [FromQuery] string search,
         [FromQuery] string type,
         [FromQuery] string[]? exclude = null,
-        [FromQuery] bool? excludeMissingFinancialData = null)
+        [FromQuery] bool? excludeMissingFinancialData = null,
+        CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -33,13 +34,13 @@ public class SuggestProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        var schools = await suggestService.SchoolSuggestions(search, exclude, excludeMissingFinancialData == true);
+                        var schools = await suggestService.SchoolSuggestions(search, exclude, excludeMissingFinancialData == true, cancellationToken);
                         return new JsonResult(schools);
                     case OrganisationTypes.Trust:
-                        var trusts = await suggestService.TrustSuggestions(search, exclude);
+                        var trusts = await suggestService.TrustSuggestions(search, exclude, cancellationToken);
                         return new JsonResult(trusts);
                     case OrganisationTypes.LocalAuthority:
-                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude);
+                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude, cancellationToken);
                         return new JsonResult(localAuthorities);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));

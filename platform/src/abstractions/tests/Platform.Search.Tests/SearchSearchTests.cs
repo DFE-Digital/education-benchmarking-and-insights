@@ -326,7 +326,8 @@ public class SearchSearchTests
                     && o.Filter == nameof(filterBuilder)
                     && o.Size == Size
                     && o.UseFuzzyMatching == false
-                    && o.Select[0] == selectFields[0])))
+                    && o.Select[0] == selectFields[0]),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(Response.FromValue(suggestResults, Mock.Of<Response>()));
 
         var results = await _service.CallSuggestAsync(request, filterBuilder, selectFields);

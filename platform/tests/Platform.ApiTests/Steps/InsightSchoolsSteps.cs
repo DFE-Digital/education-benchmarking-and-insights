@@ -1,4 +1,4 @@
-﻿using Platform.Api.Insight.Schools;
+﻿using Platform.Api.Insight.Features.Schools.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;

@@ -2,25 +2,46 @@
   "name": "web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "wwwroot/js/main.js",
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
     "front-end": "^1.0.0",
     "govuk-frontend": "^5.7.0",
+    "lodash.debounce": "^4.0.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@swc/core": "^1.11.21",
+    "@types/lodash.debounce": "^4.0.9",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",
     "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^3.0.0"
+    "gulp-sourcemaps": "^3.0.0",
+    "prettier": "^3.5.3",
+    "prettier-eslint": "^16.4.1",
+    "swc-loader": "^0.2.6",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1",
+    "webpack": "^5.99.7",
+    "webpack-stream": "^7.0.0"
   },
   "overrides": {
     "glob-parent": "^6.0.2",
     "postcss": ">=8.4.31"
   },
   "scripts": {
-    "build": "gulp build-fe"
+    "build": "gulp build-fe",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module",
+  "types": "./types"
 }

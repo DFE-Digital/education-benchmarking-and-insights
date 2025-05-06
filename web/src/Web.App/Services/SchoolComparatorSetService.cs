@@ -8,9 +8,9 @@ namespace Web.App.Services;
 
 public interface ISchoolComparatorSetService
 {
-    Task<SchoolComparatorSet?> ReadComparatorSet(string urn);
-    Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier);
-    Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier);
+    Task<SchoolComparatorSet?> ReadComparatorSet(string urn, CancellationToken cancellationToken = default);
+    Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default);
+    Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default);
     UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSetFromSession(string urn);
     UserDefinedSchoolComparatorSet SetUserDefinedComparatorSetInSession(string urn, UserDefinedSchoolComparatorSet set);
     void ClearUserDefinedComparatorSetFromSession(string urn, string? identifier = null);
@@ -21,17 +21,23 @@ public interface ISchoolComparatorSetService
 
 public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ISchoolComparatorSetService
 {
-    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn) =>
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, CancellationToken cancellationToken = default)
+    {
         //Do not add to session state. Locking on session state blocks requests
-        await api.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
+        return await api.GetDefaultSchoolAsync(urn, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
+    }
 
-    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier) =>
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default)
+    {
         //Do not add to session state. Locking on session state blocks requests
-        await api.GetCustomSchoolAsync(urn, identifier).GetResultOrDefault<SchoolComparatorSet>();
+        return await api.GetCustomSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
+    }
 
-    public async Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier) =>
+    public async Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default)
+    {
         //Do not add to session state. Locking on session state blocks requests
-        await api.GetUserDefinedSchoolAsync(urn, identifier).GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+        return await api.GetUserDefinedSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+    }
 
     public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSetFromSession(string urn)
     {

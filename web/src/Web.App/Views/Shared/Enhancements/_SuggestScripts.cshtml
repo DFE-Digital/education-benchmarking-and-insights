@@ -1,0 +1,8 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.Enhancements.SuggestScriptsViewModel
+
+<script type="module" add-nonce="true">
+    import {suggester} from "@Html.FileVersionedPath("/js/main.min.js")";
+
+    suggester("@Model.Type", "@Model.InputElementId", "@Model.SelectedEstablishmentField", "@Model.IdField");
+</script>

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
@@ -24,17 +25,18 @@ public class PostTrustsSuggestFunction(ITrustsService service, IValidator<Sugges
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSuggest)]
-        HttpRequestData req)
+        HttpRequestData req,
+        CancellationToken cancellationToken = default)
     {
         var body = await req.ReadAsJsonAsync<TrustSuggestRequest>();
 
-        var validationResult = await validator.ValidateAsync(body);
+        var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
         {
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors);
         }
 
-        var trusts = await service.TrustsSuggestAsync(body);
+        var trusts = await service.TrustsSuggestAsync(body, cancellationToken);
         return await req.CreateJsonResponseAsync(trusts);
     }
 }

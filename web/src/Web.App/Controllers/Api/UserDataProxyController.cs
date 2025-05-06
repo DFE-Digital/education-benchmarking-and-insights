@@ -17,7 +17,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> SchoolUserData(string urn)
+    public async Task<IActionResult> SchoolUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -26,7 +26,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetSchoolComparatorSetActiveAsync(User, urn);
+                var userSet = await userDataService.GetSchoolComparatorSetActiveAsync(User, urn, cancellationToken);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -45,7 +45,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     [HttpGet]
     [Route("trust/{companyNumber}")]
     [Produces("application/json")]
-    public async Task<IActionResult> TrustUserData(string companyNumber)
+    public async Task<IActionResult> TrustUserData(string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -54,7 +54,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userSet = await userDataService.GetTrustComparatorSetAsync(User, companyNumber);
+                var userSet = await userDataService.GetTrustComparatorSetAsync(User, companyNumber, cancellationToken);
                 if (userSet == null)
                 {
                     return new NotFoundResult();
@@ -76,7 +76,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> SchoolCustomDataUserData(string urn)
+    public async Task<IActionResult> SchoolCustomDataUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -85,7 +85,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
         {
             try
             {
-                var userData = await userDataService.GetCustomDataActiveAsync(User, urn);
+                var userData = await userDataService.GetCustomDataActiveAsync(User, urn, cancellationToken);
                 if (userData == null)
                 {
                     return new NotFoundResult();

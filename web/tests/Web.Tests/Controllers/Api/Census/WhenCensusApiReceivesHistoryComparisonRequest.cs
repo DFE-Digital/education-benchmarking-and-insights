@@ -9,6 +9,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Census;
 
 public class WhenCensusApiReceivesHistoryComparisonRequest
@@ -34,15 +35,15 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
         // arrange
         var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = _fixture.Build<School>()
             .With(s => s.URN, urn)
             .Create();
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        var cancellationToken = CancellationToken.None;
         SetupCensusHistory(urn, results, q => actualQuery = q, cancellationToken);
 
         // act
@@ -61,16 +62,16 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
         // arrange
         var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = _fixture.Build<School>()
             .With(s => s.URN, urn)
             .Create();
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        SetupCensusHistory(urn);
-        var cancellationToken = CancellationToken.None;
+        SetupCensusHistory(urn, cancellationToken: cancellationToken);
         _censusApi
             .Setup(e => e.SchoolHistoryComparatorSetAverage(urn, It.IsAny<ApiQuery?>(), cancellationToken))
             .Callback<string, ApiQuery?, CancellationToken>((_, query, _) =>
@@ -98,6 +99,7 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
         // arrange
         var results = new CensusHistoryRows();
         var actualQuery = string.Empty;
+        var cancellationToken = CancellationToken.None;
 
         var school = new School
         {
@@ -106,11 +108,10 @@ public class WhenCensusApiReceivesHistoryComparisonRequest
             OverallPhase = schoolOverallPhase
         };
         _establishmentApi
-            .Setup(e => e.GetSchool(urn))
+            .Setup(e => e.GetSchool(urn, cancellationToken))
             .ReturnsAsync(ApiResult.Ok(school));
 
-        SetupCensusHistory(urn);
-        var cancellationToken = CancellationToken.None;
+        SetupCensusHistory(urn, cancellationToken: cancellationToken);
         _censusApi
             .Setup(e => e.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), cancellationToken))
             .Callback<ApiQuery?, CancellationToken>((query, _) =>

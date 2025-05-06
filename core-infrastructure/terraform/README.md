@@ -5,7 +5,7 @@
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
 | <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.3.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.26.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.27.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
@@ -14,10 +14,10 @@
 |------|---------|
 | <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.3.0 |
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.3.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.26.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.27.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | 2.5.2 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.7.1 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
 
 ## Modules
 
@@ -97,7 +97,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    sql_db_sku_name    = string<br>    sql_db_max_size_gb = number<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S1"<br>  },<br>  "development": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S0"<br>  },<br>  "feature": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S0"<br>  },<br>  "pre-production": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S1"<br>  },<br>  "production": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S2"<br>  },<br>  "test": {<br>    "sql_db_max_size_gb": 5,<br>    "sql_db_sku_name": "S1"<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br/>    sql_db_sku_name    = string<br/>    sql_db_max_size_gb = number<br/>  }))</pre> | <pre>{<br/>  "automated-test": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S1"<br/>  },<br/>  "development": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S0"<br/>  },<br/>  "feature": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S0"<br/>  },<br/>  "pre-production": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S1"<br/>  },<br/>  "production": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S2"<br/>  },<br/>  "test": {<br/>    "sql_db_max_size_gb": 5,<br/>    "sql_db_sku_name": "S1"<br/>  }<br/>}</pre> | no |
 | <a name="input_disable-purge-protection"></a> [disable-purge-protection](#input\_disable-purge-protection) | n/a | `any` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |

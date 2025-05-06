@@ -96,8 +96,8 @@ public static class Selectors
     public const string SchoolDetailsEmailAddress = ".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value";
     public const string SchoolSearchInput = "#school-input";
     public const string SchoolRadio = ".govuk-radios__input#school";
-
     public const string TrustSearchInput = "#trust-input";
+    public const string SearchTermInput = "#__Term";
 
     public const string ReactChartContainer = ".recharts-responsive-container";
     public const string ReactChartStats = ".chart-stat-summary";
@@ -108,6 +108,7 @@ public static class Selectors
 
     public const string SchoolSuggestDropdown = "#school-input__listbox";
     public const string TrustSuggestDropdown = "#trust-input__listbox";
+    public const string TermSuggestDropdown = $"{SearchTermInput}__listbox";
     public const string MainContent = "#main-content";
     public const string GovukTag = ".govuk-tag";
 

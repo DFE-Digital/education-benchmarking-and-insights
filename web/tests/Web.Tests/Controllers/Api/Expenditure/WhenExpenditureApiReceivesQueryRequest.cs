@@ -9,6 +9,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Expenditure;
 
 public class WhenExpenditureApiReceivesQueryRequest
@@ -40,11 +41,11 @@ public class WhenExpenditureApiReceivesQueryRequest
         var actualQuery = string.Empty;
 
         _establishmentApi
-            .Setup(e => e.GetTrust(companyNumber))
+            .Setup(e => e.GetTrust(companyNumber, It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(trust));
         _expenditureApi
-            .Setup(e => e.QuerySchools(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(c =>
+            .Setup(e => e.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((c, _) =>
             {
                 actualQuery = c?.ToQueryString();
             })
@@ -73,11 +74,11 @@ public class WhenExpenditureApiReceivesQueryRequest
         var actualQuery = string.Empty;
 
         _establishmentApi
-            .Setup(e => e.GetLocalAuthority(laCode))
+            .Setup(e => e.GetLocalAuthority(laCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(la));
         _expenditureApi
-            .Setup(e => e.QuerySchools(It.IsAny<ApiQuery?>()))
-            .Callback<ApiQuery?>(c =>
+            .Setup(e => e.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((c, _) =>
             {
                 actualQuery = c?.ToQueryString();
             })

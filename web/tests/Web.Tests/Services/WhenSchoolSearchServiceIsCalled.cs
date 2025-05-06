@@ -9,7 +9,6 @@ namespace Web.Tests.Services;
 
 public class WhenSchoolSearchServiceIsCalled
 {
-    private readonly Mock<IEstablishmentApi> _api = new();
 
     public static TheoryData<string?, int?, int?, SearchFilters?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
@@ -40,14 +39,17 @@ public class WhenSchoolSearchServiceIsCalled
                 SearchText = "term",
                 PageSize = 1,
                 Page = 2,
-                Filters = [
-                    new FilterCriteria { Field = "field", Value = "value1"},
-                    new FilterCriteria { Field = "field", Value = "value2"}
+                Filters =
+                [
+                    new FilterCriteria { Field = "field", Value = "value1" },
+                    new FilterCriteria { Field = "field", Value = "value2" }
                 ],
-                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3"}
+                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3" }
             }
         }
     };
+
+    private readonly Mock<IEstablishmentApi> _api = new();
 
     [Theory]
     [MemberData(nameof(WhenSendRequestData))]
@@ -56,8 +58,8 @@ public class WhenSchoolSearchServiceIsCalled
         var response = new SearchResponse<SchoolSummary>();
 
         SearchRequest? actualRequest = null;
-        _api.Setup(x => x.SearchSchools(It.IsAny<SearchRequest>()))
-            .Callback<SearchRequest>(r =>
+        _api.Setup(x => x.SearchSchools(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<SearchRequest, CancellationToken>((r, _) =>
             {
                 actualRequest = r;
             })
