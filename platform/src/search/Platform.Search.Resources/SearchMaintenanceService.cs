@@ -12,12 +12,6 @@ using Platform.Search.Resources.TrustComparators;
 
 namespace Platform.Search.Resources;
 
-public interface ISearchMaintenanceService
-{
-    Task Rebuild();
-    Task Reset();
-}
-
 public class SearchMaintenanceServiceOptions
 {
     [Required] public SqlOptions? Sql { get; set; }
@@ -33,12 +27,13 @@ public class SearchMaintenanceServiceOptions
     }
 }
 
-public class SearchMaintenanceService : ISearchMaintenanceService
+public class SearchMaintenanceService
 {
     private readonly SearchIndexerClient _indexerClient;
     private readonly SearchIndexClient _indexClient;
     private readonly ILogger<SearchMaintenanceService> _logger;
     private readonly SearchMaintenanceServiceOptions _options;
+    private int _failureCount;
 
     public SearchMaintenanceService(IOptions<SearchMaintenanceServiceOptions> options, ILogger<SearchMaintenanceService> logger)
     {
@@ -46,7 +41,6 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         _options = options.Value;
         _indexerClient = new SearchIndexerClient(_options.SearchEndPoint, _options.SearchCredentials);
         _indexClient = new SearchIndexClient(_options.SearchEndPoint, _options.SearchCredentials);
-
     }
 
     public async Task Rebuild()
@@ -60,6 +54,11 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         await BuildIndexes();
         await BuildDataSourcesConnections();
         await BuildIndexers();
+
+        if (_failureCount > 0)
+        {
+            throw new Exception($"Failed to rebuild search indexes. {_failureCount} error{(_failureCount == 1 ? string.Empty : "s")} detected.");
+        }
     }
 
     public Task Reset()
@@ -75,12 +74,15 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             foreach (var connection in connections.Value)
             {
-                await RemoveDataSourcesConnection(connection);
+                if (!await RemoveDataSourcesConnection(connection))
+                {
+                    _failureCount++;
+                }
             }
         }
     }
 
-    private async Task RemoveDataSourcesConnection(string connection)
+    private async Task<bool> RemoveDataSourcesConnection(string connection)
     {
         try
         {
@@ -89,7 +91,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to delete data source connection : {Connection}", connection);
+            return false;
         }
+
+        return true;
     }
 
     private async Task RemoveIndexers()
@@ -100,12 +105,15 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             foreach (var indexer in indexers.Value)
             {
-                await RemoveIndexer(indexer);
+                if (!await RemoveIndexer(indexer))
+                {
+                    _failureCount++;
+                }
             }
         }
     }
 
-    private async Task RemoveIndexer(string indexer)
+    private async Task<bool> RemoveIndexer(string indexer)
     {
         try
         {
@@ -114,7 +122,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to delete indexer : {Indexer}", indexer);
+            return false;
         }
+
+        return true;
     }
 
     private async Task RemoveIndexes()
@@ -123,11 +134,14 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         foreach (var index in indexes)
         {
-            await RemoveIndex(index);
+            if (!await RemoveIndex(index))
+            {
+                _failureCount++;
+            }
         }
     }
 
-    private async Task RemoveIndex(string index)
+    private async Task<bool> RemoveIndex(string index)
     {
         try
         {
@@ -136,7 +150,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to delete index : {Index}", index);
+            return false;
         }
+
+        return true;
     }
 
     private async Task BuildIndexes()
@@ -152,11 +169,14 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         foreach (var builder in builders)
         {
-            await BuildIndex(builder);
+            if (!await BuildIndex(builder))
+            {
+                _failureCount++;
+            }
         }
     }
 
-    private async Task BuildIndex(IndexBuilder builder)
+    private async Task<bool> BuildIndex(IndexBuilder builder)
     {
         try
         {
@@ -165,7 +185,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to build index : {Index}", builder.Name);
+            return false;
         }
+
+        return true;
     }
 
     private async Task BuildDataSourcesConnections()
@@ -183,11 +206,14 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         foreach (var builder in builders)
         {
-            await BuildDataSourcesConnection(builder);
+            if (!await BuildDataSourcesConnection(builder))
+            {
+                _failureCount++;
+            }
         }
     }
 
-    private async Task BuildDataSourcesConnection(DataSourceConnectionBuilder builder)
+    private async Task<bool> BuildDataSourcesConnection(DataSourceConnectionBuilder builder)
     {
         try
         {
@@ -196,7 +222,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to build data source connection : {Connection}", builder.Name);
+            return false;
         }
+
+        return true;
     }
 
     private async Task BuildIndexers()
@@ -212,11 +241,14 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         foreach (var builder in builders)
         {
-            await BuildIndexer(builder);
+            if (!await BuildIndexer(builder))
+            {
+                _failureCount++;
+            }
         }
     }
 
-    private async Task BuildIndexer(IndexerBuilder builder)
+    private async Task<bool> BuildIndexer(IndexerBuilder builder)
     {
         try
         {
@@ -225,6 +257,9 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to build indexer : {Indexer}", builder.Name);
+            return false;
         }
+
+        return true;
     }
 }
