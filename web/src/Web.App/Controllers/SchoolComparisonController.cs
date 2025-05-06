@@ -17,6 +17,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparison")]
+[ValidateUrn]
 public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
     IExpenditureApi expenditureApi,

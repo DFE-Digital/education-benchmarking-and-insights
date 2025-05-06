@@ -16,6 +16,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}")]
+[ValidateUrn]
 public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
@@ -199,31 +200,52 @@ public class SchoolController(
         }
     }
 
-    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
-        .GetSchoolDataAsync(User, urn);
-
-    private async Task<SchoolBalance?> SchoolBalance(string urn) => await balanceApi
-        .School(urn)
-        .GetResultOrDefault<SchoolBalance>();
-
-    private async Task<School> School(string urn) => await establishmentApi
-        .GetSchool(urn)
-        .GetResultOrThrow<School>();
-
-    private async Task<Census> Census(string urn) => await censusApi
-        .Get(urn)
-        .GetResultOrThrow<Census>();
-
-    private async Task<RagRating[]> RagRatingsDefault(string urn) => await metricRagRatingApi
-        .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
-        .GetResultOrThrow<RagRating[]>();
-
-    private async Task<RagRating[]> RagRatingsUserDefined(string comparatorSetId) => await metricRagRatingApi
-        .UserDefinedAsync(comparatorSetId)
-        .GetResultOrThrow<RagRating[]>();
-
-    private BacklinkInfo HomeLink(string urn) => new(Url.Action("Index", new
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn)
     {
-        urn
-    }));
+        return await userDataService
+            .GetSchoolDataAsync(User, urn);
+    }
+
+    private async Task<SchoolBalance?> SchoolBalance(string urn)
+    {
+        return await balanceApi
+            .School(urn)
+            .GetResultOrDefault<SchoolBalance>();
+    }
+
+    private async Task<School> School(string urn)
+    {
+        return await establishmentApi
+            .GetSchool(urn)
+            .GetResultOrThrow<School>();
+    }
+
+    private async Task<Census> Census(string urn)
+    {
+        return await censusApi
+            .Get(urn)
+            .GetResultOrThrow<Census>();
+    }
+
+    private async Task<RagRating[]> RagRatingsDefault(string urn)
+    {
+        return await metricRagRatingApi
+            .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
+            .GetResultOrThrow<RagRating[]>();
+    }
+
+    private async Task<RagRating[]> RagRatingsUserDefined(string comparatorSetId)
+    {
+        return await metricRagRatingApi
+            .UserDefinedAsync(comparatorSetId)
+            .GetResultOrThrow<RagRating[]>();
+    }
+
+    private BacklinkInfo HomeLink(string urn)
+    {
+        return new BacklinkInfo(Url.Action("Index", new
+        {
+            urn
+        }));
+    }
 }

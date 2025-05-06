@@ -1,17 +1,19 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes.RequestTelemetry;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
 [Route("school/{urn}/comparators/create")]
+[ValidateUrn]
 public class SchoolComparatorsCreateController(ILogger<SchoolComparatorsCreateController> logger, IEstablishmentApi establishmentApi) : Controller
 {
     [HttpGet]

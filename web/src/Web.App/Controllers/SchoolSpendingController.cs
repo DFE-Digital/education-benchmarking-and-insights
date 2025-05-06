@@ -15,6 +15,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/spending-and-costs")]
+[ValidateUrn]
 public class SchoolSpendingController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,

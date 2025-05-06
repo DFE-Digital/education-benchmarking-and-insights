@@ -16,6 +16,7 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/custom-data")]
 [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
+[ValidateUrn]
 public class SchoolCustomDataController(
     IEstablishmentApi establishmentApi,
     IUserDataService userDataService,

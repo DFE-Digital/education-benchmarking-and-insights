@@ -9,6 +9,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -16,6 +17,7 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning")]
 [SchoolRequestTelemetry(TrackedRequestFeature.Planning)]
+[ValidateUrn]
 public class SchoolPlanningController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
