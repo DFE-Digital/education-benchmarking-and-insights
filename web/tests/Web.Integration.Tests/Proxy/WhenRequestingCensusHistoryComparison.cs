@@ -19,7 +19,7 @@ public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClien
         {
             new object?[]
             {
-                "urn",
+                "123456",
                 "dimension",
                 null,
                 null,
@@ -34,7 +34,7 @@ public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClien
             },
             new object?[]
             {
-                "urn",
+                "234567",
                 "dimension",
                 "phase",
                 "financeType",
