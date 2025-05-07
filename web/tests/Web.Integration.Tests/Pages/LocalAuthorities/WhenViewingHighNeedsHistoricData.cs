@@ -47,6 +47,7 @@ public class WhenViewingHighNeedsHistoricData(SchoolBenchmarkingWebAppClient cli
         LocalAuthority<HighNeeds>[]? highNeeds)> SetupNavigateInitPage(bool hasHighNeeds = true)
     {
         var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, "123")
             .Create();
 
         var highNeeds = hasHighNeeds ? Fixture.Build<LocalAuthority<HighNeeds>>().CreateMany().ToArray() : [];

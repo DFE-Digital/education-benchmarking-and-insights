@@ -14,7 +14,7 @@ public class WhenEducationHealthCarePlansHistory(SchoolBenchmarkingWebAppClient 
     [Fact]
     public async Task CanReturnCorrectResponse()
     {
-        const string code = nameof(code);
+        const string code = "123";
         const int startYear = 2021;
         const int endYear = 2022;
 
@@ -72,7 +72,7 @@ public class WhenEducationHealthCarePlansHistory(SchoolBenchmarkingWebAppClient 
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string code = nameof(code);
+        const string code = "123";
         var response = await client
             .SetupEducationHealthCarePlansWithException()
             .Get(Paths.ApiEducationHealthCarePlansHistory(code));

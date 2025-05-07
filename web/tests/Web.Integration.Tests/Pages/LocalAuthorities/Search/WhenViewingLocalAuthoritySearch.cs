@@ -18,12 +18,12 @@ public class WhenViewingLocalAuthoritySearch(SchoolBenchmarkingWebAppClient clie
         [
             new LocalAuthoritySummary
             {
-                Code = "123456",
+                Code = "123",
                 Name = "LA Name 1"
             },
             new LocalAuthoritySummary
             {
-                Code = "654321",
+                Code = "654",
                 Name = "LA Name 2"
             }
         ]
