@@ -177,15 +177,17 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
+            .With(a => a.Code, "123")
             .Create();
 
         var statisticalNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbour>()
             .CreateMany()
             .ToArray();
 
+        var random = new Random();
         authority.StatisticalNeighbours = statisticalNeighbours;
         var authorities = Fixture.Build<LocalAuthority>()
-            .With(l => l.Code, () => Fixture.Create<string>().Replace("-", string.Empty))
+            .With(l => l.Code, () => random.Next(100, 999).ToString())
             .CreateMany()
             .ToArray();
 
