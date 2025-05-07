@@ -47,6 +47,7 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
 
     [HttpGet]
     [Route("trust/{companyNumber}")]
+    [ValidateCompanyNumber]
     [Produces("application/json")]
     public async Task<IActionResult> TrustUserData(string companyNumber, CancellationToken cancellationToken = default)
     {

@@ -26,7 +26,7 @@ public class WhenViewingComparators(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, Trust Trust)> SetupNavigateInitPage(bool withComparatorSet)
     {
         var trust = Fixture.Build<Trust>()
-            .With(x => x.CompanyNumber, "12345")
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var comparatorSet = new[]

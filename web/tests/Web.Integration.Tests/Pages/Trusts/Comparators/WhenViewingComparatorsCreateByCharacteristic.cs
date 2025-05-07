@@ -42,7 +42,7 @@ public class WhenViewingComparatorsCreateByCharacteristic(SchoolBenchmarkingWebA
     private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
     {
         var trust = Fixture.Build<Trust>()
-            .With(x => x.CompanyNumber, "12345")
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var page = await Client.SetupEstablishment(trust)

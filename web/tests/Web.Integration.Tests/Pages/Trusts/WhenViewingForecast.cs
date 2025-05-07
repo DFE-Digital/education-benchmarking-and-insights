@@ -27,7 +27,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string companyNumber = "54321";
+        const string companyNumber = "87654321";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.TrustForecast(companyNumber));
 
@@ -38,7 +38,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplayForbidden()
     {
-        const string companyNumber = "121212";
+        const string companyNumber = "12121212";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.TrustForecast(companyNumber));
 
@@ -49,7 +49,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string companyNumber = "54321";
+        const string companyNumber = "87654321";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.TrustForecast(companyNumber));
 
@@ -60,7 +60,7 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
     private async Task<(IHtmlDocument page, Trust trust, BudgetForecastReturnMetric[] metrics)> SetupNavigateInitPage(bool hasMetrics = true)
     {
         var trust = Fixture.Build<Trust>()
-            .With(t => t.CompanyNumber, "54321")
+            .With(t => t.CompanyNumber, "87654321")
             .Create();
 
         var returns = Fixture.Build<BudgetForecastReturn>()

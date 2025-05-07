@@ -6,8 +6,8 @@ namespace Web.Integration.Tests.Pages;
 public class WhenAUserWithoutValidClaims(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    private const string Urn = "54321";
-    private const string CompanyNumber = "12345";
+    private const string Urn = "654321";
+    private const string CompanyNumber = "12345678";
 
     [Fact]
     public async Task SchoolFinancialPlanningRedirectsToForbidden()

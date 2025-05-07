@@ -106,6 +106,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         var random = new Random();
 
         var trust = Fixture.Build<Trust>()
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var schools = Fixture.Build<TrustSchool>()

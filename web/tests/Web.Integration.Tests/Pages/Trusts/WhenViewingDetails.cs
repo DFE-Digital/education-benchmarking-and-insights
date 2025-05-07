@@ -40,6 +40,17 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     }
 
     [Fact]
+    public async Task CanDisplayBadRequest()
+    {
+        const string companyName = nameof(companyName);
+        var page = await Client
+            .Navigate(Paths.TrustDetails(companyName));
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(companyName).ToAbsolute(), HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
     public async Task CanDisplayProblemWithService()
     {
         const string companyName = "12345678";
@@ -61,6 +72,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     private async Task<(IHtmlDocument page, Trust trust, TrustSchool[] schools)> SetupNavigateInitPage(bool includeSchools = true)
     {
         var trust = Fixture.Build<Trust>()
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var schools = includeSchools

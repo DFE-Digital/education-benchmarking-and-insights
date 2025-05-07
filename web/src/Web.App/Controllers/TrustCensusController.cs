@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -12,6 +13,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/census")]
+[ValidateCompanyNumber]
 [TrustRequestTelemetry(TrackedRequestFeature.BenchmarkWorkforce)]
 public class TrustCensusController(
     IEstablishmentApi establishmentApi,

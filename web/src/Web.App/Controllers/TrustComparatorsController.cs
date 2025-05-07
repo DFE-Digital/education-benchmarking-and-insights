@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -18,6 +19,7 @@ namespace Web.App.Controllers;
 [Authorize]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.TrustComparison)]
 [Route("trust/{companyNumber}/comparators")]
+[ValidateCompanyNumber]
 public class TrustComparatorsController(
     ILogger<TrustComparatorsController> logger,
     IEstablishmentApi establishmentApi,
