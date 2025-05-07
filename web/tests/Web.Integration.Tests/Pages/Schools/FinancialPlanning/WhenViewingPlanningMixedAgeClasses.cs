@@ -40,7 +40,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
@@ -171,7 +171,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         bool? mixedAgeYear3Year4 = null, bool? mixedAgeYear4Year5 = null, bool? mixedAgeYear5Year6 = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .Create();
 

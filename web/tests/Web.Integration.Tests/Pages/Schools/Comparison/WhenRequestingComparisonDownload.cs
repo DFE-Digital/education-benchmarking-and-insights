@@ -21,7 +21,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     public async Task CanReturnOk()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
@@ -36,7 +36,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .Get(Paths.SchoolComparisonDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var expectedFileNames = new[] { "comparison-12345-pupil.csv", "comparison-12345-building.csv" };
+        var expectedFileNames = new[] { "comparison-123456-pupil.csv", "comparison-123456-building.csv" };
         await foreach (var tuple in GetFilesFromZip(response))
         {
             Assert.Contains(tuple.fileName, expectedFileNames);
@@ -52,7 +52,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var response = await _client
             .SetupComparatorSetApiWithException()
             .Get(Paths.SchoolComparisonDownload(urn));

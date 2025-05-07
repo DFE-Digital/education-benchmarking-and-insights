@@ -20,7 +20,7 @@ public class WhenViewingComparatorsCreatePreview(SchoolBenchmarkingWebAppClient 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var key = SessionKeys.ComparatorSetUserDefined(school.URN!);

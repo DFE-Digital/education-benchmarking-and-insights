@@ -33,7 +33,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanning(urn));
 
@@ -44,7 +44,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolFinancialPlanning(urn));
 
@@ -84,7 +84,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .Create();
 

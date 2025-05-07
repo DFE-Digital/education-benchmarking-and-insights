@@ -2,6 +2,7 @@
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.Comparators;
 
 public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient client)
@@ -57,7 +58,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var page = await Client.SetupEstablishment(school)

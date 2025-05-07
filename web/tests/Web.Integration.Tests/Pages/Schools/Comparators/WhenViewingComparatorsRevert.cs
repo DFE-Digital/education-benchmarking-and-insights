@@ -31,7 +31,7 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool setupUserData = false)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Without(x => x.FederationLeadURN)
             .Create();
 

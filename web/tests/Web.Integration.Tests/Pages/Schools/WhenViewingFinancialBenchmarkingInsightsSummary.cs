@@ -107,7 +107,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         bool isLeadSchoolInFederation = false,
         int? periodCoveredByReturn = 12)
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var school = Fixture.Build<School>()
             .With(x => x.URN, urn)
             .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "12345678" : string.Empty)

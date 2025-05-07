@@ -35,7 +35,7 @@ public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient c
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var page = await Client.SetupEstablishment(school)

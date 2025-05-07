@@ -33,7 +33,7 @@ public class WhenViewingPlanningHelp(SchoolBenchmarkingWebAppClient client) : Pa
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .Create();
 
