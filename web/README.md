@@ -81,19 +81,20 @@ following section to `secrets.json`, with URLs and keys obtained from Key Vault.
 
 Feature flags may also be defined in the `FeatureManagement` section:
 
-| Name                                   | Purpose                                                                                       |
-|----------------------------------------|-----------------------------------------------------------------------------------------------|
-| `CurriculumFinancialPlanning`          | Toggles the Curriculum and Financial Planning feature                                         |
-| `CustomData`                           | Toggles the Custom Data feature                                                               |
-| `DisableOrganisationClaimCheck`        | Skips the Organisation Claim check in `SchoolAuthorizationAttribute`                          |
-| `LocalAuthorities`                     | Toggles the Local Authorities feature                                                         |
-| `Trusts`                               | Toggles the Trust feature                                                                     |
-| `UserDefinedComparators`               | Toggles the User Defined comparators feature                                                  |
-| `DisableOrganisationClaimCheck`        | Disables organisation and school level claims checks against the authenticated user           |
-| `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                   |
-| `HistoricalTrends`                     | Toggles the Benchmarking Historical trends feature, which affects the Financial History pages |
-| `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                       |
-| `FilteredSearch`                       | Replaces the single page autocomplete version of organisation search with accessible version  |
+| Name                                   | Purpose                                                                                                                            |
+|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `CurriculumFinancialPlanning`          | Toggles the Curriculum and Financial Planning feature                                                                              |
+| `CustomData`                           | Toggles the Custom Data feature                                                                                                    |
+| `DisableOrganisationClaimCheck`        | Skips the Organisation Claim check in `SchoolAuthorizationAttribute`                                                               |
+| `LocalAuthorities`                     | Toggles the Local Authorities feature                                                                                              |
+| `Trusts`                               | Toggles the Trust feature                                                                                                          |
+| `UserDefinedComparators`               | Toggles the User Defined comparators feature                                                                                       |
+| `DisableOrganisationClaimCheck`        | Disables organisation and school level claims checks against the authenticated user                                                |
+| `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                                                        |
+| `HistoricalTrends`                     | Toggles the Benchmarking Historical trends feature, which affects the Financial History pages                                      |
+| `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
+| `FilteredSearch`                       | Replaces the single page autocomplete version of organisation search with accessible version                                       |
+| `SchoolSpendingPrioritiesSsrCharts`    | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
 
 #### CacheOptions
 
