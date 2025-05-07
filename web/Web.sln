@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{561EA6
 		Directory.Packages.props = Directory.Packages.props
 		nuget.config = nuget.config
 		README.md = README.md
+		.markdownlint-cli2.jsonc = .markdownlint-cli2.jsonc
 	EndProjectSection
 EndProject
 Global

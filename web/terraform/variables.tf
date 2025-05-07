@@ -23,6 +23,7 @@ variable "configuration" {
       HistoricalTrends                     = bool
       HighNeeds                            = bool
       FilteredSearch                       = bool
+      SchoolSpendingPrioritiesSsrCharts    = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -51,6 +52,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = false
+        SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -78,6 +80,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = false
+        SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -105,6 +108,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = false
+        SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
         ReturnYears = {
@@ -132,6 +136,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
+        SchoolSpendingPrioritiesSsrCharts    = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -159,6 +164,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = false
         FilteredSearch                       = false
+        SchoolSpendingPrioritiesSsrCharts    = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -186,6 +192,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = false
         FilteredSearch                       = false
+        SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
         ReturnYears = {
