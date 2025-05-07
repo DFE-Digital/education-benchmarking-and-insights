@@ -31,7 +31,7 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
     private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool setupUserData = false)
     {
         var trust = Fixture.Build<Trust>()
-            .With(x => x.CompanyNumber, "12345")
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var key = SessionKeys.TrustComparatorSetUserDefined(trust.CompanyNumber!);

@@ -24,7 +24,7 @@ public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
     public SchoolBenchmarkingWebAppClient(IMessageSink messageSink) : base(messageSink, auth =>
     {
         auth.URN = 123456;
-        auth.CompanyNumber = 54321;
+        auth.CompanyNumber = 87654321;
     })
     {
     }

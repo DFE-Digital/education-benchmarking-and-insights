@@ -15,6 +15,7 @@ namespace Web.App.Controllers;
 [TrustAuthorization]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.CurriculumFinancialPlanning)]
 [Route("trust/{companyNumber}/financial-planning")]
+[ValidateCompanyNumber]
 [TrustRequestTelemetry(TrackedRequestFeature.Planning)]
 public class TrustPlanningController(
     IEstablishmentApi establishmentApi,

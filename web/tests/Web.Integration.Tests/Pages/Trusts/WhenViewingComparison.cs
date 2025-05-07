@@ -59,6 +59,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
     private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
     {
         var trust = Fixture.Build<Trust>()
+            .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var primarySchools = Fixture.Build<TrustSchool>()

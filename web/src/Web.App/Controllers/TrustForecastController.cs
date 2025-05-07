@@ -17,6 +17,7 @@ namespace Web.App.Controllers;
 [TrustAuthorization]
 [FeatureGate(FeatureFlags.Trusts, FeatureFlags.ForecastRisk)]
 [Route("trust/{companyNumber}/forecast")]
+[ValidateCompanyNumber]
 [TrustRequestTelemetry(TrackedRequestFeature.Forecast)]
 public class TrustForecastController(
     IEstablishmentApi establishmentApi,

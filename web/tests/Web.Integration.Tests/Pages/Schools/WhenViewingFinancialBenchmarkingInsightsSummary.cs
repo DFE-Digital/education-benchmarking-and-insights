@@ -112,7 +112,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
             .With(x => x.URN, urn)
             .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "12345678" : string.Empty)
             .With(x => x.FinanceType, financeType)
-            .With(x => x.FederationLeadURN, isPartOfFederation ? isLeadSchoolInFederation ? urn : "54321" : string.Empty)
+            .With(x => x.FederationLeadURN, isPartOfFederation ? isLeadSchoolInFederation ? urn : "654321" : string.Empty)
             .Create();
 
         var balance = Fixture.Build<SchoolBalance>()

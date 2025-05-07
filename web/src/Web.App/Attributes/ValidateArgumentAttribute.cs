@@ -34,6 +34,10 @@ public static partial class ValidateArgumentAttributeRegex
 {
     [GeneratedRegex(@"^\d{6}$")]
     public static partial Regex UrnRegex();
+
+    [GeneratedRegex(@"^\d{8}$")]
+    public static partial Regex CompanyNumberRegex();
 }
 
 public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", ValidateArgumentAttributeRegex.UrnRegex());
+public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", ValidateArgumentAttributeRegex.CompanyNumberRegex());

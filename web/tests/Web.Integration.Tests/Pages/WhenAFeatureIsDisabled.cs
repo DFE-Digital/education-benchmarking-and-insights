@@ -8,7 +8,7 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private const string Urn = "123456";
-    private const string CompanyNumber = "54321";
+    private const string CompanyNumber = "87654321";
 
     [Fact]
     public async Task SchoolFinancialPlanningRedirectsToFeatureDisabled()

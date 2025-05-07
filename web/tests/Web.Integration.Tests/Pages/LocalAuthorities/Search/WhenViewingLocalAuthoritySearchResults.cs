@@ -131,7 +131,7 @@ public class WhenViewingLocalAuthoritySearchResults(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanSelectSearchResult()
     {
-        const string companyNumber = "123456";
+        const string code = "123456";
         var page = await Client
             .SetupEstablishment(SearchResults)
             .Navigate(Paths.LocalAuthoritySearchResults());
@@ -139,7 +139,7 @@ public class WhenViewingLocalAuthoritySearchResults(SchoolBenchmarkingWebAppClie
         Assert.NotNull(results);
 
         page = await Client.Follow(results.ElementAt(0));
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(companyNumber).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
     [Fact]

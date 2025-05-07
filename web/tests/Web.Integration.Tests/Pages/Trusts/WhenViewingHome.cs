@@ -100,6 +100,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var random = new Random();
 
         var trust = Fixture.Build<Trust>()
+            .With(x => x.CompanyNumber, random.Next(10000000, 99999999).ToString())
             .Create();
 
         var schools = includeSchools

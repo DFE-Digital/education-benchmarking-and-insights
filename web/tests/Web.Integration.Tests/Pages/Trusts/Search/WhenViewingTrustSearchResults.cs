@@ -18,12 +18,12 @@ public class WhenViewingTrustSearchResults(SchoolBenchmarkingWebAppClient client
         [
             new TrustSummary
             {
-                CompanyNumber = "123456",
+                CompanyNumber = "12345678",
                 TrustName = "Trust Name 1"
             },
             new TrustSummary
             {
-                CompanyNumber = "654321",
+                CompanyNumber = "87654321",
                 TrustName = "Trust Name 2"
             }
         ]
@@ -131,7 +131,7 @@ public class WhenViewingTrustSearchResults(SchoolBenchmarkingWebAppClient client
     [Fact]
     public async Task CanSelectSearchResult()
     {
-        const string companyNumber = "123456";
+        const string companyNumber = "12345678";
         var page = await Client
             .SetupEstablishment(SearchResults)
             .Navigate(Paths.TrustSearchResults());

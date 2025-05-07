@@ -18,12 +18,12 @@ public class WhenViewingTrustSearch(SchoolBenchmarkingWebAppClient client) : Pag
         [
             new TrustSummary
             {
-                CompanyNumber = "123456",
+                CompanyNumber = "12345678",
                 TrustName = "Trust Name 1"
             },
             new TrustSummary
             {
-                CompanyNumber = "654321",
+                CompanyNumber = "87654321",
                 TrustName = "Trust Name 2"
             }
         ]

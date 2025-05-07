@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
@@ -16,6 +17,7 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
     /// <param name="companyNumber" example="07465701"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
+    [ValidateCompanyNumber]
     [Produces("application/json")]
     [ProducesResponseType<BudgetForecastReturn[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
