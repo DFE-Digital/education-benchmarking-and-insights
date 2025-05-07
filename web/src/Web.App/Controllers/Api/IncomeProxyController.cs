@@ -20,6 +20,7 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
     [Produces("application/json")]
     [ProducesResponseType<IncomeHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
     [ValidateId]
     public async Task<IActionResult> History(

@@ -24,6 +24,7 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<Census[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ValidateId]
     public async Task<IActionResult> Query(
         [FromQuery] string type,
@@ -59,7 +60,9 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<CensusHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
+    [ValidateUrn("id")]
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
@@ -89,6 +92,7 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<HistoryComparison<CensusHistory>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history/comparison")]
     [ValidateUrn("id")]
     public async Task<IActionResult> HistoryComparison(

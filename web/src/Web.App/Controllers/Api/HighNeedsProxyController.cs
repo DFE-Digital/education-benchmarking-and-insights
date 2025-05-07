@@ -23,6 +23,7 @@ public class HighNeedsProxyController(
     [Produces("application/json")]
     [ProducesResponseType<LocalAuthorityHighNeedsComparisonResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("comparison")]
     [ValidateLaCode]
     public async Task<IActionResult> Comparison([FromQuery] string code, [FromQuery] string[]? set = null, CancellationToken cancellationToken = default)
@@ -54,6 +55,7 @@ public class HighNeedsProxyController(
     [Produces("application/json")]
     [ProducesResponseType<LocalAuthorityHighNeedsHistoryResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
     [ValidateLaCode]
     public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken = default)
