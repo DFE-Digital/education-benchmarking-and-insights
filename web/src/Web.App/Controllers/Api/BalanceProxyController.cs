@@ -26,6 +26,7 @@ public class BalanceProxyController(
     [Produces("application/json")]
     [ProducesResponseType<BalanceHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
     [ValidateId]
     public async Task<IActionResult> History(
@@ -71,6 +72,7 @@ public class BalanceProxyController(
     [Produces("application/json")]
     [ProducesResponseType<TrustBalance[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("user-defined")]
     [Authorize]
     [ValidateId]

@@ -29,11 +29,12 @@ public class ExpenditureProxyController(
     /// <param name="customDataId"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
-    [ValidateId]
     [Produces("application/json")]
     [ProducesResponseType<SchoolExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateId]
     public async Task<IActionResult> Query(
         [FromQuery] string type,
         [FromQuery] string id,
@@ -81,6 +82,7 @@ public class ExpenditureProxyController(
     [Produces("application/json")]
     [ProducesResponseType<ExpenditureHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
     [ValidateId]
     public async Task<IActionResult> History(
@@ -124,6 +126,7 @@ public class ExpenditureProxyController(
     [Produces("application/json")]
     [ProducesResponseType<HistoryComparison<ExpenditureHistory>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history/comparison")]
     [ValidateId]
     public async Task<IActionResult> HistoryComparison(
@@ -175,6 +178,7 @@ public class ExpenditureProxyController(
     [ProducesResponseType<TrustExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize]
     [ValidateId]
     public async Task<IActionResult> UserDefined(
