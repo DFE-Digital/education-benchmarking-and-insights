@@ -14,12 +14,12 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
 {
     [HttpGet]
     [Route("school/{urn}")]
-    [ValidateUrn]
     [Produces("application/json")]
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateUrn]
     public async Task<IActionResult> SchoolUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
@@ -47,8 +47,12 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
 
     [HttpGet]
     [Route("trust/{companyNumber}")]
-    [ValidateCompanyNumber]
     [Produces("application/json")]
+    [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateCompanyNumber]
     public async Task<IActionResult> TrustUserData(string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
@@ -76,12 +80,12 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
 
     [HttpGet]
     [Route("school/custom-data/{urn}")]
-    [ValidateUrn]
     [Produces("application/json")]
     [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateUrn]
     public async Task<IActionResult> SchoolCustomDataUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
