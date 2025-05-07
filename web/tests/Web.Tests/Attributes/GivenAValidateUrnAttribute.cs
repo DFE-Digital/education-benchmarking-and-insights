@@ -52,7 +52,7 @@ public class GivenAValidateUrnAttribute
 
         // assert
         Assert.NotNull(context.Result);
-        var result = Assert.IsType<JsonResult>(context.Result);
+        var result = Assert.IsType<ViewResult>(context.Result);
         Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
     }
 

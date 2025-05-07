@@ -2,6 +2,7 @@
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.Comparators;
 
 public class WhenViewingComparatorsCreateByCharacteristic(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -27,7 +28,7 @@ public class WhenViewingComparatorsCreateByCharacteristic(SchoolBenchmarkingWebA
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, EstablishmentTypes.Academies)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .With(x => x.LAName, "Kent")

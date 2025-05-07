@@ -97,7 +97,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolHome(urn));
 
@@ -108,7 +108,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolHome(urn));
 
@@ -127,17 +127,17 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     {
         var federationLeadSchool = new FederationSchool
         {
-            URN = "12345",
+            URN = "123456",
             SchoolName = "Test School"
         };
         var federationSchools = Fixture.Build<FederationSchool>().CreateMany(3).Append(federationLeadSchool).ToArray();
 
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.SchoolName, "Test School")
             .With(x => x.TrustCompanyNumber, string.Empty)
             .With(x => x.FinanceType, EstablishmentTypes.Maintained)
-            .With(x => x.FederationLeadURN, isNonLeadFederation ? "67890" : "12345")
+            .With(x => x.FederationLeadURN, isNonLeadFederation ? "678900" : "123456")
             .With(x => x.FederationSchools, isNonLeadFederation ? [] : federationSchools)
             .Create();
 

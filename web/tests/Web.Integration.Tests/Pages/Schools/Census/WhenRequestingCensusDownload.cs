@@ -21,7 +21,7 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
     public async Task CanReturnOk()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
@@ -37,7 +37,7 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         await foreach (var tuple in GetFilesFromZip(response))
         {
-            Assert.Equal("census-12345.csv", tuple.fileName);
+            Assert.Equal("census-123456.csv", tuple.fileName);
 
             var csvLines = tuple.content.Split(Environment.NewLine);
             Assert.Equal(
@@ -50,7 +50,7 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var response = await _client
             .SetupComparatorSetApiWithException()
             .SetupCensusWithException()

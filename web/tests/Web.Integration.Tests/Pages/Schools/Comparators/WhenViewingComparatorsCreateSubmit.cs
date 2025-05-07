@@ -15,7 +15,7 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
     [InlineData(false)]
     public async Task CanDisplay(bool isEdit)
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await SetupNavigateInitPage(urn, isEdit);
         AssertPageLayout(page, isEdit);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorsCreateSubmitted(urn, isEdit).ToAbsolute());

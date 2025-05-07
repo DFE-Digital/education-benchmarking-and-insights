@@ -30,6 +30,7 @@ public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBas
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool historicalTrendsFeatureEnabled = false)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "12345678" : null)
             .Create();

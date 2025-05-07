@@ -8,7 +8,7 @@ public class WhenRequestingCensus(SchoolBenchmarkingWebAppClient client) : IClas
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var response = await client
             .SetupComparatorSetApiWithException()
             .SetupCensusWithException()

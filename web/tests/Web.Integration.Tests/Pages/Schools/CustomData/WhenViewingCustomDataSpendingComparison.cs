@@ -100,7 +100,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
             }
         };
 
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithNotFound()
             .SetupUserData(userData)
             .Navigate(Paths.SchoolSpendingComparison(urn));
@@ -122,7 +122,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
             }
         };
 
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithException()
             .SetupUserData(userData)
             .Navigate(Paths.SchoolSpendingComparison(urn));
@@ -134,7 +134,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
     private async Task<(IHtmlDocument page, School school, RagRating[] originalRatings, RagRating[] customRatings)> SetupNavigateInitPage(bool withUserData, bool noCategoryChange = false, bool allCategoryChange = false)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Without(x => x.FederationLeadURN)
             .Create();
 

@@ -110,7 +110,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
@@ -145,7 +145,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         const int year = 2024;
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(urn, year));
@@ -178,7 +178,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, bool? useFigures = true, string? timetablePeriods = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, overallPhase)
             .Create();

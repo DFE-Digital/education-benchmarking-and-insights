@@ -6,14 +6,15 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    private readonly SchoolBenchmarkingWebAppClient _client = client;
 
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
+    private readonly SchoolBenchmarkingWebAppClient _client = client;
 
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -112,7 +113,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
@@ -148,7 +149,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .Create();

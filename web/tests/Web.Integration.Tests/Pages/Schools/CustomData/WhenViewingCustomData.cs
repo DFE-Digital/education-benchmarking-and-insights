@@ -18,7 +18,7 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolCustomData(urn));
 
@@ -29,7 +29,7 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolCustomData(urn));
 
@@ -41,7 +41,7 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "12345")
+            .With(x => x.URN, "123456")
             .Create();
 
         var page = await Client.SetupEstablishment(school)

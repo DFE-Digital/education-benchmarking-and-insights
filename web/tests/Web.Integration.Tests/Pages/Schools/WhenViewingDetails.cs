@@ -33,7 +33,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolDetails(urn));
 
@@ -42,9 +42,20 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     }
 
     [Fact]
+    public async Task CanDisplayBadRequest()
+    {
+        const string urn = nameof(urn);
+        var page = await Client
+            .Navigate(Paths.SchoolDetails(urn));
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(urn).ToAbsolute(), HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string urn = "12345";
+        const string urn = "123456";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolDetails(urn));
 
@@ -56,9 +67,11 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     {
         var school = isTrust
             ? Fixture.Build<School>()
+                .With(x => x.URN, "123456")
                 .With(x => x.FinanceType, financeType)
                 .Create()
             : Fixture.Build<School>()
+                .With(x => x.URN, "123456")
                 .With(x => x.FinanceType, financeType)
                 .With(x => x.TrustCompanyNumber, "1223545")
                 .With(x => x.TrustName, "Test Trust")
