@@ -49,7 +49,9 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, string[] set)> SetupNavigateInitPage(string[]? comparatorSet = null)
     {
-        var authority = Fixture.Build<LocalAuthority>().Create();
+        var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, "123")
+            .Create();
         var set = comparatorSet ?? Fixture.Build<string>().CreateMany().ToArray();
 
         var page = await Client.SetupEstablishment(authority)

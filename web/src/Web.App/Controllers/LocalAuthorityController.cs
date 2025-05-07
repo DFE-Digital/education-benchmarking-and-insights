@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -13,6 +14,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities)]
 [Route("local-authority/{code}")]
+[ValidateLaCode]
 public class LocalAuthorityController(
     ILogger<LocalAuthorityController> logger,
     IEstablishmentApi establishmentApi)

@@ -18,12 +18,12 @@ public class WhenViewingLocalAuthoritySearchResults(SchoolBenchmarkingWebAppClie
         [
             new LocalAuthoritySummary
             {
-                Code = "123456",
+                Code = "123",
                 Name = "LA Name 1"
             },
             new LocalAuthoritySummary
             {
-                Code = "654321",
+                Code = "654",
                 Name = "LA Name 2"
             }
         ]
@@ -131,7 +131,7 @@ public class WhenViewingLocalAuthoritySearchResults(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanSelectSearchResult()
     {
-        const string code = "123456";
+        const string code = "123";
         var page = await Client
             .SetupEstablishment(SearchResults)
             .Navigate(Paths.LocalAuthoritySearchResults());

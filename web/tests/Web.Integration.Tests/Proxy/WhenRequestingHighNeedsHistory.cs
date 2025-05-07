@@ -19,10 +19,10 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
             .With(h => h.StartYear, 2021)
             .With(h => h.EndYear, 2022)
             .Create();
-        const string sort = nameof(sort);
+        const string code = "123";
         var response = await client
             .SetupHighNeeds(null, history)
-            .Get(Paths.ApiHighNeedsHistory(sort));
+            .Get(Paths.ApiHighNeedsHistory(code));
 
         Assert.IsType<HttpResponseMessage>(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -42,10 +42,10 @@ public class WhenRequestingHighNeedsHistory(SchoolBenchmarkingWebAppClient clien
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string sort = nameof(sort);
+        const string code = "123";
         var response = await client
             .SetupLocalAuthoritiesWithException()
-            .Get(Paths.ApiHighNeedsHistory(sort));
+            .Get(Paths.ApiHighNeedsHistory(code));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

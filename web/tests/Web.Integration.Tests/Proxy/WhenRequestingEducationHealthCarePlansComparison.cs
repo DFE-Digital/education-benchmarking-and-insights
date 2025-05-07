@@ -13,8 +13,8 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanReturnCorrectResponseWhenComparatorSetExists()
     {
-        const string code = nameof(code);
-        var set = new[] { "code2", "code3" };
+        const string code = "123";
+        var set = new[] { "456", "789" };
 
         var plans = new[] { code }
             .Concat(set)
@@ -58,7 +58,7 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanReturnNotFoundWhenComparatorSetDoesNotExist()
     {
-        const string code = nameof(code);
+        const string code = "123";
         string[] set = [];
 
         var response = await client
@@ -70,8 +70,8 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string code = nameof(code);
-        var set = new[] { "code2", "code3" };
+        const string code = "123";
+        var set = new[] { "456", "789" };
 
         var response = await client
             .SetupEducationHealthCarePlansWithException()

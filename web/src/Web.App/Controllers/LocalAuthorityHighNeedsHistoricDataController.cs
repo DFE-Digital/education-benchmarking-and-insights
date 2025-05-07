@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
@@ -15,6 +16,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.LocalAuthorities, FeatureFlags.HighNeeds)]
 [Route("local-authority/{code}/high-needs/history")]
+[ValidateLaCode]
 public class LocalAuthorityHighNeedsHistoricDataController(
     ILogger<LocalAuthorityHighNeedsHistoricDataController> logger,
     IEstablishmentApi establishmentApi,
