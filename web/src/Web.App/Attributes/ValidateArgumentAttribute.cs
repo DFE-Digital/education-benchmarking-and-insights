@@ -87,8 +87,10 @@ internal class ValidateArgumentFilter(
     }
 }
 
-public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", OrganisationTypes.School);
+public class ValidateUrnAttribute(string argumentName = "urn") : ValidateArgumentAttribute(argumentName, OrganisationTypes.School);
 
-public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", OrganisationTypes.Trust);
+public class ValidateCompanyNumberAttribute(string argumentName = "companyNumber") : ValidateArgumentAttribute(argumentName, OrganisationTypes.Trust);
 
-public class ValidateLaCodeAttribute() : ValidateArgumentAttribute("code", OrganisationTypes.LocalAuthority);
+public class ValidateLaCodeAttribute(string argumentName = "code") : ValidateArgumentAttribute(argumentName, OrganisationTypes.LocalAuthority);
+
+public class ValidateIdAttribute(string argumentName = "id", string typeArgumentName = "type") : ValidateArgumentAttribute(argumentName, string.Empty, typeArgumentName);

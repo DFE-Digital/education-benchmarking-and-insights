@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -23,6 +24,7 @@ public class CensusProxyController(
     [Produces("application/json")]
     [ProducesResponseType<Census[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ValidateId]
     public async Task<IActionResult> Query(
         [FromQuery] string type,
         [FromQuery] string id,
@@ -88,6 +90,7 @@ public class CensusProxyController(
     [ProducesResponseType<HistoryComparison<CensusHistory>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history/comparison")]
+    [ValidateUrn("id")]
     public async Task<IActionResult> HistoryComparison(
         [FromQuery] string id,
         [FromQuery] string dimension,

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
@@ -20,6 +21,7 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
     [ProducesResponseType<IncomeHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
+    [ValidateId]
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
