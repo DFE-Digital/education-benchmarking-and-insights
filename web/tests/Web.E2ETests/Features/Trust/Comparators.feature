@@ -7,7 +7,7 @@ Feature: View Trust comparator set
         When I select the option By Name and click continue
         And I select the trust with company number '00000001' from suggester
         And I click the choose trust button
-        And I select the trust with company number '8076374' from suggester
+        And I select the trust with company number '08076374' from suggester
         And I click the choose trust button
         And I click the create set button
 
