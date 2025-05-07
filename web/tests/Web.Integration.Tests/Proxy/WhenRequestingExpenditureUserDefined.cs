@@ -14,7 +14,7 @@ public class WhenRequestingExpenditureUserDefined(SchoolBenchmarkingWebAppClient
     public static IEnumerable<object?[]> UserDefinedTrustTestData =>
         new List<object?[]>
         {
-            new object?[] { "companyNumber", "dimension", "category", TrustExpenditure }
+            new object?[] { "12345678", "dimension", "category", TrustExpenditure }
         };
 
     [Theory]
