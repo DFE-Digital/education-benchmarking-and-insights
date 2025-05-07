@@ -66,6 +66,7 @@ Feature: Trust compare your costs
 
     Scenario: View additional details upon hover
         Given I am on compare your costs page for trust with company number '10074054'
+        And the 'total expenditure' dimension is '£ per pupil'
         When I hover over a chart bar
         Then additional information is displayed
         And additional information contains

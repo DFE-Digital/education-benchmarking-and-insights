@@ -132,7 +132,6 @@ Feature: School compare your costs
 
     Scenario: View additional details upon hover for part-year school
         Given I am on compare your costs page for part year school with URN '777045'
-        And the 'total expenditure' dimension is '£ per pupil'
         When I hover over the nth chart bar 2
         Then additional information is displayed
         And additional information contains
