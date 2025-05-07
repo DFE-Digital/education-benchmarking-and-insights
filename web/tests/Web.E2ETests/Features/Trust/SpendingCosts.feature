@@ -1,7 +1,7 @@
 Feature: Trust spending and costs
 
     Scenario: Cost categories are in the correct priority
-        Given I am on spending and costs for trust with company number '8104190'
+        Given I am on spending and costs for trust with company number '08104190'
         Then the priority categories are:
           | Priority        | Category                                   | Commentary                                      |
           | High priority   | Catering staff and supplies                | 2 out of 7 schools in the high priority range   |

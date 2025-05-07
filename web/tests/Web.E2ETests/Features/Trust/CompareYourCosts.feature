@@ -30,7 +30,7 @@ Feature: Trust compare your costs
         And the save chart images button is visible
 
     Scenario: Table view for total expenditure for trust(s) with part-year data
-        Given I am on compare your costs page for trust with company number '8104190'
+        Given I am on compare your costs page for trust with company number '08104190'
         And table view is selected
         And the 'total expenditure' dimension is '£ per pupil'
         Then the following is shown for 'total expenditure'
@@ -76,7 +76,7 @@ Feature: Trust compare your costs
           | Number of pupils | 204                       |
 
     Scenario: View additional details upon hover for part-year trust
-        Given I am on compare your costs page for trust with company number '8104190'
+        Given I am on compare your costs page for trust with company number '08104190'
         And the 'total expenditure' dimension is '£ per pupil'
         When I hover over the nth chart bar 2
         Then additional information is displayed
@@ -88,7 +88,7 @@ Feature: Trust compare your costs
         And additional information shows part year warning for 3 months
 
     Scenario: Warning icon displayed in chart for part-year trust
-        Given I am on compare your costs page for trust with company number '8104190'
+        Given I am on compare your costs page for trust with company number '08104190'
         And the 'total expenditure' dimension is '£ per pupil'
         Then the nth chart bar 2 displays the establishment name 'Test academy school 92'
         And the nth chart bar 2 displays the warning icon
