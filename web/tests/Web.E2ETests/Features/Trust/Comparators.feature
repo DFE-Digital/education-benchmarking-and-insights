@@ -3,6 +3,7 @@ Feature: View Trust comparator set
     Background:
         Given I am on the service home
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
+        And I have no previous comparators selected for company number '10074054'
         And I am on compare by page for trust with company number '10074054'
         When I select the option By Name and click continue
         And I select the trust with company number '00000001' from suggester
