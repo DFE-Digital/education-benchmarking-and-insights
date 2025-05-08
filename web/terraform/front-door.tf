@@ -59,6 +59,7 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service.id]
+  cdn_frontdoor_rule_set_ids    = [azurerm_cdn_frontdoor_rule_set.web-app-rules.id]
   enabled                       = true
 
   forwarding_protocol    = "MatchRequest"
@@ -259,5 +260,41 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
 
   metric {
     category = "AllMetrics"
+  }
+}
+
+resource "azurerm_cdn_frontdoor_rule_set" "web-app-rules" {
+  name                     = "${var.environment-prefix}ruleset"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+}
+
+resource "azurerm_cdn_frontdoor_rule" "web-app-redirect-rule" {
+  depends_on = [
+    azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group,
+    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service
+  ]
+
+  name                      = "${var.environment-prefix}redirectrule"
+  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-app-rules.id
+  order                     = 1
+  behavior_on_match         = "Stop"
+
+  conditions {
+    host_name_condition {
+      operator         = "Equal"
+      negate_condition = true
+      match_values     = [local.host_name]
+      transforms       = ["Lowercase", "Trim"]
+    }
+  }
+
+  actions {
+    url_redirect_action {
+      redirect_type        = "TemporaryRedirect"
+      redirect_protocol    = "MatchRequest"
+      destination_hostname = local.host_name
+      destination_path     = "/"
+      query_string         = "redirect=true" // leaving blank will preserve original query string
+    }
   }
 }
