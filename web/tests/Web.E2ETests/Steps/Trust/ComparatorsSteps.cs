@@ -14,6 +14,18 @@ public class ComparatorsSteps(PageDriver driver)
     private CreateComparatorsByPage? _createComparatorsByPage;
     private TrustBenchmarkSpendingPage? _trustBenchmarkSpendingPage;
 
+    [Given("I have no previous comparators selected for company number '(.*)'")]
+    public async Task GivenIHaveNoPreviousComparatorsSelectedForCompanyNumber(string companyNumber)
+    {
+        var url = RevertComparatorsUrl(companyNumber);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        var revertComparatorsPage = new RevertComparatorsPage(page);
+        await revertComparatorsPage.IsDisplayed();
+        await revertComparatorsPage.ClickContinue();
+    }
+
     [Given("I am on compare by page for trust with company number '(.*)'")]
     public async Task GivenIAmOnCompareByPageForTrustWithCompanyNumber(string companyNumber)
     {
@@ -89,5 +101,12 @@ public class ComparatorsSteps(PageDriver driver)
         }
     }
 
-    private static string CreateComparatorsByUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
+    private static string RevertComparatorsUrl(string urn)
+    {
+        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
+    }
+    private static string CreateComparatorsByUrl(string urn)
+    {
+        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
+    }
 }
