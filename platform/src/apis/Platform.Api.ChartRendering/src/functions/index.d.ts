@@ -24,8 +24,3 @@ type ChartBuilderResult = {
   id: string;
   html: string | undefined;
 };
-
-type ChartJsBuilderResult = {
-  id: string;
-  buffer: Buffer<ArrayBufferLike>;
-};
