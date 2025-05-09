@@ -1,12 +1,14 @@
-# Release Test Plan - 2025.05.0
+# Release Test Plan - 2025.05.1
+
+_*Release version updated to 2025.05.1 after 2025.05.0 was adjusted to Enable the High Needs feature flag. in code_
 
 **Release Date:** 08/05/2025
-**Release Label:** 2025.05.0
+**Release Label:** 2025.05.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.05.0`, covering all functional, smoke testing necessary.  
-Ensure that enhancements, and updates in `2025.05.0` are functioning as expected without adversely impacting existing functionality.
+This plan defines the approach for testing release `2025.05.1`, covering all functional, smoke testing necessary.  
+Ensure that enhancements, and updates in `2025.05.1` are functioning as expected without adversely impacting existing functionality.
 
 This release primarily focuses on implementing Front Door redirection changes required for SFB decommissioning, along with selected tech debt updates. Certain features included in the release will remain disabled in production.
 
@@ -74,6 +76,16 @@ This release primarily focuses on implementing Front Door redirection changes re
 
 ## Notes
 
+**Release Overview:**
+
+The High Needs feature flag was found to be disabled in code in version 2025.05.0. As a result, that release was abandoned, and an update was included in version 2025.05.1.
+- 
+- **Original Planned Release:** 2025.05.0
+- **New Release Version:** 2025.05.1
+- **Hotfixes Included:** HighNeeds Feature flag was enabled in code. 
+- **Current Release (2025.05.1):** Contains the necessary hotfix.
+- **Testing Impact:** No impact to the release testing plan.
+
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=259145&suiteId=259146)**
 
 **Azure DevOps tickets:**
@@ -102,7 +114,7 @@ This release primarily focuses on implementing Front Door redirection changes re
 | Test Category | Total Tests | Passed | Failed | Pass Rate |
 |---------------|:-----------:|:------:|:------:|:---------:|
 | Smoke Tests   |      X      |   X    |   0    |    X%     |
-| Sanity Tests  |      X      |   X    |   0    |    X%     |
+| Sanity Tests  |      1      |   1    |   0    |   100%    |
 | Total         |      X      |   X    |   0    |    X%     |
 
 <!-- Leave the rest of this page blank -->
