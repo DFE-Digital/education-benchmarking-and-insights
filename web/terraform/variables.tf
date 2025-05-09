@@ -162,7 +162,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighNeeds                            = false
+        HighNeeds                            = true
         FilteredSearch                       = false
         SchoolSpendingPrioritiesSsrCharts    = false
       }
@@ -190,7 +190,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighNeeds                            = false
+        HighNeeds                            = true
         FilteredSearch                       = false
         SchoolSpendingPrioritiesSsrCharts    = false
       },
