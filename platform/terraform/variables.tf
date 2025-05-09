@@ -12,7 +12,7 @@ variable "configuration" {
     cache_capacity               = number
     ssr_fa_worker_process_count  = number
     ssr_fa_sku                   = string
-    ssr_fa_elastic_max_workers = number # only relevant if ssr_fa_sku
+    ssr_fa_elastic_max_workers   = number # only relevant if ssr_fa_sku
     ssr_fa_elastic_min_instances = number #  is the elastic plan (EPx)
   }))
   default = {

@@ -98,6 +98,13 @@ stages:
             parameters:
               SolutionDirectory: '$(System.DefaultWorkingDirectory)/platform'
 
+      - job: RunLint
+        displayName: 'Format TypeScript'
+        steps:
+          - template: ..\common\npm-lint.yaml
+            parameters:
+              ProjectDirectory: 'platform/src/apis/Platform.Api.ChartRendering'
+
       - job: RunTests
         displayName: 'Run unit tests'
         steps:
@@ -112,6 +119,15 @@ stages:
         dependsOn: [ BranchValidate, SetBuildNumber ]
         displayName: 'Build platform'
         steps:
+          - task: Npm@1
+            displayName: 'Update ChartRendering version number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+            inputs:
+              command: 'custom'
+              customCommand: 'version $(Version.BuildVersion)'
+              workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+              verbose: false
+
           - template: steps\build.yaml
             parameters:
               BuildVersion: $(Version.BuildVersion)

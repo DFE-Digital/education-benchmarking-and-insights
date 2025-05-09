@@ -49,7 +49,7 @@ export default class VerticalBarChartBuilder {
     // Declare the y (vertical position) scale.
     const y = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d[valueField] as number)])
+      .domain([0, d3.max(data, (d) => d[valueField] as number)!])
       .range([height - marginBottom, marginTop]);
 
     // Create the SVG container.
@@ -67,7 +67,7 @@ export default class VerticalBarChartBuilder {
       .selectAll()
       .data(data)
       .join("rect")
-      .attr("x", (d) => x(d[keyField] as string))
+      .attr("x", (d) => x(d[keyField] as string)!)
       .attr("y", (d) => y(d[valueField] as number))
       .attr("height", (d) => y(0) - y(d[valueField] as number))
       .attr("width", x.bandwidth())

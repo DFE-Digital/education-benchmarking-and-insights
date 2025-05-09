@@ -1,5 +1,4 @@
 import {
-  app,
   HttpRequest,
   HttpResponseInit,
   InvocationContext,
@@ -16,7 +15,7 @@ const piscina = new Piscina<
   { definitions: ChartDefinition[] },
   ChartBuilderResult[]
 >({
-  filename: "./dist/src/workers/verticalBarChartWorker.js",
+  filename: "./dist/src/functions/verticalBarChart/verticalBarChartWorker.js",
 });
 
 export async function verticalBarChart(
@@ -31,7 +30,10 @@ export async function verticalBarChart(
     payload = (await request.json()) as VerticalBarChartPayload;
   } catch (e) {
     return {
-      jsonBody: { error: "Bad request", errors: [e?.message ?? e.toString()] },
+      jsonBody: {
+        error: "Bad request",
+        errors: [(e as Error)?.message ?? e],
+      },
       status: 400,
     };
   }
@@ -61,12 +63,12 @@ export async function verticalBarChart(
         success: false,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
+    } catch (_e) {
       // do not pollute logs with dependency tracking issues within this exception block
     }
 
     return {
-      body: e,
+      jsonBody: { error: [(e as Error)?.message ?? e] },
       status: 500,
     };
   }
@@ -78,7 +80,7 @@ export async function verticalBarChart(
     };
   } else if (request.headers.get("x-accept") === "image/svg+xml") {
     // for single chart requests with HTML requested, just return the chart element
-    const body = charts[0].html;
+    const body = charts[0].html ?? "<svg />";
     return {
       body,
       headers: {
@@ -104,9 +106,3 @@ export async function verticalBarChart(
 
   return result;
 }
-
-app.http("verticalBarChart", {
-  methods: ["POST"],
-  authLevel: "anonymous",
-  handler: verticalBarChart,
-});

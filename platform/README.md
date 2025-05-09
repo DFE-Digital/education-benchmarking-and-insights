@@ -340,7 +340,7 @@ at each environment level, as well as other supporting resources such as Azure S
 
 #### Environment-specific configuration
 
-| Variable                       | Type   | Description                                                                                                                                                                            | 
+| Variable                       | Type   | Description                                                                                                                                                                            |
 |--------------------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `search_sku` `                 | string |                                                                                                                                                                                        |
 | `search_replica_count`         | number |                                                                                                                                                                                        |

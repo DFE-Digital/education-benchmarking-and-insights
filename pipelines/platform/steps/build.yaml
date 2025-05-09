@@ -61,14 +61,7 @@ steps:
       modifyOutputPath: true
 
   - task: Npm@1
-    displayName: 'Update ChartRendering version number'
-    inputs:
-      command: 'custom'
-      customCommand: 'version ${{ parameters.BuildVersion }}'
-      workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
-
-  - task: Npm@1
-    displayName: 'Install ChartRendering dependencies'
+    displayName: 'Restore npm packages'
     inputs:
       command: 'install'
       workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
