@@ -7,7 +7,7 @@ import { Piscina } from "piscina";
 import appInsights from "applicationinsights";
 import { ChartDefinition, ChartBuilderResult } from "..";
 import { VerticalBarChartPayload } from ".";
-import { validatePayload } from "./verticalBarChartPayloadValidator";
+import { validatePayload } from "./validator";
 
 const client = new appInsights.TelemetryClient();
 
@@ -15,7 +15,7 @@ const piscina = new Piscina<
   { definitions: ChartDefinition[] },
   ChartBuilderResult[]
 >({
-  filename: "./dist/src/functions/verticalBarChart/verticalBarChartWorker.js",
+  filename: "./dist/src/functions/verticalBarChart/worker.js",
 });
 
 export async function verticalBarChart(

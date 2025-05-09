@@ -1,12 +1,12 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
 export default {
   testEnvironment: "node",
-  testMatch: ["**/tests/**/*.[jt]s?(x)"],
+  testMatch: ["**/tests/**/*.[t]s?(x)"],
   transform: {
     // eslint-disable-next-line no-useless-escape
     "^.+\.tsx?$": ["ts-jest", { diagnostics: { ignoreCodes: ["TS151001"] } }],
   },
-  modulePathIgnorePatterns: ["<rootDir>/out"],
+  modulePathIgnorePatterns: ["<rootDir>/node_modules", "<rootDir>/out"],
   reporters: [
     "default",
     [
